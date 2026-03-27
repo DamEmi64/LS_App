@@ -1,0 +1,55 @@
+﻿using RPG.Domain.Entities;
+using RPG.Infrastructure.Models;
+
+namespace RPG.Infrastructure.External.Firebase
+{
+    public static class FirebaseExtensions
+    {
+        public static FirebaseStory ToFirebase(this StoryModel story)
+            => new()
+            {
+                Id = story.Id.ToString(),
+                Title = story.Title,
+                Description = story.Description,
+                VersionDate = DateTime.Now.ToString("dd.MM.yyyy HH:mm"),
+                Chapters = story.Chapters.Select(x => x.Id.ToString()).ToList()
+            };
+
+        public static FirebaseChapter ToFirebase(this ChapterModel chapter)
+            => new()
+            {
+                Description = chapter.Description,
+                Id = chapter.Id.ToString(),
+                Title = chapter.Title,
+                Order = chapter.Order,
+                Heroes = chapter.Heroes.Select(x => x.ToFirebase()).ToList(),
+                Places = chapter.Places.Select(x => x.ToFirebase()).ToList()
+            };
+
+        public static FirebasePlayerData ToFirebase(this PlayerData playerData, string hero)
+            => new()
+            {
+                Id = playerData.Id.ToString(),
+                Title = hero,
+                Skills = playerData.Skills.Select(x => new FirebaseSkill { Id = x.Id.ToString(), Title = x.Title, Value = x.Value }).ToList()
+            };
+
+        public static FirebaseHero ToFirebase(this HeroModel hero)
+            => new()
+            {
+                Description = hero.Description,
+                FirstName = hero.FirstName,
+                LastName = hero.LastName,
+                Player = hero.Player,
+                Id = hero.Id.ToString()
+            };
+
+        public static FirebasePlace ToFirebase(this PlaceModel place)
+            => new()
+            {
+                Description = place.Description,
+                Title = place.Title,
+                Id = place.Id.ToString()
+            };
+    }
+}

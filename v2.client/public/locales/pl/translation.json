@@ -1,0 +1,425 @@
+{
+  "window": {
+    "yes": "Tak",
+    "no": "Nie",
+    "cancel": "Anuluj",
+    "info": "Informacje"
+  },
+  "validation": {
+    "required": "To pole jest wymagane",
+    "minLength": "Minimalna długość to {0} znaków",
+    "maxLength": "Maksymalna długość to {0} znaków",
+    "email": "Nieprawidłowy adres email",
+    "url": "Nieprawidłowy adres URL",
+    "number": "To pole musi być liczbą"
+  },
+  "notify": {
+    "processActive": "Powiadomienia z zadań",
+    "processError": "Tylko powiadomienia z błędów zadań",
+    "position": "Pozycja powiadomienia",
+    "notification": "Powiadomienia",
+    "autoClose": "Czas wyświetlania (ms)",
+    "active": "Aktywne",
+    "bottomRight": "Na dole po prawej",
+    "topRight": "Na górze po prawej",
+    "bottomLeft": "Na dole po lewej",
+    "topLeft": "Na górze po lewej",
+    "messages": {
+      "1001": "Plik {0} zapisany",
+      "1002": "Plik {0} usunięty",
+      "1003": "Plik {0} zaktualizowany",
+      "1004": "Plik {0} nie znaleziony",
+      "1005": "Plik {0} już istnieje",
+      "1006": "Plik {0} nie został zapisany",
+      "1007": "Błąd wewnętrznego procesu {0}",
+      "1008": "Proces {0} rozpoczęty",
+      "1009": "Proces {0} zakończony",
+      "1010": "Proces {0} nie powiódł się",
+      "1011": "Zakolejkowano proces {0}",
+      "1012": "Sesja {0} zapisana",
+      "1013": "Sesja {0} usunięta",
+      "1014": "Sesja {0} zaktualizowana",
+      "1015": "Sesja {0} nie znaleziona",
+      "1016": "Rozdział {0} zapisany",
+      "1017": "Rozdział {0} usunięty",
+      "1018": "Rozdział {0} zaktualizowany",
+      "1019": "Rozdział {0} nie znaleziony",
+      "1020": "Bohater {0} zapisany",
+      "1021": "Bohater {0} usunięty",
+      "1022": "Bohater {0} zaktualizowany",
+      "1023": "Bohater {0} nie znaleziony",
+      "1024": "Miejsce {0} zapisane",
+      "1025": "Miejsce {0} usunięte",
+      "1026": "Miejsce {0} zaktualizowane",
+      "1027": "Miejsce {0} nie znalezione",
+      "1030": "Logowanie zakończone sukcesem",
+      "1031": "Logowanie zakończone porażką",
+      "1032": "Nieprawidłowe hasło",
+      "1033": "Konto zablokowane",
+      "1034": "Niepowodzenie uwierzytelniania dwuskładnikowego",
+      "1035": "Rejestracja zakończona sukcesem",
+      "1036": "Rejestracja zakończona porażką",
+      "1040": "Automat został utworzony",
+      "1041": "Automat został zaktualizowany",
+      "1042": "Automat został usunięty",
+      "1043": "Automat został wyłączony",
+      "1044": "Automat został włączony"
+    }
+  },
+  "user": {
+    "firstName": "Imię",
+    "lastName": "Nazwisko",
+    "email": "Adres email",
+    "phoneNumber": "Numer telefonu",
+    "info": "Informacje o użytkowniku",
+    "userName": "Nazwa użytkownika"
+  },
+  "processes": {
+    "title": "Procesy",
+    "description": "Zarządzaj procesami, które są uruchomione",
+    "name": "Proces",
+    "queue": "Kolejka",
+    "startingDate": "Data rozpoczęcia",
+    "startingDateFrom": "Data rozpoczęcia od",
+    "startingDateTo": "Data rozpoczęcia do",
+    "percentage": "Poziom ukończenia",
+    "status": "Status",
+    "jobs": "Zadania",
+    "noJobs": "Brak zadań powiązanych z procesem",
+    "errors": "Błędy procesu",
+    "errorMessage": "Komunikat błędu",
+    "restart": "Uruchom ponownie proces"
+  },
+  "jobs": {
+    "id": "Id",
+    "jobId": "Id hangfire",
+    "status": "Status zadania",
+    "requestData": "Planowana data rozpoczęcia",
+    "startDate": "Data rozpoczęcia",
+    "endDate": "Data zakończenia",
+    "name": "Nazwa",
+    "percentage": "Poziom ukończenia",
+    "operation": "Operacja"
+  },
+  "entity": {
+    "insDate": "Data utworzenia",
+    "upDate": "Data aktualizacji",
+    "del_info": "Czy usunąć dane?"
+  },
+  "files": {
+    "title": "Pliki",
+    "all": "*",
+    "games": "Gry",
+    "docs": "Dokumenty",
+    "name": "Tytuł",
+    "image": "Obraz",
+    "location": "Lokalizacja",
+    "fileType": "Typ pliku",
+    "additionalData": "Dodatkowe dane",
+    "sources": "Źródła",
+    "show_file": "Pokaż pliki",
+    "subject": "Kurs",
+    "year": "Rok",
+    "semester": "Semestr",
+    "sourceType": "Typ źródła",
+    "import": "Pobierz z serwera zewnętrznego",
+    "export": "Pobierz z serwera",
+    "gameGenre": "Gatunek gry",
+    "useFileUpload": "Zapisz plik w bazie danych"
+  },
+  "communication": {
+    "title": "Komunikacja",
+    "emails": "Emaile",
+    "templates": "Szablony",
+    "description": "Zarządzaj komunikacją z użytkownikami",
+    "template": {
+      "title": "Szablony wiadomości",
+      "description": "Zarządzaj szablonami wiadomości",
+      "name": "Nazwa szablonu",
+      "subject": "Temat",
+      "body": "Treść",
+      "add": "Dodaj szablon",
+      "edit": "Edytuj szablon",
+      "del": "Usuń szablon",
+      "gen": "Wygeneruj wiadomość",
+      "strategies": {
+        "title": "Funkcje szablonu",
+        "description": "Funkcje szablonu wiadomości, które można wykorzystać w treści wiadomości",
+        "example": "Przykład",
+        "increment": {
+          "title": "Automatycznie zwiększaj numer wiadomości",
+          "description": "Automatycznie zwiększa numer wiadomości w szablonie",
+          "example": " {{ increment()}}"
+        },
+        "randomNumber": {
+          "title": "Automatyczne numerowanie",
+          "description": "Automatycznie zwiększa numer wiadomości w szablonie, jeśli podano zakres liczbowy, wygeneruje losową liczbę z tego zakresu",
+          "example": " {{ randomNumber(0,20)}}"
+        },
+        "random": {
+          "title": "Automatyczne wylosowanie wartości z podanych argumentów",
+          "description": "Automatycznie wylosowuje wartość z podanych argumentów w szablonie",
+          "example": " {{ random('', 'a', 'b', 'c')}}"
+        },
+        "randomUnique": {
+          "title": "Automatyczne unikalne wylosowanie wartości z podanych argumentów",
+          "description": "Automatycznie wylosowuje unikalną wartość z podanych argumentów w szablonie. W przypadku nazwania argumentu tak jak odbiorca wiadomości, zostanie wylosowana unikalna wartość z podanego argumentu, gdzie wartości w argumencie są oddzielone ;",
+          "example": " {{ randomUnique( test@test.com:'d;e;f', 'a', 'b', 'c')}}"
+        }
+      }
+    },
+    "email": {
+      "title": "Email",
+      "subject": "Temat",
+      "sendDate": "Data wysłania",
+      "description": "Wysyłaj maile",
+      "body": "Treść",
+      "from": "Od",
+      "to": "Do",
+      "cc": "Kopia do",
+      "bcc": "Ukryta kopia do",
+      "send": "Wyślij email",
+      "sender": {
+        "title": "Nadawca",
+        "email": "Adres email",
+        "name": "Imię i nazwisko"
+      },
+      "recipient": {
+        "title": "Odbiorca",
+        "email": "Adres email",
+        "name": "Imię i nazwisko"
+      }
+    },
+    "editor": {
+      "title": "Edytor wiadomości"
+    }
+  },
+  "rpg": {
+    "deleteConfirm": {
+      "place": "Czy chcesz usunąć miejsce {0} ?",
+      "hero": "Czy chcesz usunąć bohatera {0} ?",
+      "story": "Czy chcesz usunąć historię {0} ?"
+    },
+    "story": {
+      "startDate": "Data rozpoczęcia historii",
+      "endDate": "Data zakończenia historii",
+      "description": "Opis",
+      "heroes": "Bohaterowie",
+      "places": "Miejsca",
+      "chapters": "Rozdziały",
+      "summary": "Podsumowanie",
+      "start": " Rozpocznij historię",
+      "end": "Zakończ historię",
+      "gen_summary": "Generuj podsumowanie",
+      "download_summary": "Pobierz podsumowanie",
+      "title": "Tytuł",
+      "gen_summary_desc": "Wybierz rozdziały do wygenerowania podsumowania",
+      "send_firebase": "Wyslij do aplikacji z podsumowaniem"
+    },
+    "chapter": {
+      "title": "Tytuł",
+      "description": "Opis",
+      "add": "Dodaj rozdział",
+      "chapters": "Rozdziały",
+      "startDate": "Data rozpoczęcia rozdziału",
+      "endDate": "Data zakończenia rozdziału",
+      "start": "Rozpocznij spotkanie",
+      "end": "Zakończ spotkanie",
+      "order": " Kolejność",
+      "dmPage": "Strona bajarza",
+      "playerPage": "Strona gracza",
+      "sessions": "Spotkania",
+      "links": "Linki do materiałów pomocniczych"
+    },
+    "hero": {
+      "firstName": "Imię",
+      "health":"Zdrowie",
+      "pos":"Pozycja",
+      "lastName": "Nazwisko",
+      "player": "Grany przez",
+      "description": "Historia postaci",
+      "add": "Dodaj postać",
+      "playerData": "Informacje gracza",
+      "diceRoll": "Rzuć kością",
+      "skills": "Zdolności",
+      "skill": {
+        "title": "Tytuł zdolności",
+        "value": "Wartość zdolności",
+        "add": "Dodaj zdolnosć",
+        "remove": "Usuń zdolnosć"
+      }
+    },
+    "place": {
+      "title": "Tytuł",
+      "description": "Opis",
+      "add": "Dodaj miejsce"
+    },
+    "other": {
+      "title": "Tytuł",
+      "description": "Opis",
+      "image": "Rycina",
+      "url": "Link",
+      "battleLink": "Pomocnik walki"
+    },
+    "title": "Sesje RPG",
+    "description": "Historie do opowiedzenia"
+  },
+  "menu": {
+    "home": "Strona główna",
+    "processes": "Procesy",
+    "files": " Pliki",
+    "settings": " Ustawienia",
+    "communication": "Komunikacja",
+    "emails": "Emaile",
+    "templates": "Szablony",
+    "automations": "Automatyzacje",
+    "rpg_sessions": "Sesje RPG",
+    "register": "Zarejestruj się",
+    "login": "Zaloguj się",
+    "logout": "Wyloguj się"
+  },
+  "server": {
+    "info": "Stan aplikacji",
+    "server_version": "Wersja serwera",
+    "frontend_version": "Wersja nakładki",
+    "modules": "Aktywne moduły",
+    "module_name": "Nazwa modułu",
+    "module_version": "Wersja modułu"
+  },
+  "no_data": "brak danych",
+  "EndpointNotFound": "Nie znaleziono adresu URL",
+  "filter_reset": "Usuń filtry",
+  "language": "Język",
+  "settings": " Ustawienia",
+  "login": "Zaloguj się",
+  "register": "Zarejestruj się",
+  "apiEndpoint": "Link do serwera",
+  "darkTheme": "Ciemny motyw",
+  "error": "Błąd",
+  "opt": {
+    "add": "Nowy",
+    "delete": "Usuń",
+    "edit": "Edytuj",
+    "details": "Informacje",
+    "operations": "Operacje",
+    "save": "Zapisz",
+    "change_pass": "Zmień hasło",
+    "login": "Zaloguj się",
+    "register": "Zarejestruj się",
+    "cancel": "Anuluj"
+  },
+  "auth": {
+    "welcome": "Witamy w aplikacji",
+    "info": "Zaloguj się lub zarejestruj, aby kontynuować",
+    "no_permission": "Nie masz uprawnień do wyświetlenia tej strony. Skontaktuj się z administratorem.",
+    "register": {
+      "username": "Nazwa użytkownika",
+      "password": "Hasło",
+      "email": "Adres email",
+      "firstName": "Imię",
+      "lastName": "Nazwisko",
+      "phoneNumber": "Numer telefonu"
+    },
+    "login": {
+      "username": "Nazwa użytkownika",
+      "password": "Hasło",
+      "rememberMe": "Zapamiętaj mnie"
+    }
+  },
+  "dictionaries": {
+    "processStatus": {
+      "New": "Nowy",
+      "Executing": "W trakcie wykonywania",
+      "Success": "Zakończony sukcesem",
+      "Failed": "Zakończony porażką",
+      "Paused": "Zatrzymany"
+    },
+    "Operations": {
+      "11": "Import plików",
+      "12": "Przeniesienie plików",
+      "13": "Kopiowanie plików",
+      "14": "Usuwanie plików",
+      "21": "Wysyłanie emaili",
+      "22": "Generowanie wiadomości email",
+      "31": "Generowanie podsumowania rozdziału RPG",
+      "32": "wysyłanie podsumowania historii RPG do systemu zewnętrznego"
+    },
+    "fileType": {
+      "Games": "Gry",
+      "Docs": "Dokumenty",
+      "Study": "Pliki ze studiów"
+    },
+    "sourceTypes": {
+      "Local": "Ścieżka do pliku",
+      "FuckingFast": "Z strony FuckingFast"
+    },
+    "gameGenres": {
+      "Platformer": "Platformówka",
+      "Shooter": "Strzelanka",
+      "FirstPersonShooter": "Strzelanka z perspektywy pierwszej osoby",
+      "ThirdPersonShooter": "Strzelanka z perspektywy trzeciej osoby",
+      "BeatEmUp": "Bijatyka",
+      "Stealth": "Skradanka",
+      "Survival": "Przetrwanie",
+      "ActionAdventure": "Przygodowa gra akcji",
+      "NarrativeAdventure": "Narracyjna gra przygodowa",
+      "PointAndClick": "Point-and-click",
+      "ActionRPG": "RPG akcji",
+      "TurnBasedRPG": "Turowy RPG",
+      "TacticalRPG": "Taktyczny RPG",
+      "MMORPG": "MMORPG",
+      "OpenWorldRPG": "RPG z otwartym światem",
+      "LifeSimulation": "Symulacja życia",
+      "FarmingSimulation": "Symulator farmy",
+      "VehicleSimulation": "Symulacja pojazdów",
+      "CityBuilding": "Budowanie miasta",
+      "RealTimeStrategy": "Strategia czasu rzeczywistego",
+      "TurnBasedStrategy": "Strategia turowa",
+      "TowerDefense": "Obrona wieży",
+      "FourX": "4X (Eksploracja, Ekspansja, Eksploatacja, Eksterminacja)",
+      "ClassicPuzzle": "Klasyczna łamigłówka",
+      "PhysicsPuzzle": "Fizyczna łamigłówka",
+      "Match3": "Dopasuj 3",
+      "TraditionalSports": "Tradycyjne sporty",
+      "ExtremeSports": "Ekstremalne sporty",
+      "Racing": "Wyścigi",
+      "TraditionalFighting": "Tradycyjna bijatyka",
+      "PlatformFighting": "Bijatyka platformowa",
+      "SurvivalHorror": "Survival horror",
+      "PsychologicalHorror": "Horror psychologiczny",
+      "PartyGame": "Gra imprezowa",
+      "RhythmGame": "Gra rytmiczna",
+      "Other": "Inne"
+    }
+  },
+  "automations": {
+    "jobs": {
+      "archive": {
+        "title": "Archiwizacja plików",
+        "sourceDir": "Katalog źródłowy",
+        "descDir": "Katalog docelowy"
+      },
+      "summaryDataRPG": "Sesja RPG do podsumowania"
+    },
+    "add_task": "Dodaj zadanie",
+    "site_title": "Automatyzacje",
+    "subtitle": "Zarządzaj automatyzacjami procesów",
+    "title": "Tytuł",
+    "description": "Opis",
+    "active": "Aktywne",
+    "turnOnOff": "Włącz/Wyłącz automatyzację",
+    "order": "Kolejność wykonywania",
+    "tasks": "Zadania",
+    "frequency": "Częstotliwość uruchamiania (w minutach)",
+    "triggers": {
+      "title": "Wyzwalacze automatyzacji",
+      "type": "Typ wyzwalacza",
+      "cron": "Czasowe (cron)",
+      "onRPGModify": "Po zmianie w sesji RPG"
+    },
+    "actions": {
+      "archive": "Archiwizuj pliki",
+      "GenerateRPGSummary": "Wygeneruj podsumowanie rozdziału RPG"
+    }
+  }
+}

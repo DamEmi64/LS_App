@@ -1,0 +1,117 @@
+export interface Row {
+    id: string;
+    imageData? : string;
+    title?: string;
+}
+
+export interface Collection<T> {
+    data: T[];
+    total: number;
+}
+
+export interface YesNoWindowProps {
+    message: string;
+    open: boolean;
+    onClose: () => void;
+    yesMethod?: () => void;
+    noMethod?: () => void;
+    cancelMethod?: () => void;
+}
+
+export interface TileContainerProps<T> {
+    updateData: (paramsObj: onChangeParams) => Promise<void>;
+    filters: FilterItem[];
+    data: T[];
+    operations: Operations<T>[];
+    addData?: () => Promise<void>;
+};
+
+export enum FilterType {
+    String = 'string',
+    Number = 'number',
+    Date = 'date',
+    Enum = 'enum',
+    Boolean = 'boolean',
+}
+
+export interface FilterOption {
+    label: string;
+    value: string | number;
+}
+
+export interface FilterItem {
+    field: string;
+    name: string;
+    type: FilterType;
+    options?: FilterOption[]; // For combo type
+}
+
+export interface FilterValue {
+    field: string,
+    value: string | number | Date | null;
+}
+
+export interface FilterProps {
+    filters: FilterItem[];
+    onChange: (values: FilterValue[]) => void;
+}
+
+export enum ColumnType {
+    String = 'string',
+    Number = 'number',
+    Date = 'date',
+    Enum = 'enum',
+    Boolean = 'boolean',
+    Progress = 'progress',
+    SubString = 'substring'
+}
+
+export interface Operations<T> {
+    name: string,
+    method: (data: T) => void;
+    hidden?: (data: T) => boolean;
+}
+
+export interface ColumnDef {
+    field: string;
+    header: string;
+    type: ColumnType;
+    options? : string[];
+    toShow?: (string) => string;
+}
+
+export interface onChangeParams {
+    page: number;
+    pageSize: number;
+    orderBy: string | null;
+    order: 'asc' | 'desc';
+    filters?: FilterValue[];
+}
+
+export interface TableProps<T> {
+    columns: ColumnDef[];
+    filters?: FilterItem[],
+    data: TableData<T>,
+    operations: Operations<T>[],
+    setData: (data: TableData<T>) => void,
+    onChange: (params: onChangeParams) => Promise<TableData<T>>;
+}
+
+export interface TableData<T> {
+    data: T[];
+    total: number;
+}
+
+export interface TableFilterProps {
+    columns: ColumnDef[];
+    filters: FilterItem[];
+    onFilterChange: (filters: FilterItem[]) => void;
+};
+
+export interface GridTableProps<T> {
+    columns: ColumnDef[];
+    data: TableData<T>,
+    pageSizeOptionArray?: number[],
+    setData?: (data: TableData<T>) => void,
+    canDelete?: boolean;
+}

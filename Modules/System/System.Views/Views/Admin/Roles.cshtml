@@ -1,0 +1,483 @@
+@{
+    ViewData["Title"] = "Roles Page";
+    Layout = null;
+    var claims = ViewBag.Claims as Dictionary<string, string>;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" />
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            background-color: #f5f6fa;
+            color: #2c3e50;
+        }
+
+        nav.menubar {
+            background: #34495e;
+            display: flex;
+            padding: 12px 20px;
+        }
+
+            nav.menubar a {
+                color: #ecf0f1;
+                text-decoration: none;
+                margin-right: 25px;
+                font-weight: 600;
+                font-size: 15px;
+                padding: 6px 12px;
+                border-radius: 5px;
+                transition: background .2s;
+            }
+
+                nav.menubar a:hover {
+                    background-color: #2980b9;
+                }
+
+        main.content {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        table.dataTable thead th {
+            background-color: #34495e;
+            color: white;
+            padding: 12px;
+        }
+
+        .table-danger {
+            background-color: #f8d7da !important;
+            color: #721c24 !important;
+        }
+
+        .btn-action {
+            padding: 4px 8px;
+            font-size: 13px;
+            border: none;
+            border-radius: 4px;
+            margin: 0 2px;
+            cursor: pointer;
+        }
+
+        .btn-edit {
+            background: #3498db;
+            color: white;
+        }
+
+            .btn-edit:hover {
+                background: #1c5980;
+            }
+
+        .btn-delete {
+            background: #e74c3c;
+            color: white;
+        }
+
+            .btn-delete:hover {
+                background: #c0392b;
+            }
+
+        .btn-pwd {
+            background: #f39c12;
+            color: white;
+        }
+
+            .btn-pwd:hover {
+                background: #d35400;
+            }
+
+        .btn-new {
+            background: #27ae60;
+            color: white;
+            padding: 8px 14px;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+            .btn-new:hover {
+                background: #1e8449;
+            }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.45);
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .modal {
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            width: 420px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+            .modal h3 {
+                margin-top: 0;
+                margin-bottom: 15px;
+                font-size: 20px;
+            }
+
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 15px;
+            font-size: 20px;
+            cursor: pointer;
+            color: #aaa;
+        }
+
+            .modal-close:hover {
+                color: #e74c3c;
+            }
+
+        .modal form label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: 600;
+        }
+
+        .modal form input, .modal form select {
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .modal .actions {
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        button {
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            padding: 9px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background .2s;
+        }
+
+            button.secondary {
+                background-color: #bdc3c7;
+                color: #2c3e50;
+            }
+
+                button.secondary:hover {
+                    background-color: #95a5a6;
+                }
+
+        /* Toasts */
+        #toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 2000;
+        }
+
+        .toast {
+            padding: 12px 18px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0;
+            transform: translateX(100%);
+            animation: slideIn .5s forwards, fadeOut .5s forwards 4s;
+        }
+
+            .toast.success {
+                background: #27ae60;
+            }
+
+            .toast.error {
+                background: #e74c3c;
+            }
+
+        @@keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @@keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+        }
+
+        .tab {
+            padding: 8px 16px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #2980b9;
+            border: 1px solid transparent;
+            border-bottom: none;
+            user-select: none;
+        }
+
+            .tab.active {
+                border: 1px solid #2980b9;
+                border-bottom: 2px solid white;
+                background: white;
+                color: #34495e;
+                border-radius: 8px 8px 0 0;
+            }
+
+        .tab-content {
+            border: 1px solid #2980b9;
+            padding: 15px;
+            border-radius: 0 8px 8px 8px;
+            background: white;
+        }
+
+        .claims-checkboxes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+            .claims-checkboxes label {
+                background: #ecf0f1;
+                padding: 6px 10px;
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 14px;
+            }
+    </style>
+</head>
+<body>
+    <nav class="menubar">
+        <a href="/Admin/Users">Users</a>
+        <a href="/Admin/Roles">Roles</a>
+        <a href="/Admin/Logs" class="active">Logs</a>
+        <a href="/hangfire">Hangfire</a>
+    </nav>
+    <main class="content">
+        <h2>Role List</h2>
+        <button onclick="openModal('roleModal')">+ New Role</button>
+        <table id="rolesTable" class="display" style="width:100%" data-ajax="RoleList">
+            <thead>
+                <tr><th>Id</th><th>Name</th><th>Actions</th></tr>
+            </thead>
+        </table>
+    </main>
+
+    <div id="toast" class="toast"></div>
+
+    <!-- Add Role Modal -->
+    <div id="roleModal" class="modal-overlay">
+        <div class="modal">
+            <span class="modal-close" onclick="closeModal('roleModal')">&times;</span>
+            <h3>Add Role</h3>
+            <div class="tabs">
+                <div class="tab active" data-tab="roleAddTab">Role</div>
+                <div class="tab" data-tab="claimsAddTab">Claims</div>
+            </div>
+            <div class="tab-content" id="roleAddTab">
+                <form id="roleForm">
+                    <label>Name:</label>
+                    <input name="name" type="text" required />
+                    <div style="text-align:right;">
+                        <button type="submit">Create</button>
+                        <button type="button" class="secondary" onclick="closeModal('roleModal')">Cancel</button>
+                    </div>
+                </form>
+            </div>
+            <div class="tab-content" id="claimsAddTab" style="display:none;">
+                <h4>Select Claims</h4>
+                <div id="claimsCheckboxesAdd" class="claims-checkboxes">
+                    @if (claims is not null)
+                    {
+                        @foreach (var cl in claims)
+                        {
+                            var checkboxId = $"add_{cl.Key}";
+                            <label for="@checkboxId">
+                                <input type="checkbox" id="@checkboxId" name="claims" value="@cl.Key" />
+                                @cl.Value
+                            </label>
+                        }
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Role Modal -->
+    <div id="editModal" class="modal-overlay">
+        <div class="modal">
+            <span class="modal-close" onclick="closeModal('editModal')">&times;</span>
+            <h3>Edit Role</h3>
+            <div class="tabs">
+                <div class="tab active" data-tab="roleTab">Role</div>
+                <div class="tab" data-tab="claimsTab">Claims</div>
+            </div>
+            <div class="tab-content" id="roleTab">
+                <form id="editForm">
+                    <label>Name:</label>
+                    <input name="name" type="text" required />
+                    <input name="id" type="hidden" />
+                    <div style="text-align:right;">
+                        <button type="submit">Update</button>
+                        <button type="button" class="secondary" onclick="closeModal('editModal')">Cancel</button>
+                    </div>
+                </form>
+            </div>
+            <div class="tab-content" id="claimsTab" style="display:none;">
+                <h4>Edit Claims</h4>
+                <div id="claimsCheckboxesEdit" class="claims-checkboxes">
+
+                    @if (claims is not null)
+                    {
+                        @foreach (var cl in claims)
+                        {
+                            var checkboxId = $"edit_{cl.Key}";
+                            <label for="@checkboxId">
+                                <input type="checkbox" id="@checkboxId" name="claims" value="@cl.Key" />
+                                @cl.Value
+                            </label>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+
+    <script>
+        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+        function showToast(msg, isError = false) {
+            var t = $('#toast'); t.text(msg).removeClass('error').addClass(isError ? 'error' : '');
+            t.addClass('show'); setTimeout(() => t.removeClass('show'), 3000);
+        }
+
+        function collectClaims(containerId, form) {
+            $(`#${containerId} input[type=checkbox]:checked`).each(function (i, cb) {
+                const [key, value] = $(cb).val().split(":");
+                $(form).append(`<input type="hidden" name="claims[${i}].Key" value="${key}" />`);
+                $(form).append(`<input type="hidden" name="claims[${i}].Value" value="${value}" />`);
+            });
+        }
+
+        $(function () {
+            var table = $('#rolesTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: {
+                        url: 'RoleList',   // your backend endpoint            // or 'GET' if your action supports GET
+                         data: function (d) {
+                             d.search = d.search.value;
+                        }
+                    },
+                    columns: [
+                    { data: 'id' },
+                    { data: 'name' },
+                    {
+                        data: null,
+                        render: function (data, type) {
+                            if (data.name === 'admin' || data.name === 'user') {
+                                return '';
+                            }
+                            return `
+                            <button class="btn-small editBtn">Edit</button>
+                            <button class="btn-small btn-danger deleteBtn">Delete</button>`;
+                        }
+                    }
+                ]
+            });
+
+            // Tabs
+            $(document).on('click', '.tab', function () {
+                var tab = $(this).data('tab');
+                $(this).siblings().removeClass('active'); $(this).addClass('active');
+                $(this).closest('.modal').find('.tab-content').hide();
+                $('#' + tab).show();
+            });
+
+            // Add Role Submit
+            $('#roleForm').submit(function (e) {
+                e.preventDefault();
+                collectClaims("claimsCheckboxesAdd", this);
+                $.post('/Admin/CreateRole', $(this).serialize())
+                    .done(() => { closeModal('roleModal'); table.ajax.reload(); showToast("Role created"); })
+                    .fail(x => showToast(x.responseText || "Error", true))
+                    .always(() => $(this).find('input[type=hidden][name^=claims]').remove());
+            });
+
+
+
+            // Edit Role click
+            $('#rolesTable').on('click', '.editBtn', function (ev) {
+
+                var data = table.row($(this).closest('tr')).data();
+                var id = data.id;
+                $.get('GetRole', {id}, function (data) {
+                $('#editForm')[0].reset();
+                $('#editForm input[name=id]').val(data.id);
+                $('#editForm input[name=name]').val(data.name);
+
+                // reset all checkboxes
+                $('#claimsCheckboxesEdit input[type=checkbox]').prop('checked', false);
+                if (data.claims) {
+                    data.claims.forEach(c => {
+                        $(`#claimsCheckboxesEdit input[id='edit_${c.key}']`).prop('checked', true);
+                    });
+                }
+
+                $('.tab').removeClass('active'); $('.tab[data-tab=roleTab]').addClass('active');
+                $('#roleTab').show(); $('#claimsTab').hide();
+                openModal('editModal');
+                });
+            });
+
+            // Update Role
+            $('#editForm').submit(function (e) {
+                e.preventDefault();
+                collectClaims("claimsCheckboxesEdit", this);
+                $.post('/Admin/UpdateRole', $(this).serialize())
+                    .done(() => { closeModal('editModal'); table.ajax.reload(); showToast("Role updated"); })
+                    .fail(x => showToast(x.responseText || "Error", true))
+                    .always(() => $(this).find('input[type=hidden][name^=claims]').remove());
+            });
+
+            // Delete Role
+            $('#rolesTable').on('click', '.deleteBtn', function () {
+                var data = table.row($(this).closest('tr')).data();
+                if (!confirm("Delete this role?")) return;
+                $.ajax({ type: 'DELETE', url: '/Admin/DeleteRole', data: { id: data.id } })
+                    .done(() => { table.ajax.reload(); showToast("Role deleted"); })
+                    .fail(x => showToast(x.responseText || "Delete failed", true));
+            });
+        });
+    </script>
+</body>
+</html>

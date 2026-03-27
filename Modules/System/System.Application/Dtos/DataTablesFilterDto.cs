@@ -1,0 +1,13 @@
+﻿namespace System.Application.Dtos
+{
+    public class DataTablesFilterDto
+    {
+        public int? Draw { get; set; }
+
+        public int? Start { get; set; }
+
+        public int? Length { get; set; }
+
+        public required string Search { get; set; }
+    }
+}

@@ -1,0 +1,369 @@
+﻿using Base;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System.Application.Dtos;
+using System.Application.Filters;
+using System.Data;
+using System.Infrastructure.Filters;
+using System.Infrastructure.Services.Admin;
+using System.Infrastructure.Services.Auth;
+using System.Infrastructure.Services.Auth.Models;
+
+namespace System.Application.Controllers
+{
+    [ApiExplorerSettings(IgnoreApi = true)]
+    [Route("[controller]")]
+    public class AdminController : BaseController
+    {
+        private readonly IAdminService _adminService;
+        private readonly IAuthService _authService;
+        private readonly ILogger<AdminController> _logger;
+        private readonly IConnector _connector;
+
+        public AdminController(IControllerService controllerService,
+            IAdminService adminService,
+            IAuthService authService,
+            ILogger<AdminController> logger,
+            IConnector connector) : base(controllerService)
+        {
+            _adminService = adminService;
+            _authService = authService;
+            _logger = logger;
+            _connector = connector;
+        }
+
+        [HttpGet("")]
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        [TypeFilter(typeof(AdminPanelFilter))]
+        [HttpGet("Users")]
+        public async Task<IActionResult> Users()
+        {
+            ViewBag.Roles = _adminService.GetRoles();
+            return View();
+        }
+
+        [TypeFilter(typeof(AdminPanelFilter))]
+        [HttpGet("Roles")]
+        public async Task<IActionResult> Roles()
+        {
+            ViewBag.Claims = _connector.Permissions.ToDictionary(PermissionInfo => PermissionInfo.Key, PermissionInfo => PermissionInfo.Description);
+            return View();
+        }
+
+        [TypeFilter(typeof(AdminPanelFilter))]
+        [HttpGet("[action]")]
+        public IActionResult UserList([FromQuery] DataTablesFilterDto request)
+        {
+            var users = _adminService.GetUsers();
+
+            var query = users;
+
+            // Filtering
+            if (!string.IsNullOrEmpty(request.Search))
+            {
+                var search = request.Search.ToLower();
+                query = query.Where(r => r.User.UserName?.ToLower().Contains(search) ?? false);
+            }
+
+            var filtered = query.Count();
+
+            // Paging
+            var data = query
+                .Skip(request.Start ?? 0)
+                .Take(request.Length ?? 10)
+            .ToList();
+
+            return Json(new
+            {
+                draw = request.Draw,
+                recordsTotal = users.Count(),
+                recordsFiltered = filtered,
+                data = data.Select(x => new
+                {
+                    Id = x.User.Id,
+                    x.User.Email,
+                    x.User.UserName,
+                    x.User.FirstName,
+                    x.User.LastName,
+                    Role = x.Role?.NormalizedName ?? "-",
+                    LockedOut = x.User.LockoutEnd != null
+                })
+            });
+        }
+
+        [TypeFilter(typeof(AdminPanelFilter))]
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetUser([FromQuery] string id)
+        {
+            var userInfo = await _adminService.GetUser(id);
+
+            if (userInfo is null)
+            {
+                return NotFound();
+            }
+
+            var user = userInfo.User;
+            var role = userInfo.Role;
+
+            return Json(new
+            {
+                user.Id,
+                user.Email,
+                user.UserName,
+                user.FirstName,
+                user.LastName,
+                Role = role,
+                LockedOut = user.LockoutEnabled
+            });
+        }
+
+        [TypeFilter(typeof(AdminPanelFilter))]
+        [HttpPost("[action]")]
+        public async Task<IActionResult> CreateUser([FromForm] RegisterModel register)
+        {
+            var result = await _authService.Register(register);
+
+            return ToActionResult(result);
+        }
+
+        [TypeFilter(typeof(AdminPanelFilter))]
+        [HttpPost("[action]")]
+        public async Task<IActionResult> UpdateUser(string id, string email, bool locked, string role)
+        {
+            try
+            {
+                var userInfor = await _adminService.GetUser(id);
+                var user = userInfor?.User;
+
+                if (user == null)
+                    return NotFound("User not found.");
+
+                user.Email = email;
+                user.LockoutEnd = locked ? DateTimeOffset.MaxValue : default(DateTimeOffset?);
+
+                var result = await _adminService.UpdateUser(user, role);
+
+                return ToActionResult(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failure updating user {userId}.", id);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [TypeFilter(typeof(AdminPanelFilter))]
+        [HttpDelete("[action]")]
+        public async Task<ActionResult> DeleteUser(string id)
+        {
+            var userInfo = await _adminService.GetUser(id);
+            var user = userInfo?.User;
+
+            if (user == null)
+                return NotFound("User not found.");
+
+            var successed = await _adminService.DeleteUser(user);
+
+            return successed.Succeeded ? Ok() : BadRequest($"{successed}");
+        }
+
+        [TypeFilter(typeof(AdminPanelFilter))]
+        [HttpPost("[action]")]
+        public async Task<IActionResult> ResetPassword(string id, string password, string verify)
+        {
+            try
+            {
+                if (password != verify)
+                    return BadRequest("Passwords entered do not match.");
+
+                var user = await _adminService.GetUser(id);
+
+                if (user is null)
+                {
+                    return NotFound();
+                }
+
+                var result = await _adminService.ResetPassword(user.User, password);
+
+                return ToActionResult(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed password reset for user {userId}.", id);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [TypeFilter(typeof(AdminPanelFilter))]
+        [HttpPost("[action]")]
+        public async Task<IActionResult> CreateRole(RoleDto role)
+        {
+            try
+            {
+                var result = await _adminService.CreateRole(role.Name, role.Claims.Select(x => x.Key));
+
+                return ToActionResult(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failure creating role {name}.", role.Name);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [TypeFilter(typeof(AdminPanelFilter))]
+        [HttpGet("[action]")]
+        public async Task<IActionResult> RoleList([FromQuery] DataTablesFilterDto request)
+        {
+            var roles = _adminService.GetRoles();
+            var query = roles;
+
+            // Filtering
+            if (!string.IsNullOrEmpty(request.Search))
+            {
+                var search = request.Search.ToLower();
+                query = query.Where(r => r.Name?.ToLower().Contains(search) ?? false);
+            }
+
+            var filtered = query.Count();
+
+            // Paging
+            var data = query
+                .Skip(request.Start ?? 0)
+                .Take(request.Length ?? 10)
+                .Select(r => new { r.Id, r.Name })
+            .ToList();
+
+            return Json(new
+            {
+                draw = request.Draw,
+                recordsTotal = roles.Count(),
+                recordsFiltered = filtered,
+                data = data
+            });
+        }
+
+        [TypeFilter(typeof(AdminPanelFilter))]
+        [HttpGet("[action]")]
+        public async Task<IActionResult> GetRole([FromQuery] string id)
+        {
+            var role = await _adminService.GetRole(id);
+            if (role == null)
+                return NotFound("Role not found.");
+
+            var claims = await _adminService.GetRolePermissions(role);
+            return Json(new
+            {
+                role.Id,
+                role.Name,
+                claims = _connector.Permissions.Where(c => claims.Select(x => x.Value).Contains(c.Key)).Select(c => new { c.Key, c.Description })
+            });
+        }
+
+        [TypeFilter(typeof(AdminPanelFilter))]
+        [HttpPost("[action]")]
+        public async Task<IActionResult> UpdateRole(RoleDto dto)
+        {
+            try
+            {
+                var role = await _adminService.GetRole(dto.Id);
+                if (role == null)
+                    return NotFound("Role not found.");
+
+                role.Name = dto.Name;
+
+                var result = await _adminService.UpdateRole(role, dto.Claims.Select(x => x.Key));
+
+                return ToActionResult(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failure updating role {roleId}.", dto.Id);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [TypeFilter(typeof(AdminPanelFilter))]
+        [HttpDelete("[action]")]
+        public async Task<IActionResult> DeleteRole(string id)
+        {
+            try
+            {
+                var role = await _adminService.GetRole(id);
+                if (role == null)
+                    return NotFound("Role not found.");
+
+                var result = await _adminService.DeleteRole(role);
+
+                return ToActionResult(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failure delete role {roleId}.", id);
+                return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
+            }
+        }
+
+        [TypeFilter(typeof(AdminPanelFilter))]
+        [HttpGet("[action]")]
+        public IActionResult Logs()
+        {
+            return View();
+        }
+
+        [HttpPost("[action]")]
+        public IActionResult LogsData([FromForm] LogFilter request, string? level)
+        {
+            var query = _adminService.GetLogs();
+
+            if (!string.IsNullOrEmpty(level))
+                query = query.Where(l => l.Level == level);
+
+            // Search
+            if (!string.IsNullOrEmpty(request.Search?.Value))
+            {
+                string term = request.Search.Value.ToLower();
+                query = query.Where(l =>
+                    l.Message.ToLower().Contains(term) ||
+                    (l.Exception is not null &&
+                    l.Exception.ToLower().Contains(term)));
+            }
+
+            int total = query.Count();
+
+            // Sorting
+            var sorted = query.OrderByDescending(l => l.TimeStamp);
+
+            // Paging
+            var data = sorted
+                .Skip(request.Start)
+                .Take(request.Length)
+                .Select(l => new
+                {
+                    l.Id,
+                    l.Level,
+                    l.TimeStamp,
+                    l.Message,
+                    l.Exception
+                })
+                .ToList();
+
+            return Json(new
+            {
+                draw = request.Draw,
+                recordsTotal = total,
+                recordsFiltered = total,
+                data
+            });
+        }
+
+        private IActionResult ToActionResult(IdentityResult result) => result.Succeeded ? Ok() : BadRequest(result.Errors.Select(x => x.Description));
+    }
+}

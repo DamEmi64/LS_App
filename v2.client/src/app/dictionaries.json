@@ -1,0 +1,56 @@
+{
+  "FileTypes": {
+    "Games": 100,
+    "Docs": 101,
+    "Study": 102
+  },
+  "GameGenres": {
+    "Platformer": 200,
+    "Shooter": 201,
+    "FirstPersonShooter": 202,
+    "ThirdPersonShooter": 203,
+    "BeatEmUp": 204,
+    "Stealth": 205,
+    "Survival": 206,
+    "ActionAdventure": 210,
+    "NarrativeAdventure": 211,
+    "PointAndClick": 212,
+    "ActionRPG": 220,
+    "TurnBasedRPG": 221,
+    "TacticalRPG": 222,
+    "MMORPG": 223,
+    "OpenWorldRPG": 224,
+    "LifeSimulation": 230,
+    "FarmingSimulation": 231,
+    "VehicleSimulation": 232,
+    "CityBuilding": 233,
+    "RealTimeStrategy": 240,
+    "TurnBasedStrategy": 241,
+    "TowerDefense": 242,
+    "FourX": 243,
+    "ClassicPuzzle": 250,
+    "PhysicsPuzzle": 251,
+    "Match3": 252,
+    "TraditionalSports": 260,
+    "ExtremeSports": 261,
+    "Racing": 262,
+    "TraditionalFighting": 270,
+    "PlatformFighting": 271,
+    "SurvivalHorror": 280,
+    "PsychologicalHorror": 281,
+    "PartyGame": 290,
+    "RhythmGame": 291,
+    "Other": 299
+  },
+  "Operations": {
+    "ImportFile": 11,
+    "MoveFile": 12,
+    "CopyFile": 13,
+    "DeleteFile": 14,
+    "GenerateSummary": 31
+  },
+  "SourceTypes": {
+    "Local": 300,
+    "FuckingFast": 301
+  }
+}
