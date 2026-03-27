@@ -28,7 +28,11 @@ jobs:
 
   build_Frontend:
     runs-on: ubuntu-latest
-
+  
+    defaults:
+      run:
+        working-directory: ./v2.client   # 👈 change this
+  
     steps:
       - uses: actions/checkout@v4
   
