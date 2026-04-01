@@ -2,12 +2,8 @@ using Api;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.AddLogger();
+var build = new Startup(builder);
 
-IoC.Configure(builder.Services, builder.Configuration);
-
-var app = builder.Build();
-
-app.Setup(builder.Configuration);
+var app = build.Build(builder);
 
 app.Run();

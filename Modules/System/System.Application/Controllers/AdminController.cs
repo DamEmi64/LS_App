@@ -35,28 +35,6 @@ namespace System.Application.Controllers
             _connector = connector;
         }
 
-        [HttpGet("")]
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        [TypeFilter(typeof(AdminPanelFilter))]
-        [HttpGet("Users")]
-        public async Task<IActionResult> Users()
-        {
-            ViewBag.Roles = _adminService.GetRoles();
-            return View();
-        }
-
-        [TypeFilter(typeof(AdminPanelFilter))]
-        [HttpGet("Roles")]
-        public async Task<IActionResult> Roles()
-        {
-            ViewBag.Claims = _connector.Permissions.ToDictionary(PermissionInfo => PermissionInfo.Key, PermissionInfo => PermissionInfo.Description);
-            return View();
-        }
-
         [TypeFilter(typeof(AdminPanelFilter))]
         [HttpGet("[action]")]
         public IActionResult UserList([FromQuery] DataTablesFilterDto request)
@@ -312,12 +290,6 @@ namespace System.Application.Controllers
         }
 
         [TypeFilter(typeof(AdminPanelFilter))]
-        [HttpGet("[action]")]
-        public IActionResult Logs()
-        {
-            return View();
-        }
-
         [HttpPost("[action]")]
         public IActionResult LogsData([FromForm] LogFilter request, string? level)
         {

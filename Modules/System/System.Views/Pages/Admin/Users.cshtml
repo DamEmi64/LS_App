@@ -1,3 +1,6 @@
+﻿@page
+@using System.Views.Pages.Admin
+@model UsersModel
 @{
     ViewData["Title"] = "Users Page";
     Layout = null;
@@ -217,23 +220,19 @@
             .toast.error {
                 background: #e74c3c;
             }
+
         @@keyframes slideIn {
-            to
-
-        {
-            opacity: 1;
-            transform: translateX(0);
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
-        }
         @@keyframes fadeOut {
-            to
-
-        {
-            opacity: 0;
-            transform: translateX(100%);
-        }
-
+            to {
+                opacity: 0;
+                transform: translateX(100%);
+            }
         }
     </style>
 </head>
@@ -284,7 +283,7 @@
                 <label>Role:</label>
                 <select name="role" required>
                     <option value="">-- Select Role --</option>
-                    @foreach (var role in ViewBag.Roles)
+                    @foreach (var role in Model.Roles)
                     {
                         <option value="@role.Name">@role.Name</option>
                     }
@@ -308,13 +307,13 @@
                 <label>Last Name:</label>
                 <input name="lastName" id="lastName" type="text" />
                 <label>Email:</label>
-                <input name="email" type="email"/>
-                <label><input name="locked" type="checkbox"/> Locked</label>
+                <input name="email" type="email" />
+                <label><input name="locked" type="checkbox" /> Locked</label>
                 <input name="id" type="hidden" />
                 <label>Role:</label>
                 <select name="role" required>
                     <option value="">-- Select Role --</option>
-                    @foreach (var role in ViewBag.Roles)
+                    @foreach (var role in Model.Roles)
                     {
                         <option value="@role.Name">@role.Name</option>
                     }
@@ -365,7 +364,7 @@
         <div class="modal">
             <span class="modal-close" onclick="closeModal('pwdConfirmModal')">&times;</span>
             <h3>Confirm Reset</h3>
-            <p>Are you sure you want to reset this user�s password?</p>
+            <p>Are you sure you want to reset this user’s password?</p>
             <input type="hidden" id="pwdUserId" />
             <div class="actions">
                 <button onclick="openPwdForm()">Yes, Reset</button>
@@ -399,7 +398,7 @@
             if (firstName) login += firstName;
             if (lastName) login += '.' + lastName;
             $('#login').val(login);
-        } 
+        }
 
         $('#login').on('change', function() {loginChanged = true});
         $('#lastName').on('change',fillLogin);

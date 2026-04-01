@@ -1,7 +1,11 @@
+﻿@page
+@using System.Views.Pages.Admin
+
+@model RolesModel
+
 @{
     ViewData["Title"] = "Roles Page";
     Layout = null;
-    var claims = ViewBag.Claims as Dictionary<string, string>;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -312,9 +316,9 @@
             <div class="tab-content" id="claimsAddTab" style="display:none;">
                 <h4>Select Claims</h4>
                 <div id="claimsCheckboxesAdd" class="claims-checkboxes">
-                    @if (claims is not null)
+                    @if (Model.Claims is not null)
                     {
-                        @foreach (var cl in claims)
+                        @foreach (var cl in Model.Claims)
                         {
                             var checkboxId = $"add_{cl.Key}";
                             <label for="@checkboxId">
@@ -353,9 +357,9 @@
                 <h4>Edit Claims</h4>
                 <div id="claimsCheckboxesEdit" class="claims-checkboxes">
 
-                    @if (claims is not null)
+                    @if (Model.Claims is not null)
                     {
-                        @foreach (var cl in claims)
+                        @foreach (var cl in Model.Claims)
                         {
                             var checkboxId = $"edit_{cl.Key}";
                             <label for="@checkboxId">
