@@ -1,22 +1,17 @@
-﻿using Api.Setup;
-using Base;
+﻿using Base;
 using Base.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.OpenApi;
 using Newtonsoft.Json.Converters;
-using Serilog;
-using Serilog.Events;
-using Serilog.Sinks.MSSqlServer;
 using System.Infrastructure.Db;
 
 namespace Api
 {
-    public static class IoC
+    public class Startup
     {
-        private const string Config = "config";
-        private const string AutoMigrate = "autoMigrate";
+        private Connector.Connector _connector;
 
+        private const string AutoMigrate = "autoMigrate";
         private const string Banner = @"
 ###############################
 #       API IS RUNNING...     #
@@ -24,53 +19,35 @@ namespace Api
 ###############################
 ";
 
-        public static void AddLogger(this WebApplicationBuilder builder)
+        public Startup(IHostApplicationBuilder builder)
         {
-            var columnsOptions = new Serilog.Sinks.MSSqlServer.ColumnOptions();
-            columnsOptions.Store.Remove(StandardColumn.Properties);
-            columnsOptions.Store.Remove(StandardColumn.MessageTemplate);
+            AppConfiguration.Initialize(builder.Configuration);
+            _connector = GetConnector(builder.Configuration);
+            builder.Services.AddSingleton<IConnector>(_connector);
 
-            Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Information()
-            .MinimumLevel.Override("Microsoft", LogEventLevel.Error)
-            .WriteTo.Console()
-            .WriteTo.MSSqlServer(builder.Configuration.GetConnectionString("LogContext") ?? AppConfiguration.DefaultConnectionString,
-                sinkOptions: new Serilog.Sinks.MSSqlServer.MSSqlServerSinkOptions
-                {
-                    TableName = "Logs",
-                    AutoCreateSqlTable = true,
-                    AutoCreateSqlDatabase = true
-                },
-                columnOptions: columnsOptions)
-            .CreateLogger();
-
-            builder.Host.UseSerilog();
+            Configure(builder.Services, builder.Configuration);
         }
 
-        public static void Configure(IServiceCollection services, ConfigurationManager configuration)
+        public void Configure(IServiceCollection services, IConfiguration configuration)
         {
-            AppConfiguration.Initialize(configuration);
             services.AddControllersWithViews()
-                .AddNewtonsoftJson(options =>
-            options.SerializerSettings.Converters.Add(new StringEnumConverter())); ;
+                .AddNewtonsoftJson(options => options.SerializerSettings.Converters.Add(new StringEnumConverter()));
 
-            var connector = GetConnector(configuration);
+            AddModules(services, configuration);
+            AddSwagger(services, configuration)
+                .AddSwaggerGenNewtonsoftSupport();
 
-            services.AddModules(configuration, connector)
-               .AddSingleton<IConnector>(connector)
-               .AddSwagger(configuration);
             services.AddTransient<ErrorMiddleware>();
-            services.AddSwaggerGenNewtonsoftSupport();
         }
 
-        public static Connector.Connector GetConnector(IConfiguration configuration)
+        private Connector.Connector GetConnector(IConfiguration configuration)
         {
             var baseUrl = configuration.GetValue("urls", string.Empty);
             var version = configuration.GetValue("version", string.Empty);
             return new Connector.Connector(baseUrl ?? string.Empty, version);
         }
 
-        private static IServiceCollection AddSwagger(this IServiceCollection services, IConfiguration configuration)
+        private IServiceCollection AddSwagger(IServiceCollection services, IConfiguration configuration)
         {
             return services.AddEndpointsApiExplorer()
                 .AddSwaggerGen(opt =>
@@ -84,12 +61,12 @@ namespace Api
                 });
         }
 
-        private static IServiceCollection AddModules(this IServiceCollection services, ConfigurationManager configuration, IConnector connector)
+        private IServiceCollection AddModules(IServiceCollection services, IConfiguration configuration)
         {
             var pageBuilder = services.AddRazorPages();
             var controllerBuilder = services.AddControllers();
 
-            foreach (var module in connector.Modules.Select(x => x.Module))
+            foreach (var module in _connector.Modules.Select(x => x.Module))
             {
                 try
                 {
@@ -118,27 +95,12 @@ namespace Api
             return services;
         }
 
-        private static void UseModules(this WebApplication application)
+        private void UseModules(WebApplication application)
         {
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
             try
             {
-                foreach (var assembly in assemblies)
+                foreach (var module in _connector.Modules.Select(x => x.Module))
                 {
-                    var moduleType = assembly.GetTypes().FirstOrDefault(x => !x.IsInterface && !x.IsAbstract && x.GetInterfaces().Contains(typeof(IModule)));
-
-                    if (moduleType is null || moduleType.IsInterface || moduleType.IsAbstract)
-                    {
-                        continue;
-                    }
-
-                    var module = Activator.CreateInstance(moduleType) as IModule;
-
-                    if (module is null)
-                    {
-                        continue;
-                    }
-
                     module.OnStartup(application);
                 }
             }
@@ -147,40 +109,37 @@ namespace Api
             }
         }
 
-        public static IServiceCollection AddDatabase<T>(this IServiceCollection services, string connString) where T : DbContext, IDbContextBase
+        public WebApplication Build(WebApplicationBuilder builder)
         {
-            return services.AddDbContext<T>(o =>
-            {
-                o.UseSqlServer(connString);
-                o.ReplaceService<IHistoryRepository, MigrationHistoryRepository>();
-            });
-        }
+            var app = builder.Build();
 
-        public static void Setup(this WebApplication app, IConfiguration configuration)
-        {
             app.UseSwagger(o => o.OpenApiVersion = Microsoft.OpenApi.OpenApiSpecVersion.OpenApi2_0);
             app.UseSwaggerUI();
             app.UseMiddleware<ErrorMiddleware>();
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.MapRazorPages();
 
             app.MapControllerRoute(
             name: "default",
             pattern: "{controller=Home}/{action=Index}/{id?}");
             app.MapFallbackToFile("/index.html");
 
-            if (configuration.GetSection(Config).GetValue<bool>(AutoMigrate, true))
+            if (AppConfiguration.GetValue(AutoMigrate, true))
             {
-                app.UpdateDatabases();
+                UpdateDatabases(app);
             }
 
-            app.UpdateDictionaries();
-            app.UseModules();
+            UpdateDictionaries(app);
+
+            UseModules(app);
             app.Logger.LogInformation(Banner, AppConfiguration.Version);
+
+            return app;
         }
 
-        private static List<Type> GetContextType(Microsoft.Extensions.Logging.ILogger logger)
+        private List<Type> GetContextType(ILogger logger)
         {
             List<Type> contextTypes = new();
 
@@ -194,7 +153,7 @@ namespace Api
             return contextTypes;
         }
 
-        public static void UpdateDatabases(this WebApplication app)
+        public void UpdateDatabases(WebApplication app)
         {
             using (var scope = app.Services.CreateScope())
             {
@@ -221,7 +180,7 @@ namespace Api
             }
         }
 
-        public static void UpdateDictionaries(this WebApplication app)
+        private void UpdateDictionaries(WebApplication app)
         {
             using (var scope = app.Services.CreateScope())
             {
