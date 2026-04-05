@@ -17,20 +17,29 @@ namespace Communication.Infrastructure.EmailGenerator.Strategies
         /// <returns></returns>
         public FluidValue Handle(FunctionArguments arguments, List<string> receivers, string receiver, string sender)
         {
-            var rand = new Random(DateTime.Now.Microsecond);
+            var rand = Random.Shared;
 
-            if (arguments.Names.Contains(receiver))
+            if (arguments.HasNamed(receiver))
             {
                 var perReceiver = arguments[receiver];
+                var valuesPerReceiver = perReceiver.ToStringValue()
+                                                   .Split(";", StringSplitOptions.RemoveEmptyEntries);
+                if (valuesPerReceiver.Length == 0)
+                    return new StringValue(string.Empty);
 
-                var valuesPerReceiver = perReceiver.ToStringValue().Split(";");
-
-                return new StringValue(valuesPerReceiver[rand.Next() % valuesPerReceiver.Count()]);
+                return new StringValue(valuesPerReceiver[rand.Next(valuesPerReceiver.Length)]);
             }
 
-            var values = arguments.Names.Where(x => !receivers.Contains(x)).Select(x => arguments[x].ToStringValue()).ToList();
+            var namedArguments = arguments.Names.Select(x => arguments[x].ToStringValue());
+            var values = arguments.Values
+                                    .Select(x => x.ToStringValue())
+                                    .Where(x => !namedArguments.Contains(x))
+                                    .ToList();
 
-            return new StringValue(values[rand.Next() % values.Count()]);
+            if (values.Count == 0)
+                return new StringValue(string.Empty);
+
+            return new StringValue(values[rand.Next(values.Count)]);
         }
     }
 }

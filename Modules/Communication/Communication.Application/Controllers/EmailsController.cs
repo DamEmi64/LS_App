@@ -52,7 +52,7 @@ namespace Communication.Application.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Edit([FromQuery] Guid id, [FromBody] Email emailData)
+        public async Task<IActionResult> Edit(Guid id, [FromBody] Email emailData)
         {
             var email = await _emailRepository.Get(id);
 
@@ -62,6 +62,7 @@ namespace Communication.Application.Controllers
             email.SentDate = emailData.SentDate;
             email.Body = emailData.Body;
             email.UpdDate = DateTimeOffset.Now;
+            email.Recipient = emailData.Recipient;
 
             await _emailRepository.Update(email);
 

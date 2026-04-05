@@ -39,7 +39,11 @@ namespace RPG.Application
 
         public IApplicationBuilder OnStartup(IApplicationBuilder app)
         {
-            (app as WebApplication).MapHub<RPGHub>("/rpghub");
+            if (app is WebApplication webApplication)
+            {
+                webApplication.MapHub<RPGHub>("/rpghub");
+            }
+
             return app;
         }
     }

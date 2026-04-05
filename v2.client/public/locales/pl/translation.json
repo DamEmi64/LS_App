@@ -25,45 +25,49 @@
     "bottomLeft": "Na dole po lewej",
     "topLeft": "Na górze po lewej",
     "messages": {
-      "1001": "Plik {0} zapisany",
-      "1002": "Plik {0} usunięty",
-      "1003": "Plik {0} zaktualizowany",
-      "1004": "Plik {0} nie znaleziony",
-      "1005": "Plik {0} już istnieje",
-      "1006": "Plik {0} nie został zapisany",
-      "1007": "Błąd wewnętrznego procesu {0}",
-      "1008": "Proces {0} rozpoczęty",
-      "1009": "Proces {0} zakończony",
-      "1010": "Proces {0} nie powiódł się",
-      "1011": "Zakolejkowano proces {0}",
+      "1000": "Log",
+      "1001": "Błąd wewnętrznego procesu {0}",
+      "1002": "Proces {0} rozpoczęty",
+      "1003": "Proces {0} zakończony",
+      "1004": "Proces {0} zakończony błędem",
+      "1005": "Proces {0} dodany do kolejki",
+
+      "1006": "Plik {0} zapisany",
+      "1007": "Plik {0} usunięty",
+      "1008": "Plik {0} zaktualizowany",
+      "1009": "Plik {0} nie znaleziony",
+      "1010": "Plik {0} już istnieje",
+      "1011": "Plik {0} nie został zapisany",
+
       "1012": "Sesja {0} zapisana",
       "1013": "Sesja {0} usunięta",
       "1014": "Sesja {0} zaktualizowana",
       "1015": "Sesja {0} nie znaleziona",
+
       "1016": "Rozdział {0} zapisany",
       "1017": "Rozdział {0} usunięty",
       "1018": "Rozdział {0} zaktualizowany",
       "1019": "Rozdział {0} nie znaleziony",
+
       "1020": "Bohater {0} zapisany",
       "1021": "Bohater {0} usunięty",
       "1022": "Bohater {0} zaktualizowany",
       "1023": "Bohater {0} nie znaleziony",
+
       "1024": "Miejsce {0} zapisane",
       "1025": "Miejsce {0} usunięte",
       "1026": "Miejsce {0} zaktualizowane",
       "1027": "Miejsce {0} nie znalezione",
+
       "1030": "Logowanie zakończone sukcesem",
-      "1031": "Logowanie zakończone porażką",
+      "1031": "Logowanie zakończone niepowodzeniem",
       "1032": "Nieprawidłowe hasło",
       "1033": "Konto zablokowane",
       "1034": "Niepowodzenie uwierzytelniania dwuskładnikowego",
       "1035": "Rejestracja zakończona sukcesem",
-      "1036": "Rejestracja zakończona porażką",
-      "1040": "Automat został utworzony",
-      "1041": "Automat został zaktualizowany",
-      "1042": "Automat został usunięty",
-      "1043": "Automat został wyłączony",
-      "1044": "Automat został włączony"
+      "1036": "Rejestracja zakończona niepowodzeniem",
+      "1037": "Email wysłany pomyślnie",
+      "1038": "Email wygenerowany pomyślnie"
     }
   },
   "user": {
@@ -164,7 +168,7 @@
         "randomUnique": {
           "title": "Automatyczne unikalne wylosowanie wartości z podanych argumentów",
           "description": "Automatycznie wylosowuje unikalną wartość z podanych argumentów w szablonie. W przypadku nazwania argumentu tak jak odbiorca wiadomości, zostanie wylosowana unikalna wartość z podanego argumentu, gdzie wartości w argumencie są oddzielone ;",
-          "example": " {{ randomUnique( test@test.com:'d;e;f', 'a', 'b', 'c')}}"
+          "example": " {{ randomUnique( test@test.com='d;e;f', 'a', 'b', 'c')}}"
         }
       }
     },

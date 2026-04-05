@@ -30,11 +30,13 @@ namespace Files.Infrastructure.Jobs
             var httpFactory = jobContext.ServiceProvider.GetRequiredService<IHttpClientFactory>();
             var repo = jobContext.ServiceProvider.GetRequiredService<IFileRepository>();
 
-            await ExecuteInternal(httpFactory, jobContext);
-            await repo.CheckLink(Link.Id);
+            var success = await ExecuteInternal(httpFactory, jobContext);
+
+            if (success)
+                await repo.CheckLink(Link.Id);
         }
 
-        private async Task ExecuteInternal(IHttpClientFactory httpClientFactory, IJobContext jobContext)
+        private async Task<bool> ExecuteInternal(IHttpClientFactory httpClientFactory, IJobContext jobContext)
         {
             try
             {
@@ -76,6 +78,8 @@ namespace Files.Infrastructure.Jobs
 
                             await System.IO.File.WriteAllBytesAsync($"{Locaction}\\{filename}", await download.Content.ReadAsByteArrayAsync());
                             await jobContext.AddLog("File saved");
+
+                            return true;
                         }
                     }
                 }
@@ -83,8 +87,9 @@ namespace Files.Infrastructure.Jobs
             catch (Exception ex)
             {
                 await jobContext.AddError(ex.Message);
-                throw;
             }
+
+            return false;
         }
     }
 }

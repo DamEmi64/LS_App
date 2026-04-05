@@ -65,7 +65,7 @@ namespace System.Infrastructure.Repositories
                 Message = message,
                 InsDate = DateTimeOffset.UtcNow,
                 JobId = jobId,
-                Id = Guid.NewGuid()
+                Id = Guid.Empty
             });
 
             await _context.SaveChangesAsync();
