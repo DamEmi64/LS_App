@@ -4,18 +4,18 @@ import { useAuth } from "@/features/auth/context/authProvider";
 import AuthPage from "@/features/auth/pages/AuthPage";
 import PermissionPage from "@/features/auth/pages/PermissionPage";
 import React from "react";
-import { NavbarItemProps } from "@/features/system/components/definitions";
+import { LayoutProps, NavbarItemProps } from "@/shared";
 import Navbar from "@/features/system/components/navbar";
 import Authbar from "@/features/system/components/navMenu";
 
-const Layout: React.FC<{ image: string, content: React.FC, title: string, permissions?: string[], menu: NavbarItemProps[] }> = ({ image, content, title, permissions, menu }) => {
+const Layout: React.FC<LayoutProps> = ({ image, content, title, permissions, menu, allowAnonymous }) => {
     const { t } = useTranslation();
     const auth = useAuth();
     document.title = t(title);
 
     var toShow;
 
-    if (auth.user) {
+    if (auth.user || allowAnonymous) {
         if (permissions && permissions.length > 0) {
             if (auth.checkPermission(permissions)) {
                 toShow = React.createElement(content);

@@ -59,7 +59,7 @@ namespace System.Infrastructure.JobEngine
 
             var dbJob = process.GetJob(job.Id);
 
-            if (dbJob is null)
+            if (dbJob is null)  
             {
                 process.Status = ProgressStatus.Success;
                 process.EndDate = DateTimeOffset.Now;
@@ -83,29 +83,31 @@ namespace System.Infrastructure.JobEngine
                 try
                 {
                     await job.Execute(jobContext);
+
+                    dbJob.EndDate = DateTimeOffset.Now;
+                    dbJob.Status = ProgressStatus.Success;
+                    await _jobRepository.Update(dbJob);
+                    process.TempData = jobContext.Data;
+                    process.Percentage = (process.Jobs.Where(x => x.Status == ProgressStatus.Success).Count() * 1.0 / process.Jobs.Count) * 100;
+
+                    if (process.Percentage == 100)
+                    {
+                        await EndProcess(process);
+                        return;
+                    }
                 }
                 catch (Exception ex)
                 {
                     process.Errors.Add(new ProcessError
                     {
-                        Id = Guid.NewGuid(),
+                        Id = Guid.Empty,
                         InsDate = DateTimeOffset.UtcNow,
                         JobId = dbJob.JobId ?? "--",
                         Message = ex.Message,
                         UpdDate = DateTimeOffset.UtcNow
                     });
-                }
 
-                dbJob.EndDate = DateTimeOffset.Now;
-                dbJob.Status = ProgressStatus.Success;
-                await _jobRepository.Update(dbJob);
-                process.TempData = jobContext.Data;
-                process.Percentage = (process.Jobs.Where(x => x.Status == ProgressStatus.Success).Count() * 1.0 / process.Jobs.Count) * 100;
-
-                if (process.Percentage == 100)
-                {
-                    await EndProcess(process);
-                    return;
+                    await _processRepository.Update(process);
                 }
 
                 if (process.Errors.Any())

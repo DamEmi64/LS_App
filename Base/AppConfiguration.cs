@@ -29,7 +29,7 @@ namespace Base
         /// </summary>
         /// <typeparam name="T">The type whose name will be used as the section key.</typeparam>
         /// <returns>The corresponding configuration section.</returns>
-        public static IConfigurationSection Get<T>() => Get(nameof(T));
+        public static IConfigurationSection Get<T>() => Get(typeof(T).Name);
 
         /// <summary>
         /// Gets a configuration section by key from the main configuration section.

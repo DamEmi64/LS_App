@@ -17,10 +17,11 @@ import { Story } from '../types';
 
 type SummaryGenProps = {
     story: Story,
+    forFirebase?: boolean,
     onProcess: (data: Story, isPdf: boolean) => void
 }
 
-const SummaryGen: React.FC<SummaryGenProps> = ({ story, onProcess }) => {
+const SummaryGen: React.FC<SummaryGenProps> = ({ story, onProcess, forFirebase }: SummaryGenProps) => {
     const theme = useTheme();
     const textColor = theme.palette.mode === 'dark'
         ? theme.palette.text.primary
@@ -66,10 +67,12 @@ const SummaryGen: React.FC<SummaryGenProps> = ({ story, onProcess }) => {
                         label={chapter.title}
                     />
                 ))}
-                <RadioGroup row defaultValue={'pdf'} onChange={o => setIsPdf(o.target.value === 'pdf')}>
-                    <FormControlLabel value="pdf" control={<Radio />} label='pdf' />
-                    <FormControlLabel value="html" control={<Radio />} label='html' />
-                </RadioGroup>
+                {!forFirebase && (
+                    <RadioGroup row defaultValue={'pdf'} onChange={o => setIsPdf(o.target.value === 'pdf')}>
+                        <FormControlLabel value="pdf" control={<Radio />} label='pdf' />
+                        <FormControlLabel value="html" control={<Radio />} label='html' />
+                    </RadioGroup>
+                )}
                 <Box mt={2}>
                     <Button type="submit" variant="contained" color="primary">
                         {t('opt.save')}

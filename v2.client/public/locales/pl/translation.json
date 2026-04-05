@@ -259,7 +259,7 @@
       "description": "Opis",
       "image": "Rycina",
       "url": "Link",
-      "battleLink": "Pomocnik walki"
+      "output_player_view": "Wyświetl stronę gracza"
     },
     "title": "Sesje RPG",
     "description": "Historie do opowiedzenia"

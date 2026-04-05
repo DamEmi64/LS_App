@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using RPG.Application.Dtos;
 using RPG.Infrastructure;
 using RPG.Infrastructure.External.Firebase;
+using RPG.Infrastructure.Hubs;
 using System.Infrastructure.Db;
 
 namespace RPG.Application
@@ -38,6 +39,7 @@ namespace RPG.Application
 
         public IApplicationBuilder OnStartup(IApplicationBuilder app)
         {
+            (app as WebApplication).MapHub<RPGHub>("/rpghub");
             return app;
         }
     }

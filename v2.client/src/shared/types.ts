@@ -4,6 +4,23 @@ export interface Row {
     title?: string;
 }
 
+export interface NavbarItemProps {
+    label: string;
+    href: string;
+    isActive?: boolean;
+    permissions?: string[];
+    submenu: NavbarItemProps[];
+}
+
+export interface LayoutProps {
+    image: string, 
+    content: React.FC,
+    title: string,
+    permissions?: string[],
+    menu: NavbarItemProps[],
+    allowAnonymous?: boolean;
+}
+
 export interface Collection<T> {
     data: T[];
     total: number;

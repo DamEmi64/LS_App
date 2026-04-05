@@ -19,7 +19,6 @@ import EmailImg from "@/assets/emails.jpg";
 
 import RPG from "@/features/rpg/pages/Page";
 import RPGImg from "@/assets/rpg.jpg";
-import BattlePage from "@/features/rpg/pages/BattlePage";
 import PlayerPage from "@/features/rpg/pages/PlayerPage";
 
 import Automations from "@/features/automation/pages/List";
@@ -37,7 +36,8 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { ErrorHandlerProvider } from "@/shared/context/errorHandler";
 
 import { NotificationListener } from "@/shared/components/NotificationListener";
-import { NavbarItemProps } from "@/features/system";
+import { NavbarItemProps } from "@/shared";
+import PlayerViewPage from "@/features/rpg/pages/PlayerViewPage";
 
 const queryClient = new QueryClient();
 
@@ -81,7 +81,7 @@ const App = () => (
                                     <Route path="/emails" element={<Layout content={Emails} image={EmailImg} title={'menu.emails'} permissions={['communication']} menu={menu} />} />
                                     <Route path="/templates" element={<Layout content={Templates} image={TemplateImg} title={'menu.templates'} permissions={['communication']} menu={menu} />} />
                                     <Route path="/rpg/playerData" element={<Layout content={PlayerPage} image={RPGImg} title={'menu.rpg_sessions'} permissions={['rpg']} menu={menu} />} />
-                                    <Route path="/rpg/battle" element={<Layout content={BattlePage} image={RPGImg} title={'menu.rpg_sessions'} permissions={['rpg']} menu={menu} />} />
+                                    <Route path="/rpg/playerView" element={<Layout content={PlayerViewPage} image={RPGImg} title={'menu.rpg_sessions'} menu={menu} allowAnonymous />} />
                                     <Route path="/rpg" element={<Layout content={RPG} image={RPGImg} title={'menu.rpg_sessions'} permissions={['rpg']} menu={menu} />} />
                                     <Route path="/automations" element={<Layout content={Automations} image={AutomationsImg} title={'menu.automations'} permissions={['automation']} menu={menu} />} />
                                     {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

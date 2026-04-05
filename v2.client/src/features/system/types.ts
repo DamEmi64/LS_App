@@ -1,11 +1,3 @@
-export interface NavbarItemProps {
-    label: string;
-    href: string;
-    isActive?: boolean;
-    permissions?: string[];
-    submenu: NavbarItemProps[];
-}
-
 export class UserData {
     id: number;
     userId: string;

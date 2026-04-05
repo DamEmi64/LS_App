@@ -1,121 +1,149 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Box, Paper, Typography, Grid } from "@mui/material";
-import index from '@/assets/files.jpg';
-
-// ===== Types from your app =====
+import * as signalR from "@microsoft/signalr";
 import { battleNpc } from "@/features/rpg";
 import { GridTable } from "@/shared/components/gridTable";
-import { ColumnDef, ColumnType, TableData } from "@/shared";
+import { ColumnDef, ColumnType, TableData, useApiConnect } from "@/shared";
 import DiceBox from "../components/dice/dice";
+import { useSignalR } from "@/shared/hooks/use-signalR";
 
 const rows = [0, 1, 2, 3, 4, 5, 6, 7];
 const columns = [0, 1, 2, 3, 4, 5, 6, 7];
 
-const BattlePage = () => {
-  const [npcs, setNpcs] = useState<battleNpc[]>([]);
-  const [draggedItem, setDraggedItem] = useState<battleNpc | null>(null);
-  const [npcTable, setNpcTable] = useState<TableData<battleNpc>>({ data: npcs, total: npcs.length } as TableData<battleNpc>)
+const BattlePage: React.FC<{
+  players: battleNpc[],
+  readonly?: boolean,
+  background?: string,
+  onChange?: (data: battleNpc[]) => void
+}>
+  = ({ players = [], readonly = false, onChange, background }) => {
+    const [npcs, setNpcs] = useState<battleNpc[]>(players);
+    const [draggedItem, setDraggedItem] = useState<battleNpc | null>(null);
+    const [npcTable, setNpcTable] = useState<TableData<battleNpc>>({ data: npcs, total: npcs.length } as TableData<battleNpc>)
 
-  const tableColumns: ColumnDef[] = [
-    { field: "title", header: "rpg.hero.firstName", type: ColumnType.String },
-    { field: "health", header: "rpg.hero.health", type: ColumnType.Number },
-    { field: "row", header: "rpg.hero.pos", type: ColumnType.Number },
-    { field: "column", header: "rpg.hero.pos", type: ColumnType.Number }
-  ];
+    useEffect(() => {
+      setNpcs(players);
+      setNpcTable({ data: players, total: players.length });
+    }, [players, background]);
 
-  const handleDragStart = (item: battleNpc) => {
-    setDraggedItem(item);
-  };
 
-  const handleDrop = (columnIndex: number, rowIndex: number) => {
-    if (!draggedItem) return;
+    const tableColumns: ColumnDef[] = [
+      { field: "title", header: "rpg.hero.firstName", type: ColumnType.String },
+      { field: "health", header: "rpg.hero.health", type: ColumnType.Number },
+      { field: "row", header: "rpg.hero.pos", type: ColumnType.Number },
+      { field: "column", header: "rpg.hero.pos", type: ColumnType.Number }
+    ];
 
-    var newData = npcs.map((npc) =>
-      npc.id === draggedItem.id ? { ...npc, row: rowIndex, column: columnIndex } : npc
-    );
-    setNpcs(newData);
-    setNpcTable({ data: newData, total: npcs.length });
-    setDraggedItem(null);
-  };
+    const handleDragStart = (item: battleNpc) => {
+      setDraggedItem(item);
+    };
 
-  // Ensure every npc has a row (default 0)
-  const npcsWithRows = npcs.map((n) => ({ ...n, row: (n as any).row ?? 0, column: (n as any).column ?? 0 }));
+    const handleDrop = (columnIndex: number, rowIndex: number) => {
+      if (!draggedItem) return;
 
-  return (
-    <Grid container spacing={2} width={'100%'} flexDirection={"column"} alignItems={'center'}>
-      <Grid container spacing={2} width="100%" flexDirection="column" alignItems="center">
+      var newData = npcs.map((npc) =>
+        npc.id === draggedItem.id ? { ...npc, row: rowIndex, column: columnIndex } : npc
+      );
+      setNpcs(newData);
+      setNpcTable({ data: newData, total: npcs.length });
+      setDraggedItem(null);
+      onChange?.(newData);
+    };
+
+    return (
+      <Grid container spacing={2} width={'100%'} flexDirection={"column"} alignItems={'center'}>
         <Grid container spacing={2} width="100%" flexDirection="column" alignItems="center">
-          <Paper sx={{backgroundColor:'transparent', backgroundSize:'cover', width:'90vw',height:'70vh'}}>
-          <Grid>
-            {columns.map((columnIndex) => (
-              <Box key={columnIndex} display="flex" gap={2} padding={1}>
-                {rows.map((rowIndex) => {
-                  const npcsInCell = npcsWithRows.filter(
-                    (npc: any) => npc.row === rowIndex && npc.column === columnIndex
-                  );
+          <Grid container spacing={2} width="100%" flexDirection="column" alignItems="center">
+            <Paper
+              sx={{
+                width: "90vw",
+                height: "70vh",
+                position: "relative",
+                backgroundImage: `url(${background})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                borderRadius: 4,
+                overflow: "hidden"
+              }}
+            >
+              <Grid>
+                {columns.map((columnIndex) => (
+                  <Box key={columnIndex} display="flex" gap={2} padding={1}>
+                    {rows.map((rowIndex) => {
+                      const npcsInCell = npcs.filter(
+                        (npc: any) => npc.row === rowIndex && npc.column === columnIndex
+                      );
 
-                  return (
-                    <Box
-                      key={rowIndex}
-                      onDragOver={(e) => e.preventDefault()}
-                      onDrop={() => handleDrop(columnIndex, rowIndex)}
-                      sx={{
-                        flex: 1,
-                        minHeight: 80,
-                        width: 80,
-                        backgroundColor: "#f5f5f5",
-                        opacity: 0.8,
-                        padding: 1,
-                        borderRadius: 2,
-                        display: "flex",
-                        flexWrap: "wrap", // allow multiple small boxes to wrap
-                        alignItems: "flex-start",
-                        gap: 1,
-                        overflowY: "auto",
-                      }}
-                    >
-                      {npcsInCell.map((npc: any) => (
+                      return (
                         <Box
-                          key={npc.id ?? npc.title}
-                          draggable
-                          onDragStart={() => handleDragStart(npc)}
-                          title={`HP: ${npc.health}`} // tooltip shows HP
+                          key={rowIndex}
+                          onDragOver={(e) => !readonly && e.preventDefault()}
+                          onDrop={() => !readonly && handleDrop(columnIndex, rowIndex)}
                           sx={{
-                            width: 80, // small square
-                            height: 80,
-                            backgroundColor: "black",
-                            color: "white",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
+                            flex: 1,
+                            minHeight: 80,
+                            width: 80,
+                            backgroundColor: "rgba(255,255,255,0.08)",
+                            backdropFilter: "blur(2px)",
+                            border: "1px solid rgba(255,255,255,0.15)",
                             borderRadius: 1,
-                            cursor: "grab",
+                            display: "flex",
+                            flexWrap: "wrap",
+                            alignItems: "flex-start",
+                            gap: 1,
+                            transition: "0.2s",
+                            "&:hover": {
+                              backgroundColor: readonly
+                                ? "rgba(255,255,255,0.08)"
+                                : "rgba(255,255,255,0.2)"
+                            }
                           }}
                         >
-                          {npc.title}
+                          {npcsInCell.map((npc: any) => (
+                            <Box
+                              key={npc.id ?? npc.title}
+                              draggable={!readonly}
+                              onDragStart={() => !readonly && handleDragStart(npc)}
+                              title={`HP: ${npc.health}`} // tooltip shows HP
+                              style={{
+                                width: 70,
+                                height: 70,
+                                borderRadius: "50%",
+                                background: `linear-gradient(135deg, ${npc.color || "black"}, #555)`,
+                                border: "2px solid white",
+                                fontSize: 12,
+                                textAlign: "center",
+                                padding: 4
+                              }}
+                            >
+                              {npc.title}
+                            </Box>
+                          ))}
                         </Box>
-                      ))}
-                    </Box>
-                  );
-                })}
-              </Box>
-            ))}
+                      );
+                    })}
+                  </Box>
+                ))}
+              </Grid>
+            </Paper>
           </Grid>
-          </Paper>
         </Grid>
+        {!readonly && (
+          <Grid size={{ xs: 6 }}>
+            <GridTable
+              columns={tableColumns}
+              data={npcTable}
+              setData={(o) => setNpcs((prev) => o.data.map((npc, idx) => ({ ...npc, row: prev.at(idx)?.row || 0 })))}
+            />
+          </Grid>
+        )}
+        {!readonly && (
+          <Grid size={{ xs: 3 }}>
+            <DiceBox notation="1d20 + 1d6" />
+          </Grid>
+        )}
       </Grid>
-      <Grid size={{ xs: 6 }}>
-        <GridTable
-          columns={tableColumns}
-          data={npcTable}
-          setData={(o) => setNpcs((prev) => o.data.map((npc, idx) => ({ ...npc, row: prev.at(idx)?.row || 0 })))}
-        />
-      </Grid>
-      <Grid size={{ xs: 3 }}>
-        <DiceBox notation="1d20 + 1d6" />
-      </Grid>
-    </Grid>
-  );
-};
+    );
+  };
 
 export default BattlePage;

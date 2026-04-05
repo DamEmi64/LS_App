@@ -115,7 +115,8 @@ namespace System.Infrastructure.JobEngine
                 Name = job.Name,
                 Status = ProgressStatus.New,
                 InsDate = DateTime.Now,
-                RequestDate = job.RequestDate
+                RequestDate = job.RequestDate,
+                OperationId = job.OperationId   
             };
 
             job.Id = entity.Id;

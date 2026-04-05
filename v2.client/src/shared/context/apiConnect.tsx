@@ -24,7 +24,7 @@ const ApiConnectContext = createContext<ApiConnectContextType | undefined>(undef
 export const ApiConnect = ({ children }: { children: ReactNode }) => {
     axios.defaults.withCredentials = true;
     const [t] = useTranslation();
-    const [endpoint] = useLocalStorage('apiEndpoint', 'http://192.168.1.58:5144');
+    const [endpoint] = useLocalStorage('apiEndpoint', 'https://192.168.1.58:5144');
 
     const getUrl = (key: string) => {
         const value = endpoints[key];

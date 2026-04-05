@@ -4,6 +4,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using RPG.Infrastructure.External.Firebase;
 using RPG.Infrastructure.Models;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp;
+using Image = SixLabors.ImageSharp.Image;
+using SixLabors.ImageSharp.Processing;
 
 namespace RPG.Infrastructure.Jobs
 {
@@ -100,7 +104,13 @@ namespace RPG.Infrastructure.Jobs
                 var image = await mediaProvider.Load(id);
                 if (image is not null)
                 {
-                    list.Add(new FirebaseImage { Id = id.ToString(), Content = image.ContentStr ?? string.Empty });
+                    var content = image.ContentStr;
+                    if (content?.Length > 1048400)
+                    {
+                        content = CompressBase64Image(content);
+                    }
+
+                    list.Add(new FirebaseImage { Id = id.ToString(), Content = content ?? string.Empty });
                 }
             }
 
@@ -118,11 +128,45 @@ namespace RPG.Infrastructure.Jobs
                 var image = await mediaProvider.Load(id);
                 if (image is not null)
                 {
-                    list.Add(new FirebaseImage { Id = id.ToString(), Content = image.ContentStr ?? string.Empty });
+                    var content = image.ContentStr;
+                    if (content?.Length > 1048400)
+                    {
+                        content = CompressBase64Image(content);
+                    }
+
+                    list.Add(new FirebaseImage { Id = id.ToString(), Content = content ?? string.Empty });
                 }
             }
 
             return list;
+        }
+
+        public string CompressBase64Image(string base64)
+        {
+            var jsStart = string.Empty;
+            var commaIndex = base64.IndexOf(',');
+            if (commaIndex >= 0)
+            {
+                jsStart = base64.Substring(0, commaIndex + 1);
+                base64 = base64[(commaIndex + 1)..];
+            }
+
+            var bytes = Convert.FromBase64String(base64);
+
+            using var image = Image.Load(bytes);
+
+            image.Mutate(x => x.Resize(new ResizeOptions
+            {
+                Mode = ResizeMode.Max,
+                Size = new Size(800, 800)
+            }));
+
+            var encoder = new JpegEncoder { Quality = 60 };
+
+            using var ms = new MemoryStream();
+            image.Save(ms, encoder);
+
+            return jsStart + Convert.ToBase64String(ms.ToArray());
         }
     }
 }
