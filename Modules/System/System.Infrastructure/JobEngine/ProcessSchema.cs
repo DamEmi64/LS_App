@@ -6,10 +6,6 @@ namespace System.Infrastructure.JobEngine
 {
     public class ProcessSchema : IProcessSchema
     {
-        public Process Process { get; set; }
-        public List<IJob> Jobs { get; set; }
-        public List<(string title, IJob[] jobs, IJob current)> Milestones { get; set; }
-
         public ProcessSchema(string title)
         {
             Process = new Process
@@ -29,6 +25,11 @@ namespace System.Infrastructure.JobEngine
             Jobs = jobs;
             Milestones = milestones;
         }
+
+        public Process Process { get; set; }
+        public List<IJob> Jobs { get; set; }
+        public List<(string title, IJob[] jobs, IJob current)> Milestones { get; set; }
+        public IJob? Job { get; set; }
 
         public virtual IProcessJobSchema AddJob(IJob job)
         {
@@ -69,16 +70,14 @@ namespace System.Infrastructure.JobEngine
 
     public class ProcessJobSchema : ProcessSchema, IProcessJobSchema
     {
-        private IJob? _parent;
-        private IJob _current;
+        private ProcessJobSchema? _parent;
 
-        public ProcessJobSchema(IJob current, IJob? parent, Process process, List<IJob> jobs, List<(string title, IJob[] jobs, IJob current)> milestones)
+        public ProcessJobSchema(IJob job, ProcessJobSchema? parent, Process process, List<IJob> jobs, List<(string title, IJob[] jobs, IJob current)> milestones)
             : base(process, jobs, milestones)
         {
             _parent = parent;
-            _current = current;
+            Job = job;
         }
-
         public override IProcessJobSchema AddJob(IJob job)
         {
             var entity = new Job
@@ -95,13 +94,13 @@ namespace System.Infrastructure.JobEngine
 
             Process.Jobs.Add(entity);
 
-            if (_parent is null)
+            if (_parent?.Job is null)
             {
                 Jobs.Add(job);
             }
             else
             {
-                _parent.Children.Add(job);
+                _parent.Job.Children.Add(job);
             }
 
             return this;
@@ -116,15 +115,48 @@ namespace System.Infrastructure.JobEngine
                 Status = ProgressStatus.New,
                 InsDate = DateTime.Now,
                 RequestDate = job.RequestDate,
-                OperationId = job.OperationId   
+                OperationId = job.OperationId
             };
 
             job.Id = entity.Id;
 
             Process.Jobs.Add(entity);
-            _current.Children.Add(job);
+            ArgumentNullException.ThrowIfNull(Job);
+            Job.Children.Add(job);
 
-            return new ProcessJobSchema(job, _current, Process, Jobs, Milestones);
+            return new ProcessJobSchema(job, this, Process, Jobs, Milestones);
+        }
+
+        public IProcessJobSchema? FindLastJobByOperation(int operation)
+        {
+            ArgumentNullException.ThrowIfNull(Job);
+            if (Job.OperationId == operation)
+            {
+                return this;
+            }
+
+            var current = _parent;
+
+            while (true)
+            {
+                if (current is null)
+                {
+                    return null;
+                }
+
+                if (current.Job is null)
+                {
+                    return null;
+                }
+
+                if (current.Job.OperationId == operation)
+                {
+                    return current;
+                }
+
+                current = current._parent;
+
+            }
         }
     }
 }
