@@ -36,7 +36,7 @@ export const EmailEdit: React.FC<EmailEditProps> = ({ email, onSave, readonly })
     });
 
 
-    const [recipients, setRecipients] = useState([]);
+    const [recipients, setRecipients] = useState([email.recipient || ""]);
 
 
     const extractEmail = (input) => {

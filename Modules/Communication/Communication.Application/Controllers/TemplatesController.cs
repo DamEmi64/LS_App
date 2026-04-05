@@ -1,4 +1,5 @@
 ﻿using Base;
+using Communication.Application.Dtos;
 using Communication.Application.Filters;
 using Communication.Domain.Entities;
 using Communication.Infrastructure.Services.SendService;
@@ -53,7 +54,7 @@ namespace Communication.Application.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Edit([FromQuery] Guid id, [FromBody] Template data)
+        public async Task<IActionResult> Edit(Guid id, [FromBody] Template data)
         {
             var template = await _templateRepository.Get(id);
 
@@ -69,8 +70,22 @@ namespace Communication.Application.Controllers
         }
 
         [HttpPut("{id}/generate")]
-        public async Task<IActionResult> Send([FromBody] EmailGenerationModel model)
+        public async Task<IActionResult> Send(Guid id,[FromBody] EmailGenerationDto dto)
         {
+            var template = await _templateRepository.Get(dto.Template ?? id);
+
+            if (template is null)
+            {
+                return NotFound();
+            }
+
+            var model = new EmailGenerationModel
+            {
+                Template = template,
+                Sender = dto.Sender,
+                Recipients = dto.Recipients
+            };
+
             var processTitle = await _sendService.GenerateFromTemplate(model, await GetCurrentUser() ?? new UserData() { Id = 0, UserId = Guid.Empty.ToString() });
             await Notifier.Success(NotifyTypes.ProcessQueued, processTitle);
             return Ok();

@@ -3,6 +3,8 @@ using Base.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 using Newtonsoft.Json.Converters;
+using Serilog;
+using Serilog.Sinks.MSSqlServer;
 using System.Infrastructure.Db;
 
 namespace Api
@@ -10,6 +12,7 @@ namespace Api
     public class Startup
     {
         private Connector.Connector _connector;
+        private readonly IHostApplicationBuilder _builder;
 
         private const string AutoMigrate = "autoMigrate";
         private const string Banner = @"
@@ -21,9 +24,48 @@ namespace Api
 
         public Startup(IHostApplicationBuilder builder)
         {
+            _builder = builder;
             AppConfiguration.Initialize(builder.Configuration);
             _connector = GetConnector(builder.Configuration);
             builder.Services.AddSingleton<IConnector>(_connector);
+
+            if (builder.Environment.IsDevelopment())
+            {
+                Log.Logger = new LoggerConfiguration()
+                                .MinimumLevel.Information()
+                                .Enrich.FromLogContext()
+                                .WriteTo.Console() // optional but recommended
+                                .WriteTo.MSSqlServer(
+                                    connectionString: AppConfiguration.GetConnectionString("LogContext") ?? AppConfiguration.DefaultConnectionString,
+                                    sinkOptions: new MSSqlServerSinkOptions
+                                    {
+                                        TableName = "Logs",
+                                        AutoCreateSqlTable = true,
+                                        AutoCreateSqlDatabase = true
+                                    })
+                                .CreateLogger();
+            }
+            else
+            {
+                Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Warning()
+                .Enrich.FromLogContext()
+                .WriteTo.Console() // optional but recommended
+                .WriteTo.MSSqlServer(
+                    connectionString: AppConfiguration.GetConnectionString("LogContext") ?? AppConfiguration.DefaultConnectionString,
+                    sinkOptions: new MSSqlServerSinkOptions
+                    {
+                        TableName = "Logs",
+                        AutoCreateSqlTable = true,
+                        AutoCreateSqlDatabase = true
+                    })
+                .CreateLogger();
+            }
+
+            if (builder is WebApplicationBuilder webBuilder)
+            {
+                webBuilder.Host.UseSerilog();
+            }
 
             Configure(builder.Services, builder.Configuration);
         }
@@ -109,37 +151,42 @@ namespace Api
             }
         }
 
-        public WebApplication Build(WebApplicationBuilder builder)
+        public WebApplication Build()
         {
-            var app = builder.Build();
-
-            app.UseSwagger(o => o.OpenApiVersion = Microsoft.OpenApi.OpenApiSpecVersion.OpenApi2_0);
-            app.UseSwaggerUI();
-            app.UseMiddleware<ErrorMiddleware>();
-
-            app.UseAuthentication();
-            app.UseAuthorization();
-            app.MapRazorPages();
-
-            app.MapControllerRoute(
-            name: "default",
-            pattern: "{controller=Home}/{action=Index}/{id?}");
-            app.MapFallbackToFile("/index.html");
-
-            if (AppConfiguration.GetValue(AutoMigrate, true))
+            if (_builder is WebApplicationBuilder webApplicationBuilder)
             {
-                UpdateDatabases(app);
+                var app = webApplicationBuilder.Build();
+
+                app.UseSwagger(o => o.OpenApiVersion = Microsoft.OpenApi.OpenApiSpecVersion.OpenApi2_0);
+                app.UseSwaggerUI();
+                app.UseMiddleware<ErrorMiddleware>();
+
+                app.UseAuthentication();
+                app.UseAuthorization();
+                app.MapRazorPages();
+
+                app.MapControllerRoute(
+                name: "default",
+                pattern: "{controller=Home}/{action=Index}/{id?}");
+                app.MapFallbackToFile("/index.html");
+
+                if (AppConfiguration.GetValue(AutoMigrate, true))
+                {
+                    UpdateDatabases(app);
+                }
+
+                UpdateDictionaries(app);
+
+                UseModules(app);
+                app.Logger.LogInformation(Banner, AppConfiguration.Version);
+
+                return app;
             }
 
-            UpdateDictionaries(app);
-
-            UseModules(app);
-            app.Logger.LogInformation(Banner, AppConfiguration.Version);
-
-            return app;
+            throw new InvalidOperationException($"{_builder} is not web application builder");
         }
 
-        private List<Type> GetContextType(ILogger logger)
+        private List<Type> GetContextType()
         {
             List<Type> contextTypes = new();
 
@@ -158,7 +205,7 @@ namespace Api
             using (var scope = app.Services.CreateScope())
             {
                 app.Logger.LogInformation("Searching for contexts...");
-                foreach (var type in GetContextType(app.Logger))
+                foreach (var type in GetContextType())
                 {
                     app.Logger.LogInformation($"{type.Name} found.Updating...");
                     try

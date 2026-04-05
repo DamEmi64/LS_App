@@ -30,20 +30,30 @@ namespace Communication.Infrastructure.EmailGenerator.Strategies
 
         private string GetRandom(FunctionArguments arguments, List<string> receivers, string receiver)
         {
-            var rand = new Random(DateTime.Now.Microsecond);
+            var rand = Random.Shared;
 
-            if (arguments.Names.Contains(receiver))
+            if (arguments.HasNamed(receiver))
             {
                 var perReceiver = arguments[receiver];
+                var valuesPerReceiver = perReceiver.ToStringValue()
+                                                   .Split(";", StringSplitOptions.RemoveEmptyEntries);
+                if (valuesPerReceiver.Length == 0)
+                    return string.Empty;
 
-                var valuesPerReceiver = perReceiver.ToStringValue().Split(";");
-
-                return valuesPerReceiver[rand.Next() % valuesPerReceiver.Count()];
+                return valuesPerReceiver[rand.Next(valuesPerReceiver.Length)];
             }
 
-            var values = arguments.Names.Where(x => !receivers.Contains(x)).Select(x => arguments[x].ToStringValue()).ToList();
+            var namedArguments = arguments.Names.Select(x => arguments[x].ToStringValue());
+            var values = arguments.Values
+                                    .Select(x => x.ToStringValue())
+                                    .Where(x => !namedArguments.Contains(x))
+                                    .ToList();
 
-            return values[rand.Next() % values.Count];
+            if (values.Count == 0)
+                return string.Empty;
+
+            return values[rand.Next(values.Count)];
         }
     }
 }
+

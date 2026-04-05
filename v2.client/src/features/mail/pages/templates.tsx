@@ -37,7 +37,7 @@ const Templates: React.FC = () => {
   // Open modal to add new template
   const addTemplate = () => {
     const template = {} as Template;
-    modal.showModal(<TemplateEdit template={template} onSave={editData} />);
+    modal.showModal(<TemplateEdit template={template} onSave={addData} />);
   };
 
   // Open modal to edit template
@@ -86,7 +86,12 @@ const Templates: React.FC = () => {
     refresh();
   };
 
-  // Save template edits
+  const addData = async (template: Template) => {
+    await api.post<Template>("communication_template_new", template, null);
+    modal.hideModal();
+    refresh();
+  };
+
   const editData = async (template: Template) => {
     await api.put<Template>("communication_template_edit", template, null, template.id);
     modal.hideModal();
