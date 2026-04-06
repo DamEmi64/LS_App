@@ -138,7 +138,7 @@ namespace System.Infrastructure.JobEngine
             var current = _parent;
 
             while (true)
-            {nnnnnnn
+            {
                 if (current is null)
                 {
                     return null;

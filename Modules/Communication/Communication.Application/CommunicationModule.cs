@@ -5,7 +5,6 @@ using Communication.Infrastructure;
 using Communication.Infrastructure.Db;
 using Communication.Infrastructure.Services.EmailSender;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Communication.Application

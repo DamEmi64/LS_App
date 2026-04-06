@@ -15,7 +15,7 @@ namespace System.Views.Pages.Admin
             _connector = connector;
         }
 
-        public Dictionary<string,string>? Claims { get; set; }
+        public Dictionary<string, string>? Claims { get; set; }
 
         public void OnGet()
         {

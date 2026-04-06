@@ -1,8 +1,4 @@
 ﻿using Base;
-using Communication.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Communication.Application.Dtos
 {

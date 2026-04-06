@@ -86,8 +86,7 @@ namespace Base
         /// <exception cref="ArgumentNullException">Thrown when configuration is null.</exception>
         public static void Initialize(IConfiguration configuration)
         {
-            if (configuration == null) throw new ArgumentNullException(nameof(configuration));
-            _configuration = configuration;
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
     }
 }

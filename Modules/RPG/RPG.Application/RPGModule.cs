@@ -1,8 +1,6 @@
 ﻿using Base;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using RPG.Application.Dtos;
 using RPG.Infrastructure;
 using RPG.Infrastructure.External.Firebase;
 using RPG.Infrastructure.Hubs;

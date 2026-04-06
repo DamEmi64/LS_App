@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Base
 {
@@ -32,7 +30,7 @@ namespace Base
 
     public static class ModuleExtensions
     {
-        public static ModuleInfo Info<T>(this T module) where T : IModule => new ModuleInfo { Name = module.Name, Version = module.Version, Module = module };
+        public static ModuleInfo Info<T>(this T module) where T : IModule => new() { Name = module.Name, Version = module.Version, Module = module };
 
         /// <summary>
         /// Validates required modules against the connector.

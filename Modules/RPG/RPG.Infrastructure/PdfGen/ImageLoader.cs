@@ -16,7 +16,7 @@ public static class ImageLoader
                 .GetManifestResourceNames()
                 .FirstOrDefault(n => n.EndsWith(resourceName, StringComparison.OrdinalIgnoreCase));
 
-            if (fullName == null) 
+            if (fullName == null)
                 return null;
 
             using (var stream = assembly.GetManifestResourceStream(fullName))

@@ -9,7 +9,7 @@ class Program
         var apiPath = Path.GetFullPath(@".\Api\Api.exe");
         var frontendPath = Path.GetFullPath(@".\Frontend");
         var apiProcess = StartProcess(apiPath, "", "API");
-        var frontendProcess = StartProcess(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),"npm","serve.cmd"), "-s -l 8080", "FRONTEND", frontendPath);
+        var frontendProcess = StartProcess(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "npm", "serve.cmd"), "-s -l 8080", "FRONTEND", frontendPath);
 
         Console.WriteLine("Both services started.");
         Console.WriteLine("Press Ctrl+C to stop.");

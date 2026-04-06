@@ -1,7 +1,6 @@
 ﻿using Base;
 using Files.Infrastructure;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Infrastructure.Db;
 

@@ -84,7 +84,7 @@ namespace RPG.Application.Controllers
                 entity.Order = chapter.Order;
 
                 var linksToRemove = entity.Links.Where(x => !chapter.Links.Any(y => y.Title == x.Title)).ToList();
-                
+
                 foreach (var item in linksToRemove)
                 {
                     entity.Links.Remove(item);

@@ -4,10 +4,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using RPG.Infrastructure.External.Firebase;
 using RPG.Infrastructure.Models;
-using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp;
-using Image = SixLabors.ImageSharp.Image;
+using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Processing;
+using Image = SixLabors.ImageSharp.Image;
 
 namespace RPG.Infrastructure.Jobs
 {

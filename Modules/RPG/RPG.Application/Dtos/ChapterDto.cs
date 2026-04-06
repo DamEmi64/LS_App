@@ -1,6 +1,4 @@
-﻿using RPG.Domain.Entities;
-
-namespace RPG.Application.Dtos
+﻿namespace RPG.Application.Dtos
 {
     public class ChapterDto
     {

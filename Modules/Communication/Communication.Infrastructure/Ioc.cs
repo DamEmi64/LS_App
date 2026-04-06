@@ -3,7 +3,6 @@ using Communication.Domain;
 using Communication.Infrastructure.Repositories;
 using Communication.Infrastructure.Services.SendService;
 using Files.Domain.Repositories;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Communication.Infrastructure

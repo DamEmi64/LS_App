@@ -70,7 +70,7 @@ namespace Communication.Application.Controllers
         }
 
         [HttpPut("{id}/generate")]
-        public async Task<IActionResult> Send(Guid id,[FromBody] EmailGenerationDto dto)
+        public async Task<IActionResult> Send(Guid id, [FromBody] EmailGenerationDto dto)
         {
             var template = await _templateRepository.Get(dto.Template ?? id);
 

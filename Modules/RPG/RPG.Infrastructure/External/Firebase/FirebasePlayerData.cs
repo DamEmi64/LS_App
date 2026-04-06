@@ -11,18 +11,18 @@ namespace RPG.Infrastructure.External.Firebase
         [FirestoreProperty(Name = "id")]
         public required string PlayerDataId { get; set; }
 
-        [FirestoreProperty(Name ="title")]
+        [FirestoreProperty(Name = "title")]
         public required string Title { get; set; }
 
-        [FirestoreProperty(Name ="skills")]
+        [FirestoreProperty(Name = "skills")]
         public List<FirebaseSkill> Skills { get; set; } = new List<FirebaseSkill>();
     }
 
     public class FirebaseSkill
     {
-        [FirestoreProperty(Name ="id")]
+        [FirestoreProperty(Name = "id")]
         public required string Id { get; set; }
-        [FirestoreProperty(Name ="title")]
+        [FirestoreProperty(Name = "title")]
         public required string Title { get; set; }
         [FirestoreProperty(Name = "value")]
         public decimal Value { get; set; }

@@ -1,10 +1,8 @@
 ﻿using Base;
 using Base.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Domain.Entities;
-using System.Security.Claims;
 
 namespace System.Infrastructure.Db
 {
@@ -76,7 +74,7 @@ namespace System.Infrastructure.Db
                     {
                         entry.Entity.UpdDate = DateTimeOffset.Now;
                         entry.Entity.UpdBy = _entityContext.Editor;
-					}
+                    }
                 }
             }
             catch

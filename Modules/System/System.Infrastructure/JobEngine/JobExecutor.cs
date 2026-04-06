@@ -59,7 +59,7 @@ namespace System.Infrastructure.JobEngine
 
             var dbJob = process.GetJob(job.Id);
 
-            if (dbJob is null)  
+            if (dbJob is null)
             {
                 process.Status = ProgressStatus.Success;
                 process.EndDate = DateTimeOffset.Now;
