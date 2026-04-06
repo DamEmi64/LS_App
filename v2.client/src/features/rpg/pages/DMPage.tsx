@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useApiConnect } from "@/shared/context/apiConnect";
 import PlayerWindow from "@/features/rpg/components/PlayerWindow";
 import { Button, FormControl, FormControlLabel, Grid, InputLabel, MenuItem, Select, Switch, useTheme } from "@mui/material";
@@ -7,7 +7,9 @@ import { ChapterSummary } from "@/features/rpg/components/chapterSummary";
 import LinkGen from "@/features/rpg/components/linkGen";
 import DiceBox from "@/features/rpg/components/dice/dice";
 import ReactPlayer from 'react-player';
-import { Chapter, Hero, HeroDto } from "@/features/rpg";
+import { battleNpc, Chapter, Hero, HeroDto } from "@/features/rpg";
+import BattlePage from "./BattlePage";
+import { useSignalR } from "@/shared/hooks/use-signalR";
 
 const DMPage: React.FC<{ chapter: Chapter }> = ({ chapter }) => {
     const api = useApiConnect();
@@ -19,11 +21,18 @@ const DMPage: React.FC<{ chapter: Chapter }> = ({ chapter }) => {
     const [withSummary, setWithSummary] = useState<boolean>(false);
     const [query, setQuery] = useState<{ heroId, chapterId?}>();
     const [url, setUrl] = useState<string>('');
+    const [battleBg, setBattleBg] = useState<string>('');
 
-    const openBattleHelper = () => {
-        var url = `${window.location.protocol}//${window.location.host}/rpg/battle`;
-        window.open(url,'_blank');
-    }
+
+    const { send } = useSignalR("rpghub");
+
+    const handleVideoChange = (value: string) => {
+        setUrl(value);
+
+        const selected = chapter.links.find(l => l.url === value);
+
+        send("ChangeVideo", selected?.title || '');
+    };
 
     const playerHeroes = chapter.heroes.filter(x => x.player);
 
@@ -36,8 +45,6 @@ const DMPage: React.FC<{ chapter: Chapter }> = ({ chapter }) => {
 
         return heroDto;
     }
-
-
 
     const startChapter = () => {
         api.put<Chapter>('rpg_chapter_start', null, null, chapter.id);
@@ -59,6 +66,20 @@ const DMPage: React.FC<{ chapter: Chapter }> = ({ chapter }) => {
         }
     }
 
+    const playersToBattleNpcs = (heroes: Hero[]): battleNpc[] => {
+        return heroes.map((hero,idx) => {
+            return {
+                id: idx,
+                title: `${hero.firstName} ${hero.lastName}`,
+                health: '100',
+                row: 0,
+                column: 0,
+                color: 'blue'
+            }
+        });
+    };
+
+
     const heroChange = (e: string) => {
         var hero = chapter.heroes.find(x => x.id == e);
         setHero(hero);
@@ -72,6 +93,19 @@ const DMPage: React.FC<{ chapter: Chapter }> = ({ chapter }) => {
             }
         }
     }
+
+    const openPlayerView = () => {
+        window.open('/rpg/playerView', '_blank');
+        send('ChangeVideo', url || '');
+        send('UpdateBattleState', playersToBattleNpcs(playerHeroes || []));
+        send("BackgroundChanged", battleBg);
+    }
+
+    const onBackgroundChange = (bg: string) => { 
+        setBattleBg(bg);
+        send("ChangeBackground", bg);
+        send('UpdateBattleState', playersToBattleNpcs(playerHeroes || []));
+       }
 
     return (
         <>
@@ -95,8 +129,8 @@ const DMPage: React.FC<{ chapter: Chapter }> = ({ chapter }) => {
                         type="button"
                         variant="contained"
                         color="primary"
-                        onClick={openBattleHelper}>
-                            {t('rpg.other.battleLink')}
+                        onClick={openPlayerView}>
+                        {t('rpg.other.output_player_view')}
                     </Button>
                 </Grid>
                 <Grid size={{ xs: 12 }}>
@@ -139,6 +173,18 @@ const DMPage: React.FC<{ chapter: Chapter }> = ({ chapter }) => {
                 <Grid size={{ xs: 12, md: 6 }} direction={'column'}>
                     <DiceBox></DiceBox>
                 </Grid>
+                <Grid size={{ xs: 12 }}>
+                    <Select value={battleBg} onChange={(e) => onBackgroundChange(e.target.value as string)} displayEmpty>
+                        <MenuItem value="">Default</MenuItem>
+                        <MenuItem value="/maps/forest.png">Forest</MenuItem>
+                        <MenuItem value="/maps/beach.png">Beach</MenuItem>
+                        <MenuItem value="/maps/city.png">City</MenuItem>
+                    </Select>
+                    <BattlePage players={playersToBattleNpcs(playerHeroes || [])}
+                    onChange={(data) => send("UpdateBattleState", data)}
+                    background={battleBg}
+                    />
+                </Grid>
             </Grid>
             <Grid>
                 {
@@ -147,7 +193,7 @@ const DMPage: React.FC<{ chapter: Chapter }> = ({ chapter }) => {
                             <InputLabel id="demo-simple-select-label">{t('rpg.chapter.links')}</InputLabel>
                             <Select
                                 value={url}
-                                onChange={(e) => setUrl(e.target.value)}
+                                onChange={(e) => handleVideoChange(e.target.value as string)}
                             >
                                 <MenuItem value="">---</MenuItem>
                                 {chapter.links.map(link =>

@@ -1,12 +1,9 @@
 ﻿using AutoMapper;
 using Automation.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Automation.Application.Dtos
 {
-    public class Mapper: Profile
+    public class Mapper : Profile
     {
         public Mapper()
         {

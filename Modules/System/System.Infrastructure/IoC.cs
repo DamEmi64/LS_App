@@ -1,11 +1,9 @@
-﻿using Api.Setup;
-using Base;
+﻿using Base;
 using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Domain.Entities;
@@ -39,7 +37,7 @@ namespace System.Infrastructure
         {
             return serviceDescriptors.AddScoped<IControllerService, ControllerService>()
                 .AddScoped<INotifier, Notifier>()
-                .AddScoped<IEntityContext,EntityContext>()
+                .AddScoped<IEntityContext, EntityContext>()
                 .AddScoped<IMediaProvider, MediaService>();
         }
 

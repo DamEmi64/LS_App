@@ -30,6 +30,7 @@ namespace RPG.Infrastructure.External.Firebase
             => new()
             {
                 Id = playerData.Id.ToString(),
+                PlayerDataId = playerData.Id.ToString(),
                 Title = hero,
                 Skills = playerData.Skills.Select(x => new FirebaseSkill { Id = x.Id.ToString(), Title = x.Title, Value = x.Value }).ToList()
             };
@@ -41,6 +42,7 @@ namespace RPG.Infrastructure.External.Firebase
                 FirstName = hero.FirstName,
                 LastName = hero.LastName,
                 Player = hero.Player,
+                Image = hero.Image.ToString(),
                 Id = hero.Id.ToString()
             };
 
@@ -49,7 +51,8 @@ namespace RPG.Infrastructure.External.Firebase
             {
                 Description = place.Description,
                 Title = place.Title,
-                Id = place.Id.ToString()
+                Id = place.Id.ToString(),
+                Image = place.Image.ToString()
             };
     }
 }

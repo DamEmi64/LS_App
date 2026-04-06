@@ -3,6 +3,7 @@
   "health_check": "home/health",
   "api_info":"home",
   "notify": "notify",
+  "rpghub": "rpghub",
   "image": "home/image",
 
   "process_data": "process/data",

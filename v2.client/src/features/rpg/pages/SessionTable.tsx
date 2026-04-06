@@ -179,7 +179,7 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     }
 
     const sendToFirebase = (data: any) => {
-        modal.showModal(<SummaryGen story={data} onProcess={sendToFirebaseConfirm} />);
+        modal.showModal(<SummaryGen story={data} onProcess={sendToFirebaseConfirm} forFirebase />);
     }
 
     const sendToFirebaseConfirm = (data: Story) => {

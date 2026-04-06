@@ -6,6 +6,7 @@ using Files.Domain.Repositories;
 using Fluid;
 using Fluid.Values;
 using Microsoft.Extensions.DependencyInjection;
+using System.Net;
 
 namespace Communication.Infrastructure.Jobs
 {
@@ -27,10 +28,10 @@ namespace Communication.Infrastructure.Jobs
         {
             var repo = jobContext.ServiceProvider.GetRequiredService<IEmailRepository>();
 
-            await ExecuteInternal(repo);
+            await ExecuteInternal(repo, jobContext);
         }
 
-        private async Task ExecuteInternal(IEmailRepository emailRepository)
+        private async Task ExecuteInternal(IEmailRepository emailRepository, IJobContext jobContext)
         {
             ArgumentNullException.ThrowIfNull(Model);
 
@@ -38,12 +39,13 @@ namespace Communication.Infrastructure.Jobs
             {
                 if (Model.Template is null || Model.Sender is null)
                     continue;
-
+                var decoded = WebUtility.HtmlDecode(Model.Template.Body);
                 var parser = new FluidParser(new FluidParserOptions { AllowFunctions = true });
-                var result = parser.TryParse(Model.Template.Body, out var template, out var error);
+                var result = parser.TryParse(decoded, out var template, out var error);
 
                 if (!result || receiver is null)
                 {
+                    await jobContext.AddError(error);
                     continue;
                 }
 

@@ -1,6 +1,4 @@
 ﻿using Base;
-using Base.Helpers;
-using System.Domain.Entities;
 
 namespace System.Application.Dtos
 {

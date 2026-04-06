@@ -44,7 +44,7 @@ namespace Base.Entities
         public string? Description { get; set; }
 
         public static DictionaryItem Item(int id, string name, string? description = null)
-            => new DictionaryItem()
+            => new()
             {
                 Id = Guid.NewGuid(),
                 Key = id,

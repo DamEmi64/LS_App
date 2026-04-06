@@ -5,34 +5,20 @@ import { toast, ToastContainer, ToastPosition } from 'react-toastify';
 import { ApiConnectContextType, useApiConnect } from '@/shared/context/apiConnect';
 import useLocalStorage from 'react-use-localstorage';
 import { getNotify } from '@/lib/notifyProvider';
+import { useSignalR } from '../hooks/use-signalR';
 
 export const NotificationListener = () => {
     var api = useApiConnect();
 
+    const {on, connected} = useSignalR('notify', () => notify('info', 'Connected to notification service'));
+
     useEffect(() => {
-        const connection = new HubConnectionBuilder()
-            .withUrl(api.getUrl('notify'), {
-                withCredentials: true
-            }) // Adjust port if needed
-            .withAutomaticReconnect()
-            .build();
 
-        connection.start()
-            .then(() => {
-                notify('success', 'Connected to SignalR hub');
-                console.log('Connected to SignalR hub');
-            })
-            .catch(err => notify('error', 'Failed to connect to SignalR hub'));
-
-        connection.on('ReceiveNotification', (type, messageId, args) => {
+        on('ReceiveNotification', (type, messageId, args) => {
             const message = getNotify(messageId, args);
-
             notify(type, message);
         });
 
-        return () => {
-            connection.stop();
-        };
     }, []);
 
     return <ToastContainer position="top-right" autoClose={3000} />;

@@ -1,8 +1,4 @@
-﻿using AutoMapper;
-using Automation.Domain.Entities;
-using Base.Helpers;
-
-namespace Automation.Application.Dtos
+﻿namespace Automation.Application.Dtos
 {
     public class AutomatonDto
     {

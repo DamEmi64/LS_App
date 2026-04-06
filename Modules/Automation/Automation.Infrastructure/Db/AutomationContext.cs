@@ -1,6 +1,5 @@
 ﻿using Automation.Domain.Entities;
 using Base;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace Automation.Infrastructure.Context

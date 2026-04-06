@@ -1,5 +1,4 @@
 ﻿using Base;
-using Microsoft.Extensions.DependencyInjection;
 using System.Domain.Repositories;
 
 namespace System.Infrastructure.Workers

@@ -1,10 +1,4 @@
-﻿using AutoMapper;
-using RPG.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace RPG.Application.Dtos
+﻿namespace RPG.Application.Dtos
 {
     using AutoMapper;
     using Domain.Entities;
@@ -72,7 +66,7 @@ namespace RPG.Application.Dtos
                 .ForMember(d => d.EndDate, o => o.MapFrom(s =>
                     s.Sessions != null && s.Sessions.Any()
                         ? s.Sessions.Max(x => x.End)
-                        : (DateTimeOffset?)null))
+                        : null))
 
                 .ForMember(d => d.Heroes, o => o.MapFrom(s => s.Heroes ?? new()))
                 .ForMember(d => d.Places, o => o.MapFrom(s => s.Places ?? new()))
@@ -86,7 +80,7 @@ namespace RPG.Application.Dtos
             // --------------------
             CreateMap<StoryDto, Story>()
                 .ForMember(d => d.Id, o => o.MapFrom(s => s.Id ?? Guid.NewGuid()))
-                .ForMember(d=>d.Summary, o => o.Ignore())
+                .ForMember(d => d.Summary, o => o.Ignore())
                 .ForMember(d => d.Chapters, o => o.MapFrom(s => s.Chapters ?? new()));
 
             CreateMap<Story, StoryDto>()

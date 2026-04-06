@@ -27,7 +27,7 @@ namespace Communication.Infrastructure.Services.EmailSender
                     EnableSsl = true
                 };
 
-                mail.From = new MailAddress(from ?? _options.ApiEmail);
+                mail.From = new MailAddress(_options.ApiEmail, from);
 
                 mail.To.Add(to);
                 mail.Subject = subject;

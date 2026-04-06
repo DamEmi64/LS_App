@@ -67,6 +67,7 @@ export interface HeroDto {
 }
 
 export interface SessionDto {
+    id: string;
     title: string;
     description: string;
     player?: string;
@@ -109,4 +110,5 @@ export interface battleNpc {
     health: string;
     row: number;
     column: number;
+    color?: 'black' | 'red' | 'blue' | 'green' | 'yellow';
 }

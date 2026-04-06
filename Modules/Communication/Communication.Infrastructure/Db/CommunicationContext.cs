@@ -1,6 +1,5 @@
 ﻿using Base;
 using Communication.Domain.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace Communication.Infrastructure.Db

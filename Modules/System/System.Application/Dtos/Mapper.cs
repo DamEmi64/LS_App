@@ -1,8 +1,5 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
 using System.Domain.Entities;
-using System.Text;
 
 namespace System.Application.Dtos
 {
@@ -15,7 +12,7 @@ namespace System.Application.Dtos
                 .ForMember(d => d.StartDate, o => o.MapFrom(s => s.StartDate ?? DateTimeOffset.UtcNow))
                 .ForMember(d => d.OperationId, o => o.MapFrom(s => s.Operation))
                 .ForMember(d => d.Process, o => o.MapFrom(s =>
-                    s.Process == Guid.Empty ? null : new Process { Id = s.Process, Title = s.Name}))
+                    s.Process == Guid.Empty ? null : new Process { Id = s.Process, Title = s.Name }))
                 .ForMember(d => d.Parent, o => o.MapFrom(s =>
                     s.Parent.HasValue ? new Job { Id = s.Parent.Value, Name = s.Name } : null))
                 .ForMember(d => d.Children, o => o.MapFrom(s => s.Children ?? new List<JobDto>()));

@@ -1,7 +1,6 @@
 ﻿using Base;
 using Hangfire;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Infrastructure;
 using System.Infrastructure.Hubs;

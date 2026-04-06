@@ -1,6 +1,4 @@
-﻿using Base.Helpers;
-
-namespace Files.Application.Dtos
+﻿namespace Files.Application.Dtos
 {
     public class FileDto
     {

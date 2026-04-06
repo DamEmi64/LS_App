@@ -1,8 +1,5 @@
 ﻿using AutoMapper;
 using Files.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Files.Application.Dtos
 {

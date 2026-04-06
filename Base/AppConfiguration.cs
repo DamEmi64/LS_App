@@ -29,7 +29,7 @@ namespace Base
         /// </summary>
         /// <typeparam name="T">The type whose name will be used as the section key.</typeparam>
         /// <returns>The corresponding configuration section.</returns>
-        public static IConfigurationSection Get<T>() => Get(nameof(T));
+        public static IConfigurationSection Get<T>() => Get(typeof(T).Name);
 
         /// <summary>
         /// Gets a configuration section by key from the main configuration section.
@@ -86,8 +86,7 @@ namespace Base
         /// <exception cref="ArgumentNullException">Thrown when configuration is null.</exception>
         public static void Initialize(IConfiguration configuration)
         {
-            if (configuration == null) throw new ArgumentNullException(nameof(configuration));
-            _configuration = configuration;
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
     }
 }

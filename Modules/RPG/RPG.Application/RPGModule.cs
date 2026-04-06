@@ -1,10 +1,9 @@
 ﻿using Base;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using RPG.Application.Dtos;
 using RPG.Infrastructure;
 using RPG.Infrastructure.External.Firebase;
+using RPG.Infrastructure.Hubs;
 using System.Infrastructure.Db;
 
 namespace RPG.Application
@@ -38,6 +37,11 @@ namespace RPG.Application
 
         public IApplicationBuilder OnStartup(IApplicationBuilder app)
         {
+            if (app is WebApplication webApplication)
+            {
+                webApplication.MapHub<RPGHub>("/rpghub");
+            }
+
             return app;
         }
     }

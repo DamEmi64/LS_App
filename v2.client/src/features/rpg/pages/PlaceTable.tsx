@@ -34,8 +34,8 @@ export const PlaceTable: React.FC<PlaceTableProps> = ({ places, refresh }) => {
         modal.showModal(<PlaceForm data={data} onSave={(s) => savePlace(s, o)} onDelete={(s) => del(o)} isEdit={true} />)
     }
     
-    const savePlace = (data: SessionDto, id) => {
-        api.put<SessionDto>('rpg_place_edit', data, null, id)
+    const savePlace = (data: SessionDto, place: Place) => {
+        api.put<SessionDto>('rpg_place_edit', data, null, place.id)
             .then(() => {
                 refresh();
             });
