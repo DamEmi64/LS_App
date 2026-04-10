@@ -29,7 +29,8 @@ namespace Api
             _connector = GetConnector(builder.Configuration);
             builder.Services.AddSingleton<IConnector>(_connector);
 
-            if (builder.Environment.IsDevelopment())
+            //LOGS ARE SAVED BY HOSTING SERVICE
+/*            if (builder.Environment.IsDevelopment())
             {
                 Log.Logger = new LoggerConfiguration()
                                 .MinimumLevel.Information()
@@ -60,7 +61,7 @@ namespace Api
                         AutoCreateSqlDatabase = true
                     })
                 .CreateLogger();
-            }
+            }*/
 
             if (builder is WebApplicationBuilder webBuilder)
             {
