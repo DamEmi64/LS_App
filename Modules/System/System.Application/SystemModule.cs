@@ -41,13 +41,17 @@ namespace System.Application
             app.UseAuthorization();
             app.UseHangfireDashboard(options: new DashboardOptions
             {
+                Authorization = new[]
+                {
+                    new DashboardAuthFilter()
+                },
                 AppPath = "/admin"
             });
 
             app.UseMiddleware<EntityContextMiddleware>();
 
             RecurringJob.AddOrUpdate<MilestoneWorker>("milestone-manager", job => job.Execute(), "*/15 * * * *");
-            RecurringJob.AddOrUpdate<ArchiveLogsWorker>("archive-logs-cleaner", job => job.Execute(app.ApplicationServices), Cron.Monthly());
+     //       RecurringJob.AddOrUpdate<ArchiveLogsWorker>("archive-logs-cleaner", job => job.Execute(app.ApplicationServices), Cron.Monthly());
 
             if (app is WebApplication webApplication)
             {

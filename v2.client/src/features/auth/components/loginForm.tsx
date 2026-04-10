@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { LoginFormProps, LoginData } from '@/features/auth';
+import useLocalStorage from 'react-use-localstorage';
 
 
 const LoginForm: React.FC<LoginFormProps> = ({ auth, onClose }) => {
@@ -18,8 +19,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ auth, onClose }) => {
 
   const labelColor = mode === 'dark' ? '#fff' : '#000';
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useLocalStorage('username', '');
+  const [password, setPassword] = useLocalStorage('password', '');
   const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -37,6 +38,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ auth, onClose }) => {
       const success = await auth.login(loginData);
 
       if (success) {
+        if (!rememberMe) {
+          setUsername('');
+          setPassword('');
+        }
         onClose();
       } else {
         console.error('Login failed');
