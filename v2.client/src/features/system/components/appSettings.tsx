@@ -17,7 +17,7 @@ const AppSettings: React.FC<{ api: ApiConnectContextType }> = ({ api }) => {
     const [frontendVersion, setFrontendVersion] = useLocalStorage('frontend_version', 'v0.1');
 
     const { t, i18n } = useTranslation();
-    const [endpoint, setEndpoint] = useLocalStorage('apiEndpoint', 'http://localhost:5144');
+    const [endpoint, setEndpoint] = useLocalStorage('apiEndpoint', 'https://lsfamilia.runasp.net');
     const [language, setLanguage] = useLocalStorage('lang', i18n.language || 'en');
     const [labelColor, setLabelColor] = useLocalStorage('labelColor', '#000')
     const { mode, setMode } = useColorScheme();

@@ -49,7 +49,6 @@ const theme = createTheme({
 
 const menu: NavbarItemProps[] = [
     { label: 'home', href: '/', submenu: [] },
-    { label: 'files', href: '/Files', submenu: [], permissions: ['files'] },
     {
         label: 'communication', href: '', submenu: [
             {
@@ -77,7 +76,6 @@ const App = () => (
                                 <SlideRoutes>
                                     <Route path="/" element={<Layout content={Index} image={IndexImg} title={'menu.home'} menu={menu} />} />
                                     <Route path="/processes" element={<Layout content={Processes} image={ProcessesImg} title={'menu.processes'} permissions={['processes']} menu={menu} />} />
-                                    <Route path="/files" element={<Layout content={Files} image={FilesImg} title={'menu.files'} permissions={['files']} menu={menu} />} />
                                     <Route path="/emails" element={<Layout content={Emails} image={EmailImg} title={'menu.emails'} permissions={['communication']} menu={menu} />} />
                                     <Route path="/templates" element={<Layout content={Templates} image={TemplateImg} title={'menu.templates'} permissions={['communication']} menu={menu} />} />
                                     <Route path="/rpg/playerData" element={<Layout content={PlayerPage} image={RPGImg} title={'menu.rpg_sessions'} permissions={['rpg']} menu={menu} />} />

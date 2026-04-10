@@ -1,6 +1,7 @@
 ﻿using Base;
 using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Firestore;
+using Google.Cloud.Firestore.V1;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using RPG.Infrastructure.External.Firebase;
@@ -43,7 +44,13 @@ namespace RPG.Infrastructure.Jobs
             var story = Story ?? jobContext.GetData<StoryModel>() ?? throw new InvalidOperationException("Story data is missing.");
             Story = story;
 
-            var firestore = await FirestoreDb.CreateAsync(options.Value.ProjectId);
+            var credential = CredentialFactory.FromFile<ICredential>("/private/firebase_credentials.json");
+            var builder = new FirestoreClientBuilder
+            {
+                Credential = credential
+            };
+
+            var firestore = await FirestoreDb.CreateAsync(options.Value.ProjectId, builder.Build());
 
             await ExecuteInternal(firestore, mediaProvider, story);
         }
