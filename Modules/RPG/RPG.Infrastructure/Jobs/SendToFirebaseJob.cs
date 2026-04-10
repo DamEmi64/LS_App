@@ -1,4 +1,5 @@
 ﻿using Base;
+using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Firestore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -7,6 +8,7 @@ using RPG.Infrastructure.Models;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Processing;
+using System.Text;
 using Image = SixLabors.ImageSharp.Image;
 
 namespace RPG.Infrastructure.Jobs
@@ -41,12 +43,14 @@ namespace RPG.Infrastructure.Jobs
             var story = Story ?? jobContext.GetData<StoryModel>() ?? throw new InvalidOperationException("Story data is missing.");
             Story = story;
 
-            await ExecuteInternal(options.Value, mediaProvider, story);
+            var firestore = await FirestoreDb.CreateAsync(options.Value.ProjectId);
+
+            await ExecuteInternal(firestore, mediaProvider, story);
         }
 
-        public async Task ExecuteInternal(FirebaseOptions options, IMediaProvider mediaProvider, StoryModel story)
+        public async Task ExecuteInternal(FirestoreDb firestore, IMediaProvider mediaProvider, StoryModel story)
         {
-            var firestore = await FirestoreDb.CreateAsync(options.ProjectId);
+
 
             var storyRef = firestore.Collection(StoriesCollection).Document(StoryId.ToString());
 

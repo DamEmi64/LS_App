@@ -3,7 +3,6 @@ using Automation.Application;
 using Base;
 using Base.Entities;
 using Communication.Application;
-using Files.Application;
 using RPG.Application;
 using System.Application;
 
@@ -20,7 +19,6 @@ namespace Connector
         public List<ModuleInfo> Modules => new()
         {
             new SystemModule().Info(),
-            new FilesModule().Info(),
             new RPGModule().Info(),
             new CommunicationModule().Info(),
             new AutomationModule().Info()
@@ -41,7 +39,6 @@ namespace Connector
 
         public List<PermissionInfo> Permissions => new()
         {
-            PermissionInfo.Create("rpg","Manage RPG sessions",true),
             PermissionInfo.Create("files","Manage files",true),
             PermissionInfo.Create("communication","Manage and send Emails",true),
             PermissionInfo.Create("process","Manage background processes",false),
