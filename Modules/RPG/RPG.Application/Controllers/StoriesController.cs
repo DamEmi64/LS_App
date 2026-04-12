@@ -7,6 +7,7 @@ using RPG.Domain.Dictionaries;
 using RPG.Domain.Entities;
 using RPG.Domain.Repositories;
 using RPG.Infrastructure.Models;
+using RPG.Infrastructure.Services;
 using RPG.Infrastructure.Services.SummaryService;
 
 namespace RPG.Application.Controllers
@@ -18,19 +19,22 @@ namespace RPG.Application.Controllers
         private readonly ISummaryService _summaryService;
         private readonly IMediaProvider _mediaProvider;
         private readonly IMapper _mapper;
+        private readonly IImportService _importService;
 
         public StoriesController(
             IControllerService controllerService,
             IStoryRepository storyRepository,
             ISummaryService summaryService,
             IMediaProvider mediaProvider,
-            IMapper mapper)
+            IMapper mapper,
+            IImportService importService)
             : base(controllerService)
         {
             _storyRepository = storyRepository;
             _summaryService = summaryService;
             _mediaProvider = mediaProvider;
             _mapper = mapper;
+            _importService = importService;
         }
 
         [HttpGet("{id}")]
@@ -63,6 +67,19 @@ namespace RPG.Application.Controllers
 
             return Ok();
         }
+
+        [HttpPost("import")]
+        public async Task<IActionResult> Import([FromBody] ImportDto dto)
+        {
+            var fileName = dto.File.FileName;
+
+            var job = _importService.ImportFromFile(dto.File, dto.ConverterType, await GetCurrentUser() ?? new UserData { UserId = Guid.Empty.ToString() });
+
+            await Notifier.Success(NotifyTypes.ProcessQueued, job);
+
+            return Ok();
+        }
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Edit(Guid id, [FromBody] StoryDto dto)

@@ -1,0 +1,11 @@
+﻿using Base;
+using Microsoft.AspNetCore.Http;
+using RPG.Infrastructure.External.FileConverters;
+
+namespace RPG.Infrastructure.Services
+{
+    public interface IImportService
+    {
+        Task<string> ImportFromFile(IFormFile file, FileConverterType converterType, UserData user);
+    }
+}

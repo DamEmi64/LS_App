@@ -7,7 +7,7 @@ namespace RPG.Infrastructure.Jobs
 {
     public class GetLastEditedRPGJob : EventJob
     {
-        public override int OperationId => Domain.Dictionaries.Operations.GenerateSummary;
+        public override int OperationId => Domain.Dictionaries.Operations.GetLastRPG;
 
         public override Guid Id { get; set; }
 
