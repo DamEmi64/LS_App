@@ -317,7 +317,8 @@
     "register": "Zarejestruj się",
     "cancel": "Anuluj",
     "create": "Utwórz",
-    "import": "Importuj"
+    "import": "Importuj",
+    "copy": "Kopiuj"
   },
   "auth": {
     "welcome": "Witamy w aplikacji",

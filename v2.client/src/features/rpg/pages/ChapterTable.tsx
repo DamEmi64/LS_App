@@ -228,7 +228,7 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
                                                 <Typography component="span">{t('rpg.story.heroes')}</Typography>
                                             </AccordionSummary>
                                             <AccordionDetails>
-                                                <HeroTable heroes={chapter.heroes} refresh={() => refresh(chapter)} />
+                                                <HeroTable heroes={chapter.heroes} refresh={() => refresh(chapter)} storyChapters={chapters} />
                                             </AccordionDetails>
                                         </Accordion>
                                         <Accordion>
@@ -240,7 +240,7 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
                                                 <Typography component="span">{t('rpg.story.places')}</Typography>
                                             </AccordionSummary>
                                             <AccordionDetails>
-                                                <PlaceTable places={chapter.places} refresh={() => refresh(chapter)} />
+                                                <PlaceTable places={chapter.places} refresh={() => refresh(chapter)} chapters={chapters} />
                                             </AccordionDetails>
                                         </Accordion>
                                     </Box>

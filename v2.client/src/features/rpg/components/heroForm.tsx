@@ -19,10 +19,11 @@ type HeroViewEditProps = {
     hero: HeroDto;
     onSave?: (data: HeroDto) => void;
     onDelete?: (data: HeroDto) => void;
+    onCopy?: (data: HeroDto) => void;
     isEdit?: boolean;
 };
 
-export const HeroForm: React.FC<HeroViewEditProps> = ({ hero, onSave, onDelete, isEdit }) => {
+export const HeroForm: React.FC<HeroViewEditProps> = ({ hero, onSave, onDelete, onCopy, isEdit }) => {
     const theme = useTheme();
     const textColor = theme.palette.mode === 'dark' ? theme.palette.text.primary : theme.palette.text.secondary;
 
@@ -209,11 +210,30 @@ export const HeroForm: React.FC<HeroViewEditProps> = ({ hero, onSave, onDelete, 
                         )}
 
                         <Box sx={{ display: 'flex', gap: 2, mt: 3 }}>
-                            <Button type="button" onClick={() => setIsEditing(true)} sx={{ background: theme.palette.primary.main, color: '#fff' }}>
+                            <Button
+                                type="button"
+                                onClick={() => setIsEditing(true)}
+                                sx={{ background: theme.palette.primary.main, color: '#fff' }}
+                            >
                                 {t('opt.edit')}
                             </Button>
+
+                            {onCopy && (
+                                <Button
+                                    type="button"
+                                    onClick={() => onCopy(hero)}
+                                    sx={{ background: theme.palette.secondary.main, color: '#fff' }}
+                                >
+                                    {t('opt.copy')}
+                                </Button>
+                            )}
+
                             {onDelete && (
-                                <Button type="button" onClick={() => onDelete(hero)} sx={{ background: theme.palette.error.main, color: '#fff' }}>
+                                <Button
+                                    type="button"
+                                    onClick={() => onDelete(hero)}
+                                    sx={{ background: theme.palette.error.main, color: '#fff' }}
+                                >
                                     {t('opt.delete')}
                                 </Button>
                             )}

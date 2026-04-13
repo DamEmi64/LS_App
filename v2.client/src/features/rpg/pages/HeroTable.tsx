@@ -3,15 +3,19 @@ import OperationCell from "@/shared/components/operationCell";
 import YesNoWindow from "@/shared/components/YesNoWindow";
 import { Table, TableBody, TableCell, TableRow } from "@mui/material";
 import { t } from "i18next";
-import { Hero, HeroDto } from "../types";
+import { Chapter, Hero, HeroDto } from "../types";
 import { HeroForm } from "../components/heroForm";
+import { Image } from "@/features/system";
+import SelectChapter from "@/features/rpg/components/selectChapter";
+
 
 export type HeroTableProps = {
     heroes: Hero[],
+    storyChapters: Chapter[],
     refresh: () => void
 }
 
-export const HeroTable: React.FC<HeroTableProps> = ({ heroes, refresh }) => {
+export const HeroTable: React.FC<HeroTableProps> = ({ heroes, storyChapters, refresh }) => {
     const modal = useModal();
     const api = useApiConnect();
 
@@ -25,11 +29,11 @@ export const HeroTable: React.FC<HeroTableProps> = ({ heroes, refresh }) => {
     }
 
     const details = (o: Hero) => { 
-        modal.showModal(<HeroForm hero={toDto(o)} onSave={saveHero} onDelete={del} />)
+        modal.showModal(<HeroForm hero={toDto(o)} onSave={saveHero} onDelete={del} onCopy={copyHero}  />)
     }
 
     const edit = (o: Hero) => { 
-        modal.showModal(<HeroForm hero={toDto(o)} onSave={saveHero} onDelete={del} isEdit={true} />)
+        modal.showModal(<HeroForm hero={toDto(o)} onSave={saveHero} onDelete={del} onCopy={copyHero} isEdit={true} />)
     }
 
     const saveHero = (data: HeroDto) => {
@@ -38,6 +42,37 @@ export const HeroTable: React.FC<HeroTableProps> = ({ heroes, refresh }) => {
                 modal.hideModal();
                 refresh();
             });
+    }
+
+    const copyHero = (hero: HeroDto) => {
+        modal.showModal(
+            <SelectChapter
+                chapters={storyChapters}
+                onSelect={(chapterId) => {
+
+                const params = new URLSearchParams({
+                            id: hero.imageId || ''
+                        });
+
+                    api.get<Image>('image', { params })
+                    .then((res) => {
+                        const imageData = res.data?.contentStr || '';
+
+                    const newHero = {
+                        ...hero,
+                        id: undefined,
+                        chapter: chapterId,
+                        image: imageData
+                    };
+
+                    api.post<HeroDto>('rpg_hero_new', newHero, null)
+                        .then(() => {
+                            modal.hideModal();
+                        });
+                    });
+                }}
+            />
+        );
     }
 
     const del = (data: any) => {

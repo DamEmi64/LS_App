@@ -4,15 +4,18 @@ import YesNoWindow from "@/shared/components/YesNoWindow";
 import { format } from 'react-string-format';
 import { useTranslation } from "react-i18next";
 import PlaceForm from "../components/PlaceForm";
-import { Place, SessionDto } from "../types";
+import { Chapter, HeroDto, Place, SessionDto } from "../types";
 import { Table, TableBody, TableCell, TableRow } from "@mui/material";
+import SelectChapter from "../components/selectChapter";
+import {Image} from "@/features/system";
 
 export type PlaceTableProps = {
     places: Place[],
+    chapters: Chapter[],
     refresh: () => void
 }
 
-export const PlaceTable: React.FC<PlaceTableProps> = ({ places, refresh }) => {
+export const PlaceTable: React.FC<PlaceTableProps> = ({ places, chapters, refresh }) => {
     const { t } = useTranslation();
     const modal = useModal();
     const api = useApiConnect();
@@ -25,7 +28,38 @@ export const PlaceTable: React.FC<PlaceTableProps> = ({ places, refresh }) => {
 
     const details = (o: Place) => {
         var data = o as unknown as SessionDto;
-        modal.showModal(<PlaceForm data={data} onSave={(s) => editPlace(o)} onDelete={(s) => del(o)}/>)
+        modal.showModal(<PlaceForm data={data} onSave={(s) => editPlace(o)} onDelete={(s) => del(o)} onCopy={(s) => copyPlace(s)}/>)
+    }
+
+        const copyPlace = (place: SessionDto) => {
+        modal.showModal(
+            <SelectChapter
+                chapters={chapters}
+                onSelect={(chapterId) => {
+
+                const params = new URLSearchParams({
+                            id: place.imageId || ''
+                        });
+
+                    api.get<Image>('image', { params })
+                    .then((res) => {
+                        const imageData = res.data?.contentStr || '';
+
+                    const newPlace = {
+                        ...place,
+                        id: undefined,
+                        chapter: chapterId,
+                        image: imageData
+                    };
+
+                    api.post<HeroDto>('rpg_place_new', newPlace, null)
+                        .then(() => {
+                            modal.hideModal();
+                        });
+                    });
+                }}
+            />
+        );
     }
 
     const editPlace = (o: Place) => {
