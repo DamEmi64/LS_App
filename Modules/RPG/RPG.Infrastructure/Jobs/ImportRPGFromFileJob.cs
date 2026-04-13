@@ -9,7 +9,7 @@ namespace RPG.Infrastructure.Jobs
 {
     public class ImportRPGFromFileJob : IJob
     {
-        public int OperationId => Domain.Dictionaries.Operations.ImportRPGFromFile;
+        public int OperationId => Operations.ImportRPGFromFile;
 
         public Guid Id { get; set; } = Guid.NewGuid();
 

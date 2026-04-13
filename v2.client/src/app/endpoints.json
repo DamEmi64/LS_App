@@ -36,6 +36,7 @@
   "rpg_stories_start": "stories/:id/start",
   "rpg_stories_end": "stories/:id/end",
   "rpg_stories_import": "stories/import",
+  "rpg_stories_export": "stories/:id/export",
 
   "rpg_hero_data": "heroes",
   "rpg_hero_new": "heroes",

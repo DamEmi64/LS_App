@@ -6,7 +6,11 @@ using RPG.Domain.Entities;
 
 namespace RPG.Infrastructure.External.FileConverters.Json
 {
-    public class JsonConverter : IRPGDataConverter
+    public interface IJsonConverter : IRPGDataConverter
+    {
+    }
+
+    public class JsonConverter : IJsonConverter
     {
         private readonly IMapper _mapper;
         private readonly IMediaProvider _mediaProvider;

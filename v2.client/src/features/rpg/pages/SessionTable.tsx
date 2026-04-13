@@ -1,7 +1,7 @@
 // ===================== SessionTable.tsx (FULL MODIFIED FILE) =====================
 import { Filter } from "@/shared/components/filter";
 import OperationCell from "@/shared/components/operationCell";
-import { Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableSortLabel, TableBody, IconButton, Collapse, Box, Accordion, AccordionSummary, Typography, AccordionDetails, TablePagination, Button, Grid, InputLabel, Menu, MenuItem } from "@mui/material";
+import { Paper, TableContainer, Table, TableHead, TableRow, TableCell, TableSortLabel, TableBody, IconButton, Collapse, Box, Accordion, AccordionSummary, Typography, AccordionDetails, TablePagination, Button, Grid, InputLabel, Menu, MenuItem, useMediaQuery, useTheme } from "@mui/material";
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
@@ -34,12 +34,15 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     const { t } = useTranslation();
     const modal = useModal();
     const api = useApiConnect();
-    const [open, setOpen] = useState(false);
+    const [openRows, setOpenRows] = useState<Record<string, boolean>>({});
     const [pageSize, setPageSize] = useState(10);
     const [orderBy, setOrderBy] = useState<string | null>(null);
     const [order, setOrder] = useState<'asc' | 'desc'>('asc');
     const [page, setPage] = useState(0);
     const [filterValues, setFilterValues] = useState<FilterValue[]>([]);
+
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     // NEW: dropdown state
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -55,6 +58,10 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
         modal.hideModal();
         updateData({ page, pageSize, orderBy, order, filters: filterValues });
     }
+
+    const toggleRow = (id: string) => {
+        setOpenRows(prev => ({ ...prev, [id]: !prev[id] }));
+    };
 
     const handleSort = (field: string) => {
         setOrderBy(field);
@@ -166,6 +173,24 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
             .then(() => modal.hideModal());
     }
 
+    const exportData = (data: any) => {
+        api.download('rpg_stories_export', data.id)
+            .then((response) => {
+                const contentType = response.headers['content-type'] || 'application/octet-stream';
+                const disposition = response.headers['content-disposition'];
+                let filename = data.title + '.json';
+
+                if (disposition) {
+                    const match = disposition.match(/filename\*?=(?:UTF-8'')?([^;]+)/);
+                    if (match?.[1]) filename = decodeURIComponent(match[1].replace(/"/g, ''));
+                }
+
+                const blob = new Blob([response.data], { type: contentType });
+                saveAs(blob, filename);
+            })
+            .catch((error) => console.error('Download failed:', error));
+    }
+
     const downloadSummary = (data: any) => {
         api.download('rpg_stories_download_summary', data.id)
             .then((response) => {
@@ -202,24 +227,22 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
         { name: 'rpg.chapter.add', method: (o) => addChapter(o) },
         { name: 'rpg.story.start', method: (o) => startStory(o) },
         { name: 'rpg.story.end', method: (o) => endStory(o) },
+        { name: 'opt.export', method: (o) => exportData(o) },
         { name: 'rpg.story.gen_summary', method: (o) => generateSummary(o) },
         { name: 'rpg.story.download_summary', method: (o) => downloadSummary(o) },
         { name: 'rpg.story.send_firebase', method: (o) => sendToFirebase(o) },
-        { name: 'opt.delete', method: (o) => del(o) }
+        { name: 'opt.delete', method: (o) => del(o) },
     ]
 
-    return <>
-        <Grid style={{ width: '100%', margin: 'auto', padding: '20px' }}>
-            <Grid style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: '20px', flexDirection: "column" }}>
-                <InputLabel style={{ color: 'white', fontSize: '2.5rem', fontWeight: 'bold' }}>
+        return (
+        <Grid sx={{ width: "100%", p: isMobile ? 1 : 3 }}>
+            {/* HEADER */}
+            <Grid sx={{ textAlign: "center", mb: 2 }}>
+                <InputLabel sx={{ fontSize: isMobile ? "1.8rem" : "2.5rem", fontWeight: "bold" }}>
                     {t('rpg.title')}
                 </InputLabel>
-                <InputLabel style={{ color: 'white', fontSize: '1rem', fontWeight: 'bold' }}>
-                    {t('rpg.description')}
-                </InputLabel>
 
-                {/* MODIFIED BUTTON */}
-                <Button onClick={handleMenuClick} variant="outlined">
+                <Button onClick={handleMenuClick} variant="outlined" sx={{ mt: 1 }}>
                     {t('opt.add')}
                 </Button>
 
@@ -233,67 +256,100 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
                 </Menu>
             </Grid>
 
-            <Paper sx={{ width: '75%', overflow: 'hidden', margin: 'auto', padding: 2 }}>
+            {/* TABLE */}
+            <Paper sx={{
+                width: "100%",
+                maxWidth: 1200,
+                mx: "auto",
+                p: isMobile ? 1 : 2,
+                borderRadius: 2
+            }}>
                 <Filter filters={filters} onChange={handleFilterChange} />
-                <TableContainer>
-                    <Table size="small" stickyHeader >
+
+                <TableContainer sx={{ overflowX: "auto" }}>
+                    <Table size={isMobile ? "small" : "medium"} stickyHeader>
+
                         <TableHead>
                             <TableRow>
-                                <TableCell></TableCell>
-                                {columns.map((col) => (
-                                    <TableCell key={String(col.field)} sortDirection={orderBy === col.field ? order : false}>
-                                        <TableSortLabel active={orderBy === col.field} direction={orderBy === col.field ? order : 'asc'} onClick={() => handleSort(col.field)}>
+                                <TableCell />
+
+                                {columns.map(col => (
+                                    <TableCell key={String(col.field)}>
+                                        <TableSortLabel
+                                            active={orderBy === col.field}
+                                            direction={orderBy === col.field ? order : "asc"}
+                                            onClick={() => handleSort(col.field)}
+                                        >
                                             {t(col.header)}
                                         </TableSortLabel>
                                     </TableCell>
                                 ))}
-                                <TableCell></TableCell>
+
+                                <TableCell />
                             </TableRow>
                         </TableHead>
+
                         <TableBody>
-                            {data && (data.map((row: Story) => (
-                                <>
-                                    <TableRow key={row.id}>
-                                        <TableCell>
-                                            <IconButton size="small" onClick={() => setOpen(!open)}>
-                                                {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                                            </IconButton>
-                                        </TableCell>
-                                        {columns.map((col) => (
-                                            <TableCell key={String(col.field)}>
-                                                {col.toShow && row[col.field] != null
-                                                    ? col.toShow(row[col.field])
-                                                    : col.type === 'date'
-                                                        ? convertToDateStr(row[col.field])
-                                                        : String(row[col.field])}
+                            {data?.map(row => {
+                                const isOpen = !!openRows[row.id];
+
+                                return (
+                                    <React.Fragment key={row.id}>
+                                        <TableRow>
+                                            <TableCell>
+                                                <IconButton onClick={() => toggleRow(row.id)}>
+                                                    {isOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                                                </IconButton>
                                             </TableCell>
-                                        ))}
-                                        <OperationCell operations={operations} data={row} />
-                                    </TableRow>
-                                    <TableRow>
-                                        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-                                            <Collapse in={open} timeout="auto" unmountOnExit>
-                                                <Box sx={{ margin: 1 }}>
-                                                    <Typography variant="body1" gutterBottom component="label">{row.description}</Typography>
-                                                    <Accordion>
-                                                        <AccordionSummary expandIcon={<ArrowDownwardIcon />}>
-                                                            <Typography>{t('rpg.story.chapters')}</Typography>
-                                                        </AccordionSummary>
-                                                        <AccordionDetails>
-                                                            <ChapterTable chapters={row.chapters} />
-                                                        </AccordionDetails>
-                                                    </Accordion>
-                                                </Box>
-                                            </Collapse>
-                                        </TableCell>
-                                    </TableRow>
-                                </>
-                            )))}
+
+                                            {columns.map(col => (
+                                                <TableCell key={String(col.field)}>
+                                                    {col.type === "date"
+                                                        ? convertToDateStr(row[col.field])
+                                                        : String(row[col.field] ?? "")}
+                                                </TableCell>
+                                            ))}
+
+                                            <OperationCell operations={operations} data={row} />
+                                        </TableRow>
+
+                                        <TableRow>
+                                            <TableCell colSpan={10} sx={{ p: 0 }}>
+                                                <Collapse in={isOpen} timeout="auto" unmountOnExit>
+                                                    <Box sx={{ p: isMobile ? 1 : 2 }}>
+                                                        <Typography variant="body2" sx={{ mb: 1 }}>
+                                                            {row.description}
+                                                        </Typography>
+
+                                                        <Accordion>
+                                                            <AccordionSummary expandIcon={<ArrowDownwardIcon />}>
+                                                                <Typography>{t('rpg.story.chapters')}</Typography>
+                                                            </AccordionSummary>
+                                                            <AccordionDetails>
+                                                                <ChapterTable chapters={row.chapters} />
+                                                            </AccordionDetails>
+                                                        </Accordion>
+                                                    </Box>
+                                                </Collapse>
+                                            </TableCell>
+                                        </TableRow>
+                                    </React.Fragment>
+                                );
+                            })}
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <TablePagination component="div" count={rowCount} page={page} onPageChange={handleChangePage} rowsPerPage={pageSize} onRowsPerPageChange={handleChangeRowsPerPage} rowsPerPageOptions={[5, 10, 25, 50]} />
+
+                <TablePagination
+                    component="div"
+                    count={rowCount}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    rowsPerPage={pageSize}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    rowsPerPageOptions={[5, 10, 25, 50]}
+                />
             </Paper>
         </Grid>
-    </>;
+    );
 };

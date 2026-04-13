@@ -12,7 +12,6 @@ namespace RPG.Infrastructure.External.FileConverters
             CreateMap<Story, StoryDto>()
                 .ReverseMap();
 
-            // Chapter ↔ ChapterDto
             CreateMap<Chapter, ChapterDto>()
                 .ForMember(dest => dest.Links,
                     opt => opt.MapFrom(src => src.Links.ToDictionary(
@@ -26,14 +25,12 @@ namespace RPG.Infrastructure.External.FileConverters
                         Url = kvp.Value
                     })));
 
-            // Hero ↔ HeroDto (skip Image)
             CreateMap<Hero, HeroDto>()
                 .ForMember(dest => dest.Image, opt => opt.Ignore())
                 .ReverseMap()
                 .ForMember(dest => dest.Image, opt => opt.Ignore())
                 .ForMember(dest => dest.Chapter, opt => opt.Ignore()); // avoid circular dependency
 
-            // Place ↔ PlaceDto (skip Image)
             CreateMap<Place, PlaceDto>()
                 .ForMember(dest => dest.Image, opt => opt.Ignore())
                 .ReverseMap()

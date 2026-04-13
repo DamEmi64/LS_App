@@ -1,5 +1,7 @@
 ﻿using Base;
 using Microsoft.AspNetCore.Http;
+using RPG.Domain.Repositories;
+using RPG.Infrastructure.External.FileConverters.Json;
 using RPG.Infrastructure.Jobs;
 using RPG.Infrastructure.Models;
 using System.Text;
@@ -9,10 +11,23 @@ namespace RPG.Infrastructure.Services
     public class ImportService : IImportService
     {
         private readonly IJobEngine _jobEngine;
+        private readonly IStoryRepository _storyRepository;
+        private readonly IJsonConverter _jsonConverter;
 
-        public ImportService(IJobEngine jobEngine)
+        public ImportService(IJobEngine jobEngine, IStoryRepository storyRepository, IJsonConverter jsonConverter)
         {
             _jobEngine = jobEngine;
+            _storyRepository = storyRepository;
+            _jsonConverter = jsonConverter;
+        }
+
+        public async Task<byte[]> ExportAsJson(Guid storyId)
+        {
+            var story = await _storyRepository.GetFull(storyId) ?? throw new ArgumentException("Story not found", nameof(storyId));
+            var data = await _jsonConverter.Convert(story);
+
+            return Encoding.UTF8.GetBytes(data);
+
         }
 
         public async Task<string> ImportFromFile(IFormFile? file, int converterType, string? externalUrl, UserData user)

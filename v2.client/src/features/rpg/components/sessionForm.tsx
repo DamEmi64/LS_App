@@ -212,7 +212,7 @@ export const SessionView: React.FC<SessionViewProps> = ({
                             {onCopy && !isChapter && (
                                 <Button
                                     type="button"
-                                    onClick={() => onCopy(hero)}
+                                    onClick={() => onCopy(data)}
                                     sx={{ background: theme.palette.secondary.main, color: '#fff' }}
                                 >
                                     {t('opt.copy')}

@@ -323,6 +323,7 @@
     "cancel": "Anuluj",
     "create": "Utwórz",
     "import": "Importuj",
+    "export": "Eksportuj",
     "copy": "Kopiuj"
   },
   "auth": {

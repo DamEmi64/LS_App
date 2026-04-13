@@ -25,7 +25,8 @@ namespace RPG.Infrastructure
         {
             services.AddScoped<IRPGDataConverter, OldJsonConverter>()
                      .AddScoped<IRPGDataConverter, FirebaseConverter>()
-                     .AddScoped<IRPGDataConverter, JsonConverter>();
+                     .AddScoped<IRPGDataConverter, JsonConverter>()
+                     .AddScoped<IJsonConverter,JsonConverter>();
 
             return services.AddScoped<IAutomationResolver, RPGAutomationResolver>()
                             .AddScoped<ISummaryService, SummaryService>()

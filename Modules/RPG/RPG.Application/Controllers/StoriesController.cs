@@ -84,6 +84,16 @@ namespace RPG.Application.Controllers
             return Ok();
         }
 
+        [HttpGet("{id}/export")]
+        public async Task<IActionResult> Export(Guid id)
+        {
+            var storyName = _storyRepository.GetStoryTitle(id) ?? throw new ArgumentException("Story not found", nameof(id));
+
+            var data = await _importService.ExportAsJson(id);
+
+            return File(data, "application/json", $"story_{id}.json");
+        }
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Edit(Guid id, [FromBody] StoryDto dto)

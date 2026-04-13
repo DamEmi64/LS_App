@@ -1,0 +1,130 @@
+{
+  "window": {
+    "yes": "Oui",
+    "no": "Non",
+    "cancel": "Annuler",
+    "info": "Informations"
+  },
+  "validation": {
+    "required": "Ce champ est requis",
+    "minLength": "La longueur minimale est de {0} caractères",
+    "maxLength": "La longueur maximale est de {0} caractères",
+    "email": "Adresse e-mail invalide",
+    "url": "URL invalide",
+    "number": "Ce champ doit être un nombre"
+  },
+  "notify": {
+    "processActive": "Notifications des tâches",
+    "processError": "Uniquement les erreurs de tâches",
+    "position": "Position de la notification",
+    "notification": "Notifications",
+    "autoClose": "Durée d'affichage (ms)",
+    "active": "Actif",
+    "bottomRight": "En bas à droite",
+    "topRight": "En haut à droite",
+    "bottomLeft": "En bas à gauche",
+    "topLeft": "En haut à gauche",
+    "messages": {
+      "1000": "Journal",
+      "1001": "Erreur interne du processus {0}",
+      "1002": "Processus {0} démarré",
+      "1003": "Processus {0} terminé",
+      "1004": "Processus {0} échoué",
+      "1005": "Processus {0} ajouté à la file d'attente",
+
+      "1006": "Fichier {0} enregistré",
+      "1007": "Fichier {0} supprimé",
+      "1008": "Fichier {0} mis à jour",
+      "1009": "Fichier {0} introuvable",
+      "1010": "Fichier {0} existe déjà",
+      "1011": "Fichier {0} n'a pas été enregistré",
+
+      "1012": "Session {0} enregistrée",
+      "1013": "Session {0} supprimée",
+      "1014": "Session {0} mise à jour",
+      "1015": "Session {0} introuvable",
+
+      "1016": "Chapitre {0} enregistré",
+      "1017": "Chapitre {0} supprimé",
+      "1018": "Chapitre {0} mis à jour",
+      "1019": "Chapitre {0} introuvable",
+
+      "1020": "Héros {0} enregistré",
+      "1021": "Héros {0} supprimé",
+      "1022": "Héros {0} mis à jour",
+      "1023": "Héros {0} introuvable",
+
+      "1024": "Lieu {0} enregistré",
+      "1025": "Lieu {0} supprimé",
+      "1026": "Lieu {0} mis à jour",
+      "1027": "Lieu {0} introuvable",
+
+      "1030": "Connexion réussie",
+      "1031": "Échec de la connexion",
+      "1032": "Mot de passe invalide",
+      "1033": "Compte bloqué",
+      "1034": "Échec de l'authentification à deux facteurs",
+      "1035": "Inscription réussie",
+      "1036": "Échec de l'inscription",
+      "1037": "E-mail envoyé avec succès",
+      "1038": "E-mail généré avec succès",
+      "1039": "Mot de passe trop court",
+      "1040": "Le mot de passe nécessite un caractère spécial",
+      "1041": "Le mot de passe nécessite un chiffre",
+      "1042": "Le mot de passe nécessite une lettre minuscule",
+      "1043": "Le mot de passe nécessite une lettre majuscule"
+    }
+  },
+
+  "user": {
+    "firstName": "Prénom",
+    "lastName": "Nom",
+    "email": "Adresse e-mail",
+    "phoneNumber": "Numéro de téléphone",
+    "info": "Informations utilisateur",
+    "userName": "Nom d'utilisateur"
+  },
+
+  "processes": {
+    "title": "Processus",
+    "description": "Gérer les processus en cours",
+    "name": "Processus",
+    "queue": "File d'attente",
+    "startingDate": "Date de début",
+    "startingDateFrom": "Date de début à partir de",
+    "startingDateTo": "Date de début jusqu'à",
+    "percentage": "Progression",
+    "status": "Statut",
+    "jobs": "Tâches",
+    "noJobs": "Aucune tâche associée au processus",
+    "errors": "Erreurs du processus",
+    "errorMessage": "Message d'erreur",
+    "restart": "Redémarrer le processus"
+  },
+
+  "menu": {
+    "home": "Accueil",
+    "processes": "Processus",
+    "files": "Fichiers",
+    "settings": "Paramètres",
+    "communication": "Communication",
+    "emails": "E-mails",
+    "templates": "Modèles",
+    "automations": "Automatisations",
+    "rpg_sessions": "Sessions RPG",
+    "register": "S'inscrire",
+    "login": "Se connecter",
+    "logout": "Se déconnecter"
+  },
+
+  "no_data": "aucune donnée",
+  "EndpointNotFound": "Point de terminaison introuvable",
+  "filter_reset": "Réinitialiser les filtres",
+  "language": "Langue",
+  "settings": "Paramètres",
+  "login": "Se connecter",
+  "register": "S'inscrire",
+  "apiEndpoint": "URL du serveur",
+  "darkTheme": "Thème sombre",
+  "error": "Erreur"
+}

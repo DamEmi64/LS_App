@@ -6,5 +6,7 @@ namespace RPG.Domain.Repositories
     public interface IStoryRepository : IEntityRepository<Story>
     {
         Task<Story?> GetLastEdited();
+        Task<string?> GetStoryTitle(Guid id);
+        Task<Story?> GetFull(Guid id);
     }
 }
