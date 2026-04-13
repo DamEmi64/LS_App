@@ -62,16 +62,6 @@ namespace Base
             => AddDatabase<T>(services, connString, AppConfiguration.Instance.GetValue(UsePostgresql, false));
 
         /// <summary>
-        /// Registers an automation job implementation in the dependency injection container.
-        /// </summary>
-        /// <typeparam name="T">The type of the event job.</typeparam>
-        /// <param name="services">The service collection.</param>
-        /// <returns>The updated service collection.</returns>
-        public static IServiceCollection AddAutomationJob<T>(this IServiceCollection services)
-            where T : EventJob
-            => services.AddScoped<IEventJob, T>();
-
-        /// <summary>
         /// Registers a notifier implementation in the dependency injection container.
         /// </summary>
         /// <typeparam name="T">The type of the notifier instance.</typeparam>

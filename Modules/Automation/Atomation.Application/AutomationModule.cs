@@ -14,7 +14,7 @@ namespace Automation.Application
 
         public string Name => "Automation module";
 
-        public string Version => "v0.2 Alpha";
+        public string Version => "v0.3 Alpha";
 
         public IServiceCollection Configure(IServiceCollection services)
         {

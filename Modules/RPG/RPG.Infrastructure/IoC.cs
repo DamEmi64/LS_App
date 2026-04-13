@@ -23,15 +23,13 @@ namespace RPG.Infrastructure
 
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            services.AddAutomationJob<GetLastEditedRPGJob>()
-                .AddAutomationJob<GenerateSummaryJob>();
+            services.AddScoped<IRPGDataConverter, OldJsonConverter>()
+                     .AddScoped<IRPGDataConverter, FirebaseConverter>()
+                     .AddScoped<IRPGDataConverter, JsonConverter>();
 
-            services.AddScoped<IRPGDataConverter,OldJsonConverter>()
-                .AddScoped<IRPGDataConverter,FirebaseConverter>()
-                .AddScoped<IRPGDataConverter, JsonConverter>();
-
-            return services.AddScoped<ISummaryService, SummaryService>()
-                .AddScoped<IImportService,ImportService>();
+            return services.AddScoped<IAutomationResolver, RPGAutomationResolver>()
+                            .AddScoped<ISummaryService, SummaryService>()
+                            .AddScoped<IImportService,ImportService>();
         }
     }
 }

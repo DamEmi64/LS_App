@@ -1,44 +1,6 @@
 ﻿namespace Base
 {
     /// <summary>
-    ///     Job exclusive for job called using automation system
-    /// </summary>
-    public abstract class EventJob : IEventJob
-    {
-        public abstract int OperationId { get; }
-        public abstract Guid Id { get; set; }
-        public abstract List<IJob> Children { get; set; }
-        public abstract DateTimeOffset RequestDate { get; }
-        public abstract string Name { get; }
-
-        /// <summary>
-        ///     Event data (data related to event that triggered the job)
-        /// </summary>
-        public object? EventData { get; set; }
-
-        public Task Execute(IJobContext jobContext)
-        {
-            return Execute(jobContext, EventData);
-        }
-
-        /// <summary>
-        ///     Execution method
-        /// </summary>
-        /// <param name="jobContext">Job context</param>
-        /// <param name="eventData">Event data (data related to event that triggered the job)</param>
-        /// <returns></returns>
-        public abstract Task Execute(IJobContext jobContext, object? eventData);
-    }
-
-    /// <summary>
-    ///     Job exclusive for job called using automation system
-    /// </summary>
-    public interface IEventJob : IJob
-    {
-        Task Execute(IJobContext jobContext, object? eventData);
-    }
-
-    /// <summary>
     ///     Job
     /// </summary>
     public interface IJob
