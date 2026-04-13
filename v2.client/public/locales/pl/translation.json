@@ -67,7 +67,12 @@
       "1035": "Rejestracja zakończona sukcesem",
       "1036": "Rejestracja zakończona niepowodzeniem",
       "1037": "Email wysłany pomyślnie",
-      "1038": "Email wygenerowany pomyślnie"
+      "1038": "Email wygenerowany pomyślnie",
+      "1039": "Hasło zbyt krótkie",
+      "1040": "Hasło wymaga znaku niealfanumerycznego",
+      "1041": "Hasło wymaga cyfry",
+      "1042": "Hasło wymaga małej litery",
+      "1043": "Hasło wymaga dużej litery"
     }
   },
   "user": {
@@ -335,7 +340,9 @@
     "login": {
       "username": "Nazwa użytkownika",
       "password": "Hasło",
-      "rememberMe": "Zapamiętaj mnie"
+      "rememberMe": "Zapamiętaj mnie",
+      "failed": "Nieprawidłowa nazwa użytkownika lub hasło",
+      "error": "Wystąpił błąd podczas logowania. Spróbuj ponownie później."
     }
   },
   "dictionaries": {

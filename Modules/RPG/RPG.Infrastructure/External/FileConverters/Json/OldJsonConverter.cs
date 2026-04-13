@@ -41,32 +41,36 @@ namespace RPG.Infrastructure.External.FileConverters
                     Description = item.Description ?? string.Empty,
                 };
 
+                story.Chapters.Add(chapter);
+            }
+
+            var firstchapter = story.Chapters.FirstOrDefault();
+
+            if (firstchapter is not null)
+            {
                 var heroes = new List<Hero>();
 
                 foreach (var hero in oldStory?.Heroes ?? new List<OldJsonHero>())
                 {
-                    heroes.Add(await Convert(hero, chapter));
+                    heroes.Add(await Convert(hero, firstchapter));
                 }
 
                 foreach (var hero in oldStory?.Npcs ?? new List<OldJsonElement>())
                 {
-                    heroes.Add(await ConvertHero(hero, chapter));
+                    heroes.Add(await ConvertHero(hero, firstchapter));
                 }
 
                 var places = new List<Place>();
 
                 foreach (var place in oldStory?.Places ?? new List<OldJsonElement>())
                 {
-                    places.Add(await Convert(place, chapter));
+                    places.Add(await Convert(place, firstchapter));
                 }
 
-                chapter.Heroes = heroes;
-                chapter.Places = places;
-
-                story.Chapters.Add(chapter);
+                firstchapter.Heroes = heroes;
+                firstchapter.Places = places;
             }
-
-
+            
             return story;
         }
 
@@ -175,7 +179,7 @@ namespace RPG.Infrastructure.External.FileConverters
                 Size = new Size(800, 800)
             }));
 
-            var encoder = new JpegEncoder { Quality = 60 };
+            var encoder = new JpegEncoder { Quality = 50 };
 
             using var ms = new MemoryStream();
             image.Save(ms, encoder);
