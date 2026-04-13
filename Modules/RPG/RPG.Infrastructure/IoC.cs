@@ -1,8 +1,12 @@
 ﻿using Base;
 using Microsoft.Extensions.DependencyInjection;
 using RPG.Domain.Repositories;
+using RPG.Infrastructure.External.FileConverters;
+using RPG.Infrastructure.External.FileConverters.Firebase;
+using RPG.Infrastructure.External.FileConverters.Json;
 using RPG.Infrastructure.Jobs;
 using RPG.Infrastructure.Repositories;
+using RPG.Infrastructure.Services;
 using RPG.Infrastructure.Services.SummaryService;
 
 namespace RPG.Infrastructure
@@ -22,8 +26,12 @@ namespace RPG.Infrastructure
             services.AddAutomationJob<GetLastEditedRPGJob>()
                 .AddAutomationJob<GenerateSummaryJob>();
 
+            services.AddScoped<IRPGDataConverter,OldJsonConverter>()
+                .AddScoped<IRPGDataConverter,FirebaseConverter>()
+                .AddScoped<IRPGDataConverter, JsonConverter>();
 
-            return services.AddScoped<ISummaryService, SummaryService>();
+            return services.AddScoped<ISummaryService, SummaryService>()
+                .AddScoped<IImportService,ImportService>();
         }
     }
 }

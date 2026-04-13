@@ -199,6 +199,11 @@
     }
   },
   "rpg": {
+    "import":{
+      "converterType": "Typ konwertera",
+      "externalUrl": "Nazwa sesji RPG z zewnętrznego źródła (tylko dla konwertera Firebase)",
+      "selectFile": "Wybierz plik z dysku"
+    },
     "deleteConfirm": {
       "place": "Czy chcesz usunąć miejsce {0} ?",
       "hero": "Czy chcesz usunąć bohatera {0} ?",
@@ -310,7 +315,9 @@
     "change_pass": "Zmień hasło",
     "login": "Zaloguj się",
     "register": "Zarejestruj się",
-    "cancel": "Anuluj"
+    "cancel": "Anuluj",
+    "create": "Utwórz",
+    "import": "Importuj"
   },
   "auth": {
     "welcome": "Witamy w aplikacji",

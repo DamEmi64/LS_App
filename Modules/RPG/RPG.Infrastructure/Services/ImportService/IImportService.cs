@@ -6,6 +6,6 @@ namespace RPG.Infrastructure.Services
 {
     public interface IImportService
     {
-        Task<string> ImportFromFile(IFormFile file, FileConverterType converterType, UserData user);
+        Task<string> ImportFromFile(IFormFile? file, int converterType, string? externalUrl, UserData user);
     }
 }

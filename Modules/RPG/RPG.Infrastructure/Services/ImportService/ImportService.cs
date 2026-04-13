@@ -1,9 +1,7 @@
 ﻿using Base;
 using Microsoft.AspNetCore.Http;
-using RPG.Infrastructure.External.FileConverters;
 using RPG.Infrastructure.Jobs;
-using System;
-using System.Collections.Generic;
+using RPG.Infrastructure.Models;
 using System.Text;
 
 namespace RPG.Infrastructure.Services
@@ -17,22 +15,33 @@ namespace RPG.Infrastructure.Services
             _jobEngine = jobEngine;
         }
 
-        public async Task<string> ImportFromFile(IFormFile file, FileConverterType converterType, UserData user)
+        public async Task<string> ImportFromFile(IFormFile? file, int converterType, string? externalUrl, UserData user)
         {
-            var title = $"Import RPG from file {file.FileName}";
+            var rpgTitle = file?.FileName ?? externalUrl ?? "Unknown RPG";
+            var title = $"Import RPG from file {rpgTitle}";
             string? content = null;
-            using (var stream = new MemoryStream())
+
+            if (file is not null)
             {
-                await file.CopyToAsync(stream);
-                content = Encoding.UTF8.GetString(stream.ToArray());
+                using (var stream = new MemoryStream())
+                {
+                    await file.CopyToAsync(stream);
+                    content = Encoding.UTF8.GetString(stream.ToArray());
+                }
             }
+
+            var model = new ImportRPGModel
+            {
+                Title = Path.GetFileNameWithoutExtension(rpgTitle),
+                Type = converterType,
+                ExternalUrl = externalUrl,
+                FileContent = content
+            };
 
             var schema = _jobEngine.Create(title)
                 .AddJob(new ImportRPGFromFileJob
                 {
-                    FileContent = content,
-                    RPGName = file.FileName,
-                    ConverterType = converterType
+                    Model = model
                 });
 
             await _jobEngine.Execute(schema, user);

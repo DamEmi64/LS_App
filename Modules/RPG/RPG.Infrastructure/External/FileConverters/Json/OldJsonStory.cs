@@ -22,7 +22,7 @@ namespace RPG.Infrastructure.External.FileConverters.Json
         [JsonProperty("Npcs")]
         public List<OldJsonElement>? Npcs { get; set; }
 
-        [JsonProperty("Chapters")]
+        [JsonProperty("Stories")]
         public List<OldJsonElement>? Chapters { get; set; }
     }
 

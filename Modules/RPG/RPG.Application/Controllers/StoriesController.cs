@@ -69,11 +69,15 @@ namespace RPG.Application.Controllers
         }
 
         [HttpPost("import")]
-        public async Task<IActionResult> Import([FromBody] ImportDto dto)
+        public async Task<IActionResult> Import([FromForm] ImportDto dto)
         {
-            var fileName = dto.File.FileName;
-
-            var job = _importService.ImportFromFile(dto.File, dto.ConverterType, await GetCurrentUser() ?? new UserData { UserId = Guid.Empty.ToString() });
+            var fileName = dto.ExternalUrl;
+            if (dto.File is not null)
+            {
+                fileName = dto.File.FileName;
+            }
+            
+            var job = await _importService.ImportFromFile(dto.File ?? null, dto.ConverterType, dto.ExternalUrl, await GetCurrentUser() ?? new UserData { UserId = Guid.Empty.ToString() });
 
             await Notifier.Success(NotifyTypes.ProcessQueued, job);
 

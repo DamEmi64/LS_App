@@ -1,11 +1,15 @@
 ﻿using Base;
 using Newtonsoft.Json;
+using RPG.Domain.Dictionaries;
 using RPG.Domain.Entities;
 using RPG.Infrastructure.External.FileConverters.Json;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Jpeg;
+using SixLabors.ImageSharp.Processing;
 
 namespace RPG.Infrastructure.External.FileConverters
 {
-    public class OldJsonConverter : IFileConverter
+    public class OldJsonConverter : IRPGDataConverter
     {
         private readonly IMediaProvider _mediaProvider;
 
@@ -14,7 +18,7 @@ namespace RPG.Infrastructure.External.FileConverters
             _mediaProvider = mediaProvider;
         }
 
-        public FileConverterType Type => FileConverterType.OldJson;
+        public int Type => RPGFileTypes.OldJson;
 
         public async Task<Story> Convert(string data)
         {
@@ -42,6 +46,11 @@ namespace RPG.Infrastructure.External.FileConverters
                 foreach (var hero in oldStory?.Heroes ?? new List<OldJsonHero>())
                 {
                     heroes.Add(await Convert(hero, chapter));
+                }
+
+                foreach (var hero in oldStory?.Npcs ?? new List<OldJsonElement>())
+                {
+                    heroes.Add(await ConvertHero(hero, chapter));
                 }
 
                 var places = new List<Place>();
@@ -75,7 +84,8 @@ namespace RPG.Infrastructure.External.FileConverters
 
             if (oldHero.Image is not null)
             {
-                var image = $"data:image/jpeg,base64,{oldHero.Image}";
+                var imageData = CompressBase64Image(oldHero.Image);
+                var image = $"data:image/jpeg,base64,{imageData}";
                 var media = await _mediaProvider.Save(image, null);
                 imageId = media;
             }
@@ -97,9 +107,35 @@ namespace RPG.Infrastructure.External.FileConverters
             return new Hero
             {
                 FirstName = names is null ? "unknown" : names[0],
-                LastName = names is null ? "unknown" : names[0],
-                Description = oldHero.Description ?? "unknown description",
-                Player = oldHero.Player,
+                LastName = names is null ? "unknown" : oldHero?.Title?.Replace($"{names[0]} ",string.Empty) ?? "unknown",
+                Description = oldHero?.Description ?? "unknown description",
+                Player = oldHero?.Player,
+                Chapter = chapter,
+                PlayerData = playerData,
+                Image = imageId
+            };
+        }
+
+        private async Task<Hero> ConvertHero(OldJsonElement oldHero, Chapter chapter)
+        {
+            var names = oldHero.Title?.Split(' ');
+
+            PlayerData? playerData = null;
+            Guid? imageId = null;
+
+            if (oldHero.Image is not null)
+            {
+                var imageData = CompressBase64Image(oldHero.Image);
+                var image = $"data:image/jpeg,base64,{imageData}";
+                var media = await _mediaProvider.Save(image, null);
+                imageId = media;
+            }
+
+            return new Hero
+            {
+                FirstName = names is null ? "unknown" : names[0],
+                LastName = names is null ? "unknown" : oldHero?.Title?.Replace($"{names[0]} ", string.Empty) ?? "unknown",
+                Description = oldHero?.Description ?? "unknown description",
                 Chapter = chapter,
                 PlayerData = playerData,
                 Image = imageId
@@ -112,7 +148,8 @@ namespace RPG.Infrastructure.External.FileConverters
 
             if (oldPlace.Image is not null)
             {
-                var image = $"data:image/jpeg,base64,{oldPlace.Image}";
+                var imageData = CompressBase64Image(oldPlace.Image);
+                var image = $"data:image/jpeg,base64,{imageData}";
                 var media = await _mediaProvider.Save(image, null);
                 imageId = media;
             }
@@ -124,6 +161,26 @@ namespace RPG.Infrastructure.External.FileConverters
                 Chapter = chapter,
                 Image = imageId
             };
+        }
+
+        private string CompressBase64Image(string base64)
+        {
+            var bytes = System.Convert.FromBase64String(base64);
+
+            using var image = Image.Load(bytes);
+
+            image.Mutate(x => x.Resize(new ResizeOptions
+            {
+                Mode = ResizeMode.Max,
+                Size = new Size(800, 800)
+            }));
+
+            var encoder = new JpegEncoder { Quality = 60 };
+
+            using var ms = new MemoryStream();
+            image.Save(ms, encoder);
+
+            return System.Convert.ToBase64String(ms.ToArray());
         }
     }
 }
