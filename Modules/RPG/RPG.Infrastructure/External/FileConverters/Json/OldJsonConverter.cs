@@ -70,7 +70,7 @@ namespace RPG.Infrastructure.External.FileConverters
                 firstchapter.Heroes = heroes;
                 firstchapter.Places = places;
             }
-            
+
             return story;
         }
 
@@ -111,7 +111,7 @@ namespace RPG.Infrastructure.External.FileConverters
             return new Hero
             {
                 FirstName = names is null ? "unknown" : names[0],
-                LastName = names is null ? "unknown" : oldHero?.Title?.Replace($"{names[0]} ",string.Empty) ?? "unknown",
+                LastName = names is null ? "unknown" : oldHero?.Title?.Replace($"{names[0]} ", string.Empty) ?? "unknown",
                 Description = oldHero?.Description ?? "unknown description",
                 Player = oldHero?.Player,
                 Chapter = chapter,

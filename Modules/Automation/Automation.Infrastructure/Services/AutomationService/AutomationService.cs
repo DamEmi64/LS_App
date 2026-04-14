@@ -1,9 +1,7 @@
 ﻿using Automation.Domain.Entities;
 using Automation.Domain.Repositories;
 using Base;
-using Base.Interfaces;
 using Hangfire;
-using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 
 namespace Automation.Infrastructure.Services.AutomationService

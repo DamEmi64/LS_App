@@ -20,7 +20,7 @@ namespace RPG.Infrastructure.External.FileConverters.Json
         public int Order { get; set; } = 1;
         public List<HeroDto> Heroes { get; set; } = new List<HeroDto>();
         public List<PlaceDto> Places { get; set; } = new List<PlaceDto>();
-        public Dictionary<string,string> Links { get; set; } = new Dictionary<string, string>();
+        public Dictionary<string, string> Links { get; set; } = new Dictionary<string, string>();
     }
 
     public class HeroDto
@@ -29,7 +29,7 @@ namespace RPG.Infrastructure.External.FileConverters.Json
         public required string LastName { get; set; }
         public required string Description { get; set; }
         public string? Player { get; set; }
-        public string? Image { get; set; } 
+        public string? Image { get; set; }
 
         public PlayerData? PlayerData { get; set; }
     }

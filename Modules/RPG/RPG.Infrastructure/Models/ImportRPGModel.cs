@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace RPG.Infrastructure.Models
+﻿namespace RPG.Infrastructure.Models
 {
     public class ImportRPGModel
     {

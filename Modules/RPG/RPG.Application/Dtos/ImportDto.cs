@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Http;
-using RPG.Infrastructure.External.FileConverters;
 
 namespace RPG.Application.Dtos
 {

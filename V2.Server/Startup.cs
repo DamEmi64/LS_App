@@ -31,19 +31,19 @@ namespace Api
 
             if (builder.Environment.IsDevelopment())
             {
-                 Log.Logger = new LoggerConfiguration()
-                                .MinimumLevel.Information()
-                                .Enrich.FromLogContext()
-                                .WriteTo.Console() // optional but recommended
-                                .WriteTo.MSSqlServer(
-                                    connectionString: AppConfiguration.GetConnectionString("LogContext") ?? AppConfiguration.DefaultConnectionString,
-                                    sinkOptions: new MSSqlServerSinkOptions
-                                    {
-                                        TableName = "Logs",
-                                        AutoCreateSqlTable = true,
-                                        AutoCreateSqlDatabase = true
-                                    })
-                                .CreateLogger();
+                Log.Logger = new LoggerConfiguration()
+                               .MinimumLevel.Information()
+                               .Enrich.FromLogContext()
+                               .WriteTo.Console() // optional but recommended
+                               .WriteTo.MSSqlServer(
+                                   connectionString: AppConfiguration.GetConnectionString("LogContext") ?? AppConfiguration.DefaultConnectionString,
+                                   sinkOptions: new MSSqlServerSinkOptions
+                                   {
+                                       TableName = "Logs",
+                                       AutoCreateSqlTable = true,
+                                       AutoCreateSqlDatabase = true
+                                   })
+                               .CreateLogger();
             }
             else
             {

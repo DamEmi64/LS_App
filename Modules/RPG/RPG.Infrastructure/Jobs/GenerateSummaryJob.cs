@@ -8,7 +8,7 @@ using System.Text;
 
 namespace RPG.Infrastructure.Jobs
 {
-    public class GenerateSummaryJob :IJob
+    public class GenerateSummaryJob : IJob
     {
         private const string TemplatePath = "/Views/GenTemplate.cshtml";
 

@@ -2,9 +2,6 @@
 using Automation.Infrastructure.Jobs;
 using Base;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Automation.Infrastructure.Services
 {
@@ -13,7 +10,7 @@ namespace Automation.Infrastructure.Services
         public void Resolve(IProcessSchema schema, IEnumerable<AutomationTask> tasks)
         {
             var currentSchema = schema;
-            foreach(var task in tasks)
+            foreach (var task in tasks)
             {
                 if (task.Operation == Operations.ArchiveData)
                 {

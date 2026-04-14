@@ -4,7 +4,6 @@ using RPG.Domain.Repositories;
 using RPG.Infrastructure.External.FileConverters;
 using RPG.Infrastructure.External.FileConverters.Firebase;
 using RPG.Infrastructure.External.FileConverters.Json;
-using RPG.Infrastructure.Jobs;
 using RPG.Infrastructure.Repositories;
 using RPG.Infrastructure.Services;
 using RPG.Infrastructure.Services.SummaryService;
@@ -26,11 +25,11 @@ namespace RPG.Infrastructure
             services.AddScoped<IRPGDataConverter, OldJsonConverter>()
                      .AddScoped<IRPGDataConverter, FirebaseConverter>()
                      .AddScoped<IRPGDataConverter, JsonConverter>()
-                     .AddScoped<IJsonConverter,JsonConverter>();
+                     .AddScoped<IJsonConverter, JsonConverter>();
 
             return services.AddScoped<IAutomationResolver, RPGAutomationResolver>()
                             .AddScoped<ISummaryService, SummaryService>()
-                            .AddScoped<IImportService,ImportService>();
+                            .AddScoped<IImportService, ImportService>();
         }
     }
 }

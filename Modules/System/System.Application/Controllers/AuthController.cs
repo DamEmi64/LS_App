@@ -43,7 +43,7 @@ namespace System.Application.Controllers
                 return Ok(result);
             }
 
-            return BadRequest(GetNotifications(result.Errors).Select(x=>x.ToString()).ToList());
+            return BadRequest(GetNotifications(result.Errors).Select(x => x.ToString()).ToList());
         }
 
         [HttpPost("login")]

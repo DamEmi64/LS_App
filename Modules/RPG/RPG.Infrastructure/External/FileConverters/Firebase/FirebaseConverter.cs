@@ -42,7 +42,7 @@ namespace RPG.Infrastructure.External.FileConverters.Firebase
                 {
                     var heroModel = chapterModel.Heroes?.FirstOrDefault(h => h.FirstName == hero.FirstName && h.LastName == hero.LastName);
                     if (heroModel?.ImageData != null)
-                    {           
+                    {
                         var imageId = await _mediaProvider.Save(heroModel.ImageData, null, "jpeg");
                         hero.Image = imageId;
                     }

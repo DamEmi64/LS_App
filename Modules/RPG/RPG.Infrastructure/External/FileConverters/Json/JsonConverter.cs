@@ -38,12 +38,12 @@ namespace RPG.Infrastructure.External.FileConverters.Json
 
                 foreach (var hero in chapter.Heroes)
                 {
-                    var image = chapterDto.Heroes.FirstOrDefault(x=>x.FirstName == hero.FirstName && x.LastName == hero.LastName)?.Image;
+                    var image = chapterDto.Heroes.FirstOrDefault(x => x.FirstName == hero.FirstName && x.LastName == hero.LastName)?.Image;
 
                     if (string.IsNullOrWhiteSpace(image))
                         continue;
 
-                    var imageId = await _mediaProvider.Save(image, null,"jpeg");
+                    var imageId = await _mediaProvider.Save(image, null, "jpeg");
 
                     hero.Image = imageId;
                 }
@@ -90,7 +90,7 @@ namespace RPG.Infrastructure.External.FileConverters.Json
 
                         if (media is not null)
                         {
-                            heroDto.Image = media.ContentStr; 
+                            heroDto.Image = media.ContentStr;
                         }
                     }
                 }

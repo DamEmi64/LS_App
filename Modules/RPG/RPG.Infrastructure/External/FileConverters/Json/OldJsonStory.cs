@@ -1,7 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace RPG.Infrastructure.External.FileConverters.Json
 {
@@ -38,7 +35,7 @@ namespace RPG.Infrastructure.External.FileConverters.Json
         public string? Image { get; set; }
     }
 
-    public class OldJsonHero :OldJsonElement
+    public class OldJsonHero : OldJsonElement
     {
         [JsonProperty("Player")]
         public string? Player { get; set; }
@@ -50,7 +47,7 @@ namespace RPG.Infrastructure.External.FileConverters.Json
         public List<OldJsonSkill>? Skills { get; set; }
     }
 
-    public class  OldJsonSkill
+    public class OldJsonSkill
     {
         public string? Name { get; set; }
 

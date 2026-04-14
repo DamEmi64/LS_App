@@ -22,11 +22,11 @@ namespace RPG.Infrastructure.Repositories
         => DbContext.Stories
             .Include(x => x.Chapters)
             .ThenInclude(x => x.Heroes)
-            .ThenInclude(x=>x.PlayerData)
+            .ThenInclude(x => x.PlayerData)
             .Include(x => x.Chapters)
             .ThenInclude(x => x.Places)
-            .Include(x=>x.Chapters)
-            .ThenInclude(x =>x.Links)
+            .Include(x => x.Chapters)
+            .ThenInclude(x => x.Links)
             .FirstOrDefaultAsync(x => x.Id == id);
 
         public override IEnumerable<Story> GetAll()

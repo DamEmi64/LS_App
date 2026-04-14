@@ -76,7 +76,7 @@ namespace RPG.Application.Controllers
             {
                 fileName = dto.File.FileName;
             }
-            
+
             var job = await _importService.ImportFromFile(dto.File ?? null, dto.ConverterType, dto.ExternalUrl, await GetCurrentUser() ?? new UserData { UserId = Guid.Empty.ToString() });
 
             await Notifier.Success(NotifyTypes.ProcessQueued, job);

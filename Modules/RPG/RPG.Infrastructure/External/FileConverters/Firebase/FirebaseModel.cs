@@ -146,7 +146,7 @@ namespace RPG.Infrastructure.External.FileConverters.Firebase
                 Title = model.Title,
                 Description = model.Description,
                 Order = model.Order
-             };
+            };
 
             foreach (var hero in model.Heroes)
             {
@@ -160,7 +160,7 @@ namespace RPG.Infrastructure.External.FileConverters.Firebase
 
             return chapter;
         }
-         
+
 
         public static Hero ToEntity(this HeroModel model, Chapter chapter)
             => new()
