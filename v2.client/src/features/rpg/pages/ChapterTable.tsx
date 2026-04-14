@@ -1,78 +1,93 @@
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import PlaceForm from "@/features/rpg/components/PlaceForm";
-import { Accordion, AccordionDetails, AccordionSummary, Box, CircularProgress, Collapse, IconButton, Table, TableBody, TableCell, TableRow, Typography } from "@mui/material";
+
+import {
+    Accordion,
+    AccordionDetails,
+    AccordionSummary,
+    Box,
+    CircularProgress,
+    Collapse,
+    IconButton,
+    Table,
+    TableBody,
+    TableCell,
+    TableRow,
+    Typography,
+    useMediaQuery,
+    useTheme
+} from "@mui/material";
+
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+
 import { HeroTable } from "./HeroTable";
 import { PlaceTable } from "./PlaceTable";
 import { convertToDateStr } from '@/lib/utils';
 import DMPage from './DMPage';
+
 import SessionView from '@/features/rpg/components/sessionForm';
 import { useModal, useApiConnect, Operations } from '@/shared';
 import OperationCell from '@/shared/components/operationCell';
 import YesNoWindow from '@/shared/components/YesNoWindow';
+
 import { Chapter, SessionDto, HeroDto, Hero, Story } from '../types';
 import HeroForm from '../components/heroForm';
+import PlaceForm from "@/features/rpg/components/PlaceForm";
 
 export type ChapterTableProps = {
     chapters: Chapter[]
-}
+};
 
 export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
     const { t } = useTranslation();
     const modal = useModal();
     const api = useApiConnect();
-    const [open, setOpen] = useState<boolean>();
-    const [activeRow, setActiveRow] = useState<string>();
-    const [loading, setLoading] = useState<boolean>(false);
+
+    // 📱 RESPONSIVE
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
+    // ✅ FIX: per-row state (instead of global open)
+    const [openRows, setOpenRows] = useState<Record<string, boolean>>({});
+    const [loadingRow, setLoadingRow] = useState<string | null>(null);
+
     const [data, setData] = useState<Chapter[]>(chapters);
 
-    const refresh = (chapter: Chapter) => {
-        api.get<Chapter>('rpg_chapter_details', null, chapter.id).then((res) => {
-            setLoading(false);
-            setOpen(!open);
-            var newData = data.map(c => c.id === chapter.id ? res.data : c);
-            setData(newData);
-        });
-    }
+    const toggleRow = (chapter: Chapter) => {
+        const isOpen = !!openRows[chapter.id];
 
-    const refreshHeores = (chapter: Chapter) => {
-        api.get<Chapter>('rpg_chapter_details', null, chapter.id).then((res) => {
-            setLoading(false);
-            setOpen(!open);
-            var newData = data.map(c => c.id === chapter.id ? res.data : c);
-            setData(newData);
-        });
-    }
-
-    const handleRowClick = (chapter: Chapter) => {
-        setActiveRow(chapter.id);
-        if (open) {
-            setOpen(!open);
+        if (isOpen) {
+            setOpenRows(prev => ({ ...prev, [chapter.id]: false }));
             return;
         }
 
-        setLoading(true);
-        api.get<Chapter>('rpg_chapter_details', null, chapter.id).then((res) => {
-            setLoading(false);
-            setOpen(!open);
-            var newData = data.map(c => c.id === chapter.id ? res.data : c);
-            setData(newData);
-        });
+        setLoadingRow(chapter.id);
+
+        api.get<Chapter>('rpg_chapter_details', null, chapter.id)
+            .then((res) => {
+                setLoadingRow(null);
+
+                setData(prev =>
+                    prev.map(c => c.id === chapter.id ? res.data : c)
+                );
+
+                setOpenRows(prev => ({
+                    ...prev,
+                    [chapter.id]: true
+                }));
+            });
     };
 
-    const dmPage = (chapter: Chapter) => {
-        setLoading(true);
-        api.get<Chapter>('rpg_chapter_details', null, chapter.id).then((res) => {
-            setLoading(false);
-            var newData = data.map(c => c.id === chapter.id ? res.data : c);
-            setData(newData);
-            chapter = res.data;
-            modal.showModal(loading ? <CircularProgress /> : <DMPage chapter={chapter}></DMPage>)
-        });
-    }
+    const refresh = (chapter: Chapter) => {
+        api.get<Chapter>('rpg_chapter_details', null, chapter.id)
+            .then((res) => {
+                setData(prev =>
+                    prev.map(c => c.id === chapter.id ? res.data : c)
+                );
+            });
+    };
 
     const operations: Operations<Chapter>[] = [
         { name: 'opt.details', method: (o) => details(o) },
@@ -83,173 +98,186 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
         { name: 'rpg.hero.add', method: (o) => addHero(o) },
         { name: 'rpg.place.add', method: (o) => addPlace(o) },
         { name: 'opt.delete', method: (o) => del(o) }
-    ]
-
-    const show = (c: Chapter, isEdit: boolean) => {
-       return <SessionView data={c as unknown as SessionDto} isChapter={true} isEdit={isEdit} onSave={(s) => saveEdit(s,c)} onDelete={(s) => del(c)} />
-    }
+    ];
 
     const details = (o: Chapter) => {
-        setLoading(true);
-        api.get<Chapter>('rpg_chapter_details', null, o.id).then((res) => {
-            setLoading(false);
-            o = res.data;
-            modal.showModal(loading ? <CircularProgress /> : show(o, false));
-        });
-    }
-
-    const addHero = (data: Chapter) => {
-        var hero = {} as HeroDto;
-        hero.chapter = data.id;
-        modal.showModal(<HeroForm hero={hero} onSave={(o) => saveHero(o, data)} isEdit={true} />)
-    }
-
-    const saveHero = (data: HeroDto, chapter: Chapter) => {
-        api.post<HeroDto>('rpg_hero_new', data, null)
-            .then(() => {
-                modal.hideModal();
-                refresh(chapter);
+        api.get<Chapter>('rpg_chapter_details', null, o.id)
+            .then((res) => {
+                modal.showModal(
+                    <SessionView
+                        data={res.data as unknown as SessionDto}
+                        isChapter
+                        isEdit={false}
+                        onSave={() => {}}
+                        onDelete={() => {}}
+                    />
+                );
             });
-    }
-
-    const addPlace = (data: Chapter) => {
-        var place = {} as SessionDto;
-        place.chapter = data.id;
-        modal.showModal(<PlaceForm data={place} onSave={(o) => savePlace(o, data)} isNew={true}/>)
-    }
-
-    const savePlace = (data: SessionDto, chapter: Chapter) => {
-        api.post<SessionDto>('rpg_place_new', data, null)
-            .then(() => {
-                modal.hideModal();
-                refresh(chapter);
-            });
-    }
+    };
 
     const edit = (o: Chapter) => {
-        setLoading(true);
-        api.get<Chapter>('rpg_chapter_details', null, o.id).then((res) => {
-            setLoading(false);
-            o = res.data;
-            modal.showModal(loading ? <CircularProgress /> : show(o, true));
-        });
-     }
+        api.get<Chapter>('rpg_chapter_details', null, o.id)
+            .then((res) => {
+                modal.showModal(
+                    <SessionView
+                        data={res.data as unknown as SessionDto}
+                        isChapter
+                        isEdit
+                        onSave={(s) => saveEdit(s, res.data)}
+                        onDelete={() => del(res.data)}
+                    />
+                );
+            });
+    };
 
     const saveEdit = (data: SessionDto, chapter: Chapter) => {
-        api.put<SessionDto>('rpg_chapter_edit', data, null, chapter.id)
-            .then(() => {
-                modal.hideModal();
-                refresh(chapter);
+        api.put('rpg_chapter_edit', data, null, chapter.id)
+            .then(() => refresh(chapter));
+    };
+
+    const addHero = (chapter: Chapter) => {
+        const hero = { chapter: chapter.id } as HeroDto;
+        modal.showModal(
+            <HeroForm hero={hero} onSave={(o) => saveHero(o, chapter)} isEdit />
+        );
+    };
+
+    const saveHero = (data: HeroDto, chapter: Chapter) => {
+        api.post('rpg_hero_new', data, null).then(() => {
+            modal.hideModal();
+            refresh(chapter);
+        });
+    };
+
+    const addPlace = (chapter: Chapter) => {
+        const place = { chapter: chapter.id } as SessionDto;
+        modal.showModal(
+            <PlaceForm data={place} onSave={(o) => savePlace(o, chapter)} isNew />
+        );
+    };
+
+    const savePlace = (data: SessionDto, chapter: Chapter) => {
+        api.post('rpg_place_new', data, null).then(() => {
+            modal.hideModal();
+            refresh(chapter);
+        });
+    };
+
+    const dmPage = (chapter: Chapter) => {
+        api.get<Chapter>('rpg_chapter_details', null, chapter.id)
+            .then((res) => {
+                setData(prev =>
+                    prev.map(c => c.id === chapter.id ? res.data : c)
+                );
+
+                modal.showModal(<DMPage chapter={res.data} />);
             });
-    }
+    };
 
-    const del = (data: Chapter) => {
-        modal.showModal(<YesNoWindow message={t('entity.del_info')} yesMethod={() => delConfirm(data)} open={true} onClose={modal.hideModal} noMethod={modal.hideModal} />);
-    }
+    const del = (chapter: Chapter) => {
+        modal.showModal(
+            <YesNoWindow
+                message={t('entity.del_info')}
+                yesMethod={() => delConfirm(chapter)}
+                open
+                onClose={modal.hideModal}
+                noMethod={modal.hideModal}
+            />
+        );
+    };
 
-    const delConfirm = (data: Chapter) => {
-        api.del<Hero>('rpg_chapter_del', null, data.id)
-            .then(() => {
-                modal.hideModal();
-                refresh(data);
-            });
-    }
+    const delConfirm = (chapter: Chapter) => {
+        api.del('rpg_chapter_del', null, chapter.id).then(() => {
+            modal.hideModal();
+            setData(prev => prev.filter(c => c.id !== chapter.id));
+        });
+    };
 
-    const startChapter = (data: any) => {
-        api.put<Story>('rpg_chapter_start', data, null, data.id)
-            .then(() => {
-                refresh(data);
-            });
-    }
+    const startChapter = (c: Chapter) => api.put('rpg_chapter_start', c, null, c.id).then(() => refresh(c));
+    const endChapter = (c: Chapter) => api.put('rpg_chapter_end', c, null, c.id).then(() => refresh(c));
 
-    const endChapter = (data: any) => {
-        api.put<Story>('rpg_chapter_end', data, null, data.id)
-            .then(() => {
-                refresh(data);
-            });
-    }
+    return (
+        <Box sx={{ width: "100%", overflowX: "auto" }}>
+            <Table size={isMobile ? "small" : "medium"}>
+                <TableBody>
+                    {data
+                        .slice()
+                        .sort((a, b) => a.order - b.order)
+                        .map((chapter) => {
+                            const isOpen = !!openRows[chapter.id];
+                            const isLoading = loadingRow === chapter.id;
 
-    return <>
-        <Table>
-            <TableRow>
-                <TableCell />
-                <TableCell
-                >
-                    {t('rpg.other.title')}
-                </TableCell>
-                <TableCell
-                >
-                    {t('rpg.chapter.startDate')}
-                </TableCell>
-                <TableCell
-                >
-                    {t('rpg.chapter.endDate')}
-                </TableCell>
-            </TableRow>
-            <TableBody>
-                {data && (data.sort((a, b) => a.order - b.order).map((chapter: Chapter) => (
-                    <>
-                        <TableRow key={chapter.id}>
-                            <TableCell>
-                                <IconButton
-                                    aria-label="expand row"
-                                    size="small"
-                                    onClick={() => handleRowClick(chapter)}
-                                >
-                                    {loading ? <CircularProgress /> : (open && activeRow === chapter.id) ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                                </IconButton>
-                            </TableCell>
-                            <TableCell>
-                                {String(chapter.title)}
-                            </TableCell>
-                            <TableCell>
-                                {chapter.startDate ? convertToDateStr(chapter.startDate.toLocaleString()) : '--'}
-                            </TableCell>
-                            <TableCell>
-                                {chapter.endDate ? convertToDateStr(chapter.endDate.toLocaleString()) : '--'}
-                            </TableCell>
-                            <OperationCell operations={operations} data={chapter} />
-                        </TableRow>
-                        <TableRow>
-                            <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-                                <Collapse in={(open && activeRow === chapter.id)} timeout="auto" unmountOnExit>
-                                    <Box sx={{ margin: 1 }}>
-                                        <Typography
-                                            variant="body1"
-                                            gutterBottom
-                                            component="label"
-                                        >{chapter.description}</Typography>
-                                        <Accordion>
-                                            <AccordionSummary
-                                                expandIcon={<ArrowDownwardIcon />}
-                                                aria-controls="panel1-content"
-                                                id="panel1-header"
-                                            >
-                                                <Typography component="span">{t('rpg.story.heroes')}</Typography>
-                                            </AccordionSummary>
-                                            <AccordionDetails>
-                                                <HeroTable heroes={chapter.heroes} refresh={() => refresh(chapter)} />
-                                            </AccordionDetails>
-                                        </Accordion>
-                                        <Accordion>
-                                            <AccordionSummary
-                                                expandIcon={<ArrowDownwardIcon />}
-                                                aria-controls="panel1-content"
-                                                id="panel1-header"
-                                            >
-                                                <Typography component="span">{t('rpg.story.places')}</Typography>
-                                            </AccordionSummary>
-                                            <AccordionDetails>
-                                                <PlaceTable places={chapter.places} refresh={() => refresh(chapter)} />
-                                            </AccordionDetails>
-                                        </Accordion>
-                                    </Box>
-                                </Collapse>
-                            </TableCell>
-                        </TableRow>
-                    </>
-                )))}
-            </TableBody>
-        </Table>
-    </>;
-}
+                            return (
+                                <>
+                                    <TableRow key={chapter.id}>
+                                        <TableCell>
+                                            <IconButton onClick={() => toggleRow(chapter)}>
+                                                {isLoading
+                                                    ? <CircularProgress size={18} />
+                                                    : isOpen
+                                                        ? <KeyboardArrowUpIcon />
+                                                        : <KeyboardArrowDownIcon />
+                                                }
+                                            </IconButton>
+                                        </TableCell>
+
+                                        <TableCell>{chapter.title}</TableCell>
+                                        <TableCell>
+                                            {chapter.startDate
+                                                ? convertToDateStr(chapter.startDate.toLocaleString())
+                                                : '--'}
+                                        </TableCell>
+                                        <TableCell>
+                                            {chapter.endDate
+                                                ? convertToDateStr(chapter.endDate.toLocaleString())
+                                                : '--'}
+                                        </TableCell>
+
+                                        <OperationCell operations={operations} data={chapter} />
+                                    </TableRow>
+
+                                    <TableRow>
+                                        <TableCell colSpan={6} sx={{ p: 0 }}>
+                                            <Collapse in={isOpen} timeout="auto" unmountOnExit>
+                                                <Box sx={{ p: isMobile ? 1 : 2 }}>
+                                                    <Typography variant="body2" sx={{ mb: 1 }}>
+                                                        {chapter.description}
+                                                    </Typography>
+
+                                                    <Accordion>
+                                                        <AccordionSummary expandIcon={<ArrowDownwardIcon />}>
+                                                            <Typography>{t('rpg.story.heroes')}</Typography>
+                                                        </AccordionSummary>
+                                                        <AccordionDetails>
+                                                            <HeroTable
+                                                                heroes={chapter.heroes}
+                                                                refresh={() => refresh(chapter)}
+                                                                storyChapters={chapters}
+                                                            />
+                                                        </AccordionDetails>
+                                                    </Accordion>
+
+                                                    <Accordion>
+                                                        <AccordionSummary expandIcon={<ArrowDownwardIcon />}>
+                                                            <Typography>{t('rpg.story.places')}</Typography>
+                                                        </AccordionSummary>
+                                                        <AccordionDetails>
+                                                            <PlaceTable
+                                                                places={chapter.places}
+                                                                refresh={() => refresh(chapter)}
+                                                                chapters={chapters}
+                                                            />
+                                                        </AccordionDetails>
+                                                    </Accordion>
+                                                </Box>
+                                            </Collapse>
+                                        </TableCell>
+                                    </TableRow>
+                                </>
+                            );
+                        })}
+                </TableBody>
+            </Table>
+        </Box>
+    );
+};

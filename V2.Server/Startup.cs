@@ -31,7 +31,7 @@ namespace Api
 
             if (builder.Environment.IsDevelopment())
             {
-                Log.Logger = new LoggerConfiguration()
+                 Log.Logger = new LoggerConfiguration()
                                 .MinimumLevel.Information()
                                 .Enrich.FromLogContext()
                                 .WriteTo.Console() // optional but recommended

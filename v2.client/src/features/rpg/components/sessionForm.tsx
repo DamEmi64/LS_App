@@ -22,6 +22,7 @@ type SessionViewProps = {
     isChapter?: boolean;
     onSave?: (data: SessionDto) => void;
     onDelete?: (data: SessionDto) => void;
+    onCopy?: (data: SessionDto) => void;
 };
 
 export const SessionView: React.FC<SessionViewProps> = ({
@@ -31,6 +32,7 @@ export const SessionView: React.FC<SessionViewProps> = ({
     isChapter,
     onSave,
     onDelete,
+    onCopy
 }) => {
     const theme = useTheme();
     const textColor = theme.palette.mode === 'dark' ? theme.palette.text.primary : theme.palette.text.secondary;
@@ -206,6 +208,17 @@ export const SessionView: React.FC<SessionViewProps> = ({
                             <Button type="button" onClick={() => setEditing(true)} sx={{ background: theme.palette.primary.main, color: '#fff' }}>
                                 {t('opt.edit')}
                             </Button>
+
+                            {onCopy && !isChapter && (
+                                <Button
+                                    type="button"
+                                    onClick={() => onCopy(data)}
+                                    sx={{ background: theme.palette.secondary.main, color: '#fff' }}
+                                >
+                                    {t('opt.copy')}
+                                </Button>
+                            )}
+
                             {onDelete && (
                                 <Button type="button" onClick={() => onDelete(data)} sx={{ background: theme.palette.error.main, color: '#fff' }}>
                                     {t('opt.delete')}

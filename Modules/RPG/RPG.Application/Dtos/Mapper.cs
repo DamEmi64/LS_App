@@ -13,7 +13,7 @@
                 .ForMember(d => d.Id, o => o.Ignore()); // let DB handle
 
             CreateMap<Link, LinkDto>()
-                .ForMember(d => d.Id, o => o.Ignore()); // don't use GetHashCode ❗
+                .ForMember(d => d.Id, o => o.MapFrom(d => Random.Shared.Next())); // don't use GetHashCode ❗
 
             CreateMap<PlaceDto, Place>()
                 .ForMember(d => d.Id, o => o.MapFrom(s => s.Id ?? Guid.NewGuid()))

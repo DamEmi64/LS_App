@@ -1,4 +1,5 @@
 ﻿using Base;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Domain.Dictionaries;
 using System.Domain.Entities;
@@ -42,7 +43,7 @@ namespace System.Application.Controllers
                 return Ok(result);
             }
 
-            return BadRequest(result.Errors.Select(e => e.Description));
+            return BadRequest(GetNotifications(result.Errors).Select(x=>x.ToString()).ToList());
         }
 
         [HttpPost("login")]
@@ -92,6 +93,22 @@ namespace System.Application.Controllers
         {
             await _authService.Logout();
             return Ok();
+        }
+
+        private IEnumerable<int> GetNotifications(IEnumerable<IdentityError> errors)
+        {
+            foreach (var error in errors)
+            {
+                yield return error.Code switch
+                {
+                    "PasswordTooShort" => SystemNotifyTypes.PasswordTooShort,
+                    "PasswordRequiresNonAlphanumeric" => SystemNotifyTypes.PasswordRequiresNonAlphanumeric,
+                    "PasswordRequiresDigit" => SystemNotifyTypes.PasswordRequiresDigit,
+                    "PasswordRequiresLower" => SystemNotifyTypes.PasswordRequiresLower,
+                    "PasswordRequiresUpper" => SystemNotifyTypes.PasswordRequiresUpper,
+                    _ => NotifyTypes.Log
+                };
+            }
         }
     }
 }

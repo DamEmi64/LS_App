@@ -1,7 +1,7 @@
 import { Box, Menu, MenuItem, useTheme } from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { NavbarItemProps } from "./definitions";
+import { NavbarItemProps } from "@/shared";
 import { useTranslation } from "react-i18next";
 
 const navItem = (props: NavbarItemProps) => {

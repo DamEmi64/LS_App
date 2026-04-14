@@ -10,12 +10,12 @@
     "minLength": "Minimum length is {0} characters",
     "maxLength": "Maximum length is {0} characters",
     "email": "Invalid email address",
-    "url": "Invalid URL address",
+    "url": "Invalid URL",
     "number": "This field must be a number"
   },
   "notify": {
     "processActive": "Task notifications",
-    "processError": "Task error notifications only",
+    "processError": "Only task error notifications",
     "position": "Notification position",
     "notification": "Notifications",
     "autoClose": "Display time (ms)",
@@ -25,42 +25,57 @@
     "bottomLeft": "Bottom left",
     "topLeft": "Top left",
     "messages": {
-      "1001": "File {0} saved",
-      "1002": "File {0} deleted",
-      "1003": "File {0} updated",
-      "1004": "File {0} not found",
-      "1005": "File {0} already exists",
-      "1006": "File {0} not saved",
-      "1007": "Internal process error {0}",
-      "1008": "Process {0} started",
-      "1009": "Process {0} completed",
-      "1010": "Process {0} failed",
-      "1011": "Process {0} queued",
+      "1000": "Log",
+      "1001": "Internal process error {0}",
+      "1002": "Process {0} started",
+      "1003": "Process {0} completed",
+      "1004": "Process {0} failed",
+      "1005": "Process {0} added to queue",
+
+      "1006": "File {0} saved",
+      "1007": "File {0} deleted",
+      "1008": "File {0} updated",
+      "1009": "File {0} not found",
+      "1010": "File {0} already exists",
+      "1011": "File {0} was not saved",
+
       "1012": "Session {0} saved",
       "1013": "Session {0} deleted",
       "1014": "Session {0} updated",
       "1015": "Session {0} not found",
+
       "1016": "Chapter {0} saved",
       "1017": "Chapter {0} deleted",
       "1018": "Chapter {0} updated",
       "1019": "Chapter {0} not found",
-      "1020": "Character {0} saved",
-      "1021": "Character {0} deleted",
-      "1022": "Character {0} updated",
-      "1023": "Character {0} not found",
-      "1024": "Location {0} saved",
-      "1025": "Location {0} deleted",
-      "1026": "Location {0} updated",
-      "1027": "Location {0} not found",
+
+      "1020": "Hero {0} saved",
+      "1021": "Hero {0} deleted",
+      "1022": "Hero {0} updated",
+      "1023": "Hero {0} not found",
+
+      "1024": "Place {0} saved",
+      "1025": "Place {0} deleted",
+      "1026": "Place {0} updated",
+      "1027": "Place {0} not found",
+
       "1030": "Login successful",
       "1031": "Login failed",
       "1032": "Invalid password",
       "1033": "Account locked",
       "1034": "Two-factor authentication failed",
       "1035": "Registration successful",
-      "1036": "Registration failed"
+      "1036": "Registration failed",
+      "1037": "Email sent successfully",
+      "1038": "Email generated successfully",
+      "1039": "Password too short",
+      "1040": "Password requires a non-alphanumeric character",
+      "1041": "Password requires a digit",
+      "1042": "Password requires a lowercase letter",
+      "1043": "Password requires an uppercase letter"
     }
   },
+
   "user": {
     "firstName": "First name",
     "lastName": "Last name",
@@ -69,6 +84,7 @@
     "info": "User information",
     "userName": "Username"
   },
+
   "processes": {
     "title": "Processes",
     "description": "Manage running processes",
@@ -77,30 +93,33 @@
     "startingDate": "Start date",
     "startingDateFrom": "Start date from",
     "startingDateTo": "Start date to",
-    "percentage": "Completion level",
+    "percentage": "Completion",
     "status": "Status",
-    "jobs": "Tasks",
-    "noJobs": "No tasks associated with the process",
+    "jobs": "Jobs",
+    "noJobs": "No jobs associated with the process",
     "errors": "Process errors",
     "errorMessage": "Error message",
     "restart": "Restart process"
   },
+
   "jobs": {
     "id": "Id",
-    "jobId": "Hangfire id",
-    "status": "Task status",
-    "requestData": "Planned start date",
+    "jobId": "Hangfire Id",
+    "status": "Job status",
+    "requestData": "Scheduled start date",
     "startDate": "Start date",
     "endDate": "End date",
     "name": "Name",
-    "percentage": "Completion level",
+    "percentage": "Completion",
     "operation": "Operation"
   },
+
   "entity": {
     "insDate": "Creation date",
     "upDate": "Update date",
     "del_info": "Delete data?"
   },
+
   "files": {
     "title": "Files",
     "all": "*",
@@ -117,143 +136,12 @@
     "year": "Year",
     "semester": "Semester",
     "sourceType": "Source type",
-    "import": "Download",
+    "import": "Download from external server",
+    "export": "Download from server",
     "gameGenre": "Game genre",
-    "useFileUpload": "Save file to database"
+    "useFileUpload": "Store file in database"
   },
-  "communication": {
-    "title": "Communication",
-    "emails": "Emails",
-    "templates": "Templates",
-    "description": "Manage user communication",
-    "template": {
-      "title": "Message templates",
-      "description": "Manage message templates",
-      "name": "Template name",
-      "subject": "Subject",
-      "body": "Content",
-      "add": "Add template",
-      "edit": "Edit template",
-      "del": "Delete template",
-      "gen": "Generate message",
-      "strategies": {
-        "title": "Template functions",
-        "description": "Message template functions that can be used in message content",
-        "example": "Example",
-        "increment": {
-          "title": "Automatically increment message number",
-          "description": "Automatically increments message number in template",
-          "example": " {{ increment()}}"
-        },
-        "randomNumber": {
-          "title": "Automatic numbering",
-          "description": "Automatically increments message number in template, if number range provided, generates random number from that range",
-          "example": " {{ randomNumber(0,20)}}"
-        },
-        "random": {
-          "title": "Automatic random value selection from given arguments",
-          "description": "Automatically selects random value from given arguments in template",
-          "example": " {{ random('', 'a', 'b', 'c')}}"
-        },
-        "randomUnique": {
-          "title": "Automatic unique random value selection from given arguments",
-          "description": "Automatically selects unique random value from given arguments in template. If argument named same as message recipient, unique value will be selected from given argument where values are separated by ;",
-          "example": " {{ randomUnique( test@test.com:'d;e;f', 'a', 'b', 'c')}}"
-        }
-      }
-    },
-    "email": {
-      "title": "Email",
-      "subject": "Subject",
-      "sendDate": "Send date",
-      "description": "Send emails",
-      "body": "Content",
-      "from": "From",
-      "to": "To",
-      "cc": "CC",
-      "bcc": "BCC",
-      "send": "Send email",
-      "sender": {
-        "title": "Sender",
-        "email": "Email address",
-        "name": "Full name"
-      },
-      "recipient": {
-        "title": "Recipient",
-        "email": "Email address",
-        "name": "Full name"
-      }
-    },
-    "editor": {
-      "title": "Message editor"
-    }
-  },
-  "rpg": {
-    "deleteConfirm": {
-      "place": "Do you want to delete location {0}?",
-      "hero": "Do you want to delete character {0}?",
-      "story": "Do you want to delete story {0}?"
-    },
-    "story": {
-      "startDate": "Story start date",
-      "endDate": "Story end date",
-      "description": "Description",
-      "heroes": "Characters",
-      "places": "Locations",
-      "chapters": "Chapters",
-      "summary": "Summary",
-      "start": "Start story",
-      "end": "End story",
-      "gen_summary": "Generate summary",
-      "download_summary": "Download summary",
-      "title": "Title",
-      "gen_summary_desc": "Select chapters to generate summary",
-      "send_firebase": "Send to summary application"
-    },
-    "chapter": {
-      "title": "Title",
-      "description": "Description",
-      "add": "Add chapter",
-      "chapters": "Chapters",
-      "startDate": "Chapter start date",
-      "endDate": "Chapter end date",
-      "start": "Start session",
-      "end": "End session",
-      "order": "Order",
-      "dmPage": "DM page",
-      "playerPage": "Player page",
-      "sessions": "Sessions",
-      "links": "Support material links"
-    },
-    "hero": {
-      "firstName": "First name",
-      "lastName": "Last name",
-      "player": "Played by",
-      "description": "Character history",
-      "add": "Add character",
-      "playerData": "Player information",
-      "diceRoll": "Roll dice",
-      "skill": {
-        "title": "Skill title",
-        "value": "Skill value",
-        "add": "Add skill",
-        "remove": "Remove skill"
-      }
-    },
-    "place": {
-      "title": "Title",
-      "description": "Description",
-      "add": "Add location"
-    },
-    "other": {
-      "title": "Title",
-      "description": "Description",
-      "image": "Image",
-      "url": "Link"
-    },
-    "title": "RPG Sessions",
-    "description": "Stories to tell"
-  },
+
   "menu": {
     "home": "Home",
     "processes": "Processes",
@@ -262,121 +150,21 @@
     "communication": "Communication",
     "emails": "Emails",
     "templates": "Templates",
-    "rpg_sessions": "RPG Sessions",
+    "automations": "Automations",
+    "rpg_sessions": "RPG sessions",
     "register": "Register",
     "login": "Login",
     "logout": "Logout"
   },
-  "server": {
-    "info": "Application status",
-    "server_version": "Server version",
-    "frontend_version": "Frontend version",
-    "modules": "Active modules",
-    "module_name": "Module name"
-  },
+
   "no_data": "no data",
-  "EndpointNotFound": "URL not found",
-  "filter_reset": "Clear filters",
+  "EndpointNotFound": "Endpoint not found",
+  "filter_reset": "Reset filters",
   "language": "Language",
   "settings": "Settings",
   "login": "Login",
   "register": "Register",
-  "apiEndpoint": "Server link",
+  "apiEndpoint": "Server URL",
   "darkTheme": "Dark theme",
-  "error": "Error",
-  "opt": {
-    "add": "New",
-    "delete": "Delete",
-    "edit": "Edit",
-    "details": "Information",
-    "operations": "Operations",
-    "save": "Save",
-    "change_pass": "Change password",
-    "login": "Login",
-    "register": "Register"
-  },
-  "auth": {
-    "welcome": "Welcome to the application",
-    "info": "Login or register to continue",
-    "no_permission": "You don't have permission to view this page. Contact administrator.",
-    "register": {
-      "username": "Username",
-      "password": "Password",
-      "email": "Email address",
-      "firstName": "First name",
-      "lastName": "Last name",
-      "phoneNumber": "Phone number"
-    },
-    "login": {
-      "username": "Username",
-      "password": "Password",
-      "rememberMe": "Remember me"
-    }
-  },
-  "dictionaries": {
-    "processStatus": {
-      "New": "New",
-      "Executing": "Executing",
-      "Success": "Successful",
-      "Failed": "Failed",
-      "Paused": "Paused"
-    },
-    "Operations": {
-      "11": "File import",
-      "12": "File move",
-      "13": "File copy",
-      "14": "File delete",
-      "21": "Send emails",
-      "22": "Generate email messages",
-      "31": "Generate RPG chapter summary",
-      "32": "Send RPG story summary to external system"
-    },
-    "fileType": {
-      "Games": "Games",
-      "Docs": "Documents",
-      "Study": "Study files"
-    },
-    "sourceTypes": {
-      "Local": "File path",
-      "FuckingFast": "From FuckingFast site"
-    },
-    "gameGenres": {
-      "Platformer": "Platformer",
-      "Shooter": "Shooter",
-      "FirstPersonShooter": "First Person Shooter",
-      "ThirdPersonShooter": "Third Person Shooter",
-      "BeatEmUp": "Beat 'Em Up",
-      "Stealth": "Stealth",
-      "Survival": "Survival",
-      "ActionAdventure": "Action Adventure",
-      "NarrativeAdventure": "Narrative Adventure",
-      "PointAndClick": "Point-and-click",
-      "ActionRPG": "Action RPG",
-      "TurnBasedRPG": "Turn-based RPG",
-      "TacticalRPG": "Tactical RPG",
-      "MMORPG": "MMORPG",
-      "OpenWorldRPG": "Open World RPG",
-      "LifeSimulation": "Life Simulation",
-      "FarmingSimulation": "Farming Simulation",
-      "VehicleSimulation": "Vehicle Simulation",
-      "CityBuilding": "City Building",
-      "RealTimeStrategy": "Real-time Strategy",
-      "TurnBasedStrategy": "Turn-based Strategy",
-      "TowerDefense": "Tower Defense",
-      "FourX": "4X (Explore, Expand, Exploit, Exterminate)",
-      "ClassicPuzzle": "Classic Puzzle",
-      "PhysicsPuzzle": "Physics Puzzle",
-      "Match3": "Match 3",
-      "TraditionalSports": "Traditional Sports",
-      "ExtremeSports": "Extreme Sports",
-      "Racing": "Racing",
-      "TraditionalFighting": "Traditional Fighting",
-      "PlatformFighting": "Platform Fighting",
-      "SurvivalHorror": "Survival Horror",
-      "PsychologicalHorror": "Psychological Horror",
-      "PartyGame": "Party Game",
-      "RhythmGame": "Rhythm Game",
-      "Other": "Other"
-    }
-  }
+  "error": "Error"
 }
