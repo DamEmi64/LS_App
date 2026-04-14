@@ -521,7 +521,7 @@
 
             window.confirmDelete = function () {
                 var id = $('#deleteUserId').val();
-                $.ajax({ type: 'DELETE', url: 'admin/DeleteUser', data: { id } })
+                $.ajax({ type: 'DELETE', url: 'DeleteUser', data: { id } })
                     .done(() => { closeModal('deleteModal'); table.draw(); showToast("User deleted successfully"); })
                     .fail(xhr => { showToast(xhr.responseText || "Delete failed", "error"); });
             };
