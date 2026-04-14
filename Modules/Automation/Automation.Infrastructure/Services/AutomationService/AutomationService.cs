@@ -2,9 +2,7 @@
 using Automation.Domain.Repositories;
 using Base;
 using Hangfire;
-using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
-using AutoTask = Automation.Domain.Entities.Task;
 
 namespace Automation.Infrastructure.Services.AutomationService
 {
@@ -12,13 +10,13 @@ namespace Automation.Infrastructure.Services.AutomationService
     {
         private readonly IAutomatRepository _automatRepository;
         private readonly IJobEngine _jobEngine;
-        private readonly IEnumerable<IEventJob> _jobs;
+        private readonly IEnumerable<IAutomationResolver> _resolvers;
         private readonly RecurringJobManager _recurringJobManager;
 
-        public AutomationService(IJobEngine jobEngine, IEnumerable<IEventJob> jobs, IAutomatRepository automatRepository)
+        public AutomationService(IJobEngine jobEngine, IEnumerable<IAutomationResolver> resolvers, IAutomatRepository automatRepository)
         {
             _jobEngine = jobEngine;
-            _jobs = jobs;
+            _resolvers = resolvers;
             _automatRepository = automatRepository;
             _recurringJobManager = new RecurringJobManager();
         }
@@ -92,6 +90,7 @@ namespace Automation.Infrastructure.Services.AutomationService
             ExecuteAutomatAsync(automat).Wait();
         }
 
+
         public async System.Threading.Tasks.Task ExecuteAutomatAsync(Automat automat)
         {
             var schema = CreateSchema(automat);
@@ -105,29 +104,20 @@ namespace Automation.Infrastructure.Services.AutomationService
         {
             var schema = _jobEngine.Create($"[AUTOMAT] {automat.Title} - {DateTime.UtcNow.ToShortTimeString()}");
 
-            foreach (var task in automat.Tasks.OrderBy(t => t.Order))
+            var automationTasks = automat.Tasks.Select(x => new AutomationTask
             {
-                schema.AddJob(CreateJob(task));
+                Operation = x.OperationId,
+                Order = x.Order,
+                JsonData = x.Data
+            })
+            .OrderBy(x => x.Order);
+
+            foreach (var resolver in _resolvers)
+            {
+                resolver.Resolve(schema, automationTasks.Where(x => !x.Handled));
             }
 
             return schema;
-        }
-
-        private IEventJob CreateJob(AutoTask task)
-        {
-            var job = _jobs.FirstOrDefault(x => x.OperationId == task.OperationId);
-
-            if (job is null)
-            {
-                throw new ArgumentException($"Job with OperationId {task.OperationId} not found.");
-            }
-            else
-            {
-                JsonConvert.PopulateObject(task.Data, job);
-
-                return job;
-            }
-
         }
     }
 }

@@ -12,5 +12,10 @@ namespace System.Domain.Dictionaries
         public static DictionaryItem TwoFactorFailed => EntityDictionary.Item(1034, "Two factor failed");
         public static DictionaryItem RegisterSucceeded => EntityDictionary.Item(1035, "Register succeeded");
         public static DictionaryItem RegisterFailed => EntityDictionary.Item(1036, "Register failed");
+        public static DictionaryItem PasswordTooShort => EntityDictionary.Item(1039, "Password too short");
+        public static DictionaryItem PasswordRequiresNonAlphanumeric => EntityDictionary.Item(1040, "Password requires non alphanumeric");
+        public static DictionaryItem PasswordRequiresDigit => EntityDictionary.Item(1041, "Password requires digit");
+        public static DictionaryItem PasswordRequiresLower => EntityDictionary.Item(1042, "Password requires lowercase");
+        public static DictionaryItem PasswordRequiresUpper => EntityDictionary.Item(1043, "Password requires upercase");
     }
 }

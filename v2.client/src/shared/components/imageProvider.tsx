@@ -3,7 +3,7 @@ import { Avatar, IconButton, CircularProgress, useTheme, Box } from '@mui/materi
 import ReactImagePickerEditor, { ImagePickerConf } from 'react-image-picker-editor';
 import { useApiConnect } from '@/shared/context/apiConnect';
 import noImage from '@/assets/no-image.png';
-import { Image } from '@/models/System';
+import { Image } from '@/features/system';
 
 export interface ImageProviderProps {
     readonly?: boolean;

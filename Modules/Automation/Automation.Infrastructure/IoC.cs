@@ -1,4 +1,6 @@
-﻿using Automation.Infrastructure.Services.AutomationService;
+﻿using Automation.Infrastructure.Services;
+using Automation.Infrastructure.Services.AutomationService;
+using Base;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Automation.Infrastructure
@@ -13,7 +15,8 @@ namespace Automation.Infrastructure
 
         public static IServiceCollection AddServices(this IServiceCollection serviceCollection)
         {
-            return serviceCollection.AddScoped<IAutomationService, AutomationService>();
+            return serviceCollection.AddScoped<IAutomationService, AutomationService>()
+                .AddScoped<IAutomationResolver, AutomationResolver>();
         }
     }
 }

@@ -8,17 +8,17 @@ using System.Text;
 
 namespace RPG.Infrastructure.Jobs
 {
-    public class GenerateSummaryJob : EventJob
+    public class GenerateSummaryJob : IJob
     {
         private const string TemplatePath = "/Views/GenTemplate.cshtml";
 
-        public override Guid Id { get; set; } = Guid.NewGuid();
+        public Guid Id { get; set; } = Guid.NewGuid();
 
-        public override List<IJob> Children { get; set; } = new();
+        public List<IJob> Children { get; set; } = new();
 
-        public override DateTimeOffset RequestDate => DateTimeOffset.Now;
+        public DateTimeOffset RequestDate => DateTimeOffset.Now;
 
-        public override string Name => $"Generate summary for {Story?.Title ?? StoryId.ToString()}";
+        public string Name => $"Generate summary for {Story?.Title ?? StoryId.ToString()}";
 
         public Guid StoryId { get; set; }
 
@@ -26,9 +26,9 @@ namespace RPG.Infrastructure.Jobs
 
         public bool IsPdf { get; set; }
 
-        public override int OperationId => Domain.Dictionaries.Operations.GenerateSummary;
+        public int OperationId => Domain.Dictionaries.Operations.GenerateSummary;
 
-        public override async Task Execute(IJobContext jobContext, object? eventData)
+        public async Task Execute(IJobContext jobContext)
         {
             if (Story is null)
             {

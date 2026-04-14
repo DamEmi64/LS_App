@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { useApiConnect } from "@/shared/context/apiConnect";
 import { LoginData, RegisterData, User, UserData, PasswordChangeData } from "@/features/auth";
+import { notify } from "@/shared/components/NotificationListener";
+import { getNotify } from "@/lib/notifyProvider";
 
 export interface AuthContextType {
   user: UserData | null;
@@ -50,7 +52,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       await refreshUser();
       return true;
     } catch (error) {
-      console.error("Login failed:", error);
+      error.response.data.map((err: string) => notify('error', getNotify(err))) ?? notify('error', 'Login failed');
       return false;
     }
   };
@@ -61,7 +63,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       await refreshUser();
       return true;
     } catch (error) {
-      console.error("Registration failed:", error);
+      error.response.data.map((err: string) => notify('error', getNotify(err)));
       return false;
     }
   };

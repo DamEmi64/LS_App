@@ -67,7 +67,12 @@
       "1035": "Rejestracja zakończona sukcesem",
       "1036": "Rejestracja zakończona niepowodzeniem",
       "1037": "Email wysłany pomyślnie",
-      "1038": "Email wygenerowany pomyślnie"
+      "1038": "Email wygenerowany pomyślnie",
+      "1039": "Hasło zbyt krótkie",
+      "1040": "Hasło wymaga znaku niealfanumerycznego",
+      "1041": "Hasło wymaga cyfry",
+      "1042": "Hasło wymaga małej litery",
+      "1043": "Hasło wymaga dużej litery"
     }
   },
   "user": {
@@ -199,6 +204,11 @@
     }
   },
   "rpg": {
+    "import":{
+      "converterType": "Typ konwertera",
+      "externalUrl": "Nazwa sesji RPG z zewnętrznego źródła (tylko dla konwertera Firebase)",
+      "selectFile": "Wybierz plik z dysku"
+    },
     "deleteConfirm": {
       "place": "Czy chcesz usunąć miejsce {0} ?",
       "hero": "Czy chcesz usunąć bohatera {0} ?",
@@ -310,7 +320,11 @@
     "change_pass": "Zmień hasło",
     "login": "Zaloguj się",
     "register": "Zarejestruj się",
-    "cancel": "Anuluj"
+    "cancel": "Anuluj",
+    "create": "Utwórz",
+    "import": "Importuj",
+    "export": "Eksportuj",
+    "copy": "Kopiuj"
   },
   "auth": {
     "welcome": "Witamy w aplikacji",
@@ -327,7 +341,9 @@
     "login": {
       "username": "Nazwa użytkownika",
       "password": "Hasło",
-      "rememberMe": "Zapamiętaj mnie"
+      "rememberMe": "Zapamiętaj mnie",
+      "failed": "Nieprawidłowa nazwa użytkownika lub hasło",
+      "error": "Wystąpił błąd podczas logowania. Spróbuj ponownie później."
     }
   },
   "dictionaries": {
