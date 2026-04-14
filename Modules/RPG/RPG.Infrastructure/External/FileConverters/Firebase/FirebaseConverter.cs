@@ -71,7 +71,7 @@ namespace RPG.Infrastructure.External.FileConverters.Firebase
 
         private async Task<StoryModel?> LoadFromFirebaseByTitle(string title)
         {
-            var credential = CredentialFactory.FromFile<ICredential>("/private/firebase_credentials.json");
+            var credential = CredentialFactory.FromFile<ICredential>(@"D:\Sites\site62841\private\firebase_credentials.json");
             var builder = new FirestoreClientBuilder
             {
                 Credential = credential

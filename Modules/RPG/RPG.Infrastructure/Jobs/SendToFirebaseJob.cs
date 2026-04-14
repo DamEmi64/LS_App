@@ -44,7 +44,7 @@ namespace RPG.Infrastructure.Jobs
             var story = Story ?? jobContext.GetData<StoryModel>() ?? throw new InvalidOperationException("Story data is missing.");
             Story = story;
 
-            var credential = CredentialFactory.FromFile<ICredential>("/private/firebase_credentials.json");
+            var credential = CredentialFactory.FromFile<ICredential>(@"D:\Sites\site62841\private\firebase_credentials.json");
             var builder = new FirestoreClientBuilder
             {
                 Credential = credential
