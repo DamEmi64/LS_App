@@ -1,0 +1,170 @@
+{
+  "window": {
+    "yes": "Ja",
+    "no": "Nein",
+    "cancel": "Abbrechen",
+    "info": "Informationen"
+  },
+  "validation": {
+    "required": "Dieses Feld ist erforderlich",
+    "minLength": "Minimale Länge ist {0} Zeichen",
+    "maxLength": "Maximale Länge ist {0} Zeichen",
+    "email": "Ungültige E-Mail-Adresse",
+    "url": "Ungültige URL",
+    "number": "Dieses Feld muss eine Zahl sein"
+  },
+  "notify": {
+    "processActive": "Aufgabenbenachrichtigungen",
+    "processError": "Nur Fehlerbenachrichtigungen",
+    "position": "Position der Benachrichtigung",
+    "notification": "Benachrichtigungen",
+    "autoClose": "Anzeigedauer (ms)",
+    "active": "Aktiv",
+    "bottomRight": "Unten rechts",
+    "topRight": "Oben rechts",
+    "bottomLeft": "Unten links",
+    "topLeft": "Oben links",
+    "messages": {
+      "1000": "Protokoll",
+      "1001": "Interner Prozessfehler {0}",
+      "1002": "Prozess {0} gestartet",
+      "1003": "Prozess {0} abgeschlossen",
+      "1004": "Prozess {0} fehlgeschlagen",
+      "1005": "Prozess {0} zur Warteschlange hinzugefügt",
+
+      "1006": "Datei {0} gespeichert",
+      "1007": "Datei {0} gelöscht",
+      "1008": "Datei {0} aktualisiert",
+      "1009": "Datei {0} nicht gefunden",
+      "1010": "Datei {0} existiert bereits",
+      "1011": "Datei {0} wurde nicht gespeichert",
+
+      "1012": "Sitzung {0} gespeichert",
+      "1013": "Sitzung {0} gelöscht",
+      "1014": "Sitzung {0} aktualisiert",
+      "1015": "Sitzung {0} nicht gefunden",
+
+      "1016": "Kapitel {0} gespeichert",
+      "1017": "Kapitel {0} gelöscht",
+      "1018": "Kapitel {0} aktualisiert",
+      "1019": "Kapitel {0} nicht gefunden",
+
+      "1020": "Held {0} gespeichert",
+      "1021": "Held {0} gelöscht",
+      "1022": "Held {0} aktualisiert",
+      "1023": "Held {0} nicht gefunden",
+
+      "1024": "Ort {0} gespeichert",
+      "1025": "Ort {0} gelöscht",
+      "1026": "Ort {0} aktualisiert",
+      "1027": "Ort {0} nicht gefunden",
+
+      "1030": "Anmeldung erfolgreich",
+      "1031": "Anmeldung fehlgeschlagen",
+      "1032": "Ungültiges Passwort",
+      "1033": "Konto gesperrt",
+      "1034": "Zwei-Faktor-Authentifizierung fehlgeschlagen",
+      "1035": "Registrierung erfolgreich",
+      "1036": "Registrierung fehlgeschlagen",
+      "1037": "E-Mail erfolgreich gesendet",
+      "1038": "E-Mail erfolgreich generiert",
+      "1039": "Passwort zu kurz",
+      "1040": "Passwort benötigt ein Sonderzeichen",
+      "1041": "Passwort benötigt eine Zahl",
+      "1042": "Passwort benötigt einen Kleinbuchstaben",
+      "1043": "Passwort benötigt einen Großbuchstaben"
+    }
+  },
+
+  "user": {
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "email": "E-Mail-Adresse",
+    "phoneNumber": "Telefonnummer",
+    "info": "Benutzerinformationen",
+    "userName": "Benutzername"
+  },
+
+  "processes": {
+    "title": "Prozesse",
+    "description": "Verwalte laufende Prozesse",
+    "name": "Prozess",
+    "queue": "Warteschlange",
+    "startingDate": "Startdatum",
+    "startingDateFrom": "Startdatum von",
+    "startingDateTo": "Startdatum bis",
+    "percentage": "Fortschritt",
+    "status": "Status",
+    "jobs": "Aufgaben",
+    "noJobs": "Keine Aufgaben mit diesem Prozess verbunden",
+    "errors": "Prozessfehler",
+    "errorMessage": "Fehlermeldung",
+    "restart": "Prozess neu starten"
+  },
+
+  "jobs": {
+    "id": "Id",
+    "jobId": "Hangfire-Id",
+    "status": "Status",
+    "requestData": "Geplantes Startdatum",
+    "startDate": "Startdatum",
+    "endDate": "Enddatum",
+    "name": "Name",
+    "percentage": "Fortschritt",
+    "operation": "Operation"
+  },
+
+  "entity": {
+    "insDate": "Erstellungsdatum",
+    "upDate": "Aktualisierungsdatum",
+    "del_info": "Daten löschen?"
+  },
+
+  "files": {
+    "title": "Dateien",
+    "all": "*",
+    "games": "Spiele",
+    "docs": "Dokumente",
+    "name": "Titel",
+    "image": "Bild",
+    "location": "Ort",
+    "fileType": "Dateityp",
+    "additionalData": "Zusätzliche Daten",
+    "sources": "Quellen",
+    "show_file": "Dateien anzeigen",
+    "subject": "Kurs",
+    "year": "Jahr",
+    "semester": "Semester",
+    "sourceType": "Quellentyp",
+    "import": "Vom externen Server herunterladen",
+    "export": "Vom Server herunterladen",
+    "gameGenre": "Spielgenre",
+    "useFileUpload": "Datei in Datenbank speichern"
+  },
+
+  "menu": {
+    "home": "Startseite",
+    "processes": "Prozesse",
+    "files": "Dateien",
+    "settings": "Einstellungen",
+    "communication": "Kommunikation",
+    "emails": "E-Mails",
+    "templates": "Vorlagen",
+    "automations": "Automatisierungen",
+    "rpg_sessions": "RPG-Sitzungen",
+    "register": "Registrieren",
+    "login": "Anmelden",
+    "logout": "Abmelden"
+  },
+
+  "no_data": "keine Daten",
+  "EndpointNotFound": "Endpunkt nicht gefunden",
+  "filter_reset": "Filter zurücksetzen",
+  "language": "Sprache",
+  "settings": "Einstellungen",
+  "login": "Anmelden",
+  "register": "Registrieren",
+  "apiEndpoint": "Server-URL",
+  "darkTheme": "Dunkles Design",
+  "error": "Fehler"
+}

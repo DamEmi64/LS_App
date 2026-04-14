@@ -77,6 +77,7 @@ export class User {
 }
 
 export class Image {
+    contentStr: string;
     content: string;
     id: string;
 }

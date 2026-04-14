@@ -1,170 +1,308 @@
 import React, { useEffect, useState } from "react";
-import { Button, Grid, Typography } from "@mui/material";
+
+import {
+    Button,
+    Grid,
+    Typography,
+    useMediaQuery,
+    useTheme
+} from "@mui/material";
+
 import { useTranslation } from "react-i18next";
 import { useModal } from "@/shared/context/modal";
 import { useApiConnect } from "@/shared/context/apiConnect";
 import { useAuth } from "@/features/auth/context/authProvider";
 
 import { DataTable } from "@/shared/components/datatable";
-import { ColumnDef, ColumnType, FilterItem, FilterType, FilterValue, onChangeParams, Operations, TableData } from "@/shared";
 
+import {
+    ColumnDef,
+    ColumnType,
+    FilterItem,
+    FilterType,
+    FilterValue,
+    onChangeParams,
+    Operations,
+    TableData
+} from "@/shared";
 
-import {Template } from "@/features/mail";
+import { Template } from "@/features/mail";
 import YesNoWindow from "@/shared/components/YesNoWindow";
+
 import { TemplateEdit } from "../components/templateEdit";
 import { TemplateGenData, TemplateGen } from "../components/templateGen";
 
-
 const Templates: React.FC = () => {
-  const { t } = useTranslation();
-  const modal = useModal();
-  const auth = useAuth();
-  const api = useApiConnect();
+    const { t } = useTranslation();
+    const modal = useModal();
+    const auth = useAuth();
+    const api = useApiConnect();
 
-  const [data, setData] = useState<TableData<Template>>({ data: [], total: 0 });
-  const [page, setPage] = useState(0);
-  const [pageSize, setPageSize] = useState(10);
-  const [orderBy, setOrderBy] = useState<string | null>(null);
-  const [order, setOrder] = useState<"asc" | "desc">("asc");
-  const [filterValues, setFilterValues] = useState<FilterValue[]>([]);
+    // 📱 RESPONSIVE
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  // Refresh table
-  const refresh = () => {
-    modal.hideModal();
-    updateData({ page, pageSize, orderBy, order, filters: filterValues });
-  };
-
-  // Open modal to add new template
-  const addTemplate = () => {
-    const template = {} as Template;
-    modal.showModal(<TemplateEdit template={template} onSave={addData} />);
-  };
-
-  // Open modal to edit template
-  const edit = (template: Template) => {
-    modal.showModal(<TemplateEdit template={template} onSave={editData} />);
-  };
-
-  // Show template details (readonly)
-  const details = async (template: Template) => {
-    const result = await api.get<Template>("communication_template_details", null, template.id);
-    modal.showModal(<TemplateEdit template={result.data} onSave={editData} readonly />);
-  };
-
-  // Generate template
-  const gen = (template: Template) => {
-    const initialData: TemplateGenData = {
-      template: template.id,
-      sender: auth.user,
-      recipients: []
-    };
-    modal.showModal(<TemplateGen initialData={initialData} onSubmit={genConfirm} />);
-  };
-
-  const genConfirm = async (data: TemplateGenData) => {
-    await api.put<TemplateGenData>("communication_template_gen", data, null, data.template);
-    modal.hideModal();
-    refresh();
-  };
-
-  // Delete template
-  const del = (template: Template) => {
-    modal.showModal(
-      <YesNoWindow
-        message={t("entity.del_info")}
-        yesMethod={() => delConfirm(template)}
-        noMethod={modal.hideModal}
-        open
-        onClose={modal.hideModal}
-      />
-    );
-  };
-
-  const delConfirm = async (template: Template) => {
-    await api.del<Template>("communication_template_del", null, template.id);
-    modal.hideModal();
-    refresh();
-  };
-
-  const addData = async (template: Template) => {
-    await api.post<Template>("communication_template_new", template, null);
-    modal.hideModal();
-    refresh();
-  };
-
-  const editData = async (template: Template) => {
-    await api.put<Template>("communication_template_edit", template, null, template.id);
-    modal.hideModal();
-    refresh();
-  };
-
-  // Fetch table data
-  const updateData = async (paramsObj: onChangeParams): Promise<TableData<Template>> => {
-    const { page, pageSize, orderBy, order, filters } = paramsObj;
-    const query = new URLSearchParams({
-      page: (page ?? 0).toString(),
-      pageSize: (pageSize ?? 10).toString(),
-      orderBy: orderBy ?? "",
-      order: order ?? ""
+    const [data, setData] = useState<TableData<Template>>({
+        data: [],
+        total: 0
     });
 
-    filters?.forEach(f => query.append(f.field, f.value.toString()));
+    const [filterValues, setFilterValues] = useState<FilterValue[]>([]);
 
-    const result = await api.get<Template[]>("communication_template_data", { params: query });
-    const tableData: TableData<Template> = { data: result.data, total: result.total };
-    setData(tableData);
-    return tableData;
-  };
+    // 🔄 REFRESH
+    const refresh = () => {
+        modal.hideModal();
 
-  // Table columns
-  const columns: ColumnDef[] = [
-    { field: "subject", header: "communication.template.subject", type: ColumnType.String }
-  ];
+        updateData({
+            page: 0,
+            pageSize: 10,
+            orderBy: "",
+            order: "asc",
+            filters: filterValues
+        });
+    };
 
-  // Table filters
-  const filters: FilterItem[] = [
-    { field: "subject", name: "communication.template.subject", type: FilterType.String }
-  ];
+    // ➕ ADD
+    const addTemplate = () => {
+        modal.showModal(
+            <TemplateEdit
+                template={{} as Template}
+                onSave={addData}
+            />
+        );
+    };
 
-  // Table row operations
-  const operations: Operations<Template>[] = [
-    { name: "opt.details", method: details },
-    { name: "opt.edit", method: edit },
-    { name: "communication.template.gen", method: gen },
-    { name: "opt.delete", method: del }
-  ];
+    // ✏️ EDIT
+    const edit = (template: Template) => {
+        modal.showModal(
+            <TemplateEdit
+                template={template}
+                onSave={editData}
+            />
+        );
+    };
 
-  // Initial load
-  useEffect(() => {
-    updateData({ page: 0, pageSize: 10, orderBy: "", order: "asc", filters: [] });
-  }, []);
+    // 👁 DETAILS
+    const details = async (template: Template) => {
+        const result = await api.get<Template>(
+            "communication_template_details",
+            null,
+            template.id
+        );
 
-  return (
-    <Grid container sx={{ width: "100%", m: "auto", p: 2 }}>
-      <Grid size={{ xs: 12 }} sx={{ display: "flex", flexDirection: "column", alignItems: "center", mb: 2 }}>
-        <Typography sx={{ color: "white", fontSize: "2.5rem", fontWeight: "bold" }}>
-          {t("communication.template.title")}
-        </Typography>
-        <Typography sx={{ color: "white", fontSize: "1rem", fontWeight: "bold" }}>
-          {t("communication.template.description")}
-        </Typography>
-        <Button onClick={addTemplate} variant="outlined" sx={{ mt: 1 }}>
-          {t("opt.add")}
-        </Button>
-      </Grid>
+        modal.showModal(
+            <TemplateEdit
+                template={result.data}
+                onSave={editData}
+                readonly
+            />
+        );
+    };
 
-      <Grid size={{ xs: 12 }}>
-        <DataTable
-          columns={columns}
-          filters={filters}
-          onChange={updateData}
-          data={data}
-          setData={setData}
-          operations={operations}
-        />
-      </Grid>
-    </Grid>
-  );
+    // ⚙️ GENERATE
+    const gen = (template: Template) => {
+        const initialData: TemplateGenData = {
+            template: template.id,
+            sender: auth.user,
+            recipients: []
+        };
+
+        modal.showModal(
+            <TemplateGen
+                initialData={initialData}
+                onSubmit={genConfirm}
+            />
+        );
+    };
+
+    const genConfirm = async (data: TemplateGenData) => {
+        await api.put(
+            "communication_template_gen",
+            data,
+            null,
+            data.template
+        );
+
+        modal.hideModal();
+        refresh();
+    };
+
+    // ❌ DELETE
+    const del = (template: Template) => {
+        modal.showModal(
+            <YesNoWindow
+                message={t("entity.del_info")}
+                yesMethod={() => delConfirm(template)}
+                noMethod={modal.hideModal}
+                open
+                onClose={modal.hideModal}
+            />
+        );
+    };
+
+    const delConfirm = async (template: Template) => {
+        await api.del(
+            "communication_template_del",
+            null,
+            template.id
+        );
+
+        modal.hideModal();
+        refresh();
+    };
+
+    // ➕ CREATE
+    const addData = async (template: Template) => {
+        await api.post(
+            "communication_template_new",
+            template,
+            null
+        );
+
+        modal.hideModal();
+        refresh();
+    };
+
+    // ✏️ UPDATE
+    const editData = async (template: Template) => {
+        await api.put(
+            "communication_template_edit",
+            template,
+            null,
+            template.id
+        );
+
+        modal.hideModal();
+        refresh();
+    };
+
+    // 📡 DATA FETCH
+    const updateData = async (
+        paramsObj: onChangeParams
+    ): Promise<TableData<Template>> => {
+        const query = new URLSearchParams({
+            page: String(paramsObj.page ?? 0),
+            pageSize: String(paramsObj.pageSize ?? 10),
+            orderBy: paramsObj.orderBy ?? "",
+            order: paramsObj.order ?? ""
+        });
+
+        paramsObj.filters?.forEach(f =>
+            query.append(f.field, String(f.value))
+        );
+
+        const result = await api.get<Template[]>(
+            "communication_template_data",
+            { params: query }
+        );
+
+        const tableData: TableData<Template> = {
+            data: result.data,
+            total: result.total
+        };
+
+        setData(tableData);
+        setFilterValues(paramsObj.filters ?? []);
+
+        return tableData;
+    };
+
+    // 📊 TABLE CONFIG
+    const columns: ColumnDef[] = [
+        {
+            field: "subject",
+            header: "communication.template.subject",
+            type: ColumnType.String
+        }
+    ];
+
+    const filters: FilterItem[] = [
+        {
+            field: "subject",
+            name: "communication.template.subject",
+            type: FilterType.String
+        }
+    ];
+
+    const operations: Operations<Template>[] = [
+        { name: "opt.details", method: details },
+        { name: "opt.edit", method: edit },
+        { name: "communication.template.gen", method: gen },
+        { name: "opt.delete", method: del }
+    ];
+
+    // 🚀 INIT
+    useEffect(() => {
+        updateData({
+            page: 0,
+            pageSize: 10,
+            orderBy: "",
+            order: "asc",
+            filters: []
+        });
+    }, []);
+
+    return (
+        <Grid
+            container
+            sx={{
+                width: "100%",
+                p: isMobile ? 1 : 2
+            }}
+        >
+            {/* HEADER */}
+            <Grid
+                size={{ xs: 12 }}
+                sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    mb: 2,
+                    textAlign: "center"
+                }}
+            >
+                <Typography
+                    sx={{
+                        color: "white",
+                        fontSize: isMobile ? "1.8rem" : "2.5rem",
+                        fontWeight: "bold"
+                    }}
+                >
+                    {t("communication.template.title")}
+                </Typography>
+
+                <Typography
+                    sx={{
+                        color: "white",
+                        fontSize: isMobile ? "0.9rem" : "1rem"
+                    }}
+                >
+                    {t("communication.template.description")}
+                </Typography>
+
+                <Button
+                    onClick={addTemplate}
+                    variant="outlined"
+                    sx={{ mt: 1 }}
+                    fullWidth={isMobile}
+                >
+                    {t("opt.add")}
+                </Button>
+            </Grid>
+
+            {/* TABLE */}
+            <Grid size={{ xs: 12 }}>
+                <DataTable
+                    columns={columns}
+                    filters={filters}
+                    onChange={updateData}
+                    data={data}
+                    setData={setData}
+                    operations={operations}
+                />
+            </Grid>
+        </Grid>
+    );
 };
 
 export default Templates;

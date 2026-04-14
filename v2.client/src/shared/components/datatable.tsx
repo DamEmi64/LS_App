@@ -1,17 +1,36 @@
-import React, { useState } from 'react';
-import {
-    Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-    TableSortLabel, TablePagination, Paper, Box,
-    LinearProgress,
-} from '@mui/material';
+import React, { useState } from "react";
 
-import { Filter } from '@/shared/components/filter';
-import OperationCell from '@/shared/components/operationCell';
-import { t } from 'i18next';
-import { convertToDateStr } from '@/lib/utils';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import DoNotDisturbAltIcon from '@mui/icons-material/DoNotDisturbAlt';
-import { onChangeParams, ColumnType,TableProps, Row, FilterValue } from '@/shared';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    TableSortLabel,
+    TablePagination,
+    Paper,
+    Box,
+    LinearProgress,
+    useTheme,
+    useMediaQuery
+} from "@mui/material";
+
+import { Filter } from "@/shared/components/filter";
+import OperationCell from "@/shared/components/operationCell";
+import { t } from "i18next";
+
+import { convertToDateStr } from "@/lib/utils";
+
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import DoNotDisturbAltIcon from "@mui/icons-material/DoNotDisturbAlt";
+
+import {
+    onChangeParams,
+    ColumnType,
+    TableProps,
+    FilterValue
+} from "@/shared";
 
 export const DataTable = <T,>({
     columns,
@@ -19,153 +38,182 @@ export const DataTable = <T,>({
     data,
     operations = [],
     setData,
-    onChange,
+    onChange
 }: TableProps<T>) => {
+
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
     const [pageSize, setPageSize] = useState(10);
     const [orderBy, setOrderBy] = useState<string | null>(null);
-    const [order, setOrder] = useState<'asc' | 'desc'>('asc');
+    const [order, setOrder] = useState<"asc" | "desc">("asc");
     const [page, setPage] = useState(0);
     const [filterValues, setFilterValues] = useState<FilterValue[]>([]);
-    const updateData = (paramsObj: onChangeParams) => {
-        onChange(paramsObj).then(x => {
-            setData(x);
-        });
-    }
 
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const [menuRowId, setMenuRowId] = useState<string | number | null>(null);
-
-    const open = Boolean(anchorEl);
-
-    const handleClick = (event: React.MouseEvent<HTMLElement>, rowId: string | number) => {
-        setAnchorEl(event.currentTarget);
-        setMenuRowId(rowId);
+    // 📡 central update
+    const updateData = async (paramsObj: onChangeParams) => {
+        const result = await onChange(paramsObj);
+        setData(result);
     };
 
-    const handleClose = () => {
-        setAnchorEl(null);
-        setMenuRowId(null);
-    };
-
+    // 🔃 SORT FIXED
     const handleSort = (field: string) => {
+        const isAsc = orderBy === field && order === "asc";
+        const newOrder = isAsc ? "desc" : "asc";
+
         setOrderBy(field);
-        const isAsc = orderBy === field && order === 'asc';
-        setOrder(isAsc ? 'desc' : 'asc');
+        setOrder(newOrder);
+
         updateData({
             page,
             pageSize,
             orderBy: field,
-            order: isAsc ? 'desc' : 'asc',
-            filters: filterValues,
+            order: newOrder,
+            filters: filterValues
         });
     };
 
-    const handleChangePage = (
-        event: React.MouseEvent<HTMLButtonElement> | null,
-        newPage: number
-    ) => {
+    // 📄 PAGE CHANGE FIXED
+    const handleChangePage = (_: any, newPage: number) => {
         setPage(newPage);
+
         updateData({
-            page,
+            page: newPage,
             pageSize,
             orderBy,
             order,
-            filters: filterValues,
+            filters: filterValues
         });
     };
 
+    // 📏 PAGE SIZE FIXED
     const handleChangeRowsPerPage = (
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
-        setPageSize(parseInt(event.target.value, 10));
+        const newSize = parseInt(event.target.value, 10);
+
+        setPageSize(newSize);
+        setPage(0);
+
         updateData({
             page: 0,
-            pageSize: parseInt(event.target.value, 10),
+            pageSize: newSize,
             orderBy,
             order,
-            filters: filterValues,
+            filters: filterValues
         });
     };
 
+    // 🔍 FILTERS
     const handleFilterChange = (newFilters: FilterValue[]) => {
         setFilterValues(newFilters);
+        setPage(0);
+
         updateData({
-            page,
+            page: 0,
             pageSize,
             orderBy,
             order,
-            filters: newFilters,
+            filters: newFilters
         });
     };
 
-    const showData = (data: any, type: ColumnType) => {
-        let show;
-
+    // 🎯 CELL RENDER
+    const showData = (value: any, type: ColumnType) => {
         switch (type) {
             case ColumnType.Date:
-                show = convertToDateStr(data);
-                break;
-            case ColumnType.Progress:
-                show = (<LinearProgress variant="determinate" value={data} title={`${String(data)} %`} />);
-                break;
-            case ColumnType.Boolean:
-                show = data ? (<CheckCircleOutlineIcon/>) : (<DoNotDisturbAltIcon />);
-                break;
-            default:
-                show = String(data);
-                break;
-        }
+                return convertToDateStr(value);
 
-        return show;
-    }
+            case ColumnType.Progress:
+                return (
+                    <LinearProgress
+                        variant="determinate"
+                        value={value}
+                    />
+                );
+
+            case ColumnType.Boolean:
+                return value ? (
+                    <CheckCircleOutlineIcon color="success" />
+                ) : (
+                    <DoNotDisturbAltIcon color="error" />
+                );
+
+            default:
+                return String(value ?? "");
+        }
+    };
 
     return (
-        <Paper sx={{ width: '75%', overflow: 'hidden', margin: 'auto', padding: 2 }}>
+        <Paper
+            sx={{
+                width: "100%",
+                maxWidth: isMobile ? "100%" : "75%",
+                overflow: "hidden",
+                margin: "auto",
+                p: isMobile ? 1 : 2
+            }}
+        >
+            {/* FILTERS */}
             <Filter filters={filters} onChange={handleFilterChange} />
-            <TableContainer>
-                <Table size="small" stickyHeader >
+
+            {/* TABLE WRAPPER (IMPORTANT FOR MOBILE) */}
+            <TableContainer sx={{ overflowX: "auto" }}>
+                <Table size={isMobile ? "small" : "medium"} stickyHeader>
+
+                    {/* HEADER */}
                     <TableHead>
                         <TableRow>
                             {columns.map((col) => (
-                                <TableCell
-                                    key={String(col.field)}
-                                    sortDirection={orderBy === col.field ? order : false}
-                                >
+                                <TableCell key={String(col.field)}>
                                     <TableSortLabel
                                         active={orderBy === col.field}
-                                        direction={orderBy === col.field ? order : 'asc'}
+                                        direction={orderBy === col.field ? order : "asc"}
                                         onClick={() => handleSort(col.field)}
                                     >
                                         {t(col.header)}
                                     </TableSortLabel>
                                 </TableCell>
                             ))}
-                            <TableCell></TableCell>
+
+                            <TableCell />
                         </TableRow>
                     </TableHead>
+
+                    {/* BODY */}
                     <TableBody>
-                        {data.data && (data.data.map((row) => (
+                        {data.data?.length > 0 ? (
+                            data.data.map((row: any, idx) => (
+                                <TableRow key={row.id ?? idx}>
+                                    {columns.map((col) => (
+                                        <TableCell key={String(col.field)}>
+                                            {col.toShow && row[col.field] != null
+                                                ? col.toShow(row[col.field])
+                                                : showData(row[col.field], col.type)}
+                                        </TableCell>
+                                    ))}
+
+                                    <OperationCell
+                                        data={row}
+                                        operations={operations}
+                                    />
+                                </TableRow>
+                            ))
+                        ) : (
                             <TableRow>
-                                {columns.map((col) => (
-                                    <TableCell key={String(col.field)}>
-                                        {col.toShow && row[col.field] != null
-                                            ? col.toShow(row[col.field])
-                                            : showData(row[col.field],col.type)}
-                                    </TableCell>
-                                ))}
-                                <OperationCell data={row} operations={operations} />
-                            </TableRow>
-                        )))}
-                        {data.data.length === 0 && (
-                            <TableRow>
-                                <TableCell align="center" colSpan={columns.length}>
-                                    {t('no_data')}
+                                <TableCell
+                                    align="center"
+                                    colSpan={columns.length + 1}
+                                >
+                                    {t("no_data")}
                                 </TableCell>
                             </TableRow>
                         )}
                     </TableBody>
                 </Table>
             </TableContainer>
+
+            {/* PAGINATION */}
             <TablePagination
                 component="div"
                 count={data.total}
@@ -173,8 +221,13 @@ export const DataTable = <T,>({
                 onPageChange={handleChangePage}
                 rowsPerPage={pageSize}
                 onRowsPerPageChange={handleChangeRowsPerPage}
-                rowsPerPageOptions={[5, 10, 25, 50]}
+                rowsPerPageOptions={isMobile ? [5, 10] : [5, 10, 25, 50]}
+                sx={{
+                    "& .MuiTablePagination-toolbar": {
+                        flexWrap: isMobile ? "wrap" : "nowrap"
+                    }
+                }}
             />
         </Paper>
     );
-}
+};

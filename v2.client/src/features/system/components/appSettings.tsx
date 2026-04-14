@@ -10,11 +10,12 @@ const languages = [
     { code: 'en', label: 'English' },
     { code: 'pl', label: 'Polski' },
     { code: 'fr', label: 'French' },
+    {code: 'de', label: 'German'}
     // Add more languages as needed
 ];
 
 const AppSettings: React.FC<{ api: ApiConnectContextType }> = ({ api }) => {
-    const [frontendVersion, setFrontendVersion] = useLocalStorage('frontend_version', 'v0.1');
+    const [frontendVersion, setFrontendVersion] = useLocalStorage('frontend_version', 'v0.8');
 
     const { t, i18n } = useTranslation();
     const [endpoint, setEndpoint] = useLocalStorage('apiEndpoint', 'https://lsfamilia.runasp.net');
