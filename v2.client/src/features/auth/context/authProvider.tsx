@@ -107,7 +107,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     refreshUser();
 
-    const interval = setInterval(refreshUser, 5 * 60 * 1000);
+    const interval = setInterval(refreshUser, 15 * 60 * 1000);
 
     return () => clearInterval(interval);
   }, []);

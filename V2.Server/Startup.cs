@@ -5,7 +5,7 @@ using Microsoft.OpenApi;
 using Newtonsoft.Json.Converters;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
-using System.Infrastructure.Db;
+using System.Domain.Repositories;
 
 namespace Api
 {
@@ -232,26 +232,13 @@ namespace Api
             using (var scope = app.Services.CreateScope())
             {
                 var dictionaries = EntityDictionary.GetDictionaries();
-                var context = scope.ServiceProvider.GetRequiredService<SystemContext>();
+                var repository = scope.ServiceProvider.GetRequiredService<IDictionaryRepository>();
                 var conector = scope.ServiceProvider.GetRequiredService<IConnector>();
                 app.Logger.LogInformation($"Verify dictionaries...");
 
                 try
                 {
-                    foreach (var item in dictionaries)
-                    {
-                        try
-                        {
-                            if (!context.Dictionaries.Any(x => x.Key == item.Key))
-                            {
-                                context.Dictionaries.Add(item);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            app.Logger.LogCritical(ex.Message);
-                        }
-                    }
+                    repository.UpdateDictionaries(dictionaries);
                 }
                 catch (Exception ex)
                 {
@@ -260,11 +247,9 @@ namespace Api
 
                 app.Logger.LogInformation($"Dictionaries verified.");
 
-                context.SaveChanges();
-
                 if (conector is Connector.Connector connectorInstance)
                 {
-                    connectorInstance.DictionaryItems = context.Dictionaries;
+                    connectorInstance.DictionaryItems = dictionaries;
                 }
             }
         }
