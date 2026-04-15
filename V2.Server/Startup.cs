@@ -84,9 +84,7 @@ namespace Api
 
         private Connector.Connector GetConnector(IConfiguration configuration)
         {
-            var baseUrl = configuration.GetValue("urls", string.Empty);
-            var version = configuration.GetValue("version", string.Empty);
-            return new Connector.Connector(baseUrl ?? string.Empty, version);
+            return Activator.CreateInstance(typeof(Connector.Connector)) as Connector.Connector ?? new Connector.Connector();
         }
 
         private IServiceCollection AddSwagger(IServiceCollection services, IConfiguration configuration)

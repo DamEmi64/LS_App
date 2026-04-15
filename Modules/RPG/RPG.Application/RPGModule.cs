@@ -14,10 +14,10 @@ namespace RPG.Application
         public IEnumerable<Operation> Operations => new List<Operation>
         {
             OperationExtensions.Operation(Domain.Dictionaries.Operations.GenerateSummary,"Generate summary","gen_summary"),
-            OperationExtensions.Operation(Domain.Dictionaries.Operations.SentToFirebase,"Send to firebase","firebase"),
+            OperationExtensions.Operation(Domain.Dictionaries.Operations.SentToFirebase,"Send to firebase","external"),
             OperationExtensions.Operation(Domain.Dictionaries.Operations.GenerateStoryFromSummary,"Generate story from summary","gen_summary"),
             OperationExtensions.Operation(Domain.Dictionaries.Operations.GetLastRPG,"Get last RPG","gen_summary"),
-            OperationExtensions.Operation(Domain.Dictionaries.Operations.ImportRPGFromFile,"Import RPG from file","import_rpg")
+            OperationExtensions.Operation(Domain.Dictionaries.Operations.ImportRPGFromFile,"Import RPG from file","external")
 
         };
 

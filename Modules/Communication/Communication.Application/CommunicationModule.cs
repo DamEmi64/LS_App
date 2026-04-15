@@ -13,8 +13,8 @@ namespace Communication.Application
     {
         public IEnumerable<Operation> Operations => new List<Operation>
         {
-            OperationExtensions.Operation(Domain.Dictionaries.Operations.SendEmail,"Send email","send_email"),
-            OperationExtensions.Operation(Domain.Dictionaries.Operations.GenerateFromTemplate,"Generate email from template","gen_email")
+            OperationExtensions.Operation(Domain.Dictionaries.Operations.SendEmail,"Send email","email"),
+            OperationExtensions.Operation(Domain.Dictionaries.Operations.GenerateFromTemplate,"Generate email from template","email")
         };
 
         public string Name => "Communication";

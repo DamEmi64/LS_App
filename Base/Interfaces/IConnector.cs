@@ -13,11 +13,6 @@ namespace Base
         List<ModuleInfo> Modules { get; }
 
         /// <summary>
-        ///     Base url
-        /// </summary>
-        string BaseUrl { get; }
-
-        /// <summary>
         ///     Api version
         /// </summary>
         string Version { get; }
