@@ -1,5 +1,7 @@
 ﻿using Base;
+using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Firestore;
+using Google.Cloud.Firestore.V1;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using RPG.Infrastructure.External.Firebase;
@@ -46,7 +48,7 @@ namespace RPG.Infrastructure.Jobs
 
         public async Task ExecuteInternal(FirebaseOptions options, IMediaProvider mediaProvider, StoryModel story)
         {
-            var firestore = await FirestoreDb.CreateAsync(options.ProjectId);
+            var firestore = await FirebaseExtensions.GetDb();
 
             var storyRef = firestore.Collection(StoriesCollection).Document(StoryId.ToString());
 

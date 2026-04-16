@@ -7,7 +7,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 import { useState } from "react";
-import { HeroDto, SessionDto, Story, ImportDto } from "@/features/rpg";
+import { SessionDto, Story } from "@/features/rpg";
 import { useModal } from "@/shared/context/modal";
 import StoryEdit from "@/features/rpg/components/StoryEdit";
 import SessionInfo from "@/features/rpg/components/StoryInfo";
@@ -22,16 +22,19 @@ import { onChangeParams, ColumnDef, ColumnType, Operations, FilterItem, FilterTy
 import YesNoWindow from "@/shared/components/YesNoWindow";
 import SessionForm from "../components/sessionForm";
 import ImportStory from "../components/importStory";
+import { useAuth } from "@/features/auth/context/authProvider";
 
 export type SessionTableProps = {
     updateData: (paramsObj: onChangeParams) => void;
     data: Story[],
     rowCount?: number;
     setRowCount?: (count: number) => void;
+    draft: boolean;
 };
 
-export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, rowCount }: SessionTableProps) => {
+export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, rowCount, draft }: SessionTableProps) => {
     const { t } = useTranslation();
+    const { checkPermission } = useAuth();
     const modal = useModal();
     const api = useApiConnect();
     const [openRows, setOpenRows] = useState<Record<string, boolean>>({});
@@ -114,7 +117,7 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     }
 
     const details = (data: any) => {
-        api.get<Story>('rpg_stories_details', null, data.id)
+        api.get<Story>(draft ? 'rpg_stories_details_drafts' : 'rpg_stories_details', null, data.id)
             .then(story => modal.showModal(<SessionInfo story={story.data} edit={editSession} del={del}></SessionInfo>))
     }
 
@@ -129,6 +132,13 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     const addChapter = (data: Story) => {
         var chapter = {} as SessionDto;
         chapter.story = data.id;
+        modal.showModal(<SessionForm data={chapter} onSave={(o) => saveChapter(o)} isChapter={true} isNew={true} />)
+    }
+
+    const addDraftChapter = (data: Story) => {
+        var chapter = {} as SessionDto;
+        chapter.story = data.id;
+        chapter.draft = true;
         modal.showModal(<SessionForm data={chapter} onSave={(o) => saveChapter(o)} isChapter={true} isNew={true} />)
     }
 
@@ -223,37 +233,41 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
 
     const operations: Operations<Story>[] = [
         { name: 'opt.details', method: (o) => details(o) },
-        { name: 'opt.edit', method: (o) => editSession(o) },
-        { name: 'rpg.chapter.add', method: (o) => addChapter(o) },
+        { name: 'opt.edit', method: (o) => editSession(o), hidden: (o) => !checkPermission(['rpg_write']) },
+        { name: 'rpg.chapter.add', method: (o) => addChapter(o), hidden: (o) => !checkPermission(['rpg_write']) || draft },
+        { name: 'rpg.chapter.addDraft', method: (o) => addDraftChapter(o), hidden: (o) => !checkPermission(['rpg_write']) || !draft },
         { name: 'rpg.story.start', method: (o) => startStory(o) },
         { name: 'rpg.story.end', method: (o) => endStory(o) },
         { name: 'opt.export', method: (o) => exportData(o) },
         { name: 'rpg.story.gen_summary', method: (o) => generateSummary(o) },
         { name: 'rpg.story.download_summary', method: (o) => downloadSummary(o) },
         { name: 'rpg.story.send_firebase', method: (o) => sendToFirebase(o) },
-        { name: 'opt.delete', method: (o) => del(o) },
+        { name: 'opt.delete', method: (o) => del(o), hidden: (o) => !checkPermission(['rpg_write']) },
     ]
 
-        return (
+    return (
         <Grid sx={{ width: "100%", p: isMobile ? 1 : 3 }}>
             {/* HEADER */}
             <Grid sx={{ textAlign: "center", mb: 2 }}>
                 <InputLabel sx={{ fontSize: isMobile ? "1.8rem" : "2.5rem", fontWeight: "bold" }}>
-                    {t('rpg.title')}
+                    {t(draft ? 'rpg.draftTitle' : 'rpg.title')}
                 </InputLabel>
 
-                <Button onClick={handleMenuClick} variant="outlined" sx={{ mt: 1 }}>
-                    {t('opt.add')}
-                </Button>
 
-                <Menu anchorEl={anchorEl} open={openMenu} onClose={handleMenuClose}>
-                    <MenuItem onClick={() => { handleMenuClose(); addSession(); }}>
-                        {t('opt.create')}
-                    </MenuItem>
-                    <MenuItem onClick={() => { handleMenuClose(); openImportModal(); }}>
-                        {t('opt.import')}
-                    </MenuItem>
-                </Menu>
+                {checkPermission(['rpg_write']) && (<>
+                    <Button onClick={handleMenuClick} variant="outlined" sx={{ mt: 1 }}>
+                        {t('opt.add')}
+                    </Button>
+                    <Menu anchorEl={anchorEl} open={openMenu} onClose={handleMenuClose}>
+                        <MenuItem onClick={() => { handleMenuClose(); addSession(); }}>
+                            {t('opt.create')}
+                        </MenuItem>
+                        <MenuItem onClick={() => { handleMenuClose(); openImportModal(); }}>
+                            {t('opt.import')}
+                        </MenuItem>
+                    </Menu>
+                </>
+                )}
             </Grid>
 
             {/* TABLE */}

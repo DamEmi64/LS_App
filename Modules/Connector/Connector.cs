@@ -32,7 +32,9 @@ namespace Connector
 
         public List<PermissionInfo> Permissions => new()
         {
-            PermissionInfo.Create("rpg","Manage RPG sessions",true),
+            PermissionInfo.Create("rpg","Read RPG sessions",true),
+            PermissionInfo.Create("rpg_write","Manage RPG sessions",false),
+            PermissionInfo.Create("rpg_draft","Manage drafts of RPG sessions",false),
             PermissionInfo.Create("files","Manage files",true),
             PermissionInfo.Create("communication","Manage and send Emails",true),
             PermissionInfo.Create("process","Manage background processes",false),

@@ -15,7 +15,13 @@ namespace RPG.Infrastructure.Repositories
         public override async Task<Story?> Get(Guid id)
         {
             return await DbContext.Set<Story>()
-                                .Include(x => x.Chapters).FirstOrDefaultAsync(x => x.Id == id);
+                                .Include(x => x.Chapters.Where(x => !x.Draft)).FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<Story?> GetDraft(Guid id)
+        {
+            return await DbContext.Set<Story>()
+                                .Include(x => x.Chapters.Where(x => x.Draft)).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public Task<Story?> GetFull(Guid id)
@@ -32,7 +38,13 @@ namespace RPG.Infrastructure.Repositories
         public override IEnumerable<Story> GetAll()
         {
             return DbContext.Set<Story>()
-                    .Include(x => x.Chapters);
+                    .Include(x => x.Chapters.Where(x => !x.Draft));
+        }
+
+        public IEnumerable<Story> GetAllDraft()
+        {
+            return DbContext.Set<Story>()
+                    .Include(x => x.Chapters.Where(x => x.Draft));
         }
 
         public async Task<Story?> GetLastEdited()

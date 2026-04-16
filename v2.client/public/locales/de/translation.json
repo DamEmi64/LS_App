@@ -3,145 +3,283 @@
     "yes": "Ja",
     "no": "Nein",
     "cancel": "Abbrechen",
-    "info": "Informationen"
+    "info": "Info"
   },
   "validation": {
     "required": "Dieses Feld ist erforderlich",
-    "minLength": "Minimale Länge ist {0} Zeichen",
-    "maxLength": "Maximale Länge ist {0} Zeichen",
-    "email": "Ungültige E-Mail-Adresse",
-    "url": "Ungültige URL",
-    "number": "Dieses Feld muss eine Zahl sein"
+    "minLength": "Geben Sie mindestens {0} Zeichen ein",
+    "maxLength": "Geben Sie höchstens {0} Zeichen ein",
+    "email": "Geben Sie eine gültige E-Mail-Adresse ein",
+    "url": "Geben Sie eine gültige URL ein",
+    "number": "Geben Sie eine gültige Zahl ein"
   },
   "notify": {
-    "processActive": "Aufgabenbenachrichtigungen",
-    "processError": "Nur Fehlerbenachrichtigungen",
+    "processActive": "Alle Aufgabenbenachrichtigungen",
+    "processError": "Nur Fehler",
     "position": "Position der Benachrichtigung",
     "notification": "Benachrichtigungen",
-    "autoClose": "Anzeigedauer (ms)",
+    "autoClose": "Automatisch schließen (ms)",
     "active": "Aktiv",
     "bottomRight": "Unten rechts",
     "topRight": "Oben rechts",
     "bottomLeft": "Unten links",
     "topLeft": "Oben links",
     "messages": {
-      "1000": "Protokoll",
-      "1001": "Interner Prozessfehler {0}",
-      "1002": "Prozess {0} gestartet",
-      "1003": "Prozess {0} abgeschlossen",
-      "1004": "Prozess {0} fehlgeschlagen",
-      "1005": "Prozess {0} zur Warteschlange hinzugefügt",
+      "1000": "Protokolleintrag",
+      "1001": "Prozessfehler: {0}",
+      "1002": "Prozess gestartet: {0}",
+      "1003": "Prozess abgeschlossen: {0}",
+      "1004": "Prozess fehlgeschlagen: {0}",
+      "1005": "Prozess zur Warteschlange hinzugefügt: {0}",
 
-      "1006": "Datei {0} gespeichert",
-      "1007": "Datei {0} gelöscht",
-      "1008": "Datei {0} aktualisiert",
-      "1009": "Datei {0} nicht gefunden",
-      "1010": "Datei {0} existiert bereits",
-      "1011": "Datei {0} wurde nicht gespeichert",
+      "1006": "Datei gespeichert: {0}",
+      "1007": "Datei gelöscht: {0}",
+      "1008": "Datei aktualisiert: {0}",
+      "1009": "Datei nicht gefunden: {0}",
+      "1010": "Datei existiert bereits: {0}",
+      "1011": "Datei konnte nicht gespeichert werden: {0}",
 
-      "1012": "Sitzung {0} gespeichert",
-      "1013": "Sitzung {0} gelöscht",
-      "1014": "Sitzung {0} aktualisiert",
-      "1015": "Sitzung {0} nicht gefunden",
+      "1012": "Sitzung gespeichert: {0}",
+      "1013": "Sitzung gelöscht: {0}",
+      "1014": "Sitzung aktualisiert: {0}",
+      "1015": "Sitzung nicht gefunden: {0}",
 
-      "1016": "Kapitel {0} gespeichert",
-      "1017": "Kapitel {0} gelöscht",
-      "1018": "Kapitel {0} aktualisiert",
-      "1019": "Kapitel {0} nicht gefunden",
+      "1016": "Kapitel gespeichert: {0}",
+      "1017": "Kapitel gelöscht: {0}",
+      "1018": "Kapitel aktualisiert: {0}",
+      "1019": "Kapitel nicht gefunden: {0}",
 
-      "1020": "Held {0} gespeichert",
-      "1021": "Held {0} gelöscht",
-      "1022": "Held {0} aktualisiert",
-      "1023": "Held {0} nicht gefunden",
+      "1020": "Charakter gespeichert: {0}",
+      "1021": "Charakter gelöscht: {0}",
+      "1022": "Charakter aktualisiert: {0}",
+      "1023": "Charakter nicht gefunden: {0}",
 
-      "1024": "Ort {0} gespeichert",
-      "1025": "Ort {0} gelöscht",
-      "1026": "Ort {0} aktualisiert",
-      "1027": "Ort {0} nicht gefunden",
+      "1024": "Ort gespeichert: {0}",
+      "1025": "Ort gelöscht: {0}",
+      "1026": "Ort aktualisiert: {0}",
+      "1027": "Ort nicht gefunden: {0}",
 
-      "1030": "Anmeldung erfolgreich",
+      "1030": "Erfolgreich angemeldet",
       "1031": "Anmeldung fehlgeschlagen",
-      "1032": "Ungültiges Passwort",
+      "1032": "Falsches Passwort",
       "1033": "Konto gesperrt",
       "1034": "Zwei-Faktor-Authentifizierung fehlgeschlagen",
-      "1035": "Registrierung erfolgreich",
+      "1035": "Konto erfolgreich erstellt",
       "1036": "Registrierung fehlgeschlagen",
-      "1037": "E-Mail erfolgreich gesendet",
-      "1038": "E-Mail erfolgreich generiert",
-      "1039": "Passwort zu kurz",
-      "1040": "Passwort benötigt ein Sonderzeichen",
-      "1041": "Passwort benötigt eine Zahl",
-      "1042": "Passwort benötigt einen Kleinbuchstaben",
-      "1043": "Passwort benötigt einen Großbuchstaben"
+      "1037": "E-Mail gesendet",
+      "1038": "E-Mail erstellt",
+      "1039": "Passwort ist zu kurz",
+      "1040": "Passwort muss ein Sonderzeichen enthalten",
+      "1041": "Passwort muss eine Zahl enthalten",
+      "1042": "Passwort muss einen Kleinbuchstaben enthalten",
+      "1043": "Passwort muss einen Großbuchstaben enthalten"
     }
   },
-
   "user": {
     "firstName": "Vorname",
     "lastName": "Nachname",
-    "email": "E-Mail-Adresse",
+    "email": "E-Mail",
     "phoneNumber": "Telefonnummer",
-    "info": "Benutzerinformationen",
+    "info": "Benutzerdaten",
     "userName": "Benutzername"
   },
-
   "processes": {
     "title": "Prozesse",
-    "description": "Verwalte laufende Prozesse",
+    "description": "Laufende Prozesse verwalten",
     "name": "Prozess",
     "queue": "Warteschlange",
     "startingDate": "Startdatum",
-    "startingDateFrom": "Startdatum von",
-    "startingDateTo": "Startdatum bis",
+    "startingDateFrom": "Startdatum (von)",
+    "startingDateTo": "Startdatum (bis)",
     "percentage": "Fortschritt",
     "status": "Status",
-    "jobs": "Aufgaben",
-    "noJobs": "Keine Aufgaben mit diesem Prozess verbunden",
-    "errors": "Prozessfehler",
+    "jobs": "Jobs",
+    "noJobs": "Keine Jobs mit diesem Prozess verknüpft",
+    "errors": "Fehler",
     "errorMessage": "Fehlermeldung",
     "restart": "Prozess neu starten"
   },
-
   "jobs": {
-    "id": "Id",
-    "jobId": "Hangfire-Id",
+    "id": "ID",
+    "jobId": "Job-ID",
     "status": "Status",
-    "requestData": "Geplantes Startdatum",
+    "requestData": "Geplanter Start",
     "startDate": "Startdatum",
     "endDate": "Enddatum",
     "name": "Name",
     "percentage": "Fortschritt",
-    "operation": "Operation"
+    "operation": "Aktion"
   },
-
   "entity": {
-    "insDate": "Erstellungsdatum",
-    "upDate": "Aktualisierungsdatum",
-    "del_info": "Daten löschen?"
+    "insDate": "Erstellt am",
+    "upDate": "Zuletzt aktualisiert",
+    "del_info": "Dieses Element löschen?"
   },
-
   "files": {
     "title": "Dateien",
-    "all": "*",
+    "all": "Alle",
     "games": "Spiele",
     "docs": "Dokumente",
     "name": "Titel",
     "image": "Bild",
     "location": "Ort",
-    "fileType": "Dateityp",
-    "additionalData": "Zusätzliche Daten",
+    "fileType": "Typ",
+    "additionalData": "Zusätzliche Informationen",
     "sources": "Quellen",
     "show_file": "Dateien anzeigen",
     "subject": "Kurs",
     "year": "Jahr",
     "semester": "Semester",
-    "sourceType": "Quellentyp",
-    "import": "Vom externen Server herunterladen",
-    "export": "Vom Server herunterladen",
-    "gameGenre": "Spielgenre",
+    "sourceType": "Quelle",
+    "import": "Aus externer Quelle importieren",
+    "export": "Herunterladen",
+    "gameGenre": "Genre",
     "useFileUpload": "Datei in Datenbank speichern"
   },
-
+  "communication": {
+    "title": "Kommunikation",
+    "emails": "E-Mails",
+    "templates": "Vorlagen",
+    "description": "Benutzerkommunikation verwalten",
+    "template": {
+      "title": "Vorlagen",
+      "description": "Nachrichtenvorlagen erstellen und verwalten",
+      "name": "Vorlagenname",
+      "subject": "Betreff",
+      "body": "Nachricht",
+      "add": "Vorlage hinzufügen",
+      "edit": "Vorlage bearbeiten",
+      "del": "Vorlage löschen",
+      "gen": "Nachricht generieren",
+      "strategies": {
+        "title": "Vorlagenfunktionen",
+        "description": "Dynamische Funktionen für Nachrichten",
+        "example": "Beispiel",
+        "increment": {
+          "title": "Automatische Nummerierung",
+          "description": "Erhöht automatisch einen Zähler",
+          "example": "{{ increment() }}"
+        },
+        "randomNumber": {
+          "title": "Zufallszahl",
+          "description": "Erzeugt eine Zahl in einem Bereich",
+          "example": "{{ randomNumber(0,20) }}"
+        },
+        "random": {
+          "title": "Zufallswert",
+          "description": "Wählt einen zufälligen Wert",
+          "example": "{{ random('', 'a', 'b', 'c') }}"
+        },
+        "randomUnique": {
+          "title": "Eindeutiger Zufallswert",
+          "description": "Erzeugt nach Möglichkeit eindeutige Werte pro Empfänger",
+          "example": "{{ randomUnique(test@test.com='d;e;f', 'a', 'b', 'c') }}"
+        }
+      }
+    },
+    "email": {
+      "title": "E-Mail",
+      "subject": "Betreff",
+      "sendDate": "Sendedatum",
+      "description": "E-Mails senden",
+      "body": "Nachricht",
+      "from": "Von",
+      "to": "An",
+      "cc": "CC",
+      "bcc": "BCC",
+      "send": "E-Mail senden",
+      "sender": {
+        "title": "Absender",
+        "email": "E-Mail",
+        "name": "Name"
+      },
+      "recipient": {
+        "title": "Empfänger",
+        "email": "E-Mail",
+        "name": "Name"
+      }
+    },
+    "editor": {
+      "title": "Nachrichteneditor"
+    }
+  },
+  "rpg": {
+    "import": {
+      "converterType": "Konvertertyp",
+      "externalUrl": "Externer RPG-Sitzungsname (nur Firebase)",
+      "selectFile": "Datei auswählen"
+    },
+    "deleteConfirm": {
+      "place": "Ort {0} löschen?",
+      "hero": "Charakter {0} löschen?",
+      "story": "Geschichte {0} löschen?"
+    },
+    "story": {
+      "startDate": "Startdatum",
+      "endDate": "Enddatum",
+      "description": "Beschreibung",
+      "heroes": "Charaktere",
+      "places": "Orte",
+      "chapters": "Kapitel",
+      "summary": "Zusammenfassung",
+      "start": "Geschichte starten",
+      "end": "Geschichte beenden",
+      "gen_summary": "Zusammenfassung erstellen",
+      "download_summary": "Zusammenfassung herunterladen",
+      "title": "Titel",
+      "gen_summary_desc": "Kapitel für die Zusammenfassung auswählen",
+      "send_firebase": "An App senden"
+    },
+    "chapter": {
+      "title": "Titel",
+      "description": "Beschreibung",
+      "add": "Kapitel hinzufügen",
+      "addDraft": "Entwurf hinzufügen",
+      "chapters": "Kapitel",
+      "startDate": "Startdatum",
+      "endDate": "Enddatum",
+      "start": "Sitzung starten",
+      "end": "Sitzung beenden",
+      "order": "Reihenfolge",
+      "dmPage": "Spielleiteransicht",
+      "playerPage": "Spieleransicht",
+      "sessions": "Sitzungen",
+      "links": "Ressourcen"
+    },
+    "hero": {
+      "firstName": "Vorname",
+      "health": "Gesundheit",
+      "pos": "Position",
+      "lastName": "Nachname",
+      "player": "Gespielt von",
+      "description": "Hintergrund",
+      "add": "Charakter hinzufügen",
+      "playerData": "Spielerdaten",
+      "diceRoll": "Würfeln",
+      "skills": "Fähigkeiten",
+      "skill": {
+        "title": "Fähigkeitsname",
+        "value": "Wert",
+        "add": "Hinzufügen",
+        "remove": "Entfernen"
+      }
+    },
+    "place": {
+      "title": "Titel",
+      "description": "Beschreibung",
+      "add": "Ort hinzufügen"
+    },
+    "other": {
+      "title": "Titel",
+      "description": "Beschreibung",
+      "image": "Bild",
+      "url": "Link",
+      "output_player_view": "Spieleransicht anzeigen"
+    },
+    "title": "RPG-Sitzungen",
+    "draftTitle": "Entwürfe",
+    "description": "Geschichten zum Erzählen"
+  },
   "menu": {
     "home": "Startseite",
     "processes": "Prozesse",
@@ -150,21 +288,167 @@
     "communication": "Kommunikation",
     "emails": "E-Mails",
     "templates": "Vorlagen",
-    "automations": "Automatisierungen",
+    "automations": "Automationen",
     "rpg_sessions": "RPG-Sitzungen",
     "register": "Registrieren",
     "login": "Anmelden",
-    "logout": "Abmelden"
+    "logout": "Abmelden",
+    "draft": "Entwürfe"
   },
-
-  "no_data": "keine Daten",
+  "server": {
+    "info": "Systemstatus",
+    "server_version": "Serverversion",
+    "frontend_version": "Frontend-Version",
+    "modules": "Aktive Module",
+    "module_name": "Modulname",
+    "module_version": "Version"
+  },
+  "no_data": "Keine Daten",
   "EndpointNotFound": "Endpunkt nicht gefunden",
   "filter_reset": "Filter zurücksetzen",
   "language": "Sprache",
   "settings": "Einstellungen",
   "login": "Anmelden",
   "register": "Registrieren",
-  "apiEndpoint": "Server-URL",
-  "darkTheme": "Dunkles Design",
-  "error": "Fehler"
+  "apiEndpoint": "API-Endpunkt",
+  "darkTheme": "Dunkler Modus",
+  "error": "Fehler",
+  "opt": {
+    "add": "Hinzufügen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "details": "Details",
+    "operations": "Aktionen",
+    "save": "Speichern",
+    "change_pass": "Passwort ändern",
+    "login": "Anmelden",
+    "register": "Registrieren",
+    "cancel": "Abbrechen",
+    "create": "Erstellen",
+    "import": "Importieren",
+    "export": "Exportieren",
+    "copy": "Kopieren",
+    "publish": "Veröffentlichen"
+  },
+  "auth": {
+    "welcome": "Willkommen",
+    "info": "Melden Sie sich an oder erstellen Sie ein Konto",
+    "no_permission": "Sie haben keinen Zugriff auf diese Seite. Kontaktieren Sie Ihren Administrator.",
+    "register": {
+      "username": "Benutzername",
+      "password": "Passwort",
+      "email": "E-Mail",
+      "firstName": "Vorname",
+      "lastName": "Nachname",
+      "phoneNumber": "Telefonnummer"
+    },
+    "login": {
+      "username": "Benutzername",
+      "password": "Passwort",
+      "rememberMe": "Angemeldet bleiben",
+      "failed": "Ungültige Zugangsdaten",
+      "error": "Ein Fehler ist aufgetreten. Bitte später erneut versuchen."
+    }
+  },
+  "dictionaries": {
+    "processStatus": {
+      "New": "Neu",
+      "Executing": "In Bearbeitung",
+      "Success": "Abgeschlossen",
+      "Failed": "Fehlgeschlagen",
+      "Paused": "Pausiert"
+    },
+    "Operations": {
+      "11": "Dateien importieren",
+      "12": "Datei verschieben",
+      "13": "Datei kopieren",
+      "14": "Datei löschen",
+      "21": "E-Mail senden",
+      "22": "Aus Vorlage generieren",
+      "31": "RPG-Zusammenfassung erstellen",
+      "32": "RPG-Daten an Firebase senden",
+      "33": "Neueste RPG-Daten abrufen",
+      "34": "RPG aus Datei importieren",
+      "35": "RPG-Storymodell erstellen",
+      "40": "Automation ausführen",
+      "41": "Daten archivieren"
+    },
+    "fileType": {
+      "Games": "Spiele",
+      "Docs": "Dokumente",
+      "Study": "Studienmaterial"
+    },
+    "sourceTypes": {
+      "Local": "Lokaler Pfad",
+      "FuckingFast": "FuckingFast-Website"
+    },
+    "gameGenres": {
+      "Platformer": "Plattformer",
+      "Shooter": "Shooter",
+      "FirstPersonShooter": "Ego-Shooter",
+      "ThirdPersonShooter": "Third-Person-Shooter",
+      "BeatEmUp": "Beat ’em up",
+      "Stealth": "Stealth",
+      "Survival": "Survival",
+      "ActionAdventure": "Action-Adventure",
+      "NarrativeAdventure": "Narratives Adventure",
+      "PointAndClick": "Point-and-Click",
+      "ActionRPG": "Action-RPG",
+      "TurnBasedRPG": "Rundenbasiertes RPG",
+      "TacticalRPG": "Taktisches RPG",
+      "MMORPG": "MMORPG",
+      "OpenWorldRPG": "Open-World-RPG",
+      "LifeSimulation": "Lebenssimulation",
+      "FarmingSimulation": "Farm-Simulation",
+      "VehicleSimulation": "Fahrzeugsimulation",
+      "CityBuilding": "Städtebau",
+      "RealTimeStrategy": "Echtzeitstrategie",
+      "TurnBasedStrategy": "Rundenbasierte Strategie",
+      "TowerDefense": "Tower Defense",
+      "FourX": "4X-Strategie",
+      "ClassicPuzzle": "Puzzle",
+      "PhysicsPuzzle": "Physik-Puzzle",
+      "Match3": "Match-3",
+      "TraditionalSports": "Sport",
+      "ExtremeSports": "Extremsport",
+      "Racing": "Rennen",
+      "TraditionalFighting": "Kampfspiel",
+      "PlatformFighting": "Plattform-Kampfspiel",
+      "SurvivalHorror": "Survival Horror",
+      "PsychologicalHorror": "Psychologischer Horror",
+      "PartyGame": "Partyspiel",
+      "RhythmGame": "Rhythmusspiel",
+      "Other": "Sonstiges"
+    }
+  },
+  "automations": {
+    "jobs": {
+      "archive": {
+        "title": "Dateiarchivierung",
+        "sourceDir": "Quellordner",
+        "descDir": "Zielordner"
+      },
+      "summaryDataRPG": "RPG-Sitzung für Zusammenfassung"
+    },
+    "add_task": "Aufgabe hinzufügen",
+    "site_title": "Automationen",
+    "subtitle": "Automatisierte Prozesse verwalten",
+    "title": "Titel",
+    "description": "Beschreibung",
+    "active": "Aktiv",
+    "turnOnOff": "Automation ein-/ausschalten",
+    "order": "Ausführungsreihenfolge",
+    "tasks": "Aufgaben",
+    "frequency": "Ausführungsintervall (Minuten)",
+    "triggers": {
+      "title": "Trigger",
+      "type": "Typ",
+      "cron": "Zeitplan (Cron)",
+      "onRPGModify": "Bei RPG-Änderung"
+    },
+    "actions": {
+      "archive": "Dateien archivieren",
+      "GenerateRPGSummary": "RPG-Zusammenfassung erstellen"
+    }
+  }
 }

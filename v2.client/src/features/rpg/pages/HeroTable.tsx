@@ -17,6 +17,7 @@ import { Chapter, Hero, HeroDto } from "../types";
 import { HeroForm } from "../components/heroForm";
 import { Image } from "@/features/system";
 import SelectChapter from "@/features/rpg/components/SelectChapter";
+import { useAuth } from "@/features/auth/context/authProvider";
 
 export type HeroTableProps = {
     heroes: Hero[],
@@ -31,6 +32,7 @@ export const HeroTable: React.FC<HeroTableProps> = ({
 }) => {
     const modal = useModal();
     const api = useApiConnect();
+    const { checkPermission } = useAuth();
 
     // 📱 RESPONSIVE
     const theme = useTheme();
@@ -38,8 +40,8 @@ export const HeroTable: React.FC<HeroTableProps> = ({
 
     const operations: Operations<Hero>[] = [
         { name: 'opt.details', method: (o) => details(o) },
-        { name: 'opt.edit', method: (o) => edit(o) },
-        { name: 'opt.delete', method: (o) => del(toDto(o)) }
+        { name: 'opt.edit', method: (o) => edit(o), hidden: (o) => !checkPermission(['rpg_write']) },
+        { name: 'opt.delete', method: (o) => del(toDto(o)), hidden: (o) => !checkPermission(['rpg_write']) }
     ];
 
     const toDto = (data: Hero): HeroDto => {
@@ -51,14 +53,24 @@ export const HeroTable: React.FC<HeroTableProps> = ({
     };
 
     const details = (o: Hero) => {
-        modal.showModal(
-            <HeroForm
-                hero={toDto(o)}
-                onSave={saveHero}
-                onDelete={del}
-                onCopy={copyHero}
-            />
-        );
+
+        if (checkPermission(['rpg_write'])) {
+            modal.showModal(
+                <HeroForm
+                    hero={toDto(o)}
+                    onSave={saveHero}
+                    onDelete={del}
+                    onCopy={copyHero}
+                />
+            );
+         }
+        else {
+            modal.showModal(
+                <HeroForm
+                    hero={toDto(o)}
+                />
+            );
+        }
     };
 
     const edit = (o: Hero) => {

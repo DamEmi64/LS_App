@@ -51,6 +51,7 @@ export interface Chapter {
     places: Place[];
     links?: Link[];
     sessions?: Session[];
+    draft: boolean;
 }
 
 export interface HeroDto {
@@ -77,7 +78,8 @@ export interface SessionDto {
     chapter?: string;
     order?: number;
     links?: Link[];
-    sessions?: Session[]
+    sessions?: Session[],
+    draft?: boolean;
 }
 
 export interface PlayerData {
