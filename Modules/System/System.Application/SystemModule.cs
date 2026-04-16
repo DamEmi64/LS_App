@@ -52,7 +52,7 @@ namespace System.Application
 
             app.UseMiddleware<EntityContextMiddleware>();
 
-            RecurringJob.AddOrUpdate<MilestoneWorker>("milestone-manager", job => job.Execute(), "*/15 * * * *");
+     //       RecurringJob.AddOrUpdate<MilestoneWorker>("milestone-manager", job => job.Execute(), "*/15 * * * *");
      //       RecurringJob.AddOrUpdate<ArchiveLogsWorker>("archive-logs-cleaner", job => job.Execute(app.ApplicationServices), Cron.Monthly());
 
             if (app is WebApplication webApplication)
