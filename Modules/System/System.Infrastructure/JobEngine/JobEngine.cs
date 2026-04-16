@@ -3,6 +3,7 @@ using Hangfire;
 using Hangfire.Server;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Domain.Entities;
 using System.Domain.Repositories;
@@ -73,7 +74,7 @@ namespace System.Infrastructure.JobEngine
             {
                 var operation = _connector.GetOperation(job.OperationId);
                 ArgumentNullException.ThrowIfNull(operation, $"Operation {job.OperationId} not found");
-                var taskname = $"({process.Id}) {job.Name}";
+                var taskname = $"[{process.Id}:{process.Title}] {job.Name}";
 
                 var jobId = _backgroundJobClient.ContinueJobWith(root, operation.Queue, () => ExecuteJob(taskname, job, process.Id, null));
                 SetJobId(process, job, jobId);
@@ -98,7 +99,7 @@ namespace System.Infrastructure.JobEngine
             return root;
         }
 
-        [Display(Name = "{0}")]
+        [DisplayName("{0}")]
         public void ExecuteJob(string title, IJob job, Guid processId, PerformContext? performContext)
         {
             _jobExecutor.Execute(title, job, processId, performContext);
@@ -113,7 +114,7 @@ namespace System.Infrastructure.JobEngine
             }
         }
 
-        [Display(Name = "[PROCESS START] {0}")]
+        [DisplayName("[PROCESS START] {0}")]
         public void ProcessStart(string title)
         {
         }

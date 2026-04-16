@@ -35,6 +35,7 @@ import YesNoWindow from '@/shared/components/YesNoWindow';
 import { Chapter, SessionDto, HeroDto, Hero, Story } from '../types';
 import HeroForm from '../components/heroForm';
 import PlaceForm from "@/features/rpg/components/PlaceForm";
+import { useAuth } from '@/features/auth/context/authProvider';
 
 export type ChapterTableProps = {
     chapters: Chapter[]
@@ -44,6 +45,7 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
     const { t } = useTranslation();
     const modal = useModal();
     const api = useApiConnect();
+    const { checkPermission } = useAuth();
 
     // 📱 RESPONSIVE
     const theme = useTheme();
@@ -91,13 +93,14 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
 
     const operations: Operations<Chapter>[] = [
         { name: 'opt.details', method: (o) => details(o) },
-        { name: 'opt.edit', method: (o) => edit(o) },
+        { name: 'opt.edit', method: (o) => edit(o), hidden: (o) => !checkPermission(['rpg_write']) },
+        { name: 'opt.publish', method: (o) => publishChapter(o), hidden: (o) => !checkPermission(['rpg_write']) || !o.draft },
         { name: 'rpg.chapter.start', method: (o) => startChapter(o) },
         { name: 'rpg.chapter.end', method: (o) => endChapter(o) },
         { name: "rpg.chapter.dmPage", method: (o) => dmPage(o) },
-        { name: 'rpg.hero.add', method: (o) => addHero(o) },
-        { name: 'rpg.place.add', method: (o) => addPlace(o) },
-        { name: 'opt.delete', method: (o) => del(o) }
+        { name: 'rpg.hero.add', method: (o) => addHero(o), hidden: (o) => !checkPermission(['rpg_write']) },
+        { name: 'rpg.place.add', method: (o) => addPlace(o), hidden: (o) => !checkPermission(['rpg_write']) },
+        { name: 'opt.delete', method: (o) => del(o), hidden: (o) => !checkPermission(['rpg_write']) },
     ];
 
     const details = (o: Chapter) => {
@@ -128,6 +131,10 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
                     />
                 );
             });
+    };
+
+    const publishChapter = (o: Chapter) => {
+        api.post<Chapter>('rpg_chapter_publish', null, null, o.id);
     };
 
     const saveEdit = (data: SessionDto, chapter: Chapter) => {

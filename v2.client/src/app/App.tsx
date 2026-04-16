@@ -61,7 +61,20 @@ const menu: NavbarItemProps[] = [
             },
         ], permissions: ['communication']
     },
-    { label: 'rpg_sessions', href: '/rpg', submenu: [], permissions: ['rpg'] },
+    {
+        label: 'rpg_sessions', href: '', submenu: [
+            {
+                label: 'rpg_sessions', href: '/rpg',
+                submenu: [],
+                permissions: ['rpg']
+            },
+            {
+                label: 'draft', href: '/rpg/drafts',
+                submenu: [],
+                permissions: ['rpg_draft']
+            },
+        ], permissions: ['rpg']
+    },
     { label: 'automations', href: '/automations', submenu: [], permissions: ['automation'] },
 ];
 
@@ -80,7 +93,8 @@ const App = () => (
                                     <Route path="/templates" element={<Layout content={Templates} image={TemplateImg} title={'menu.templates'} permissions={['communication']} menu={menu} />} />
                                     <Route path="/rpg/playerData" element={<Layout content={PlayerPage} image={RPGImg} title={'menu.rpg_sessions'} permissions={['rpg']} menu={menu} />} />
                                     <Route path="/rpg/playerView" element={<Layout content={PlayerViewPage} image={RPGImg} title={'menu.rpg_sessions'} menu={menu} allowAnonymous />} />
-                                    <Route path="/rpg" element={<Layout content={RPG} image={RPGImg} title={'menu.rpg_sessions'} permissions={['rpg']} menu={menu} />} />
+                                    <Route path="/rpg" element={<Layout content={o => <RPG draft={false} />} image={RPGImg} title={'menu.rpg_sessions'} permissions={['rpg']} menu={menu} />} />
+                                    <Route path="/rpg/drafts" element={<Layout content={o => <RPG draft={true} />} image={RPGImg} title={'menu.rpg_sessions'} permissions={['rpg']} menu={menu} />} />
                                     <Route path="/automations" element={<Layout content={Automations} image={AutomationsImg} title={'menu.automations'} permissions={['automation']} menu={menu} />} />
                                     {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                                     <Route path="*" element={<Layout content={NotFound} image={IndexImg} title={'404'} menu={menu} />} />

@@ -71,13 +71,7 @@ namespace RPG.Infrastructure.External.FileConverters.Firebase
 
         private async Task<StoryModel?> LoadFromFirebaseByTitle(string title)
         {
-            var credential = CredentialFactory.FromFile<ICredential>(@"D:\Sites\site62841\private\firebase_credentials.json");
-            var builder = new FirestoreClientBuilder
-            {
-                Credential = credential
-            };
-
-            var firestore = await FirestoreDb.CreateAsync(_options.ProjectId, builder.Build());
+            var firestore = await FirebaseExtensions.GetDb();
 
             var storyQuery = firestore
                                 .Collection(StoriesCollection)

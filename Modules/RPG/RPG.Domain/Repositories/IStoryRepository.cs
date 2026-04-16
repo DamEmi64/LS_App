@@ -8,5 +8,7 @@ namespace RPG.Domain.Repositories
         Task<Story?> GetLastEdited();
         Task<string?> GetStoryTitle(Guid id);
         Task<Story?> GetFull(Guid id);
+        Task<Story?> GetDraft(Guid id);
+        IEnumerable<Story> GetAllDraft();
     }
 }

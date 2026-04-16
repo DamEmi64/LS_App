@@ -4,7 +4,7 @@ import { useApiConnect } from "@/shared/context/apiConnect";
 import { SessionTable } from "./SessionTable";
 import { Story } from "@/features/rpg";
 
-const RPG = () => {
+const RPG: React.FC<{ draft: boolean }> = ({ draft }) => {
     const [data, setData] = useState<any[]>([{ id: '1', title: 'test', chapters: [{ id: '12', title: "test chapter" }], places: [{ id: '123', title: "test places" }], heroes: [{ id: '22', firstName: "test", lastName: "hero" }] }]);
     const [rowCount, setRowCount] = useState<number>(0);
     const [loading, setLoading] = useState<boolean>(true);
@@ -23,7 +23,7 @@ const RPG = () => {
             params.append(filter.field, filter.value.toLocaleString());
         });
 
-        var result = await api.get<Story[]>('rpg_stories_data', { params });
+        var result = await api.get<Story[]>(draft ? 'rpg_stories_drafts' : 'rpg_stories_data', { params });
         setData(result.data);
         setRowCount(result.total);
         setLoading(false);
@@ -35,7 +35,7 @@ const RPG = () => {
     }, []);
 
     return (
-        <SessionTable data={data} updateData={updateData} rowCount={rowCount} setRowCount={setRowCount} />
+        <SessionTable data={data} updateData={updateData} rowCount={rowCount} setRowCount={setRowCount} draft={draft} />
     );
 };
 

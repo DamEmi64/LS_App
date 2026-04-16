@@ -1,19 +1,12 @@
 ﻿@page
 @using System.Views.Pages.Admin
 @model UsersModel
+
 @{
     ViewData["Title"] = "Users Page";
-    Layout = null;
+    ViewData["Active"] = "Users";
+    Layout = "/Pages/Admin/_Layout.cshtml";
 }
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <title>@ViewData["Title"]</title>
-
-    <!-- DataTables CSS -->
-    <link rel="stylesheet" href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" />
 
     <style>
         body {
@@ -235,66 +228,63 @@
             }
         }
     </style>
-</head>
-<body>
 
-    <nav class="menubar">
-        <a href="/Admin/Users">Users</a>
-        <a href="/Admin/Roles">Roles</a>
-        <a href="/Admin/Logs" class="active">Logs</a>
-        <a href="/hangfire">Hangfire</a>
-    </nav>
+<h2>User List</h2>
 
-    <main class="content">
-        <h2>User List</h2>
-        <button class="btn-new" onclick="openNewUser()">+ New User</button>
-        <table id="usersTable" class="display">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Email</th>
-                    <th>UserName</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Role</th>
-                    <th>Locked</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-        </table>
-    </main>
+<button class="btn-new" onclick="openNewUser()">+ New User</button>
 
-    <!-- Add User Modal -->
-    <div id="userModal" class="modal-overlay">
-        <div class="modal">
-            <span class="modal-close" onclick="closeModal('userModal')">&times;</span>
-            <h3>Add User</h3>
-            <form id="userForm">
-                <label>Username:</label>
-                <input name="login" id="login" type="text" required />
-                <label>First Name:</label>
-                <input name="firstName" id="firstName" type="text" />
-                <label>Last Name:</label>
-                <input name="lastName" id="lastName" type="text" />
-                <label>Email:</label>
-                <input name="email" type="email" required />
-                <label>Password:</label>
-                <input name="password" type="password" required />
-                <label>Role:</label>
-                <select name="role" required>
-                    <option value="">-- Select Role --</option>
-                    @foreach (var role in Model.Roles)
-                    {
-                        <option value="@role.Name">@role.Name</option>
-                    }
-                </select>
-                <div class="actions">
-                    <button type="submit">Create</button>
-                    <button type="button" class="secondary" onclick="closeModal('userModal')">Cancel</button>
-                </div>
-            </form>
-        </div>
+<table id="usersTable" class="display">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Email</th>
+            <th>UserName</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Role</th>
+            <th>Locked</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+</table>
+
+<!-- Modals (unchanged) -->
+<div id="userModal" class="modal-overlay">
+    <div class="modal">
+        <span class="modal-close" onclick="closeModal('userModal')">&times;</span>
+        <h3>Add User</h3>
+        <form id="userForm">
+            <label>Username:</label>
+            <input name="login" id="login" type="text" required />
+
+            <label>First Name:</label>
+            <input name="firstName" id="firstName" type="text" />
+
+            <label>Last Name:</label>
+            <input name="lastName" id="lastName" type="text" />
+
+            <label>Email:</label>
+            <input name="email" type="email" required />
+
+            <label>Password:</label>
+            <input name="password" type="password" required />
+
+            <label>Role:</label>
+            <select name="role" required>
+                <option value="">-- Select Role --</option>
+                @foreach (var role in Model.Roles)
+                {
+                    <option value="@role.Name">@role.Name</option>
+                }
+            </select>
+
+            <div class="actions">
+                <button type="submit">Create</button>
+                <button type="button" class="secondary" onclick="closeModal('userModal')">Cancel</button>
+            </div>
+        </form>
     </div>
+</div>
 
     <!-- Edit User Modal -->
     <div id="editModal" class="modal-overlay">
@@ -373,172 +363,151 @@
         </div>
     </div>
 
-    <!-- Toast Container -->
-    <div id="toast-container"></div>
+<div id="toast-container"></div>
 
-    <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+@section Scripts {
+<script>
+    function openModal(id) { $('#' + id).css('display', 'flex'); }
+    function closeModal(id) { $('#' + id).hide(); }
 
-    <script>
-        function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-        function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    function showToast(message, type = "success") {
+        const toast = $(`<div class="toast ${type}">${message}</div>`);
+        $('#toast-container').append(toast);
+        setTimeout(() => toast.fadeOut(() => toast.remove()), 4000);
+    }
 
-        var loginChanged = false;
+    let loginChanged = false;
 
-        function fillLogin(ev) {
-            var lastName = $('#lastName').val().toLowerCase().trim();
-            var firstName = $('#firstName').val().toLowerCase().trim();
+    function fillLogin() {
+        if (loginChanged) return;
 
-            if (loginChanged) {
-                return;
-            }
+        const first = $('#firstName').val().toLowerCase().trim();
+        const last = $('#lastName').val().toLowerCase().trim();
 
-            var login = '';
-            if (firstName) login += firstName;
-            if (lastName) login += '.' + lastName;
-            $('#login').val(login);
-        }
+        $('#login').val(first && last ? `${first}.${last}` : first || last);
+    }
 
-        $('#login').on('change', function() {loginChanged = true});
-        $('#lastName').on('change',fillLogin);
-        $('#firstName').on('change',fillLogin);
+    $(function () {
 
-        function showToast(message, type = "success") {
-            var toast = $('<div class="toast ' + type + '">' + message + '</div>');
-            $('#toast-container').append(toast);
-            setTimeout(() => { toast.remove(); }, 5000);
-        }
+        $('#login').on('input', () => loginChanged = true);
+        $('#firstName, #lastName').on('input', fillLogin);
 
-        function openNewUser() {
-            loginChanged = false;
-            $('#userForm')[0].reset();
-            openModal('userModal');
-        }
-
-        $(function () {
-            var table = $('#usersTable').DataTable({
-                ajax: {
-                        url: 'UserList',   // your backend endpoint            // or 'GET' if your action supports GET
-                         data: function (d) {
-                             d.search = d.search.value;
-                        }
-                    },
-                processing: true,
-                serverSide: true,
-                columns: [
-                    { data: "id" },
-                    { data: "email" },
-                    { data: "userName" },
-                    { data: "firstName" },
-                    { data: "lastName" },
-                    { data: "role"},
-                    { data: "lockedOut", render: d => d ? "Yes" : "No" },
-                    {
-                        data: null,
-                        orderable: false,
-                        render: (data, type, row) => `
-                            <button class="btn-action btn-edit" onclick="editUser('${row.id}')">Edit</button>
-                            <button class="btn-action btn-delete" onclick="deleteUser('${row.id}')">Delete</button>
-                            <button class="btn-action btn-pwd" onclick="resetPwd('${row.id}')">Password</button>
-                        `
-                    }
-                ],
-                createdRow: function (row, data) {
-                    if (data.lockedOut) $(row).addClass('table-danger');
+        const table = $('#usersTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: 'UserList',
+                data: d => d.search = d.search.value
+            },
+            columns: [
+                { data: "id" },
+                { data: "email" },
+                { data: "userName" },
+                { data: "firstName" },
+                { data: "lastName" },
+                { data: "role" },
+                { data: "lockedOut", render: d => d ? "Yes" : "No" },
+                {
+                    data: null,
+                    orderable: false,
+                    render: row => `
+                        <button class="btn-action btn-edit" onclick="editUser('${row.id}')">Edit</button>
+                        <button class="btn-action btn-delete" onclick="deleteUser('${row.id}')">Delete</button>
+                        <button class="btn-action btn-pwd" onclick="resetPwd('${row.id}')">Password</button>
+                    `
                 }
-            });
+            ],
+            createdRow: (row, data) => {
+                if (data.lockedOut) $(row).addClass('table-danger');
+            }
+        });
 
-        // Form submits
         $('#userForm').submit(function (e) {
             e.preventDefault();
-            $.ajax({
-                url: 'CreateUser',
-                type: 'POST',
-                data: $(this).serialize(),
-                success: () => {
+
+            $.post('CreateUser', $(this).serialize())
+                .done(() => {
                     closeModal('userModal');
                     table.draw();
-                    showToast("User created successfully");
-                },
-                error: xhr => {
-                    showToast(xhr.responseText || "Create failed", "error");
-                }
-            });
+                    showToast("User created");
+                })
+                .fail(x => showToast(x.responseText || "Create failed", "error"));
         });
 
         $('#editForm').submit(function (e) {
             e.preventDefault();
-            $.ajax({
-                url: 'UpdateUser',
-                type: 'POST',
-                data: $(this).serialize(),
-                success: () => {
+
+            $.post('UpdateUser', $(this).serialize())
+                .done(() => {
                     closeModal('editModal');
                     table.draw();
-                    showToast("User updated successfully");
-                },
-                error: xhr => {
-                    showToast(xhr.responseText || "Update failed", "error");
-                }
-            });
+                    showToast("User updated");
+                })
+                .fail(x => showToast(x.responseText || "Update failed", "error"));
         });
 
         $('#pwdForm').submit(function (e) {
             e.preventDefault();
-            $.ajax({
-                url: 'ResetPassword',
-                type: 'POST',
-                data: $(this).serialize(),
-                success: () => {
+
+            $.post('ResetPassword', $(this).serialize())
+                .done(() => {
                     closeModal('pwdModal');
-                    showToast("Password reset successfully");
-                },
-                error: xhr => {
-                    showToast(xhr.responseText || "Password reset failed", "error");
-                }
+                    showToast("Password reset");
+                })
+                .fail(x => showToast(x.responseText || "Reset failed", "error"));
+        });
+
+        window.openNewUser = function () {
+            loginChanged = false;
+            $('#userForm')[0].reset();
+            openModal('userModal');
+        };
+
+        window.editUser = function (id) {
+            $.get('GetUser', { id }, function (d) {
+                $('#editForm input[name=id]').val(d.id);
+                $('#editForm input[name=email]').val(d.email);
+                $('#editForm input[name=firstName]').val(d.firstName);
+                $('#editForm input[name=lastName]').val(d.lastName);
+                $('#editForm input[name=locked]').prop('checked', d.lockedOut);
+                $('#editForm select[name=role]').val(d.role || "");
+                openModal('editModal');
             });
-        });
+        };
 
-            // Inline actions
-            window.editUser = function (id) {
-                $.get('GetUser', { id }, function (data) {
-                    $('#editForm')[0].reset();
-                    $('#editForm input[name=email]').val(data.email);
-                    $('#editForm input[name=firstName]').val(data.firstName);
-                    $('#editForm input[name=lastName]').val(data.lastName);
-                    $('#editForm input[name=locked]').prop('checked', data.lockedOut);
-                    $('#editForm input[name=id]').val(data.id);
-                    $('#editForm select[name=role]').val(data.role || "");
-                    openModal('editModal');
-                });
-            };
+        window.deleteUser = function (id) {
+            $('#deleteUserId').val(id);
+            openModal('deleteModal');
+        };
 
-            window.deleteUser = function (id) {
-                $('#deleteUserId').val(id);
-                openModal('deleteModal');
-            };
+        window.confirmDelete = function () {
+            const id = $('#deleteUserId').val();
 
-            window.confirmDelete = function () {
-                var id = $('#deleteUserId').val();
-                $.ajax({ type: 'DELETE', url: 'DeleteUser', data: { id } })
-                    .done(() => { closeModal('deleteModal'); table.draw(); showToast("User deleted successfully"); })
-                    .fail(xhr => { showToast(xhr.responseText || "Delete failed", "error"); });
-            };
+            $.ajax({
+                type: 'DELETE',
+                url: 'DeleteUser',
+                data: { id }
+            })
+            .done(() => {
+                closeModal('deleteModal');
+                table.draw();
+                showToast("Deleted");
+            })
+            .fail(() => showToast("Delete failed", "error"));
+        };
 
-            window.resetPwd = function (id) {
-                $('#pwdUserId').val(id);
-                openModal('pwdConfirmModal');
-            };
+        window.resetPwd = function (id) {
+            $('#pwdUserId').val(id);
+            openModal('pwdConfirmModal');
+        };
 
-            window.openPwdForm = function () {
-                var id = $('#pwdUserId').val();
-                closeModal('pwdConfirmModal');
-                $('#pwdForm')[0].reset();
-                $('#pwdForm input[name=id]').val(id);
-                openModal('pwdModal');
-            };
-        });
-    </script>
-</body>
-</html>
+        window.openPwdForm = function () {
+            const id = $('#pwdUserId').val();
+            closeModal('pwdConfirmModal');
+            $('#pwdForm')[0].reset();
+            $('#pwdForm input[name=id]').val(id);
+            openModal('pwdModal');
+        };
+    });
+</script>
+}

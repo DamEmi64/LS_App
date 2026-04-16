@@ -22,6 +22,8 @@ namespace System.Application
         {
             services.AddAutoMapper(opt => opt.AddMaps(typeof(SystemModule).Assembly));
 
+            services.AddLogging();
+
             return services
                 .AddDb(AppConfiguration.Root)
                 .AddErrorDb(AppConfiguration.Root)

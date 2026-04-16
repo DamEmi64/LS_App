@@ -2,9 +2,17 @@ import { IconButton, Menu, MenuItem } from "@mui/material";
 import { t } from "i18next";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { useState } from "react";
-import { Operations } from "../table/definitions";
+import { Operations } from "@/shared";
+import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 
-export const OperationMenu: React.FC<{ data: any, operations: Operations[] }> = ({ data, operations }) => {
+export const OperationMenu = <T,>({
+    data,
+    operations
+}: {
+    data: T;
+    operations: Operations<T>[];
+}) => {
+
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
     const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -20,34 +28,57 @@ export const OperationMenu: React.FC<{ data: any, operations: Operations[] }> = 
         method?.(data);
     };
 
-    return (<>
-        <IconButton
-            aria-label="more"
-            aria-controls="operation-menu"
-            aria-haspopup="true"
-            onClick={handleMenuOpen}
-            size="small"
-        >
-            <MoreVertIcon />
-        </IconButton>
-        <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleMenuClose}
-            anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
-            }}
-            transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-            }}
-        >
-            {operations.map((operation) => ( (operation.hidden && operation.hidden(data)) ? null :
-                <MenuItem onClick={() => handleMethod(operation.method)}>{t(operation.name)}</MenuItem>
-            ))}
-        </Menu>
-    </>
+    if (operations.length === 0) {
+        return null;
+    }
 
-    )
+    const availableOperations = operations.filter(op => !(op.hidden && op.hidden(data)));
+    
+    if (availableOperations.length === 0) {
+        return null;
+    }
+
+    if(availableOperations.length === 1) {
+        return (
+            <IconButton
+                aria-label="more"
+                aria-controls="operation-menu"
+                aria-haspopup="true"
+                onClick={() => handleMethod(availableOperations[0].method)}
+                size="small"
+            >
+                <ArrowCircleRightIcon />
+            </IconButton>
+        )
+    }
+    else {
+        return (<>
+                <IconButton
+                    aria-label="more"
+                    aria-controls="operation-menu"
+                    aria-haspopup="true"
+                    onClick={handleMenuOpen}
+                    size="small"
+                >
+                    <MoreVertIcon />
+                </IconButton>
+                <Menu
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={handleMenuClose}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right',
+                    }}
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }}
+                >
+                    {availableOperations.map((operation) => ( 
+                        <MenuItem onClick={() => handleMethod(operation.method)}>{t(operation.name)}</MenuItem>
+                    ))}
+                </Menu>
+            </>)
+    }
 }

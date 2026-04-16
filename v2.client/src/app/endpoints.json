@@ -26,6 +26,7 @@
   "files_export": "files/:id/export",
 
   "rpg_stories_data": "stories",
+  "rpg_stories_drafts": "stories/draft",
   "rpg_stories_new": "stories",
   "rpg_stories_details": "stories/:id",
   "rpg_stories_edit": "stories/:id",
@@ -37,6 +38,7 @@
   "rpg_stories_end": "stories/:id/end",
   "rpg_stories_import": "stories/import",
   "rpg_stories_export": "stories/:id/export",
+  "rpg_stories_details_drafts": "stories/:id/draft",
 
   "rpg_hero_data": "heroes",
   "rpg_hero_new": "heroes",
@@ -55,6 +57,7 @@
   "rpg_chapter_new": "chapters",
   "rpg_chapter_details": "chapters/:id",
   "rpg_chapter_edit": "chapters/:id",
+  "rpg_chapter_publish": "chapters/:id/publish",
   "rpg_chapter_del": "chapters/:id",
   "rpg_chapter_start": "chapters/:id/start",
   "rpg_chapter_end": "chapters/:id/end",

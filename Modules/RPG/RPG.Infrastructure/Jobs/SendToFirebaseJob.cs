@@ -50,15 +50,13 @@ namespace RPG.Infrastructure.Jobs
                 Credential = credential
             };
 
-            var firestore = await FirestoreDb.CreateAsync(options.Value.ProjectId, builder.Build());
+            var firestore = await FirebaseExtensions.GetDb();
 
             await ExecuteInternal(firestore, mediaProvider, story);
         }
 
         public async Task ExecuteInternal(FirestoreDb firestore, IMediaProvider mediaProvider, StoryModel story)
         {
-
-
             var storyRef = firestore.Collection(StoriesCollection).Document(StoryId.ToString());
 
             story.Id = StoryId;

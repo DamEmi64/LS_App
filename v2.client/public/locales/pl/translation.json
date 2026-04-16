@@ -234,6 +234,7 @@
       "title": "Tytuł",
       "description": "Opis",
       "add": "Dodaj rozdział",
+      "addDraft": "Dodaj szkic rozdziału",
       "chapters": "Rozdziały",
       "startDate": "Data rozpoczęcia rozdziału",
       "endDate": "Data zakończenia rozdziału",
@@ -276,6 +277,7 @@
       "output_player_view": "Wyświetl stronę gracza"
     },
     "title": "Sesje RPG",
+    "draftTitle": "Szkice sesji RPG",
     "description": "Historie do opowiedzenia"
   },
   "menu": {
@@ -290,7 +292,8 @@
     "rpg_sessions": "Sesje RPG",
     "register": "Zarejestruj się",
     "login": "Zaloguj się",
-    "logout": "Wyloguj się"
+    "logout": "Wyloguj się",
+    "draft": "Szkice RPG"
   },
   "server": {
     "info": "Stan aplikacji",
@@ -324,7 +327,8 @@
     "create": "Utwórz",
     "import": "Importuj",
     "export": "Eksportuj",
-    "copy": "Kopiuj"
+    "copy": "Kopiuj",
+    "publish": "Publikuj"
   },
   "auth": {
     "welcome": "Witamy w aplikacji",
@@ -355,14 +359,19 @@
       "Paused": "Zatrzymany"
     },
     "Operations": {
-      "11": "Import plików",
-      "12": "Przeniesienie plików",
-      "13": "Kopiowanie plików",
-      "14": "Usuwanie plików",
-      "21": "Wysyłanie emaili",
-      "22": "Generowanie wiadomości email",
-      "31": "Generowanie podsumowania rozdziału RPG",
-      "32": "wysyłanie podsumowania historii RPG do systemu zewnętrznego"
+    "11": "Importuj pliki",
+    "12": "Przenieś plik",
+    "13": "Kopiuj plik",
+    "14": "Usuń plik",
+    "21": "Wyślij e-mail",
+    "22": "Wygeneruj z szablonu",
+    "31": "Wygeneruj podsumowanie sesji RPG",
+    "32": "Wyślij dane RPG do aplikacji firebase",
+    "33": "Pobierz ostatnie dane RPG",
+    "34": "Importuj RPG z pliku",
+    "35": "Wygeneruj Model historii RPG",
+    "40": "Wykonaj automatyzację",
+    "41": "Archiwizuj dane"
     },
     "fileType": {
       "Games": "Gry",

@@ -13,6 +13,7 @@ using RPG.Infrastructure.Services.SummaryService;
 namespace RPG.Application.Controllers
 {
     [Route("[controller]")]
+    [AuthPermission("rpg")]
     public class StoriesController : BaseController
     {
         private readonly IStoryRepository _storyRepository;
@@ -50,6 +51,20 @@ namespace RPG.Application.Controllers
             return Json(_mapper.Map<StoryDto>(result));
         }
 
+        [HttpGet("{id}/draft")]
+        [AuthPermission("rpg_draft")]
+        public async Task<IActionResult> DetailsDraft(Guid id)
+        {
+            var result = await _storyRepository.Get(id);
+
+            if (result is null)
+            {
+                return NotFound();
+            }
+
+            return Json(_mapper.Map<StoryDto>(result));
+        }
+
         [HttpGet("")]
         public async Task<IActionResult> ListData([FromQuery] StoryFilter filter)
         {
@@ -57,7 +72,16 @@ namespace RPG.Application.Controllers
             return Json(filter.Filter(stories).Select(x => _mapper.Map<StoryDto>(x)));
         }
 
+        [HttpGet("draft")]
+        [AuthPermission("rpg_draft")]
+        public async Task<IActionResult> ListDrafts([FromQuery] StoryFilter filter)
+        {
+            var stories = _storyRepository.GetAllDraft();
+            return Json(filter.Filter(stories).Select(x => _mapper.Map<StoryDto>(x)));
+        }
+
         [HttpPost("")]
+        [AuthPermission("rpg_write")]
         public async Task<IActionResult> Create([FromBody] StoryDto dto)
         {
             var entity = _mapper.Map<Story>(dto);
@@ -69,6 +93,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpPost("import")]
+        [AuthPermission("rpg_write")]
         public async Task<IActionResult> Import([FromForm] ImportDto dto)
         {
             var fileName = dto.ExternalUrl;
@@ -96,6 +121,7 @@ namespace RPG.Application.Controllers
 
 
         [HttpPut("{id}")]
+        [AuthPermission("rpg_write")]
         public async Task<IActionResult> Edit(Guid id, [FromBody] StoryDto dto)
         {
             var place = await _storyRepository.Get(id);
@@ -113,6 +139,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpDelete("{id}")]
+        [AuthPermission("rpg_write")]
         public async Task<IActionResult> Delete(Guid id)
         {
             await _storyRepository.Remove(id);

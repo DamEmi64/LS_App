@@ -17,6 +17,28 @@ const navItem = (props: NavbarItemProps) => {
         setAnchorEl(null);
     };
 
+    if (props.submenu.length == 1) {
+        return (
+            <Link to={props.submenu[0].href} unstable_viewTransition={true} style={{ textDecoration: "none" }}>
+                <button>
+                    <Box
+                        className="flex p-1 px-3 justify-center items-center rounded-t relative max-[640px]:p-0.5 max-[640px]:px-2"
+                    >
+                        <Box
+                            className="relative max-[640px]:text-sm"
+                            style={{
+                                color: props.href === window.location.pathname ? "rgb(255, 255, 255)" : "rgba(48, 48, 48, 1)",
+                                font: "400 16px/140% Inter, -apple-system, Roboto, Helvetica, sans-serif",
+                            }}
+                        >
+                            {t(`menu.${props.label}`)}
+                        </Box>
+                    </Box>
+                </button>
+            </Link>
+        );
+    }
+
     if (props.submenu.length > 0) {
         return (
             <div onMouseEnter={handleClick} onMouseLeave={handleClose} >

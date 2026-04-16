@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Base.Entities;
+using Microsoft.AspNetCore.Identity;
 using System.Data;
 using System.Domain.Entities;
 using System.Domain.Repositories;
@@ -11,14 +12,17 @@ namespace System.Infrastructure.Services.Admin
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogRepository _logRepository;
+        private readonly IDictionaryRepository _dictionaryRepository;
 
         public AdminService(UserManager<User> userManager,
             RoleManager<IdentityRole> roleManager,
-            ILogRepository logRepository)
+            ILogRepository logRepository,
+            IDictionaryRepository dictionaryRepository)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _logRepository = logRepository;
+            _dictionaryRepository = dictionaryRepository;
         }
 
         public async Task<UserInfo?> GetUser(string id)
@@ -158,5 +162,7 @@ namespace System.Infrastructure.Services.Admin
 
             return await UpdateRole(identityRole, permissions);
         }
+
+        public IEnumerable<DictionaryItem> GetDictionaries() => _dictionaryRepository.GetAll();
     }
 }

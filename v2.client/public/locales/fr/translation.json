@@ -3,105 +3,283 @@
     "yes": "Oui",
     "no": "Non",
     "cancel": "Annuler",
-    "info": "Informations"
+    "info": "Info"
   },
   "validation": {
     "required": "Ce champ est requis",
-    "minLength": "La longueur minimale est de {0} caractères",
-    "maxLength": "La longueur maximale est de {0} caractères",
-    "email": "Adresse e-mail invalide",
-    "url": "URL invalide",
-    "number": "Ce champ doit être un nombre"
+    "minLength": "Saisissez au moins {0} caractères",
+    "maxLength": "Saisissez au maximum {0} caractères",
+    "email": "Saisissez une adresse e-mail valide",
+    "url": "Saisissez une URL valide",
+    "number": "Saisissez un nombre valide"
   },
   "notify": {
-    "processActive": "Notifications des tâches",
-    "processError": "Uniquement les erreurs de tâches",
-    "position": "Position de la notification",
+    "processActive": "Toutes les notifications de tâches",
+    "processError": "Erreurs uniquement",
+    "position": "Position des notifications",
     "notification": "Notifications",
-    "autoClose": "Durée d'affichage (ms)",
-    "active": "Actif",
+    "autoClose": "Fermeture automatique (ms)",
+    "active": "Activé",
     "bottomRight": "En bas à droite",
     "topRight": "En haut à droite",
     "bottomLeft": "En bas à gauche",
     "topLeft": "En haut à gauche",
     "messages": {
-      "1000": "Journal",
-      "1001": "Erreur interne du processus {0}",
-      "1002": "Processus {0} démarré",
-      "1003": "Processus {0} terminé",
-      "1004": "Processus {0} échoué",
-      "1005": "Processus {0} ajouté à la file d'attente",
+      "1000": "Entrée de journal",
+      "1001": "Erreur du processus : {0}",
+      "1002": "Processus démarré : {0}",
+      "1003": "Processus terminé : {0}",
+      "1004": "Processus échoué : {0}",
+      "1005": "Processus mis en file : {0}",
 
-      "1006": "Fichier {0} enregistré",
-      "1007": "Fichier {0} supprimé",
-      "1008": "Fichier {0} mis à jour",
-      "1009": "Fichier {0} introuvable",
-      "1010": "Fichier {0} existe déjà",
-      "1011": "Fichier {0} n'a pas été enregistré",
+      "1006": "Fichier enregistré : {0}",
+      "1007": "Fichier supprimé : {0}",
+      "1008": "Fichier mis à jour : {0}",
+      "1009": "Fichier introuvable : {0}",
+      "1010": "Le fichier existe déjà : {0}",
+      "1011": "Échec de l’enregistrement du fichier : {0}",
 
-      "1012": "Session {0} enregistrée",
-      "1013": "Session {0} supprimée",
-      "1014": "Session {0} mise à jour",
-      "1015": "Session {0} introuvable",
+      "1012": "Session enregistrée : {0}",
+      "1013": "Session supprimée : {0}",
+      "1014": "Session mise à jour : {0}",
+      "1015": "Session introuvable : {0}",
 
-      "1016": "Chapitre {0} enregistré",
-      "1017": "Chapitre {0} supprimé",
-      "1018": "Chapitre {0} mis à jour",
-      "1019": "Chapitre {0} introuvable",
+      "1016": "Chapitre enregistré : {0}",
+      "1017": "Chapitre supprimé : {0}",
+      "1018": "Chapitre mis à jour : {0}",
+      "1019": "Chapitre introuvable : {0}",
 
-      "1020": "Héros {0} enregistré",
-      "1021": "Héros {0} supprimé",
-      "1022": "Héros {0} mis à jour",
-      "1023": "Héros {0} introuvable",
+      "1020": "Personnage enregistré : {0}",
+      "1021": "Personnage supprimé : {0}",
+      "1022": "Personnage mis à jour : {0}",
+      "1023": "Personnage introuvable : {0}",
 
-      "1024": "Lieu {0} enregistré",
-      "1025": "Lieu {0} supprimé",
-      "1026": "Lieu {0} mis à jour",
-      "1027": "Lieu {0} introuvable",
+      "1024": "Lieu enregistré : {0}",
+      "1025": "Lieu supprimé : {0}",
+      "1026": "Lieu mis à jour : {0}",
+      "1027": "Lieu introuvable : {0}",
 
       "1030": "Connexion réussie",
       "1031": "Échec de la connexion",
-      "1032": "Mot de passe invalide",
-      "1033": "Compte bloqué",
-      "1034": "Échec de l'authentification à deux facteurs",
-      "1035": "Inscription réussie",
-      "1036": "Échec de l'inscription",
-      "1037": "E-mail envoyé avec succès",
-      "1038": "E-mail généré avec succès",
+      "1032": "Mot de passe incorrect",
+      "1033": "Compte verrouillé",
+      "1034": "Échec de l’authentification à deux facteurs",
+      "1035": "Compte créé avec succès",
+      "1036": "Échec de l’inscription",
+      "1037": "E-mail envoyé",
+      "1038": "E-mail généré",
       "1039": "Mot de passe trop court",
-      "1040": "Le mot de passe nécessite un caractère spécial",
-      "1041": "Le mot de passe nécessite un chiffre",
-      "1042": "Le mot de passe nécessite une lettre minuscule",
-      "1043": "Le mot de passe nécessite une lettre majuscule"
+      "1040": "Le mot de passe doit contenir un caractère spécial",
+      "1041": "Le mot de passe doit contenir un chiffre",
+      "1042": "Le mot de passe doit contenir une lettre minuscule",
+      "1043": "Le mot de passe doit contenir une lettre majuscule"
     }
   },
-
   "user": {
     "firstName": "Prénom",
     "lastName": "Nom",
-    "email": "Adresse e-mail",
-    "phoneNumber": "Numéro de téléphone",
+    "email": "E-mail",
+    "phoneNumber": "Téléphone",
     "info": "Informations utilisateur",
-    "userName": "Nom d'utilisateur"
+    "userName": "Nom d’utilisateur"
   },
-
   "processes": {
     "title": "Processus",
     "description": "Gérer les processus en cours",
     "name": "Processus",
-    "queue": "File d'attente",
+    "queue": "File",
     "startingDate": "Date de début",
-    "startingDateFrom": "Date de début à partir de",
-    "startingDateTo": "Date de début jusqu'à",
+    "startingDateFrom": "Date de début (de)",
+    "startingDateTo": "Date de début (à)",
     "percentage": "Progression",
     "status": "Statut",
     "jobs": "Tâches",
-    "noJobs": "Aucune tâche associée au processus",
-    "errors": "Erreurs du processus",
-    "errorMessage": "Message d'erreur",
+    "noJobs": "Aucune tâche liée à ce processus",
+    "errors": "Erreurs",
+    "errorMessage": "Message d’erreur",
     "restart": "Redémarrer le processus"
   },
-
+  "jobs": {
+    "id": "ID",
+    "jobId": "ID tâche",
+    "status": "Statut",
+    "requestData": "Début planifié",
+    "startDate": "Date de début",
+    "endDate": "Date de fin",
+    "name": "Nom",
+    "percentage": "Progression",
+    "operation": "Opération"
+  },
+  "entity": {
+    "insDate": "Créé le",
+    "upDate": "Mis à jour le",
+    "del_info": "Supprimer cet élément ?"
+  },
+  "files": {
+    "title": "Fichiers",
+    "all": "Tous",
+    "games": "Jeux",
+    "docs": "Documents",
+    "name": "Titre",
+    "image": "Image",
+    "location": "Emplacement",
+    "fileType": "Type",
+    "additionalData": "Informations supplémentaires",
+    "sources": "Sources",
+    "show_file": "Voir les fichiers",
+    "subject": "Cours",
+    "year": "Année",
+    "semester": "Semestre",
+    "sourceType": "Source",
+    "import": "Importer depuis une source externe",
+    "export": "Télécharger",
+    "gameGenre": "Genre",
+    "useFileUpload": "Stocker le fichier en base de données"
+  },
+  "communication": {
+    "title": "Communication",
+    "emails": "E-mails",
+    "templates": "Modèles",
+    "description": "Gérer la communication avec les utilisateurs",
+    "template": {
+      "title": "Modèles",
+      "description": "Créer et gérer des modèles de message",
+      "name": "Nom du modèle",
+      "subject": "Objet",
+      "body": "Message",
+      "add": "Ajouter un modèle",
+      "edit": "Modifier le modèle",
+      "del": "Supprimer le modèle",
+      "gen": "Générer le message",
+      "strategies": {
+        "title": "Fonctions du modèle",
+        "description": "Fonctions dynamiques utilisables dans les messages",
+        "example": "Exemple",
+        "increment": {
+          "title": "Incrément automatique",
+          "description": "Augmente automatiquement un compteur",
+          "example": "{{ increment() }}"
+        },
+        "randomNumber": {
+          "title": "Nombre aléatoire",
+          "description": "Génère un nombre dans une plage donnée",
+          "example": "{{ randomNumber(0,20) }}"
+        },
+        "random": {
+          "title": "Valeur aléatoire",
+          "description": "Sélectionne une valeur au hasard",
+          "example": "{{ random('', 'a', 'b', 'c') }}"
+        },
+        "randomUnique": {
+          "title": "Valeur aléatoire unique",
+          "description": "Garantit des valeurs uniques par destinataire si possible",
+          "example": "{{ randomUnique(test@test.com='d;e;f', 'a', 'b', 'c') }}"
+        }
+      }
+    },
+    "email": {
+      "title": "E-mail",
+      "subject": "Objet",
+      "sendDate": "Date d’envoi",
+      "description": "Envoyer des e-mails",
+      "body": "Message",
+      "from": "De",
+      "to": "À",
+      "cc": "CC",
+      "bcc": "CCI",
+      "send": "Envoyer l’e-mail",
+      "sender": {
+        "title": "Expéditeur",
+        "email": "E-mail",
+        "name": "Nom"
+      },
+      "recipient": {
+        "title": "Destinataire",
+        "email": "E-mail",
+        "name": "Nom"
+      }
+    },
+    "editor": {
+      "title": "Éditeur de message"
+    }
+  },
+  "rpg": {
+    "import": {
+      "converterType": "Type de convertisseur",
+      "externalUrl": "Nom de session RPG externe (Firebase uniquement)",
+      "selectFile": "Sélectionner un fichier"
+    },
+    "deleteConfirm": {
+      "place": "Supprimer le lieu {0} ?",
+      "hero": "Supprimer le personnage {0} ?",
+      "story": "Supprimer l’histoire {0} ?"
+    },
+    "story": {
+      "startDate": "Date de début",
+      "endDate": "Date de fin",
+      "description": "Description",
+      "heroes": "Personnages",
+      "places": "Lieux",
+      "chapters": "Chapitres",
+      "summary": "Résumé",
+      "start": "Démarrer l’histoire",
+      "end": "Terminer l’histoire",
+      "gen_summary": "Générer le résumé",
+      "download_summary": "Télécharger le résumé",
+      "title": "Titre",
+      "gen_summary_desc": "Sélectionnez les chapitres à inclure",
+      "send_firebase": "Envoyer vers l’application"
+    },
+    "chapter": {
+      "title": "Titre",
+      "description": "Description",
+      "add": "Ajouter un chapitre",
+      "addDraft": "Ajouter un brouillon",
+      "chapters": "Chapitres",
+      "startDate": "Date de début",
+      "endDate": "Date de fin",
+      "start": "Démarrer la session",
+      "end": "Terminer la session",
+      "order": "Ordre",
+      "dmPage": "Vue MJ",
+      "playerPage": "Vue joueur",
+      "sessions": "Sessions",
+      "links": "Ressources"
+    },
+    "hero": {
+      "firstName": "Prénom",
+      "health": "Santé",
+      "pos": "Position",
+      "lastName": "Nom",
+      "player": "Joué par",
+      "description": "Histoire",
+      "add": "Ajouter un personnage",
+      "playerData": "Infos joueur",
+      "diceRoll": "Lancer de dé",
+      "skills": "Compétences",
+      "skill": {
+        "title": "Nom de la compétence",
+        "value": "Valeur",
+        "add": "Ajouter",
+        "remove": "Supprimer"
+      }
+    },
+    "place": {
+      "title": "Titre",
+      "description": "Description",
+      "add": "Ajouter un lieu"
+    },
+    "other": {
+      "title": "Titre",
+      "description": "Description",
+      "image": "Image",
+      "url": "Lien",
+      "output_player_view": "Afficher la vue joueur"
+    },
+    "title": "Sessions RPG",
+    "draftTitle": "Brouillons",
+    "description": "Histoires à raconter"
+  },
   "menu": {
     "home": "Accueil",
     "processes": "Processus",
@@ -112,19 +290,165 @@
     "templates": "Modèles",
     "automations": "Automatisations",
     "rpg_sessions": "Sessions RPG",
-    "register": "S'inscrire",
+    "register": "S’inscrire",
     "login": "Se connecter",
-    "logout": "Se déconnecter"
+    "logout": "Se déconnecter",
+    "draft": "Brouillons"
   },
-
-  "no_data": "aucune donnée",
+  "server": {
+    "info": "État du système",
+    "server_version": "Version serveur",
+    "frontend_version": "Version frontend",
+    "modules": "Modules actifs",
+    "module_name": "Nom du module",
+    "module_version": "Version"
+  },
+  "no_data": "Aucune donnée",
   "EndpointNotFound": "Point de terminaison introuvable",
   "filter_reset": "Réinitialiser les filtres",
   "language": "Langue",
   "settings": "Paramètres",
   "login": "Se connecter",
-  "register": "S'inscrire",
-  "apiEndpoint": "URL du serveur",
-  "darkTheme": "Thème sombre",
-  "error": "Erreur"
+  "register": "S’inscrire",
+  "apiEndpoint": "Point d’accès API",
+  "darkTheme": "Mode sombre",
+  "error": "Erreur",
+  "opt": {
+    "add": "Ajouter",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "details": "Détails",
+    "operations": "Actions",
+    "save": "Enregistrer",
+    "change_pass": "Changer le mot de passe",
+    "login": "Se connecter",
+    "register": "S’inscrire",
+    "cancel": "Annuler",
+    "create": "Créer",
+    "import": "Importer",
+    "export": "Exporter",
+    "copy": "Copier",
+    "publish": "Publier"
+  },
+  "auth": {
+    "welcome": "Bienvenue",
+    "info": "Connectez-vous ou créez un compte pour continuer",
+    "no_permission": "Vous n’avez pas accès à cette page. Contactez votre administrateur.",
+    "register": {
+      "username": "Nom d’utilisateur",
+      "password": "Mot de passe",
+      "email": "E-mail",
+      "firstName": "Prénom",
+      "lastName": "Nom",
+      "phoneNumber": "Téléphone"
+    },
+    "login": {
+      "username": "Nom d’utilisateur",
+      "password": "Mot de passe",
+      "rememberMe": "Se souvenir de moi",
+      "failed": "Identifiants invalides",
+      "error": "Une erreur est survenue. Réessayez plus tard."
+    }
+  },
+  "dictionaries": {
+    "processStatus": {
+      "New": "Nouveau",
+      "Executing": "En cours",
+      "Success": "Terminé",
+      "Failed": "Échec",
+      "Paused": "En pause"
+    },
+    "Operations": {
+      "11": "Importer des fichiers",
+      "12": "Déplacer un fichier",
+      "13": "Copier un fichier",
+      "14": "Supprimer un fichier",
+      "21": "Envoyer un e-mail",
+      "22": "Générer depuis un modèle",
+      "31": "Générer un résumé RPG",
+      "32": "Envoyer les données RPG vers Firebase",
+      "33": "Récupérer les dernières données RPG",
+      "34": "Importer un RPG depuis un fichier",
+      "35": "Générer un modèle d’histoire RPG",
+      "40": "Exécuter une automatisation",
+      "41": "Archiver les données"
+    },
+    "fileType": {
+      "Games": "Jeux",
+      "Docs": "Documents",
+      "Study": "Supports d’étude"
+    },
+    "sourceTypes": {
+      "Local": "Fichier local",
+      "FuckingFast": "Site FuckingFast"
+    },
+    "gameGenres": {
+      "Platformer": "Plateforme",
+      "Shooter": "FPS / tir",
+      "FirstPersonShooter": "FPS",
+      "ThirdPersonShooter": "TPS",
+      "BeatEmUp": "Beat them all",
+      "Stealth": "Infiltration",
+      "Survival": "Survie",
+      "ActionAdventure": "Action-aventure",
+      "NarrativeAdventure": "Aventure narrative",
+      "PointAndClick": "Point-and-click",
+      "ActionRPG": "RPG action",
+      "TurnBasedRPG": "RPG tour par tour",
+      "TacticalRPG": "RPG tactique",
+      "MMORPG": "MMORPG",
+      "OpenWorldRPG": "RPG monde ouvert",
+      "LifeSimulation": "Simulation de vie",
+      "FarmingSimulation": "Simulation agricole",
+      "VehicleSimulation": "Simulation de véhicule",
+      "CityBuilding": "Construction de ville",
+      "RealTimeStrategy": "Stratégie temps réel",
+      "TurnBasedStrategy": "Stratégie tour par tour",
+      "TowerDefense": "Tower defense",
+      "FourX": "Stratégie 4X",
+      "ClassicPuzzle": "Puzzle",
+      "PhysicsPuzzle": "Puzzle physique",
+      "Match3": "Match-3",
+      "TraditionalSports": "Sports",
+      "ExtremeSports": "Sports extrêmes",
+      "Racing": "Course",
+      "TraditionalFighting": "Combat",
+      "PlatformFighting": "Combat plateforme",
+      "SurvivalHorror": "Survival horror",
+      "PsychologicalHorror": "Horreur psychologique",
+      "PartyGame": "Jeu de soirée",
+      "RhythmGame": "Jeu de rythme",
+      "Other": "Autre"
+    }
+  },
+  "automations": {
+    "jobs": {
+      "archive": {
+        "title": "Archivage de fichiers",
+        "sourceDir": "Dossier source",
+        "descDir": "Dossier de destination"
+      },
+      "summaryDataRPG": "Session RPG à résumer"
+    },
+    "add_task": "Ajouter une tâche",
+    "site_title": "Automatisations",
+    "subtitle": "Gérer les processus automatisés",
+    "title": "Titre",
+    "description": "Description",
+    "active": "Activé",
+    "turnOnOff": "Activer / désactiver",
+    "order": "Ordre d’exécution",
+    "tasks": "Tâches",
+    "frequency": "Fréquence (minutes)",
+    "triggers": {
+      "title": "Déclencheurs",
+      "type": "Type",
+      "cron": "Planification (cron)",
+      "onRPGModify": "Lors d’une modification RPG"
+    },
+    "actions": {
+      "archive": "Archiver les fichiers",
+      "GenerateRPGSummary": "Générer un résumé RPG"
+    }
+  }
 }
