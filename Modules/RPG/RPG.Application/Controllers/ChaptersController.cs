@@ -64,11 +64,33 @@ namespace RPG.Application.Controllers
                 InsDate = DateTimeOffset.Now,
                 UpdDate = DateTimeOffset.Now,
                 Story = story,
-                Title = dto.Title
+                Title = dto.Title,
+                Draft = dto.Draft,
             };
 
             await _chapterRepository.Add(chapter);
             await Notifier.Success(SessionNotifyTypes.ChapterSaved, dto.Title);
+            return Ok();
+        }
+
+        [HttpPut("{id}/publish")]
+        [AuthPermission("rpg_write")]
+        public async Task<IActionResult> Publish(Guid id)
+        {
+            var entity = await _chapterRepository.Get(id);
+
+
+            if (entity is not null)
+            {
+
+                await _chapterRepository.Update(entity);
+                await Notifier.Success(SessionNotifyTypes.ChapterUpdated, entity.Title);
+            }
+            else
+            {
+                await Notifier.Error(SessionNotifyTypes.ChapterNotFound, id);
+            }
+
             return Ok();
         }
 

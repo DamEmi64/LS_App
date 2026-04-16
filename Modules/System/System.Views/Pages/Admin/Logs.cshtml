@@ -1,62 +1,17 @@
 ﻿@page
-
 @model LogsModel
 
 @{
     ViewData["Title"] = "Logs Page";
-    Layout = null;
+    ViewData["Active"] = "Logs";
+    Layout = "/Pages/Admin/_Layout.cshtml";
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <title>@ViewData["Title"]</title>
-
-    <link rel="stylesheet" href="//cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" />
-
+@section Styles {
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            background: #f5f6fa;
-            color: #2c3e50;
-        }
-
-        nav.menubar {
-            background: #34495e;
-            display: flex;
-            padding: 12px 20px;
-        }
-
-            nav.menubar a {
-                color: #ecf0f1;
-                text-decoration: none;
-                margin-right: 25px;
-                font-weight: 600;
-                padding: 6px 10px;
-                border-radius: 4px;
-            }
-
-                nav.menubar a.active, nav.menubar a:hover {
-                    background-color: #2980b9;
-                }
-
-        main.content {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 30px 20px;
-        }
-
-        h2 {
-            margin-bottom: 25px;
-            font-weight: 700;
-        }
-
         table.dataTable thead th {
             background: #34495e;
             color: white;
-            padding: 12px;
         }
 
         .filter-bar {
@@ -69,57 +24,6 @@
             border: 1px solid #ccc;
         }
 
-        /* Modal */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0,0,0,0.45);
-            justify-content: center;
-            align-items: center;
-            z-index: 999;
-        }
-
-        .modal {
-            background: #fff;
-            padding: 25px;
-            border-radius: 10px;
-            width: 700px;
-            max-height: 90vh;
-            overflow-y: auto;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            position: relative;
-        }
-
-            .modal h3 {
-                margin-top: 0;
-            }
-
-        .modal-close {
-            position: absolute;
-            top: 12px;
-            right: 15px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            color: #aaa;
-        }
-
-            .modal-close:hover {
-                color: #e74c3c;
-            }
-
-        pre {
-            background: #f0f0f0;
-            padding: 10px;
-            border-radius: 6px;
-            max-height: 300px;
-            overflow: auto;
-        }
-
         table td {
             max-width: 250px;
             white-space: nowrap;
@@ -127,63 +31,49 @@
             text-overflow: ellipsis;
         }
     </style>
-</head>
-<body>
-    <!-- Navbar -->
-    <nav class="menubar">
-        <a href="/Admin/Users">Users</a>
-        <a href="/Admin/Roles">Roles</a>
-        <a href="/Admin/Logs" class="active">Logs</a>
-        <a href="/hangfire">Hangfire</a>
-    </nav>
+}
 
-    <main class="content">
-        <h2>Application Logs</h2>
+<h2>Application Logs</h2>
 
-        <!-- Filter -->
-        <div class="filter-bar">
-            <label for="levelFilter"><strong>Filter by Level:</strong></label>
-            <select id="levelFilter">
-                <option value="">All</option>
-                <option value="Error">Error</option>
-                <option value="Warning">Warning</option>
-                <option value="Info">Info</option>
-                <option value="Debug">Debug</option>
-            </select>
-        </div>
+<div class="filter-bar">
+    <label><strong>Filter by Level:</strong></label>
+    <select id="levelFilter">
+        <option value="">All</option>
+        <option value="Error">Error</option>
+        <option value="Warning">Warning</option>
+        <option value="Info">Info</option>
+        <option value="Debug">Debug</option>
+    </select>
+</div>
 
-        <!-- Logs Table -->
-        <table id="logsTable" class="display" style="width:100%">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Level</th>
-                    <th>Time</th>
-                    <th>Message</th>
-                    <th>Exception</th>
-                </tr>
-            </thead>
-        </table>
-    </main>
+<table id="logsTable" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Level</th>
+            <th>Time</th>
+            <th>Message</th>
+            <th>Exception</th>
+        </tr>
+    </thead>
+</table>
 
-    <!-- Log Modal -->
-    <div id="logModal" class="modal-overlay">
-        <div class="modal">
-            <span class="modal-close" onclick="closeModal('logModal')">&times;</span>
-            <h3>Log Details</h3>
-            <div><strong>Id:</strong> <span id="logId"></span></div>
-            <div><strong>Level:</strong> <span id="logLevel"></span></div>
-            <div><strong>Time:</strong> <span id="logTime"></span></div>
-            <h4>Message</h4>
-            <pre id="logMessage"></pre>
-            <h4>Exception</h4>
-            <pre id="logException"></pre>
-        </div>
+<!-- Modal -->
+<div id="logModal" class="modal-overlay">
+    <div class="modal">
+        <span class="modal-close" onclick="closeModal('logModal')">&times;</span>
+        <h3>Log Details</h3>
+        <div><strong>Id:</strong> <span id="logId"></span></div>
+        <div><strong>Level:</strong> <span id="logLevel"></span></div>
+        <div><strong>Time:</strong> <span id="logTime"></span></div>
+        <h4>Message</h4>
+        <pre id="logMessage"></pre>
+        <h4>Exception</h4>
+        <pre id="logException"></pre>
     </div>
+</div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="//cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-
+@section Scripts {
     <script>
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
@@ -196,7 +86,7 @@
                     url: '/Admin/LogsData',
                     type: 'POST',
                     data: function (d) {
-                        d.level = $('#levelFilter').val(); // pass filter
+                        d.level = $('#levelFilter').val();
                     }
                 },
                 columns: [
@@ -205,30 +95,19 @@
                     { data: 'timeStamp' },
                     {
                         data: 'message',
-                        render: function (data, type, row) {
-                            if (!data) return "";
-                            return data.length > 80 ? data.substring(0, 80) + "..." : data;
-                        }
+                        render: d => d && d.length > 80 ? d.substring(0, 80) + "..." : d
                     },
                     {
                         data: 'exception',
-                        render: function (data, type, row) {
-                            if (!data) return "";
-                            return data.length > 80 ? data.substring(0, 80) + "..." : data;
-                        }
+                        render: d => d && d.length > 80 ? d.substring(0, 80) + "..." : d
                     }
                 ],
                 order: [[2, "desc"]],
-                pageLength: 25,
-                lengthMenu: [10, 25, 50, 100]
+                pageLength: 25
             });
 
-            // Reload table on filter change
-            $('#levelFilter').change(function () {
-                table.ajax.reload();
-            });
+            $('#levelFilter').change(() => table.ajax.reload());
 
-            // Row click -> open modal
             $('#logsTable tbody').on('click', 'tr', function () {
                 var data = table.row(this).data();
                 $('#logId').text(data.id);
@@ -240,5 +119,4 @@
             });
         });
     </script>
-</body>
-</html>
+}

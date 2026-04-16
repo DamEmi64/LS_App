@@ -13,5 +13,7 @@
         public int Order { get; set; }
         public List<SessionDto> Sessions { get; set; } = new List<SessionDto>();
         public List<LinkDto> Links { get; set; } = new List<LinkDto>();
+
+        public bool Draft { get; set; }
     }
 }

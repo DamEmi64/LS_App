@@ -50,13 +50,11 @@ export const DataTable = <T,>({
     const [page, setPage] = useState(0);
     const [filterValues, setFilterValues] = useState<FilterValue[]>([]);
 
-    // 📡 central update
     const updateData = async (paramsObj: onChangeParams) => {
         const result = await onChange(paramsObj);
         setData(result);
     };
 
-    // 🔃 SORT FIXED
     const handleSort = (field: string) => {
         const isAsc = orderBy === field && order === "asc";
         const newOrder = isAsc ? "desc" : "asc";
@@ -86,7 +84,6 @@ export const DataTable = <T,>({
         });
     };
 
-    // 📏 PAGE SIZE FIXED
     const handleChangeRowsPerPage = (
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
@@ -118,7 +115,6 @@ export const DataTable = <T,>({
         });
     };
 
-    // 🎯 CELL RENDER
     const showData = (value: any, type: ColumnType) => {
         switch (type) {
             case ColumnType.Date:

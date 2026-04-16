@@ -30,6 +30,7 @@ namespace System.Infrastructure
         {
             return services.AddScoped<IProcessRepository, ProcessRepository>()
                 .AddScoped<IJobRepository, JobRepository>()
+                .AddScoped<IDictionaryRepository, DictionaryRepository>()
                 .AddScoped<ILogRepository, LogRepository>();
         }
 
@@ -106,7 +107,9 @@ namespace System.Infrastructure
             services.AddScoped<IAuthService, AuthService>();
 
             services.AddScoped<IAdminService, AdminService>();
-            services.Configure<AdminPanelOptions>(x => x.Token = configuration.GetValue("AdminToken", "admin"));
+            services.Configure<AdminPanelOptions>(configuration.GetSection("Admin"));
+
+            services.AddScoped<AdminPanelFilter>();
 
             return services;
         }

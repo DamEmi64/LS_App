@@ -1,5 +1,4 @@
-﻿
-using Automation.Application;
+﻿using Automation.Application;
 using Base;
 using Base.Entities;
 using Communication.Application;
@@ -11,12 +10,6 @@ namespace Connector
 {
     public class Connector : IConnector
     {
-        public Connector(string baseUrl, string version)
-        {
-            BaseUrl = baseUrl;
-            Version = version;
-        }
-
         public List<ModuleInfo> Modules => new()
         {
             new SystemModule().Info(),
@@ -26,9 +19,7 @@ namespace Connector
             new AutomationModule().Info()
         };
 
-        public string BaseUrl { get; set; } = string.Empty;
-
-        public string Version { get; set; } = "unknown";
+        public string Version => AppConfiguration.Version;
 
         public IEnumerable<DictionaryItem> DictionaryItems { get; set; } = new List<DictionaryItem>();
 
@@ -41,7 +32,9 @@ namespace Connector
 
         public List<PermissionInfo> Permissions => new()
         {
-            PermissionInfo.Create("rpg","Manage RPG sessions",true),
+            PermissionInfo.Create("rpg","Read RPG sessions",true),
+            PermissionInfo.Create("rpg_write","Manage RPG sessions",false),
+            PermissionInfo.Create("rpg_draft","Manage drafts of RPG sessions",false),
             PermissionInfo.Create("files","Manage files",true),
             PermissionInfo.Create("communication","Manage and send Emails",true),
             PermissionInfo.Create("process","Manage background processes",false),

@@ -10,10 +10,10 @@ namespace Files.Application
     {
         public IEnumerable<Operation> Operations => new List<Operation>
         {
-            OperationExtensions.Operation(Domain.Dictionaries.Operations.ImportFile,"Import file","download_file"),
-            OperationExtensions.Operation(Domain.Dictionaries.Operations.MoveFile,"Move file","move_file"),
-            OperationExtensions.Operation(Domain.Dictionaries.Operations.CopyFile,"Copy file","copy_file"),
-            OperationExtensions.Operation(Domain.Dictionaries.Operations.DeleteFile,"Delete file","delete_file"),
+            OperationExtensions.Operation(Domain.Dictionaries.Operations.ImportFile,"Import file","files"),
+            OperationExtensions.Operation(Domain.Dictionaries.Operations.MoveFile,"Move file","files"),
+            OperationExtensions.Operation(Domain.Dictionaries.Operations.CopyFile,"Copy file","files"),
+            OperationExtensions.Operation(Domain.Dictionaries.Operations.DeleteFile,"Delete file","files"),
         };
 
         public string Name => "Files";

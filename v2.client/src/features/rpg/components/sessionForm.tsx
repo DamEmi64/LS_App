@@ -205,9 +205,12 @@ export const SessionView: React.FC<SessionViewProps> = ({
                         )}
 
                         <Box sx={{ display: 'flex', gap: 2, mt: 3 }}>
-                            <Button type="button" onClick={() => setEditing(true)} sx={{ background: theme.palette.primary.main, color: '#fff' }}>
-                                {t('opt.edit')}
-                            </Button>
+                            { onSave && (
+                                <Button type="button" onClick={() => setEditing(true)} sx={{ background: theme.palette.primary.main, color: '#fff' }}>
+                                    {t('opt.edit')}
+                                </Button>    
+                            )}
+
 
                             {onCopy && !isChapter && (
                                 <Button

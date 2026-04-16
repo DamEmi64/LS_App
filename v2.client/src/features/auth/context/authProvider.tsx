@@ -29,8 +29,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       const { data } = await api.get<UserData | null>("auth_me");
       setUser(data?.userId ? data : null);
-    } catch {
-      setUser(null);
+    } catch (err: any) {
+      if (err.response?.status === 401) {
+        setUser(null); // only logout on unauthorized
+      }
     } finally {
       setLoading(false);
     }
@@ -107,7 +109,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     refreshUser();
 
-    const interval = setInterval(refreshUser, 5 * 60 * 1000);
+    const interval = setInterval(refreshUser, 15 * 60 * 1000);
 
     return () => clearInterval(interval);
   }, []);
