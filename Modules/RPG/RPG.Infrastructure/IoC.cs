@@ -1,4 +1,5 @@
 ﻿using Base;
+using Base.Automation;
 using Microsoft.Extensions.DependencyInjection;
 using RPG.Domain.Repositories;
 using RPG.Infrastructure.External.FileConverters;
