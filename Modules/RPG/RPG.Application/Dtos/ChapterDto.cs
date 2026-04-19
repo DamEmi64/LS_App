@@ -14,6 +14,7 @@
         public List<SessionDto> Sessions { get; set; } = new List<SessionDto>();
         public List<LinkDto> Links { get; set; } = new List<LinkDto>();
 
+        public FlowDto? Flow { get; set; }
         public bool Draft { get; set; }
     }
 }

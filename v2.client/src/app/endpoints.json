@@ -61,6 +61,7 @@
   "rpg_chapter_del": "chapters/:id",
   "rpg_chapter_start": "chapters/:id/start",
   "rpg_chapter_end": "chapters/:id/end",
+  "rpg_chapter_flow": "chapters/:id/flow",
 
   "communication_email_data": "emails",
   "communication_email_new": "emails",

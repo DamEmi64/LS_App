@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Base;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using RPG.Application.Dtos;
 using RPG.Application.Filters;
 using RPG.Domain.Dictionaries;
@@ -82,7 +83,27 @@ namespace RPG.Application.Controllers
 
             if (entity is not null)
             {
+                entity.Draft = false;
+                await _chapterRepository.Update(entity);
+                await Notifier.Success(SessionNotifyTypes.ChapterUpdated, entity.Title);
+            }
+            else
+            {
+                await Notifier.Error(SessionNotifyTypes.ChapterNotFound, id);
+            }
 
+            return Ok();
+        }
+
+        [HttpPut("{id}/flow")]
+        [AuthPermission("rpg_write")]
+        public async Task<IActionResult> Flow(Guid id, [FromBody] FlowDto flow)
+        {
+            var entity = await _chapterRepository.Get(id);
+
+            if (entity is not null)
+            {
+                entity.FlowJson = JsonConvert.SerializeObject(flow);
                 await _chapterRepository.Update(entity);
                 await Notifier.Success(SessionNotifyTypes.ChapterUpdated, entity.Title);
             }
@@ -95,6 +116,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpPut("{id}")]
+        [AuthPermission("rpg_write")]
         public async Task<IActionResult> Edit(Guid id, [FromBody] ChapterDto chapter)
         {
             var entity = await _chapterRepository.Get(id);
