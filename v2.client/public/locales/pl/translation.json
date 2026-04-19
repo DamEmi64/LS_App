@@ -227,7 +227,8 @@
       "additional_node":"Zdarzenie dodatkowe",
       "quest":"Zadanie",
       "important":"Kluczowa decyzja",
-      "event":"Zdarzenie w świecie gry"
+      "event":"Zdarzenie w świecie gry",
+      "flow_title":"Przebieg rozdziału"
     },
     "story": {
       "startDate": "Data rozpoczęcia historii",
