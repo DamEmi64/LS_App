@@ -99,7 +99,7 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
         { name: 'rpg.chapter.start', method: (o) => startChapter(o) },
         { name: 'rpg.chapter.end', method: (o) => endChapter(o) },
         { name: "rpg.chapter.dmPage", method: (o) => dmPage(o) },
-        { name: 'rpg.flow.flow_title', method: (o) => flow(o), hidden: (o) => !checkPermission(['rpg_write']) },
+        { name: 'rpg.flow.flow_title', method: (o) => flow(o)},
         { name: 'rpg.hero.add', method: (o) => addHero(o), hidden: (o) => !checkPermission(['rpg_write']) },
         { name: 'rpg.place.add', method: (o) => addPlace(o), hidden: (o) => !checkPermission(['rpg_write']) },
         { name: 'opt.delete', method: (o) => del(o), hidden: (o) => !checkPermission(['rpg_write']) },
