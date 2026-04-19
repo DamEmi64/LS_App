@@ -3,10 +3,25 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Base
 {
+    /// <summary>
+    ///     Module information
+    /// </summary>
     public class ModuleInfo
     {
+        /// <summary>
+        ///     Module name
+        /// </summary>
         public required string Name { get; set; }
+
+        /// <summary>
+        ///     Module version
+        ///     If used in <see cref="ModuleExtensions.UseModules(IApplicationBuilder, ModuleInfo[])"/> verify minimal version to run
+        /// </summary>
         public required string Version { get; set; }
+
+        /// <summary>
+        ///     Module configuration
+        /// </summary>
         public required IModule Module { get; set; }
     }
 
@@ -28,8 +43,18 @@ namespace Base
     }
 
 
+    /// <summary>
+    ///     Extensions for modules
+    /// </summary>
     public static class ModuleExtensions
     {
+
+        /// <summary>
+        ///     Generates module information
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="module"></param>
+        /// <returns></returns>
         public static ModuleInfo Info<T>(this T module) where T : IModule => new() { Name = module.Name, Version = module.Version, Module = module };
 
         /// <summary>

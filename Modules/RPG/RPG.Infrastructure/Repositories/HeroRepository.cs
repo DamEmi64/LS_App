@@ -14,7 +14,7 @@ namespace RPG.Infrastructure.Repositories
 
         public override IEnumerable<Hero> GetAll()
         {
-            return DbContext.Set<Hero>().Include(x => x.PlayerData).ThenInclude(x => x.Skills);
+            return DbContext.Set<Hero>().Include(x => x.PlayerData).ThenInclude(x => x!.Skills);
         }
 
         public override async Task<Hero?> Get(Guid id)
@@ -22,7 +22,7 @@ namespace RPG.Infrastructure.Repositories
             return await DbContext.Set<Hero>()
                 .Include(x => x.Chapter)
                 .Include(x => x.PlayerData)
-                .ThenInclude(x => x.Skills).FirstOrDefaultAsync(x => x.Id == id);
+                .ThenInclude(x => x!.Skills).FirstOrDefaultAsync(x => x.Id == id);
         }
     }
 }

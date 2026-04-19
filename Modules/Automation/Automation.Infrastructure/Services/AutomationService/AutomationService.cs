@@ -1,6 +1,7 @@
 ﻿using Automation.Domain.Entities;
 using Automation.Domain.Repositories;
 using Base;
+using Base.Automation;
 using Hangfire;
 using System.ComponentModel.DataAnnotations;
 
