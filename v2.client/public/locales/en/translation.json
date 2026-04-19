@@ -214,7 +214,23 @@
       "hero": "Delete character {0}?",
       "story": "Delete story {0}?"
     },
-    "story": {
+    "flow": {
+      "title": "Title",
+      "condition": "Condition",
+      "description": "Description",
+      "export": "Export flow as PNG",
+      "add_node": "Add node",
+      "type": "Event type",
+      "default_node": "Default",
+      "success_node": "Success",
+      "fail_node": "Failure",
+      "additional_node": "Additional event",
+      "quest": "Quest",
+      "important": "Key decision",
+      "event": "In-game event",
+      "flow_title": "Chapter flow"
+    },
+      "story": {
       "startDate": "Start date",
       "endDate": "End date",
       "description": "Description",

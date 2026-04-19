@@ -38,8 +38,8 @@ namespace RPG.Infrastructure.Jobs
 
         public async Task Execute(IJobContext jobContext)
         {
-            var options = jobContext.ServiceProvider.GetRequiredService<IOptions<FirebaseOptions>>();
-            var mediaProvider = jobContext.ServiceProvider.GetRequiredService<IMediaProvider>();
+            var options = jobContext.Resolve<IOptions<FirebaseOptions>>();
+            var mediaProvider = jobContext.Resolve<IMediaProvider>();
 
             var story = Story ?? jobContext.GetData<StoryModel>() ?? throw new InvalidOperationException("Story data is missing.");
             Story = story;

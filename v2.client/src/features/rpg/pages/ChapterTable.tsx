@@ -36,6 +36,7 @@ import { Chapter, SessionDto, HeroDto, Hero, Story } from '../types';
 import HeroForm from '../components/heroForm';
 import PlaceForm from "@/features/rpg/components/PlaceForm";
 import { useAuth } from '@/features/auth/context/authProvider';
+import { ProgressFlow } from '../components/flow/ProgressFlow';
 
 export type ChapterTableProps = {
     chapters: Chapter[]
@@ -98,6 +99,7 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
         { name: 'rpg.chapter.start', method: (o) => startChapter(o) },
         { name: 'rpg.chapter.end', method: (o) => endChapter(o) },
         { name: "rpg.chapter.dmPage", method: (o) => dmPage(o) },
+        { name: 'rpg.flow.flow_title', method: (o) => flow(o), hidden: (o) => !checkPermission(['rpg_write']) },
         { name: 'rpg.hero.add', method: (o) => addHero(o), hidden: (o) => !checkPermission(['rpg_write']) },
         { name: 'rpg.place.add', method: (o) => addPlace(o), hidden: (o) => !checkPermission(['rpg_write']) },
         { name: 'opt.delete', method: (o) => del(o), hidden: (o) => !checkPermission(['rpg_write']) },
@@ -111,8 +113,8 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
                         data={res.data as unknown as SessionDto}
                         isChapter
                         isEdit={false}
-                        onSave={() => {}}
-                        onDelete={() => {}}
+                        onSave={() => { }}
+                        onDelete={() => { }}
                     />
                 );
             });
@@ -136,6 +138,24 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
     const publishChapter = (o: Chapter) => {
         api.post<Chapter>('rpg_chapter_publish', null, null, o.id);
     };
+
+    const flow = (o: Chapter) => {
+
+        if (!o.flow) {
+            o.flow = { nodes: [], edges: [] };
+        }
+
+        modal.showModal(<ProgressFlow initialEdges={o.flow.edges}
+            readonly={!checkPermission(['rpg_write'])}
+            initialNodes={o.flow.nodes}
+            onSave={({ nodes, edges }) => saveFlow(o, nodes, edges)} />)
+    }
+
+    const saveFlow = (chapter: Chapter, nodes, edges) => {
+        chapter.flow = { nodes, edges };
+        api.put('rpg_chapter_flow', { nodes, edges }, null, chapter.id)
+            .then(() => refresh(chapter));
+    }
 
     const saveEdit = (data: SessionDto, chapter: Chapter) => {
         api.put('rpg_chapter_edit', data, null, chapter.id)

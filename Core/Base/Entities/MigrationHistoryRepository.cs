@@ -7,6 +7,7 @@ using System.Text;
 
 namespace Api.Setup
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "EF1001:Internal EF Core API usage.", Justification = "<Pending>")]
     public class MigrationHistoryRepository : SqlServerHistoryRepository
     {
         public const string ModuleColumnName = "Module";

@@ -214,6 +214,22 @@
       "hero": "Charakter {0} löschen?",
       "story": "Geschichte {0} löschen?"
     },
+    "flow": {
+      "title": "Titel",
+      "condition": "Bedingung",
+      "description": "Beschreibung",
+      "export": "Als PNG exportieren",
+      "add_node": "Knoten hinzufügen",
+      "type": "Ereignistyp",
+      "default_node": "Standard",
+      "success_node": "Erfolg",
+      "fail_node": "Fehler",
+      "additional_node": "Zusätzliches Ereignis",
+      "quest": "Quest",
+      "important": "Schlüsselentscheidung",
+      "event": "Ereignis",
+      "flow_title": "Kapitelablauf"
+    },
     "story": {
       "startDate": "Startdatum",
       "endDate": "Enddatum",

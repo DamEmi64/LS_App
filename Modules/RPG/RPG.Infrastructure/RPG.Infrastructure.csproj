@@ -31,6 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Core\AutomationBase\AutomationBase.csproj" />
     <ProjectReference Include="..\RPG.Domain\RPG.Domain.csproj" />
   </ItemGroup>
 
