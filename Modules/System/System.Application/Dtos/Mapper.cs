@@ -7,8 +7,13 @@ namespace System.Application.Dtos
     {
         public Mapper()
         {
+            CreateMap<ProcessError, ProcessErrorDto>()
+                .ForMember(d => d.JobId, opt => opt.MapFrom(s => s.JobId))
+                .ForMember(d => d.Message, opt => opt.MapFrom(s => s.Message))
+                .ForMember(d => d.Id, opt => opt.MapFrom(s => Random.Shared.Next()));
+
             CreateMap<JobDto, Job>()
-                .ForMember(d => d.Id, o => o.Ignore()) // let DB or existing entity handle it
+                .ForMember(d => d.Id, o => o.Ignore())
                 .ForMember(d => d.StartDate, o => o.MapFrom(s => s.StartDate ?? DateTimeOffset.UtcNow))
                 .ForMember(d => d.OperationId, o => o.MapFrom(s => s.Operation))
                 .ForMember(d => d.Process, o => o.MapFrom(s =>
@@ -36,6 +41,7 @@ namespace System.Application.Dtos
             CreateMap<Process, ProcessDto>()
                 .ForMember(d => d.UpDate, o => o.MapFrom(s => s.UpdDate))
                 .ForMember(d => d.Jobs, o => o.MapFrom(s => s.Jobs ?? new List<Job>()))
+                .ForMember(d => d.Errors, o => o.MapFrom(s => s.Errors ?? new List<ProcessError>()))
                 .MaxDepth(3);
         }
     }
