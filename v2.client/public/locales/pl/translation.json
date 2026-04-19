@@ -214,6 +214,21 @@
       "hero": "Czy chcesz usunąć bohatera {0} ?",
       "story": "Czy chcesz usunąć historię {0} ?"
     },
+    "flow": {
+      "title":"Tytuł",
+      "condition":"Warunek",
+      "description":"Opis",
+      "export":"Eksportuj przebieg jako png",
+      "add_node":"Dodaj węzeł",
+      "type":"Typ zdarzenia",
+      "default_node":"domyślny",
+      "success_node":"sukces",
+      "fail_node":"porażka",
+      "additional_node":"Zdarzenie dodatkowe",
+      "quest":"Zadanie",
+      "important":"Kluczowa decyzja",
+      "event":"Zdarzenie w świecie gry"
+    },
     "story": {
       "startDate": "Data rozpoczęcia historii",
       "endDate": "Data zakończenia historii",
@@ -272,6 +287,7 @@
     "other": {
       "title": "Tytuł",
       "description": "Opis",
+      "condition":"Warunek",
       "image": "Rycina",
       "url": "Link",
       "output_player_view": "Wyświetl stronę gracza"
