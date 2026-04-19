@@ -22,8 +22,8 @@ namespace RPG.Infrastructure.Jobs
 
         public async Task Execute(IJobContext jobContext)
         {
-            var chapterRepository = jobContext.ServiceProvider.GetRequiredService<IChapterRepository>();
-            var storyRepository = jobContext.ServiceProvider.GetRequiredService<IStoryRepository>();
+            var chapterRepository = jobContext.Resolve<IChapterRepository>();
+            var storyRepository = jobContext.Resolve<IStoryRepository>();
             var story = await ExecuteInternal(storyRepository, chapterRepository);
             jobContext.PassData(story.ToModel());
         }

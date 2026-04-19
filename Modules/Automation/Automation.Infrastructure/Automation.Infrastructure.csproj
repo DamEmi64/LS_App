@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Core\AutomationBase\AutomationBase.csproj" />
     <ProjectReference Include="..\Automation.Domain\Automation.Domain.csproj" />
   </ItemGroup>
 

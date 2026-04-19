@@ -60,5 +60,10 @@ namespace System.Infrastructure.JobEngine
 
             return JsonConvert.DeserializeObject<T>(Data);
         }
+
+        public T Resolve<T>(object? key = null)
+            => key is null
+            ? ServiceProvider.GetService<T>() ?? throw new ServiceNotRegistredException<T>()
+            : ServiceProvider.GetKeyedService<T>(key) ?? throw new ServiceNotRegistredException<T>();
     }
 }

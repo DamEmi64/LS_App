@@ -26,7 +26,7 @@ namespace Communication.Infrastructure.Jobs
 
         public async Task Execute(IJobContext jobContext)
         {
-            var repo = jobContext.ServiceProvider.GetRequiredService<IEmailRepository>();
+            var repo = jobContext.Resolve<IEmailRepository>();
 
             await ExecuteInternal(repo, jobContext);
         }

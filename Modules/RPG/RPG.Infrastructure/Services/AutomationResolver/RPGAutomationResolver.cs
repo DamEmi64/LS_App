@@ -1,4 +1,5 @@
 ﻿using Base;
+using Base.Automation;
 using Newtonsoft.Json;
 using RPG.Domain.Dictionaries;
 using RPG.Infrastructure.Jobs;
