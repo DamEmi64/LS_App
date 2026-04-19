@@ -23,8 +23,8 @@ namespace Files.Infrastructure.Jobs
 
         public async Task Execute(IJobContext jobContext)
         {
-            var httpFactory = jobContext.ServiceProvider.GetRequiredService<IHttpClientFactory>();
-            var repo = jobContext.ServiceProvider.GetRequiredService<IFileRepository>();
+            var httpFactory = jobContext.Resolve<IHttpClientFactory>();
+            var repo = jobContext.Resolve<IFileRepository>();
 
             await ExecuteInternal(httpFactory, repo, jobContext);
         }

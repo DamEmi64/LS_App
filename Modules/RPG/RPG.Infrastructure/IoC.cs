@@ -1,6 +1,7 @@
 ﻿using Base;
 using Base.Automation;
 using Microsoft.Extensions.DependencyInjection;
+using RPG.Domain.Dictionaries;
 using RPG.Domain.Repositories;
 using RPG.Infrastructure.External.FileConverters;
 using RPG.Infrastructure.External.FileConverters.Firebase;
@@ -23,9 +24,9 @@ namespace RPG.Infrastructure
 
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            services.AddScoped<IRPGDataConverter, OldJsonConverter>()
-                     .AddScoped<IRPGDataConverter, FirebaseConverter>()
-                     .AddScoped<IRPGDataConverter, JsonConverter>()
+            services.AddKeyedScoped<IRPGDataConverter, OldJsonConverter>(RPGFileTypes.OldJson)
+                     .AddKeyedScoped<IRPGDataConverter, FirebaseConverter>(RPGFileTypes.Firebase)
+                     .AddKeyedScoped<IRPGDataConverter, JsonConverter>(RPGFileTypes.Json)
                      .AddScoped<IJsonConverter, JsonConverter>();
 
             return services.AddScoped<IAutomationResolver, RPGAutomationResolver>()
