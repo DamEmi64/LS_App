@@ -1,21 +1,26 @@
-﻿using Fluid;
+﻿using CommunicationBase;
+using CommunicationBase.Dtos;
+using CommunicationBase.Interfaces;
+using Fluid;
 using Fluid.Values;
 
 namespace Communication.Infrastructure.EmailGenerator.Strategies
 {
-    public class RandomStrategy : IGenEmailStrategy
+    public class RandomStrategy : IFluidFunction
     {
-        /// <summary>
-        ///  Generates a random value from the provided arguments.
-        ///  If argument have name equal receiver it will take random from values from receiver name argument,
-        ///  otherwise it will take random value from values from all other arguments that not named as receivers.
-        /// </summary>
-        /// <param name="arguments"></param>
-        /// <param name="receivers"></param>
-        /// <param name="receiver"></param>
-        /// <param name="sender"></param>
-        /// <returns></returns>
-        public FluidValue Handle(FunctionArguments arguments, List<string> receivers, string receiver, string sender)
+        public string TitleKey => "communication.templates.strategies.random.title";
+
+        public string? DescriptionKey => "communication.templates.strategies.random.description";
+
+        public string Invoker => "random";
+
+        public Func<FunctionArguments, FluidContext, FluidValue> Method =>
+                (args, ctx) => Handle(args,
+                            ctx.GetProperty<List<string>>("receivers"),
+                            ctx.GetProperty<string>("receiver"),
+                            ctx.GetProperty<string>("sender"));
+
+        private FluidValue Handle(FunctionArguments arguments, List<string> receivers, string receiver, string sender)
         {
             var rand = Random.Shared;
 

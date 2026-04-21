@@ -4,6 +4,8 @@ using Communication.Domain;
 using Communication.Infrastructure;
 using Communication.Infrastructure.Db;
 using Communication.Infrastructure.Services.EmailSender;
+using CommunicationBase;
+using CommunicationBase.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -23,6 +25,8 @@ namespace Communication.Application
 
         public IServiceCollection Configure(IServiceCollection services)
         {
+            services.AddAutoMapper(opt => opt.AddMaps(typeof(CommunicationModule).Assembly));
+
             return services
                 .AddDatabase<CommunicationContext>(AppConfiguration.DefaultConnectionString)
                 .AddRepos()
@@ -33,6 +37,7 @@ namespace Communication.Application
 
         public IApplicationBuilder OnStartup(IApplicationBuilder app)
         {
+            FluidGenerator.Initialize(app.ApplicationServices.GetServices<IFluidParser>());
             return app;
         }
     }

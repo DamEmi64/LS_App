@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import { RegisterData } from '@/features/auth';
 import { AuthContextType } from '@/features/auth/context/authProvider';
+import { notify } from '@/shared';
 
 interface RegisterFormProps {
   auth: AuthContextType;
@@ -44,10 +45,10 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ auth, onClose }) => {
       if (success) {
         onClose();
       } else {
-        console.error('Registration failed');
+        notify('error', t('auth.register.failed'));
       }
     } catch (err) {
-      console.error('Registration error:', err);
+      notify('error', err instanceof Error ? err.message : t('auth.register.failed'));
     } finally {
       setLoading(false);
     }

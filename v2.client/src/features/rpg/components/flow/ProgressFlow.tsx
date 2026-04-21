@@ -15,7 +15,7 @@ import ReactFlow, {
 } from "reactflow";
 import "reactflow/dist/style.css";
 
-import {t} from 'i18next';
+import { t } from 'i18next';
 import { Box, Button } from "@mui/material";
 
 import { RPGNodeData, RPGFlowProps } from "./definitions";
@@ -26,7 +26,6 @@ import { toPng } from "html-to-image";
 
 const nodeTypes = { custom: ProgressNodeView };
 
-// ---------------- MAIN ----------------
 export const ProgressFlow = ({ readonly = false, initialNodes = [], initialEdges = [], onSave }: RPGFlowProps) => {
 
     const modal = useModal();
@@ -35,7 +34,7 @@ export const ProgressFlow = ({ readonly = false, initialNodes = [], initialEdges
         id: "start",
         type: "custom",
         position: { x: 0, y: 0 },
-        data: { title: "Start", status: "default", kind: "event", editable: false },
+        data: { title: "Start", status: "default", visited: true, kind: "event", editable: false },
     });
 
     const safeInitialNodes =
@@ -63,7 +62,13 @@ export const ProgressFlow = ({ readonly = false, initialNodes = [], initialEdges
             <ProgressEdit
                 node={node}
                 onChange={(data) => {
-                    setNodes((nds) => nds.map((n) => (n.id === node.id ? { ...n, data: { ...data, editable: !readonly, onEdit: () => openModal(n) } } : n)));
+                    updateNodes((nds) =>
+                    nds.map((n) =>
+                        n.id === node.id
+                        ? { ...n, data: { ...data, editable: !readonly, onEdit: () => openModal(n) } }
+                        : n
+                    )
+                    );
                 }}
             />
         );
@@ -142,8 +147,37 @@ export const ProgressFlow = ({ readonly = false, initialNodes = [], initialEdges
         setTimeout(() => openModal(newNode), 0);
     };
 
+    const updateNodes = (
+        updater: (nds: Node<RPGNodeData>[]) => Node<RPGNodeData>[]
+    ) => {
+        setNodes((nds) => {
+            const updated = updater(nds);
+            setEdges((eds) => highlightEdges(updated, eds));
+            return updated;
+        });
+    };
+
+    const highlightEdges = (nds: Node<RPGNodeData>[], eds: Edge[]) => {
+        return eds.map((e) => {
+            const source = nds.find((n) => n.id === e.source);
+            const target = nds.find((n) => n.id === e.target);
+
+            if (source?.data.visited && target?.data.visited) {
+                return {
+                    ...e,
+                    style: { stroke: "#f1ee15", strokeWidth: 3 },
+                };
+            }
+
+            return {
+                ...e,
+                style: { stroke: "#999", strokeWidth: 1 },
+            };
+        });
+    };
+
     return (
-        <Box sx={{width:'70vw',height:'70vh'}} ref={wrapperRef}>
+        <Box sx={{ width: '70vw', height: '70vh' }} ref={wrapperRef}>
             <Box sx={{ position: "absolute", zIndex: 10, p: 1 }}>
                 {!readonly && (
                     <>

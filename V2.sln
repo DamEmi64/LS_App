@@ -65,6 +65,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomationBase", "Core\Auto
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Connectors", "Connectors", "{6D0CA674-CDDE-4F8D-8128-3E888CCE3131}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunicationBase", "Core\CommunicationBase\CommunicationBase.csproj", "{7CA006C8-91F1-449C-9DA2-AF665F3A821A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -165,6 +167,10 @@ Global
 		{90D3139C-95BA-49F6-B4A7-5E731A0644F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90D3139C-95BA-49F6-B4A7-5E731A0644F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90D3139C-95BA-49F6-B4A7-5E731A0644F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CA006C8-91F1-449C-9DA2-AF665F3A821A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CA006C8-91F1-449C-9DA2-AF665F3A821A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CA006C8-91F1-449C-9DA2-AF665F3A821A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CA006C8-91F1-449C-9DA2-AF665F3A821A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -196,6 +202,7 @@ Global
 		{CB93365D-9A5B-E8F1-67F4-35C40682AB5F} = {59DC093B-2C65-4DAE-9A4A-7F5FA09343B6}
 		{90D3139C-95BA-49F6-B4A7-5E731A0644F7} = {6D0CA674-CDDE-4F8D-8128-3E888CCE3131}
 		{6D0CA674-CDDE-4F8D-8128-3E888CCE3131} = {59DC093B-2C65-4DAE-9A4A-7F5FA09343B6}
+		{7CA006C8-91F1-449C-9DA2-AF665F3A821A} = {6D0CA674-CDDE-4F8D-8128-3E888CCE3131}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F657432B-47C1-402E-92C1-68D8E8D47B87}

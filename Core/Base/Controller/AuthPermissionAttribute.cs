@@ -6,6 +6,7 @@ namespace Base
     /// <summary>
     ///     Authorization attribute
     /// </summary>
+    [AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = true)]
     public class AuthPermissionAttribute : Attribute, IAuthorizationFilter
     {
         private readonly string[] _permissions;

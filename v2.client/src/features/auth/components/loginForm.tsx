@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { LoginFormProps, LoginData } from '@/features/auth';
+import {notify} from "@/shared";
 
 
 const LoginForm: React.FC<LoginFormProps> = ({ auth, onClose }) => {
@@ -39,10 +40,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ auth, onClose }) => {
       if (success) {
         onClose();
       } else {
-        console.error('Login failed');
+        notify('error', t('auth.login.failed'));
       }
     } catch (err) {
-      console.error('Login error');
+        notify('error', err instanceof Error ? err.message : t('auth.login.failed'));
     } finally {
       setLoading(false);
     }
