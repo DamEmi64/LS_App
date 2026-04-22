@@ -47,7 +47,12 @@ const Processes = () => {
     };
 
     const convertProcessStatus = (id: string) => {
-        return getDictionaryTranslation('processStatus', id).title;
+        if (id == 'New') return t('processes.processStatus.New');
+        if (id == 'Executing') return t('processes.processStatus.Executing');
+        if (id == 'Success') return t('processes.processStatus.Success');
+        if (id == 'Failed') return t('processes.processStatus.Failed');
+        if (id == 'Paused') return t('processes.processStatus.Paused');
+        return id;
     };
 
     const columns: ColumnDef[] = [

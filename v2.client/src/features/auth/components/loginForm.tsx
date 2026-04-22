@@ -6,11 +6,14 @@ import {
   Box,
   Typography,
   Button,
-  useColorScheme
+  useColorScheme,
+  Grid
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { LoginFormProps, LoginData } from '@/features/auth';
 import {notify} from "@/shared";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 
 const LoginForm: React.FC<LoginFormProps> = ({ auth, onClose }) => {
@@ -19,10 +22,12 @@ const LoginForm: React.FC<LoginFormProps> = ({ auth, onClose }) => {
 
   const labelColor = mode === 'dark' ? '#fff' : '#000';
 
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState(localStorage.getItem('rememberedUsername') || '');
+  const [password, setPassword] = useState(localStorage.getItem('rememberedPassword') || '');
   const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loginFailed, setLoginFailed] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async () => {
     if (!username || !password) return;
@@ -38,8 +43,15 @@ const LoginForm: React.FC<LoginFormProps> = ({ auth, onClose }) => {
       const success = await auth.login(loginData);
 
       if (success) {
+
+        if (rememberMe) {
+          localStorage.setItem('rememberedUsername', username);
+          localStorage.setItem('rememberedPassword', password);
+        }
+
         onClose();
       } else {
+        setLoginFailed(true);
         notify('error', t('auth.login.failed'));
       }
     } catch (err) {
@@ -62,18 +74,30 @@ const LoginForm: React.FC<LoginFormProps> = ({ auth, onClose }) => {
           onChange={(e) => setUsername(e.target.value)}
           fullWidth
           autoComplete="username"
+          error={loginFailed}
           InputLabelProps={{ sx: { color: labelColor } }}
         />
 
-        <TextField
-          label={t('auth.login.password')}
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          fullWidth
-          autoComplete="current-password"
-          InputLabelProps={{ sx: { color: labelColor } }}
-        />
+        <Grid display="flex" flexDirection="row" gap={1}>
+          <TextField
+            label={t('auth.login.password')}
+            type= {showPassword ? 'text' : 'password'}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            fullWidth
+            autoComplete="current-password"
+            error={loginFailed}
+            InputLabelProps={{ sx: { color: labelColor } }}
+          />
+          <Button
+            onClick={() => setShowPassword(!showPassword)}
+            variant="outlined"
+            size="small"
+          >
+            {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+          </Button>
+        </Grid>
+
 
         <FormControlLabel
           control={

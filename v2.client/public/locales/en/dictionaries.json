@@ -170,173 +170,131 @@
     }
   },
   "Notify_types": {
-    "1003": {
-      "title": "Process completed",
-      "description": ""
-    },
-    "1019": {
-      "title": "Chapter not found",
-      "description": ""
-    },
-    "1020": {
-      "title": "Hero saved",
-      "description": ""
-    },
-    "1032": {
-      "title": "Invalid Password",
-      "description": ""
-    },
-    "1016": {
-      "title": "Chapter saved",
-      "description": ""
-    },
-    "1036": {
-      "title": "Register failed",
-      "description": ""
-    },
-    "1026": {
-      "title": "Place updated",
-      "description": ""
-    },
-    "1007": {
-      "title": "File deleted",
-      "description": ""
-    },
-    "1038": {
-      "title": "Generation Email Successed",
-      "description": ""
-    },
-    "1037": {
-      "title": "Send Email Successed",
-      "description": ""
-    },
-    "1017": {
-      "title": "Chapter deleted",
-      "description": ""
-    },
-    "1008": {
-      "title": "File updated",
-      "description": ""
-    },
-    "1022": {
-      "title": "Hero updated",
-      "description": ""
-    },
-    "1012": {
-      "title": "Session saved",
-      "description": ""
-    },
     "1000": {
-      "title": "Log",
-      "description": ""
-    },
-    "1018": {
-      "title": "Chapter updated",
-      "description": ""
-    },
-    "1010": {
-      "title": "File already exists",
-      "description": ""
-    },
-    "1023": {
-      "title": "Hero not found",
-      "description": ""
-    },
-    "1014": {
-      "title": "Session updated",
-      "description": ""
-    },
-    "1009": {
-      "title": "File not found",
-      "description": ""
-    },
-    "1015": {
-      "title": "Session not found",
-      "description": ""
-    },
-    "1040": {
-      "title": "Password requires non alphanumeric",
-      "description": ""
-    },
-    "1039": {
-      "title": "Password too short",
-      "description": ""
-    },
-    "1004": {
-      "title": "Process failed",
-      "description": ""
-    },
-    "1042": {
-      "title": "Password requires lowercase",
-      "description": ""
-    },
-    "1043": {
-      "title": "Password requires upercase",
-      "description": ""
-    },
-    "1013": {
-      "title": "Session deleted",
-      "description": ""
-    },
-    "1021": {
-      "title": "Hero deleted",
-      "description": ""
-    },
-    "1030": {
-      "title": "Login succeeded",
-      "description": ""
-    },
-    "1034": {
-      "title": "Two factor failed",
-      "description": ""
-    },
-    "1035": {
-      "title": "Register succeeded",
-      "description": ""
-    },
-    "1041": {
-      "title": "Password requires digit",
-      "description": ""
-    },
-    "1033": {
-      "title": "Account locked",
-      "description": ""
-    },
-    "1006": {
-      "title": "File saved",
-      "description": ""
-    },
-    "1002": {
-      "title": "Process started",
-      "description": ""
-    },
-    "1031": {
-      "title": "Login failed",
-      "description": ""
-    },
-    "1024": {
-      "title": "Place saved",
-      "description": ""
-    },
-    "1027": {
-      "title": "Place not found",
-      "description": ""
+      "title": "Log"
     },
     "1001": {
-      "title": "Internal Process Error",
-      "description": ""
+      "title": "Internal process error {0}"
     },
-    "1011": {
-      "title": "File not saved",
-      "description": ""
+    "1002": {
+      "title": "Process {0} started"
+    },
+    "1003": {
+      "title": "Process {0} completed"
+    },
+    "1004": {
+      "title": "Process {0} ended with an error"
     },
     "1005": {
-      "title": "Process Queued",
-      "description": ""
+      "title": "Process {0} added to queue"
+    },
+    "1006": {
+      "title": "File {0} saved"
+    },
+    "1007": {
+      "title": "File {0} deleted"
+    },
+    "1008": {
+      "title": "File {0} updated"
+    },
+    "1009": {
+      "title": "File {0} not found"
+    },
+    "1010": {
+      "title": "File {0} already exists"
+    },
+    "1011": {
+      "title": "File {0} was not saved"
+    },
+    "1012": {
+      "title": "Session {0} saved"
+    },
+    "1013": {
+      "title": "Session {0} deleted"
+    },
+    "1014": {
+      "title": "Session {0} updated"
+    },
+    "1015": {
+      "title": "Session {0} not found"
+    },
+    "1016": {
+      "title": "Chapter {0} saved"
+    },
+    "1017": {
+      "title": "Chapter {0} deleted"
+    },
+    "1018": {
+      "title": "Chapter {0} updated"
+    },
+    "1019": {
+      "title": "Chapter {0} not found"
+    },
+    "1020": {
+      "title": "Hero {0} saved"
+    },
+    "1021": {
+      "title": "Hero {0} deleted"
+    },
+    "1022": {
+      "title": "Hero {0} updated"
+    },
+    "1023": {
+      "title": "Hero {0} not found"
+    },
+    "1024": {
+      "title": "Place {0} saved"
     },
     "1025": {
-      "title": "Place deleted",
-      "description": ""
+      "title": "Place {0} deleted"
+    },
+    "1026": {
+      "title": "Place {0} updated"
+    },
+    "1027": {
+      "title": "Place {0} not found"
+    },
+    "1030": {
+      "title": "Login successful"
+    },
+    "1031": {
+      "title": "Login failed"
+    },
+    "1032": {
+      "title": "Invalid password"
+    },
+    "1033": {
+      "title": "Account locked"
+    },
+    "1034": {
+      "title": "Two-factor authentication failed"
+    },
+    "1035": {
+      "title": "Registration successful"
+    },
+    "1036": {
+      "title": "Registration failed"
+    },
+    "1037": {
+      "title": "Email sent successfully"
+    },
+    "1038": {
+      "title": "Email generated successfully"
+    },
+    "1039": {
+      "title": "Password too short"
+    },
+    "1040": {
+      "title": "Password requires a non-alphanumeric character"
+    },
+    "1041": {
+      "title": "Password requires a digit"
+    },
+    "1042": {
+      "title": "Password requires a lowercase letter"
+    },
+    "1043": {
+      "title": "Password requires an uppercase letter"
     }
   },
   "Operations": {

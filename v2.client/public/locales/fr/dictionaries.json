@@ -170,173 +170,131 @@
     }
   },
   "Notify_types": {
-    "1003": {
-      "title": "Processus terminé",
-      "description": ""
-    },
-    "1019": {
-      "title": "Chapitre introuvable",
-      "description": ""
-    },
-    "1020": {
-      "title": "Héros enregistré",
-      "description": ""
-    },
-    "1032": {
-      "title": "Mot de passe invalide",
-      "description": ""
-    },
-    "1016": {
-      "title": "Chapitre enregistré",
-      "description": ""
-    },
-    "1036": {
-      "title": "Échec de l’inscription",
-      "description": ""
-    },
-    "1026": {
-      "title": "Lieu mis à jour",
-      "description": ""
-    },
-    "1007": {
-      "title": "Fichier supprimé",
-      "description": ""
-    },
-    "1038": {
-      "title": "Génération d’e-mail réussie",
-      "description": ""
-    },
-    "1037": {
-      "title": "E-mail envoyé avec succès",
-      "description": ""
-    },
-    "1017": {
-      "title": "Chapitre supprimé",
-      "description": ""
-    },
-    "1008": {
-      "title": "Fichier mis à jour",
-      "description": ""
-    },
-    "1022": {
-      "title": "Héros mis à jour",
-      "description": ""
-    },
-    "1012": {
-      "title": "Session enregistrée",
-      "description": ""
-    },
     "1000": {
-      "title": "Journal",
-      "description": ""
-    },
-    "1018": {
-      "title": "Chapitre mis à jour",
-      "description": ""
-    },
-    "1010": {
-      "title": "Fichier déjà existant",
-      "description": ""
-    },
-    "1023": {
-      "title": "Héros introuvable",
-      "description": ""
-    },
-    "1014": {
-      "title": "Session mise à jour",
-      "description": ""
-    },
-    "1009": {
-      "title": "Fichier introuvable",
-      "description": ""
-    },
-    "1015": {
-      "title": "Session introuvable",
-      "description": ""
-    },
-    "1040": {
-      "title": "Le mot de passe doit contenir un caractère spécial",
-      "description": ""
-    },
-    "1039": {
-      "title": "Mot de passe trop court",
-      "description": ""
-    },
-    "1004": {
-      "title": "Échec du processus",
-      "description": ""
-    },
-    "1042": {
-      "title": "Le mot de passe doit contenir une minuscule",
-      "description": ""
-    },
-    "1043": {
-      "title": "Le mot de passe doit contenir une majuscule",
-      "description": ""
-    },
-    "1013": {
-      "title": "Session supprimée",
-      "description": ""
-    },
-    "1021": {
-      "title": "Héros supprimé",
-      "description": ""
-    },
-    "1030": {
-      "title": "Connexion réussie",
-      "description": ""
-    },
-    "1034": {
-      "title": "Échec de l’authentification à deux facteurs",
-      "description": ""
-    },
-    "1035": {
-      "title": "Inscription réussie",
-      "description": ""
-    },
-    "1041": {
-      "title": "Le mot de passe doit contenir un chiffre",
-      "description": ""
-    },
-    "1033": {
-      "title": "Compte verrouillé",
-      "description": ""
-    },
-    "1006": {
-      "title": "Fichier enregistré",
-      "description": ""
-    },
-    "1002": {
-      "title": "Processus démarré",
-      "description": ""
-    },
-    "1031": {
-      "title": "Échec de connexion",
-      "description": ""
-    },
-    "1024": {
-      "title": "Lieu enregistré",
-      "description": ""
-    },
-    "1027": {
-      "title": "Lieu introuvable",
-      "description": ""
+      "title": "Journal"
     },
     "1001": {
-      "title": "Erreur interne du processus",
-      "description": ""
+      "title": "Erreur interne du processus {0}"
     },
-    "1011": {
-      "title": "Fichier non enregistré",
-      "description": ""
+    "1002": {
+      "title": "Processus {0} démarré"
+    },
+    "1003": {
+      "title": "Processus {0} terminé"
+    },
+    "1004": {
+      "title": "Processus {0} terminé avec une erreur"
     },
     "1005": {
-      "title": "Processus en file d’attente",
-      "description": ""
+      "title": "Processus {0} ajouté à la file d’attente"
+    },
+    "1006": {
+      "title": "Fichier {0} enregistré"
+    },
+    "1007": {
+      "title": "Fichier {0} supprimé"
+    },
+    "1008": {
+      "title": "Fichier {0} mis à jour"
+    },
+    "1009": {
+      "title": "Fichier {0} introuvable"
+    },
+    "1010": {
+      "title": "Fichier {0} existe déjà"
+    },
+    "1011": {
+      "title": "Fichier {0} n’a pas été enregistré"
+    },
+    "1012": {
+      "title": "Session {0} enregistrée"
+    },
+    "1013": {
+      "title": "Session {0} supprimée"
+    },
+    "1014": {
+      "title": "Session {0} mise à jour"
+    },
+    "1015": {
+      "title": "Session {0} introuvable"
+    },
+    "1016": {
+      "title": "Chapitre {0} enregistré"
+    },
+    "1017": {
+      "title": "Chapitre {0} supprimé"
+    },
+    "1018": {
+      "title": "Chapitre {0} mis à jour"
+    },
+    "1019": {
+      "title": "Chapitre {0} introuvable"
+    },
+    "1020": {
+      "title": "Héros {0} enregistré"
+    },
+    "1021": {
+      "title": "Héros {0} supprimé"
+    },
+    "1022": {
+      "title": "Héros {0} mis à jour"
+    },
+    "1023": {
+      "title": "Héros {0} introuvable"
+    },
+    "1024": {
+      "title": "Lieu {0} enregistré"
     },
     "1025": {
-      "title": "Lieu supprimé",
-      "description": ""
+      "title": "Lieu {0} supprimé"
+    },
+    "1026": {
+      "title": "Lieu {0} mis à jour"
+    },
+    "1027": {
+      "title": "Lieu {0} introuvable"
+    },
+    "1030": {
+      "title": "Connexion réussie"
+    },
+    "1031": {
+      "title": "Échec de la connexion"
+    },
+    "1032": {
+      "title": "Mot de passe incorrect"
+    },
+    "1033": {
+      "title": "Compte verrouillé"
+    },
+    "1034": {
+      "title": "Échec de l’authentification à deux facteurs"
+    },
+    "1035": {
+      "title": "Inscription réussie"
+    },
+    "1036": {
+      "title": "Échec de l’inscription"
+    },
+    "1037": {
+      "title": "Email envoyé avec succès"
+    },
+    "1038": {
+      "title": "Email généré avec succès"
+    },
+    "1039": {
+      "title": "Mot de passe trop court"
+    },
+    "1040": {
+      "title": "Le mot de passe doit contenir un caractère non alphanumérique"
+    },
+    "1041": {
+      "title": "Le mot de passe doit contenir un chiffre"
+    },
+    "1042": {
+      "title": "Le mot de passe doit contenir une lettre minuscule"
+    },
+    "1043": {
+      "title": "Le mot de passe doit contenir une lettre majuscule"
     }
   },
   "Operations": {

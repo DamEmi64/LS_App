@@ -170,173 +170,131 @@
     }
   },
   "Notify_types": {
-    "1003": {
-      "title": "Proces zakończony",
-      "description": ""
-    },
-    "1019": {
-      "title": "Nie znaleziono rozdziału",
-      "description": ""
-    },
-    "1020": {
-      "title": "Bohater zapisany",
-      "description": ""
-    },
-    "1032": {
-      "title": "Nieprawidłowe hasło",
-      "description": ""
-    },
-    "1016": {
-      "title": "Rozdział zapisany",
-      "description": ""
-    },
-    "1036": {
-      "title": "Rejestracja nieudana",
-      "description": ""
-    },
-    "1026": {
-      "title": "Miejsce zaktualizowane",
-      "description": ""
-    },
-    "1007": {
-      "title": "Plik usunięty",
-      "description": ""
-    },
-    "1038": {
-      "title": "Wygenerowano e-mail pomyślnie",
-      "description": ""
-    },
-    "1037": {
-      "title": "E-mail wysłany pomyślnie",
-      "description": ""
-    },
-    "1017": {
-      "title": "Rozdział usunięty",
-      "description": ""
-    },
-    "1008": {
-      "title": "Plik zaktualizowany",
-      "description": ""
-    },
-    "1022": {
-      "title": "Bohater zaktualizowany",
-      "description": ""
-    },
-    "1012": {
-      "title": "Sesja zapisana",
-      "description": ""
-    },
     "1000": {
-      "title": "Log",
-      "description": ""
-    },
-    "1018": {
-      "title": "Rozdział zaktualizowany",
-      "description": ""
-    },
-    "1010": {
-      "title": "Plik już istnieje",
-      "description": ""
-    },
-    "1023": {
-      "title": "Nie znaleziono bohatera",
-      "description": ""
-    },
-    "1014": {
-      "title": "Sesja zaktualizowana",
-      "description": ""
-    },
-    "1009": {
-      "title": "Nie znaleziono pliku",
-      "description": ""
-    },
-    "1015": {
-      "title": "Nie znaleziono sesji",
-      "description": ""
-    },
-    "1040": {
-      "title": "Hasło musi zawierać znak specjalny",
-      "description": ""
-    },
-    "1039": {
-      "title": "Hasło jest za krótkie",
-      "description": ""
-    },
-    "1004": {
-      "title": "Proces nieudany",
-      "description": ""
-    },
-    "1042": {
-      "title": "Hasło musi zawierać małą literę",
-      "description": ""
-    },
-    "1043": {
-      "title": "Hasło musi zawierać wielką literę",
-      "description": ""
-    },
-    "1013": {
-      "title": "Sesja usunięta",
-      "description": ""
-    },
-    "1021": {
-      "title": "Bohater usunięty",
-      "description": ""
-    },
-    "1030": {
-      "title": "Logowanie udane",
-      "description": ""
-    },
-    "1034": {
-      "title": "Weryfikacja dwuetapowa nieudana",
-      "description": ""
-    },
-    "1035": {
-      "title": "Rejestracja udana",
-      "description": ""
-    },
-    "1041": {
-      "title": "Hasło musi zawierać cyfrę",
-      "description": ""
-    },
-    "1033": {
-      "title": "Konto zablokowane",
-      "description": ""
-    },
-    "1006": {
-      "title": "Plik zapisany",
-      "description": ""
-    },
-    "1002": {
-      "title": "Proces rozpoczęty",
-      "description": ""
-    },
-    "1031": {
-      "title": "Logowanie nieudane",
-      "description": ""
-    },
-    "1024": {
-      "title": "Miejsce zapisane",
-      "description": ""
-    },
-    "1027": {
-      "title": "Nie znaleziono miejsca",
-      "description": ""
+      "title": "Log"
     },
     "1001": {
-      "title": "Błąd wewnętrzny procesu",
-      "description": ""
+      "title": "Błąd wewnętrznego procesu {0}"
     },
-    "1011": {
-      "title": "Nie zapisano pliku",
-      "description": ""
+    "1002": {
+      "title": "Proces {0} rozpoczęty"
+    },
+    "1003": {
+      "title": "Proces {0} zakończony"
+    },
+    "1004": {
+      "title": "Proces {0} zakończony błędem"
     },
     "1005": {
-      "title": "Proces w kolejce",
-      "description": ""
+      "title": "Proces {0} dodany do kolejki"
+    },
+    "1006": {
+      "title": "Plik {0} zapisany"
+    },
+    "1007": {
+      "title": "Plik {0} usunięty"
+    },
+    "1008": {
+      "title": "Plik {0} zaktualizowany"
+    },
+    "1009": {
+      "title": "Plik {0} nie znaleziony"
+    },
+    "1010": {
+      "title": "Plik {0} już istnieje"
+    },
+    "1011": {
+      "title": "Plik {0} nie został zapisany"
+    },
+    "1012": {
+      "title": "Sesja {0} zapisana"
+    },
+    "1013": {
+      "title": "Sesja {0} usunięta"
+    },
+    "1014": {
+      "title": "Sesja {0} zaktualizowana"
+    },
+    "1015": {
+      "title": "Sesja {0} nie znaleziona"
+    },
+    "1016": {
+      "title": "Rozdział {0} zapisany"
+    },
+    "1017": {
+      "title": "Rozdział {0} usunięty"
+    },
+    "1018": {
+      "title": "Rozdział {0} zaktualizowany"
+    },
+    "1019": {
+      "title": "Rozdział {0} nie znaleziony"
+    },
+    "1020": {
+      "title": "Bohater {0} zapisany"
+    },
+    "1021": {
+      "title": "Bohater {0} usunięty"
+    },
+    "1022": {
+      "title": "Bohater {0} zaktualizowany"
+    },
+    "1023": {
+      "title": "Bohater {0} nie znaleziony"
+    },
+    "1024": {
+      "title": "Miejsce {0} zapisane"
     },
     "1025": {
-      "title": "Miejsce usunięte",
-      "description": ""
+      "title": "Miejsce {0} usunięte"
+    },
+    "1026": {
+      "title": "Miejsce {0} zaktualizowane"
+    },
+    "1027": {
+      "title": "Miejsce {0} nie znalezione"
+    },
+    "1030": {
+      "title": "Logowanie zakończone sukcesem"
+    },
+    "1031": {
+      "title": "Logowanie zakończone niepowodzeniem"
+    },
+    "1032": {
+      "title": "Nieprawidłowe hasło"
+    },
+    "1033": {
+      "title": "Konto zablokowane"
+    },
+    "1034": {
+      "title": "Niepowodzenie uwierzytelniania dwuskładnikowego"
+    },
+    "1035": {
+      "title": "Rejestracja zakończona sukcesem"
+    },
+    "1036": {
+      "title": "Rejestracja zakończona niepowodzeniem"
+    },
+    "1037": {
+      "title": "Email wysłany pomyślnie"
+    },
+    "1038": {
+      "title": "Email wygenerowany pomyślnie"
+    },
+    "1039": {
+      "title": "Hasło zbyt krótkie"
+    },
+    "1040": {
+      "title": "Hasło wymaga znaku niealfanumerycznego"
+    },
+    "1041": {
+      "title": "Hasło wymaga cyfry"
+    },
+    "1042": {
+      "title": "Hasło wymaga małej litery"
+    },
+    "1043": {
+      "title": "Hasło wymaga dużej litery"
     }
   },
   "Operations": {

@@ -160,7 +160,7 @@ export const FilesInfo: React.FC<FilesInfoProps> = ({ file, edit, del }) => {
                             <Box key={src.id} sx={{ mb: 1 }}>
                                 <TextField
                                     label="Source Type"
-                                    value={getDictionaryTranslation('sourceTypes', src.sourceType).title}
+                                    value={getDictionaryTranslation('File source type', src.sourceType).title}
                                     sx={{ mr: 2, width: 200 }}
                                     InputProps={{ readOnly: true, style: { color: textColor } }}
                                     margin="dense"

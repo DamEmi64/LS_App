@@ -67,20 +67,23 @@ namespace Files.Application.Controllers
                 .Select(FileDto.ToDto)
                 .ToList();
 
-            var imageIds = dtos
-                .Where(x => x.ImageId != null)
-                .Select(x => x.ImageId!.Value)
-                .Distinct()
-                .ToList();
-
-            var media = await _mediaProvider.LoadMany(imageIds).ToListAsync();
-
-            foreach (var item in dtos)
+            if (filter.IncludeImages)
             {
-                if (item.ImageId != null)
+                var imageIds = dtos
+                                .Where(x => x.ImageId != null)
+                                .Select(x => x.ImageId!.Value)
+                                .Distinct()
+                                .ToList();
+
+                var media = await _mediaProvider.LoadMany(imageIds).ToListAsync();
+
+                foreach (var item in dtos)
                 {
-                    var mediaItem = media.FirstOrDefault(m => m?.Id == item.ImageId);
-                    item.ImageData = mediaItem?.ContentStr;
+                    if (item.ImageId != null)
+                    {
+                        var mediaItem = media.FirstOrDefault(m => m?.Id == item.ImageId);
+                        item.ImageData = mediaItem?.ContentStr;
+                    }
                 }
             }
 

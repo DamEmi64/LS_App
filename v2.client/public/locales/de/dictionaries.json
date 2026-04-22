@@ -170,173 +170,131 @@
     }
   },
   "Notify_types": {
-    "1003": {
-      "title": "Prozess abgeschlossen",
-      "description": ""
-    },
-    "1019": {
-      "title": "Kapitel nicht gefunden",
-      "description": ""
-    },
-    "1020": {
-      "title": "Held gespeichert",
-      "description": ""
-    },
-    "1032": {
-      "title": "Ungültiges Passwort",
-      "description": ""
-    },
-    "1016": {
-      "title": "Kapitel gespeichert",
-      "description": ""
-    },
-    "1036": {
-      "title": "Registrierung fehlgeschlagen",
-      "description": ""
-    },
-    "1026": {
-      "title": "Ort aktualisiert",
-      "description": ""
-    },
-    "1007": {
-      "title": "Datei gelöscht",
-      "description": ""
-    },
-    "1038": {
-      "title": "E-Mail-Generierung erfolgreich",
-      "description": ""
-    },
-    "1037": {
-      "title": "E-Mail erfolgreich gesendet",
-      "description": ""
-    },
-    "1017": {
-      "title": "Kapitel gelöscht",
-      "description": ""
-    },
-    "1008": {
-      "title": "Datei aktualisiert",
-      "description": ""
-    },
-    "1022": {
-      "title": "Held aktualisiert",
-      "description": ""
-    },
-    "1012": {
-      "title": "Sitzung gespeichert",
-      "description": ""
-    },
     "1000": {
-      "title": "Protokoll",
-      "description": ""
-    },
-    "1018": {
-      "title": "Kapitel aktualisiert",
-      "description": ""
-    },
-    "1010": {
-      "title": "Datei existiert bereits",
-      "description": ""
-    },
-    "1023": {
-      "title": "Held nicht gefunden",
-      "description": ""
-    },
-    "1014": {
-      "title": "Sitzung aktualisiert",
-      "description": ""
-    },
-    "1009": {
-      "title": "Datei nicht gefunden",
-      "description": ""
-    },
-    "1015": {
-      "title": "Sitzung nicht gefunden",
-      "description": ""
-    },
-    "1040": {
-      "title": "Passwort erfordert Sonderzeichen",
-      "description": ""
-    },
-    "1039": {
-      "title": "Passwort zu kurz",
-      "description": ""
-    },
-    "1004": {
-      "title": "Prozess fehlgeschlagen",
-      "description": ""
-    },
-    "1042": {
-      "title": "Passwort erfordert Kleinbuchstaben",
-      "description": ""
-    },
-    "1043": {
-      "title": "Passwort erfordert Großbuchstaben",
-      "description": ""
-    },
-    "1013": {
-      "title": "Sitzung gelöscht",
-      "description": ""
-    },
-    "1021": {
-      "title": "Held gelöscht",
-      "description": ""
-    },
-    "1030": {
-      "title": "Anmeldung erfolgreich",
-      "description": ""
-    },
-    "1034": {
-      "title": "Zwei-Faktor-Authentifizierung fehlgeschlagen",
-      "description": ""
-    },
-    "1035": {
-      "title": "Registrierung erfolgreich",
-      "description": ""
-    },
-    "1041": {
-      "title": "Passwort erfordert Ziffer",
-      "description": ""
-    },
-    "1033": {
-      "title": "Konto gesperrt",
-      "description": ""
-    },
-    "1006": {
-      "title": "Datei gespeichert",
-      "description": ""
-    },
-    "1002": {
-      "title": "Prozess gestartet",
-      "description": ""
-    },
-    "1031": {
-      "title": "Anmeldung fehlgeschlagen",
-      "description": ""
-    },
-    "1024": {
-      "title": "Ort gespeichert",
-      "description": ""
-    },
-    "1027": {
-      "title": "Ort nicht gefunden",
-      "description": ""
+      "title": "Protokoll"
     },
     "1001": {
-      "title": "Interner Prozessfehler",
-      "description": ""
+      "title": "Interner Prozessfehler {0}"
     },
-    "1011": {
-      "title": "Datei nicht gespeichert",
-      "description": ""
+    "1002": {
+      "title": "Prozess {0} gestartet"
+    },
+    "1003": {
+      "title": "Prozess {0} abgeschlossen"
+    },
+    "1004": {
+      "title": "Prozess {0} mit Fehler beendet"
     },
     "1005": {
-      "title": "Prozess in Warteschlange",
-      "description": ""
+      "title": "Prozess {0} zur Warteschlange hinzugefügt"
+    },
+    "1006": {
+      "title": "Datei {0} gespeichert"
+    },
+    "1007": {
+      "title": "Datei {0} gelöscht"
+    },
+    "1008": {
+      "title": "Datei {0} aktualisiert"
+    },
+    "1009": {
+      "title": "Datei {0} nicht gefunden"
+    },
+    "1010": {
+      "title": "Datei {0} existiert bereits"
+    },
+    "1011": {
+      "title": "Datei {0} wurde nicht gespeichert"
+    },
+    "1012": {
+      "title": "Sitzung {0} gespeichert"
+    },
+    "1013": {
+      "title": "Sitzung {0} gelöscht"
+    },
+    "1014": {
+      "title": "Sitzung {0} aktualisiert"
+    },
+    "1015": {
+      "title": "Sitzung {0} nicht gefunden"
+    },
+    "1016": {
+      "title": "Kapitel {0} gespeichert"
+    },
+    "1017": {
+      "title": "Kapitel {0} gelöscht"
+    },
+    "1018": {
+      "title": "Kapitel {0} aktualisiert"
+    },
+    "1019": {
+      "title": "Kapitel {0} nicht gefunden"
+    },
+    "1020": {
+      "title": "Held {0} gespeichert"
+    },
+    "1021": {
+      "title": "Held {0} gelöscht"
+    },
+    "1022": {
+      "title": "Held {0} aktualisiert"
+    },
+    "1023": {
+      "title": "Held {0} nicht gefunden"
+    },
+    "1024": {
+      "title": "Ort {0} gespeichert"
     },
     "1025": {
-      "title": "Ort gelöscht",
-      "description": ""
+      "title": "Ort {0} gelöscht"
+    },
+    "1026": {
+      "title": "Ort {0} aktualisiert"
+    },
+    "1027": {
+      "title": "Ort {0} nicht gefunden"
+    },
+    "1030": {
+      "title": "Anmeldung erfolgreich"
+    },
+    "1031": {
+      "title": "Anmeldung fehlgeschlagen"
+    },
+    "1032": {
+      "title": "Falsches Passwort"
+    },
+    "1033": {
+      "title": "Konto gesperrt"
+    },
+    "1034": {
+      "title": "Zwei-Faktor-Authentifizierung fehlgeschlagen"
+    },
+    "1035": {
+      "title": "Registrierung erfolgreich"
+    },
+    "1036": {
+      "title": "Registrierung fehlgeschlagen"
+    },
+    "1037": {
+      "title": "E-Mail erfolgreich gesendet"
+    },
+    "1038": {
+      "title": "E-Mail erfolgreich erstellt"
+    },
+    "1039": {
+      "title": "Passwort zu kurz"
+    },
+    "1040": {
+      "title": "Passwort benötigt ein Sonderzeichen"
+    },
+    "1041": {
+      "title": "Passwort benötigt eine Ziffer"
+    },
+    "1042": {
+      "title": "Passwort benötigt einen Kleinbuchstaben"
+    },
+    "1043": {
+      "title": "Passwort benötigt einen Großbuchstaben"
     }
   },
   "Operations": {
