@@ -1,4 +1,6 @@
 ﻿using CommunicationBase.Dtos;
+using CommunicationBase.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -31,6 +33,19 @@ namespace CommunicationBase
             {
                 context.Model.Add(key, value);
             }
+        }
+
+        public static IServiceCollection AddFluidParser<T>(this IServiceCollection services, string? key = null) where T : FluidParserModel
+        {
+            services.AddScoped<T>();
+            services.AddScoped<IFluidParser, T>();
+
+            if (!string.IsNullOrEmpty(key))
+            {
+                services.AddKeyedScoped<IFluidParser>(key, (sp, _) => sp.GetRequiredService<T>());
+            }
+
+            return services;
         }
     }
 }

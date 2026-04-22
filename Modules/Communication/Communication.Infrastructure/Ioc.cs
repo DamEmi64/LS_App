@@ -4,6 +4,7 @@ using Communication.Infrastructure.EmailGenerator;
 using Communication.Infrastructure.Repositories;
 using Communication.Infrastructure.Services;
 using Communication.Infrastructure.Services.SendService;
+using CommunicationBase;
 using CommunicationBase.Interfaces;
 using Files.Domain.Repositories;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,8 +25,7 @@ namespace Communication.Infrastructure
             var emailFluidParser = new EmailFluidParser();
             return services.AddScoped<ISendService, SendService>()
                 .AddScoped<IFluidService, FluidService>()
-                .AddScoped<IFluidParser,EmailFluidParser>(s => emailFluidParser)
-                .AddKeyedScoped<IFluidParser, EmailFluidParser>(nameof(EmailFluidParser), (s, o) => emailFluidParser);
+                .AddFluidParser<EmailFluidParser>();
         }
     }
 }

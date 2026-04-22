@@ -39,16 +39,16 @@ namespace Communication.Infrastructure.EmailGenerator
         [FluidVariable]
         public int SEQ { get; set; } = 0;
 
-        [FluidFunction]
+        [FluidFunction(title:"601")]
         public FluidValue RandomNumber(FunctionArguments arguments, FluidContext context) => _randomNumberStrategy.Method.Invoke(arguments,context);
 
-        [FluidFunction]
+        [FluidFunction(title: "602")]
         public FluidValue Random(FunctionArguments arguments, FluidContext context) => _randomStrategy.Method.Invoke(arguments,context);
 
-        [FluidFunction]
+        [FluidFunction(title: "603")]
         public FluidValue RandomUnique(FunctionArguments arguments, FluidContext context) => _randomUniqueStrategy.Method.Invoke(arguments,context);
 
-        [FluidFunction]
+        [FluidFunction(title: "604")]
         public FluidValue Increment(FunctionArguments arguments, FluidContext context) => _incrementStrategy.Method.Invoke(arguments,context);
 
     }

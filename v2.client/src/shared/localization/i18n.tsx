@@ -11,6 +11,9 @@ i18next
         returnObjects: true,
         fallbackLng: "en",
         debug: true,
+        react: {
+            useSuspense: false
+        }
         // lng: "en",
     });
 

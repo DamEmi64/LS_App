@@ -97,7 +97,14 @@
     "noJobs": "Brak zadań powiązanych z procesem",
     "errors": "Błędy procesu",
     "errorMessage": "Komunikat błędu",
-    "restart": "Uruchom ponownie proces"
+    "restart": "Uruchom ponownie proces",
+    "processStatus": {
+      "New": "Nowy",
+      "Executing": "W trakcie wykonywania",
+      "Success": "Zakończony sukcesem",
+      "Failed": "Zakończony porażką",
+      "Paused": "Zatrzymany"
+    }
   },
   "jobs": {
     "id": "Id",
@@ -368,13 +375,7 @@
     }
   },
   "dictionaries": {
-    "processStatus": {
-      "New": "Nowy",
-      "Executing": "W trakcie wykonywania",
-      "Success": "Zakończony sukcesem",
-      "Failed": "Zakończony porażką",
-      "Paused": "Zatrzymany"
-    },
+    
     "Operations": {
     "11": "Importuj pliki",
     "12": "Przenieś plik",

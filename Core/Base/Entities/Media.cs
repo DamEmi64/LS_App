@@ -14,6 +14,14 @@
         Task<Media?> Load(Guid id, bool removeWebsiteExtras = false);
 
         /// <summary>
+        /// Load multiple media content by ID.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="removeWebsiteExtras">Removes additional website data</param>
+        /// <returns></returns>
+        IAsyncEnumerable<Media?> LoadMany(IEnumerable<Guid> ids, bool removeWebsiteExtras = false);
+
+        /// <summary>
         /// Save media content and return its ID.
         /// </summary>
         /// <param name="content"></param>

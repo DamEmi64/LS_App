@@ -2,7 +2,7 @@
 
 namespace System.Domain.Dictionaries
 {
-    [Dictionary("NotifyTypes")]
+    [Dictionary("Notify types")]
     public class SystemNotifyTypes
     {
         public static DictionaryItem LoginSucceeded => EntityDictionary.Item(1030, "Login succeeded");

@@ -2,7 +2,7 @@
 
 namespace Base
 {
-    [Dictionary("NotifyTypes")]
+    [Dictionary("Notify types")]
     public class NotifyTypes
     {
         public static DictionaryItem Log => EntityDictionary.Item(1000, "Log");

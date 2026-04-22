@@ -3,43 +3,49 @@ import { CKEditor } from 'ckeditor4-react';
 import { useTranslation } from 'react-i18next';
 import { useApiConnect } from '@/shared';
 import { CommunicationRules } from '../types';
+import { useDictionaryTranslation } from '@/lib/utils';
 
 const Editor = ({ initData, onChange, readonly }) => {
     const { t, i18n } = useTranslation();
     const api = useApiConnect();
+    const getDictionaryTranslation = useDictionaryTranslation();
 
     // 👇 cache per editor instance
     const cacheRef = useRef(null);
 
     const loadSuggestions = async () => {
-        if (cacheRef.current) return cacheRef.current;
-
         const res = await api.get<CommunicationRules>('communication_rules');
         const data = res.data;
-        
-        // translate once
-        const transformed = {
-            functions: data.functions.map(f => ({
-                title: t(f.title),
-                description: t(f.description),
-                invoker: f.invoker
-            })),
-            variables: data.variables.map(v => ({
-                title: t(v.title),
-                description: t(v.description),
-                invoker: v.invoker
-            }))
-        };
 
-        cacheRef.current = transformed;
-        return transformed;
+        // 👇 capture values NOW (not during async execution later)
+        return {
+            functions: data.functions.map(f => {
+                const tr = getDictionaryTranslation('Fluid functions', f.id);
+                return {
+                    title: tr.title,
+                    description: tr.description,
+                    invoker: f.invoker,
+                    type: "function"
+                };
+            }),
+            variables: data.variables.map(v => {
+                return {
+                    title: v.title,
+                    description: v.description,
+                    invoker: v.invoker,
+                    type: "variable"
+                };
+            })
+        };
     };
+
 
     return (
         <CKEditor
             key={i18n.language} // 👈 reset cache on language change
             initData={initData}
             readOnly={readonly}
+            style={{width:'80vw',height:'90vh'}}
             config={{
                 extraPlugins: 'fluidSuggestion',
                 fluidSuggestion: {

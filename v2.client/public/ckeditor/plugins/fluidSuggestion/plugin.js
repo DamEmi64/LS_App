@@ -182,7 +182,11 @@ CKEDITOR.plugins.add('fluidSuggestion', {
             const sel = editor.getSelection();
             sel.selectRanges([markerRange]);
 
-            editor.insertText(`${item.invoker}()}}`);
+            if (item.type == "function") {
+                editor.insertText(`${item.invoker}()}}`);
+            } else {
+                editor.insertText(`${item.invoker}}}`);
+            }
 
             cleanup();
         }

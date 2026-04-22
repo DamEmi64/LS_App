@@ -1,0 +1,464 @@
+{
+  "File_types": {
+    "102": {
+      "title": "Dokumenty",
+      "description": ""
+    },
+    "101": {
+      "title": "Gry",
+      "description": ""
+    },
+    "103": {
+      "title": "Pliki do nauki",
+      "description": ""
+    }
+  },
+  "File_source_type": {
+    "300": {
+      "title": "Lokalne",
+      "description": ""
+    },
+    "301": {
+      "title": "Strona FuckingFast",
+      "description": ""
+    }
+  },
+  "Game_genres": {
+    "262": {
+      "title": "Wyścigi",
+      "description": ""
+    },
+    "224": {
+      "title": "RPG z otwartym światem",
+      "description": ""
+    },
+    "243": {
+      "title": "Strategia 4X",
+      "description": ""
+    },
+    "232": {
+      "title": "Symulacja pojazdów",
+      "description": ""
+    },
+    "270": {
+      "title": "Bijatyka klasyczna",
+      "description": ""
+    },
+    "223": {
+      "title": "MMORPG",
+      "description": ""
+    },
+    "291": {
+      "title": "Gra rytmiczna",
+      "description": ""
+    },
+    "251": {
+      "title": "Logiczna fizyczna",
+      "description": ""
+    },
+    "200": {
+      "title": "Platformówka",
+      "description": ""
+    },
+    "222": {
+      "title": "Taktyczne RPG",
+      "description": ""
+    },
+    "261": {
+      "title": "Sporty ekstremalne",
+      "description": ""
+    },
+    "203": {
+      "title": "Strzelanka TPP",
+      "description": ""
+    },
+    "250": {
+      "title": "Klasyczna gra logiczna",
+      "description": ""
+    },
+    "206": {
+      "title": "Survival",
+      "description": ""
+    },
+    "230": {
+      "title": "Symulacja życia",
+      "description": ""
+    },
+    "210": {
+      "title": "Akcja-przygodowa",
+      "description": ""
+    },
+    "290": {
+      "title": "Gra imprezowa",
+      "description": ""
+    },
+    "271": {
+      "title": "Bijatyka platformowa",
+      "description": ""
+    },
+    "280": {
+      "title": "Horror survivalowy",
+      "description": ""
+    },
+    "220": {
+      "title": "RPG akcji",
+      "description": ""
+    },
+    "212": {
+      "title": "Point and click",
+      "description": ""
+    },
+    "242": {
+      "title": "Tower defense",
+      "description": ""
+    },
+    "202": {
+      "title": "Strzelanka FPS",
+      "description": ""
+    },
+    "205": {
+      "title": "Skradanka",
+      "description": ""
+    },
+    "252": {
+      "title": "Dopasuj 3",
+      "description": ""
+    },
+    "240": {
+      "title": "Strategia czasu rzeczywistego",
+      "description": ""
+    },
+    "211": {
+      "title": "Przygodowa narracyjna",
+      "description": ""
+    },
+    "281": {
+      "title": "Horror psychologiczny",
+      "description": ""
+    },
+    "241": {
+      "title": "Strategia turowa",
+      "description": ""
+    },
+    "299": {
+      "title": "Inne",
+      "description": ""
+    },
+    "204": {
+      "title": "Bijatyka (Beat 'Em Up)",
+      "description": ""
+    },
+    "201": {
+      "title": "Strzelanka",
+      "description": ""
+    },
+    "231": {
+      "title": "Symulacja farmy",
+      "description": ""
+    },
+    "233": {
+      "title": "Budowanie miasta",
+      "description": ""
+    },
+    "221": {
+      "title": "RPG turowe",
+      "description": ""
+    },
+    "260": {
+      "title": "Sporty tradycyjne",
+      "description": ""
+    }
+  },
+  "Notify_types": {
+    "1003": {
+      "title": "Proces zakończony",
+      "description": ""
+    },
+    "1019": {
+      "title": "Nie znaleziono rozdziału",
+      "description": ""
+    },
+    "1020": {
+      "title": "Bohater zapisany",
+      "description": ""
+    },
+    "1032": {
+      "title": "Nieprawidłowe hasło",
+      "description": ""
+    },
+    "1016": {
+      "title": "Rozdział zapisany",
+      "description": ""
+    },
+    "1036": {
+      "title": "Rejestracja nieudana",
+      "description": ""
+    },
+    "1026": {
+      "title": "Miejsce zaktualizowane",
+      "description": ""
+    },
+    "1007": {
+      "title": "Plik usunięty",
+      "description": ""
+    },
+    "1038": {
+      "title": "Wygenerowano e-mail pomyślnie",
+      "description": ""
+    },
+    "1037": {
+      "title": "E-mail wysłany pomyślnie",
+      "description": ""
+    },
+    "1017": {
+      "title": "Rozdział usunięty",
+      "description": ""
+    },
+    "1008": {
+      "title": "Plik zaktualizowany",
+      "description": ""
+    },
+    "1022": {
+      "title": "Bohater zaktualizowany",
+      "description": ""
+    },
+    "1012": {
+      "title": "Sesja zapisana",
+      "description": ""
+    },
+    "1000": {
+      "title": "Log",
+      "description": ""
+    },
+    "1018": {
+      "title": "Rozdział zaktualizowany",
+      "description": ""
+    },
+    "1010": {
+      "title": "Plik już istnieje",
+      "description": ""
+    },
+    "1023": {
+      "title": "Nie znaleziono bohatera",
+      "description": ""
+    },
+    "1014": {
+      "title": "Sesja zaktualizowana",
+      "description": ""
+    },
+    "1009": {
+      "title": "Nie znaleziono pliku",
+      "description": ""
+    },
+    "1015": {
+      "title": "Nie znaleziono sesji",
+      "description": ""
+    },
+    "1040": {
+      "title": "Hasło musi zawierać znak specjalny",
+      "description": ""
+    },
+    "1039": {
+      "title": "Hasło jest za krótkie",
+      "description": ""
+    },
+    "1004": {
+      "title": "Proces nieudany",
+      "description": ""
+    },
+    "1042": {
+      "title": "Hasło musi zawierać małą literę",
+      "description": ""
+    },
+    "1043": {
+      "title": "Hasło musi zawierać wielką literę",
+      "description": ""
+    },
+    "1013": {
+      "title": "Sesja usunięta",
+      "description": ""
+    },
+    "1021": {
+      "title": "Bohater usunięty",
+      "description": ""
+    },
+    "1030": {
+      "title": "Logowanie udane",
+      "description": ""
+    },
+    "1034": {
+      "title": "Weryfikacja dwuetapowa nieudana",
+      "description": ""
+    },
+    "1035": {
+      "title": "Rejestracja udana",
+      "description": ""
+    },
+    "1041": {
+      "title": "Hasło musi zawierać cyfrę",
+      "description": ""
+    },
+    "1033": {
+      "title": "Konto zablokowane",
+      "description": ""
+    },
+    "1006": {
+      "title": "Plik zapisany",
+      "description": ""
+    },
+    "1002": {
+      "title": "Proces rozpoczęty",
+      "description": ""
+    },
+    "1031": {
+      "title": "Logowanie nieudane",
+      "description": ""
+    },
+    "1024": {
+      "title": "Miejsce zapisane",
+      "description": ""
+    },
+    "1027": {
+      "title": "Nie znaleziono miejsca",
+      "description": ""
+    },
+    "1001": {
+      "title": "Błąd wewnętrzny procesu",
+      "description": ""
+    },
+    "1011": {
+      "title": "Nie zapisano pliku",
+      "description": ""
+    },
+    "1005": {
+      "title": "Proces w kolejce",
+      "description": ""
+    },
+    "1025": {
+      "title": "Miejsce usunięte",
+      "description": ""
+    }
+  },
+  "Operations": {
+    "32": {
+      "title": "Wyślij dane RPG do aplikacji Firebase",
+      "description": "Zadanie wysyłania danych RPG do aplikacji Firebase"
+    },
+    "41": {
+      "title": "Archiwizuj dane",
+      "description": ""
+    },
+    "11": {
+      "title": "Importuj plik",
+      "description": ""
+    },
+    "14": {
+      "title": "Usuń plik",
+      "description": ""
+    },
+    "33": {
+      "title": "Pobierz ostatnie dane RPG",
+      "description": "Zadanie pobierania ostatnich danych RPG"
+    },
+    "13": {
+      "title": "Kopiuj plik",
+      "description": ""
+    },
+    "34": {
+      "title": "Generuj historię ze streszczenia",
+      "description": "Zadanie generowania historii ze streszczenia"
+    },
+    "21": {
+      "title": "Wyślij e-mail",
+      "description": ""
+    },
+    "35": {
+      "title": "Importuj RPG z pliku",
+      "description": "Zadanie importowania RPG z pliku"
+    },
+    "31": {
+      "title": "Generuj podsumowanie sesji RPG",
+      "description": "Zadanie generowania podsumowania sesji RPG"
+    },
+    "22": {
+      "title": "Generuj z szablonu",
+      "description": ""
+    },
+    "12": {
+      "title": "Przenieś plik",
+      "description": ""
+    },
+    "40": {
+      "title": "Uruchom automat",
+      "description": ""
+    }
+  },
+  "Skill_category": {
+    "403": {
+      "title": "Inteligencja",
+      "description": ""
+    },
+    "404": {
+      "title": "Komunikacja",
+      "description": ""
+    },
+    "401": {
+      "title": "Siła",
+      "description": ""
+    },
+    "402": {
+      "title": "Zręczność",
+      "description": ""
+    }
+  },
+  "RPG_file_types": {
+    "502": {
+      "title": "Stary JSON (NIEOBSŁUGIWANY)",
+      "description": ""
+    },
+    "503": {
+      "title": "Dane Firebase",
+      "description": ""
+    },
+    "501": {
+      "title": "JSON",
+      "description": ""
+    }
+  },
+  "Fluid_functions": {
+    "604": {
+      "title": "Zwiększ",
+      "description": ""
+    },
+    "603": {
+      "title": "Losowy unikalny",
+      "description": ""
+    },
+    "601": {
+      "title": "Liczba losowa",
+      "description": ""
+    },
+    "602": {
+      "title": "Losowy",
+      "description": ""
+    }
+  },
+  "Fluid_variables": {
+    "608": {
+      "title": "Odbiorcy",
+      "description": ""
+    },
+    "605": {
+      "title": "Dane użytkownika",
+      "description": ""
+    },
+    "606": {
+      "title": "Nadawca",
+      "description": ""
+    },
+    "607": {
+      "title": "Odbiorca",
+      "description": ""
+    }
+  }
+}

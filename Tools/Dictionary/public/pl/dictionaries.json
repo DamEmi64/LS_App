@@ -1,0 +1,464 @@
+{
+  "File_types": {
+    "102": {
+      "title": "Documents [pl]",
+      "description": " [pl]"
+    },
+    "101": {
+      "title": "Games [pl]",
+      "description": " [pl]"
+    },
+    "103": {
+      "title": "Study Files [pl]",
+      "description": " [pl]"
+    }
+  },
+  "File_source_type": {
+    "300": {
+      "title": "Local [pl]",
+      "description": " [pl]"
+    },
+    "301": {
+      "title": "FuckingFast website [pl]",
+      "description": " [pl]"
+    }
+  },
+  "Game_genres": {
+    "262": {
+      "title": "Racing [pl]",
+      "description": " [pl]"
+    },
+    "224": {
+      "title": "Open World RPG [pl]",
+      "description": " [pl]"
+    },
+    "243": {
+      "title": "4X Strategy [pl]",
+      "description": " [pl]"
+    },
+    "232": {
+      "title": "Vehicle Simulation [pl]",
+      "description": " [pl]"
+    },
+    "270": {
+      "title": "Traditional Fighting [pl]",
+      "description": " [pl]"
+    },
+    "223": {
+      "title": "MMORPG [pl]",
+      "description": " [pl]"
+    },
+    "291": {
+      "title": "Rhythm Game [pl]",
+      "description": " [pl]"
+    },
+    "251": {
+      "title": "Physics Puzzle [pl]",
+      "description": " [pl]"
+    },
+    "200": {
+      "title": "Platformer [pl]",
+      "description": " [pl]"
+    },
+    "222": {
+      "title": "Tactical RPG [pl]",
+      "description": " [pl]"
+    },
+    "261": {
+      "title": "Extreme Sports [pl]",
+      "description": " [pl]"
+    },
+    "203": {
+      "title": "Third Person Shooter [pl]",
+      "description": " [pl]"
+    },
+    "250": {
+      "title": "Classic Puzzle [pl]",
+      "description": " [pl]"
+    },
+    "206": {
+      "title": "Survival [pl]",
+      "description": " [pl]"
+    },
+    "230": {
+      "title": "Life Simulation [pl]",
+      "description": " [pl]"
+    },
+    "210": {
+      "title": "Action Adventure [pl]",
+      "description": " [pl]"
+    },
+    "290": {
+      "title": "Party Game [pl]",
+      "description": " [pl]"
+    },
+    "271": {
+      "title": "Platform Fighting [pl]",
+      "description": " [pl]"
+    },
+    "280": {
+      "title": "Survival Horror [pl]",
+      "description": " [pl]"
+    },
+    "220": {
+      "title": "Action RPG [pl]",
+      "description": " [pl]"
+    },
+    "212": {
+      "title": "Point and Click [pl]",
+      "description": " [pl]"
+    },
+    "242": {
+      "title": "Tower Defense [pl]",
+      "description": " [pl]"
+    },
+    "202": {
+      "title": "First Person Shooter [pl]",
+      "description": " [pl]"
+    },
+    "205": {
+      "title": "Stealth [pl]",
+      "description": " [pl]"
+    },
+    "252": {
+      "title": "Match 3 [pl]",
+      "description": " [pl]"
+    },
+    "240": {
+      "title": "Real-Time Strategy [pl]",
+      "description": " [pl]"
+    },
+    "211": {
+      "title": "Narrative Adventure [pl]",
+      "description": " [pl]"
+    },
+    "281": {
+      "title": "Psychological Horror [pl]",
+      "description": " [pl]"
+    },
+    "241": {
+      "title": "Turn-Based Strategy [pl]",
+      "description": " [pl]"
+    },
+    "299": {
+      "title": "Other [pl]",
+      "description": " [pl]"
+    },
+    "204": {
+      "title": "Beat \u0027Em Up [pl]",
+      "description": " [pl]"
+    },
+    "201": {
+      "title": "Shooter [pl]",
+      "description": " [pl]"
+    },
+    "231": {
+      "title": "Farming Simulation [pl]",
+      "description": " [pl]"
+    },
+    "233": {
+      "title": "City Building [pl]",
+      "description": " [pl]"
+    },
+    "221": {
+      "title": "Turn-Based RPG [pl]",
+      "description": " [pl]"
+    },
+    "260": {
+      "title": "Traditional Sports [pl]",
+      "description": " [pl]"
+    }
+  },
+  "Notify_types": {
+    "1003": {
+      "title": "Process completed [pl]",
+      "description": " [pl]"
+    },
+    "1019": {
+      "title": "Chapter not found [pl]",
+      "description": " [pl]"
+    },
+    "1020": {
+      "title": "Hero saved [pl]",
+      "description": " [pl]"
+    },
+    "1032": {
+      "title": "Invalid Password [pl]",
+      "description": " [pl]"
+    },
+    "1016": {
+      "title": "Chapter saved [pl]",
+      "description": " [pl]"
+    },
+    "1036": {
+      "title": "Register failed [pl]",
+      "description": " [pl]"
+    },
+    "1026": {
+      "title": "Place updated [pl]",
+      "description": " [pl]"
+    },
+    "1007": {
+      "title": "File deleted [pl]",
+      "description": " [pl]"
+    },
+    "1038": {
+      "title": "Generation Email Successed [pl]",
+      "description": " [pl]"
+    },
+    "1037": {
+      "title": "Send Email Successed [pl]",
+      "description": " [pl]"
+    },
+    "1017": {
+      "title": "Chapter deleted [pl]",
+      "description": " [pl]"
+    },
+    "1008": {
+      "title": "File updated [pl]",
+      "description": " [pl]"
+    },
+    "1022": {
+      "title": "Hero updated [pl]",
+      "description": " [pl]"
+    },
+    "1012": {
+      "title": "Session saved [pl]",
+      "description": " [pl]"
+    },
+    "1000": {
+      "title": "Log [pl]",
+      "description": " [pl]"
+    },
+    "1018": {
+      "title": "Chapter updated [pl]",
+      "description": " [pl]"
+    },
+    "1010": {
+      "title": "File already exists [pl]",
+      "description": " [pl]"
+    },
+    "1023": {
+      "title": "Hero not found [pl]",
+      "description": " [pl]"
+    },
+    "1014": {
+      "title": "Session updated [pl]",
+      "description": " [pl]"
+    },
+    "1009": {
+      "title": "File not found [pl]",
+      "description": " [pl]"
+    },
+    "1015": {
+      "title": "Session not found [pl]",
+      "description": " [pl]"
+    },
+    "1040": {
+      "title": "Password requires non alphanumeric [pl]",
+      "description": " [pl]"
+    },
+    "1039": {
+      "title": "Password too short [pl]",
+      "description": " [pl]"
+    },
+    "1004": {
+      "title": "Process failed [pl]",
+      "description": " [pl]"
+    },
+    "1042": {
+      "title": "Password requires lowercase [pl]",
+      "description": " [pl]"
+    },
+    "1043": {
+      "title": "Password requires upercase [pl]",
+      "description": " [pl]"
+    },
+    "1013": {
+      "title": "Session deleted [pl]",
+      "description": " [pl]"
+    },
+    "1021": {
+      "title": "Hero deleted [pl]",
+      "description": " [pl]"
+    },
+    "1030": {
+      "title": "Login succeeded [pl]",
+      "description": " [pl]"
+    },
+    "1034": {
+      "title": "Two factor failed [pl]",
+      "description": " [pl]"
+    },
+    "1035": {
+      "title": "Register succeeded [pl]",
+      "description": " [pl]"
+    },
+    "1041": {
+      "title": "Password requires digit [pl]",
+      "description": " [pl]"
+    },
+    "1033": {
+      "title": "Account locked [pl]",
+      "description": " [pl]"
+    },
+    "1006": {
+      "title": "File saved [pl]",
+      "description": " [pl]"
+    },
+    "1002": {
+      "title": "Process started [pl]",
+      "description": " [pl]"
+    },
+    "1031": {
+      "title": "Login failed [pl]",
+      "description": " [pl]"
+    },
+    "1024": {
+      "title": "Place saved [pl]",
+      "description": " [pl]"
+    },
+    "1027": {
+      "title": "Place not found [pl]",
+      "description": " [pl]"
+    },
+    "1001": {
+      "title": "Internal Process Error [pl]",
+      "description": " [pl]"
+    },
+    "1011": {
+      "title": "File not saved [pl]",
+      "description": " [pl]"
+    },
+    "1005": {
+      "title": "Process Queued [pl]",
+      "description": " [pl]"
+    },
+    "1025": {
+      "title": "Place deleted [pl]",
+      "description": " [pl]"
+    }
+  },
+  "Operations": {
+    "32": {
+      "title": "Send RPG data to firebase app [pl]",
+      "description": "Job for sending RPG data to firebase app [pl]"
+    },
+    "41": {
+      "title": "Archive data [pl]",
+      "description": " [pl]"
+    },
+    "11": {
+      "title": "Import file [pl]",
+      "description": " [pl]"
+    },
+    "14": {
+      "title": "Delete file [pl]",
+      "description": " [pl]"
+    },
+    "33": {
+      "title": "Get Last RPG data [pl]",
+      "description": "Job for getting Last RPG data [pl]"
+    },
+    "13": {
+      "title": "Copy file [pl]",
+      "description": " [pl]"
+    },
+    "34": {
+      "title": "Generate story from summary [pl]",
+      "description": "Job for generating story from summary [pl]"
+    },
+    "21": {
+      "title": "Send email [pl]",
+      "description": " [pl]"
+    },
+    "35": {
+      "title": "Import PRG from file [pl]",
+      "description": "Job for importing RPG from file [pl]"
+    },
+    "31": {
+      "title": "Generate RPG session summary [pl]",
+      "description": "Job for generating RPG session summary [pl]"
+    },
+    "22": {
+      "title": "Generate from template [pl]",
+      "description": " [pl]"
+    },
+    "12": {
+      "title": "Move file [pl]",
+      "description": " [pl]"
+    },
+    "40": {
+      "title": "Execute Automaton [pl]",
+      "description": " [pl]"
+    }
+  },
+  "Skill_category": {
+    "403": {
+      "title": "Intelligence [pl]",
+      "description": " [pl]"
+    },
+    "404": {
+      "title": "Communication [pl]",
+      "description": " [pl]"
+    },
+    "401": {
+      "title": "Strength [pl]",
+      "description": " [pl]"
+    },
+    "402": {
+      "title": "Dexterity [pl]",
+      "description": " [pl]"
+    }
+  },
+  "RPG_file_types": {
+    "502": {
+      "title": "Old json (NOT SUPPORTED) [pl]",
+      "description": " [pl]"
+    },
+    "503": {
+      "title": "Firebase data [pl]",
+      "description": " [pl]"
+    },
+    "501": {
+      "title": "Json [pl]",
+      "description": " [pl]"
+    }
+  },
+  "Fluid_functions": {
+    "604": {
+      "title": "Increment [pl]",
+      "description": " [pl]"
+    },
+    "603": {
+      "title": "Random Unique [pl]",
+      "description": " [pl]"
+    },
+    "601": {
+      "title": "Random number [pl]",
+      "description": " [pl]"
+    },
+    "602": {
+      "title": "Random [pl]",
+      "description": " [pl]"
+    }
+  },
+  "Fluid_variables": {
+    "608": {
+      "title": "Receivers [pl]",
+      "description": " [pl]"
+    },
+    "605": {
+      "title": "User data [pl]",
+      "description": " [pl]"
+    },
+    "606": {
+      "title": "Sender [pl]",
+      "description": " [pl]"
+    },
+    "607": {
+      "title": "Receiver [pl]",
+      "description": " [pl]"
+    }
+  }
+}

@@ -63,7 +63,6 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({ children }) =
                             boxShadow: 24,
                             p: 4,
                             borderRadius: 2,
-                            minWidth: isMobile ? "90vw" : "500px",
                             maxHeight: '90vh',
                             overflow: 'auto',
                         }}

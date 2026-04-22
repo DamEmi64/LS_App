@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import {
     Grid,
     FormLabel,
@@ -19,17 +18,18 @@ import FilesInfo from "@/features/files/components/filesInfo";
 import YesNoWindow from "@/shared/components/YesNoWindow";
 
 import { FilterItem, FilterType, onChangeParams, Operations } from "@/shared";
-import * as dictionaries from "@/app/dictionaries.json";
+
 import { saveAs } from "file-saver";
 
 import { EditFile, File } from "@/features/files";
+import { getDictionary, useDictionaryTranslation } from "@/lib/utils";
 
 const Files: React.FC = () => {
     const api = useApiConnect();
     const modal = useModal();
-    const { t } = useTranslation();
+    const { t } = useTranslation(); 
 
-    // 📱 RESPONSIVE
+    const getDictionaryTranslation = useDictionaryTranslation();
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -43,7 +43,33 @@ const Files: React.FC = () => {
         filters: []
     });
 
-    // Convert File → EditFile
+    // ✅ FIXED types mapping
+    const types = getDictionary('File types').map((item) => ({
+        key: item.key,
+        value: item.key,
+        label: getDictionaryTranslation('File types', item.key).title
+    }));
+
+    // ✅ FIXED categories (concat bug)
+    const categories = [
+        { key: '', value: '', label: '*' },
+        ...types
+    ];
+
+    const categoryChange = (value: string) => {
+        const type = value ? categories.find((c) => c.value === value) : undefined;
+
+        const filters = type && type.key
+            ? [{ field: "fileType", value: type.key }]
+            : [];
+
+        updateData({
+            ...changeParams,
+            page: 0,
+            filters
+        });
+    };
+
     const toEditFile = (file: File): EditFile => ({
         ...file,
         gameGenre: file.additionalData?.gameGenre,
@@ -54,28 +80,7 @@ const Files: React.FC = () => {
         links: file.sources?.map(s => s.link).join("\n")
     } as EditFile);
 
-    // 📦 CATEGORY FILTER
-    const categories = [
-        { label: <span>{t("files.all")}</span>, value: "" },
-        { label: <span>{t("files.games")}</span>, value: "Games" },
-        { label: <span>{t("files.docs")}</span>, value: "Docs" }
-    ];
-
-    const categoryChange = (value: string) => {
-        const type = value ? (dictionaries as any).FileTypes[value] : undefined;
-
-        const filters = type
-            ? [{ field: "fileType", value: type }]
-            : [];
-
-        updateData({
-            ...changeParams,
-            page: 0,
-            filters
-        });
-    };
-
-    // 📡 CRUD
+    // 📡 CRUD (unchanged)
     const addFile = async () => {
         modal.showModal(<FilesEdit file={{} as EditFile} toSave={saveNew} />);
     };
@@ -159,7 +164,7 @@ const Files: React.FC = () => {
 
     const filters: FilterItem[] = [
         { field: "title", name: "files.name", type: FilterType.String },
-        { field: "location", name: "files.location", type: FilterType.String } // FIXED TYPO
+        { field: "location", name: "files.location", type: FilterType.String }
     ];
 
     const updateData = async (paramsObj: onChangeParams) => {
@@ -187,43 +192,17 @@ const Files: React.FC = () => {
     }, []);
 
     return (
-        <Grid
-            container
-            sx={{
-                width: "100%",
-                minHeight: "100vh",
-                flexDirection: "column",
-                alignItems: "center",
-                p: isMobile ? 1 : 2
-            }}
-        >
-            {/* TITLE */}
+        <Grid container sx={{ width: "100%", minHeight: "100vh", flexDirection: "column", alignItems: "center", p: isMobile ? 1 : 2 }}>
             <Grid size={12} sx={{ textAlign: "center", mb: 2 }}>
-                <FormLabel
-                    sx={{
-                        color: "white",
-                        fontSize: isMobile ? "1.8rem" : "2.5rem",
-                        fontWeight: "bold"
-                    }}
-                >
+                <FormLabel sx={{ color: "white", fontSize: isMobile ? "1.8rem" : "2.5rem", fontWeight: "bold" }}>
                     {t("files.title")}
                 </FormLabel>
             </Grid>
 
-            {/* CATEGORY */}
-            <Grid
-                size={12}
-                sx={{
-                    mb: 2,
-                    display: "flex",
-                    justifyContent: "center",
-                    overflowX: "auto"
-                }}
-            >
+            <Grid size={12} sx={{ mb: 2, display: "flex", justifyContent: "center", overflowX: "auto" }}>
                 <SwitchSelector options={categories} onChange={categoryChange} />
             </Grid>
 
-            {/* CONTENT */}
             <Grid size={12} sx={{ width: "100%", maxWidth: 1200 }}>
                 <TileContainer
                     data={data}

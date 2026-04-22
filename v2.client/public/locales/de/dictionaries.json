@@ -1,0 +1,464 @@
+{
+  "File_types": {
+    "102": {
+      "title": "Dokumente",
+      "description": ""
+    },
+    "101": {
+      "title": "Spiele",
+      "description": ""
+    },
+    "103": {
+      "title": "Lernunterlagen",
+      "description": ""
+    }
+  },
+  "File_source_type": {
+    "300": {
+      "title": "Lokal",
+      "description": ""
+    },
+    "301": {
+      "title": "FuckingFast-Webseite",
+      "description": ""
+    }
+  },
+  "Game_genres": {
+    "262": {
+      "title": "Rennen",
+      "description": ""
+    },
+    "224": {
+      "title": "Open-World-RPG",
+      "description": ""
+    },
+    "243": {
+      "title": "4X-Strategie",
+      "description": ""
+    },
+    "232": {
+      "title": "Fahrzeugsimulation",
+      "description": ""
+    },
+    "270": {
+      "title": "Traditionelles Kampfspiel",
+      "description": ""
+    },
+    "223": {
+      "title": "MMORPG",
+      "description": ""
+    },
+    "291": {
+      "title": "Rhythmusspiel",
+      "description": ""
+    },
+    "251": {
+      "title": "Physik-Puzzle",
+      "description": ""
+    },
+    "200": {
+      "title": "Plattformer",
+      "description": ""
+    },
+    "222": {
+      "title": "Taktisches RPG",
+      "description": ""
+    },
+    "261": {
+      "title": "Extremsport",
+      "description": ""
+    },
+    "203": {
+      "title": "Third-Person-Shooter",
+      "description": ""
+    },
+    "250": {
+      "title": "Klassisches Puzzle",
+      "description": ""
+    },
+    "206": {
+      "title": "Survival",
+      "description": ""
+    },
+    "230": {
+      "title": "Lebenssimulation",
+      "description": ""
+    },
+    "210": {
+      "title": "Action-Adventure",
+      "description": ""
+    },
+    "290": {
+      "title": "Partyspiel",
+      "description": ""
+    },
+    "271": {
+      "title": "Plattform-Kampfspiel",
+      "description": ""
+    },
+    "280": {
+      "title": "Survival-Horror",
+      "description": ""
+    },
+    "220": {
+      "title": "Action-RPG",
+      "description": ""
+    },
+    "212": {
+      "title": "Point-and-Click",
+      "description": ""
+    },
+    "242": {
+      "title": "Turmverteidigung",
+      "description": ""
+    },
+    "202": {
+      "title": "First-Person-Shooter",
+      "description": ""
+    },
+    "205": {
+      "title": "Stealth",
+      "description": ""
+    },
+    "252": {
+      "title": "Match-3",
+      "description": ""
+    },
+    "240": {
+      "title": "Echtzeitstrategie",
+      "description": ""
+    },
+    "211": {
+      "title": "Narratives Abenteuer",
+      "description": ""
+    },
+    "281": {
+      "title": "Psychologischer Horror",
+      "description": ""
+    },
+    "241": {
+      "title": "Rundenbasierte Strategie",
+      "description": ""
+    },
+    "299": {
+      "title": "Sonstiges",
+      "description": ""
+    },
+    "204": {
+      "title": "Beat ’em up",
+      "description": ""
+    },
+    "201": {
+      "title": "Shooter",
+      "description": ""
+    },
+    "231": {
+      "title": "Farm-Simulation",
+      "description": ""
+    },
+    "233": {
+      "title": "Städtebau",
+      "description": ""
+    },
+    "221": {
+      "title": "Rundenbasiertes RPG",
+      "description": ""
+    },
+    "260": {
+      "title": "Traditioneller Sport",
+      "description": ""
+    }
+  },
+  "Notify_types": {
+    "1003": {
+      "title": "Prozess abgeschlossen",
+      "description": ""
+    },
+    "1019": {
+      "title": "Kapitel nicht gefunden",
+      "description": ""
+    },
+    "1020": {
+      "title": "Held gespeichert",
+      "description": ""
+    },
+    "1032": {
+      "title": "Ungültiges Passwort",
+      "description": ""
+    },
+    "1016": {
+      "title": "Kapitel gespeichert",
+      "description": ""
+    },
+    "1036": {
+      "title": "Registrierung fehlgeschlagen",
+      "description": ""
+    },
+    "1026": {
+      "title": "Ort aktualisiert",
+      "description": ""
+    },
+    "1007": {
+      "title": "Datei gelöscht",
+      "description": ""
+    },
+    "1038": {
+      "title": "E-Mail-Generierung erfolgreich",
+      "description": ""
+    },
+    "1037": {
+      "title": "E-Mail erfolgreich gesendet",
+      "description": ""
+    },
+    "1017": {
+      "title": "Kapitel gelöscht",
+      "description": ""
+    },
+    "1008": {
+      "title": "Datei aktualisiert",
+      "description": ""
+    },
+    "1022": {
+      "title": "Held aktualisiert",
+      "description": ""
+    },
+    "1012": {
+      "title": "Sitzung gespeichert",
+      "description": ""
+    },
+    "1000": {
+      "title": "Protokoll",
+      "description": ""
+    },
+    "1018": {
+      "title": "Kapitel aktualisiert",
+      "description": ""
+    },
+    "1010": {
+      "title": "Datei existiert bereits",
+      "description": ""
+    },
+    "1023": {
+      "title": "Held nicht gefunden",
+      "description": ""
+    },
+    "1014": {
+      "title": "Sitzung aktualisiert",
+      "description": ""
+    },
+    "1009": {
+      "title": "Datei nicht gefunden",
+      "description": ""
+    },
+    "1015": {
+      "title": "Sitzung nicht gefunden",
+      "description": ""
+    },
+    "1040": {
+      "title": "Passwort erfordert Sonderzeichen",
+      "description": ""
+    },
+    "1039": {
+      "title": "Passwort zu kurz",
+      "description": ""
+    },
+    "1004": {
+      "title": "Prozess fehlgeschlagen",
+      "description": ""
+    },
+    "1042": {
+      "title": "Passwort erfordert Kleinbuchstaben",
+      "description": ""
+    },
+    "1043": {
+      "title": "Passwort erfordert Großbuchstaben",
+      "description": ""
+    },
+    "1013": {
+      "title": "Sitzung gelöscht",
+      "description": ""
+    },
+    "1021": {
+      "title": "Held gelöscht",
+      "description": ""
+    },
+    "1030": {
+      "title": "Anmeldung erfolgreich",
+      "description": ""
+    },
+    "1034": {
+      "title": "Zwei-Faktor-Authentifizierung fehlgeschlagen",
+      "description": ""
+    },
+    "1035": {
+      "title": "Registrierung erfolgreich",
+      "description": ""
+    },
+    "1041": {
+      "title": "Passwort erfordert Ziffer",
+      "description": ""
+    },
+    "1033": {
+      "title": "Konto gesperrt",
+      "description": ""
+    },
+    "1006": {
+      "title": "Datei gespeichert",
+      "description": ""
+    },
+    "1002": {
+      "title": "Prozess gestartet",
+      "description": ""
+    },
+    "1031": {
+      "title": "Anmeldung fehlgeschlagen",
+      "description": ""
+    },
+    "1024": {
+      "title": "Ort gespeichert",
+      "description": ""
+    },
+    "1027": {
+      "title": "Ort nicht gefunden",
+      "description": ""
+    },
+    "1001": {
+      "title": "Interner Prozessfehler",
+      "description": ""
+    },
+    "1011": {
+      "title": "Datei nicht gespeichert",
+      "description": ""
+    },
+    "1005": {
+      "title": "Prozess in Warteschlange",
+      "description": ""
+    },
+    "1025": {
+      "title": "Ort gelöscht",
+      "description": ""
+    }
+  },
+  "Operations": {
+    "32": {
+      "title": "RPG-Daten an Firebase-App senden",
+      "description": "Aufgabe zum Senden von RPG-Daten an die Firebase-App"
+    },
+    "41": {
+      "title": "Daten archivieren",
+      "description": ""
+    },
+    "11": {
+      "title": "Datei importieren",
+      "description": ""
+    },
+    "14": {
+      "title": "Datei löschen",
+      "description": ""
+    },
+    "33": {
+      "title": "Letzte RPG-Daten abrufen",
+      "description": "Aufgabe zum Abrufen der letzten RPG-Daten"
+    },
+    "13": {
+      "title": "Datei kopieren",
+      "description": ""
+    },
+    "34": {
+      "title": "Geschichte aus Zusammenfassung generieren",
+      "description": "Aufgabe zum Generieren einer Geschichte aus einer Zusammenfassung"
+    },
+    "21": {
+      "title": "E-Mail senden",
+      "description": ""
+    },
+    "35": {
+      "title": "RPG aus Datei importieren",
+      "description": "Aufgabe zum Importieren von RPG aus Datei"
+    },
+    "31": {
+      "title": "RPG-Sitzungszusammenfassung generieren",
+      "description": "Aufgabe zum Generieren einer RPG-Sitzungszusammenfassung"
+    },
+    "22": {
+      "title": "Aus Vorlage generieren",
+      "description": ""
+    },
+    "12": {
+      "title": "Datei verschieben",
+      "description": ""
+    },
+    "40": {
+      "title": "Automat ausführen",
+      "description": ""
+    }
+  },
+  "Skill_category": {
+    "403": {
+      "title": "Intelligenz",
+      "description": ""
+    },
+    "404": {
+      "title": "Kommunikation",
+      "description": ""
+    },
+    "401": {
+      "title": "Stärke",
+      "description": ""
+    },
+    "402": {
+      "title": "Geschicklichkeit",
+      "description": ""
+    }
+  },
+  "RPG_file_types": {
+    "502": {
+      "title": "Altes JSON (NICHT UNTERSTÜTZT)",
+      "description": ""
+    },
+    "503": {
+      "title": "Firebase-Daten",
+      "description": ""
+    },
+    "501": {
+      "title": "JSON",
+      "description": ""
+    }
+  },
+  "Fluid_functions": {
+    "604": {
+      "title": "Inkrementieren",
+      "description": ""
+    },
+    "603": {
+      "title": "Zufällig eindeutig",
+      "description": ""
+    },
+    "601": {
+      "title": "Zufallszahl",
+      "description": ""
+    },
+    "602": {
+      "title": "Zufall",
+      "description": ""
+    }
+  },
+  "Fluid_variables": {
+    "608": {
+      "title": "Empfänger",
+      "description": ""
+    },
+    "605": {
+      "title": "Benutzerdaten",
+      "description": ""
+    },
+    "606": {
+      "title": "Absender",
+      "description": ""
+    },
+    "607": {
+      "title": "Empfänger",
+      "description": ""
+    }
+  }
+}

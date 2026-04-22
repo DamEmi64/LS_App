@@ -10,12 +10,14 @@ import ProcessInfo from "@/features/system/components/processInfo";
 import { FormLabel, Grid } from "@mui/material";
 import { Process } from "@/features/auth";
 import { ColumnDef, ColumnType, onChangeParams, Operations, TableData } from "@/shared";
+import { useDictionaryTranslation } from '@/lib/utils';
 
 const Processes = () => {
     const { t } = useTranslation();
     const api = useApiConnect();
     const modal = useModal();
-
+    const getDictionaryTranslation = useDictionaryTranslation();
+    
     const details = (data) => {
         api.get<Process>('process_details', null, data.id)
             .then(process => {
@@ -45,7 +47,7 @@ const Processes = () => {
     };
 
     const convertProcessStatus = (id: string) => {
-        return t('dictionaries.processStatus.' + id);
+        return getDictionaryTranslation('processStatus', id).title;
     };
 
     const columns: ColumnDef[] = [
@@ -61,11 +63,11 @@ const Processes = () => {
         { field: 'to', name: 'processes.startingDateTo', type: FilterType.Date },
         {
             field: 'status', name: 'Status', type: FilterType.Enum, options: [
-                { label: 'dictionaries.processStatus.New', value: 'New' },
-                { label: 'dictionaries.processStatus.Executing', value: 'Executing' },
-                { label: 'dictionaries.processStatus.Success', value: 'Success' },
-                { label: 'dictionaries.processStatus.Failed', value: 'Failed' },
-                { label: 'dictionaries.processStatus.Paused', value: 'Paused' }
+                { label: 'processes.processStatus.New', value: 'New' },
+                { label: 'processes.processStatus.Executing', value: 'Executing' },
+                { label: 'processes.processStatus.Success', value: 'Success' },
+                { label: 'processes.processStatus.Failed', value: 'Failed' },
+                { label: 'processes.processStatus.Paused', value: 'Paused' }
             ]
         }
     ];

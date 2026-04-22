@@ -8,7 +8,7 @@ namespace System.Infrastructure.Services.Media
     public class MediaService : IMediaProvider
     {
         private readonly SystemContext _context;
-
+        private static readonly Regex Base64PrefixRegex = new Regex("^data:[a-z0-9/]*;base64,", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         public MediaService(SystemContext context)
         {
             _context = context;
@@ -52,6 +52,40 @@ namespace System.Infrastructure.Services.Media
             }
 
             return media;
+        }
+
+        public async IAsyncEnumerable<Base.Media> LoadMany(IEnumerable<Guid> ids, bool removeWebsiteExtras)
+        {
+            var query = _context.Set<Base.Media>()
+                .AsNoTracking()
+                .Where(x => ids.Contains(x.Id))
+                .AsAsyncEnumerable(); // 👈 stream instead of loading all
+
+            await foreach (var item in query)
+            {
+                string? contentStr = item.ContentStr;
+
+                if (removeWebsiteExtras && !string.IsNullOrEmpty(contentStr))
+                {
+                    var match = Base64PrefixRegex.Match(contentStr);
+
+                    if (match.Success)
+                    {
+                        // 👇 avoid Replace (full scan), just slice once
+                        contentStr = contentStr.Substring(match.Length);
+                    }
+                }
+
+                yield return new Base.Media
+                {
+                    Id = item.Id,
+                    InsDate = item.InsDate,
+                    ContentStr = contentStr,
+                    Extension = item.Extension,
+                    Content = item.Content,
+                    UpdDate = item.UpdDate
+                };
+            }
         }
 
         public async Task<Guid> Save(string content, Guid? id, string? extension = null)
