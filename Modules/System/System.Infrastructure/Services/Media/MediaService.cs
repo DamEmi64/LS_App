@@ -1,5 +1,7 @@
 ﻿using Base;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
+using Microsoft.Extensions.Caching.Memory;
 using System.Infrastructure.Db;
 using System.Text.RegularExpressions;
 
@@ -9,9 +11,12 @@ namespace System.Infrastructure.Services.Media
     {
         private readonly SystemContext _context;
         private static readonly Regex Base64PrefixRegex = new Regex("^data:[a-z0-9/]*;base64,", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-        public MediaService(SystemContext context)
+        private readonly IMemoryCache _memoryCache;
+
+        public MediaService(SystemContext context, IMemoryCache memoryCache)
         {
             _context = context;
+            _memoryCache = memoryCache;
         }
 
         public async Task Delete(Guid? id)
@@ -23,98 +28,121 @@ namespace System.Infrastructure.Services.Media
                 return;
             }
 
+            _memoryCache.Remove(media);
             _context.Media.Remove(media);
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Base.Media?> Load(Guid id, bool removeWebsiteExtras = false)
-        {
-            var media = await _context.Set<Base.Media>().AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
-
-            if (media is null)
+        public Task<Base.Media?> Load(Guid id, bool removeWebsiteExtras = false)
+            => _memoryCache.GetOrCreateAsync($"MEDIA_{id}", async(entry) =>
             {
-                return null;
-            }
+                var media = await _context.Set<Base.Media>().AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
 
-            if (removeWebsiteExtras && !string.IsNullOrEmpty(media.ContentStr))
-            {
-                var ext = Regex.Match(media.ContentStr, "data:[a-z0-9\\/]*;base64,").Value;
-
-                return new Base.Media
+                if (media is null)
                 {
-                    Id = media.Id,
-                    InsDate = DateTime.Now,
-                    ContentStr = media.ContentStr.Replace(ext, string.Empty),
-                    Extension = media.Extension,
-                    Content = media.Content,
-                    UpdDate = media.UpdDate
-                };
-            }
-
-            return media;
-        }
-
-        public async IAsyncEnumerable<Base.Media> LoadMany(IEnumerable<Guid> ids, bool removeWebsiteExtras)
-        {
-            var query = _context.Set<Base.Media>()
-                .AsNoTracking()
-                .Where(x => ids.Contains(x.Id))
-                .AsAsyncEnumerable(); // 👈 stream instead of loading all
-
-            await foreach (var item in query)
-            {
-                string? contentStr = item.ContentStr;
-
-                if (removeWebsiteExtras && !string.IsNullOrEmpty(contentStr))
-                {
-                    var match = Base64PrefixRegex.Match(contentStr);
-
-                    if (match.Success)
-                    {
-                        // 👇 avoid Replace (full scan), just slice once
-                        contentStr = contentStr.Substring(match.Length);
-                    }
+                    return null;
                 }
 
-                yield return new Base.Media
+                _memoryCache.CreateEntry(media);
+
+                if (removeWebsiteExtras && !string.IsNullOrEmpty(media.ContentStr))
                 {
-                    Id = item.Id,
-                    InsDate = item.InsDate,
-                    ContentStr = contentStr,
-                    Extension = item.Extension,
-                    Content = item.Content,
-                    UpdDate = item.UpdDate
-                };
+                    var ext = Regex.Match(media.ContentStr, "data:[a-z0-9\\/]*;base64,").Value;
+
+                    return new Base.Media
+                    {
+                        Id = media.Id,
+                        InsDate = DateTime.Now,
+                        ContentStr = media.ContentStr.Replace(ext, string.Empty),
+                        Extension = media.Extension,
+                        Content = media.Content,
+                        UpdDate = media.UpdDate
+                    };
+                }
+
+                return media;
+            });
+
+        public async IAsyncEnumerable<Base.Media?> LoadMany(IEnumerable<Guid> ids, bool removeWebsiteExtras)
+        {
+            foreach (var id in ids)
+            {
+                yield return await _memoryCache.GetOrCreateAsync($"MEDIA_{id}", async (entry) =>
+                {
+                    var media = await _context.Set<Base.Media>().AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+
+                    if (media is null)
+                    {
+                        return null;
+                    }
+
+                    _memoryCache.CreateEntry(media);
+
+                    if (removeWebsiteExtras && !string.IsNullOrEmpty(media.ContentStr))
+                    {
+                        var ext = Regex.Match(media.ContentStr, "data:[a-z0-9\\/]*;base64,").Value;
+
+                        return new Base.Media
+                        {
+                            Id = media.Id,
+                            InsDate = DateTime.Now,
+                            ContentStr = media.ContentStr.Replace(ext, string.Empty),
+                            Extension = media.Extension,
+                            Content = media.Content,
+                            UpdDate = media.UpdDate
+                        };
+                    }
+
+                    return media;
+                });
             }
         }
 
         public async Task<Guid> Save(string content, Guid? id, string? extension = null)
         {
             Base.Media? media;
+            var isNew = false;
+
             if (id is null)
             {
                 media = new Base.Media { Id = Guid.NewGuid(), ContentStr = content, Extension = GetFileExtension(content) ?? "(unknown)" };
 
                 await _context.Set<Base.Media>().AddAsync(media);
                 await _context.SaveChangesAsync();
+                var entry = _memoryCache.CreateEntry($"MEDIA_{id}");
+                entry.SetValue(media);
+                return media.Id;
             }
             else
             {
-                media = await _context.Set<Base.Media>().FirstOrDefaultAsync(x => x.Id == id.Value);
-
-                if (media is null)
+                media = await _memoryCache.GetOrCreateAsync($"MEDIA_{id}", async entry =>
                 {
-                    media = new Base.Media { Id = Guid.NewGuid(), ContentStr = content, Extension = GetFileExtension(content) ?? "(unknown)" };
-                    await _context.Set<Base.Media>().AddAsync(media);
+                    var media = await _context.Set<Base.Media>().FirstOrDefaultAsync(x => x.Id == id);
+                    if (media is null)
+                    {
+                        media = new Base.Media { Id = Guid.NewGuid(), ContentStr = content, Extension = GetFileExtension(content) ?? "(unknown)" };
+                        await _context.Set<Base.Media>().AddAsync(media);
+                        await _context.SaveChangesAsync();
+                        isNew = true;
+                        return media;
+                    }
+
+                    return media;
+                });
+
+                ArgumentNullException.ThrowIfNull(media);
+
+                if (!isNew)
+                {
+                    media.ContentStr = content;
+                    media.Extension = extension ?? GetFileExtension(content) ?? "(unknown)";
+
+                    var entry = _memoryCache.CreateEntry($"MEDIA_{id}");
+                    entry.SetValue(media);
+
+                    _context.Set<Base.Media>().Update(media);
                     await _context.SaveChangesAsync();
-                    return media.Id;
                 }
-
-                media.ContentStr = content;
-                media.Extension = extension ?? GetFileExtension(content) ?? "(unknown)";
-
-                _context.Set<Base.Media>().Update(media);
-                await _context.SaveChangesAsync();
             }
 
             return media.Id;
@@ -123,30 +151,46 @@ namespace System.Infrastructure.Services.Media
         public async Task<Guid> Save(byte[] content, Guid? id, string extension = "pdf")
         {
             Base.Media? media;
+            var isNew = false;
+
             if (id is null)
             {
                 media = new Base.Media { Id = Guid.NewGuid(), Content = content, Extension = extension };
 
                 await _context.Set<Base.Media>().AddAsync(media);
                 await _context.SaveChangesAsync();
+                var entry = _memoryCache.CreateEntry($"MEDIA_{id}");
+                entry.SetValue(media);
+                return media.Id;
             }
             else
             {
-                media = await _context.Set<Base.Media>().FirstOrDefaultAsync(x => x.Id == id.Value);
-
-                if (media is null)
+                media = await _memoryCache.GetOrCreateAsync($"MEDIA_{id}", async entry =>
                 {
-                    media = new Base.Media { Id = Guid.NewGuid(), Content = content, Extension = extension };
-                    await _context.Set<Base.Media>().AddAsync(media);
+                    var media = await _context.Set<Base.Media>().FirstOrDefaultAsync(x => x.Id == id);
+                    if (media is null)
+                    {
+                        media = new Base.Media { Id = Guid.NewGuid(), Content = content, Extension = extension };
+                        await _context.Set<Base.Media>().AddAsync(media);
+                        await _context.SaveChangesAsync();
+                        isNew = true;
+                        return media;
+                    }
+
+                    return media;
+                });
+
+                if (!isNew && media is not null)
+                {
+                    media.Content = content;
+                    media.Extension = extension;
+
+                    var entry = _memoryCache.CreateEntry($"MEDIA_{id}");
+                    entry.SetValue(media);
+
+                    _context.Set<Base.Media>().Update(media);
                     await _context.SaveChangesAsync();
-                    return media.Id;
                 }
-
-                media.Content = content;
-                media.Extension = extension;
-
-                _context.Set<Base.Media>().Update(media);
-                await _context.SaveChangesAsync();
             }
 
             return media.Id;

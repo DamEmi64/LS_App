@@ -42,6 +42,14 @@ namespace System.Infrastructure
                 .AddScoped<IMediaProvider, MediaService>();
         }
 
+        public static IServiceCollection AddCache(this IServiceCollection serviceDescriptors, IConfiguration configuration)
+        {
+            return serviceDescriptors.AddMemoryCache(setup =>
+            {
+                setup.SizeLimit = 1024 * 1024 - 10; // 10 MB
+            });
+        }
+
         public static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddIdentity<User, IdentityRole>(options =>
