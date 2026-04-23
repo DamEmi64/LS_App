@@ -1,5 +1,4 @@
 ﻿using Base;
-using Base.Entities;
 using System.Collections.ObjectModel;
 
 namespace System.Infrastructure.Services.ConnectorResolver

@@ -1,6 +1,5 @@
 ﻿using Automation.Application;
 using Base;
-using Base.Entities;
 using Communication.Application;
 using Files.Application;
 using RPG.Application;

@@ -1,4 +1,4 @@
-﻿using Base.Entities;
+﻿using Base;
 using Microsoft.EntityFrameworkCore;
 
 public class DictionaryContext : DbContext

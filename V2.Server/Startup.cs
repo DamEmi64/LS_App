@@ -1,5 +1,4 @@
 ﻿using Base;
-using Base.Entities;
 using Connector;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;

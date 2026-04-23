@@ -1,4 +1,4 @@
-﻿namespace Base.Entities
+﻿namespace Base
 {
     /// <summary>
     ///     Dictionaries saved in database

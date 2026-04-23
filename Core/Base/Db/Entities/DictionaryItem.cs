@@ -1,4 +1,4 @@
-﻿namespace Base.Entities
+﻿namespace Base
 {
     /// <summary>
     ///     Dictionary record item

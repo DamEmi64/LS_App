@@ -1,4 +1,4 @@
-﻿using Base.Entities;
+﻿using Base;
 using System.Text.Json;
 
 public static class DictionaryJsonGenerator

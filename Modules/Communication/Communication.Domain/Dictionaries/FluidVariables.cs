@@ -1,4 +1,4 @@
-﻿using Base.Entities;
+﻿using Base;
 
 namespace Communication.Domain.Dictionaries
 {

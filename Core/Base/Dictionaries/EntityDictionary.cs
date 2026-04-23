@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Base.Entities
+namespace Base
 {
 
     /// <summary>
