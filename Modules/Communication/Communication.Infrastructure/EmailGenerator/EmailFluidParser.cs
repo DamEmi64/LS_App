@@ -24,19 +24,19 @@ namespace Communication.Infrastructure.EmailGenerator
             _randomUniqueStrategy = new RandomUniqueStrategy();
         }
 
-        [FluidVariable("user")]
+        [FluidVariable("605")]
         public UserData? UserData { get; set; }
 
-        [FluidVariable("sender")]
+        [FluidVariable("606")]
         public UserData? Sender { get; set;  }
 
-        [FluidVariable("receiver")]
+        [FluidVariable("607")]
         public UserData? Receiver { get; set; }
 
-        [FluidVariable("recipients")]
+        [FluidVariable("608")]
         public List<UserData> Receivers { get; set; } = new List<UserData>();
 
-        [FluidVariable]
+        [FluidVariable("609")]
         public int SEQ { get; set; } = 0;
 
         [FluidFunction(title:"601")]

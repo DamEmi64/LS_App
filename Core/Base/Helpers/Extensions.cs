@@ -1,4 +1,4 @@
-﻿using Api.Setup;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
@@ -10,7 +10,7 @@ namespace Base
     /// Provides a set of helper and extension methods for configuring services,
     /// working with collections, and handling common application utilities.
     /// </summary>
-    public static class DefaultHelpers
+    public static class Extensions
     {
         private const string UsePostgresql = "usePostgresql";
 
@@ -20,7 +20,7 @@ namespace Base
         /// <typeparam name="T">The type of the object.</typeparam>
         /// <param name="o">The object to wrap.</param>
         /// <returns>A list containing the provided object.</returns>
-        public static List<T> ToList<T>(this T o)
+        public static List<T> ToSingleItemList<T>(this T o)
             => new()
             { o };
 
@@ -90,5 +90,94 @@ namespace Base
                 "html" or "htm" => "application/html",
                 _ => "application/octet-stream",
             };
+
+        /// <summary>
+        ///     Provides basic job operation
+        /// </summary>
+        /// <param name="id">Operation id</param>
+        /// <param name="name">Operation title</param>
+        /// <param name="queue">Operation queue</param>
+        /// <returns>Job operation</returns>
+        public static Operation Operation(int id, string name, string queue) => new() { Id = id, Name = name, Queue = queue };
+
+
+        /// <summary>
+        ///     Generates module information
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="module"></param>
+        /// <returns></returns>
+        public static ModuleInfo Info<T>(this T module) where T : IModule => new() { Name = module.Name, Version = module.Version, Module = module };
+
+        /// <summary>
+        /// Validates required modules against the connector.
+        /// Ensures that each module exists and meets the minimum version requirement.
+        /// </summary>
+        /// <param name="applicationBuilder">The application builder.</param>
+        /// <param name="modules">The modules to validate and use.</param>
+        /// <returns>The application builder for chaining.</returns>
+        /// <exception cref="NeccessaryModuleNeededException">
+        /// Thrown when a required module is missing
+        /// </exception>
+        /// <exception cref="ModuleVersionInvalidException">
+        /// Thrown when a required module version is too low
+        /// </exception>
+        public static IApplicationBuilder UseModules(
+            this IApplicationBuilder applicationBuilder,
+            params ModuleInfo[] modules)
+        {
+            if (applicationBuilder == null)
+                throw new ArgumentNullException(nameof(applicationBuilder));
+
+            var connector = applicationBuilder.ApplicationServices
+                .GetRequiredService<IConnectorResolver>();
+
+            foreach (var module in modules)
+            {
+                var existing = connector.Modules
+                    .FirstOrDefault(x => x.Name == module.Name);
+
+                if (existing is null)
+                {
+                    throw new ModuleInfoEx.NeccessaryModuleNeededException(module.Name);
+                }
+
+                if (module.Version is not null)
+                {
+                    if (!Matches(existing.Version, module.Version))
+                    {
+                        throw new ModuleInfoEx.ModuleVersionInvalidException(module.Name, existing.Version, module.Version);
+                    }
+                }
+            }
+
+            return applicationBuilder;
+        }
+
+        private static bool Matches(string actual, string required)
+        {
+            if (string.IsNullOrWhiteSpace(actual) || string.IsNullOrWhiteSpace(required))
+                return false;
+
+            var actualParts = actual.Split('.');
+            var requiredParts = required.Split('.');
+
+            for (int i = 0; i < requiredParts.Length; i++)
+            {
+                if (i >= actualParts.Length)
+                    return false;
+
+                var req = requiredParts[i];
+                var act = actualParts[i];
+
+                if (req.Equals("x", StringComparison.OrdinalIgnoreCase))
+                    continue;
+
+                if (!req.Equals(act, StringComparison.OrdinalIgnoreCase))
+                    return false;
+            }
+
+            return true;
+        }
     }
 }

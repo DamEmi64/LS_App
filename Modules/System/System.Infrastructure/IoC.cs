@@ -46,7 +46,7 @@ namespace System.Infrastructure
         {
             return serviceDescriptors.AddMemoryCache(setup =>
             {
-                setup.SizeLimit = 1024 * 1024 - 10; // 10 MB
+                setup.SizeLimit = 1024 * 1024 * 10; // 10 MB
             });
         }
 
@@ -63,7 +63,7 @@ namespace System.Infrastructure
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.None;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
             services.Configure<IdentityOptions>(options =>

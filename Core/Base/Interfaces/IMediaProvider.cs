@@ -46,12 +46,4 @@
         /// <returns></returns>
         Task Delete(Guid? id);
     }
-
-    public class Media : Entity
-    {
-        public string? ContentStr { get; set; } = string.Empty;
-
-        public byte[]? Content { get; set; }
-        public string Extension { get; set; } = "(unknown)";
-    }
 }

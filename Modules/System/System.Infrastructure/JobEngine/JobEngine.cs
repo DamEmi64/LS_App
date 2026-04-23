@@ -16,13 +16,13 @@ namespace System.Infrastructure.JobEngine
         private readonly UserManager<User> _userStore;
         private readonly IBackgroundJobClient _backgroundJobClient;
         private readonly IJobExecutor _jobExecutor;
-        private readonly IConnector _connector;
+        private readonly IConnectorResolver _connector;
 
         public JobEngine(UserManager<User> userStore,
             IProcessRepository processRepository,
             IBackgroundJobClient backgroundJobClient,
             IJobExecutor jobExecutor,
-            IConnector connector)
+            IConnectorResolver connector)
         {
             _userStore = userStore;
             _processRepository = processRepository;

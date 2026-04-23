@@ -6,10 +6,10 @@ namespace System.Application.Controllers
     [Route("[controller]")]
     public class HomeController : BaseController
     {
-        private readonly IConnector _connector;
+        private readonly IConnectorResolver _connector;
         private readonly IMediaProvider _mediaProvider;
 
-        public HomeController(IControllerService controllerService, IConnector connector, IMediaProvider mediaProvider) : base(controllerService)
+        public HomeController(IControllerService controllerService, IConnectorResolver connector, IMediaProvider mediaProvider) : base(controllerService)
         {
             _connector = connector;
             _mediaProvider = mediaProvider;

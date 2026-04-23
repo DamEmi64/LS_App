@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.SqlServer.Migrations.Internal;
 using Microsoft.EntityFrameworkCore.Storage;
 using System.Text;
 
-namespace Api.Setup
+namespace Base
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "EF1001:Internal EF Core API usage.", Justification = "<Pending>")]
     public class MigrationHistoryRepository : SqlServerHistoryRepository

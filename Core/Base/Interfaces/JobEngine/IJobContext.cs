@@ -47,13 +47,4 @@
         /// <returns></returns>
         T Resolve<T>(object? key = null);
     }
-
-    public class ServiceNotRegistredException<T> : Exception
-    {
-        public ServiceNotRegistredException()
-            :base($"Service {typeof(T).Name} is not registred.")
-        {
-            
-        }
-    }
 }

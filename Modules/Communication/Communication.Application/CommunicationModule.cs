@@ -15,8 +15,8 @@ namespace Communication.Application
     {
         public IEnumerable<Operation> Operations => new List<Operation>
         {
-            OperationExtensions.Operation(Domain.Dictionaries.Operations.SendEmail,"Send email","email"),
-            OperationExtensions.Operation(Domain.Dictionaries.Operations.GenerateFromTemplate,"Generate email from template","email")
+            Extensions.Operation(Domain.Dictionaries.Operations.SendEmail,"Send email","email"),
+            Extensions.Operation(Domain.Dictionaries.Operations.GenerateFromTemplate,"Generate email from template","email")
         };
 
         public string Name => "Communication";

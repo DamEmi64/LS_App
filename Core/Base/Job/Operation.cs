@@ -20,11 +20,4 @@
         /// </summary>
         public required string Queue { get; set; }
     }
-
-    public static class OperationExtensions
-    {
-        public static Operation Operation(int id, string name, string queue)
-            => new()
-            { Id = id, Name = name, Queue = queue };
-    }
 }

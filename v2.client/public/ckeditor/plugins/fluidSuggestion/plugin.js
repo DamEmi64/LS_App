@@ -122,22 +122,47 @@ CKEDITOR.plugins.add('fluidSuggestion', {
             if (!items || !items.length) return;
 
             const header = new CKEDITOR.dom.element('div');
-            header.setStyle('font-weight', 'bold');
-            header.setStyle('margin', '6px 0 2px');
+            header.setStyle('font-weight', '600');
+            header.setStyle('margin', '8px 0 4px');
+            header.setStyle('font-size', '12px');
+            header.setStyle('opacity', '0.7');
             header.setText(label);
 
             panel.append(header);
 
             items.forEach(item => {
                 const el = new CKEDITOR.dom.element('div');
+
                 el.setStyles({
-                    padding: '4px',
-                    cursor: 'pointer'
+                    padding: '8px',
+                    cursor: 'pointer',
+                    borderRadius: '6px',
+                    marginBottom: '2px'
                 });
 
-                el.setHtml(
-                    `<strong>${item.title}</strong><br/><small>${item.description || ''}</small>`
-                );
+                el.setHtml(`
+            <div style="font-size:14px; font-weight:600;">
+                ${item.title}
+            </div>
+            <div style="font-size:12px; opacity:0.8;">
+                ${item.invoker}
+            </div>
+            ${item.description
+                        ? `<div style="font-size:11px; color:#888; margin-top:2px;">
+                        ${item.description}
+                      </div>`
+                        : ''
+                    }
+        `);
+
+                // hover effect
+                el.on('mouseover', function () {
+                    el.setStyle('background', '#f5f5f5');
+                });
+
+                el.on('mouseout', function () {
+                    el.removeStyle('background');
+                });
 
                 el.on('click', function () {
                     insertSuggestion(item);
@@ -152,27 +177,156 @@ CKEDITOR.plugins.add('fluidSuggestion', {
 
             const labels = getLabels();
 
-            const hasAny =
-                (data.functions && data.functions.length) ||
-                (data.variables && data.variables.length);
+            flatItems = [];
+            activeIndex = -1;
 
-            if (!hasAny) {
+            const pushGroup = (label, items) => {
+                if (!items || !items.length) return;
+
+                const header = new CKEDITOR.dom.element('div');
+                header.setStyle('font-weight', '600');
+                header.setStyle('margin', '8px 0 4px');
+                header.setStyle('font-size', '12px');
+                header.setStyle('opacity', '0.7');
+                header.setText(label);
+
+                panel.append(header);
+
+                items.forEach(item => {
+                    const index = flatItems.length;
+                    flatItems.push(item);
+
+                    const el = createItemElement(item, index);
+                    panel.append(el);
+                });
+            };
+
+            pushGroup(labels.functions, data.functions);
+            pushGroup(labels.variables, data.variables);
+
+            if (!flatItems.length) {
                 const empty = new CKEDITOR.dom.element('div');
-                empty.setStyle('padding', '4px');
+                empty.setStyle('padding', '6px');
                 empty.setText(labels.empty);
                 panel.append(empty);
-            } else {
-                renderGroup(labels.functions, data.functions);
-                renderGroup(labels.variables, data.variables);
             }
 
             panel.show();
             positionPanel();
         }
 
-        // ------------------------
-        // Insert logic
-        // ------------------------
+        let itemElements = [];
+
+        function createItemElement(item, index) {
+            const el = new CKEDITOR.dom.element('div');
+
+            el.setAttribute('data-index', index);
+
+            el.setStyles({
+                padding: '8px',
+                cursor: 'pointer',
+                borderRadius: '6px'
+            });
+
+            el.setHtml(`
+                <div style="font-size:14px; font-weight:600;">
+                    ${item.title}
+                </div>
+                <div style="font-size:12px; opacity:0.8; font-family:monospace;">
+                    ${item.invoker}
+                </div>
+                ${item.description
+                    ? `<div style="font-size:11px; color:#888; margin-top:2px;">
+                            ${item.description}
+                        </div>`
+                    : ''
+                }
+            `);
+
+            el.on('mouseover', () => setActive(index));
+            el.on('click', () => insertSuggestion(item));
+
+            itemElements[index] = el;
+
+            return el;
+        }
+
+
+        function setActive(index) {
+            if (index < 0 || index >= itemElements.length) return;
+
+            // remove previous
+            if (activeIndex >= 0 && itemElements[activeIndex]) {
+                itemElements[activeIndex].removeStyle('background');
+            }
+
+            activeIndex = index;
+
+            const el = itemElements[activeIndex];
+
+            el.setStyle('background', '#eef3ff');
+
+            // auto scroll into view
+            const elNode = el.$;
+            const panelNode = panel.$;
+
+            if (elNode.offsetTop < panelNode.scrollTop) {
+                panelNode.scrollTop = elNode.offsetTop;
+            } else if (elNode.offsetTop + elNode.offsetHeight > panelNode.scrollTop + panelNode.clientHeight) {
+                panelNode.scrollTop = elNode.offsetTop - panelNode.clientHeight + elNode.offsetHeight;
+            }
+        }
+
+        editor.on('contentDom', function () {
+            const doc = editor.document;
+
+            if (!doc) return;
+
+            // ✅ keydown (navigation)
+            doc.on('keydown', function (evt) {
+                const key = evt.data.getKey();
+
+                if (!isActive) return;
+
+                if (key === 40) { // ↓
+                    evt.data.preventDefault();
+                    setActive((activeIndex + 1) % flatItems.length);
+                    return;
+                }
+
+                if (key === 38) { // ↑
+                    evt.data.preventDefault();
+                    setActive((activeIndex - 1 + flatItems.length) % flatItems.length);
+                    return;
+                }
+
+                if (key === 13) { // ENTER
+                    if (activeIndex >= 0) {
+                        evt.data.preventDefault();
+                        insertSuggestion(flatItems[activeIndex]);
+                    }
+                    return;
+                }
+
+                if (key === 27) { // ESC
+                    cleanup();
+                }
+            });
+
+            // ✅ keyup (typing)
+            doc.on('keyup', function (evt) {
+                const key = evt.data.getKey();
+
+                if ([38, 40, 13].includes(key)) return;
+
+                updateQuery();
+            });
+
+            // ✅ click
+            doc.on('click', function () {
+                cleanup();
+            });
+        });
 
         function insertSuggestion(item) {
             if (!markerRange) return;

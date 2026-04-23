@@ -1,6 +1,5 @@
 ﻿using Base;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Caching.Memory;
 using System.Infrastructure.Db;
 using System.Text.RegularExpressions;
@@ -10,8 +9,15 @@ namespace System.Infrastructure.Services.Media
     public class MediaService : IMediaProvider
     {
         private readonly SystemContext _context;
-        private static readonly Regex Base64PrefixRegex = new Regex("^data:[a-z0-9/]*;base64,", RegexOptions.Compiled | RegexOptions.IgnoreCase);
         private readonly IMemoryCache _memoryCache;
+
+        private static readonly Regex Base64PrefixRegex =
+            new("^data:[a-z0-9/]*;base64,", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+        private static readonly Regex MimeRegex =
+            new("^data:([a-z0-9/\\-.+]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+        private static readonly TimeSpan CacheDuration = TimeSpan.FromMinutes(10);
 
         public MediaService(SystemContext context, IMemoryCache memoryCache)
         {
@@ -21,44 +27,42 @@ namespace System.Infrastructure.Services.Media
 
         public async Task Delete(Guid? id)
         {
+            if (id is null) return;
+
             var media = await _context.Set<Base.Media>().FirstOrDefaultAsync(x => x.Id == id);
+            if (media is null) return;
 
-            if (media is null)
-            {
-                return;
-            }
-
-            _memoryCache.Remove(media);
             _context.Media.Remove(media);
             await _context.SaveChangesAsync();
+
+            _memoryCache.Remove(CacheKey(id.Value));
         }
 
         public Task<Base.Media?> Load(Guid id, bool removeWebsiteExtras = false)
-            => _memoryCache.GetOrCreateAsync($"MEDIA_{id}", async(entry) =>
+            => _memoryCache.GetOrCreateAsync(CacheKey(id), async entry =>
             {
-                var media = await _context.Set<Base.Media>().AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+                var media = await _context.Set<Base.Media>()
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(x => x.Id == id);
 
-                if (media is null)
-                {
-                    return null;
-                }
 
-                _memoryCache.CreateEntry(media);
+                if (media is null) return null;
 
                 if (removeWebsiteExtras && !string.IsNullOrEmpty(media.ContentStr))
                 {
-                    var ext = Regex.Match(media.ContentStr, "data:[a-z0-9\\/]*;base64,").Value;
-
                     return new Base.Media
                     {
                         Id = media.Id,
-                        InsDate = DateTime.Now,
-                        ContentStr = media.ContentStr.Replace(ext, string.Empty),
+                        InsDate = media.InsDate,
+                        UpdDate = media.UpdDate,
                         Extension = media.Extension,
                         Content = media.Content,
-                        UpdDate = media.UpdDate
+                        ContentStr = Base64PrefixRegex.Replace(media.ContentStr, "")
                     };
                 }
+
+                entry.AbsoluteExpirationRelativeToNow = CacheDuration;
+                entry.SetSize(GetSize(media));
 
                 return media;
             });
@@ -67,31 +71,29 @@ namespace System.Infrastructure.Services.Media
         {
             foreach (var id in ids)
             {
-                yield return await _memoryCache.GetOrCreateAsync($"MEDIA_{id}", async (entry) =>
+                yield return await _memoryCache.GetOrCreateAsync(CacheKey(id), async entry =>
                 {
-                    var media = await _context.Set<Base.Media>().AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+                    var media = await _context.Set<Base.Media>()
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync(x => x.Id == id);
 
-                    if (media is null)
-                    {
-                        return null;
-                    }
-
-                    _memoryCache.CreateEntry(media);
+                    if (media is null) return null;
 
                     if (removeWebsiteExtras && !string.IsNullOrEmpty(media.ContentStr))
                     {
-                        var ext = Regex.Match(media.ContentStr, "data:[a-z0-9\\/]*;base64,").Value;
-
                         return new Base.Media
                         {
                             Id = media.Id,
-                            InsDate = DateTime.Now,
-                            ContentStr = media.ContentStr.Replace(ext, string.Empty),
+                            InsDate = media.InsDate,
+                            UpdDate = media.UpdDate,
                             Extension = media.Extension,
                             Content = media.Content,
-                            UpdDate = media.UpdDate
+                            ContentStr = Base64PrefixRegex.Replace(media.ContentStr, "")
                         };
                     }
+
+                    entry.AbsoluteExpirationRelativeToNow = CacheDuration;
+                    entry.SetSize(GetSize(media));
 
                     return media;
                 });
@@ -100,98 +102,81 @@ namespace System.Infrastructure.Services.Media
 
         public async Task<Guid> Save(string content, Guid? id, string? extension = null)
         {
-            Base.Media? media;
-            var isNew = false;
+            var ext = extension ?? GetFileExtension(content) ?? "(unknown)";
+            Base.Media media;
 
             if (id is null)
             {
-                media = new Base.Media { Id = Guid.NewGuid(), ContentStr = content, Extension = GetFileExtension(content) ?? "(unknown)" };
+                media = new Base.Media
+                {
+                    Id = Guid.NewGuid(),
+                    ContentStr = content,
+                    Extension = ext
+                };
 
                 await _context.Set<Base.Media>().AddAsync(media);
-                await _context.SaveChangesAsync();
-                var entry = _memoryCache.CreateEntry($"MEDIA_{id}");
-                entry.SetValue(media);
-                return media.Id;
             }
             else
             {
-                media = await _memoryCache.GetOrCreateAsync($"MEDIA_{id}", async entry =>
-                {
-                    var media = await _context.Set<Base.Media>().FirstOrDefaultAsync(x => x.Id == id);
-                    if (media is null)
-                    {
-                        media = new Base.Media { Id = Guid.NewGuid(), ContentStr = content, Extension = GetFileExtension(content) ?? "(unknown)" };
-                        await _context.Set<Base.Media>().AddAsync(media);
-                        await _context.SaveChangesAsync();
-                        isNew = true;
-                        return media;
-                    }
+                media = await _context.Set<Base.Media>().FirstOrDefaultAsync(x => x.Id == id)
+                         ?? new Base.Media { Id = id.Value };
 
-                    return media;
-                });
+                media.ContentStr = content;
+                media.Extension = ext;
 
-                ArgumentNullException.ThrowIfNull(media);
-
-                if (!isNew)
-                {
-                    media.ContentStr = content;
-                    media.Extension = extension ?? GetFileExtension(content) ?? "(unknown)";
-
-                    var entry = _memoryCache.CreateEntry($"MEDIA_{id}");
-                    entry.SetValue(media);
-
-                    _context.Set<Base.Media>().Update(media);
-                    await _context.SaveChangesAsync();
-                }
+                _context.Set<Base.Media>().Update(media);
             }
+
+            await _context.SaveChangesAsync();
+
+            _memoryCache.Set(
+                            CacheKey(media.Id),
+                            media,
+                            new MemoryCacheEntryOptions
+                            {
+                                AbsoluteExpirationRelativeToNow = CacheDuration,
+                                Size = GetSize(media)
+                            });
 
             return media.Id;
         }
 
         public async Task<Guid> Save(byte[] content, Guid? id, string extension = "pdf")
         {
-            Base.Media? media;
-            var isNew = false;
+            Base.Media media;
 
             if (id is null)
             {
-                media = new Base.Media { Id = Guid.NewGuid(), Content = content, Extension = extension };
+                media = new Base.Media
+                {
+                    Id = Guid.NewGuid(),
+                    Content = content,
+                    Extension = extension
+                };
 
                 await _context.Set<Base.Media>().AddAsync(media);
-                await _context.SaveChangesAsync();
-                var entry = _memoryCache.CreateEntry($"MEDIA_{id}");
-                entry.SetValue(media);
-                return media.Id;
             }
             else
             {
-                media = await _memoryCache.GetOrCreateAsync($"MEDIA_{id}", async entry =>
-                {
-                    var media = await _context.Set<Base.Media>().FirstOrDefaultAsync(x => x.Id == id);
-                    if (media is null)
-                    {
-                        media = new Base.Media { Id = Guid.NewGuid(), Content = content, Extension = extension };
-                        await _context.Set<Base.Media>().AddAsync(media);
-                        await _context.SaveChangesAsync();
-                        isNew = true;
-                        return media;
-                    }
+                media = await _context.Set<Base.Media>().FirstOrDefaultAsync(x => x.Id == id)
+                         ?? new Base.Media { Id = id.Value };
 
-                    return media;
-                });
+                media.Content = content;
+                media.Extension = extension;
 
-                if (!isNew && media is not null)
-                {
-                    media.Content = content;
-                    media.Extension = extension;
-
-                    var entry = _memoryCache.CreateEntry($"MEDIA_{id}");
-                    entry.SetValue(media);
-
-                    _context.Set<Base.Media>().Update(media);
-                    await _context.SaveChangesAsync();
-                }
+                _context.Set<Base.Media>().Update(media);
             }
+
+            await _context.SaveChangesAsync();
+
+            _memoryCache.Set(
+                            CacheKey(media.Id),
+                            media,
+                            new MemoryCacheEntryOptions
+                            {
+                                AbsoluteExpirationRelativeToNow = CacheDuration,
+                                Size = GetSize(media)
+                            });
 
             return media.Id;
         }
@@ -200,52 +185,40 @@ namespace System.Infrastructure.Services.Media
         {
             try
             {
-                var ext = Regex.Match(fileData, "data:[a-z0-9\\/]*").Value;
-                ext = ext?.Replace("data:", string.Empty);
+                var match = MimeRegex.Match(fileData);
+                if (!match.Success) return null;
 
-                if (ext is not null)
-                    return ext switch
-                    {
-                        "application/vnd.openxmlformats-officedocument.wordprocessingml.document" => "doc",
-                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" => "xlsx",
-                        "image/bmp" => "bmp",
-                        "image/gif" => "gif",
-                        "image/jpeg" => "jpg",
-                        "image/png" => "png",
-                        "application/pdf" => "pdf",
-                        "application/html" => "html",
-                        "text/plain" => "txt",
-                        _ => "(unknown)"
-                    };
-
-                var bytes = Convert.FromBase64String(fileData);
-
-                // PDF: %PDF
-                if (fileData[0] == 0x25 && fileData[1] == 0x50 && fileData[2] == 0x44 && fileData[3] == 0x46)
-                    return "pdf";
-
-                // PNG: 89 50 4E 47
-                if (fileData[0] == 0x89 && fileData[1] == 0x50 && fileData[2] == 0x4E && fileData[3] == 0x47)
-                    return "png";
-
-                // JPG: FF D8 FF
-                if (fileData[0] == 0xFF && fileData[1] == 0xD8 && fileData[2] == 0xFF)
-                    return "jpg";
-
-                // GIF: 47 49 46 38
-                if (fileData[0] == 0x47 && fileData[1] == 0x49 && fileData[2] == 0x46 && fileData[3] == 0x38)
-                    return "gif";
-
-                // DOCX/XLSX/PPTX: ZIP-based
-                if (fileData[0] == 0x50 && fileData[1] == 0x4B)
-                    return "zip"; // could be .docx/.xlsx/.pptx, need extra check inside ZIP
-
-                return null; // unknown
+                return match.Groups[1].Value switch
+                {
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document" => "docx",
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" => "xlsx",
+                    "image/bmp" => "bmp",
+                    "image/gif" => "gif",
+                    "image/jpeg" => "jpg",
+                    "image/png" => "png",
+                    "application/pdf" => "pdf",
+                    "text/html" => "html",
+                    "text/plain" => "txt",
+                    _ => "(unknown)"
+                };
             }
             catch
             {
                 return null;
             }
+        }
+
+        private static string CacheKey(Guid id) => $"MEDIA_{id}";
+
+        private static long GetSize(Base.Media media)
+        {
+            if (media.Content is not null)
+                return media.Content.Length;
+
+            if (!string.IsNullOrEmpty(media.ContentStr))
+                return (long)(media.ContentStr.Length * 1.33);
+
+            return 1; // fallback minimal size
         }
     }
 }
