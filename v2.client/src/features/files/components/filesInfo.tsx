@@ -1,11 +1,10 @@
 import React from 'react';
 import { Box, TextField, Typography, useTheme, Avatar, Grid, Button } from '@mui/material';
-import { File } from '@/models/Files';
+import { File } from '@/features/files';
 import { t } from 'i18next';
-import { getDictionaryKey } from '@/lib/utils';
-import dictionaries from '@/app/dictionaries.json'
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import { ImageProvider } from '@/shared/components/imageProvider';
+import { useDictionaryTranslation } from '@/lib/utils';
 
 type FilesInfoProps = {
     file: File;
@@ -22,6 +21,8 @@ const formatDate = (date: string | Date) => {
 };
 
 export const FilesInfo: React.FC<FilesInfoProps> = ({ file, edit, del }) => {
+
+    const getDictionaryTranslation = useDictionaryTranslation();
     const theme = useTheme();
     const textColor = theme.palette.mode === 'dark'
         ? theme.palette.text.primary
@@ -99,7 +100,7 @@ export const FilesInfo: React.FC<FilesInfoProps> = ({ file, edit, del }) => {
                             <Grid size={{ xs: 12, md: 4 }}>
                                 <TextField
                                     label={t('files.gameGenre')}
-                                    value={t(`dictionaries.gameGenres.${getDictionaryKey(file.additionalData.gameGenre, dictionaries.GameGenres)}`)}
+                                    value={getDictionaryTranslation('gameGenres', file.additionalData.gameGenre).title}
                                     fullWidth
                                     InputProps={{ readOnly: true, style: { color: textColor } }}
                                     margin="dense"
@@ -159,7 +160,7 @@ export const FilesInfo: React.FC<FilesInfoProps> = ({ file, edit, del }) => {
                             <Box key={src.id} sx={{ mb: 1 }}>
                                 <TextField
                                     label="Source Type"
-                                    value={t(`dictionaries.sourceTypes.${getDictionaryKey(src.sourceType, dictionaries.SourceTypes)}`)}
+                                    value={getDictionaryTranslation('File source type', src.sourceType).title}
                                     sx={{ mr: 2, width: 200 }}
                                     InputProps={{ readOnly: true, style: { color: textColor } }}
                                     margin="dense"

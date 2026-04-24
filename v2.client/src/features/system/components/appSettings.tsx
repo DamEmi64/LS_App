@@ -15,12 +15,12 @@ const languages = [
 ];
 
 const AppSettings: React.FC<{ api: ApiConnectContextType }> = ({ api }) => {
-    const [frontendVersion, setFrontendVersion] = useLocalStorage('frontend_version', 'v0.8');
+    const [frontendVersion, setFrontendVersion] = useState('v1.0');
 
     const { t, i18n } = useTranslation();
     const [endpoint, setEndpoint] = useLocalStorage('apiEndpoint', 'https://lsfamilia.runasp.net');
     const [language, setLanguage] = useLocalStorage('lang', i18n.language || 'en');
-    const [labelColor, setLabelColor] = useLocalStorage('labelColor', '#000')
+    const [labelColor, setLabelColor] = useLocalStorage('labelColor', '#fff')
     const { mode, setMode } = useColorScheme();
     const [darkTheme, setDarkTheme] = useState(mode === 'dark');
     const [serverData, setServerData] = useState<ServerInfoProps>({ frontendVersion: 'unknown', version: 'unknown', modules: [] });

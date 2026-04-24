@@ -8,9 +8,9 @@ namespace System.Views.Pages.Admin
     [TypeFilter(typeof(AdminPanelFilter))]
     public class RolesModel : PageModel
     {
-        private readonly IConnector _connector;
+        private readonly IConnectorResolver _connector;
 
-        public RolesModel(IConnector connector)
+        public RolesModel(IConnectorResolver connector)
         {
             _connector = connector;
         }

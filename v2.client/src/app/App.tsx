@@ -38,7 +38,7 @@ import { ErrorHandlerProvider } from "@/shared/context/errorHandler";
 import { NotificationListener } from "@/shared/components/NotificationListener";
 import { NavbarItemProps } from "@/shared";
 import PlayerViewPage from "@/features/rpg/pages/PlayerViewPage";
-import { ProgressFlow } from "@/features/rpg/components/flow/ProgressFlow";
+
 
 const queryClient = new QueryClient();
 
@@ -89,7 +89,6 @@ const App = () => (
                             <BrowserRouter>
                                 <SlideRoutes>
                                     <Route path="/" element={<Layout content={Index} image={IndexImg} title={'menu.home'} menu={menu} />} />
-                                    <Route path="/test" element={<Layout content={ProgressFlow} image={IndexImg} title={'menu.home'} menu={menu} allowAnonymous />} />
                                     <Route path="/processes" element={<Layout content={Processes} image={ProcessesImg} title={'menu.processes'} permissions={['processes']} menu={menu} />} />
                                     <Route path="/emails" element={<Layout content={Emails} image={EmailImg} title={'menu.emails'} permissions={['communication']} menu={menu} />} />
                                     <Route path="/templates" element={<Layout content={Templates} image={TemplateImg} title={'menu.templates'} permissions={['communication']} menu={menu} />} />

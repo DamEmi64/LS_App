@@ -12,15 +12,17 @@ import {
   InputLabel,
   FormHelperText,
   Checkbox,
-  FormControlLabel
+  FormControlLabel,
+  ToggleButton,
+  ToggleButtonGroup
 } from '@mui/material';
-import { EditFile } from '@/models/Files';
+import { EditFile } from '@/features/files';
 import { t } from 'i18next';
-import * as dictionaries from '@/app/dictionaries.json';
 import noImage from '@/assets/no-image.png';
 import { useForm, Controller } from 'react-hook-form';
 import { ImageProvider } from '@/shared/components/imageProvider';
 import { FilesEditProps } from '@/features/files';  
+import { getDictionary, useDictionaryTranslation } from '@/lib/utils';
 
 export const FilesEdit: React.FC<FilesEditProps> = ({ file, toSave }) => {
   const theme = useTheme();
@@ -28,6 +30,8 @@ export const FilesEdit: React.FC<FilesEditProps> = ({ file, toSave }) => {
     theme.palette.mode === 'dark'
       ? theme.palette.text.primary
       : theme.palette.text.secondary;
+
+  const getDictionaryTranslation = useDictionaryTranslation();
 
   const [image, setImage] = useState<string>(file.image || noImage);
 
@@ -47,8 +51,13 @@ export const FilesEdit: React.FC<FilesEditProps> = ({ file, toSave }) => {
 
   const fileType = watch('fileType');
   const useFileUpload = watch('useFileUpload');
-  const showGameGenre = fileType === dictionaries.FileTypes.Games;
-  const showStudyFields = fileType === dictionaries.FileTypes.Study;
+
+  const fileTypes = getDictionary('File types');
+  const gameGenres = getDictionary('Game genres');
+  const sourceTypes = getDictionary('Source types');
+
+  const showStudyFields = fileType === 102;
+  const showGameGenre = fileType === 100;
 
   const onSubmit = (data: EditFile) => {
     data.imageData = image;
@@ -168,21 +177,15 @@ export const FilesEdit: React.FC<FilesEditProps> = ({ file, toSave }) => {
             control={control}
             rules={{ required: t('validation.required') as string }}
             render={({ field }) => (
-              <FormControl fullWidth margin="dense" error={!!errors.fileType}>
-                <InputLabel>{t('files.fileType')}</InputLabel>
-                <Select {...field}>
-                  <MenuItem value={dictionaries.FileTypes.Docs}>
-                    {t('dictionaries.fileType.Docs')}
-                  </MenuItem>
-                  <MenuItem value={dictionaries.FileTypes.Games}>
-                    {t('dictionaries.fileType.Games')}
-                  </MenuItem>
-                  <MenuItem value={dictionaries.FileTypes.Study}>
-                    {t('dictionaries.fileType.Study')}
-                  </MenuItem>
-                </Select>
-                {errors.fileType && <FormHelperText>{errors.fileType.message}</FormHelperText>}
-              </FormControl>
+              <ToggleButtonGroup
+                {...field}
+              >
+                {fileTypes.map((type) => (
+                  <ToggleButton key={type.key} value={type.key} aria-label={type.title}>
+                    {getDictionaryTranslation('File types', type.key).title}
+                  </ToggleButton>
+                ))}
+              </ToggleButtonGroup>
             )}
           />
 
@@ -192,7 +195,7 @@ export const FilesEdit: React.FC<FilesEditProps> = ({ file, toSave }) => {
           </Typography>
 
           <Grid container spacing={2}>
-            {showGameGenre && (
+            { showGameGenre && (
               <Grid size={{ xs: 6}}>
                 <Controller
                   name="gameGenre"
@@ -201,9 +204,9 @@ export const FilesEdit: React.FC<FilesEditProps> = ({ file, toSave }) => {
                     <FormControl fullWidth margin="dense" error={!!errors.gameGenre}>
                       <InputLabel>{t('files.gameGenre')}</InputLabel>
                       <Select {...field}>
-                        {Object.entries(dictionaries.GameGenres).map(([key, value]) => (
-                          <MenuItem key={key} value={value}>
-                            {t('dictionaries.gameGenres.' + key)}
+                        {gameGenres.map((genre) => (
+                          <MenuItem key={genre.key} value={genre.key}>
+                            {getDictionaryTranslation('Game genres', genre.key).title}
                           </MenuItem>
                         ))}
                       </Select>
@@ -290,11 +293,11 @@ export const FilesEdit: React.FC<FilesEditProps> = ({ file, toSave }) => {
               <FormControl fullWidth margin="dense" error={!!errors.sourceType}>
                 <InputLabel>{t('files.sourceType')}</InputLabel>
                 <Select {...field}>
-                  {Object.entries(dictionaries.SourceTypes).map(([key, value]) => (
-                    <MenuItem key={key} value={value}>
-                      {t('dictionaries.sourceTypes.' + key)}
-                    </MenuItem>
-                  ))}
+                  {sourceTypes.map((type) => (
+                  <MenuItem key={type.key} value={type.key} aria-label={type.title}>
+                    {getDictionaryTranslation('File types', type.key).title}
+                  </MenuItem>
+                ))}
                 </Select>
                 {errors.sourceType && <FormHelperText>{errors.sourceType.message}</FormHelperText>}
               </FormControl>
@@ -335,3 +338,4 @@ export const FilesEdit: React.FC<FilesEditProps> = ({ file, toSave }) => {
 };
 
 export default FilesEdit;
+

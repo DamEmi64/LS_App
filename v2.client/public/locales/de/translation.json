@@ -97,7 +97,14 @@
     "noJobs": "Keine Jobs mit diesem Prozess verknüpft",
     "errors": "Fehler",
     "errorMessage": "Fehlermeldung",
-    "restart": "Prozess neu starten"
+    "restart": "Prozess neu starten",
+    "processStatus": {
+      "New": "Neu",
+      "Executing": "In Bearbeitung",
+      "Success": "Abgeschlossen",
+      "Failed": "Fehlgeschlagen",
+      "Paused": "Pausiert"
+    }
   },
   "jobs": {
     "id": "ID",
@@ -367,13 +374,7 @@
     }
   },
   "dictionaries": {
-    "processStatus": {
-      "New": "Neu",
-      "Executing": "In Bearbeitung",
-      "Success": "Abgeschlossen",
-      "Failed": "Fehlgeschlagen",
-      "Paused": "Pausiert"
-    },
+
     "Operations": {
       "11": "Dateien importieren",
       "12": "Datei verschieben",

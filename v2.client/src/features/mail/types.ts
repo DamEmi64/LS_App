@@ -14,3 +14,15 @@ export interface Template {
     subject: string;
     body: string;
 }
+
+export interface CommunicationRules {
+    variables: CommunicationRule[];
+    functions: CommunicationRule[];
+}
+
+export interface CommunicationRule {
+    id: number;
+    title: string;
+    description?: string;
+    invoker: string;
+}

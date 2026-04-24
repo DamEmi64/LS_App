@@ -1,14 +1,16 @@
-import { useTranslation } from 'react-i18next';
 import { format } from 'react-string-format';
-import { t } from 'i18next';
 
-function getNotify(messageId, args = []) {
+import i18n from "i18next";
+
+export function getNotify(messageId: number | string, args: any[] = []) {
     if (messageId === 1000) {
         return args[0];
     }
 
-    const template = t('notify.messages.' + messageId) || messageId;
+    const template =
+        i18n.t(`dictionaries:Notify_types.${messageId}.title`, {
+            defaultValue: String(messageId)
+        });
+
     return format(template, ...args);
 }
-
-export { getNotify };

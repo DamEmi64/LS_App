@@ -6,10 +6,10 @@ namespace System.Application.Controllers
     [Route("[controller]")]
     public class HomeController : BaseController
     {
-        private readonly IConnector _connector;
+        private readonly IConnectorResolver _connector;
         private readonly IMediaProvider _mediaProvider;
 
-        public HomeController(IControllerService controllerService, IConnector connector, IMediaProvider mediaProvider) : base(controllerService)
+        public HomeController(IControllerService controllerService, IConnectorResolver connector, IMediaProvider mediaProvider) : base(controllerService)
         {
             _connector = connector;
             _mediaProvider = mediaProvider;
@@ -32,7 +32,7 @@ namespace System.Application.Controllers
         {
             var media = await _mediaProvider.Load(id);
 
-            if (media is null || (media.Extension != "png" && media.Extension != "jpg" && media.Extension != "gif" && media.Extension != "bmp" && media.Extension != "jpeg"))
+            if (media is null || !media.IsImage())
             {
                 return Json(new Base.Media());
             }

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-import { Modal, Box, Button } from '@mui/material';
+import { Modal, Box, Button, useMediaQuery, useTheme } from '@mui/material';
 import { GridCloseIcon } from '@mui/x-data-grid';
 
 type ModalContextType = {
@@ -25,6 +25,8 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     const [openSub, setOpenSub] = useState(false);
     const [contentSub, setContentSub] = useState<ReactNode>(null);
 
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
     const showModal = (modalContent: ReactNode) => {
         setContent(modalContent);
@@ -61,8 +63,6 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({ children }) =
                             boxShadow: 24,
                             p: 4,
                             borderRadius: 2,
-                            minWidth: 300,
-                            maxWidth: '90vw',
                             maxHeight: '90vh',
                             overflow: 'auto',
                         }}

@@ -1,4 +1,4 @@
-﻿using Base.Entities;
+﻿using Base;
 using Microsoft.AspNetCore.Identity;
 using System.Domain.Entities;
 using System.Security.Claims;

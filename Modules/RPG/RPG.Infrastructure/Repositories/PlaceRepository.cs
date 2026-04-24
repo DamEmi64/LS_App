@@ -8,8 +8,10 @@ namespace RPG.Infrastructure.Repositories
 {
     public class PlaceRepository : EntityRepository<RPGContext, Place>, IPlaceRepository
     {
-        public PlaceRepository(RPGContext dbContext) : base(dbContext)
+        private readonly IMediaProvider _mediaProvider;
+        public PlaceRepository(RPGContext dbContext, IMediaProvider mediaProvider) : base(dbContext)
         {
+            _mediaProvider = mediaProvider;
         }
 
         public override async Task<Place?> Get(Guid id)
@@ -25,6 +27,18 @@ namespace RPG.Infrastructure.Repositories
         public IEnumerable<Place> GetWithStories()
         {
             return DbContext.Set<Place>().Include(x => x.Chapter);
+        }
+
+        public override async Task Remove(Guid id)
+        {
+            var place = await Get(id);
+
+            if (place is null)
+                return;
+
+            await _mediaProvider.Delete(place.Image);
+            DbContext.Set<Place>().Remove(place);
+            DbContext.SaveChanges();
         }
     }
 }

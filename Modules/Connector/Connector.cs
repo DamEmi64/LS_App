@@ -1,6 +1,5 @@
 ﻿using Automation.Application;
 using Base;
-using Base.Entities;
 using Communication.Application;
 using RPG.Application;
 using System.Application;
@@ -9,7 +8,7 @@ namespace Connector
 {
     public class Connector : IConnector
     {
-        public List<ModuleInfo> Modules => new()
+        public IReadOnlyCollection<ModuleInfo> Modules => new List<ModuleInfo>
         {
             new SystemModule().Info(),
             new RPGModule().Info(),
@@ -21,14 +20,7 @@ namespace Connector
 
         public IEnumerable<DictionaryItem> DictionaryItems { get; set; } = new List<DictionaryItem>();
 
-        public Operation? GetOperation(int id)
-        {
-            return Modules.SelectMany(x => x.Module.Operations).FirstOrDefault(x => x.Id == id);
-        }
-
-        public IEnumerable<DictionaryItem> GetDictionary(string name) => DictionaryItems.Where(x => x.Dictionary.Equals(name, StringComparison.OrdinalIgnoreCase));
-
-        public List<PermissionInfo> Permissions => new()
+        public IReadOnlyCollection<PermissionInfo> Permissions => new List<PermissionInfo>
         {
             PermissionInfo.Create("rpg","Read RPG sessions",true),
             PermissionInfo.Create("rpg_write","Manage RPG sessions",false),

@@ -1,5 +1,4 @@
 ﻿using Base;
-using Base.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Domain.Entities;

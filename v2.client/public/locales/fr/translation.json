@@ -97,7 +97,14 @@
     "noJobs": "Aucune tâche liée à ce processus",
     "errors": "Erreurs",
     "errorMessage": "Message d’erreur",
-    "restart": "Redémarrer le processus"
+    "restart": "Redémarrer le processus",
+    "processStatus": {
+      "New": "Nouveau",
+      "Executing": "En cours",
+      "Success": "Terminé",
+      "Failed": "Échec",
+      "Paused": "En pause"
+    }
   },
   "jobs": {
     "id": "ID",
@@ -367,13 +374,7 @@
     }
   },
   "dictionaries": {
-    "processStatus": {
-      "New": "Nouveau",
-      "Executing": "En cours",
-      "Success": "Terminé",
-      "Failed": "Échec",
-      "Paused": "En pause"
-    },
+
     "Operations": {
       "11": "Importer des fichiers",
       "12": "Déplacer un fichier",

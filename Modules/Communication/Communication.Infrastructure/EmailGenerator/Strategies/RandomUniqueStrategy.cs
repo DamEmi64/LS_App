@@ -1,13 +1,27 @@
-﻿using Fluid;
+﻿using CommunicationBase;
+using CommunicationBase.Dtos;
+using CommunicationBase.Interfaces;
+using Fluid;
 using Fluid.Values;
 
 namespace Communication.Infrastructure.EmailGenerator.Strategies
 {
-    public class RandomUniqueStrategy : IGenEmailStrategy
+    public class RandomUniqueStrategy : IFluidFunction
     {
-        private List<string> _used = new();
+        public string TitleKey => "communication.templates.strategies.randomUnique.title";
 
-        public FluidValue Handle(FunctionArguments arguments, List<string> receivers, string receiver, string sender)
+        public string? DescriptionKey => "communication.templates.strategies.randomUnique.description";
+
+        public string Invoker => "randomUnique";
+
+        public Func<FunctionArguments, FluidContext, FluidValue> Method =>
+                (args, ctx) => Handle(args,
+                            ctx.GetProperty<List<string>>("receivers"),
+                            ctx.GetProperty<string>("receiver"),
+                            ctx.GetProperty<string>("sender"),
+                            ctx.GetProperty<List<string>>("used"));
+
+        private FluidValue Handle(FunctionArguments arguments, List<string> receivers, string receiver, string sender, List<string> used)
         {
             int maxIterator = arguments.Count * 3, i = 0;
 
@@ -19,12 +33,11 @@ namespace Communication.Infrastructure.EmailGenerator.Strategies
             {
                 item = GetRandom(arguments, receivers, receiver);
 
-                alreadyUsed = _used.Contains(item);
+                alreadyUsed = used.Contains(item);
                 i++;
             }
 
-            _used.Add(item);
-
+            used.Add(item);
             return new StringValue(item);
         }
 

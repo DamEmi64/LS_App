@@ -68,6 +68,7 @@ const Templates: React.FC = () => {
             <TemplateEdit
                 template={{} as Template}
                 onSave={addData}
+                style={{ minWidth: isMobile ? "90vw" : "500px" }}  
             />
         );
     };
@@ -78,6 +79,7 @@ const Templates: React.FC = () => {
             <TemplateEdit
                 template={template}
                 onSave={editData}
+                style={{ minWidth: isMobile ? "90vw" : "500px" }}
             />
         );
     };

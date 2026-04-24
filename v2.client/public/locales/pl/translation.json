@@ -23,57 +23,7 @@
     "bottomRight": "Na dole po prawej",
     "topRight": "Na górze po prawej",
     "bottomLeft": "Na dole po lewej",
-    "topLeft": "Na górze po lewej",
-    "messages": {
-      "1000": "Log",
-      "1001": "Błąd wewnętrznego procesu {0}",
-      "1002": "Proces {0} rozpoczęty",
-      "1003": "Proces {0} zakończony",
-      "1004": "Proces {0} zakończony błędem",
-      "1005": "Proces {0} dodany do kolejki",
-
-      "1006": "Plik {0} zapisany",
-      "1007": "Plik {0} usunięty",
-      "1008": "Plik {0} zaktualizowany",
-      "1009": "Plik {0} nie znaleziony",
-      "1010": "Plik {0} już istnieje",
-      "1011": "Plik {0} nie został zapisany",
-
-      "1012": "Sesja {0} zapisana",
-      "1013": "Sesja {0} usunięta",
-      "1014": "Sesja {0} zaktualizowana",
-      "1015": "Sesja {0} nie znaleziona",
-
-      "1016": "Rozdział {0} zapisany",
-      "1017": "Rozdział {0} usunięty",
-      "1018": "Rozdział {0} zaktualizowany",
-      "1019": "Rozdział {0} nie znaleziony",
-
-      "1020": "Bohater {0} zapisany",
-      "1021": "Bohater {0} usunięty",
-      "1022": "Bohater {0} zaktualizowany",
-      "1023": "Bohater {0} nie znaleziony",
-
-      "1024": "Miejsce {0} zapisane",
-      "1025": "Miejsce {0} usunięte",
-      "1026": "Miejsce {0} zaktualizowane",
-      "1027": "Miejsce {0} nie znalezione",
-
-      "1030": "Logowanie zakończone sukcesem",
-      "1031": "Logowanie zakończone niepowodzeniem",
-      "1032": "Nieprawidłowe hasło",
-      "1033": "Konto zablokowane",
-      "1034": "Niepowodzenie uwierzytelniania dwuskładnikowego",
-      "1035": "Rejestracja zakończona sukcesem",
-      "1036": "Rejestracja zakończona niepowodzeniem",
-      "1037": "Email wysłany pomyślnie",
-      "1038": "Email wygenerowany pomyślnie",
-      "1039": "Hasło zbyt krótkie",
-      "1040": "Hasło wymaga znaku niealfanumerycznego",
-      "1041": "Hasło wymaga cyfry",
-      "1042": "Hasło wymaga małej litery",
-      "1043": "Hasło wymaga dużej litery"
-    }
+    "topLeft": "Na górze po lewej"
   },
   "user": {
     "firstName": "Imię",
@@ -97,7 +47,14 @@
     "noJobs": "Brak zadań powiązanych z procesem",
     "errors": "Błędy procesu",
     "errorMessage": "Komunikat błędu",
-    "restart": "Uruchom ponownie proces"
+    "restart": "Uruchom ponownie proces",
+    "processStatus": {
+      "New": "Nowy",
+      "Executing": "W trakcie wykonywania",
+      "Success": "Zakończony sukcesem",
+      "Failed": "Zakończony porażką",
+      "Paused": "Zatrzymany"
+    }
   },
   "jobs": {
     "id": "Id",
@@ -368,13 +325,7 @@
     }
   },
   "dictionaries": {
-    "processStatus": {
-      "New": "Nowy",
-      "Executing": "W trakcie wykonywania",
-      "Success": "Zakończony sukcesem",
-      "Failed": "Zakończony porażką",
-      "Paused": "Zatrzymany"
-    },
+    
     "Operations": {
     "11": "Importuj pliki",
     "12": "Przenieś plik",
@@ -445,7 +396,8 @@
         "sourceDir": "Katalog źródłowy",
         "descDir": "Katalog docelowy"
       },
-      "summaryDataRPG": "Sesja RPG do podsumowania"
+      "summaryDataRPG": "Sesja RPG do podsumowania",
+      "downloadLastFile": "Pobierz ostatni zapisany plik"
     },
     "add_task": "Dodaj zadanie",
     "site_title": "Automatyzacje",
@@ -465,7 +417,8 @@
     },
     "actions": {
       "archive": "Archiwizuj pliki",
-      "GenerateRPGSummary": "Wygeneruj podsumowanie rozdziału RPG"
+      "GenerateRPGSummary": "Wygeneruj podsumowanie rozdziału RPG",
+      "downloadLastFile": "Pobierz ostatni zapisany plik"
     }
   }
 }

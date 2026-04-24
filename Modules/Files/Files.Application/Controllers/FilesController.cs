@@ -63,12 +63,28 @@ namespace Files.Application.Controllers
         {
             var files = filter.Filter(_fileRepository.GetAll());
 
-            var dtos = files.Select(x => FileDto.ToDto(x)).ToList();
+            var dtos = files
+                .Select(FileDto.ToDto)
+                .ToList();
 
-            foreach (var item in dtos)
+            if (filter.IncludeImages)
             {
-                var media = await _mediaProvider.Load(item.ImageId ?? Guid.Empty);
-                item.ImageData = media?.ContentStr;
+                var imageIds = dtos
+                                .Where(x => x.ImageId != null)
+                                .Select(x => x.ImageId!.Value)
+                                .Distinct()
+                                .ToList();
+
+                var media = await _mediaProvider.LoadMany(imageIds).ToListAsync();
+
+                foreach (var item in dtos)
+                {
+                    if (item.ImageId != null)
+                    {
+                        var mediaItem = media.FirstOrDefault(m => m?.Id == item.ImageId);
+                        item.ImageData = mediaItem?.ContentStr;
+                    }
+                }
             }
 
             return Json(dtos);

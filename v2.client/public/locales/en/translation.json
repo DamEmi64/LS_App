@@ -97,7 +97,14 @@
     "noJobs": "No jobs linked to this process",
     "errors": "Errors",
     "errorMessage": "Error message",
-    "restart": "Restart process"
+    "restart": "Restart process",
+    "processStatus": {
+      "New": "New",
+      "Executing": "In progress",
+      "Success": "Completed",
+      "Failed": "Failed",
+      "Paused": "Paused"
+    }
   },
   "jobs": {
     "id": "ID",
@@ -367,13 +374,7 @@
     }
   },
   "dictionaries": {
-    "processStatus": {
-      "New": "New",
-      "Executing": "In progress",
-      "Success": "Completed",
-      "Failed": "Failed",
-      "Paused": "Paused"
-    },
+ 
     "Operations": {
       "11": "Import files",
       "12": "Move file",
