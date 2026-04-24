@@ -17,23 +17,10 @@ namespace Translations
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly DictionaryContext _context;
-        private const string ConnString = @"Server=(localdb)\MSSQLLocalDB;Database=AppContext-dev;Trusted_Connection=True;MultipleActiveResultSets=true";
-
         public MainWindow()
         {
             InitializeComponent();
-
-            var options = new DbContextOptionsBuilder<DictionaryContext>()
-                .UseSqlServer(ConnString)
-                .Options;
-            _context = new DictionaryContext(options);
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            var dialog = new Dictionaries(_context);
-            dialog.Show();
+            DataContext = new TranslationContext();
         }
     }
 }

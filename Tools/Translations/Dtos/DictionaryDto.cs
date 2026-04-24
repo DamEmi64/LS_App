@@ -3,7 +3,7 @@
     public class DictionaryDto
     {
         public int Key { get; set; }
-        public string? Dictionary { get; set; }
+        public string Dictionary { get; set; } = string.Empty;
         public string? TitlePL { get; set; }
         public string? DescriptionPL { get; set; }
         public string? TitleDE { get; set; }

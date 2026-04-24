@@ -109,6 +109,17 @@ namespace Base
         /// <returns></returns>
         public static ModuleInfo Info<T>(this T module) where T : IModule => new() { Name = module.Name, Version = module.Version, Module = module };
 
+        public static bool IsImage(this Media media)
+            => media is not null && !string.IsNullOrWhiteSpace(media.Extension) &&
+            (
+                media.Extension.Equals("jpg", StringComparison.OrdinalIgnoreCase) ||
+                media.Extension.Equals("jpeg", StringComparison.OrdinalIgnoreCase) ||
+                media.Extension.Equals("png", StringComparison.OrdinalIgnoreCase) ||
+                media.Extension.Equals("gif", StringComparison.OrdinalIgnoreCase) ||
+                media.Extension.Equals("bmp", StringComparison.OrdinalIgnoreCase) ||
+                media.Extension.Equals("webp", StringComparison.OrdinalIgnoreCase)
+            );
+
         /// <summary>
         /// Validates required modules against the connector.
         /// Ensures that each module exists and meets the minimum version requirement.

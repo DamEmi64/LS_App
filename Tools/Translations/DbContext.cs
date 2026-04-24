@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Translations
 {
-    public class DictionaryContext : DbContext
+    public class DbContext : Microsoft.EntityFrameworkCore.DbContext
     {
-        public DictionaryContext(DbContextOptions<DictionaryContext> options)
+        public DbContext(DbContextOptions<DbContext> options)
             : base(options)
         {
         }

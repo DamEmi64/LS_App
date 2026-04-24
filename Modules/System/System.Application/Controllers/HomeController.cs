@@ -32,7 +32,7 @@ namespace System.Application.Controllers
         {
             var media = await _mediaProvider.Load(id);
 
-            if (media is null || (media.Extension != "png" && media.Extension != "jpg" && media.Extension != "gif" && media.Extension != "bmp" && media.Extension != "jpeg"))
+            if (media is null || !media.IsImage())
             {
                 return Json(new Base.Media());
             }

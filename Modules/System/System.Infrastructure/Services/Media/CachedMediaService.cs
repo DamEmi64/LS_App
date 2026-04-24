@@ -6,9 +6,10 @@ using System.Text.RegularExpressions;
 
 namespace System.Infrastructure.Services.Media
 {
-    public class MediaService : IMediaProvider
+    public class CachedMediaService : IMediaProvider
     {
         private readonly SystemContext _context;
+        private readonly IMemoryCache _memoryCache;
 
         private static readonly Regex Base64PrefixRegex =
             new("^data:[a-z0-9/]*;base64,", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -18,9 +19,10 @@ namespace System.Infrastructure.Services.Media
 
         private static readonly TimeSpan CacheDuration = TimeSpan.FromMinutes(10);
 
-        public MediaService(SystemContext context)
+        public CachedMediaService(SystemContext context, IMemoryCache memoryCache)
         {
             _context = context;
+            _memoryCache = memoryCache;
         }
 
         public async Task Delete(Guid? id)
@@ -32,46 +34,54 @@ namespace System.Infrastructure.Services.Media
 
             _context.Media.Remove(media);
             await _context.SaveChangesAsync();
+
+            _memoryCache.Remove(CacheKey(id.Value));
         }
 
-        public async Task<Base.Media?> Load(Guid id, bool removeWebsiteExtras = false)
-        {
-            var media = await _context.Set<Base.Media>()
+        public Task<Base.Media?> Load(Guid id, bool removeWebsiteExtras = false)
+            => _memoryCache.GetOrCreateAsync(CacheKey(id), async entry =>
+            {
+                var media = await _context.Set<Base.Media>()
                     .AsNoTracking()
                     .FirstOrDefaultAsync(x => x.Id == id);
 
 
-            if (media is null) return null;
+                if (media is null) return null;
 
-            if (removeWebsiteExtras && !string.IsNullOrEmpty(media.ContentStr))
-            {
-                return new Base.Media
+                if (removeWebsiteExtras && !string.IsNullOrEmpty(media.ContentStr))
                 {
-                    Id = media.Id,
-                    InsDate = media.InsDate,
-                    UpdDate = media.UpdDate,
-                    Extension = media.Extension,
-                    Content = media.Content,
-                    ContentStr = Base64PrefixRegex.Replace(media.ContentStr, "")
-                };
-            }
+                    return new Base.Media
+                    {
+                        Id = media.Id,
+                        InsDate = media.InsDate,
+                        UpdDate = media.UpdDate,
+                        Extension = media.Extension,
+                        Content = media.Content,
+                        ContentStr = Base64PrefixRegex.Replace(media.ContentStr, "")
+                    };
+                }
 
-            return media;
-        }
+                entry.AbsoluteExpirationRelativeToNow = CacheDuration;
+                entry.SetSize(GetSize(media));
+
+                return media;
+            });
 
         public async IAsyncEnumerable<Base.Media?> LoadMany(IEnumerable<Guid> ids, bool removeWebsiteExtras)
         {
             foreach (var id in ids)
             {
-                var media = await _context.Set<Base.Media>()
+                yield return await _memoryCache.GetOrCreateAsync(CacheKey(id), async entry =>
+                {
+                    var media = await _context.Set<Base.Media>()
                         .AsNoTracking()
                         .FirstOrDefaultAsync(x => x.Id == id);
 
-                if (media is not null)
-                {
+                    if (media is null) return null;
+
                     if (removeWebsiteExtras && !string.IsNullOrEmpty(media.ContentStr))
                     {
-                        yield return new Base.Media
+                        return new Base.Media
                         {
                             Id = media.Id,
                             InsDate = media.InsDate,
@@ -82,8 +92,11 @@ namespace System.Infrastructure.Services.Media
                         };
                     }
 
-                    yield return media;
-                }
+                    entry.AbsoluteExpirationRelativeToNow = CacheDuration;
+                    entry.SetSize(GetSize(media));
+
+                    return media;
+                });
             }
         }
 
@@ -116,6 +129,15 @@ namespace System.Infrastructure.Services.Media
 
             await _context.SaveChangesAsync();
 
+            _memoryCache.Set(
+                            CacheKey(media.Id),
+                            media,
+                            new MemoryCacheEntryOptions
+                            {
+                                AbsoluteExpirationRelativeToNow = CacheDuration,
+                                Size = GetSize(media)
+                            });
+
             return media.Id;
         }
 
@@ -147,6 +169,15 @@ namespace System.Infrastructure.Services.Media
 
             await _context.SaveChangesAsync();
 
+            _memoryCache.Set(
+                            CacheKey(media.Id),
+                            media,
+                            new MemoryCacheEntryOptions
+                            {
+                                AbsoluteExpirationRelativeToNow = CacheDuration,
+                                Size = GetSize(media)
+                            });
+
             return media.Id;
         }
 
@@ -175,6 +206,19 @@ namespace System.Infrastructure.Services.Media
             {
                 return null;
             }
+        }
+
+        private static string CacheKey(Guid id) => $"MEDIA_{id}";
+
+        private static long GetSize(Base.Media media)
+        {
+            if (media.Content is not null)
+                return media.Content.Length;
+
+            if (!string.IsNullOrEmpty(media.ContentStr))
+                return (long)(media.ContentStr.Length * 1.33);
+
+            return 1; // fallback minimal size
         }
     }
 }

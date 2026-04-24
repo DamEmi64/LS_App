@@ -39,7 +39,7 @@ namespace System.Infrastructure
             return serviceDescriptors.AddScoped<IControllerService, ControllerService>()
                 .AddScoped<INotifier, Notifier>()
                 .AddScoped<IEntityContext, EntityContext>()
-                .AddScoped<IMediaProvider, MediaService>();
+                .AddScoped<IMediaProvider, CachedMediaService>();
         }
 
         public static IServiceCollection AddCache(this IServiceCollection serviceDescriptors, IConfiguration configuration)
