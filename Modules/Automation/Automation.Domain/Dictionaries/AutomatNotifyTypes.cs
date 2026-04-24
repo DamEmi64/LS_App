@@ -1,8 +1,8 @@
-﻿using Base.Entities;
+﻿using Base;
 
 namespace Automation.Domain.Dictionaries
 {
-    [Dictionary("NotifyTypes")]
+    [Dictionary("Notify types")]
     public class AutomatNotifyTypes
     {
         public static DictionaryItem AutomatCreated = EntityDictionary.Item(1040, "Automat Created", "Automaton was created");

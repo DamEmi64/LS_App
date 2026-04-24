@@ -8,8 +8,10 @@ namespace RPG.Infrastructure.Repositories
 {
     public class HeroRepository : EntityRepository<RPGContext, Hero>, IHeroRepository
     {
-        public HeroRepository(RPGContext dbContext) : base(dbContext)
+        private readonly IMediaProvider _mediaProvider;
+        public HeroRepository(RPGContext dbContext, IMediaProvider mediaProvider) : base(dbContext)
         {
+            _mediaProvider = mediaProvider;
         }
 
         public override IEnumerable<Hero> GetAll()
@@ -23,6 +25,20 @@ namespace RPG.Infrastructure.Repositories
                 .Include(x => x.Chapter)
                 .Include(x => x.PlayerData)
                 .ThenInclude(x => x!.Skills).FirstOrDefaultAsync(x => x.Id == id);
+        }
+
+        public override async Task Remove(Guid id)
+        {
+            var hero = await DbContext.Set<Hero>().FirstOrDefaultAsync(x => x.Id == id);
+
+            if (hero is null)
+                return;
+
+            await _mediaProvider.Delete(hero.Image);
+
+            DbContext.Remove(hero);
+
+            DbContext.SaveChanges();
         }
     }
 }

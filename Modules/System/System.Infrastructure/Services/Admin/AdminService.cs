@@ -1,4 +1,4 @@
-﻿using Base.Entities;
+﻿using Base;
 using Microsoft.AspNetCore.Identity;
 using System.Data;
 using System.Domain.Entities;

@@ -7,8 +7,10 @@ namespace Files.Infrastructure.Repositories
 {
     public class FileRepository : EntityRepository<FilesContext, Domain.Entities.File>, IFileRepository
     {
-        public FileRepository(FilesContext dbContext) : base(dbContext)
+        private readonly IMediaProvider _mediaProvider;
+        public FileRepository(FilesContext dbContext, IMediaProvider mediaProvider) : base(dbContext)
         {
+            _mediaProvider = mediaProvider;
         }
 
         public async Task ClearLinkCheck(Guid fileId)
@@ -27,6 +29,20 @@ namespace Files.Infrastructure.Repositories
 
             DbContext.Set<Domain.Entities.File>().Update(file);
             await DbContext.SaveChangesAsync();
+        }
+
+        public override async Task Remove(Guid id)
+        {
+            var file = DbContext.Set<Domain.Entities.File>()
+                        .FirstOrDefault(x => x.Id == id);
+            if (file is null)
+                return;
+
+            await _mediaProvider.Delete(file.Image);
+            await _mediaProvider.Delete(file.Content);
+
+            DbContext.Remove(file);
+            DbContext.SaveChanges();
         }
 
         public async Task CheckLink(Guid linkId)

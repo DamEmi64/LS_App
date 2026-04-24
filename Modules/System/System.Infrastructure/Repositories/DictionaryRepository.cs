@@ -1,4 +1,4 @@
-﻿using Base.Entities;
+﻿using Base;
 using Serilog;
 using System.Domain.Repositories;
 using System.Infrastructure.Db;

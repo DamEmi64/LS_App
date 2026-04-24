@@ -1,20 +1,16 @@
 ﻿using Base;
+using Microsoft.Extensions.DependencyInjection;
 using System.Domain.Repositories;
 
 namespace System.Infrastructure.Workers
 {
     public class ArchiveLogsWorker
     {
-        private readonly ILogRepository _logRepository;
-
-        public ArchiveLogsWorker(ILogRepository logRepository)
-        {
-            _logRepository = logRepository;
-        }
-
         public void Execute(IServiceProvider serviceProvider)
         {
-            var logsToDelete = _logRepository.GetAll().Where(x => x.TimeStamp < DateTime.Now.AddDays(-30));
+            var logRepo = serviceProvider.GetRequiredService<ILogRepository>();
+
+            var logsToDelete = logRepo.GetAll().Where(x => x.TimeStamp < DateTime.Now.AddDays(-30));
 
             var archiveFolder = AppConfiguration.Get("LogArchiveFolder");
 
@@ -35,7 +31,7 @@ namespace System.Infrastructure.Workers
                 }
             }
 
-            _logRepository.RemoveLogs(logsToDelete);
+            logRepo.RemoveLogs(logsToDelete);
         }
     }
 }

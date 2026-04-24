@@ -21,13 +21,13 @@ namespace System.Application.Controllers
         private readonly IAdminService _adminService;
         private readonly IAuthService _authService;
         private readonly ILogger<AdminController> _logger;
-        private readonly IConnector _connector;
+        private readonly IConnectorResolver _connector;
 
         public AdminController(IControllerService controllerService,
             IAdminService adminService,
             IAuthService authService,
             ILogger<AdminController> logger,
-            IConnector connector) : base(controllerService)
+            IConnectorResolver connector) : base(controllerService)
         {
             _adminService = adminService;
             _authService = authService;

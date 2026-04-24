@@ -76,7 +76,7 @@ export const OperationMenu = <T,>({
                     }}
                 >
                     {availableOperations.map((operation) => ( 
-                        <MenuItem onClick={() => handleMethod(operation.method)}>{t(operation.name)}</MenuItem>
+                        <MenuItem key={availableOperations.indexOf(operation)} onClick={() => handleMethod(operation.method)}>{t(operation.name)}</MenuItem>
                     ))}
                 </Menu>
             </>)

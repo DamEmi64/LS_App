@@ -1,8 +1,8 @@
-﻿using Base.Entities;
+﻿using Base;
 
 namespace Communication.Domain.Dictionaries
 {
-    [Dictionary("NotifyTypes")]
+    [Dictionary("Notify types")]
     public class NotifyTypes
     {
         public static DictionaryItem EmailSend => EntityDictionary.Item(1037, "Send Email Successed");

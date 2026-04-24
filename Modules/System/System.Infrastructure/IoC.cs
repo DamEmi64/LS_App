@@ -39,7 +39,15 @@ namespace System.Infrastructure
             return serviceDescriptors.AddScoped<IControllerService, ControllerService>()
                 .AddScoped<INotifier, Notifier>()
                 .AddScoped<IEntityContext, EntityContext>()
-                .AddScoped<IMediaProvider, MediaService>();
+                .AddScoped<IMediaProvider, CachedMediaService>();
+        }
+
+        public static IServiceCollection AddCache(this IServiceCollection serviceDescriptors, IConfiguration configuration)
+        {
+            return serviceDescriptors.AddMemoryCache(setup =>
+            {
+                setup.SizeLimit = 1024 * 1024 * 10; // 10 MB
+            });
         }
 
         public static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration configuration)
@@ -55,7 +63,7 @@ namespace System.Infrastructure
             services.Configure<CookiePolicyOptions>(options =>
             {
                 options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = Microsoft.AspNetCore.Http.SameSiteMode.None;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
             services.Configure<IdentityOptions>(options =>

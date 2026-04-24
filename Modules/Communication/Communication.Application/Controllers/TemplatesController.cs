@@ -1,7 +1,9 @@
-﻿using Base;
+﻿using AutoMapper;
+using Base;
 using Communication.Application.Dtos;
 using Communication.Application.Filters;
 using Communication.Domain.Entities;
+using Communication.Infrastructure.Services;
 using Communication.Infrastructure.Services.SendService;
 using Communication.Infrastructure.Services.SendService.Models;
 using Files.Domain.Repositories;
@@ -15,15 +17,21 @@ namespace Communication.Application.Controllers
     {
         private readonly ITemplateRepository _templateRepository;
         private readonly ISendService _sendService;
+        private readonly IFluidService _fluidService;
+        private readonly IMapper _mapper;
 
         public TemplatesController(
             IControllerService controllerService,
             ITemplateRepository templateRepository,
-            ISendService sendService)
+            ISendService sendService,
+            IFluidService fluidService,
+            IMapper mapper)
             : base(controllerService)
         {
             _templateRepository = templateRepository;
             _sendService = sendService;
+            _fluidService = fluidService;
+            _mapper = mapper;
         }
 
         [HttpGet("{id}")]
@@ -37,6 +45,24 @@ namespace Communication.Application.Controllers
             }
 
             return Json(result);
+        }
+
+        [HttpGet("rules")]
+        public IActionResult Rules([FromQuery] TemplateFilter filter)
+        {
+            var functions = _fluidService.GetFunctions();
+            var variables = _fluidService.GetVariables();
+
+            return Json(new RulesDto
+            {
+                Functions = functions.Select(x => _mapper.Map<FluidDto>(x)).ToList(),
+                Variables = variables.Select(x => new FluidDto
+                {
+                    Id = int.TryParse(x.Key, out var id) ? id : Random.Shared.Next(),
+                    Invoker = x.Key,
+                    Title = x.Key
+                }).ToList()
+            });
         }
 
         [HttpGet("")]

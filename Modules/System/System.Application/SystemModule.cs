@@ -2,6 +2,7 @@
 using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Infrastructure;
 using System.Infrastructure.Hubs;
 using System.Infrastructure.JobEngine.Milestones;
@@ -12,7 +13,7 @@ namespace System.Application
 {
     public class SystemModule : IModule
     {
-        public IEnumerable<Operation> Operations => [OperationExtensions.Operation(0, "default", "default")];
+        public IEnumerable<Operation> Operations => [Extensions.Operation(0, "default", "default")];
 
         public string Name => "System";
 
@@ -68,7 +69,7 @@ namespace System.Application
                 using (var scope = app.Services.CreateScope())
                 {
                     var adminService = scope.ServiceProvider.GetRequiredService<IAdminService>();
-                    var connector = scope.ServiceProvider.GetRequiredService<IConnector>();
+                    var connector = scope.ServiceProvider.GetRequiredService<IConnectorResolver>();
                     var roles = adminService.GetRoles();
                     if (!roles.Select(x => x.Name).Contains("admin"))
                     {

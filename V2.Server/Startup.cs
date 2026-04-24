@@ -1,5 +1,5 @@
 ﻿using Base;
-using Base.Entities;
+using Connector;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 using Newtonsoft.Json.Converters;
@@ -11,9 +11,10 @@ namespace Api
 {
     public class Startup
     {
-        private Connector.Connector _connector;
+        private IConnectorResolver _connector;
         private readonly IHostApplicationBuilder _builder;
 
+        private const string SystemModuleName = "System";
         private const string AutoMigrate = "autoMigrate";
         private const string Banner = @"
 ###############################
@@ -26,8 +27,8 @@ namespace Api
         {
             _builder = builder;
             AppConfiguration.Initialize(builder.Configuration);
-            _connector = GetConnector(builder.Configuration);
-            builder.Services.AddSingleton<IConnector>(_connector);
+            _connector = builder.InitializeConnector();
+            _builder.Services.AddSingleton(_connector);
 
             if (builder.Environment.IsDevelopment())
             {
@@ -82,11 +83,6 @@ namespace Api
             services.AddTransient<ErrorMiddleware>();
         }
 
-        private Connector.Connector GetConnector(IConfiguration configuration)
-        {
-            return Activator.CreateInstance(typeof(Connector.Connector)) as Connector.Connector ?? new Connector.Connector();
-        }
-
         private IServiceCollection AddSwagger(IServiceCollection services, IConfiguration configuration)
         {
             return services.AddEndpointsApiExplorer()
@@ -121,11 +117,11 @@ namespace Api
                     module.Configure(services);
                     controllerBuilder.AddApplicationPart(assembly);
                 }
-                catch (NeccessaryModuleNeededException)
+                catch (ModuleInfoEx.NeccessaryModuleNeededException)
                 {
                     Environment.Exit(0);
                 }
-                catch (ModuleVersionInvalidException)
+                catch (ModuleInfoEx.ModuleVersionInvalidException)
                 {
                     Environment.Exit(0);
                 }
@@ -155,7 +151,7 @@ namespace Api
             {
                 var app = webApplicationBuilder.Build();
 
-                app.UseSwagger(o => o.OpenApiVersion = Microsoft.OpenApi.OpenApiSpecVersion.OpenApi2_0);
+                app.UseSwagger(o => o.OpenApiVersion = OpenApiSpecVersion.OpenApi2_0);
                 app.UseSwaggerUI();
                 app.UseMiddleware<ErrorMiddleware>();
 
@@ -231,7 +227,7 @@ namespace Api
             {
                 var dictionaries = EntityDictionary.GetDictionaries();
                 var repository = scope.ServiceProvider.GetRequiredService<IDictionaryRepository>();
-                var conector = scope.ServiceProvider.GetRequiredService<IConnector>();
+                var connector = scope.ServiceProvider.GetRequiredService<IConnectorResolver>();
                 app.Logger.LogInformation($"Verify dictionaries...");
 
                 try
@@ -245,10 +241,7 @@ namespace Api
 
                 app.Logger.LogInformation($"Dictionaries verified.");
 
-                if (conector is Connector.Connector connectorInstance)
-                {
-                    connectorInstance.DictionaryItems = dictionaries;
-                }
+                connector.SetDictionary(dictionaries);
             }
         }
     }

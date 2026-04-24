@@ -76,6 +76,7 @@
   "communication_template_edit": "templates/:id",
   "communication_template_del": "templates/:id",
   "communication_template_gen": "templates/:id/generate",
+  "communication_rules": "templates/rules",
 
   "automation_data": "automations",
   "automation_new": "automations",

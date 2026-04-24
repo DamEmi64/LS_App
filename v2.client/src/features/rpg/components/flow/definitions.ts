@@ -8,6 +8,7 @@ export interface RPGNodeData {
   kind?: NodeTypeKind;
   editable?: boolean;
   onEdit?: () => void;
+  visited?: boolean;
 }
 
 export interface RPGFlowProps {

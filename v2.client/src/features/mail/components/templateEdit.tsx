@@ -1,4 +1,4 @@
-import { Template } from "@/models/Communication";
+import { Template } from "@/features/mail";
 import { Grid, Box, Button, TextField, useTheme } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useForm, Controller } from "react-hook-form";
@@ -9,9 +9,10 @@ interface TemplateEditProps {
     template: Template;
     readonly?: boolean;
     onSave: (template: Template) => void;
+    style?: React.CSSProperties;
 }
 
-export const TemplateEdit: React.FC<TemplateEditProps> = ({ template, onSave, readonly }) => {
+export const TemplateEdit: React.FC<TemplateEditProps> = ({ template, onSave, readonly, style }) => {
     const { t } = useTranslation();
     const theme = useTheme();
     const textColor =
@@ -32,7 +33,7 @@ export const TemplateEdit: React.FC<TemplateEditProps> = ({ template, onSave, re
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} style={style}>
             <Grid container spacing={2} alignItems="flex-start">
                 {/* Template rules */}
                 <Grid size={{ xs: 12 }}>
