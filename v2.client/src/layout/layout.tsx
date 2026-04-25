@@ -13,7 +13,7 @@ const Layout: React.FC<LayoutProps> = ({ image, content, title, permissions, men
     const auth = useAuth();
     document.title = t(title);
 
-    var toShow;
+    let toShow;
 
     if (auth.user || allowAnonymous) {
         if (permissions && permissions.length > 0) {

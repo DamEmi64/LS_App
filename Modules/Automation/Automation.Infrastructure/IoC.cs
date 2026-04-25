@@ -1,6 +1,5 @@
 ﻿using Automation.Infrastructure.Services;
 using Automation.Infrastructure.Services.AutomationService;
-using Base;
 using Base.Automation;
 using Microsoft.Extensions.DependencyInjection;
 

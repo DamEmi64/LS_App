@@ -23,9 +23,9 @@ namespace System.Infrastructure.Repositories
         {
             _context.Dictionaries.RemoveRange(_context.Dictionaries);
 
-            foreach (var item in items.OrderBy(x=>x.Dictionary).OrderBy(x=>x.Key))
+            foreach (var item in items.OrderBy(x => x.Dictionary).OrderBy(x => x.Key))
             {
-                if (items.Any(x=>x.Key == item.Key && x.Dictionary == item.Dictionary && item.Id != x.Id))
+                if (items.Any(x => x.Key == item.Key && x.Dictionary == item.Dictionary && item.Id != x.Id))
                 {
                     Log.Error($"Key {item.Key} exists in dictionary {item.Dictionary}");
                 }

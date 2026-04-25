@@ -34,7 +34,7 @@ export const PlaceTable: React.FC<PlaceTableProps> = ({
 }) => {
     const { t } = useTranslation();
     const modal = useModal();
-    const api = useApiConnect();
+    const {placesApi, homeApi, call} = useApiConnect();
     const { checkPermission } = useAuth();
 
     // 📱 RESPONSIVE
@@ -85,7 +85,7 @@ export const PlaceTable: React.FC<PlaceTableProps> = ({
     };
 
     const savePlace = (data: SessionDto, place: Place) => {
-        api.put('rpg_place_edit', data, null, place.id)
+        call(placesApi,placesApi.updatePlaceById,{id:place.id, body:data})
             .then(() => refresh());
     };
 
@@ -95,13 +95,9 @@ export const PlaceTable: React.FC<PlaceTableProps> = ({
                 chapters={chapters}
                 onSelect={(chapterId) => {
 
-                    const params = new URLSearchParams({
-                        id: place.imageId || ''
-                    });
-
-                    api.get<Image>('image', { params })
+                    call<Image>(homeApi,homeApi.getHomeImage,{id:place.imageId})
                         .then((res) => {
-                            const imageData = res.data?.contentStr || '';
+                            const imageData = res.contentStr || '';
 
                             const newPlace = {
                                 ...place,
@@ -109,8 +105,8 @@ export const PlaceTable: React.FC<PlaceTableProps> = ({
                                 chapter: chapterId,
                                 image: imageData
                             };
-
-                            api.post('rpg_place_new', newPlace, null)
+                            
+                            call(placesApi,placesApi.createPlace,newPlace)
                                 .then(() => modal.hideModal());
                         });
                 }}
@@ -131,7 +127,7 @@ export const PlaceTable: React.FC<PlaceTableProps> = ({
     };
 
     const delConfirm = (data: Place) => {
-        api.del('rpg_place_del', null, data.id)
+        call(placesApi,placesApi.deletePlaceById,{id:data.id})
             .then(() => refresh());
     };
 

@@ -5,7 +5,6 @@ using Communication.Infrastructure.Repositories;
 using Communication.Infrastructure.Services;
 using Communication.Infrastructure.Services.SendService;
 using CommunicationBase;
-using CommunicationBase.Interfaces;
 using Files.Domain.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 

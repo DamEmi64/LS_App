@@ -31,7 +31,7 @@ export const HeroTable: React.FC<HeroTableProps> = ({
     refresh
 }) => {
     const modal = useModal();
-    const api = useApiConnect();
+    const {heroesApi, homeApi, call} = useApiConnect();
     const { checkPermission } = useAuth();
 
     // 📱 RESPONSIVE
@@ -86,7 +86,7 @@ export const HeroTable: React.FC<HeroTableProps> = ({
     };
 
     const saveHero = (data: HeroDto) => {
-        api.put('rpg_hero_edit', data, null, data.id)
+       call(heroesApi,heroesApi.updateHeroeById,{id:data.id,body:data})
             .then(() => {
                 modal.hideModal();
                 refresh();
@@ -99,13 +99,9 @@ export const HeroTable: React.FC<HeroTableProps> = ({
                 chapters={storyChapters}
                 onSelect={(chapterId) => {
 
-                    const params = new URLSearchParams({
-                        id: hero.imageId || ''
-                    });
-
-                    api.get<Image>('image', { params })
+                    call<Image>(homeApi,homeApi.getHomeImage,{id:hero.imageId})
                         .then((res) => {
-                            const imageData = res.data?.contentStr || '';
+                            const imageData = res?.contentStr || '';
 
                             const newHero = {
                                 ...hero,
@@ -113,8 +109,7 @@ export const HeroTable: React.FC<HeroTableProps> = ({
                                 chapter: chapterId,
                                 image: imageData
                             };
-
-                            api.post('rpg_hero_new', newHero, null)
+                            call(heroesApi,heroesApi.createHeroe,newHero)
                                 .then(() => modal.hideModal());
                         });
                 }}
@@ -135,7 +130,7 @@ export const HeroTable: React.FC<HeroTableProps> = ({
     };
 
     const delConfirm = (data: HeroDto) => {
-        api.del('rpg_hero_details', null, data.id)
+        call(heroesApi,heroesApi.deleteHeroeById,{id:data.id})
             .then(() => {
                 modal.hideModal();
                 refresh();

@@ -1,10 +1,10 @@
 ﻿using Base;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.IO;
 using System.Windows;
@@ -15,6 +15,11 @@ namespace Translations
 {
     public class TranslationContext
     {
+        private const string PL = "pl";
+        private const string EN = "en";
+        private const string FR = "fr";
+        private const string DE = "de";
+
         private const string ConnString = @"Server=(localdb)\MSSQLLocalDB;Database=AppContext-dev;Trusted_Connection=True;MultipleActiveResultSets=true";
 
         public TranslationContext()
@@ -25,9 +30,9 @@ namespace Translations
 
         public List<DictionaryItem> DbDictionaries { get; set; } = [];
 
-        public List<DictionaryDto> Dictionaries { get; set; } = [];
+        public ObservableCollection<DictionaryDto> Dictionaries { get; set; } = [];
 
-        public List<TranslationDto> Translations { get; set; } = [];
+        public ObservableCollection<TranslationDto> Translations { get; set; } = [];
 
 
         public ICommand Generate => new RelayCommand(GenerateData);
@@ -35,20 +40,27 @@ namespace Translations
 
         public void GenerateData()
         {
-            var dialog = new OpenFileDialog()
+            try
             {
-                CheckFileExists = false,
-                CheckPathExists = true,
-                FileName = "Select folder",
-                Filter = "Folders|*.this.directory"
-            };
+                var dialog = new OpenFileDialog()
+                {
+                    CheckFileExists = false,
+                    CheckPathExists = true,
+                    FileName = "Select folder",
+                    Filter = "Folders|*.this.directory"
+                };
 
-            if (dialog.ShowDialog() == true)
+                if (dialog.ShowDialog() == true)
+                {
+                    string selectedPath = dialog.FileName;
+                    GenerateTranslations(Path.GetDirectoryName(selectedPath) ?? throw new NullReferenceException());
+                    GenerateDictionaries(Path.GetDirectoryName(selectedPath) ?? throw new NullReferenceException());
+                    MessageBox.Show("Saved");
+                }
+            }
+            catch (Exception ex)
             {
-                string selectedPath = dialog.FileName;
-                GenerateTranslations(Path.GetDirectoryName(selectedPath) ?? throw new NullReferenceException());
-                GenerateDictionaries(Path.GetDirectoryName(selectedPath) ?? throw new NullReferenceException());
-                MessageBox.Show("Saved");
+                MessageBox.Show(ex.Message);
             }
         }
 
@@ -59,22 +71,22 @@ namespace Translations
 
             if (!string.IsNullOrEmpty(dialog.ENPath))
             {
-                LoadDataToTranslation(dialog.ENPath, "en");
+                LoadDataToTranslation(dialog.ENPath, EN);
             }
 
             if (!string.IsNullOrEmpty(dialog.PLPath))
             {
-                LoadDataToTranslation(dialog.PLPath, "pl");
+                LoadDataToTranslation(dialog.PLPath, PL);
             }
 
             if (!string.IsNullOrEmpty(dialog.FRPath))
             {
-                LoadDataToTranslation(dialog.FRPath, "fr");
+                LoadDataToTranslation(dialog.FRPath, FR);
             }
 
             if (!string.IsNullOrEmpty(dialog.DEPath))
             {
-                LoadDataToTranslation(dialog.DEPath, "de");
+                LoadDataToTranslation(dialog.DEPath, DE);
             }
 
             MessageBox.Show("Loaded");
@@ -93,10 +105,10 @@ namespace Translations
                     Translations.Add(new TranslationDto
                     {
                         Key = item.Key,
-                        PL = lang == "pl" ? item.Value : null,
-                        EN = lang == "en" ? item.Value : null,
-                        DE = lang == "de" ? item.Value : null,
-                        FR = lang == "fr" ? item.Value : null,
+                        PL = lang == PL ? item.Value : null,
+                        EN = lang == EN ? item.Value : null,
+                        DE = lang == DE ? item.Value : null,
+                        FR = lang == FR ? item.Value : null,
                     });
                 }
                 else
@@ -146,7 +158,7 @@ namespace Translations
                 }
             }
 
-            Dictionaries = dictionaries.OrderBy(x => x.Dictionary).ThenBy(x => x.Key).ToList();
+            Dictionaries = new ObservableCollection<DictionaryDto>(dictionaries.OrderBy(x => x.Dictionary).ThenBy(x => x.Key));
         }
 
         private void GenerateDictionaries(string output)
@@ -210,14 +222,17 @@ namespace Translations
             if (File.Exists("translations.json"))
             {
                 var json = File.ReadAllText("translations.json");
-                dictionaries = JsonConvert.DeserializeObject<List<TranslationDto>>(json) ?? new List<TranslationDto>();
+                Translations = new ObservableCollection<TranslationDto>(JsonConvert.DeserializeObject<List<TranslationDto>>(json) ?? new List<TranslationDto>());
             }
         }
 
         private Dictionary<string, string> FlattenJsonFromFile(string filePath)
         {
             if (!File.Exists(filePath))
-                throw new FileNotFoundException("JSON file not found.", filePath);
+            {
+                MessageBox.Show("File not exist");
+                return new();
+            }
 
             var json = File.ReadAllText(filePath);
             var token = JToken.Parse(json);
@@ -320,7 +335,7 @@ namespace Translations
 
         private void Save(string output, string lang, string title, object data)
         {
-            var langFolder = System.IO.Path.Combine(output, "public", lang);
+            var langFolder = System.IO.Path.Combine(output, lang);
             Directory.CreateDirectory(langFolder);
 
             File.WriteAllText(

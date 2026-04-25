@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useApiConnect } from "@/shared/context/apiConnect";
 import { useEffect, useState } from "react";
 import { Story } from "@/features/rpg";
+import { ResponseList } from "@/shared/api/extension";
 
 const SummaryTaskForm = ({ task, onChange }) => {
   const { t } = useTranslation();
@@ -10,11 +11,11 @@ const SummaryTaskForm = ({ task, onChange }) => {
  const [rpgList, setRPGList] = useState<{label: string, value: string}[]>([]);
  
 
-  const api = useApiConnect();
+  const {storiesApi, call: mapResponse} = useApiConnect();
 
   const getListRPG = async() => {
 
-    var stories = await api.get<Story[]>('rpg_stories_data');
+    const stories = await mapResponse<ResponseList<Story>>(storiesApi,storiesApi.getStorie,{order:''})
     setRPGList(stories.data.map((story) => ({ label: story.title, value: story.id })));
   }
 

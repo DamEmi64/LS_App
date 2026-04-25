@@ -1,6 +1,5 @@
 ﻿using Base;
 using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.Extensions.DependencyInjection;
 using Razor.Templating.Core;
 using RPG.Domain.Repositories;
 using RPG.Infrastructure.Models;

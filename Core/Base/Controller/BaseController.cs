@@ -18,10 +18,10 @@ namespace Base
         }
 
         protected IActionResult Json<T>(IEnumerable<T> data)
-            => Json(new
+            => Json(new ResponseList<T>
             {
-                data = data,
-                total = data.Count()
+                Data = data.ToList(),
+                Total = data.Count()
             });
     }
 }

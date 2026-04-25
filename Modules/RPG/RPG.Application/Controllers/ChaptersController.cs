@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Base;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RPG.Application.Dtos;
@@ -30,6 +31,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(Chapter), StatusCodes.Status200OK)]
         public async Task<IActionResult> Details(Guid id)
         {
             var result = await _chapterRepository.GetWithPlayerData(id);
@@ -43,6 +45,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpGet("")]
+        [ProducesResponseType(typeof(ResponseList<Chapter>), StatusCodes.Status200OK)]
         public IActionResult ListData([FromQuery] ChapterFilter filter)
         {
             return Json(filter.Filter(_chapterRepository.GetAll()));

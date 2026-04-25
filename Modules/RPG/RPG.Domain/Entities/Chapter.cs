@@ -18,5 +18,5 @@ namespace RPG.Domain.Entities
         public List<Link> Links { get; set; } = new List<Link>();
         public bool Draft { get; set; }
         public string? FlowJson { get; set; }
-        }
+    }
 }

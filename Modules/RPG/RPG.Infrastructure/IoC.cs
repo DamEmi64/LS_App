@@ -1,5 +1,4 @@
-﻿using Base;
-using Base.Automation;
+﻿using Base.Automation;
 using Microsoft.Extensions.DependencyInjection;
 using RPG.Domain.Dictionaries;
 using RPG.Domain.Repositories;

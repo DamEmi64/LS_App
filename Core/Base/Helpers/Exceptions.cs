@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Base
+﻿namespace Base
 {
     public class ServiceNotRegistredException<T> : Exception
     {

@@ -6,6 +6,8 @@ using Newtonsoft.Json.Converters;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
 using System.Domain.Repositories;
+using System.Reflection;
+
 
 namespace Api
 {
@@ -91,10 +93,74 @@ namespace Api
                 {
                     opt.SwaggerDoc("v1", new OpenApiInfo
                     {
-                        Title = "My API",
-                        Version = "v1"  // This must be a valid version string like "v1"
+                        Title = "LS API",
+                        Version = "v1"
                     });
+
+                    opt.CustomOperationIds(apiDesc =>
+                    {
+                        var path = apiDesc.RelativePath ?? "endpoint";
+                        var method = apiDesc.HttpMethod?.ToLowerInvariant();
+                        path = path.Split('?')[0];
+                        var segments = path.Split('/', StringSplitOptions.RemoveEmptyEntries);
+
+                        var parts = new List<string>();
+
+                        foreach (var segment in segments)
+                        {
+                            if (segment.StartsWith("{"))
+                            {
+                                var nameBy = segment.Trim('{', '}');
+                                parts.Add("By" + char.ToUpper(nameBy[0]) + nameBy.Substring(1));
+                            }
+                            else
+                            {
+                                if (segment.EndsWith("s"))
+                                {
+                                    parts.Add(char.ToUpper(segment[0]) + segment.Substring(1, segment.Length - 2));
+                                }
+                                else if (segment.EndsWith("es"))
+                                {
+                                    parts.Add(char.ToUpper(segment[0]) + segment.Substring(1, segment.Length - 3));
+                                }
+                                else
+                                {
+                                    parts.Add(char.ToUpper(segment[0]) + segment.Substring(1));
+                                }
+                            }
+                        }
+
+                        var name = string.Join("", parts);
+
+                        return method switch
+                        {
+                            "post" => $"create{name}",
+                            "put" => $"update{name}",
+                            "get" => $"get{name}",
+                            "delete" => $"delete{name}",
+                            _ => name
+                        };
+                    });
+
+                    opt.TagActionsBy(api =>
+                    {
+                        if (api.GroupName != null)
+                            return new[] { api.GroupName };
+
+                        return new[] { api.ActionDescriptor.RouteValues["controller"] ?? "Default" };
+                    });
+
+                    opt.DocInclusionPredicate((name, api) => true);
+
                     opt.IgnoreObsoleteActions();
+                    opt.IgnoreObsoleteProperties();
+
+                    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFilename);
+                    if (File.Exists(xmlPath))
+                    {
+                        opt.IncludeXmlComments(xmlPath);
+                    }
                 });
         }
 
@@ -162,7 +228,7 @@ namespace Api
 
                 app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{entity=Home}/{action=Index}/{id?}");
                 app.MapFallbackToFile("/index.html");
 
                 if (AppConfiguration.GetValue(AutoMigrate, true))

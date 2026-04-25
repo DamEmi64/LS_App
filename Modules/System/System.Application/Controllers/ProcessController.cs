@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Base;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Application.Dtos;
@@ -27,6 +28,7 @@ namespace System.Application.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(ProcessDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> Details(Guid id)
         {
             var result = await _processRepository.Get(id);
@@ -40,6 +42,7 @@ namespace System.Application.Controllers
         }
 
         [HttpGet("data")]
+        [ProducesResponseType(typeof(ResponseList<ProcessDto>), StatusCodes.Status200OK)]
         public IActionResult ListData([FromQuery] ProcessFilter filter)
         {
             return Json(filter.Filter(_processRepository.GetAll()).Select(x => _mapper.Map<ProcessDto>(x)));

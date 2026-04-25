@@ -3,6 +3,7 @@ using Communication.Application.Filters;
 using Communication.Domain.Entities;
 using Communication.Infrastructure.Services.SendService;
 using Files.Domain.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Communication.Application.Controllers
@@ -25,6 +26,7 @@ namespace Communication.Application.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(Email), StatusCodes.Status200OK)]
         public async Task<IActionResult> Details(Guid id)
         {
             var result = await _emailRepository.Get(id);
@@ -38,6 +40,7 @@ namespace Communication.Application.Controllers
         }
 
         [HttpGet("")]
+        [ProducesResponseType(typeof(IEnumerable<Email>), StatusCodes.Status200OK)]
         public IActionResult ListData([FromQuery] EmailFilter filter)
         {
             return Json(filter.Filter(_emailRepository.GetAll()));
