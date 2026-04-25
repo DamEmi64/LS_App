@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Base;
+using Microsoft.AspNetCore.Identity;
 using System.Domain.Entities;
 using System.Security.Claims;
 
@@ -30,5 +31,7 @@ namespace System.Infrastructure.Services.Admin
         Task<IdentityResult> DeleteRole(IdentityRole role);
 
         IEnumerable<Log> GetLogs();
+
+        IEnumerable<DictionaryItem> GetDictionaries();
     }
 }

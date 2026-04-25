@@ -1,4 +1,4 @@
-import { FilterItem, FilterProps, FilterType} from '@/shared';
+import { FilterItem, FilterProps, FilterType } from '@/shared';
 import { DataTable } from "@/shared/components/datatable";
 import { useTranslation } from "react-i18next";
 
@@ -10,42 +10,50 @@ import ProcessInfo from "@/features/system/components/processInfo";
 import { FormLabel, Grid } from "@mui/material";
 import { Process } from "@/features/auth";
 import { ColumnDef, ColumnType, onChangeParams, Operations, TableData } from "@/shared";
+import { useDictionaryTranslation } from '@/lib/utils';
+import { ResponseList } from '@/shared/api/extension';
 
 const Processes = () => {
     const { t } = useTranslation();
-    const api = useApiConnect();
+    const { processApi, call } = useApiConnect();
     const modal = useModal();
+    const getDictionaryTranslation = useDictionaryTranslation();
 
     const details = (data) => {
-        api.get<Process>('process_details', null, data.id)
+        call<Process>(processApi, processApi.getProcesById, { id: data.id })
             .then(process => {
-                modal.showModal(<ProcessInfo process={process.data}></ProcessInfo>);
+                modal.showModal(<ProcessInfo process={process}></ProcessInfo>);
             });
     }
 
     const restart = (data) => {
-        api.post('process_restart', null, null, data.id);
+        call(processApi, processApi.createProcesByIdRestart, { id: data.id });
     }
 
     const updateData = (paramsObj: onChangeParams) => {
         const { page, pageSize, orderBy, order, filters } = paramsObj;
-        const params = new URLSearchParams({
-            page: page?.toString() || '1',
-            pageSize: pageSize?.toString() || '10',
-            orderBy: orderBy || '',
-            order: order || '',
+        const query = {
+            page: paramsObj.page?.toString() || '1',
+            pageSize: paramsObj.pageSize?.toString() || '10',
+            orderBy: paramsObj.orderBy || '',
+            order: paramsObj.order || 'desc',
+        };
+
+        (paramsObj.filters || []).forEach(filter => {
+            query[filter.field] = filter.value.toLocaleString();
         });
 
-        (filters || []).forEach(filter => {
-            params.append(filter.field, filter.value.toLocaleString());
-        });
-
-        return api.get<Process[]>("process_data", { params })
+        return call<ResponseList<Process>>(processApi, processApi.getProcesData, query)
             .then(response => ({ data: response.data, total: response.total } as TableData<Process>));
     };
 
     const convertProcessStatus = (id: string) => {
-        return t('dictionaries.processStatus.' + id);
+        if (id == 'New') return t('processes.processStatus.New');
+        if (id == 'Executing') return t('processes.processStatus.Executing');
+        if (id == 'Success') return t('processes.processStatus.Success');
+        if (id == 'Failed') return t('processes.processStatus.Failed');
+        if (id == 'Paused') return t('processes.processStatus.Paused');
+        return id;
     };
 
     const columns: ColumnDef[] = [
@@ -61,11 +69,11 @@ const Processes = () => {
         { field: 'to', name: 'processes.startingDateTo', type: FilterType.Date },
         {
             field: 'status', name: 'Status', type: FilterType.Enum, options: [
-                { label: 'dictionaries.processStatus.New', value: 'New' },
-                { label: 'dictionaries.processStatus.Executing', value: 'Executing' },
-                { label: 'dictionaries.processStatus.Success', value: 'Success' },
-                { label: 'dictionaries.processStatus.Failed', value: 'Failed' },
-                { label: 'dictionaries.processStatus.Paused', value: 'Paused' }
+                { label: 'processes.processStatus.New', value: 'New' },
+                { label: 'processes.processStatus.Executing', value: 'Executing' },
+                { label: 'processes.processStatus.Success', value: 'Success' },
+                { label: 'processes.processStatus.Failed', value: 'Failed' },
+                { label: 'processes.processStatus.Paused', value: 'Paused' }
             ]
         }
     ];

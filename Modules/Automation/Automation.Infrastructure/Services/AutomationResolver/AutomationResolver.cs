@@ -1,6 +1,7 @@
 ﻿using Automation.Domain.Dictionaries;
 using Automation.Infrastructure.Jobs;
 using Base;
+using Base.Automation;
 using Newtonsoft.Json;
 
 namespace Automation.Infrastructure.Services

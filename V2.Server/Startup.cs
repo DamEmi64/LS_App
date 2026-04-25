@@ -1,19 +1,22 @@
 ﻿using Base;
-using Base.Entities;
+using Connector;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 using Newtonsoft.Json.Converters;
 using Serilog;
 using Serilog.Sinks.MSSqlServer;
-using System.Infrastructure.Db;
+using System.Domain.Repositories;
+using System.Reflection;
+
 
 namespace Api
 {
     public class Startup
     {
-        private Connector.Connector _connector;
+        private IConnectorResolver _connector;
         private readonly IHostApplicationBuilder _builder;
 
+        private const string SystemModuleName = "System";
         private const string AutoMigrate = "autoMigrate";
         private const string Banner = @"
 ###############################
@@ -26,8 +29,8 @@ namespace Api
         {
             _builder = builder;
             AppConfiguration.Initialize(builder.Configuration);
-            _connector = GetConnector(builder.Configuration);
-            builder.Services.AddSingleton<IConnector>(_connector);
+            _connector = builder.InitializeConnector();
+            _builder.Services.AddSingleton(_connector);
 
             if (builder.Environment.IsDevelopment())
             {
@@ -82,13 +85,6 @@ namespace Api
             services.AddTransient<ErrorMiddleware>();
         }
 
-        private Connector.Connector GetConnector(IConfiguration configuration)
-        {
-            var baseUrl = configuration.GetValue("urls", string.Empty);
-            var version = configuration.GetValue("version", string.Empty);
-            return new Connector.Connector(baseUrl ?? string.Empty, version);
-        }
-
         private IServiceCollection AddSwagger(IServiceCollection services, IConfiguration configuration)
         {
             return services.AddEndpointsApiExplorer()
@@ -96,10 +92,74 @@ namespace Api
                 {
                     opt.SwaggerDoc("v1", new OpenApiInfo
                     {
-                        Title = "My API",
-                        Version = "v1"  // This must be a valid version string like "v1"
+                        Title = "LS API",
+                        Version = "v1"
                     });
+
+                    opt.CustomOperationIds(apiDesc =>
+                    {
+                        var path = apiDesc.RelativePath ?? "endpoint";
+                        var method = apiDesc.HttpMethod?.ToLowerInvariant();
+                        path = path.Split('?')[0];
+                        var segments = path.Split('/', StringSplitOptions.RemoveEmptyEntries);
+
+                        var parts = new List<string>();
+
+                        foreach (var segment in segments)
+                        {
+                            if (segment.StartsWith("{"))
+                            {
+                                var nameBy = segment.Trim('{', '}');
+                                parts.Add("By" + char.ToUpper(nameBy[0]) + nameBy.Substring(1));
+                            }
+                            else
+                            {
+                                if (segment.EndsWith("s"))
+                                {
+                                    parts.Add(char.ToUpper(segment[0]) + segment.Substring(1, segment.Length - 2));
+                                }
+                                else if (segment.EndsWith("es"))
+                                {
+                                    parts.Add(char.ToUpper(segment[0]) + segment.Substring(1, segment.Length - 3));
+                                }
+                                else
+                                {
+                                    parts.Add(char.ToUpper(segment[0]) + segment.Substring(1));
+                                }
+                            }
+                        }
+
+                        var name = string.Join("", parts);
+
+                        return method switch
+                        {
+                            "post" => $"create{name}",
+                            "put" => $"update{name}",
+                            "get" => $"get{name}",
+                            "delete" => $"delete{name}",
+                            _ => name
+                        };
+                    });
+
+                    opt.TagActionsBy(api =>
+                    {
+                        if (api.GroupName != null)
+                            return new[] { api.GroupName };
+
+                        return new[] { api.ActionDescriptor.RouteValues["controller"] ?? "Default" };
+                    });
+
+                    opt.DocInclusionPredicate((name, api) => true);
+
                     opt.IgnoreObsoleteActions();
+                    opt.IgnoreObsoleteProperties();
+
+                    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFilename);
+                    if (File.Exists(xmlPath))
+                    {
+                        opt.IncludeXmlComments(xmlPath);
+                    }
                 });
         }
 
@@ -123,11 +183,11 @@ namespace Api
                     module.Configure(services);
                     controllerBuilder.AddApplicationPart(assembly);
                 }
-                catch (NeccessaryModuleNeededException)
+                catch (ModuleInfoEx.NeccessaryModuleNeededException)
                 {
                     Environment.Exit(0);
                 }
-                catch (ModuleVersionInvalidException)
+                catch (ModuleInfoEx.ModuleVersionInvalidException)
                 {
                     Environment.Exit(0);
                 }
@@ -157,7 +217,7 @@ namespace Api
             {
                 var app = webApplicationBuilder.Build();
 
-                app.UseSwagger(o => o.OpenApiVersion = Microsoft.OpenApi.OpenApiSpecVersion.OpenApi2_0);
+                app.UseSwagger(o => o.OpenApiVersion = OpenApiSpecVersion.OpenApi2_0);
                 app.UseSwaggerUI();
                 app.UseMiddleware<ErrorMiddleware>();
 
@@ -167,7 +227,7 @@ namespace Api
 
                 app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{entity=Home}/{action=Index}/{id?}");
                 app.MapFallbackToFile("/index.html");
 
                 if (AppConfiguration.GetValue(AutoMigrate, true))
@@ -232,26 +292,13 @@ namespace Api
             using (var scope = app.Services.CreateScope())
             {
                 var dictionaries = EntityDictionary.GetDictionaries();
-                var context = scope.ServiceProvider.GetRequiredService<SystemContext>();
-                var conector = scope.ServiceProvider.GetRequiredService<IConnector>();
+                var repository = scope.ServiceProvider.GetRequiredService<IDictionaryRepository>();
+                var connector = scope.ServiceProvider.GetRequiredService<IConnectorResolver>();
                 app.Logger.LogInformation($"Verify dictionaries...");
 
                 try
                 {
-                    foreach (var item in dictionaries)
-                    {
-                        try
-                        {
-                            if (!context.Dictionaries.Any(x => x.Key == item.Key))
-                            {
-                                context.Dictionaries.Add(item);
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            app.Logger.LogCritical(ex.Message);
-                        }
-                    }
+                    repository.UpdateDictionaries(dictionaries);
                 }
                 catch (Exception ex)
                 {
@@ -260,12 +307,7 @@ namespace Api
 
                 app.Logger.LogInformation($"Dictionaries verified.");
 
-                context.SaveChanges();
-
-                if (conector is Connector.Connector connectorInstance)
-                {
-                    connectorInstance.DictionaryItems = context.Dictionaries;
-                }
+                connector.SetDictionary(dictionaries);
             }
         }
     }

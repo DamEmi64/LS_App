@@ -1,19 +1,74 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { CKEditor } from 'ckeditor4-react';
+import { useTranslation } from 'react-i18next';
+import { useApiConnect } from '@/shared';
+import { CommunicationRules } from '../types';
+import { useDictionaryTranslation } from '@/lib/utils';
 
-interface EditorProps {
-    initData?: string;
-    readonly?: boolean;
-    onChange?: (data: string) => void;
-}
+const Editor = ({ initData, onChange, readonly }) => {
+    const { t, i18n } = useTranslation();
+    const api = useApiConnect();
+    const getDictionaryTranslation = useDictionaryTranslation();
 
-export const Editor: React.FC<EditorProps> = ({ initData, onChange, readonly }) => {
-    return <CKEditor initData={initData}
-        readOnly={readonly}
-        onChange={(evt) => {
-            const data = evt.editor.getData();
-            if (onChange) onChange(data);
-        }} />;
-}
+    // 👇 cache per editor instance
+    const cacheRef = useRef(null);
+
+    const loadSuggestions = async () => {
+        const res = await api.get<CommunicationRules>('communication_rules');
+        const data = res.data;
+
+        // 👇 capture values NOW (not during async execution later)
+        return {
+            functions: data.functions.map(f => {
+                const tr = getDictionaryTranslation('Fluid functions', f.id);
+                return {
+                    title: tr.title,
+                    description: tr.description,
+                    invoker: f.invoker,
+                    type: "function"
+                };
+            }),
+            variables: data.variables.map(v => {
+                return {
+                    title: v.title,
+                    description: v.description,
+                    invoker: v.invoker,
+                    type: "variable"
+                };
+            })
+        };
+    };
+
+
+    return (
+        <CKEditor
+            key={i18n.language} // 👈 reset cache on language change
+            initData={initData}
+            readOnly={readonly}
+            style={{width:'80vw',height:'90vh'}}
+            config={{
+                extraPlugins: 'fluidSuggestion',
+                fluidSuggestion: {
+                    loadSuggestions, // 👈 only once
+                    labels: {
+                        functions: t('fluid.functions'),
+                        variables: t('fluid.variables'),
+                        empty: t('fluid.empty')
+                    }
+                }
+            }}
+            onBeforeLoad={(CKEDITOR) => {
+                CKEDITOR.plugins.addExternal(
+                    'fluidSuggestion',
+                    '/ckeditor/plugins/fluidSuggestion/',
+                    'plugin.js'
+                );
+            }}
+            onChange={(evt) => {
+                onChange?.(evt.editor.getData());
+            }}
+        />
+    );
+};
 
 export default Editor;

@@ -7,12 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Core\AutomationBase\AutomationBase.csproj" />
     <ProjectReference Include="..\Automation.Domain\Automation.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Hangfire" Version="1.8.23" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.6" />
   </ItemGroup>
 
   <ItemGroup>

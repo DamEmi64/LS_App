@@ -1,8 +1,8 @@
-﻿using Base.Entities;
+﻿using Base;
 
 namespace Files.Domain.Dictionaries
 {
-    [Dictionary("NotifyTypes")]
+    [Dictionary("Notify types")]
     public class FileNotifyTypes
     {
         public static DictionaryItem FileSave => EntityDictionary.Item(1006, "File saved");

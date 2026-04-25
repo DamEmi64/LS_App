@@ -8,7 +8,7 @@ import { FilterValue, OperationMenu, Row, TileContainerProps } from '@/shared';
 
 
 
-const TileContainer = <T extends Row,>({ updateData, filters, data, addData, operations }: TileContainerProps<T>) => {
+const TileContainer = <T extends Row,>({ updateData, filters, data, addData, operations, includeImages = false }: TileContainerProps<T>) => {
     const { t } = useTranslation();
     const [pageSize, setPageSize] = useState(10);
     const [orderBy, setOrderBy] = useState<string | null>(null);
@@ -93,19 +93,22 @@ const TileContainer = <T extends Row,>({ updateData, filters, data, addData, ope
                         key={item.id}
                         sx={{
                             width: 300,   // fixed width
-                            height: 350,  // fixed height
+                            height: includeImages ? 350 : 'auto',  // fixed height
                             display: 'flex',
                             flexDirection: 'column',
                             justifyContent: 'space-between',
                             m: 2
                         }}
                     >
+                    {includeImages && (
                         <CardMedia
                             component="img"
                             image={item.imageData || addNew}
                             alt={item.title}
                             sx={{ height: 250, objectFit: 'cover' }} // consistent image height
                         />
+                    )}
+
                         <CardContent sx={{ flexGrow: 1 }}>
                             <Grid display={'flex'} justifyContent="space-between" alignItems="center">
                                 <Typography variant="h6" component="div" noWrap>
@@ -117,13 +120,15 @@ const TileContainer = <T extends Row,>({ updateData, filters, data, addData, ope
                     </Card>
                 ))}
 
-                <CardActionArea sx={{ width: 300, height: 350, m: 2 }} onClick={addData}>
+                <CardActionArea sx={{ width: 300, height: includeImages ? 350 : 'auto', m: 2 }} onClick={addData}>
                     <Card sx={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
-                        <CardMedia
-                            component="img"
-                            sx={{ height: 250, objectFit: 'cover' }}
-                            image={addNew}
-                        />
+                        {includeImages && (
+                            <CardMedia
+                                component="img"
+                                sx={{ height: 250, objectFit: 'cover' }}
+                                image={addNew}
+                            />
+                        )}
                         <CardContent sx={{ flexGrow: 1 }}>
                             <Typography variant="h6" component="div">
                                 {t('opt.add')}

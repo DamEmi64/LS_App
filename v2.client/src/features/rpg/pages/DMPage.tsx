@@ -28,9 +28,9 @@ import BattlePage from "./BattlePage";
 import { battleNpc, Chapter, Hero, HeroDto } from "@/features/rpg";
 
 const DMPage: React.FC<{ chapter: Chapter }> = ({ chapter }) => {
-    const api = useApiConnect();
+    const {chaptersApi, call} = useApiConnect();
     const { t } = useTranslation();
-    const { send } = useSignalR("rpghub");
+    const { send } = useSignalR("rpg");
 
     // 📱 RESPONSIVE
     const theme = useTheme();
@@ -85,8 +85,8 @@ const DMPage: React.FC<{ chapter: Chapter }> = ({ chapter }) => {
         }
     };
 
-    const startChapter = () => api.put('rpg_chapter_start', null, null, chapter.id);
-    const endChapter = () => api.put('rpg_chapter_end', null, null, chapter.id);
+    const startChapter = () => call<Chapter>(chaptersApi,chaptersApi.updateChapterByIdStart,{id:chapter.id});
+    const endChapter = () => call<Chapter>(chaptersApi,chaptersApi.updateChapterByIdEnd,{id:chapter.id});
 
     const openPlayerView = () => {
         window.open('/rpg/playerView', '_blank');

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Base;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RPG.Application.Dtos;
 using RPG.Application.Filters;
@@ -13,6 +14,7 @@ using RPG.Infrastructure.Services.SummaryService;
 namespace RPG.Application.Controllers
 {
     [Route("[controller]")]
+    [AuthPermission("rpg")]
     public class StoriesController : BaseController
     {
         private readonly IStoryRepository _storyRepository;
@@ -38,6 +40,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(Story), StatusCodes.Status200OK)]
         public async Task<IActionResult> Details(Guid id)
         {
             var result = await _storyRepository.Get(id);
@@ -50,14 +53,40 @@ namespace RPG.Application.Controllers
             return Json(_mapper.Map<StoryDto>(result));
         }
 
+        [HttpGet("{id}/draft")]
+        [AuthPermission("rpg_draft")]
+        [ProducesResponseType(typeof(Story), StatusCodes.Status200OK)]
+        public async Task<IActionResult> DetailsDraft(Guid id)
+        {
+            var result = await _storyRepository.Get(id);
+
+            if (result is null)
+            {
+                return NotFound();
+            }
+
+            return Json(_mapper.Map<StoryDto>(result));
+        }
+
         [HttpGet("")]
+        [ProducesResponseType(typeof(ResponseList<Story>), StatusCodes.Status200OK)]
         public async Task<IActionResult> ListData([FromQuery] StoryFilter filter)
         {
             var stories = _storyRepository.GetAll();
             return Json(filter.Filter(stories).Select(x => _mapper.Map<StoryDto>(x)));
         }
 
+        [HttpGet("draft")]
+        [AuthPermission("rpg_draft")]
+        [ProducesResponseType(typeof(ResponseList<Story>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> ListDrafts([FromQuery] StoryFilter filter)
+        {
+            var stories = _storyRepository.GetAllDraft();
+            return Json(filter.Filter(stories).Select(x => _mapper.Map<StoryDto>(x)));
+        }
+
         [HttpPost("")]
+        [AuthPermission("rpg_write")]
         public async Task<IActionResult> Create([FromBody] StoryDto dto)
         {
             var entity = _mapper.Map<Story>(dto);
@@ -69,6 +98,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpPost("import")]
+        [AuthPermission("rpg_write")]
         public async Task<IActionResult> Import([FromForm] ImportDto dto)
         {
             var fileName = dto.ExternalUrl;
@@ -85,6 +115,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpGet("{id}/export")]
+        [ProducesResponseType(typeof(FileResult), StatusCodes.Status200OK)]
         public async Task<IActionResult> Export(Guid id)
         {
             var storyName = _storyRepository.GetStoryTitle(id) ?? throw new ArgumentException("Story not found", nameof(id));
@@ -96,6 +127,7 @@ namespace RPG.Application.Controllers
 
 
         [HttpPut("{id}")]
+        [AuthPermission("rpg_write")]
         public async Task<IActionResult> Edit(Guid id, [FromBody] StoryDto dto)
         {
             var place = await _storyRepository.Get(id);
@@ -113,6 +145,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpDelete("{id}")]
+        [AuthPermission("rpg_write")]
         public async Task<IActionResult> Delete(Guid id)
         {
             await _storyRepository.Remove(id);
@@ -164,6 +197,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpGet("{id}/summary")]
+        [ProducesResponseType(typeof(FileResult), StatusCodes.Status200OK)]
         public async Task<IActionResult> DownloadSummary(Guid id)
         {
             var story = await _storyRepository.Get(id);

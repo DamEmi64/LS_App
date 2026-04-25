@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Options;
+using System.Text;
 
 namespace System.Infrastructure.Filters
 {
@@ -14,18 +16,52 @@ namespace System.Infrastructure.Filters
 
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            var cookie = context.HttpContext.Request.Cookies["adminToken"];
+            var request = context.HttpContext.Request;
 
-            if (cookie != _options.Token)
+            if (!request.Headers.ContainsKey("Authorization"))
             {
-                context.HttpContext.Response.StatusCode = 401;
-                context.Result = new Microsoft.AspNetCore.Mvc.JsonResult(new { message = "Unauthorized" });
+                Challenge(context);
+                return;
             }
+
+            var authHeader = request.Headers["Authorization"].ToString();
+
+            if (!authHeader.StartsWith("Basic "))
+            {
+                Challenge(context);
+                return;
+            }
+
+            var encoded = authHeader.Substring("Basic ".Length).Trim();
+            var credentialBytes = Convert.FromBase64String(encoded);
+            var credentials = Encoding.UTF8.GetString(credentialBytes).Split(':');
+
+            if (credentials.Length != 2)
+            {
+                Challenge(context);
+                return;
+            }
+
+            var username = credentials[0];
+            var password = credentials[1];
+
+            if (username != _options.Login || password != _options.Password)
+            {
+                Challenge(context);
+                return;
+            }
+        }
+
+        private void Challenge(AuthorizationFilterContext context)
+        {
+            context.HttpContext.Response.Headers["WWW-Authenticate"] = "Basic realm=\"Admin Panel\"";
+            context.Result = new UnauthorizedResult();
         }
     }
 
     public class AdminPanelOptions
     {
-        public string Token { get; set; } = string.Empty;
+        public string Login { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
     }
 }

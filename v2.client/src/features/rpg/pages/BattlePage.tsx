@@ -41,7 +41,7 @@ const BattlePage: React.FC<{
     const handleDrop = (columnIndex: number, rowIndex: number) => {
       if (!draggedItem) return;
 
-      var newData = npcs.map((npc) =>
+      const newData = npcs.map((npc) =>
         npc.id === draggedItem.id ? { ...npc, row: rowIndex, column: columnIndex } : npc
       );
       setNpcs(newData);
@@ -49,6 +49,11 @@ const BattlePage: React.FC<{
       setDraggedItem(null);
       onChange?.(newData);
     };
+
+    const onTableChange = (o : TableData<battleNpc>) => {
+      setNpcs((prev) => o.data.map((npc, idx) => ({ ...npc, row: prev.at(idx)?.row || 0 })));
+      onChange?.(o.data);
+    }
 
     return (
       <Grid container spacing={2} width={'100%'} flexDirection={"column"} alignItems={'center'}>
@@ -133,7 +138,7 @@ const BattlePage: React.FC<{
             <GridTable
               columns={tableColumns}
               data={npcTable}
-              setData={(o) => setNpcs((prev) => o.data.map((npc, idx) => ({ ...npc, row: prev.at(idx)?.row || 0 })))}
+              setData={(o) => onTableChange(o)}
             />
           </Grid>
         )}

@@ -1,0 +1,120 @@
+@page
+@model DictionariesModel
+
+@{
+    ViewData["Title"] = "Dictionaries";
+    ViewData["Active"] = "Dictionaries";
+    Layout = "/Pages/Admin/_Layout.cshtml";
+}
+
+@section Styles {
+    <style>
+        table.dataTable thead th {
+            background-color: #34495e;
+            color: white;
+        }
+
+        .filter-bar {
+            margin-bottom: 15px;
+        }
+
+        select {
+            padding: 6px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        table td {
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
+}
+
+<h2>Dictionaries</h2>
+
+<div class="filter-bar">
+    <label><strong>Dictionary:</strong></label>
+    <select id="dictFilter">
+        <option value="">All</option>
+        @foreach (var d in Model.DictionaryNames)
+        {
+            <option value="@d">@d</option>
+        }
+    </select>
+</div>
+
+<table id="dictTable" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>Key</th>
+            <th>Dictionary</th>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+</table>
+
+<!-- Details Modal -->
+<div id="detailsModal" class="modal-overlay">
+    <div class="modal">
+        <span class="modal-close" onclick="closeModal('detailsModal')">&times;</span>
+        <h3>Dictionary Entry</h3>
+
+        <div><strong>Key:</strong> <span id="dKey"></span></div>
+        <div><strong>Dictionary:</strong> <span id="dDict"></span></div>
+
+        <h4>Name</h4>
+        <pre id="dName"></pre>
+
+        <h4>Description</h4>
+        <pre id="dDesc"></pre>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function openModal(id) { $('#' + id).css('display', 'flex'); }
+        function closeModal(id) { $('#' + id).hide(); }
+
+        $(function () {
+
+            const table = $('#dictTable').DataTable({
+                processing: true,
+                serverSide: false, // since using service directly
+                ajax: {
+                    url: '?handler=Data',
+                    type: 'GET',
+                    data: function (d) {
+                        d.dictionary = $('#dictFilter').val();
+                    },
+                    dataSrc: ''
+                },
+                columns: [
+                    { data: 'key' },
+                    { data: 'dictionary' },
+                    { data: 'name' },
+                    {
+                        data: 'description',
+                        render: d => d && d.length > 80 ? d.substring(0, 80) + "..." : d
+                    }
+                ]
+            });
+
+            $('#dictFilter').change(() => table.ajax.reload());
+
+            $('#dictTable tbody').on('click', 'tr', function () {
+                const d = table.row(this).data();
+
+                $('#dKey').text(d.key);
+                $('#dDict').text(d.dictionary);
+                $('#dName').text(d.name || "");
+                $('#dDesc').text(d.description || "");
+
+                openModal('detailsModal');
+            });
+        });
+    </script>
+}

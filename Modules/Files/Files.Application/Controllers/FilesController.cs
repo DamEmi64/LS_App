@@ -5,6 +5,7 @@ using Files.Domain.Dictionaries;
 using Files.Domain.Repositories;
 using Files.Infrastructure.Services.DownloadService;
 using Files.Infrastructure.Services.ManagmentService;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Files.Application.Controllers
@@ -33,6 +34,7 @@ namespace Files.Application.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(Domain.Entities.File), StatusCodes.Status200OK)]
         public async Task<IActionResult> Details(Guid id)
         {
             var result = await _fileRepository.Get(id);
@@ -45,30 +47,34 @@ namespace Files.Application.Controllers
             return Json(result);
         }
 
-        [HttpGet("{id}/show")]
-        public async Task<IActionResult> ShowFile(Guid id)
-        {
-            var result = await _fileRepository.Get(id);
-
-            if (result is null)
-            {
-                return NotFound();
-            }
-
-            return Json(result);
-        }
-
         [HttpGet("")]
+        [ProducesResponseType(typeof(ResponseList<Domain.Entities.File>), StatusCodes.Status200OK)]
         public async Task<IActionResult> ListData([FromQuery] FileFilter filter)
         {
             var files = filter.Filter(_fileRepository.GetAll());
 
-            var dtos = files.Select(x => FileDto.ToDto(x)).ToList();
+            var dtos = files
+                .Select(FileDto.ToDto)
+                .ToList();
 
-            foreach (var item in dtos)
+            if (filter.IncludeImages)
             {
-                var media = await _mediaProvider.Load(item.ImageId ?? Guid.Empty);
-                item.ImageData = media?.ContentStr;
+                var imageIds = dtos
+                                .Where(x => x.ImageId != null)
+                                .Select(x => x.ImageId!.Value)
+                                .Distinct()
+                                .ToList();
+
+                var media = await _mediaProvider.LoadMany(imageIds).ToListAsync();
+
+                foreach (var item in dtos)
+                {
+                    if (item.ImageId != null)
+                    {
+                        var mediaItem = media.FirstOrDefault(m => m?.Id == item.ImageId);
+                        item.ImageData = mediaItem?.ContentStr;
+                    }
+                }
             }
 
             return Json(dtos);
@@ -109,6 +115,7 @@ namespace Files.Application.Controllers
         }
 
         [HttpGet("{id}/export")]
+        [ProducesResponseType(typeof(FileResult), StatusCodes.Status200OK)]
         public async Task<IActionResult> ExportFile(Guid id, [FromQuery] string? newLocaction)
         {
             var file = await _fileRepository.Get(id);

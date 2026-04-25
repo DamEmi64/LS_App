@@ -1,4 +1,4 @@
-﻿using Base.Entities;
+﻿using Base;
 
 namespace Automation.Domain.Dictionaries
 {

@@ -17,6 +17,7 @@ import RegisterForm from '@/features/auth/components/registerForm';
 import UserEdit from '@/features/auth/components/userEdit';
 import UserProfile from '@/features/auth/components/userProfile';
 import { useApiConnect } from '@/shared';
+import HouseIcon from '@mui/icons-material/House';
 
 export default function navMenu() {
     const modal = useModal();
@@ -73,7 +74,7 @@ export default function navMenu() {
                         aria-haspopup="true"
                         aria-expanded={open ? 'true' : undefined}
                     >
-                        <Avatar sx={{ width: 32, height: 32 }}>S</Avatar>
+                        <Avatar sx={{ width: 32, height: 32 }}><HouseIcon /></Avatar>
                     </IconButton>
                 </Tooltip>
             </Box>

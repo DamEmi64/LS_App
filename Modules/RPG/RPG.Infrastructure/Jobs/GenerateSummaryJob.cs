@@ -1,6 +1,5 @@
 ﻿using Base;
 using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.Extensions.DependencyInjection;
 using Razor.Templating.Core;
 using RPG.Domain.Repositories;
 using RPG.Infrastructure.Models;
@@ -35,9 +34,9 @@ namespace RPG.Infrastructure.Jobs
                 Story = jobContext.GetData<StoryModel>() ?? throw new ArgumentNullException();
             }
 
-            var storyRepo = jobContext.ServiceProvider.GetRequiredService<IStoryRepository>();
-            var razorViewEngine = jobContext.ServiceProvider.GetRequiredService<IRazorViewEngine>();
-            var mediaProvider = jobContext.ServiceProvider.GetRequiredService<IMediaProvider>();
+            var storyRepo = jobContext.Resolve<IStoryRepository>();
+            var razorViewEngine = jobContext.Resolve<IRazorViewEngine>();
+            var mediaProvider = jobContext.Resolve<IMediaProvider>();
             await ExecuteInternal(storyRepo, mediaProvider);
         }
 

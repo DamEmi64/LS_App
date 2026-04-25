@@ -39,7 +39,7 @@ export const TemplateGen: React.FC<TemplateGenProps> = ({ initialData, onSubmit 
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        var template = initialData?.template || '';
+        const template = initialData?.template || '';
         onSubmit({ template, sender, recipients });
     };
 

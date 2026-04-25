@@ -16,6 +16,7 @@ namespace Files.Application.Filters
         public string? Subject { get; set; }
         public int? Year { get; set; }
         public int? Semester { get; set; }
+        public bool IncludeImages { get; set; } = false;
 
         public IEnumerable<Domain.Entities.File> Filter(IEnumerable<Domain.Entities.File> data)
         {

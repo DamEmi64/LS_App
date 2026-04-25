@@ -41,6 +41,7 @@ export interface TileContainerProps<T> {
     data: T[];
     operations: Operations<T>[];
     addData?: () => Promise<void>;
+    includeImages?: boolean;
 };
 
 export enum FilterType {

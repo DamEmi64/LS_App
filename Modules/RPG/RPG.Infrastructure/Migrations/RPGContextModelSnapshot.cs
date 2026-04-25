@@ -17,7 +17,7 @@ namespace RPG.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.5")
+                .HasAnnotation("ProductVersion", "10.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -32,12 +32,18 @@ namespace RPG.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("InsDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetimeoffset");
+                    b.Property<bool>("Draft")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("FlowJson")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("InsBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("InsDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<int>("Order")
                         .HasColumnType("int");
@@ -49,11 +55,11 @@ namespace RPG.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("UpdDate")
-                        .HasColumnType("datetimeoffset");
-
                     b.Property<string>("UpdBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("UpdDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
 
@@ -82,12 +88,12 @@ namespace RPG.Infrastructure.Migrations
                     b.Property<Guid?>("Image")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("InsBy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTimeOffset>("InsDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("InsBy")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -99,11 +105,11 @@ namespace RPG.Infrastructure.Migrations
                     b.Property<Guid?>("PlayerDataId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset>("UpdDate")
-                        .HasColumnType("datetimeoffset");
-
                     b.Property<string>("UpdBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("UpdDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
 
@@ -123,22 +129,22 @@ namespace RPG.Infrastructure.Migrations
                     b.Property<Guid?>("ChapterId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("InsBy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTimeOffset>("InsDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("InsBy")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("UpdDate")
-                        .HasColumnType("datetimeoffset");
-
                     b.Property<string>("UpdBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("UpdDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Url")
                         .IsRequired()
@@ -167,22 +173,22 @@ namespace RPG.Infrastructure.Migrations
                     b.Property<Guid?>("Image")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("InsBy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTimeOffset>("InsDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("InsBy")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("UpdDate")
-                        .HasColumnType("datetimeoffset");
-
                     b.Property<string>("UpdBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("UpdDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
 
@@ -200,18 +206,18 @@ namespace RPG.Infrastructure.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("InsBy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTimeOffset>("InsDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("InsBy")
+                    b.Property<string>("UpdBy")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset>("UpdDate")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("UpdBy")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -230,21 +236,21 @@ namespace RPG.Infrastructure.Migrations
                     b.Property<DateTimeOffset?>("End")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<string>("InsBy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTimeOffset>("InsDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("InsBy")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTimeOffset>("Start")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<DateTimeOffset>("UpdDate")
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("UpdBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("UpdDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
 
@@ -262,12 +268,12 @@ namespace RPG.Infrastructure.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<string>("InsBy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTimeOffset>("InsDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("InsBy")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("PlayerDataId")
                         .HasColumnType("uniqueidentifier");
@@ -276,11 +282,11 @@ namespace RPG.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("UpdDate")
-                        .HasColumnType("datetimeoffset");
-
                     b.Property<string>("UpdBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("UpdDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<decimal>("Value")
                         .HasColumnType("decimal(18,2)");
@@ -305,12 +311,12 @@ namespace RPG.Infrastructure.Migrations
                     b.Property<DateTimeOffset?>("EndDate")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<string>("InsBy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTimeOffset>("InsDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("InsBy")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset?>("StartDate")
                         .HasColumnType("datetimeoffset");
@@ -322,11 +328,11 @@ namespace RPG.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("UpdDate")
-                        .HasColumnType("datetimeoffset");
-
                     b.Property<string>("UpdBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("UpdDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
 

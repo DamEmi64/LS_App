@@ -51,6 +51,8 @@ export interface Chapter {
     places: Place[];
     links?: Link[];
     sessions?: Session[];
+    draft: boolean;
+    flow: {nodes: any, edges: any}
 }
 
 export interface HeroDto {
@@ -77,7 +79,8 @@ export interface SessionDto {
     chapter?: string;
     order?: number;
     links?: Link[];
-    sessions?: Session[]
+    sessions?: Session[],
+    draft?: boolean;
 }
 
 export interface PlayerData {
@@ -111,4 +114,11 @@ export interface battleNpc {
     row: number;
     column: number;
     color?: 'black' | 'red' | 'blue' | 'green' | 'yellow';
+}
+
+export interface ProgressNode {
+    id: string;
+    title:string;
+    description: string;
+    condititon: string;
 }

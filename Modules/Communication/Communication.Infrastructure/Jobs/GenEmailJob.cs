@@ -1,11 +1,10 @@
 ﻿using Base;
 using Communication.Domain.Entities;
-using Communication.Infrastructure.EmailGenerator.Strategies;
+using Communication.Infrastructure.EmailGenerator;
 using Communication.Infrastructure.Services.SendService.Models;
+using CommunicationBase;
+using CommunicationBase.Interfaces;
 using Files.Domain.Repositories;
-using Fluid;
-using Fluid.Values;
-using Microsoft.Extensions.DependencyInjection;
 using System.Net;
 
 namespace Communication.Infrastructure.Jobs
@@ -26,7 +25,7 @@ namespace Communication.Infrastructure.Jobs
 
         public async Task Execute(IJobContext jobContext)
         {
-            var repo = jobContext.ServiceProvider.GetRequiredService<IEmailRepository>();
+            var repo = jobContext.Resolve<IEmailRepository>();
 
             await ExecuteInternal(repo, jobContext);
         }
@@ -35,73 +34,36 @@ namespace Communication.Infrastructure.Jobs
         {
             ArgumentNullException.ThrowIfNull(Model);
 
-            foreach (var receiver in Model.Recipients)
-            {
-                if (Model.Template is null || Model.Sender is null)
-                    continue;
-                var decoded = WebUtility.HtmlDecode(Model.Template.Body);
-                var parser = new FluidParser(new FluidParserOptions { AllowFunctions = true });
-                var result = parser.TryParse(decoded, out var template, out var error);
+            if (Model.Template is null || Model.Sender is null)
+                return;
 
-                if (!result || receiver is null)
+            var parser = jobContext.Resolve<IFluidParser>(nameof(EmailFluidParser));
+
+            if (parser is EmailFluidParser emailParser)
+            {
+                emailParser.Sender = Model.Sender;
+                emailParser.Receivers = Model.Recipients.ToList();
+
+                foreach (var receiver in emailParser.Receivers)
                 {
-                    await jobContext.AddError(error);
-                    continue;
+                    emailParser.Receiver = receiver;
+
+                    var decoded = WebUtility.HtmlDecode(Model.Template.Body);
+                    var body = await FluidGenerator.GenerateAsync(decoded, FluidGenerator.GenerateContext());
+
+                    ArgumentNullException.ThrowIfNull(body);
+
+                    var email = new Email
+                    {
+                        Sender = Model.Sender.Email ?? string.Empty,
+                        Recipient = receiver.Email ?? string.Empty,
+                        Subject = Model.Template.Subject,
+                        Body = body
+                    };
+
+                    await emailRepository.Add(email);
                 }
-
-                var body = await template.RenderAsync(GenerateContext());
-
-                var email = new Email
-                {
-                    Sender = Model.Sender.Email ?? string.Empty,
-                    Recipient = receiver.Email ?? string.Empty,
-                    Subject = Model.Template.Subject,
-                    Body = body
-                };
-
-                await emailRepository.Add(email);
             }
-        }
-
-        private TemplateContext GenerateContext()
-        {
-            ArgumentNullException.ThrowIfNull(Model?.Sender?.Login);
-
-            var context = new TemplateContext(Model);
-
-            var randomStrategy = new RandomStrategy();
-            var randomUniqueStrategy = new RandomUniqueStrategy();
-            var incrementStrategy = new IncrementStrategy();
-            var randomNumberStrategy = new RandomNumberStrategy();
-
-            var logins = Model.Recipients.Where(x => !string.IsNullOrEmpty(x.Login)).Select(x => x.Login ?? string.Empty).ToList();
-
-            var random = new FunctionValue((args, context) =>
-            {
-                return randomStrategy.Handle(args, logins, Model.Sender.Login, Model.Sender.Login);
-            });
-
-            var randomUnique = new FunctionValue((args, context) =>
-            {
-                return randomUniqueStrategy.Handle(args, logins, Model.Sender.Login, Model.Sender.Login);
-            });
-
-            var increment = new FunctionValue((args, context) =>
-            {
-                return incrementStrategy.Handle(args, logins, Model.Sender.Login, Model.Sender.Login);
-            });
-
-            var randomNumber = new FunctionValue((args, context) =>
-            {
-                return randomNumberStrategy.Handle(args, logins, Model.Sender.Login, Model.Sender.Login);
-            });
-
-            context.SetValue(nameof(random), random);
-            context.SetValue(nameof(randomUnique), randomUnique);
-            context.SetValue(nameof(increment), increment);
-            context.SetValue(nameof(randomNumber), randomNumber);
-
-            return context;
         }
     }
 }

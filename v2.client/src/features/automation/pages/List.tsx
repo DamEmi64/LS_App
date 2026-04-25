@@ -17,13 +17,14 @@ import {
   Operations,
   TableData
 } from "@/shared";
+import { Automat, AutomatTask } from "../types";
+import { ResponseList } from "@/shared/api/extension";
 
-import { Automat, Task } from "@/models/Automations";
 
 const List: React.FC = () => {
   const { t } = useTranslation();
   const modal = useModal();
-  const api = useApiConnect();
+  const { automationApi, call: mapResponse } = useApiConnect();
 
   // Table state
   const [data, setData] = useState<TableData<Automat>>({ data: [], total: 0 });
@@ -36,16 +37,18 @@ const List: React.FC = () => {
   // Fetch data
   const updateData = async (paramsObj: onChangeParams): Promise<TableData<Automat>> => {
     const { page, pageSize, orderBy, order, filters } = paramsObj;
-    const query = new URLSearchParams({
-      page: (page ?? 0).toString(),
-      pageSize: (pageSize ?? 10).toString(),
-      orderBy: orderBy ?? "",
-      order: order ?? ""
+    const query = {
+      page: page?.toString() || '1',
+      pageSize: pageSize?.toString() || '10',
+      orderBy: orderBy || '',
+      order: order || 'desc',
+    };
+
+    (filters || []).forEach(filter => {
+      query[filter.field] = filter.value.toLocaleString();
     });
 
-    filters?.forEach(f => query.append(f.field, f.value.toString()));
-
-    const result = await api.get<Automat[]>("automation_data", { params: query });
+    const result = await mapResponse<ResponseList<Automat>>(automationApi, automationApi.getAutomation, query);
     setData({ data: result.data, total: result.total });
 
     return { data: result.data, total: result.total };
@@ -66,7 +69,7 @@ const List: React.FC = () => {
   };
 
   const saveNew = (automat: Automat) => {
-    api.post<Automat>("automation_new", automat, null).then(refresh);
+    automationApi.createAutomation(automat as unknown).then(refresh);
   };
 
   const editAutomat = (automat: Automat) => {
@@ -76,20 +79,26 @@ const List: React.FC = () => {
   };
 
   const saveEdit = (automat: Automat, id: string) => {
-    api.put<Automat>("automation_edit", automat, null, id).then(refresh);
+    mapResponse(automationApi, automationApi.updateAutomationById, { id, body: automat }).then(refresh);
   };
 
   const turnOnOff = (automat: Automat) => {
-    const url = automat.active ? "automation_turn_off" : "automation_turn_on";
-    api.put<Automat>(url, automat, null, automat.id).then(refresh);
+
+    const id = automat.id;
+    if (automat.active) {
+      mapResponse(automationApi, automationApi.updateAutomationByIdTurnoff, { id }).then(refresh);
+    }
+    else {
+      mapResponse(automationApi, automationApi.updateAutomationByIdTurnon, { id }).then(refresh);
+    }
   };
 
-  const editTask = (automat: Automat, taskId: string, task: Task) => {
+  const editTask = (automat: Automat, taskId: string, task: AutomatTask) => {
     const index = automat.tasks.findIndex(t => t.id === taskId);
     if (index >= 0) automat.tasks[index] = task;
     else automat.tasks.push(task);
 
-    api.put<Automat>("automation_edit", automat, null, automat.id).then(refresh);
+    mapResponse(automationApi, automationApi.getAutomationById, { id: automat.id, automat }).then(refresh);
   };
 
   const del = (automat: Automat) => {
@@ -105,7 +114,7 @@ const List: React.FC = () => {
   };
 
   const delConfirm = (automat: Automat) => {
-    api.del<Automat>("automation_del", null, automat.id).then(refresh);
+    mapResponse(automationApi, automationApi.updateAutomationById, { id: automat.id }).then(refresh);
   };
 
   // Columns, filters, operations
@@ -143,7 +152,7 @@ const List: React.FC = () => {
         </Button>
       </Grid>
 
-      <Grid  size={12}>
+      <Grid size={12}>
         <DataTable
           columns={columns}
           filters={filters}

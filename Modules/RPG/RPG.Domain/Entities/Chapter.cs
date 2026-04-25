@@ -16,5 +16,7 @@ namespace RPG.Domain.Entities
 
         public List<Session> Sessions { get; set; } = new List<Session>();
         public List<Link> Links { get; set; } = new List<Link>();
+        public bool Draft { get; set; }
+        public string? FlowJson { get; set; }
     }
 }

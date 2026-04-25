@@ -1,102 +1,155 @@
-import React, { createContext, useContext, ReactNode } from 'react';
-import endpoints from '@/app/endpoints.json';
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
-import useLocalStorage from 'react-use-localstorage';
-import { notify } from '@/shared/components/NotificationListener';
-import { useTranslation } from 'react-i18next';
+import { ReactNode, createContext, useContext, useMemo } from 'react';
+import axios, { AxiosError, AxiosResponse } from 'axios';
+import useLocalStorage from 'react-use-localstorage'
 
-export type Response<T = any> = {
-    data: T;
-    total?: number;
-}
+import {
+    StoriesApi,
+    PlacesApi,
+    HeroesApi,
+    ChaptersApi,
+    ProcessApi,
+    EmailsApi,
+    TemplatesApi,
+    AuthApi,
+    FilesApi,
+    AutomationsApi,
+    HomeApi
+} from '@/shared/api/generated';
+import { notify } from '../components/NotificationListener';
+import { BaseAPI } from '../api/generated/base';
 
-export type ApiConnectContextType = {
-    getUrl: (key: string) => string;
-    get: <T>(urlKey: string, config?: AxiosRequestConfig, id?: string) => Promise<Response<T>>;
-    post: <T, D = any>(urlKey: string, data?: D, config?: AxiosRequestConfig, id?: string) => Promise<Response<T>>;
-    put: <T, D = any>(urlKey: string, data?: D, config?: AxiosRequestConfig, id?: string) => Promise<Response<T>>;
-    del: <T>(urlKey: string, config?: AxiosRequestConfig, id?: string) => Promise<Response<T>>;
-    download: (urlKey: string, id?: string) => Promise<AxiosResponse<any>>;
+type ApiError = {
+    message?: string;
+    title?: string;
 };
 
-const ApiConnectContext = createContext<ApiConnectContextType | undefined>(undefined);
+export type ApiConnectContextType = {
+    storiesApi: StoriesApi;
+    placesApi: PlacesApi;
+    heroesApi: HeroesApi;
+    chaptersApi: ChaptersApi;
+    processApi: ProcessApi;
+    emailsApi: EmailsApi;
+    templatesApi: TemplatesApi;
+    authApi: AuthApi;
+    filesApi: FilesApi;
+    automationApi: AutomationsApi;
+    homeApi: HomeApi;
+
+    call: <TResponse>(
+        api: BaseAPI,
+        apiCall: (req: any) => Promise<{ data: any }>,
+        input: any,
+        mapResponse?: (data: any) => TResponse
+    ) => Promise<TResponse>;
+
+    raw: (
+        api: BaseAPI,
+        apiCall: (req: any) => Promise<{ data: any }>,
+        input: any
+    ) => Promise<AxiosResponse>;
+};
+
+const ApiConnectContext = createContext<ApiConnectContextType | null>(null);
 
 export const ApiConnect = ({ children }: { children: ReactNode }) => {
-    axios.defaults.withCredentials = true;
-    const [t] = useTranslation();
-    const [endpoint] = useLocalStorage('apiEndpoint', 'https://192.168.1.58:5144');
+    const [baseURL] = useLocalStorage(
+        'apiEndpoint',
+        'https://192.168.1.58:5144'
+    );
 
-    const getUrl = (key: string) => {
-        const value = endpoints[key];
-        if (!value) {
-            throw new Error(t('EndpointNotFound'));
+    const axiosInstance = useMemo(() => {
+        const instance = axios.create({
+            baseURL,
+            withCredentials: true
+        });
+
+        instance.interceptors.response.use(
+            res => res,
+            (error: AxiosError<ApiError>) => {
+                if (error.message && !error.message.startsWith('Request failed with status')) {
+                    notify('error', error.message);
+                }else if (error.response.data.message) {
+                    notify('error', error.response.data.message);
+                }
+
+                return Promise.reject(error);
+            }
+        );
+
+        return instance;
+    }, [baseURL]);
+
+
+    const normalizeRequest = (input: any) => {
+        if (
+            input &&
+            typeof input === 'object' &&
+            !Array.isArray(input)
+        ) {
+            const keys = Object.keys(input);
+
+            if (keys.includes('body') || (keys.includes('order') && keys.includes('orderBy'))) {
+                return input;
+            }
+
+            if (keys.length === 1 && keys[0] === 'id') {
+                return input;
+            }
+
+            return { body: input };
         }
-        return endpoint + '/' + value;
-    }
 
-    const handleError = (error: AxiosError) => {
-        notify('error', error.response?.data ?? error.message);
-        throw error; // ensures the Promise rejects
-    }
+        return input;
+    };
 
-    const replaceId = (url: string, id?: string) => id ? url.replace(':id', id) : url;
+    const call = async <
+        TRes = any,
+        TReq = any
+    >(
+        api: any,
+        method: (req: TReq) => Promise<{ data: TRes }>,
+        input: TReq,
+        mapResponse?: (data: TRes) => any
+    ): Promise<any> => {
 
-    async function get<T>(urlKey: string, config?: AxiosRequestConfig, id?: string): Promise<Response<T>> {
-        const url = replaceId(getUrl(urlKey), id);
-        try {
-            const rawResponse = await axios.get<T>(url, config);
-            const response = rawResponse.data as unknown as Response<T>;
-            return response.data == null && response.total == null ? { data: response as T , total: 1 } : response;
-        } catch (err) {
-            return handleError(err as AxiosError);
-        }
-    }
+        const res = await method.call(api, normalizeRequest(input));
 
-    async function post<T, D = any>(urlKey: string, data?: D, config?: AxiosRequestConfig, id?: string): Promise<Response<T>> {
-        const url = replaceId(getUrl(urlKey), id);
-        try {
-            const rawResponse = await axios.post<T>(url, data, config);
-            const response = rawResponse.data as unknown as Response<T>;
-            return response.data == null && response.total == null ? { data: response as T , total: 1 } : response;
-        } catch (err) {
-            return handleError(err as AxiosError);
-        }
-    }
+        return mapResponse
+            ? mapResponse(res.data)
+            : res.data;
+    };
 
-    async function put<T, D = any>(urlKey: string, data?: D, config?: AxiosRequestConfig, id?: string): Promise<Response<T>> {
-        const url = replaceId(getUrl(urlKey), id);
-        try {
-            const rawResponse = await axios.put<T>(url, data, config);
-            const response = rawResponse.data as unknown as Response<T>;
-            return response.data == null && response.total == null ? { data: response as T , total: 1 } : response;
-        } catch (err) {
-            return handleError(err as AxiosError);
-        }
-    }
+    const raw = async <
+        TRes = any,
+        TReq = any
+    >(
+        api: any,
+        method: (req: TReq) => Promise<{ data: TRes }>,
+        input: TReq,
+    ): Promise<any> => {
 
-    async function del<T>(urlKey: string, config?: AxiosRequestConfig, id?: string): Promise<Response<T>> {
-        const url = replaceId(getUrl(urlKey), id);
-        try {
-            const rawResponse = await axios.delete<T>(url, config);
-            const response = rawResponse.data as unknown as Response<T>;
-            return response.data == null && response.total == null ? { data: response as T , total: 1 } : response;
-        } catch (err) {
-            return handleError(err as AxiosError);
-        }
-    }
+        return await method.call(api, normalizeRequest(input));
+    };
 
-    async function download(urlKey: string, id?: string) {
-        const url = replaceId(getUrl(urlKey), id);
-        try {
-            const response = await axios.get(url, { responseType: 'blob' });
-            return response;
-        } catch (err) {
-            return handleError(err as AxiosError);
-        }
-    }
+    const api = useMemo<ApiConnectContextType>(() => ({
+        storiesApi: new StoriesApi(null, null, axiosInstance),
+        placesApi: new PlacesApi(null, null, axiosInstance),
+        heroesApi: new HeroesApi(null, null, axiosInstance),
+        chaptersApi: new ChaptersApi(null, null, axiosInstance),
+        processApi: new ProcessApi(null, null, axiosInstance),
+        emailsApi: new EmailsApi(null, null, axiosInstance),
+        templatesApi: new TemplatesApi(null, null, axiosInstance),
+        authApi: new AuthApi(null, null, axiosInstance),
+        filesApi: new FilesApi(null, null, axiosInstance),
+        automationApi: new AutomationsApi(null, null, axiosInstance),
+        homeApi: new HomeApi(null, null, axiosInstance),
+        call,
+        raw
+    }), [axiosInstance, call]);
 
     return (
-        <ApiConnectContext.Provider value={{ getUrl, get, post, put, del, download }}>
+        <ApiConnectContext.Provider value={api}>
             {children}
         </ApiConnectContext.Provider>
     );
@@ -104,8 +157,10 @@ export const ApiConnect = ({ children }: { children: ReactNode }) => {
 
 export const useApiConnect = () => {
     const context = useContext(ApiConnectContext);
+
     if (!context) {
-        throw new Error('useApiConnect must be used within an ApiConnectProvider');
+        throw new Error('useApiConnect must be used within ApiConnect');
     }
+
     return context;
 };

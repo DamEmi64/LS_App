@@ -22,19 +22,21 @@ import { useTranslation } from "react-i18next";
 import { GridAddIcon } from "@mui/x-data-grid";
 import ArchiveTaskForm from "./Tasks/ArchiveTaskForm";
 import SummaryTaskForm from "./Tasks/SummaryRPGTaskJob";
-import { Automat, Trigger } from "../../../models/Automations";
+import { Automat, Trigger } from "@/features/automation";
 import { useTheme } from "@mui/material";
 import SummaryLastRPGTaskForm from "./Tasks/SummaryLastRPGTaskJob";
+import DownloadLastFileForm from "./Tasks/DownloadLastFile";
 
 const taskTypes = [
     { id: 1, label: "automations.actions.archive" },
     { id: 2, label: "automations.actions.GenerateRPGSummary" },
     { id: 3, label: "automations.actions.GenerateRPGSummary" },
+    { id: 4, label: "automations.actions.downloadLastFile" },
 ];
 
 const triggerTypes = [
-    { id: 'Cron', label: "automations.triggers.cron" },
-    { id: 'Notifier', label: "automations.triggers.onRPGModify" }
+    { id: 1, label: "automations.triggers.cron" },
+    { id: 2, label: "automations.triggers.onRPGModify" }
 ];
 
 export const AutomatForm = ({ initialData, onSubmit }) => {
@@ -52,8 +54,6 @@ export const AutomatForm = ({ initialData, onSubmit }) => {
     const addTrigger = () => {
         const newTrigger = {
             id: crypto.randomUUID(),
-            name: "",
-            description: "",
             type: 1,
             cron: "",
             eventId: []
@@ -106,10 +106,10 @@ export const AutomatForm = ({ initialData, onSubmit }) => {
 
     const convertTasks = (tasks) => {
 
-        let convertedTasks = [];
+        const convertedTasks = [];
 
         for (let i = 0; i < tasks.length; i++) {
-            var task = tasks[i];
+            const task = tasks[i];
             if (task.operationId === 1) {
                 task.data = {
                     SourceDir: task.data.sourceDir,
@@ -120,7 +120,7 @@ export const AutomatForm = ({ initialData, onSubmit }) => {
             }
             else if (task.operationId === 2) {
 
-                var generateStoryFromSummaryTask = {
+                const generateStoryFromSummaryTask = {
                     id: crypto.randomUUID(),
                     name: "",
                     operationId: 34,
@@ -148,7 +148,7 @@ export const AutomatForm = ({ initialData, onSubmit }) => {
             }
             else if (task.operationId === 3) {
 
-                var getLastEditedRPGTask = {
+                const getLastEditedRPGTask = {
                     id: crypto.randomUUID(),
                     name: "",
                     operationId: 33,
@@ -242,24 +242,6 @@ export const AutomatForm = ({ initialData, onSubmit }) => {
                                 <Typography>Trigger #{index + 1}</Typography>
                                 <IconButton onClick={() => deleteTrigger(index)}><DeleteIcon /></IconButton>
                             </Box>
-
-                            <TextField
-                                sx={{ mt: 2 }}
-                                fullWidth
-                                label={t("automations.title")}
-                                value={tr.name}
-                                onChange={(e) => updateTrigger(index, { ...tr, name: e.target.value })}
-                            />
-
-                            <TextField
-                                sx={{ mt: 2 }}
-                                fullWidth
-                                label={t("automations.description")}
-                                value={tr.description}
-                                multiline
-                                onChange={(e) => updateTrigger(index, { ...tr, description: e.target.value })}
-                            />
-
                             <FormControl fullWidth sx={{ mt: 2 }}>
                                 <InputLabel>{t("automations.triggers.type")}</InputLabel>
                                 <Select
@@ -307,6 +289,7 @@ export const AutomatForm = ({ initialData, onSubmit }) => {
                             {task.operationId === 1 && <ArchiveTaskForm task={task} onChange={(t) => updateTask(index, t)} />}
                             {task.operationId === 2 && <SummaryTaskForm task={task} onChange={(t) => updateTask(index, t)} />}
                             {task.operationId === 3 && <SummaryLastRPGTaskForm task={task} onChange={(t) => updateTask(index, t)} />}
+                            {task.operationId === 4 && <DownloadLastFileForm task={task} onChange={(t) => updateTask(index, t)} />}
                         </Paper>
                     ))}
 

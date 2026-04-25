@@ -1,10 +1,27 @@
-﻿using RPG.Domain.Entities;
+﻿using Base;
+using Google.Apis.Auth.OAuth2;
+using Google.Cloud.Firestore;
+using Google.Cloud.Firestore.V1;
+using RPG.Domain.Entities;
 using RPG.Infrastructure.Models;
 
 namespace RPG.Infrastructure.External.Firebase
 {
     public static class FirebaseExtensions
     {
+        public static async Task<FirestoreDb> GetDb()
+        {
+            var options = AppConfiguration.GetValue<FirebaseOptions>(nameof(FirebaseOptions));
+            ArgumentNullException.ThrowIfNull(options, nameof(options));
+
+            var credential = CredentialFactory.FromFile<ICredential>(options.CredentialsPath);
+            var builder = new FirestoreClientBuilder
+            {
+                Credential = credential
+            };
+
+            return await FirestoreDb.CreateAsync(options.ProjectId, builder.Build());
+        }
         public static FirebaseStory ToFirebase(this StoryModel story)
             => new()
             {

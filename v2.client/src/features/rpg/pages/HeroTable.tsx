@@ -17,6 +17,7 @@ import { Chapter, Hero, HeroDto } from "../types";
 import { HeroForm } from "../components/heroForm";
 import { Image } from "@/features/system";
 import SelectChapter from "@/features/rpg/components/SelectChapter";
+import { useAuth } from "@/features/auth/context/authProvider";
 
 export type HeroTableProps = {
     heroes: Hero[],
@@ -30,7 +31,8 @@ export const HeroTable: React.FC<HeroTableProps> = ({
     refresh
 }) => {
     const modal = useModal();
-    const api = useApiConnect();
+    const {heroesApi, homeApi, call} = useApiConnect();
+    const { checkPermission } = useAuth();
 
     // 📱 RESPONSIVE
     const theme = useTheme();
@@ -38,8 +40,8 @@ export const HeroTable: React.FC<HeroTableProps> = ({
 
     const operations: Operations<Hero>[] = [
         { name: 'opt.details', method: (o) => details(o) },
-        { name: 'opt.edit', method: (o) => edit(o) },
-        { name: 'opt.delete', method: (o) => del(toDto(o)) }
+        { name: 'opt.edit', method: (o) => edit(o), hidden: (o) => !checkPermission(['rpg_write']) },
+        { name: 'opt.delete', method: (o) => del(toDto(o)), hidden: (o) => !checkPermission(['rpg_write']) }
     ];
 
     const toDto = (data: Hero): HeroDto => {
@@ -51,14 +53,24 @@ export const HeroTable: React.FC<HeroTableProps> = ({
     };
 
     const details = (o: Hero) => {
-        modal.showModal(
-            <HeroForm
-                hero={toDto(o)}
-                onSave={saveHero}
-                onDelete={del}
-                onCopy={copyHero}
-            />
-        );
+
+        if (checkPermission(['rpg_write'])) {
+            modal.showModal(
+                <HeroForm
+                    hero={toDto(o)}
+                    onSave={saveHero}
+                    onDelete={del}
+                    onCopy={copyHero}
+                />
+            );
+         }
+        else {
+            modal.showModal(
+                <HeroForm
+                    hero={toDto(o)}
+                />
+            );
+        }
     };
 
     const edit = (o: Hero) => {
@@ -74,7 +86,7 @@ export const HeroTable: React.FC<HeroTableProps> = ({
     };
 
     const saveHero = (data: HeroDto) => {
-        api.put('rpg_hero_edit', data, null, data.id)
+       call(heroesApi,heroesApi.updateHeroeById,{id:data.id,body:data})
             .then(() => {
                 modal.hideModal();
                 refresh();
@@ -87,13 +99,9 @@ export const HeroTable: React.FC<HeroTableProps> = ({
                 chapters={storyChapters}
                 onSelect={(chapterId) => {
 
-                    const params = new URLSearchParams({
-                        id: hero.imageId || ''
-                    });
-
-                    api.get<Image>('image', { params })
+                    call<Image>(homeApi,homeApi.getHomeImage,{id:hero.imageId})
                         .then((res) => {
-                            const imageData = res.data?.contentStr || '';
+                            const imageData = res?.contentStr || '';
 
                             const newHero = {
                                 ...hero,
@@ -101,8 +109,7 @@ export const HeroTable: React.FC<HeroTableProps> = ({
                                 chapter: chapterId,
                                 image: imageData
                             };
-
-                            api.post('rpg_hero_new', newHero, null)
+                            call(heroesApi,heroesApi.createHeroe,newHero)
                                 .then(() => modal.hideModal());
                         });
                 }}
@@ -123,7 +130,7 @@ export const HeroTable: React.FC<HeroTableProps> = ({
     };
 
     const delConfirm = (data: HeroDto) => {
-        api.del('rpg_hero_details', null, data.id)
+        call(heroesApi,heroesApi.deleteHeroeById,{id:data.id})
             .then(() => {
                 modal.hideModal();
                 refresh();
@@ -136,7 +143,7 @@ export const HeroTable: React.FC<HeroTableProps> = ({
 
                 <TableBody>
                     {/* HEADER ROW */}
-                    <TableRow sx={{ fontWeight: "bold" }}>
+                    <TableRow sx={{ fontWeight: "bold" }} key={'0_hero'}>
                         <TableCell>{t('rpg.hero.firstName')}</TableCell>
                         <TableCell>{t('rpg.hero.lastName')}</TableCell>
                         <TableCell>{t('rpg.hero.player')}</TableCell>

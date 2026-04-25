@@ -1,5 +1,4 @@
 ﻿using Base;
-using Google.Cloud.Firestore;
 using Microsoft.Extensions.Options;
 using RPG.Domain.Dictionaries;
 using RPG.Domain.Entities;
@@ -68,7 +67,7 @@ namespace RPG.Infrastructure.External.FileConverters.Firebase
 
         private async Task<StoryModel?> LoadFromFirebaseByTitle(string title)
         {
-            var firestore = await FirestoreDb.CreateAsync(_options.ProjectId);
+            var firestore = await FirebaseExtensions.GetDb();
 
             var storyQuery = firestore
                                 .Collection(StoriesCollection)

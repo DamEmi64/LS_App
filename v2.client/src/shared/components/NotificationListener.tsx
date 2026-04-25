@@ -1,25 +1,26 @@
 // NotificationListener.js
 import React, { useEffect } from 'react';
-import { HubConnectionBuilder } from '@microsoft/signalr';
 import { toast, ToastContainer, ToastPosition } from 'react-toastify';
-import { ApiConnectContextType, useApiConnect } from '@/shared/context/apiConnect';
-import useLocalStorage from 'react-use-localstorage';
+import {useApiConnect } from '@/shared/context/apiConnect';
 import { getNotify } from '@/lib/notifyProvider';
 import { useSignalR } from '../hooks/use-signalR';
+import { useTranslation } from 'react-i18next';
+import { format } from 'path/win32';
 
 export const NotificationListener = () => {
-    var api = useApiConnect();
+    const api = useApiConnect();
+    const { on } = useSignalR('notify', () =>
+        notify('info', 'Connected to notification service')
+    );
 
-    const {on, connected} = useSignalR('notify', () => notify('info', 'Connected to notification service'));
+    const handleNotification = React.useCallback((type, messageId, args) => {
+        const message = getNotify(messageId, args);
+        notify(type, message);
+    }, []);
 
     useEffect(() => {
-
-        on('ReceiveNotification', (type, messageId, args) => {
-            const message = getNotify(messageId, args);
-            notify(type, message);
-        });
-
-    }, []);
+        on('ReceiveNotification', handleNotification);
+    }, [on, handleNotification]);
 
     return <ToastContainer position="top-right" autoClose={3000} />;
 };

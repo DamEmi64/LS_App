@@ -7,7 +7,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 import { useState } from "react";
-import { HeroDto, SessionDto, Story, ImportDto } from "@/features/rpg";
+import { SessionDto, Story } from "@/features/rpg";
 import { useModal } from "@/shared/context/modal";
 import StoryEdit from "@/features/rpg/components/StoryEdit";
 import SessionInfo from "@/features/rpg/components/StoryInfo";
@@ -22,18 +22,21 @@ import { onChangeParams, ColumnDef, ColumnType, Operations, FilterItem, FilterTy
 import YesNoWindow from "@/shared/components/YesNoWindow";
 import SessionForm from "../components/sessionForm";
 import ImportStory from "../components/importStory";
+import { useAuth } from "@/features/auth/context/authProvider";
 
 export type SessionTableProps = {
     updateData: (paramsObj: onChangeParams) => void;
     data: Story[],
     rowCount?: number;
     setRowCount?: (count: number) => void;
+    draft: boolean;
 };
 
-export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, rowCount }: SessionTableProps) => {
+export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, rowCount, draft }: SessionTableProps) => {
     const { t } = useTranslation();
+    const { checkPermission } = useAuth();
     const modal = useModal();
-    const api = useApiConnect();
+    const {chaptersApi, storiesApi, raw, call} = useApiConnect();
     const [openRows, setOpenRows] = useState<Record<string, boolean>>({});
     const [pageSize, setPageSize] = useState(10);
     const [orderBy, setOrderBy] = useState<string | null>(null);
@@ -90,7 +93,7 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     }
 
     const saveNew = (data: Story) => {
-        api.post<Story>('rpg_stories_new', data, null).then(() => refresh());
+        call(storiesApi,storiesApi.createStorie,data).then(() => refresh());
     }
 
     // NEW: import modal
@@ -105,17 +108,15 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
         formData.append("ConverterType", data.converterType.toString());
         if (data.externalUrl) formData.append("ExternalUrl", data.externalUrl);
 
-        api.post('rpg_stories_import', formData, {
-            headers: { "Content-Type": "multipart/form-data" }
-        }).then(() => {
+        call(storiesApi,storiesApi.createStorieImport,formData).then(() => {
             modal.hideModal();
             refresh();
         });
     }
 
     const details = (data: any) => {
-        api.get<Story>('rpg_stories_details', null, data.id)
-            .then(story => modal.showModal(<SessionInfo story={story.data} edit={editSession} del={del}></SessionInfo>))
+        call<Story>(storiesApi,draft ? storiesApi.getStorieByIdDraft : storiesApi.getStorieById, {id: data.id})
+            .then(story => modal.showModal(<SessionInfo story={story} edit={editSession} del={del}></SessionInfo>))
     }
 
     const editSession = (data: any) => {
@@ -123,17 +124,24 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     }
 
     const saveEdit = (data: Story, id: string) => {
-        api.put<Story>('rpg_stories_edit', data, null, id).then(() => refresh());
+        call(storiesApi,storiesApi.updateStorieById,{id:data.id,body:data}).then(() => refresh());
     }
 
     const addChapter = (data: Story) => {
-        var chapter = {} as SessionDto;
+        const chapter = {} as SessionDto;
         chapter.story = data.id;
         modal.showModal(<SessionForm data={chapter} onSave={(o) => saveChapter(o)} isChapter={true} isNew={true} />)
     }
 
+    const addDraftChapter = (data: Story) => {
+        const chapter = {} as SessionDto;
+        chapter.story = data.id;
+        chapter.draft = true;
+        modal.showModal(<SessionForm data={chapter} onSave={(o) => saveChapter(o)} isChapter={true} isNew={true} />)
+    }
+
     const saveChapter = (data: SessionDto) => {
-        api.post<SessionDto>('rpg_chapter_new', data, null).then(() => {
+        call(chaptersApi,chaptersApi.createChapter,data).then(() => {
             modal.hideModal();
             refresh();
         });
@@ -144,15 +152,15 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     }
 
     const delConfirm = (data: any) => {
-        api.del<Story>('rpg_stories_del', null, data.id).then(() => refresh());
+        call(storiesApi,storiesApi.deleteStorieById,{id:data.id}).then(() => refresh());
     }
 
     const startStory = (data: any) => {
-        api.put<Story>('rpg_stories_start', data, null, data.id).then(() => refresh());
+        call(storiesApi,storiesApi.updateStorieByIdStart,{id:data.id}).then(() => refresh());
     }
 
     const endStory = (data: any) => {
-        api.put<Story>('rpg_stories_end', data, null, data.id).then(() => refresh());
+        call(storiesApi,storiesApi.updateStorieByIdEnd,{id:data.id}).then(() => refresh());
     }
 
     const generateSummary = (data: any) => {
@@ -160,7 +168,7 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     }
 
     const generateSummaryConfirm = (data: Story, isPdf: boolean) => {
-        api.put<Story>('rpg_stories_gen_summary', { id: data.id, title: data.title, description: data.description, chapters: data.chapters.map((x) => x.id), isPdf }, null, data.id)
+        call(storiesApi,storiesApi.updateStorieByIdSummary, {id: data.id, body: { id: data.id, title: data.title, description: data.description, chapters: data.chapters.map((x) => x.id), isPdf}})
             .then(() => modal.hideModal());
     }
 
@@ -169,12 +177,12 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     }
 
     const sendToFirebaseConfirm = (data: Story) => {
-        api.put<Story>('rpg_stories_firebase', { id: data.id, title: data.title, description: data.description, chapters: data.chapters.map((x) => x.id) }, null, data.id)
+        call(storiesApi,storiesApi.updateStorieByIdFirebase,{id: data.id, body:{ id: data.id, title: data.title, description: data.description, chapters: data.chapters.map((x) => x.id) }})
             .then(() => modal.hideModal());
     }
 
     const exportData = (data: any) => {
-        api.download('rpg_stories_export', data.id)
+        raw(storiesApi,storiesApi.getStorieByIdExport,{id:data.id})
             .then((response) => {
                 const contentType = response.headers['content-type'] || 'application/octet-stream';
                 const disposition = response.headers['content-disposition'];
@@ -192,7 +200,7 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     }
 
     const downloadSummary = (data: any) => {
-        api.download('rpg_stories_download_summary', data.id)
+        raw(storiesApi,storiesApi.getStorieByIdSummary,{id:data.id})
             .then((response) => {
                 const contentType = response.headers['content-type'] || 'application/octet-stream';
                 const disposition = response.headers['content-disposition'];
@@ -223,37 +231,41 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
 
     const operations: Operations<Story>[] = [
         { name: 'opt.details', method: (o) => details(o) },
-        { name: 'opt.edit', method: (o) => editSession(o) },
-        { name: 'rpg.chapter.add', method: (o) => addChapter(o) },
+        { name: 'opt.edit', method: (o) => editSession(o), hidden: (o) => !checkPermission(['rpg_write']) },
+        { name: 'rpg.chapter.add', method: (o) => addChapter(o), hidden: (o) => !checkPermission(['rpg_write']) || draft },
+        { name: 'rpg.chapter.addDraft', method: (o) => addDraftChapter(o), hidden: (o) => !checkPermission(['rpg_write']) || !draft },
         { name: 'rpg.story.start', method: (o) => startStory(o) },
         { name: 'rpg.story.end', method: (o) => endStory(o) },
         { name: 'opt.export', method: (o) => exportData(o) },
         { name: 'rpg.story.gen_summary', method: (o) => generateSummary(o) },
         { name: 'rpg.story.download_summary', method: (o) => downloadSummary(o) },
         { name: 'rpg.story.send_firebase', method: (o) => sendToFirebase(o) },
-        { name: 'opt.delete', method: (o) => del(o) },
+        { name: 'opt.delete', method: (o) => del(o), hidden: (o) => !checkPermission(['rpg_write']) },
     ]
 
-        return (
+    return (
         <Grid sx={{ width: "100%", p: isMobile ? 1 : 3 }}>
             {/* HEADER */}
             <Grid sx={{ textAlign: "center", mb: 2 }}>
                 <InputLabel sx={{ fontSize: isMobile ? "1.8rem" : "2.5rem", fontWeight: "bold" }}>
-                    {t('rpg.title')}
+                    {t(draft ? 'rpg.draftTitle' : 'rpg.title')}
                 </InputLabel>
 
-                <Button onClick={handleMenuClick} variant="outlined" sx={{ mt: 1 }}>
-                    {t('opt.add')}
-                </Button>
 
-                <Menu anchorEl={anchorEl} open={openMenu} onClose={handleMenuClose}>
-                    <MenuItem onClick={() => { handleMenuClose(); addSession(); }}>
-                        {t('opt.create')}
-                    </MenuItem>
-                    <MenuItem onClick={() => { handleMenuClose(); openImportModal(); }}>
-                        {t('opt.import')}
-                    </MenuItem>
-                </Menu>
+                {checkPermission(['rpg_write']) && (<>
+                    <Button onClick={handleMenuClick} variant="outlined" sx={{ mt: 1 }}>
+                        {t('opt.add')}
+                    </Button>
+                    <Menu anchorEl={anchorEl} open={openMenu} onClose={handleMenuClose}>
+                        <MenuItem onClick={() => { handleMenuClose(); addSession(); }}>
+                            {t('opt.create')}
+                        </MenuItem>
+                        <MenuItem onClick={() => { handleMenuClose(); openImportModal(); }}>
+                            {t('opt.import')}
+                        </MenuItem>
+                    </Menu>
+                </>
+                )}
             </Grid>
 
             {/* TABLE */}

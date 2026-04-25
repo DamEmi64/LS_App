@@ -1,32 +1,20 @@
+import { getDictionary, useDictionaryTranslation } from "@/lib/utils";
 import { Accordion, AccordionDetails, AccordionSummary, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material"
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { CommunicationRules } from "../types";
+import { useApiConnect } from "@/shared";
 
 export const TemplateRules = () => {
     const { t } = useTranslation();
+    const getDictionaryTranslation = useDictionaryTranslation();
+    const [rules, setRules] = useState<CommunicationRules | null>(null);
+    const api = useApiConnect();
 
-    const strategies = [
-        {
-            title: t('communication.template.strategies.increment.title'),
-            description: t('communication.template.strategies.increment.desc'),
-            example: t('communication.template.strategies.increment.example')
-        },
-        {
-            title: t('communication.template.strategies.random.title'),
-            description: t('communication.template.strategies.random.desc'),
-            example: t('communication.template.strategies.random.example')
-        },
-        {
-            title: t('communication.template.strategies.randomUnique.title'),
-            description: t('communication.template.strategies.randomUnique.desc'),
-            example: t('communication.template.strategies.randomUnique.example')
-        },
-        {
-            title: t('communication.template.strategies.randomNumber.title'),
-            description: t('communication.template.strategies.randomNumber.desc'),
-            example: t('communication.template.strategies.randomNumber.example')
-        },
-    ]
+    api.get<CommunicationRules>('communication_rules').then(res => {
+        const data = res.data;
+        setRules(data);   
+        });
 
     return <Accordion>
         <AccordionSummary>
@@ -42,13 +30,20 @@ export const TemplateRules = () => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {strategies.map((strategy, index) => (
+                    {rules?.functions.map((strategy, index) => (
                         <TableRow key={index}>
                             <TableCell>
-                                <Typography variant="subtitle1">{strategy.title}</Typography>
+                                <Typography variant="subtitle1">{getDictionaryTranslation('Fluid functions',strategy.title).title}</Typography>
                             </TableCell>
-                            <TableCell>{strategy.description}</TableCell>
-                            <TableCell>{strategy.example}</TableCell>
+                            <TableCell>{getDictionaryTranslation('Fluid functions',strategy.title).description}</TableCell>
+                        </TableRow>
+                    ))}
+                    {rules?.variables.map((strategy, index) => (
+                        <TableRow key={index}>
+                            <TableCell>
+                                <Typography variant="subtitle1">{getDictionaryTranslation('Fluid functions',strategy.title).title}</Typography>
+                            </TableCell>
+                            <TableCell>{getDictionaryTranslation('Fluid functions',strategy.title).description}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

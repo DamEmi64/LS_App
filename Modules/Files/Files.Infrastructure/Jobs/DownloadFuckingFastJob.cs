@@ -1,7 +1,6 @@
 ﻿using Base;
 using Files.Domain.Entities;
 using Files.Domain.Repositories;
-using Microsoft.Extensions.DependencyInjection;
 using System.Text.RegularExpressions;
 
 namespace Files.Infrastructure.Jobs
@@ -27,8 +26,8 @@ namespace Files.Infrastructure.Jobs
 
         public async Task Execute(IJobContext jobContext)
         {
-            var httpFactory = jobContext.ServiceProvider.GetRequiredService<IHttpClientFactory>();
-            var repo = jobContext.ServiceProvider.GetRequiredService<IFileRepository>();
+            var httpFactory = jobContext.Resolve<IHttpClientFactory>();
+            var repo = jobContext.Resolve<IFileRepository>();
 
             var success = await ExecuteInternal(httpFactory, jobContext);
 

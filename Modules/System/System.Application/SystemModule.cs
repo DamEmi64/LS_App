@@ -12,7 +12,7 @@ namespace System.Application
 {
     public class SystemModule : IModule
     {
-        public IEnumerable<Operation> Operations => [OperationExtensions.Operation(0, "default", "default")];
+        public IEnumerable<Operation> Operations => [Extensions.Operation(0, "default", "default")];
 
         public string Name => "System";
 
@@ -21,6 +21,8 @@ namespace System.Application
         public IServiceCollection Configure(IServiceCollection services)
         {
             services.AddAutoMapper(opt => opt.AddMaps(typeof(SystemModule).Assembly));
+
+            services.AddLogging();
 
             return services
                 .AddDb(AppConfiguration.Root)
@@ -66,7 +68,7 @@ namespace System.Application
                 using (var scope = app.Services.CreateScope())
                 {
                     var adminService = scope.ServiceProvider.GetRequiredService<IAdminService>();
-                    var connector = scope.ServiceProvider.GetRequiredService<IConnector>();
+                    var connector = scope.ServiceProvider.GetRequiredService<IConnectorResolver>();
                     var roles = adminService.GetRoles();
                     if (!roles.Select(x => x.Name).Contains("admin"))
                     {

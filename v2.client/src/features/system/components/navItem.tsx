@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { NavbarItemProps } from "@/shared";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "@/features/auth/context/authProvider";
 
 const navItem = (props: NavbarItemProps) => {
     const theme = useTheme();
@@ -17,7 +18,33 @@ const navItem = (props: NavbarItemProps) => {
         setAnchorEl(null);
     };
 
-    if (props.submenu.length > 0) {
+    const {checkPermission} = useAuth();
+
+    const availableMenu = props.submenu.filter(x=> !x.permissions || checkPermission(x.permissions));
+
+    if (availableMenu.length == 1) {
+        return (
+            <Link to={availableMenu[0].href} unstable_viewTransition={true} style={{ textDecoration: "none" }}>
+                <button>
+                    <Box
+                        className="flex p-1 px-3 justify-center items-center rounded-t relative max-[640px]:p-0.5 max-[640px]:px-2"
+                    >
+                        <Box
+                            className="relative max-[640px]:text-sm"
+                            style={{
+                                color: availableMenu[0].href === window.location.pathname ? "rgb(255, 255, 255)" : "rgba(48, 48, 48, 1)",
+                                font: "400 16px/140% Inter, -apple-system, Roboto, Helvetica, sans-serif",
+                            }}
+                        >
+                            {t(`menu.${props.label}`)}
+                        </Box>
+                    </Box>
+                </button>
+            </Link>
+        );
+    }
+
+    if (availableMenu.length > 0) {
         return (
             <div onMouseEnter={handleClick} onMouseLeave={handleClose} >
                 <button >
@@ -47,7 +74,7 @@ const navItem = (props: NavbarItemProps) => {
                             'aria-labelledby': 'basic-button',
                         },
                     }}
-                >   {props.submenu.map((item, index) => (
+                >   {availableMenu.map((item, index) => (
                     <Link to={item.href} key={index} unstable_viewTransition={true} style={{ textDecoration: "none" }}>
                         <MenuItem onClick={handleClose} style={{ color: textColor, opacity: '50%' }}>
                             {t(`menu.${item.label}`)}

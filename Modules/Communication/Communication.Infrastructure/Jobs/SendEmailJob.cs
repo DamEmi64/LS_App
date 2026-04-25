@@ -2,7 +2,6 @@
 using Base.Interfaces;
 using Communication.Domain.Entities;
 using Files.Domain.Repositories;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Communication.Infrastructure.Jobs
 {
@@ -22,8 +21,8 @@ namespace Communication.Infrastructure.Jobs
 
         public async Task Execute(IJobContext jobContext)
         {
-            var repo = jobContext.ServiceProvider.GetRequiredService<IEmailRepository>();
-            var sender = jobContext.ServiceProvider.GetRequiredService<IEmailSender>();
+            var repo = jobContext.Resolve<IEmailRepository>();
+            var sender = jobContext.Resolve<IEmailSender>();
 
             await ExecuteInternal(repo, sender);
         }

@@ -1,5 +1,4 @@
 ﻿using Base;
-using Microsoft.Extensions.DependencyInjection;
 using RPG.Domain.Dictionaries;
 using RPG.Domain.Repositories;
 using RPG.Infrastructure.External.FileConverters;
@@ -23,10 +22,8 @@ namespace RPG.Infrastructure.Jobs
 
         public async Task Execute(IJobContext jobContext)
         {
-            var storyRepo = jobContext.ServiceProvider.GetRequiredService<IStoryRepository>();
-            var fileConverters = jobContext.ServiceProvider.GetServices<IRPGDataConverter>();
-
-            var converter = fileConverters.FirstOrDefault(c => c.Type == Model?.Type);
+            var storyRepo = jobContext.Resolve<IStoryRepository>();
+            var converter = jobContext.Resolve<IRPGDataConverter>(Model?.Type);
 
             if (Model?.Type == RPGFileTypes.Firebase && Model is not null)
             {

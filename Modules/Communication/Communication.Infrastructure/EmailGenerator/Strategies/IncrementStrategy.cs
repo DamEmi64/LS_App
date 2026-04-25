@@ -1,25 +1,26 @@
-﻿using Fluid;
+﻿using CommunicationBase;
+using CommunicationBase.Dtos;
+using CommunicationBase.Interfaces;
+using Fluid;
 using Fluid.Values;
 
 namespace Communication.Infrastructure.EmailGenerator.Strategies
 {
-    public class IncrementStrategy : IGenEmailStrategy
+    public class IncrementStrategy : IFluidFunction
     {
-        private int _seq = 0;
+        public string TitleKey => "communication.templates.strategies.increment.title";
 
-        /// <summary>
-        ///     Generates next value
-        /// </summary>
-        /// <param name="arguments"></param>
-        /// <param name="receivers"></param>
-        /// <param name="receiver"></param>
-        /// <param name="sender"></param>
-        /// <returns></returns>
-        public FluidValue Handle(FunctionArguments arguments, List<string> receivers, string receiver, string sender)
+        public string? DescriptionKey => "communication.templates.strategies.increment.description";
+
+        public string Invoker => "increment";
+        public Func<FunctionArguments, FluidContext, FluidValue> Method => Handle;
+
+        private FluidValue Handle(FunctionArguments arguments, FluidContext context)
         {
-            _seq++;
+            var seq = context.GetProperty<int>("seq");
+            context.SetProperty("seq", ++seq);
 
-            return new StringValue(_seq.ToString());
+            return new StringValue(seq.ToString());
         }
     }
 }

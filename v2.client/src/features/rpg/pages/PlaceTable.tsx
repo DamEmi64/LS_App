@@ -19,6 +19,7 @@ import {
     useMediaQuery,
     useTheme
 } from "@mui/material";
+import { useAuth } from "@/features/auth/context/authProvider";
 
 export type PlaceTableProps = {
     places: Place[],
@@ -33,7 +34,8 @@ export const PlaceTable: React.FC<PlaceTableProps> = ({
 }) => {
     const { t } = useTranslation();
     const modal = useModal();
-    const api = useApiConnect();
+    const {placesApi, homeApi, call} = useApiConnect();
+    const { checkPermission } = useAuth();
 
     // 📱 RESPONSIVE
     const theme = useTheme();
@@ -41,21 +43,29 @@ export const PlaceTable: React.FC<PlaceTableProps> = ({
 
     const operations: Operations<Place>[] = [
         { name: 'opt.details', method: (o) => details(o) },
-        { name: 'opt.edit', method: (o) => editPlace(o) },
-        { name: 'opt.delete', method: (o) => del(o) }
+        { name: 'opt.edit', method: (o) => editPlace(o), hidden: (o) => !checkPermission(['rpg_write']) },
+        { name: 'opt.delete', method: (o) => del(o), hidden: (o) => !checkPermission(['rpg_write']) }
     ];
 
     const details = (o: Place) => {
         const data = o as unknown as SessionDto;
 
-        modal.showModal(
-            <PlaceForm
-                data={data}
-                onSave={() => editPlace(o)}
-                onDelete={() => del(o)}
-                onCopy={(s) => copyPlace(s)}
-            />
+        if (checkPermission(['rpg_write'])) {
+            modal.showModal(
+                <PlaceForm
+                    data={data}
+                    onSave={() => editPlace(o)}
+                    onDelete={() => del(o)}
+                    onCopy={(s) => copyPlace(s)}
+                />
+            );
+        } else {
+            modal.showModal(
+                <PlaceForm
+                    data={data}
+                />
         );
+        }
     };
 
     const editPlace = (o: Place) => {
@@ -75,7 +85,7 @@ export const PlaceTable: React.FC<PlaceTableProps> = ({
     };
 
     const savePlace = (data: SessionDto, place: Place) => {
-        api.put('rpg_place_edit', data, null, place.id)
+        call(placesApi,placesApi.updatePlaceById,{id:place.id, body:data})
             .then(() => refresh());
     };
 
@@ -85,13 +95,9 @@ export const PlaceTable: React.FC<PlaceTableProps> = ({
                 chapters={chapters}
                 onSelect={(chapterId) => {
 
-                    const params = new URLSearchParams({
-                        id: place.imageId || ''
-                    });
-
-                    api.get<Image>('image', { params })
+                    call<Image>(homeApi,homeApi.getHomeImage,{id:place.imageId})
                         .then((res) => {
-                            const imageData = res.data?.contentStr || '';
+                            const imageData = res.contentStr || '';
 
                             const newPlace = {
                                 ...place,
@@ -99,8 +105,8 @@ export const PlaceTable: React.FC<PlaceTableProps> = ({
                                 chapter: chapterId,
                                 image: imageData
                             };
-
-                            api.post('rpg_place_new', newPlace, null)
+                            
+                            call(placesApi,placesApi.createPlace,newPlace)
                                 .then(() => modal.hideModal());
                         });
                 }}
@@ -121,7 +127,7 @@ export const PlaceTable: React.FC<PlaceTableProps> = ({
     };
 
     const delConfirm = (data: Place) => {
-        api.del('rpg_place_del', null, data.id)
+        call(placesApi,placesApi.deletePlaceById,{id:data.id})
             .then(() => refresh());
     };
 
@@ -132,7 +138,7 @@ export const PlaceTable: React.FC<PlaceTableProps> = ({
                 <TableBody>
 
                     {/* HEADER */}
-                    <TableRow>
+                    <TableRow key={'0_place'}>
                         <TableCell sx={{ fontWeight: "bold" }}>
                             {t('rpg.other.title')}
                         </TableCell>

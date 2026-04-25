@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Base;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using RPG.Application.Dtos;
 using RPG.Application.Filters;
 using RPG.Domain.Dictionaries;
@@ -29,6 +31,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(Chapter), StatusCodes.Status200OK)]
         public async Task<IActionResult> Details(Guid id)
         {
             var result = await _chapterRepository.GetWithPlayerData(id);
@@ -42,6 +45,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpGet("")]
+        [ProducesResponseType(typeof(ResponseList<Chapter>), StatusCodes.Status200OK)]
         public IActionResult ListData([FromQuery] ChapterFilter filter)
         {
             return Json(filter.Filter(_chapterRepository.GetAll()));
@@ -64,7 +68,8 @@ namespace RPG.Application.Controllers
                 InsDate = DateTimeOffset.Now,
                 UpdDate = DateTimeOffset.Now,
                 Story = story,
-                Title = dto.Title
+                Title = dto.Title,
+                Draft = dto.Draft,
             };
 
             await _chapterRepository.Add(chapter);
@@ -72,7 +77,49 @@ namespace RPG.Application.Controllers
             return Ok();
         }
 
+        [HttpPut("{id}/publish")]
+        [AuthPermission("rpg_write")]
+        public async Task<IActionResult> Publish(Guid id)
+        {
+            var entity = await _chapterRepository.Get(id);
+
+
+            if (entity is not null)
+            {
+                entity.Draft = false;
+                await _chapterRepository.Update(entity);
+                await Notifier.Success(SessionNotifyTypes.ChapterUpdated, entity.Title);
+            }
+            else
+            {
+                await Notifier.Error(SessionNotifyTypes.ChapterNotFound, id);
+            }
+
+            return Ok();
+        }
+
+        [HttpPut("{id}/flow")]
+        [AuthPermission("rpg_write")]
+        public async Task<IActionResult> Flow(Guid id, [FromBody] FlowDto flow)
+        {
+            var entity = await _chapterRepository.Get(id);
+
+            if (entity is not null)
+            {
+                entity.FlowJson = JsonConvert.SerializeObject(flow);
+                await _chapterRepository.Update(entity);
+                await Notifier.Success(SessionNotifyTypes.ChapterUpdated, entity.Title);
+            }
+            else
+            {
+                await Notifier.Error(SessionNotifyTypes.ChapterNotFound, id);
+            }
+
+            return Ok();
+        }
+
         [HttpPut("{id}")]
+        [AuthPermission("rpg_write")]
         public async Task<IActionResult> Edit(Guid id, [FromBody] ChapterDto chapter)
         {
             var entity = await _chapterRepository.Get(id);

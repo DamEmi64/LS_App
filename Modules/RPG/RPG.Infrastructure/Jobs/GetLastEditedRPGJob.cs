@@ -1,5 +1,4 @@
 ﻿using Base;
-using Microsoft.Extensions.DependencyInjection;
 using RPG.Domain.Repositories;
 using RPG.Infrastructure.Models;
 
@@ -19,7 +18,7 @@ namespace RPG.Infrastructure.Jobs
 
         public async Task Execute(IJobContext jobContext)
         {
-            var storyRepo = jobContext.ServiceProvider.GetRequiredService<IStoryRepository>();
+            var storyRepo = jobContext.Resolve<IStoryRepository>();
             var lastEdited = await storyRepo.GetLastEdited();
             ArgumentNullException.ThrowIfNull(lastEdited);
 

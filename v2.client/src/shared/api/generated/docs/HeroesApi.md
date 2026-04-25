@@ -1,0 +1,337 @@
+# HeroesApi
+
+All URIs are relative to *http://localhost*
+
+|Method | HTTP request | Description|
+|------------- | ------------- | -------------|
+|[**createHeroe**](#createheroe) | **POST** /Heroes | |
+|[**deleteHeroeById**](#deleteheroebyid) | **DELETE** /Heroes/{id} | |
+|[**getHeroe**](#getheroe) | **GET** /Heroes | |
+|[**getHeroeById**](#getheroebyid) | **GET** /Heroes/{id} | |
+|[**updateHeroeById**](#updateheroebyid) | **PUT** /Heroes/{id} | |
+|[**updateHeroeByIdPlayerData**](#updateheroebyidplayerdata) | **PUT** /Heroes/{id}/playerData | |
+
+# **createHeroe**
+> createHeroe()
+
+
+### Example
+
+```typescript
+import {
+    HeroesApi,
+    Configuration,
+    HeroDto
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new HeroesApi(configuration);
+
+let body: HeroDto; // (optional)
+
+const { status, data } = await apiInstance.createHeroe(
+    body
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **body** | **HeroDto**|  | |
+
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json-patch+json, application/json, text/json, application/*+json
+ - **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **deleteHeroeById**
+> deleteHeroeById()
+
+
+### Example
+
+```typescript
+import {
+    HeroesApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new HeroesApi(configuration);
+
+let id: string; // (default to undefined)
+
+const { status, data } = await apiInstance.deleteHeroeById(
+    id
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **id** | [**string**] |  | defaults to undefined|
+
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getHeroe**
+> HeroResponseList getHeroe()
+
+
+### Example
+
+```typescript
+import {
+    HeroesApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new HeroesApi(configuration);
+
+let order: string; // (default to undefined)
+let page: number; // (optional) (default to undefined)
+let pageSize: number; // (optional) (default to undefined)
+let orderBy: string; // (optional) (default to undefined)
+let firstName: string; // (optional) (default to undefined)
+let lastName: string; // (optional) (default to undefined)
+
+const { status, data } = await apiInstance.getHeroe(
+    order,
+    page,
+    pageSize,
+    orderBy,
+    firstName,
+    lastName
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **order** | [**string**] |  | defaults to undefined|
+| **page** | [**number**] |  | (optional) defaults to undefined|
+| **pageSize** | [**number**] |  | (optional) defaults to undefined|
+| **orderBy** | [**string**] |  | (optional) defaults to undefined|
+| **firstName** | [**string**] |  | (optional) defaults to undefined|
+| **lastName** | [**string**] |  | (optional) defaults to undefined|
+
+
+### Return type
+
+**HeroResponseList**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain, application/json, text/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getHeroeById**
+> Hero getHeroeById()
+
+
+### Example
+
+```typescript
+import {
+    HeroesApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new HeroesApi(configuration);
+
+let id: string; // (default to undefined)
+
+const { status, data } = await apiInstance.getHeroeById(
+    id
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **id** | [**string**] |  | defaults to undefined|
+
+
+### Return type
+
+**Hero**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain, application/json, text/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **updateHeroeById**
+> updateHeroeById()
+
+
+### Example
+
+```typescript
+import {
+    HeroesApi,
+    Configuration,
+    HeroDto
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new HeroesApi(configuration);
+
+let id: string; // (default to undefined)
+let body: HeroDto; // (optional)
+
+const { status, data } = await apiInstance.updateHeroeById(
+    id,
+    body
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **body** | **HeroDto**|  | |
+| **id** | [**string**] |  | defaults to undefined|
+
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json-patch+json, application/json, text/json, application/*+json
+ - **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **updateHeroeByIdPlayerData**
+> updateHeroeByIdPlayerData()
+
+
+### Example
+
+```typescript
+import {
+    HeroesApi,
+    Configuration,
+    PlayerDataDto
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new HeroesApi(configuration);
+
+let id: string; // (default to undefined)
+let body: PlayerDataDto; // (optional)
+
+const { status, data } = await apiInstance.updateHeroeByIdPlayerData(
+    id,
+    body
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **body** | **PlayerDataDto**|  | |
+| **id** | [**string**] |  | defaults to undefined|
+
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json-patch+json, application/json, text/json, application/*+json
+ - **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+

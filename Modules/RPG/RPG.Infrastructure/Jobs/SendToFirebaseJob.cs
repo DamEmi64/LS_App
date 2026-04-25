@@ -1,6 +1,4 @@
 ﻿using Base;
-using Google.Cloud.Firestore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using RPG.Infrastructure.External.Firebase;
 using RPG.Infrastructure.Models;
@@ -35,8 +33,8 @@ namespace RPG.Infrastructure.Jobs
 
         public async Task Execute(IJobContext jobContext)
         {
-            var options = jobContext.ServiceProvider.GetRequiredService<IOptions<FirebaseOptions>>();
-            var mediaProvider = jobContext.ServiceProvider.GetRequiredService<IMediaProvider>();
+            var options = jobContext.Resolve<IOptions<FirebaseOptions>>();
+            var mediaProvider = jobContext.Resolve<IMediaProvider>();
 
             var story = Story ?? jobContext.GetData<StoryModel>() ?? throw new InvalidOperationException("Story data is missing.");
             Story = story;
@@ -46,7 +44,7 @@ namespace RPG.Infrastructure.Jobs
 
         public async Task ExecuteInternal(FirebaseOptions options, IMediaProvider mediaProvider, StoryModel story)
         {
-            var firestore = await FirestoreDb.CreateAsync(options.ProjectId);
+            var firestore = await FirebaseExtensions.GetDb();
 
             var storyRef = firestore.Collection(StoriesCollection).Document(StoryId.ToString());
 
