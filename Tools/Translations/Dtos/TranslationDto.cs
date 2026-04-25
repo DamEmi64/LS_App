@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Translations.Dtos
+﻿namespace Translations.Dtos
 {
     public class TranslationDto
     {

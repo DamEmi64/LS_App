@@ -8,8 +8,8 @@ namespace CommunicationBase
 {
     public abstract class FluidParserModel : IFluidParser
     {
-        private List<IFluidFunction> _functions = new List<IFluidFunction>();
-        private Dictionary<string, object> _variables = new Dictionary<string, object>();
+        private List<IFluidFunction> _functions = new();
+        private Dictionary<string, object> _variables = new();
 
         public FluidParserModel()
         {
@@ -61,7 +61,7 @@ namespace CommunicationBase
                     {
                         Invoker = attribute.Invoker ?? method.Name,
                         TitleKey = attribute.Title ?? method.Name,
-                        Method = (args,ctx) => (FluidValue)method.Invoke(this, new object[] { args, ctx })!,
+                        Method = (args, ctx) => (FluidValue)method.Invoke(this, new object[] { args, ctx })!,
                         DescriptionKey = attribute.Description
                     };
                     _functions.Add(function);

@@ -24,7 +24,7 @@ namespace CommunicationBase
                 var variables = _parsers.SelectMany(x => x.Variables);
                 var functions = _parsers.SelectMany(x => x.Functions);
 
-                foreach( var prop in properties ?? new Dictionary<string, object>())
+                foreach (var prop in properties ?? new Dictionary<string, object>())
                 {
                     modelObj.Add(prop.Key, prop.Value);
                 }
@@ -48,7 +48,7 @@ namespace CommunicationBase
                 {
                     context.SetValue(function.Invoker, new FunctionValue((args, ctx) =>
                     {
-                        return function.Method.Invoke(args,fluidContext);
+                        return function.Method.Invoke(args, fluidContext);
                     }));
                 }
 

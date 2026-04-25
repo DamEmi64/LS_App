@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { TextField, FormControlLabel, Switch, Select, MenuItem, InputLabel, FormControl, Box, Typography, useColorScheme } from '@mui/material';
 import { changeLanguage } from 'i18next';
 import { useTranslation } from 'react-i18next';
-import { ApiConnectContextType } from '@/shared/context/apiConnect';
+import { ApiConnectContextType, useApiConnect } from '@/shared/context/apiConnect';
 import useLocalStorage from 'react-use-localstorage';
 import ServerInfo, { ServerInfoProps } from './serverInfo';
+import { HomeApi } from '@/shared/api/generated';
 
 const languages = [
     { code: 'en', label: 'English' },
@@ -14,8 +15,9 @@ const languages = [
     // Add more languages as needed
 ];
 
-const AppSettings: React.FC<{ api: ApiConnectContextType }> = ({ api }) => {
+const AppSettings: React.FC<{ api: ApiConnectContextType }> = () => {
     const [frontendVersion, setFrontendVersion] = useState('v1.0');
+    const {homeApi, call} = useApiConnect();
 
     const { t, i18n } = useTranslation();
     const [endpoint, setEndpoint] = useLocalStorage('apiEndpoint', 'http://localhost:5144');
@@ -32,9 +34,9 @@ const AppSettings: React.FC<{ api: ApiConnectContextType }> = ({ api }) => {
 
     // Always use updateData for initial load
     useEffect(() => {
-        api.get<ServerInfoProps>('api_info').then(data => {
-            data.data.frontendVersion = frontendVersion;
-            setServerData(data.data);
+        call<ServerInfoProps>(homeApi,homeApi.getHome,{}).then(data => {
+            data.frontendVersion = frontendVersion;
+            setServerData(data);
         });
     }, []);
 
@@ -45,9 +47,9 @@ const AppSettings: React.FC<{ api: ApiConnectContextType }> = ({ api }) => {
 
     const onEndpointChange = (data: string) => {
         setEndpoint(data);
-        api.get<ServerInfoProps>('api_info').then(data => {
-            data.data.frontendVersion = frontendVersion;
-            setServerData(data.data);
+        call<ServerInfoProps>(homeApi,homeApi.getHome,{}).then(data => {
+            data.frontendVersion = frontendVersion;
+            setServerData(data);
         });
     }
 

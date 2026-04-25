@@ -7,11 +7,12 @@ namespace Automation.Application.Dtos
     {
         public Mapper()
         {
-            CreateMap<AutomatonDto, Automat>()
+            CreateMap<AutomationDto, Automat>()
                    .ForMember(dest => dest.Id, opt => opt.MapFrom(_ => Guid.NewGuid()))
                    .ForMember(dest => dest.InsDate, opt => opt.MapFrom(_ => DateTimeOffset.UtcNow))
                    .ForMember(dest => dest.UpdDate, opt => opt.MapFrom(_ => DateTimeOffset.UtcNow))
                    .ForMember(dest => dest.Tasks, opt => opt.MapFrom(src => src.Tasks))
+                   .ForMember(dest => dest.Active, opt => opt.MapFrom(src => src.Active))
                    .ForMember(dest => dest.Triggers, opt => opt.MapFrom(src => src.Triggers));
 
             CreateMap<TaskDto, Automation.Domain.Entities.Task>()

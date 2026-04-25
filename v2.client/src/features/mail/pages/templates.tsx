@@ -31,12 +31,13 @@ import YesNoWindow from "@/shared/components/YesNoWindow";
 
 import { TemplateEdit } from "../components/templateEdit";
 import { TemplateGenData, TemplateGen } from "../components/templateGen";
+import { ResponseList } from "@/shared/api/extension";
 
 const Templates: React.FC = () => {
     const { t } = useTranslation();
     const modal = useModal();
     const auth = useAuth();
-    const api = useApiConnect();
+    const {templatesApi, call} = useApiConnect();
 
     // 📱 RESPONSIVE
     const theme = useTheme();
@@ -86,15 +87,11 @@ const Templates: React.FC = () => {
 
     // 👁 DETAILS
     const details = async (template: Template) => {
-        const result = await api.get<Template>(
-            "communication_template_details",
-            null,
-            template.id
-        );
+        const result = await call<Template>(templatesApi,templatesApi.getTemplateById,{id:template.id})
 
         modal.showModal(
             <TemplateEdit
-                template={result.data}
+                template={result}
                 onSave={editData}
                 readonly
             />
@@ -118,12 +115,7 @@ const Templates: React.FC = () => {
     };
 
     const genConfirm = async (data: TemplateGenData) => {
-        await api.put(
-            "communication_template_gen",
-            data,
-            null,
-            data.template
-        );
+        await call(templatesApi,templatesApi.updateTemplateByIdGenerate,{id:data.template,body:data});
 
         modal.hideModal();
         refresh();
@@ -143,11 +135,7 @@ const Templates: React.FC = () => {
     };
 
     const delConfirm = async (template: Template) => {
-        await api.del(
-            "communication_template_del",
-            null,
-            template.id
-        );
+        await call(templatesApi,templatesApi.updateTemplateById,{id:template.id});
 
         modal.hideModal();
         refresh();
@@ -155,24 +143,14 @@ const Templates: React.FC = () => {
 
     // ➕ CREATE
     const addData = async (template: Template) => {
-        await api.post(
-            "communication_template_new",
-            template,
-            null
-        );
-
+        await call(templatesApi,templatesApi.createTemplate,template);
         modal.hideModal();
         refresh();
     };
 
     // ✏️ UPDATE
     const editData = async (template: Template) => {
-        await api.put(
-            "communication_template_edit",
-            template,
-            null,
-            template.id
-        );
+        await call(templatesApi,templatesApi.updateTemplateById,{id:template.id,body:template});
 
         modal.hideModal();
         refresh();
@@ -182,21 +160,18 @@ const Templates: React.FC = () => {
     const updateData = async (
         paramsObj: onChangeParams
     ): Promise<TableData<Template>> => {
-        const query = new URLSearchParams({
-            page: String(paramsObj.page ?? 0),
-            pageSize: String(paramsObj.pageSize ?? 10),
-            orderBy: paramsObj.orderBy ?? "",
-            order: paramsObj.order ?? ""
+        const query = {
+            page: paramsObj.page?.toString() || '1',
+            pageSize: paramsObj.pageSize?.toString() || '10',
+            orderBy: paramsObj.orderBy || '',
+            order: paramsObj.order || 'desc',
+        };
+
+        (paramsObj.filters || []).forEach(filter => {
+            query[filter.field] = filter.value.toLocaleString();
         });
 
-        paramsObj.filters?.forEach(f =>
-            query.append(f.field, String(f.value))
-        );
-
-        const result = await api.get<Template[]>(
-            "communication_template_data",
-            { params: query }
-        );
+        const result = await call<ResponseList<Template>>(templatesApi,templatesApi.getTemplate,query);
 
         const tableData: TableData<Template> = {
             data: result.data,

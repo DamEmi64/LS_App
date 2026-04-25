@@ -1,5 +1,4 @@
-﻿using Base;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.SqlServer.Migrations.Internal;
 using Microsoft.EntityFrameworkCore.Storage;

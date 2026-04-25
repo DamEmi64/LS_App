@@ -15,7 +15,7 @@
             <RowDefinition Height="300*"/>
             <RowDefinition Height="40*"/>
         </Grid.RowDefinitions>
-        <TabControl Grid.ColumnSpan="2" Margin="0,0,0,39" Grid.RowSpan="2">
+        <TabControl Grid.ColumnSpan="2">
             <TabItem Header="Dictionaries">
                 <DataGrid ItemsSource="{Binding Dictionaries}" />
             </TabItem>

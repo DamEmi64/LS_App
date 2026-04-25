@@ -5,6 +5,12 @@ import {
   LogLevel
 } from "@microsoft/signalr";
 import { useApiConnect } from "@/shared/context/apiConnect";
+import useLocalStorage from "react-use-localstorage";
+
+const hubs = [
+  {name:"notify",url:"notify"},
+  {name:"rpg",url:"rpghub"}
+]
 
 type Handler = (...args: any[]) => void;
 
@@ -12,11 +18,11 @@ export const useSignalR = (hubName: string, onConnected?: () => void) => {
   const connectionRef = useRef<HubConnection | null>(null);
   const handlersRef = useRef<Map<string, Handler>>(new Map());
 
+  const [ednpoint] = useLocalStorage('apiEndpoint');
   const [connected, setConnected] = useState(false);
 
-  const api = useApiConnect();
-
-  const hubUrl = api.getUrl(hubName);
+  const hub = hubs.find(x=> x.name == hubName);
+  const hubUrl = ednpoint + '/' + hub.url;
 
   // 🚀 Start connection
   useEffect(() => {
@@ -33,10 +39,9 @@ export const useSignalR = (hubName: string, onConnected?: () => void) => {
     connection
       .start()
       .then(() => {
-        console.log(`SignalR connected: ${hubName}`);
+        console.log(`SignalR connected: ${hub.name}`);
         setConnected(true);
 
-        // 🔁 re-register handlers after reconnect
         handlersRef.current.forEach((handler, event) => {
           connection.on(event, handler);
         });

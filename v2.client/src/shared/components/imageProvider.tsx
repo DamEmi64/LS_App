@@ -13,7 +13,7 @@ export interface ImageProviderProps {
 }
 
 export const ImageProvider: React.FC<ImageProviderProps> = ({ readonly = false, saveImage, imageId }) => {
-    const api = useApiConnect();
+    const {homeApi, call} = useApiConnect();
     const theme = useTheme();
     const [image, setImage] = useState<string>();
 
@@ -33,14 +33,10 @@ export const ImageProvider: React.FC<ImageProviderProps> = ({ readonly = false, 
     };
 
     useEffect(() => {
-        const params = new URLSearchParams({
-            id: imageId
-        });
-
-        api.get<Image>('image', { params })
+        call<Image>(homeApi,homeApi.getHomeImage,{id:imageId})
             .then((res) => {
-                if (res.data != null && res.data.contentStr !== '') {
-                    setData(res.data.contentStr);
+                if (res != null && res.contentStr !== '') {
+                    setData(res.contentStr);
                 }
             });
     }, [imageId]);

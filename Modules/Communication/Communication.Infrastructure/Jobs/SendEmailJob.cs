@@ -2,7 +2,6 @@
 using Base.Interfaces;
 using Communication.Domain.Entities;
 using Files.Domain.Repositories;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Communication.Infrastructure.Jobs
 {

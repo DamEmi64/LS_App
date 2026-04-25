@@ -106,10 +106,10 @@ export const AutomatForm = ({ initialData, onSubmit }) => {
 
     const convertTasks = (tasks) => {
 
-        let convertedTasks = [];
+        const convertedTasks = [];
 
         for (let i = 0; i < tasks.length; i++) {
-            var task = tasks[i];
+            const task = tasks[i];
             if (task.operationId === 1) {
                 task.data = {
                     SourceDir: task.data.sourceDir,
@@ -120,7 +120,7 @@ export const AutomatForm = ({ initialData, onSubmit }) => {
             }
             else if (task.operationId === 2) {
 
-                var generateStoryFromSummaryTask = {
+                const generateStoryFromSummaryTask = {
                     id: crypto.randomUUID(),
                     name: "",
                     operationId: 34,
@@ -148,7 +148,7 @@ export const AutomatForm = ({ initialData, onSubmit }) => {
             }
             else if (task.operationId === 3) {
 
-                var getLastEditedRPGTask = {
+                const getLastEditedRPGTask = {
                     id: crypto.randomUUID(),
                     name: "",
                     operationId: 33,

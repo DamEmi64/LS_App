@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using CommunicationBase.Interfaces;
-using Newtonsoft.Json;
 
 namespace Communication.Application.Dtos
 {

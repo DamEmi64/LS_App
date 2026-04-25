@@ -1,4 +1,5 @@
 ﻿using Base;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RPG.Application.Dtos;
 using RPG.Application.Filters;
@@ -29,6 +30,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(Place), StatusCodes.Status200OK)]
         public async Task<IActionResult> Details(Guid id)
         {
             var result = await _placeRepository.Get(id);
@@ -42,6 +44,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpGet("")]
+        [ProducesResponseType(typeof(ResponseList<Place>), StatusCodes.Status200OK)]
         public IActionResult ListData([FromQuery] PlaceFilter filter)
         {
             return Json(filter.Filter(_placeRepository.GetAll()));

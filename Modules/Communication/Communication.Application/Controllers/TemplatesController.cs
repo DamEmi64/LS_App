@@ -7,6 +7,7 @@ using Communication.Infrastructure.Services;
 using Communication.Infrastructure.Services.SendService;
 using Communication.Infrastructure.Services.SendService.Models;
 using Files.Domain.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Communication.Application.Controllers
@@ -35,6 +36,7 @@ namespace Communication.Application.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(Template), StatusCodes.Status200OK)]
         public async Task<IActionResult> Details(Guid id)
         {
             var result = await _templateRepository.Get(id);
@@ -48,6 +50,7 @@ namespace Communication.Application.Controllers
         }
 
         [HttpGet("rules")]
+        [ProducesResponseType(typeof(RulesDto), StatusCodes.Status200OK)]
         public IActionResult Rules([FromQuery] TemplateFilter filter)
         {
             var functions = _fluidService.GetFunctions();
@@ -66,6 +69,7 @@ namespace Communication.Application.Controllers
         }
 
         [HttpGet("")]
+        [ProducesResponseType(typeof(ResponseList<Template>), StatusCodes.Status200OK)]
         public IActionResult ListData([FromQuery] TemplateFilter filter)
         {
             return Json(filter.Filter(_templateRepository.GetAll()));
