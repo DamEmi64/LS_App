@@ -11,11 +11,11 @@ namespace Communication.Infrastructure.EmailGenerator.Strategies
         public string TitleKey => "communication.templates.strategies.randomNumber.title";
 
         public string? DescriptionKey => "communication.templates.strategies.randomNumber.description";
-            
+
         public string Invoker => "randomNumber";
 
-        public Func<FunctionArguments, FluidContext, FluidValue> Method => 
-                (args,ctx) =>  Handle(args,
+        public Func<FunctionArguments, FluidContext, FluidValue> Method =>
+                (args, ctx) => Handle(args,
                             ctx.GetProperty<List<string>>("receivers"),
                             ctx.GetProperty<string>("receiver"),
                             ctx.GetProperty<string>("sender"));

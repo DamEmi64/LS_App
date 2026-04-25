@@ -41,7 +41,7 @@ const BattlePage: React.FC<{
     const handleDrop = (columnIndex: number, rowIndex: number) => {
       if (!draggedItem) return;
 
-      var newData = npcs.map((npc) =>
+      const newData = npcs.map((npc) =>
         npc.id === draggedItem.id ? { ...npc, row: rowIndex, column: columnIndex } : npc
       );
       setNpcs(newData);

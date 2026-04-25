@@ -56,7 +56,7 @@
                 .ForMember(d => d.Links, o => o.MapFrom(s => s.Links ?? new()));
 
             CreateMap<Chapter, ChapterDto>()
-                .ForMember(d=>d.Flow, o => o.MapFrom(s=>JsonConvert.DeserializeObject<FlowDto>(s.FlowJson ?? string.Empty)))
+                .ForMember(d => d.Flow, o => o.MapFrom(s => JsonConvert.DeserializeObject<FlowDto>(s.FlowJson ?? string.Empty)))
                 .ForMember(d => d.Story, o => o.MapFrom(s => s.Story != null ? s.Story.Id : (Guid?)null))
 
                 // optimized (no double OrderBy)

@@ -1,6 +1,5 @@
 ﻿using Base;
 using Connector;
-using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 using Newtonsoft.Json.Converters;
@@ -8,7 +7,6 @@ using Serilog;
 using Serilog.Sinks.MSSqlServer;
 using System.Domain.Repositories;
 using System.Reflection;
-using System.Text.RegularExpressions;
 
 
 namespace Api
@@ -118,7 +116,7 @@ namespace Api
                             {
                                 if (segment.EndsWith("s"))
                                 {
-                                    parts.Add(char.ToUpper(segment[0]) + segment.Substring(1,segment.Length - 2));
+                                    parts.Add(char.ToUpper(segment[0]) + segment.Substring(1, segment.Length - 2));
                                 }
                                 else if (segment.EndsWith("es"))
                                 {

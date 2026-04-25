@@ -1,8 +1,4 @@
 ﻿using Base;
-using Google.Apis.Auth.OAuth2;
-using Google.Cloud.Firestore;
-using Google.Cloud.Firestore.V1;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using RPG.Infrastructure.External.Firebase;
 using RPG.Infrastructure.Models;

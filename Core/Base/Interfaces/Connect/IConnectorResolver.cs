@@ -13,7 +13,7 @@ namespace Base
         /// <param name="name"></param>
         /// <returns></returns>
         ReadOnlyCollection<DictionaryItem> GetDictionary(string name);
-        
+
         /// <summary>
         ///     Get operation by id
         /// </summary>

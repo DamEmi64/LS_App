@@ -1,14 +1,10 @@
 ﻿using Base;
 using Communication.Domain.Entities;
 using Communication.Infrastructure.EmailGenerator;
-using Communication.Infrastructure.EmailGenerator.Strategies;
 using Communication.Infrastructure.Services.SendService.Models;
 using CommunicationBase;
 using CommunicationBase.Interfaces;
 using Files.Domain.Repositories;
-using Fluid;
-using Fluid.Values;
-using Microsoft.Extensions.DependencyInjection;
 using System.Net;
 
 namespace Communication.Infrastructure.Jobs

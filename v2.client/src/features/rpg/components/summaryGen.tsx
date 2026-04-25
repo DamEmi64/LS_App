@@ -26,7 +26,7 @@ const SummaryGen: React.FC<SummaryGenProps> = ({ story, onProcess, forFirebase }
     const textColor = theme.palette.mode === 'dark'
         ? theme.palette.text.primary
         : theme.palette.text.secondary;
-    var chapters = story.chapters || [];
+    const chapters = story.chapters || [];
     const { t } = useTranslation();
     const [selected, setSelected] = useState<string[]>([]);
     const [isPdf, setIsPdf] = useState(true);

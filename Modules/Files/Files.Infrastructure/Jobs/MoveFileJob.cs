@@ -1,6 +1,5 @@
 ﻿using Base;
 using Files.Domain.Repositories;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Files.Infrastructure.Jobs
 {

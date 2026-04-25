@@ -8,7 +8,7 @@
         /// <summary>
         ///     Number of items
         /// </summary>
-        public int Total { get; set;  }
+        public int Total { get; set; }
 
         /// <summary>
         ///     Item list

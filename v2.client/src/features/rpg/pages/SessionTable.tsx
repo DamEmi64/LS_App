@@ -128,13 +128,13 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     }
 
     const addChapter = (data: Story) => {
-        var chapter = {} as SessionDto;
+        const chapter = {} as SessionDto;
         chapter.story = data.id;
         modal.showModal(<SessionForm data={chapter} onSave={(o) => saveChapter(o)} isChapter={true} isNew={true} />)
     }
 
     const addDraftChapter = (data: Story) => {
-        var chapter = {} as SessionDto;
+        const chapter = {} as SessionDto;
         chapter.story = data.id;
         chapter.draft = true;
         modal.showModal(<SessionForm data={chapter} onSave={(o) => saveChapter(o)} isChapter={true} isNew={true} />)

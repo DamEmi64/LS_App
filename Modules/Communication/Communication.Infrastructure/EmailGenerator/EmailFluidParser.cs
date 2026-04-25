@@ -16,7 +16,7 @@ namespace Communication.Infrastructure.EmailGenerator
         private readonly RandomUniqueStrategy _randomUniqueStrategy;
 
         public EmailFluidParser()
-            :base()
+            : base()
         {
             _randomNumberStrategy = new RandomNumberStrategy();
             _randomStrategy = new RandomStrategy();
@@ -28,7 +28,7 @@ namespace Communication.Infrastructure.EmailGenerator
         public UserData? UserData { get; set; }
 
         [FluidVariable("606")]
-        public UserData? Sender { get; set;  }
+        public UserData? Sender { get; set; }
 
         [FluidVariable("607")]
         public UserData? Receiver { get; set; }
@@ -39,17 +39,17 @@ namespace Communication.Infrastructure.EmailGenerator
         [FluidVariable("609")]
         public int SEQ { get; set; } = 0;
 
-        [FluidFunction(title:"601")]
-        public FluidValue RandomNumber(FunctionArguments arguments, FluidContext context) => _randomNumberStrategy.Method.Invoke(arguments,context);
+        [FluidFunction(title: "601")]
+        public FluidValue RandomNumber(FunctionArguments arguments, FluidContext context) => _randomNumberStrategy.Method.Invoke(arguments, context);
 
         [FluidFunction(title: "602")]
-        public FluidValue Random(FunctionArguments arguments, FluidContext context) => _randomStrategy.Method.Invoke(arguments,context);
+        public FluidValue Random(FunctionArguments arguments, FluidContext context) => _randomStrategy.Method.Invoke(arguments, context);
 
         [FluidFunction(title: "603")]
-        public FluidValue RandomUnique(FunctionArguments arguments, FluidContext context) => _randomUniqueStrategy.Method.Invoke(arguments,context);
+        public FluidValue RandomUnique(FunctionArguments arguments, FluidContext context) => _randomUniqueStrategy.Method.Invoke(arguments, context);
 
         [FluidFunction(title: "604")]
-        public FluidValue Increment(FunctionArguments arguments, FluidContext context) => _incrementStrategy.Method.Invoke(arguments,context);
+        public FluidValue Increment(FunctionArguments arguments, FluidContext context) => _incrementStrategy.Method.Invoke(arguments, context);
 
     }
 }

@@ -43,7 +43,7 @@ export const EmailEdit: React.FC<EmailEditProps> = ({ email, onSave, readonly })
         if (!input) return "";
 
         // Match email inside <>
-        var match = input.match(/<([^<>]+@[^<>]+)>/);
+        const match = input.match(/<([^<>]+@[^<>]+)>/);
         if (match) return match[1].trim();
 
         // If no <>, check if the string itself is a valid email
@@ -55,7 +55,7 @@ export const EmailEdit: React.FC<EmailEditProps> = ({ email, onSave, readonly })
     }
 
     const onSubmit = (data: Email) => {
-        var recipientStr = recipients.map(x => extractEmail(x)).join(';');
+        const recipientStr = recipients.map(x => extractEmail(x)).join(';');
         data.recipient = recipientStr;
         onSave(data);
     };

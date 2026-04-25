@@ -1,6 +1,4 @@
-﻿using Base;
-
-namespace Base
+﻿namespace Base
 {
     [Dictionary("Notify types")]
     public class NotifyTypes

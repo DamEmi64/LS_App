@@ -24,7 +24,7 @@ const RPG: React.FC<{ draft: boolean }> = ({ draft }) => {
             params[filter.field] = filter.value.toLocaleString();
         });
 
-        var result =   await  call<ResponseList<Story>>(storiesApi,draft ? storiesApi.getStorieDraft : storiesApi.getStorie, params);
+        const result =   await  call<ResponseList<Story>>(storiesApi,draft ? storiesApi.getStorieDraft : storiesApi.getStorie, params);
         setData(result.data);
         setRowCount(result.total);
         setLoading(false);

@@ -42,10 +42,10 @@ const PlayerPage = () => {
     }
 
     const HeroToDto = (data: Hero) => {
-        var heroDto = {} as HeroDto;
+        let heroDto = {} as HeroDto;
         if (data) {
             heroDto = data as unknown as HeroDto;
-            var i = 1;
+            let i = 1;
             heroDto.skills.forEach(x => { x.skillId = x.id;  x.id = i; i++; });
 
         }

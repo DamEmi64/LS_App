@@ -15,7 +15,7 @@ const SummaryTaskForm = ({ task, onChange }) => {
 
   const getListRPG = async() => {
 
-    var stories = await mapResponse<ResponseList<Story>>(storiesApi,storiesApi.getStorie,{order:''})
+    const stories = await mapResponse<ResponseList<Story>>(storiesApi,storiesApi.getStorie,{order:''})
     setRPGList(stories.data.map((story) => ({ label: story.title, value: story.id })));
   }
 

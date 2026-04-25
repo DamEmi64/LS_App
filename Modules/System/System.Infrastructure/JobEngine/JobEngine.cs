@@ -4,7 +4,6 @@ using Hangfire.Server;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Domain.Entities;
 using System.Domain.Repositories;
 
