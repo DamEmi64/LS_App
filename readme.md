@@ -121,9 +121,11 @@ Three apps in each release:
 
 **Run local version:**
 
-```bash
-dotnet run --project LocalApp
-```
+- Run Local.exe
+- Endpoint:
+  - Backend: https://localhost:5144
+  - Frontend: http://localhost:8080
+
 
 ---
 

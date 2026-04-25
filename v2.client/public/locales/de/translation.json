@@ -1,1 +1,361 @@
-{"window":{"yes":"Ja","no":"Nein","cancel":"Abbrechen","info":"Info"},"validation":{"required":"Dieses Feld ist erforderlich","minLength":"Geben Sie mindestens {0} Zeichen ein","maxLength":"Geben Sie höchstens {0} Zeichen ein","email":"Geben Sie eine gültige E-Mail-Adresse ein","url":"Geben Sie eine gültige URL ein","number":"Geben Sie eine gültige Zahl ein"},"notify":{"processActive":"Alle Aufgabenbenachrichtigungen","processError":"Nur Fehler","position":"Position der Benachrichtigung","notification":"Benachrichtigungen","autoClose":"Automatisch schließen (ms)","active":"Aktiv","bottomRight":"Unten rechts","topRight":"Oben rechts","bottomLeft":"Unten links","topLeft":"Oben links"},"user":{"firstName":"Vorname","lastName":"Nachname","email":"E-Mail","phoneNumber":"Telefonnummer","info":"Benutzerdaten","userName":"Benutzername"},"processes":{"title":"Prozesse","description":"Laufende Prozesse verwalten","name":"Prozess","queue":"Warteschlange","startingDate":"Startdatum","startingDateFrom":"Startdatum (von)","startingDateTo":"Startdatum (bis)","percentage":"Fortschritt","status":"Status","jobs":"Jobs","noJobs":"Keine Jobs mit diesem Prozess verknüpft","errors":"Fehler","errorMessage":"Fehlermeldung","restart":"Prozess neu starten","processStatus":{"New":"Neu","Executing":"In Bearbeitung","Success":"Abgeschlossen","Failed":"Fehlgeschlagen","Paused":"Pausiert"}},"jobs":{"id":"ID","jobId":"Job-ID","status":"Status","requestData":"Geplanter Start","startDate":"Startdatum","endDate":"Enddatum","name":"Name","percentage":"Fortschritt","operation":"Aktion"},"entity":{"insDate":"Erstellt am","upDate":"Zuletzt aktualisiert","del_info":"Dieses Element löschen?"},"files":{"title":"Dateien","all":"*","games":"Spiele","docs":"Dokumente","name":"Titel","image":"Bild","location":"Ort","fileType":"Typ","additionalData":"Zusätzliche Informationen","sources":"Quellen","show_file":"Dateien anzeigen","subject":"Kurs","year":"Jahr","semester":"Semester","sourceType":"Quelle","import":"Aus externer Quelle importieren","export":"Herunterladen","gameGenre":"Genre","useFileUpload":"Datei in Datenbank speichern"},"communication":{"title":"Kommunikation","emails":"E-Mails","templates":"Vorlagen","description":"Benutzerkommunikation verwalten","template":{"title":"Vorlagen","description":"Nachrichtenvorlagen erstellen und verwalten","name":"Vorlagenname","subject":"Betreff","body":"Nachricht","add":"Vorlage hinzufügen","edit":"Vorlage bearbeiten","del":"Vorlage löschen","gen":"Nachricht generieren","strategies":{"title":"Vorlagenfunktionen","description":"Dynamische Funktionen für Nachrichten","example":"Beispiel","increment":{"title":"Automatische Nummerierung","description":"Erhöht automatisch einen Zähler","example":"{{ increment() }}"},"randomNumber":{"title":"Zufallszahl","description":"Erzeugt eine Zahl in einem Bereich","example":"{{ randomNumber(0,20) }}"},"random":{"title":"Zufallswert","description":"Wählt einen zufälligen Wert","example":"{{ random('', 'a', 'b', 'c') }}"},"randomUnique":{"title":"Eindeutiger Zufallswert","description":"Erzeugt nach Möglichkeit eindeutige Werte pro Empfänger","example":"{{ randomUnique(test@test.com='d;e;f', 'a', 'b', 'c') }}"}}},"email":{"title":"E-Mail","subject":"Betreff","sendDate":"Sendedatum","description":"E-Mails senden","body":"Nachricht","from":"Von","to":"An","cc":"CC","bcc":"BCC","send":"E-Mail senden","sender":{"title":"Absender","email":"E-Mail","name":"Name"},"recipient":{"title":"Empfänger","email":"E-Mail","name":"Name"}},"editor":{"title":"Nachrichteneditor"}},"rpg":{"import":{"converterType":"Konvertertyp","externalUrl":"Externer RPG-Sitzungsname (nur Firebase)","selectFile":"Datei auswählen"},"deleteConfirm":{"place":"Ort {0} löschen?","hero":"Charakter {0} löschen?","story":"Geschichte {0} löschen?"},"flow":{"title":"Titel","condition":"Bedingung","description":"Beschreibung","export":"Als PNG exportieren","add_node":"Knoten hinzufügen","type":"Ereignistyp","default_node":"Standard","success_node":"Erfolg","fail_node":"Fehler","additional_node":"Zusätzliches Ereignis","quest":"Quest","important":"Schlüsselentscheidung","event":"Ereignis","flow_title":"Kapitelablauf"},"story":{"startDate":"Startdatum","endDate":"Enddatum","description":"Beschreibung","heroes":"Charaktere","places":"Orte","chapters":"Kapitel","summary":"Zusammenfassung","start":"Geschichte starten","end":"Geschichte beenden","gen_summary":"Zusammenfassung erstellen","download_summary":"Zusammenfassung herunterladen","title":"Titel","gen_summary_desc":"Kapitel für die Zusammenfassung auswählen","send_firebase":"An App senden"},"chapter":{"title":"Titel","description":"Beschreibung","add":"Kapitel hinzufügen","addDraft":"Entwurf hinzufügen","chapters":"Kapitel","startDate":"Startdatum","endDate":"Enddatum","start":"Sitzung starten","end":"Sitzung beenden","order":"Reihenfolge","dmPage":"Spielleiteransicht","playerPage":"Spieleransicht","sessions":"Sitzungen","links":"Ressourcen"},"hero":{"firstName":"Vorname","health":"Gesundheit","pos":"Position","lastName":"Nachname","player":"Gespielt von","description":"Hintergrund","add":"Charakter hinzufügen","playerData":"Spielerdaten","diceRoll":"Würfeln","skills":"Fähigkeiten","skill":{"title":"Fähigkeitsname","value":"Wert","add":"Hinzufügen","remove":"Entfernen"}},"place":{"title":"Titel","description":"Beschreibung","add":"Ort hinzufügen"},"other":{"title":"Titel","description":"Beschreibung","image":"Bild","url":"Link","output_player_view":"Spieleransicht anzeigen","condition":"Bedingung"},"title":"RPG-Sitzungen","draftTitle":"Entwürfe","description":"Geschichten zum Erzählen"},"menu":{"home":"Startseite","processes":"Prozesse","files":"Dateien","settings":"Einstellungen","communication":"Kommunikation","emails":"E-Mails","templates":"Vorlagen","automations":"Automationen","rpg_sessions":"RPG-Sitzungen","register":"Registrieren","login":"Anmelden","logout":"Abmelden","draft":"Entwürfe"},"server":{"info":"Systemstatus","server_version":"Serverversion","frontend_version":"Frontend-Version","modules":"Aktive Module","module_name":"Modulname","module_version":"Version"},"no_data":"Keine Daten","EndpointNotFound":"Endpunkt nicht gefunden","filter_reset":"Filter zurücksetzen","language":"Sprache","settings":"Einstellungen","login":"Anmelden","register":"Registrieren","apiEndpoint":"API-Endpunkt","darkTheme":"Dunkler Modus","error":"Fehler","opt":{"add":"Hinzufügen","delete":"Löschen","edit":"Bearbeiten","details":"Details","operations":"Aktionen","save":"Speichern","change_pass":"Passwort ändern","login":"Anmelden","register":"Registrieren","cancel":"Abbrechen","create":"Erstellen","import":"Importieren","export":"Exportieren","copy":"Kopieren","publish":"Veröffentlichen","select":"Auswählen"},"auth":{"welcome":"Willkommen","info":"Melden Sie sich an oder erstellen Sie ein Konto","no_permission":"Sie haben keinen Zugriff auf diese Seite. Kontaktieren Sie Ihren Administrator.","register":{"username":"Benutzername","password":"Passwort","email":"E-Mail","firstName":"Vorname","lastName":"Nachname","phoneNumber":"Telefonnummer","failed":"Registrierung fehlgeschlagen"},"login":{"username":"Benutzername","password":"Passwort","rememberMe":"Angemeldet bleiben","failed":"Ungültige Zugangsdaten","error":"Ein Fehler ist aufgetreten. Bitte später erneut versuchen."}},"automations":{"jobs":{"archive":{"title":"Dateiarchivierung","sourceDir":"Quellordner","descDir":"Zielordner"},"summaryDataRPG":"RPG-Sitzung für Zusammenfassung","downloadLastFile":"Letzte gespeicherte Datei herunterladen"},"add_task":"Aufgabe hinzufügen","site_title":"Automationen","subtitle":"Automatisierte Prozesse verwalten","title":"Titel","description":"Beschreibung","active":"Aktiv","turnOnOff":"Automation ein-/ausschalten","order":"Ausführungsreihenfolge","tasks":"Aufgaben","frequency":"Ausführungsintervall (Minuten)","triggers":{"title":"Trigger","type":"Typ","cron":"Zeitplan (Cron)","onRPGModify":"Bei RPG-Änderung"},"actions":{"archive":"Dateien archivieren","GenerateRPGSummary":"RPG-Zusammenfassung erstellen","downloadLastFile":"Letzte gespeicherte Datei herunterladen"}}}
+{
+    "window": {
+        "yes": "Ja",
+        "no": "Nein",
+        "cancel": "Abbrechen",
+        "info": "Info"
+    },
+    "validation": {
+        "required": "Dieses Feld ist erforderlich",
+        "minLength": "Geben Sie mindestens {0} Zeichen ein",
+        "maxLength": "Geben Sie höchstens {0} Zeichen ein",
+        "email": "Geben Sie eine gültige E-Mail-Adresse ein",
+        "url": "Geben Sie eine gültige URL ein",
+        "number": "Geben Sie eine gültige Zahl ein"
+    },
+    "notify": {
+        "processActive": "Alle Aufgabenbenachrichtigungen",
+        "processError": "Nur Fehler",
+        "position": "Position der Benachrichtigung",
+        "notification": "Benachrichtigungen",
+        "autoClose": "Automatisch schließen (ms)",
+        "active": "Aktiv",
+        "bottomRight": "Unten rechts",
+        "topRight": "Oben rechts",
+        "bottomLeft": "Unten links",
+        "topLeft": "Oben links"
+    },
+    "user": {
+        "firstName": "Vorname",
+        "lastName": "Nachname",
+        "email": "E-Mail",
+        "phoneNumber": "Telefonnummer",
+        "info": "Benutzerdaten",
+        "userName": "Benutzername"
+    },
+    "processes": {
+        "title": "Prozesse",
+        "description": "Laufende Prozesse verwalten",
+        "name": "Prozess",
+        "queue": "Warteschlange",
+        "startingDate": "Startdatum",
+        "startingDateFrom": "Startdatum (von)",
+        "startingDateTo": "Startdatum (bis)",
+        "percentage": "Fortschritt",
+        "status": "Status",
+        "jobs": "Jobs",
+        "noJobs": "Keine Jobs mit diesem Prozess verknüpft",
+        "errors": "Fehler",
+        "errorMessage": "Fehlermeldung",
+        "restart": "Prozess neu starten",
+        "processStatus": {
+            "New": "Neu",
+            "Executing": "In Bearbeitung",
+            "Success": "Abgeschlossen",
+            "Failed": "Fehlgeschlagen",
+            "Paused": "Pausiert"
+        }
+    },
+    "jobs": {
+        "id": "ID",
+        "jobId": "Job-ID",
+        "status": "Status",
+        "requestData": "Geplanter Start",
+        "startDate": "Startdatum",
+        "endDate": "Enddatum",
+        "name": "Name",
+        "percentage": "Fortschritt",
+        "operation": "Aktion"
+    },
+    "entity": {
+        "insDate": "Erstellt am",
+        "upDate": "Zuletzt aktualisiert",
+        "del_info": "Dieses Element löschen?"
+    },
+    "files": {
+        "title": "Dateien",
+        "all": "*",
+        "games": "Spiele",
+        "docs": "Dokumente",
+        "name": "Titel",
+        "image": "Bild",
+        "location": "Ort",
+        "fileType": "Typ",
+        "additionalData": "Zusätzliche Informationen",
+        "sources": "Quellen",
+        "show_file": "Dateien anzeigen",
+        "subject": "Kurs",
+        "year": "Jahr",
+        "semester": "Semester",
+        "sourceType": "Quelle",
+        "import": "Aus externer Quelle importieren",
+        "export": "Herunterladen",
+        "gameGenre": "Genre",
+        "useFileUpload": "Datei in Datenbank speichern"
+    },
+    "communication": {
+        "title": "Kommunikation",
+        "emails": "E-Mails",
+        "templates": "Vorlagen",
+        "description": "Benutzerkommunikation verwalten",
+        "template": {
+            "title": "Vorlagen",
+            "description": "Nachrichtenvorlagen erstellen und verwalten",
+            "name": "Vorlagenname",
+            "subject": "Betreff",
+            "body": "Nachricht",
+            "add": "Vorlage hinzufügen",
+            "edit": "Vorlage bearbeiten",
+            "del": "Vorlage löschen",
+            "gen": "Nachricht generieren",
+            "strategies": {
+                "title": "Vorlagenfunktionen",
+                "description": "Dynamische Funktionen für Nachrichten",
+                "example": "Beispiel",
+                "increment": {
+                    "title": "Automatische Nummerierung",
+                    "description": "Erhöht automatisch einen Zähler",
+                    "example": "{{ increment() }}"
+                },
+                "randomNumber": {
+                    "title": "Zufallszahl",
+                    "description": "Erzeugt eine Zahl in einem Bereich",
+                    "example": "{{ randomNumber(0,20) }}"
+                },
+                "random": {
+                    "title": "Zufallswert",
+                    "description": "Wählt einen zufälligen Wert",
+                    "example": "{{ random('', 'a', 'b', 'c') }}"
+                },
+                "randomUnique": {
+                    "title": "Eindeutiger Zufallswert",
+                    "description": "Erzeugt nach Möglichkeit eindeutige Werte pro Empfänger",
+                    "example": "{{ randomUnique(test@test.com='d;e;f', 'a', 'b', 'c') }}"
+                }
+            }
+        },
+        "email": {
+            "title": "E-Mail",
+            "subject": "Betreff",
+            "sendDate": "Sendedatum",
+            "description": "E-Mails senden",
+            "body": "Nachricht",
+            "from": "Von",
+            "to": "An",
+            "cc": "CC",
+            "bcc": "BCC",
+            "send": "E-Mail senden",
+            "sender": {
+                "title": "Absender",
+                "email": "E-Mail",
+                "name": "Name"
+            },
+            "recipient": {
+                "title": "Empfänger",
+                "email": "E-Mail",
+                "name": "Name"
+            }
+        },
+        "editor": {
+            "title": "Nachrichteneditor"
+        }
+    },
+    "rpg": {
+        "import": {
+            "converterType": "Konvertertyp",
+            "externalUrl": "Externer RPG-Sitzungsname (nur Firebase)",
+            "selectFile": "Datei auswählen"
+        },
+        "deleteConfirm": {
+            "place": "Ort {0} löschen?",
+            "hero": "Charakter {0} löschen?",
+            "story": "Geschichte {0} löschen?"
+        },
+        "flow": {
+            "title": "Titel",
+            "condition": "Bedingung",
+            "description": "Beschreibung",
+            "export": "Als PNG exportieren",
+            "add_node": "Knoten hinzufügen",
+            "type": "Ereignistyp",
+            "default_node": "Standard",
+            "success_node": "Erfolg",
+            "fail_node": "Fehler",
+            "additional_node": "Zusätzliches Ereignis",
+            "quest": "Quest",
+            "important": "Schlüsselentscheidung",
+            "event": "Ereignis",
+            "flow_title": "Kapitelablauf"
+        },
+        "story": {
+            "startDate": "Startdatum",
+            "endDate": "Enddatum",
+            "description": "Beschreibung",
+            "heroes": "Charaktere",
+            "places": "Orte",
+            "chapters": "Kapitel",
+            "summary": "Zusammenfassung",
+            "start": "Geschichte starten",
+            "end": "Geschichte beenden",
+            "gen_summary": "Zusammenfassung erstellen",
+            "download_summary": "Zusammenfassung herunterladen",
+            "title": "Titel",
+            "gen_summary_desc": "Kapitel für die Zusammenfassung auswählen",
+            "send_firebase": "An App senden"
+        },
+        "chapter": {
+            "title": "Titel",
+            "description": "Beschreibung",
+            "add": "Kapitel hinzufügen",
+            "addDraft": "Entwurf hinzufügen",
+            "chapters": "Kapitel",
+            "startDate": "Startdatum",
+            "endDate": "Enddatum",
+            "start": "Sitzung starten",
+            "end": "Sitzung beenden",
+            "order": "Reihenfolge",
+            "dmPage": "Spielleiteransicht",
+            "playerPage": "Spieleransicht",
+            "sessions": "Sitzungen",
+            "links": "Ressourcen"
+        },
+        "hero": {
+            "firstName": "Vorname",
+            "health": "Gesundheit",
+            "pos": "Position",
+            "lastName": "Nachname",
+            "player": "Gespielt von",
+            "description": "Hintergrund",
+            "add": "Charakter hinzufügen",
+            "playerData": "Spielerdaten",
+            "diceRoll": "Würfeln",
+            "skills": "Fähigkeiten",
+            "skill": {
+                "title": "Fähigkeitsname",
+                "value": "Wert",
+                "add": "Hinzufügen",
+                "remove": "Entfernen"
+            }
+        },
+        "place": {
+            "title": "Titel",
+            "description": "Beschreibung",
+            "add": "Ort hinzufügen"
+        },
+        "other": {
+            "title": "Titel",
+            "description": "Beschreibung",
+            "image": "Bild",
+            "url": "Link",
+            "output_player_view": "Spieleransicht anzeigen",
+            "condition": "Bedingung"
+        },
+        "title": "RPG-Sitzungen",
+        "draftTitle": "Entwürfe",
+        "description": "Geschichten zum Erzählen"
+    },
+    "menu": {
+        "home": "Startseite",
+        "processes": "Prozesse",
+        "files": "Dateien",
+        "settings": "Einstellungen",
+        "communication": "Kommunikation",
+        "emails": "E-Mails",
+        "templates": "Vorlagen",
+        "automations": "Automationen",
+        "rpg_sessions": "RPG-Sitzungen",
+        "register": "Registrieren",
+        "login": "Anmelden",
+        "logout": "Abmelden",
+        "draft": "Entwürfe"
+    },
+    "server": {
+        "info": "Systemstatus",
+        "server_version": "Serverversion",
+        "frontend_version": "Frontend-Version",
+        "modules": "Aktive Module",
+        "module_name": "Modulname",
+        "module_version": "Version"
+    },
+    "no_data": "Keine Daten",
+    "EndpointNotFound": "Endpunkt nicht gefunden",
+    "filter_reset": "Filter zurücksetzen",
+    "language": "Sprache",
+    "settings": "Einstellungen",
+    "login": "Anmelden",
+    "register": "Registrieren",
+    "apiEndpoint": "API-Endpunkt",
+    "darkTheme": "Dunkler Modus",
+    "error": "Fehler",
+    "opt": {
+        "add": "Hinzufügen",
+        "delete": "Löschen",
+        "edit": "Bearbeiten",
+        "details": "Details",
+        "operations": "Aktionen",
+        "save": "Speichern",
+        "change_pass": "Passwort ändern",
+        "login": "Anmelden",
+        "register": "Registrieren",
+        "cancel": "Abbrechen",
+        "create": "Erstellen",
+        "import": "Importieren",
+        "export": "Exportieren",
+        "copy": "Kopieren",
+        "publish": "Veröffentlichen",
+        "select": "Auswählen"
+    },
+    "auth": {
+        "welcome": "Willkommen",
+        "info": "Melden Sie sich an oder erstellen Sie ein Konto",
+        "no_permission": "Sie haben keinen Zugriff auf diese Seite. Kontaktieren Sie Ihren Administrator.",
+        "register": {
+            "username": "Benutzername",
+            "password": "Passwort",
+            "email": "E-Mail",
+            "firstName": "Vorname",
+            "lastName": "Nachname",
+            "phoneNumber": "Telefonnummer",
+            "failed": "Registrierung fehlgeschlagen"
+        },
+        "login": {
+            "username": "Benutzername",
+            "password": "Passwort",
+            "rememberMe": "Angemeldet bleiben",
+            "failed": "Ungültige Zugangsdaten",
+            "error": "Ein Fehler ist aufgetreten. Bitte später erneut versuchen."
+        }
+    },
+    "automations": {
+        "jobs": {
+            "archive": {
+                "title": "Dateiarchivierung",
+                "sourceDir": "Quellordner",
+                "descDir": "Zielordner"
+            },
+            "summaryDataRPG": "RPG-Sitzung für Zusammenfassung",
+            "downloadLastFile": "Letzte gespeicherte Datei herunterladen"
+        },
+        "add_task": "Aufgabe hinzufügen",
+        "site_title": "Automationen",
+        "subtitle": "Automatisierte Prozesse verwalten",
+        "title": "Titel",
+        "description": "Beschreibung",
+        "active": "Aktiv",
+        "turnOnOff": "Automation ein-/ausschalten",
+        "order": "Ausführungsreihenfolge",
+        "tasks": "Aufgaben",
+        "frequency": "Ausführungsintervall (Minuten)",
+        "triggers": {
+            "title": "Trigger",
+            "type": "Typ",
+            "cron": "Zeitplan (Cron)",
+            "onRPGModify": "Bei RPG-Änderung"
+        },
+        "actions": {
+            "archive": "Dateien archivieren",
+            "GenerateRPGSummary": "RPG-Zusammenfassung erstellen",
+            "downloadLastFile": "Letzte gespeicherte Datei herunterladen"
+        }
+    }
+}
