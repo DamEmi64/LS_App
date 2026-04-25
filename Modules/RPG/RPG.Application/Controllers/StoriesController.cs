@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Base;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RPG.Application.Dtos;
 using RPG.Application.Filters;
@@ -39,6 +40,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(Story), StatusCodes.Status200OK)]
         public async Task<IActionResult> Details(Guid id)
         {
             var result = await _storyRepository.Get(id);
@@ -53,6 +55,7 @@ namespace RPG.Application.Controllers
 
         [HttpGet("{id}/draft")]
         [AuthPermission("rpg_draft")]
+        [ProducesResponseType(typeof(Story), StatusCodes.Status200OK)]
         public async Task<IActionResult> DetailsDraft(Guid id)
         {
             var result = await _storyRepository.Get(id);
@@ -66,6 +69,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpGet("")]
+        [ProducesResponseType(typeof(ResponseList<Story>), StatusCodes.Status200OK)]
         public async Task<IActionResult> ListData([FromQuery] StoryFilter filter)
         {
             var stories = _storyRepository.GetAll();
@@ -74,6 +78,7 @@ namespace RPG.Application.Controllers
 
         [HttpGet("draft")]
         [AuthPermission("rpg_draft")]
+        [ProducesResponseType(typeof(ResponseList<Story>), StatusCodes.Status200OK)]
         public async Task<IActionResult> ListDrafts([FromQuery] StoryFilter filter)
         {
             var stories = _storyRepository.GetAllDraft();
@@ -110,6 +115,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpGet("{id}/export")]
+        [ProducesResponseType(typeof(FileResult), StatusCodes.Status200OK)]
         public async Task<IActionResult> Export(Guid id)
         {
             var storyName = _storyRepository.GetStoryTitle(id) ?? throw new ArgumentException("Story not found", nameof(id));
@@ -191,6 +197,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpGet("{id}/summary")]
+        [ProducesResponseType(typeof(FileResult), StatusCodes.Status200OK)]
         public async Task<IActionResult> DownloadSummary(Guid id)
         {
             var story = await _storyRepository.Get(id);

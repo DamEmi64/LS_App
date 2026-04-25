@@ -1,4 +1,4 @@
-import { FilterItem, FilterProps, FilterType} from '@/shared';
+import { FilterItem, FilterProps, FilterType } from '@/shared';
 import { DataTable } from "@/shared/components/datatable";
 import { useTranslation } from "react-i18next";
 
@@ -11,38 +11,39 @@ import { FormLabel, Grid } from "@mui/material";
 import { Process } from "@/features/auth";
 import { ColumnDef, ColumnType, onChangeParams, Operations, TableData } from "@/shared";
 import { useDictionaryTranslation } from '@/lib/utils';
+import { ResponseList } from '@/shared/api/extension';
 
 const Processes = () => {
     const { t } = useTranslation();
-    const api = useApiConnect();
+    const { processApi, call } = useApiConnect();
     const modal = useModal();
     const getDictionaryTranslation = useDictionaryTranslation();
-    
+
     const details = (data) => {
-        api.get<Process>('process_details', null, data.id)
+        call<Process>(processApi, processApi.getProcesById, { id: data.id })
             .then(process => {
-                modal.showModal(<ProcessInfo process={process.data}></ProcessInfo>);
+                modal.showModal(<ProcessInfo process={process}></ProcessInfo>);
             });
     }
 
     const restart = (data) => {
-        api.post('process_restart', null, null, data.id);
+        call(processApi, processApi.createProcesByIdRestart, { id: data.id });
     }
 
     const updateData = (paramsObj: onChangeParams) => {
         const { page, pageSize, orderBy, order, filters } = paramsObj;
-        const params = new URLSearchParams({
-            page: page?.toString() || '1',
-            pageSize: pageSize?.toString() || '10',
-            orderBy: orderBy || '',
-            order: order || '',
+        const query = {
+            page: paramsObj.page?.toString() || '1',
+            pageSize: paramsObj.pageSize?.toString() || '10',
+            orderBy: paramsObj.orderBy || '',
+            order: paramsObj.order || 'desc',
+        };
+
+        (paramsObj.filters || []).forEach(filter => {
+            query[filter.field] = filter.value.toLocaleString();
         });
 
-        (filters || []).forEach(filter => {
-            params.append(filter.field, filter.value.toLocaleString());
-        });
-
-        return api.get<Process[]>("process_data", { params })
+        return call<ResponseList<Process>>(processApi, processApi.getProcesData, query)
             .then(response => ({ data: response.data, total: response.total } as TableData<Process>));
     };
 

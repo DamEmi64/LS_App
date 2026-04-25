@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Base;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RPG.Application.Dtos;
 using RPG.Application.Filters;
@@ -32,6 +33,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(Hero), StatusCodes.Status200OK)]
         public async Task<IActionResult> Details(Guid id)
         {
             var result = await _heroRepository.Get(id);
@@ -45,6 +47,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpGet("")]
+        [ProducesResponseType(typeof(ResponseList<Hero>), StatusCodes.Status200OK)]
         public IActionResult ListData([FromQuery] HeroFilter filter)
         {
             return Json(filter.Filter(_heroRepository.GetAll()));

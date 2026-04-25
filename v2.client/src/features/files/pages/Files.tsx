@@ -23,11 +23,12 @@ import { saveAs } from "file-saver";
 
 import { EditFile, File } from "@/features/files";
 import { getDictionary, useDictionaryTranslation } from "@/lib/utils";
+import { ResponseList } from "@/shared/api/extension";
 
 const Files: React.FC = () => {
-    const api = useApiConnect();
+    const { filesApi, call, raw } = useApiConnect();
     const modal = useModal();
-    const { t } = useTranslation(); 
+    const { t } = useTranslation();
 
     const getDictionaryTranslation = useDictionaryTranslation();
     const theme = useTheme();
@@ -43,14 +44,12 @@ const Files: React.FC = () => {
         filters: []
     });
 
-    // ✅ FIXED types mapping
     const types = getDictionary('File types').map((item) => ({
         key: item.key,
         value: item.key,
         label: getDictionaryTranslation('File types', item.key).title
     }));
 
-    // ✅ FIXED categories (concat bug)
     const categories = [
         { key: '', value: '', label: '*' },
         ...types
@@ -86,25 +85,25 @@ const Files: React.FC = () => {
     };
 
     const saveNew = (file: EditFile) => {
-        api.post("files_add", file, null).then(() => {
+        call(filesApi, filesApi.createFile, file).then(() => {
             modal.hideModal();
             refresh();
         });
     };
 
     const details = (file: File) => {
-        api.get<File>("files_details", null, file.id).then(res => {
+        call<File>(filesApi, filesApi.getFileById, { id: file.id }).then(res => {
             modal.showModal(
-                <FilesInfo file={res.data} edit={edit} del={del} />
+                <FilesInfo file={res} edit={edit} del={del} />
             );
         });
     };
 
     const edit = (file: File) => {
-        api.get<File>("files_details", null, file.id).then(res => {
+        call<File>(filesApi, filesApi.getFileById, { id: file.id }).then(res => {
             modal.showModal(
                 <FilesEdit
-                    file={toEditFile(res.data)}
+                    file={toEditFile(res)}
                     toSave={(edited) => saveEdit(edited, file.id)}
                 />
             );
@@ -112,7 +111,7 @@ const Files: React.FC = () => {
     };
 
     const saveEdit = (file: EditFile, id: string) => {
-        api.put("files_details", file, null, id).then(() => {
+        call(filesApi, filesApi.updateFileById, { id, body: file }).then(() => {
             modal.hideModal();
             refresh();
         });
@@ -131,17 +130,16 @@ const Files: React.FC = () => {
     };
 
     const delConfirm = (file: File) => {
-        api.del("files_details", null, file.id).then(() => {
+        call(filesApi, filesApi.deleteFileById, { id: file.id }).then(() => {
             modal.hideModal();
             refresh();
         });
     };
 
-    const showFile = (file: File) => api.get("files_show", null, file.id);
-    const importFile = (file: File) => api.put("files_import", null, null, file.id);
+    const importFile = (file: File) => call(filesApi, filesApi.updateFileByIdImport, { id: file.id, body: file });
 
     const exportFile = (file: File) => {
-        api.download("files_export", file.id)
+        raw(filesApi, filesApi.getFileByIdExport, { id: file.id })
             .then((response) => {
                 const contentType =
                     response.headers["content-type"] || "application/octet-stream";
@@ -157,7 +155,6 @@ const Files: React.FC = () => {
         { name: "opt.details", method: details },
         { name: "opt.edit", method: edit },
         { name: "opt.delete", method: del },
-        { name: "files.show_file", method: showFile },
         { name: "files.import", method: importFile },
         { name: "files.export", method: exportFile }
     ];
@@ -170,19 +167,18 @@ const Files: React.FC = () => {
     const updateData = async (paramsObj: onChangeParams) => {
         setChangeParams(paramsObj);
 
-        const query = new URLSearchParams({
-            page: String(paramsObj.page ?? 0),
-            pageSize: String(paramsObj.pageSize ?? 10),
-            orderBy: paramsObj.orderBy ?? "",
-            order: paramsObj.order ?? ""
+        const query = {
+            page: paramsObj.page?.toString() || '1',
+            pageSize: paramsObj.pageSize?.toString() || '10',
+            orderBy: paramsObj.orderBy || '',
+            order: paramsObj.order || 'desc',
+        };
+
+        (paramsObj.filters || []).forEach(filter => {
+            query[filter.field] = filter.value.toLocaleString();
         });
 
-        paramsObj.filters?.forEach(f =>
-            query.append(f.field, String(f.value))
-        );
-
-        const result = await api.get<File[]>("files_data", { params: query });
-        if (result) setData(result.data);
+        call<ResponseList<File>>(filesApi, filesApi.getFile, query).then(res => setData(res.data));
     };
 
     const refresh = () => updateData(changeParams);

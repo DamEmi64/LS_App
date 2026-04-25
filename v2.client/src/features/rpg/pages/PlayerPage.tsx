@@ -17,7 +17,7 @@ import HeroForm from '../components/heroForm';
 const PlayerPage = () => {
     const [hero, setHero] = useState<Hero>();
     const [chapter, setChapter] = useState<Chapter>();
-    const api = useApiConnect();
+    const {heroesApi, chaptersApi, call} = useApiConnect();
 
     const { t } = useTranslation();
     const [searchParams] = useSearchParams();
@@ -31,13 +31,13 @@ const PlayerPage = () => {
     }
 
     const saveHero = (data: HeroDto) => {
-        api.put<HeroDto>('rpg_hero_playerData', data, null, hero.id);
+        call(heroesApi,heroesApi.updateHeroeById, {id:data.id, body:data})
     }
 
     const updateData = async (paramsObj: onChangeParams) => {
-        api.get<Hero>('rpg_hero_details', null, heroId).then(data => setHero(data.data));
+        call(heroesApi,heroesApi.getHeroeById,{id:heroId})
         if (chapterId) {
-            api.get<Chapter>('rpg_chapter_details', null, chapterId).then(data => setChapter(data.data));
+            call<Chapter>(chaptersApi,chaptersApi.getChapterById,{id:chapterId}).then(data => setChapter(data));
         }
     }
 

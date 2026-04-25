@@ -6,6 +6,7 @@ using Automation.Domain.Entities;
 using Automation.Domain.Repositories;
 using Automation.Infrastructure.Services.AutomationService;
 using Base;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Automation.Application.Controllers
@@ -31,6 +32,7 @@ namespace Automation.Application.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(Automat), StatusCodes.Status200OK)]
         public async Task<IActionResult> Details(Guid id)
         {
             var result = await _automatRepository.Get(id);
@@ -44,6 +46,7 @@ namespace Automation.Application.Controllers
         }
 
         [HttpGet("{id}/tasks")]
+        [ProducesResponseType(typeof(ResponseList<Domain.Entities.Task>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Tasks(Guid id)
         {
             var result = await _automatRepository.Get(id);
@@ -57,6 +60,7 @@ namespace Automation.Application.Controllers
         }
 
         [HttpGet("")]
+        [ProducesResponseType(typeof(ResponseList<Automat>), StatusCodes.Status200OK)]
         public async Task<IActionResult> ListData([FromQuery] AutomatonFilter filter)
         {
             var automats = _automatRepository.GetAll();
@@ -64,7 +68,7 @@ namespace Automation.Application.Controllers
         }
 
         [HttpPost("")]
-        public async Task<IActionResult> Create([FromBody] AutomatonDto dto)
+        public async Task<IActionResult> Create([FromBody] AutomationDto dto)
         {
             var entity = _mapper.Map<Automat>(dto);
 
@@ -75,7 +79,7 @@ namespace Automation.Application.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Edit(Guid id, [FromBody] AutomatonDto dto)
+        public async Task<IActionResult> Edit(Guid id, [FromBody] AutomationDto dto)
         {
             var automat = await _automatRepository.Get(id);
             ArgumentNullException.ThrowIfNull(automat);
@@ -121,7 +125,7 @@ namespace Automation.Application.Controllers
             return Ok();
         }
 
-        private void UpdateTasks(List<TaskDto> tasks, Automation.Domain.Entities.Automat automat)
+        private void UpdateTasks(List<TaskDto> tasks, Automat automat)
         {
             foreach (var task in tasks)
             {
@@ -132,7 +136,7 @@ namespace Automation.Application.Controllers
                 }
                 else
                 {
-                    automat.Tasks.Add(new Automation.Domain.Entities.Task
+                    automat.Tasks.Add(new Domain.Entities.Task
                     {
                         OperationId = task.OperationId,
                         Order = task.Order

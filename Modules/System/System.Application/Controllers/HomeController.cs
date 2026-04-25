@@ -1,4 +1,5 @@
 using Base;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace System.Application.Controllers
@@ -28,6 +29,7 @@ namespace System.Application.Controllers
         public IActionResult HealthCheck() => Ok();
 
         [HttpGet("image")]
+        [ProducesResponseType(typeof(FileResult), StatusCodes.Status200OK)]
         public async Task<IActionResult?> GetImage([FromQuery] Guid id)
         {
             var media = await _mediaProvider.Load(id);

@@ -1,4 +1,5 @@
 ﻿using Base;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Domain.Dictionaries;
@@ -19,12 +20,14 @@ namespace System.Application.Controllers
         }
 
         [HttpGet("me")]
+        [ProducesResponseType(typeof(UserData), StatusCodes.Status200OK)]
         public async Task<UserData?> GetInfo()
         {
             return await _authService.Me(HttpContext);
         }
 
         [HttpGet("data")]
+        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
         public async Task<User?> GetUser()
         {
             return await _authService.GetUser(HttpContext);
