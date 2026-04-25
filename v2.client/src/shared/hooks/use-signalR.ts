@@ -6,10 +6,11 @@ import {
 } from "@microsoft/signalr";
 import { useApiConnect } from "@/shared/context/apiConnect";
 import useLocalStorage from "react-use-localstorage";
+import { notify } from "../components/NotificationListener";
 
 const hubs = [
-  {name:"notify",url:"notify"},
-  {name:"rpg",url:"rpghub"}
+  { name: "notify", url: "notify" },
+  { name: "rpg", url: "rpghub" }
 ]
 
 type Handler = (...args: any[]) => void;
@@ -21,7 +22,12 @@ export const useSignalR = (hubName: string, onConnected?: () => void) => {
   const [ednpoint] = useLocalStorage('apiEndpoint');
   const [connected, setConnected] = useState(false);
 
-  const hub = hubs.find(x=> x.name == hubName);
+  const hub = hubs.find(x => x.name == hubName);
+
+  if (!hub) {
+    notify('error', 'Hub ' + hubName + ' not found');
+  }
+
   const hubUrl = ednpoint + '/' + hub.url;
 
   // 🚀 Start connection

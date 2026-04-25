@@ -10,7 +10,7 @@ const PlayerViewPage = () => {
     const [players, setPlayers] = useState<any[]>([]);
     const [background, setBackground] = useState<string>('');
 
-    const { on, connected } = useSignalR("rpghub");
+    const { on, connected } = useSignalR("rpg");
 
     useEffect(() => {
         on("VideoChanged", (title: string) => {

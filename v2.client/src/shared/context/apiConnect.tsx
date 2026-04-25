@@ -67,12 +67,10 @@ export const ApiConnect = ({ children }: { children: ReactNode }) => {
         instance.interceptors.response.use(
             res => res,
             (error: AxiosError<ApiError>) => {
-                if (error.message) {
+                if (error.message && !error.message.startsWith('Request failed with status')) {
                     notify('error', error.message);
                 }else if (error.response.data.message) {
                     notify('error', error.response.data.message);
-                } else if (error.response.data['name']) {
-                    notify('error', error.response.data['name']);
                 }
 
                 return Promise.reject(error);
