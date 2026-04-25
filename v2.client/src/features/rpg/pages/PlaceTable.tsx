@@ -138,7 +138,7 @@ export const PlaceTable: React.FC<PlaceTableProps> = ({
                 <TableBody>
 
                     {/* HEADER */}
-                    <TableRow>
+                    <TableRow key={'0_place'}>
                         <TableCell sx={{ fontWeight: "bold" }}>
                             {t('rpg.other.title')}
                         </TableCell>

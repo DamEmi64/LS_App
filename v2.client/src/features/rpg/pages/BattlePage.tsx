@@ -50,6 +50,11 @@ const BattlePage: React.FC<{
       onChange?.(newData);
     };
 
+    const onTableChange = (o : TableData<battleNpc>) => {
+      setNpcs((prev) => o.data.map((npc, idx) => ({ ...npc, row: prev.at(idx)?.row || 0 })));
+      onChange?.(o.data);
+    }
+
     return (
       <Grid container spacing={2} width={'100%'} flexDirection={"column"} alignItems={'center'}>
         <Grid container spacing={2} width="100%" flexDirection="column" alignItems="center">
@@ -133,7 +138,7 @@ const BattlePage: React.FC<{
             <GridTable
               columns={tableColumns}
               data={npcTable}
-              setData={(o) => setNpcs((prev) => o.data.map((npc, idx) => ({ ...npc, row: prev.at(idx)?.row || 0 })))}
+              setData={(o) => onTableChange(o)}
             />
           </Grid>
         )}

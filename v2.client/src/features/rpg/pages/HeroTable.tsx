@@ -143,7 +143,7 @@ export const HeroTable: React.FC<HeroTableProps> = ({
 
                 <TableBody>
                     {/* HEADER ROW */}
-                    <TableRow sx={{ fontWeight: "bold" }}>
+                    <TableRow sx={{ fontWeight: "bold" }} key={'0_hero'}>
                         <TableCell>{t('rpg.hero.firstName')}</TableCell>
                         <TableCell>{t('rpg.hero.lastName')}</TableCell>
                         <TableCell>{t('rpg.hero.player')}</TableCell>

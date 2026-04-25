@@ -30,7 +30,7 @@ import { battleNpc, Chapter, Hero, HeroDto } from "@/features/rpg";
 const DMPage: React.FC<{ chapter: Chapter }> = ({ chapter }) => {
     const {chaptersApi, call} = useApiConnect();
     const { t } = useTranslation();
-    const { send } = useSignalR("rpghub");
+    const { send } = useSignalR("rpg");
 
     // 📱 RESPONSIVE
     const theme = useTheme();
