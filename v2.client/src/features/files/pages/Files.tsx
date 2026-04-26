@@ -144,7 +144,7 @@ const Files: React.FC = () => {
                 const contentType =
                     response.headers["content-type"] || "application/octet-stream";
 
-                const blob = new Blob([response.data], { type: contentType });
+                const blob = new Blob([response.data], { type: contentType.toLocaleString() });
 
                 saveAs(blob, file.title);
             })
@@ -188,7 +188,7 @@ const Files: React.FC = () => {
     }, []);
 
     return (
-        <Grid container sx={{ width: "100%", minHeight: "100vh", flexDirection: "column", alignItems: "center", p: isMobile ? 1 : 2 }}>
+        <Grid container sx={{ width: "100%", flexDirection: "column", alignItems: "center", p: isMobile ? 1 : 2 }}>
             <Grid size={12} sx={{ textAlign: "center", mb: 2 }}>
                 <FormLabel sx={{ color: "white", fontSize: isMobile ? "1.8rem" : "2.5rem", fontWeight: "bold" }}>
                     {t("files.title")}

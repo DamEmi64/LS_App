@@ -193,7 +193,7 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
                     if (match?.[1]) filename = decodeURIComponent(match[1].replace(/"/g, ''));
                 }
 
-                const blob = new Blob([response.data], { type: contentType });
+                const blob = new Blob([response.data], { type: contentType.toLocaleString() });
                 saveAs(blob, filename);
             })
             .catch((error) => console.error('Download failed:', error));
@@ -211,7 +211,7 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
                     if (match?.[1]) filename = decodeURIComponent(match[1].replace(/"/g, ''));
                 }
 
-                const blob = new Blob([response.data], { type: contentType });
+                const blob = new Blob([response.data], { type: contentType.toLocaleString() });
                 saveAs(blob, filename);
             })
             .catch((error) => console.error('Download failed:', error));
@@ -244,7 +244,7 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     ]
 
     return (
-        <Grid sx={{ width: "100%", p: isMobile ? 1 : 3 }}>
+        <Grid sx={{ maxWidth: "100%", p: isMobile ? 1 : 3 }}>
             {/* HEADER */}
             <Grid sx={{ textAlign: "center", mb: 2 }}>
                 <InputLabel sx={{ fontSize: isMobile ? "1.8rem" : "2.5rem", fontWeight: "bold" }}>
@@ -278,9 +278,19 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
             }}>
                 <Filter filters={filters} onChange={handleFilterChange} />
 
-                <TableContainer sx={{ overflowX: "auto" }}>
-                    <Table size={isMobile ? "small" : "medium"} stickyHeader>
-
+            <TableContainer sx={{
+                width: "100%",
+                overflowX: "auto",
+                size: isMobile ? 'small' : 'medium',
+                WebkitOverflowScrolling: "touch"
+            }}>
+                    <Table
+                        stickyHeader
+                        sx={{
+                            maxWidth:'100%',
+                            WebkitOverflowScrolling: "touch"
+                        }}
+                    >
                         <TableHead>
                             <TableRow>
                                 <TableCell />

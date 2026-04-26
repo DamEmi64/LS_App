@@ -144,8 +144,7 @@ export const DataTable = <T,>({
         <Paper
             sx={{
                 width: "100%",
-                maxWidth: isMobile ? "100%" : "75%",
-                overflow: "hidden",
+                maxWidth: "100%",
                 margin: "auto",
                 p: isMobile ? 1 : 2
             }}
@@ -154,8 +153,20 @@ export const DataTable = <T,>({
             <Filter filters={filters} onChange={handleFilterChange} />
 
             {/* TABLE WRAPPER (IMPORTANT FOR MOBILE) */}
-            <TableContainer sx={{ overflowX: "auto" }}>
-                <Table size={isMobile ? "small" : "medium"} stickyHeader>
+            <TableContainer sx={{
+                width: "100%",
+                overflowX: "auto",
+                size: isMobile ? 'small' : 'medium',
+                WebkitOverflowScrolling: "touch"
+            }}>
+                <Table
+                    size={isMobile ? "small" : "medium"}
+                    stickyHeader
+                    sx={{
+                        minWidth: 900,
+                         width: "max-content",
+                    }}
+                >
 
                     {/* HEADER */}
                     <TableHead>

@@ -97,7 +97,7 @@ const Emails: React.FC = () => {
     };
 
     const delConfirm = async (email: Email) => {
-        call(emailsApi,emailsApi.updateEmailByIdSend,{id:email.id, body:email}).then(refresh);
+        call(emailsApi,emailsApi.deleteEmailById,{id:email.id}).then(refresh);
     };
 
     // ➕ CREATE
