@@ -17,7 +17,7 @@ import HeroForm from '../components/heroForm';
 const PlayerPage = () => {
     const [hero, setHero] = useState<Hero>();
     const [chapter, setChapter] = useState<Chapter>();
-    const {heroesApi, chaptersApi, call} = useApiConnect();
+    const { heroesApi, chaptersApi, call } = useApiConnect();
 
     const { t } = useTranslation();
     const [searchParams] = useSearchParams();
@@ -26,75 +26,87 @@ const PlayerPage = () => {
     const chapterId = searchParams.get('chapterId');
     const modal = useModal();
 
-    const toDto = (data: Hero): HeroDto => {
-        return {...data, playerData: data.playerData || '', skills: data.skills || []} as unknown as HeroDto;
-    }
+    const toDto = (data: Hero): HeroDto => ({
+        ...data,
+        playerData: data.playerData || '',
+        skills: data.skills || []
+    } as unknown as HeroDto);
 
     const saveHero = (data: HeroDto) => {
-        call(heroesApi,heroesApi.updateHeroeById, {id:data.id, body:data})
-    }
+        call(heroesApi, heroesApi.updateHeroeById, { id: data.id, body: data });
+    };
 
-    const updateData = async (paramsObj: onChangeParams) => {
-        call(heroesApi,heroesApi.getHeroeById,{id:heroId})
+    const updateData = async () => {
+        if (heroId) {
+            call<Hero>(heroesApi, heroesApi.getHeroeById, { id: heroId })
+                .then(setHero);
+        }
+
         if (chapterId) {
-            call<Chapter>(chaptersApi,chaptersApi.getChapterById,{id:chapterId}).then(data => setChapter(data));
+            call<Chapter>(chaptersApi, chaptersApi.getChapterById, { id: chapterId })
+                .then(setChapter);
         }
-    }
+    };
 
-    const HeroToDto = (data: Hero) => {
-        let heroDto = {} as HeroDto;
-        if (data) {
-            heroDto = data as unknown as HeroDto;
-            let i = 1;
-            heroDto.skills.forEach(x => { x.skillId = x.id;  x.id = i; i++; });
+    const HeroToDto = (data?: Hero) => {
+        if (!data) return {} as HeroDto;
 
-        }
-        else {
-            heroDto = {} as HeroDto;
-        }
+        const heroDto = data as unknown as HeroDto;
+        let i = 1;
+
+        heroDto.skills.forEach(x => {
+            x.skillId = x.id;
+            x.id = i++;
+        });
 
         return heroDto;
-    }
+    };
 
-    // Always use updateData for initial load
     useEffect(() => {
-        updateData({ page: 0, pageSize: 10, orderBy: '', order: 'asc', filters: [] });
+        updateData();
     }, []);
 
     return (
-        <>
-            <Grid container direction={'row'}>
-                <Grid style={{ width: '100vw' }}>
-                    {chapter && (
-                        <ChapterSummary chapter={chapter}></ChapterSummary>
-                    )}
+        <Grid container spacing={2} padding={2}>
+            
+            {/* Chapter */}
+            {chapter && (
+                <Grid size={{xs:12}}>
+                    <ChapterSummary chapter={chapter} />
                 </Grid>
-                <Grid>
-                    {hero && (
-                        <Accordion style={{ flexGrow: 1, width: '100vw' }}>
-                            <AccordionSummary
-                                expandIcon={<ArrowDownwardIcon />}
-                                aria-controls="panel1-content"
-                                id="panel1-header"
-                            >
-                                <Typography component="span">{hero.firstName} {hero.lastName}</Typography>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                <HeroForm hero={toDto(hero)}></HeroForm>
-                            </AccordionDetails>
-                        </Accordion>
-                    )}
+            )}
+
+            {/* Hero Accordion */}
+            {hero && (
+                <Grid size={{xs:12}}>
+                    <Accordion>
+                        <AccordionSummary expandIcon={<ArrowDownwardIcon />}>
+                            <Typography>
+                                {hero.firstName} {hero.lastName}
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <HeroForm hero={toDto(hero)} />
+                        </AccordionDetails>
+                    </Accordion>
                 </Grid>
-                <Grid>
-                    <DiceBox></DiceBox>
-                </Grid>
-                <Grid>
-                    <PlayerWindow hero={HeroToDto(hero)} toSave={saveHero}></PlayerWindow>
-                </Grid>
+            )}
+
+            {/* Dice */}
+            <Grid size={{xs:12}}>
+                <DiceBox />
             </Grid>
 
-        </>
-    )
+            {/* Player Window */}
+            <Grid size={{xs:12}}>
+                <PlayerWindow 
+                    hero={HeroToDto(hero)} 
+                    toSave={saveHero} 
+                />
+            </Grid>
+
+        </Grid>
+    );
 };
 
 export default PlayerPage;

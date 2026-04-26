@@ -19,7 +19,7 @@ Dice.init().then(() => {
 const DiceBox: React.FC<{notation?: string }> = ({notation}) =>  {
     const { t } = useTranslation();
     const [diceVal, setDiceVal] = useState('');
-    const [diceNotatation, setDiceNotation] = useState(notation ||'1d20');
+    const [diceNotatation, setDiceNotation] = useState(notation ||'1d20 + 1d6');
 
     // trigger dice roll
     const rollDice = (notationStr: string) => {

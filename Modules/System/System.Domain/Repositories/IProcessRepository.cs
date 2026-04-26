@@ -14,5 +14,8 @@ namespace System.Domain.Repositories
         Task AddMilestones(IEnumerable<ProcessMilestone> milestones);
 
         string? GetHangfireJobId(Guid jobId);
+
+        Task<ProcessRead?> GetReadData(Guid processId);
+        IEnumerable<ProcessRead> GetAllReadData();
     }
 }
