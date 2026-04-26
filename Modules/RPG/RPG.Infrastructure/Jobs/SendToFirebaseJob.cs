@@ -1,8 +1,5 @@
 ﻿using Base;
-using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Firestore;
-using Google.Cloud.Firestore.V1;
-using Microsoft.Extensions.Options;
 using RPG.Infrastructure.External.Firebase;
 using RPG.Infrastructure.Models;
 using SixLabors.ImageSharp;
@@ -37,25 +34,18 @@ namespace RPG.Infrastructure.Jobs
 
         public async Task Execute(IJobContext jobContext)
         {
-            var options = jobContext.Resolve<IOptions<FirebaseOptions>>();
+
             var mediaProvider = jobContext.Resolve<IMediaProvider>();
 
             var story = Story ?? jobContext.GetData<StoryModel>() ?? throw new InvalidOperationException("Story data is missing.");
             Story = story;
 
-            var credential = CredentialFactory.FromFile<ICredential>(options.Value.CredentialsPath);
-            var builder = new FirestoreClientBuilder
-            {
-                Credential = credential
-            };
-
-            var firestore = await FirebaseExtensions.GetDb();
-
-            await ExecuteInternal(firestore, mediaProvider, story);
+            await ExecuteInternal(mediaProvider, story);
         }
 
-        public async Task ExecuteInternal(FirestoreDb firestore, IMediaProvider mediaProvider, StoryModel story)
+        public async Task ExecuteInternal(IMediaProvider mediaProvider, StoryModel story)
         {
+            var firestore = await FirebaseExtensions.GetDb();
             var storyRef = firestore.Collection(StoriesCollection).Document(StoryId.ToString());
 
             story.Id = StoryId;
