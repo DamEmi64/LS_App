@@ -1,5 +1,5 @@
 ﻿using Base;
-using Microsoft.Extensions.Options;
+using Google.Cloud.Firestore;
 using RPG.Infrastructure.External.Firebase;
 using RPG.Infrastructure.Models;
 using SixLabors.ImageSharp;
@@ -33,16 +33,16 @@ namespace RPG.Infrastructure.Jobs
 
         public async Task Execute(IJobContext jobContext)
         {
-            var options = jobContext.Resolve<IOptions<FirebaseOptions>>();
+
             var mediaProvider = jobContext.Resolve<IMediaProvider>();
 
             var story = Story ?? jobContext.GetData<StoryModel>() ?? throw new InvalidOperationException("Story data is missing.");
             Story = story;
 
-            await ExecuteInternal(options.Value, mediaProvider, story);
+            await ExecuteInternal(mediaProvider, story);
         }
 
-        public async Task ExecuteInternal(FirebaseOptions options, IMediaProvider mediaProvider, StoryModel story)
+        public async Task ExecuteInternal(IMediaProvider mediaProvider, StoryModel story)
         {
             var firestore = await FirebaseExtensions.GetDb();
 
