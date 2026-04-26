@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { t } from "i18next";
 import { FilterProps, FilterValue } from "../types";
 
@@ -25,7 +25,7 @@ export const Filter: React.FC<FilterProps> = ({ filters, onChange }) => {
     const itemWidth = `${100 / itemsPerRow - 1}%`;
 
     return (
-        <div
+        <Grid
             style={{
                 display: "flex",
                 gap: 10,
@@ -34,7 +34,6 @@ export const Filter: React.FC<FilterProps> = ({ filters, onChange }) => {
                 padding: 10,
                 border: "1px solid #ccc",
                 borderRadius: 5,
-                justifyContent: "flex-start"
             }}
         >
             {filters.map((filter) => {
@@ -42,8 +41,8 @@ export const Filter: React.FC<FilterProps> = ({ filters, onChange }) => {
                 switch (filter.type) {
                     case "enum":
                         return (
-                            <div key={filter.field} style={commonStyle}>
-                                <FormControl fullWidth>
+                            <Grid key={filter.field}>
+                                <FormControl>
                                     <InputLabel id="demo-simple-select-label">{t(filter.name)}</InputLabel>
                                     <Select
                                         labelId="demo-simple-select-label"
@@ -67,7 +66,7 @@ export const Filter: React.FC<FilterProps> = ({ filters, onChange }) => {
                                         ))}
                                     </Select>
                                 </FormControl>
-                            </div>
+                            </Grid>
                         );
                     case "string":
                         return (
@@ -124,6 +123,6 @@ export const Filter: React.FC<FilterProps> = ({ filters, onChange }) => {
                 }
             })}
             <Button onClick={resetFilter}>{t('filter_reset')}</Button>
-        </div>
+        </Grid>
     );
 };

@@ -39,7 +39,7 @@ namespace System.Application.Controllers
             }
 
             return Json(_mapper.Map<ProcessDto>(result));
-        }
+        } 
 
         [HttpGet("data")]
         [ProducesResponseType(typeof(ResponseList<ProcessDto>), StatusCodes.Status200OK)]

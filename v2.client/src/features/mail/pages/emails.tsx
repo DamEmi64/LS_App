@@ -83,7 +83,6 @@ const Emails: React.FC = () => {
 
     };
 
-    // ❌ DELETE
     const del = (email: Email) => {
         modal.showModal(
             <YesNoWindow
@@ -100,16 +99,14 @@ const Emails: React.FC = () => {
         call(emailsApi,emailsApi.deleteEmailById,{id:email.id}).then(refresh);
     };
 
-    // ➕ CREATE
     const addData = async (email: Email) => {
         await call(emailsApi,emailsApi.createEmail,{id:email.id,body:email});
         modal.hideModal();
         refresh();
     };
 
-    // ✏️ UPDATE
     const editData = async (email: Email) => {
-        await call(emailsApi,emailsApi.getEmailById,{id:email.id,body:email});
+        await call(emailsApi,emailsApi.updateEmailById,{id:email.id,body:email});
 
         modal.hideModal();
         refresh();

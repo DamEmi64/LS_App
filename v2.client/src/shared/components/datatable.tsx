@@ -143,8 +143,6 @@ export const DataTable = <T,>({
     return (
         <Paper
             sx={{
-                width: "100%",
-                maxWidth: "100%",
                 margin: "auto",
                 p: isMobile ? 1 : 2
             }}
@@ -154,17 +152,15 @@ export const DataTable = <T,>({
 
             {/* TABLE WRAPPER (IMPORTANT FOR MOBILE) */}
             <TableContainer sx={{
-                width: "100%",
                 overflowX: "auto",
                 size: isMobile ? 'small' : 'medium',
                 WebkitOverflowScrolling: "touch"
             }}>
                 <Table
-                    size={isMobile ? "small" : "medium"}
                     stickyHeader
                     sx={{
                         minWidth: 900,
-                         width: "max-content",
+                         width: "100%",
                     }}
                 >
 

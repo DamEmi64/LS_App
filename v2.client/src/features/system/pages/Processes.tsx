@@ -17,9 +17,8 @@ const Processes = () => {
     const { t } = useTranslation();
     const { processApi, call } = useApiConnect();
     const modal = useModal();
-    const getDictionaryTranslation = useDictionaryTranslation();
 
-    const details = (data) => {
+    const details = (data: Process) => {
         call<Process>(processApi, processApi.getProcesById, { id: data.id })
             .then(process => {
                 modal.showModal(<ProcessInfo process={process}></ProcessInfo>);
@@ -31,7 +30,6 @@ const Processes = () => {
     }
 
     const updateData = (paramsObj: onChangeParams) => {
-        const { page, pageSize, orderBy, order, filters } = paramsObj;
         const query = {
             page: paramsObj.page?.toString() || '1',
             pageSize: paramsObj.pageSize?.toString() || '10',
