@@ -21,11 +21,17 @@ namespace Communication.Infrastructure.Services.EmailSender
             try
             {
                 var mail = new MailMessage();
-                var client = new SmtpClient(_options.SmtpServer, _options.SmtpPort) //Port 8025, 587 and 25 can also be used.
+
+                SmtpClient client = new SmtpClient() { EnableSsl = false };
+
+                if (!string.IsNullOrEmpty(_options.PublicKey) && !string.IsNullOrEmpty(_options.PrivateKey))
                 {
-                    Credentials = new NetworkCredential(_options.PublicKey, _options.PrivateKey),
-                    EnableSsl = true
-                };
+                    client = new SmtpClient(_options.SmtpServer, _options.SmtpPort) //Port 8025, 587 and 25 can also be used.
+                    {
+                        Credentials = new NetworkCredential(_options.PublicKey, _options.PrivateKey),
+                        EnableSsl = true
+                    };
+                }
 
                 mail.From = new MailAddress(_options.ApiEmail, from);
 

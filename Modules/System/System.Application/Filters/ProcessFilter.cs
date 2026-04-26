@@ -5,7 +5,7 @@ using System.Domain.Entities;
 
 namespace System.Application.Filters
 {
-    public class ProcessFilter : IEntityFilter<Process>
+    public class ProcessFilter : IEntityFilter<ProcessRead>
     {
         public int Page { get; set; }
         public int PageSize { get; set; } = 10;
@@ -16,7 +16,7 @@ namespace System.Application.Filters
         public DateTimeOffset? From { get; set; }
         public DateTimeOffset? To { get; set; }
 
-        public IEnumerable<Process> Filter(IEnumerable<Process> data)
+        public IEnumerable<ProcessRead> Filter(IEnumerable<ProcessRead> data)
         {
             if (!string.IsNullOrEmpty(Title))
             {
