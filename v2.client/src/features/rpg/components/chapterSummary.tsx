@@ -27,7 +27,7 @@ export const ChapterSummary: React.FC<ChapterTableProps> = ({ chapter }) => {
         aria-controls="chapter-panel-content"
         id="chapter-panel-header"
       >
-        <Typography>{t("rpg.story.chapters")}</Typography>
+        <Typography>{chapter.title}</Typography>
       </AccordionSummary>
 
       <AccordionDetails>
