@@ -108,7 +108,6 @@ namespace System.Infrastructure.JobEngine
                     });
 
                     await _processRepository.Update(process);
-                    throw;  
                 }
 
                 if (process.Errors.Any())

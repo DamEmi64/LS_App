@@ -93,42 +93,5 @@ namespace System.Infrastructure.Repositories
         {
             return _context.Set<Job>().FirstOrDefault(x => x.Id == jobId)?.JobId;
         }
-
-        public Task<ProcessRead?> GetReadData(Guid processId)
-        {
-            return _context.Set<Process>()
-                .Include(x => x.User)
-                .Include(x => x.Jobs)
-                .Include(x => x.Errors)
-                .Where(x => x.Id == processId)
-                .Select(x=> new ProcessRead
-                {
-                    Title = x.Title,
-                    StartDate = x.StartDate,
-                    EndDate = x.EndDate,
-                    Errors = x.Errors,
-                    Status = x.Status,
-                    Jobs = x.Jobs,
-                    Percentage = x.Percentage,
-                    User = x.User
-                })
-                .FirstOrDefaultAsync();
-        }
-
-        public IEnumerable<ProcessRead> GetAllReadData()
-        {
-            return _context.Set<Process>()
-                .Select(x => new ProcessRead
-                {
-                    Title = x.Title,
-                    StartDate = x.StartDate,
-                    EndDate = x.EndDate,
-                    Errors = x.Errors,
-                    Status = x.Status,
-                    Jobs = x.Jobs,
-                    Percentage = x.Percentage,
-                    User = x.User
-                });
-        }
     }
 }

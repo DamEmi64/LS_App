@@ -31,7 +31,7 @@ namespace System.Application.Controllers
         [ProducesResponseType(typeof(ProcessDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> Details(Guid id)
         {
-            var result = await _processRepository.GetReadData(id);
+            var result = await _processRepository.Get(id);
 
             if (result is null)
             {
@@ -45,7 +45,7 @@ namespace System.Application.Controllers
         [ProducesResponseType(typeof(ResponseList<ProcessDto>), StatusCodes.Status200OK)]
         public IActionResult ListData([FromQuery] ProcessFilter filter)
         {
-            return Json(filter.Filter(_processRepository.GetAllReadData()).Select(x => _mapper.Map<ProcessDto>(x)));
+            return Json(filter.Filter(_processRepository.GetAll()).Select(x => _mapper.Map<ProcessDto>(x)));
         }
 
         [HttpPost("{id}/restart")]

@@ -51,7 +51,7 @@ namespace Base
         /// <typeparam name="T">The type of the value.</typeparam>
         /// <param name="key">The configuration key.</param>
         /// <returns>The value if found; otherwise, the default value of the type.</returns>
-        public static T? GetValue<T>(string key) => _configuration.GetSection(CONFIG).GetSection(key).Get<T>();
+        public static T? GetValue<T>(string key) => _configuration.GetSection(CONFIG).GetValue<T>(key);
 
         /// <summary>
         /// Gets a configuration value of the specified type, returning a default value if not found.

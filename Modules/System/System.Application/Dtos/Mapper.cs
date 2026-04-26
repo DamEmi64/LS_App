@@ -43,12 +43,6 @@ namespace System.Application.Dtos
                 .ForMember(d => d.Jobs, o => o.MapFrom(s => s.Jobs ?? new List<Job>()))
                 .ForMember(d => d.Errors, o => o.MapFrom(s => s.Errors ?? new List<ProcessError>()))
                 .MaxDepth(3);
-
-            CreateMap<ProcessRead, ProcessDto>()
-                .ForMember(d => d.UpDate, o => o.MapFrom(s => s.UpdDate))
-                .ForMember(d => d.Jobs, o => o.MapFrom(s => s.Jobs ?? new List<Job>()))
-                .ForMember(d => d.Errors, o => o.MapFrom(s => s.Errors ?? new List<ProcessError>()))
-                .MaxDepth(3);
         }
     }
 }

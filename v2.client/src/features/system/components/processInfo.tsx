@@ -12,7 +12,7 @@ import {
     useTheme,
     TextField,
 } from '@mui/material';
-import { convertToDateStr, useDictionaryTranslation } from "@/lib/utils";
+import { convertToDateStr } from "@/lib/utils";
 
 // Import types from models/system.ts
 import { Process, Job, ProcessError } from '@/features/system'
@@ -24,15 +24,14 @@ type ProcessInfoProps = {
 
 const ProcessInfo: React.FC<ProcessInfoProps> = ({ process }) => {
     const theme = useTheme();
-    const translate = useDictionaryTranslation();
     const textColor = theme.palette.mode === 'dark' ? theme.palette.grey[100] : theme.palette.text.primary;
 
     const convertJobStatus = (id: string) => {
-        return t('processes.processStatus.' + id);
+        return t('dictionaries.processStatus.' + id);
     };
 
     const convertOperation = (id: number) => {
-        return translate('Operations',id).title;
+        return t('dictionaries.Operations.' + id);
     };
 
     return (
