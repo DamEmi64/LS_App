@@ -65,9 +65,12 @@ const Layout = ({
 
                 {/* Mobile menu button */}
                 <Button
-                    style={{ visibility: !mobileMenuOpen && isMobile ? 'visible' : 'collapse' }}
                     onClick={() => setMobileMenuOpen(true)}
-                    className="md:hidden absolute right-4 text-sm"
+                    sx={{
+                        ml: "auto",
+                        display: isMobile && !mobileMenuOpen ? "flex" : "none",
+                        minWidth: 40,
+                    }}
                 >
                     <GridMenuIcon />
                 </Button>

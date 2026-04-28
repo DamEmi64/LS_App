@@ -12,10 +12,8 @@ namespace RPG.Application.Filters
         public required string Order { get; set; }
         public string? OrderBy { get; set; }
         public string? Title { get; set; }
-        public DateTimeOffset? StartFrom { get; set; }
-        public DateTimeOffset? StartTo { get; set; }
-        public DateTimeOffset? EndFrom { get; set; }
-        public DateTimeOffset? EndTo { get; set; }
+        public DateRange? Start { get; set; }
+        public DateRange? End { get; set; }
 
         public IEnumerable<Story> Filter(IEnumerable<Story> data)
         {
@@ -23,21 +21,34 @@ namespace RPG.Application.Filters
             {
                 data = data.Where(x => x.Title.Contains(Title, StringComparison.CurrentCultureIgnoreCase));
             }
-            if (StartFrom is not null)
+
+            if (Start is not null)
             {
-                data = data.Where(x => x.StartDate >= StartFrom);
+                if (Start.From.HasValue)
+                {
+                    var from = Start.From.Value;
+                    data = data.Where(x => x.EndDate >= from);
+                }
+
+                if (Start.To.HasValue)
+                {
+                    var to = Start.To.Value;
+                    data = data.Where(x => x.StartDate <= to);
+                }
             }
-            if (StartTo is not null)
+            if (End is not null)
             {
-                data = data.Where(x => x.StartDate <= StartTo);
-            }
-            if (EndFrom is not null)
-            {
-                data = data.Where(x => x.EndDate >= EndFrom);
-            }
-            if (EndTo is not null)
-            {
-                data = data.Where(x => x.EndDate <= EndTo);
+                if (End.From.HasValue)
+                {
+                    var from = End.From.Value;
+                    data = data.Where(x => x.EndDate >= from);
+                }
+
+                if (End.To.HasValue)
+                {
+                    var to = End.To.Value;
+                    data = data.Where(x => x.StartDate <= to);
+                }
             }
 
             if (!string.IsNullOrEmpty(OrderBy) && !string.IsNullOrEmpty(Order))

@@ -170,7 +170,7 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
     };
 
     const saveHero = (data: HeroDto, chapter: Chapter) => {
-        call(heroesApi,heroesApi.createHeroe,data)
+        call(heroesApi,heroesApi.create,data)
         .then(() => {
             modal.hideModal();
             refresh(chapter);

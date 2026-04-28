@@ -4,15 +4,15 @@ All URIs are relative to *http://localhost*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**createHeroe**](#createheroe) | **POST** /Heroes | |
-|[**deleteHeroeById**](#deleteheroebyid) | **DELETE** /Heroes/{id} | |
-|[**getHeroe**](#getheroe) | **GET** /Heroes | |
-|[**getHeroeById**](#getheroebyid) | **GET** /Heroes/{id} | |
-|[**updateHeroeById**](#updateheroebyid) | **PUT** /Heroes/{id} | |
-|[**updateHeroeByIdPlayerData**](#updateheroebyidplayerdata) | **PUT** /Heroes/{id}/playerData | |
+|[**create**](#create) | **POST** / | |
+|[**deleteById**](#deletebyid) | **DELETE** /{id} | |
+|[**get**](#get) | **GET** / | |
+|[**getById**](#getbyid) | **GET** /{id} | |
+|[**updateById**](#updatebyid) | **PUT** /{id} | |
+|[**updateByIdPlayerData**](#updatebyidplayerdata) | **PUT** /{id}/playerData | |
 
-# **createHeroe**
-> createHeroe()
+# **create**
+> create()
 
 
 ### Example
@@ -29,7 +29,7 @@ const apiInstance = new HeroesApi(configuration);
 
 let body: HeroDto; // (optional)
 
-const { status, data } = await apiInstance.createHeroe(
+const { status, data } = await apiInstance.create(
     body
 );
 ```
@@ -62,8 +62,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **deleteHeroeById**
-> deleteHeroeById()
+# **deleteById**
+> deleteById()
 
 
 ### Example
@@ -79,7 +79,7 @@ const apiInstance = new HeroesApi(configuration);
 
 let id: string; // (default to undefined)
 
-const { status, data } = await apiInstance.deleteHeroeById(
+const { status, data } = await apiInstance.deleteById(
     id
 );
 ```
@@ -112,8 +112,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getHeroe**
-> HeroResponseList getHeroe()
+# **get**
+> HeroResponseList get()
 
 
 ### Example
@@ -134,7 +134,7 @@ let orderBy: string; // (optional) (default to undefined)
 let firstName: string; // (optional) (default to undefined)
 let lastName: string; // (optional) (default to undefined)
 
-const { status, data } = await apiInstance.getHeroe(
+const { status, data } = await apiInstance.get(
     order,
     page,
     pageSize,
@@ -177,8 +177,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getHeroeById**
-> Hero getHeroeById()
+# **getById**
+> Hero getById()
 
 
 ### Example
@@ -194,7 +194,7 @@ const apiInstance = new HeroesApi(configuration);
 
 let id: string; // (default to undefined)
 
-const { status, data } = await apiInstance.getHeroeById(
+const { status, data } = await apiInstance.getById(
     id
 );
 ```
@@ -227,8 +227,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateHeroeById**
-> updateHeroeById()
+# **updateById**
+> updateById()
 
 
 ### Example
@@ -246,7 +246,7 @@ const apiInstance = new HeroesApi(configuration);
 let id: string; // (default to undefined)
 let body: HeroDto; // (optional)
 
-const { status, data } = await apiInstance.updateHeroeById(
+const { status, data } = await apiInstance.updateById(
     id,
     body
 );
@@ -281,8 +281,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateHeroeByIdPlayerData**
-> updateHeroeByIdPlayerData()
+# **updateByIdPlayerData**
+> updateByIdPlayerData()
 
 
 ### Example
@@ -300,7 +300,7 @@ const apiInstance = new HeroesApi(configuration);
 let id: string; // (default to undefined)
 let body: PlayerDataDto; // (optional)
 
-const { status, data } = await apiInstance.updateHeroeByIdPlayerData(
+const { status, data } = await apiInstance.updateByIdPlayerData(
     id,
     body
 );

@@ -50,6 +50,7 @@ export enum FilterType {
     Date = 'date',
     Enum = 'enum',
     Boolean = 'boolean',
+    DateRange = 'dateRange'
 }
 
 export interface FilterOption {
@@ -66,7 +67,7 @@ export interface FilterItem {
 
 export interface FilterValue {
     field: string,
-    value: string | number | Date | null;
+    value: any;
 }
 
 export interface FilterProps {
@@ -132,4 +133,9 @@ export interface GridTableProps<T> {
     pageSizeOptionArray?: number[],
     setData?: (data: TableData<T>) => void,
     canDelete?: boolean;
+}
+
+export interface dateRange {
+    start: Date,
+    end: Date
 }

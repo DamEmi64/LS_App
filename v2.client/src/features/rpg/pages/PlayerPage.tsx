@@ -33,12 +33,12 @@ const PlayerPage = () => {
     } as unknown as HeroDto);
 
     const saveHero = (data: HeroDto) => {
-        call(heroesApi, heroesApi.updateHeroeById, { id: data.id, body: data });
+        call(heroesApi, heroesApi.updateById, { id: data.id, body: data });
     };
 
     const updateData = async () => {
         if (heroId) {
-            call<Hero>(heroesApi, heroesApi.getHeroeById, { id: heroId })
+            call<Hero>(heroesApi, heroesApi.getById, { id: heroId })
                 .then(setHero);
         }
 

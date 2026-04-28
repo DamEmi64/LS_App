@@ -75,7 +75,7 @@ export const ChaptersApiAxiosParamCreator = function (configuration?: Configurat
             // verify required parameter 'id' is not null or undefined
             assertParamExists('deleteChapterById', 'id', id)
             const localVarPath = `/Chapters/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+                .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -135,25 +135,25 @@ export const ChaptersApiAxiosParamCreator = function (configuration?: Configurat
             }
 
             if (startFrom !== undefined) {
-                localVarQueryParameter['StartFrom'] = (startFrom as any instanceof Date) ?
+                localVarQueryParameter['Start.From'] = (startFrom as any instanceof Date) ?
                     (startFrom as any).toISOString() :
                     startFrom;
             }
 
             if (startTo !== undefined) {
-                localVarQueryParameter['StartTo'] = (startTo as any instanceof Date) ?
+                localVarQueryParameter['Start.To'] = (startTo as any instanceof Date) ?
                     (startTo as any).toISOString() :
                     startTo;
             }
 
             if (endFrom !== undefined) {
-                localVarQueryParameter['EndFrom'] = (endFrom as any instanceof Date) ?
+                localVarQueryParameter['End.From'] = (endFrom as any instanceof Date) ?
                     (endFrom as any).toISOString() :
                     endFrom;
             }
 
             if (endTo !== undefined) {
-                localVarQueryParameter['EndTo'] = (endTo as any instanceof Date) ?
+                localVarQueryParameter['End.To'] = (endTo as any instanceof Date) ?
                     (endTo as any).toISOString() :
                     endTo;
             }
@@ -179,7 +179,7 @@ export const ChaptersApiAxiosParamCreator = function (configuration?: Configurat
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getChapterById', 'id', id)
             const localVarPath = `/Chapters/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+                .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -213,7 +213,7 @@ export const ChaptersApiAxiosParamCreator = function (configuration?: Configurat
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateChapterById', 'id', id)
             const localVarPath = `/Chapters/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+                .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -247,7 +247,7 @@ export const ChaptersApiAxiosParamCreator = function (configuration?: Configurat
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateChapterByIdEnd', 'id', id)
             const localVarPath = `/Chapters/{id}/end`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+                .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -280,7 +280,7 @@ export const ChaptersApiAxiosParamCreator = function (configuration?: Configurat
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateChapterByIdFlow', 'id', id)
             const localVarPath = `/Chapters/{id}/flow`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+                .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -314,7 +314,7 @@ export const ChaptersApiAxiosParamCreator = function (configuration?: Configurat
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateChapterByIdPublish', 'id', id)
             const localVarPath = `/Chapters/{id}/publish`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+                .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -346,7 +346,7 @@ export const ChaptersApiAxiosParamCreator = function (configuration?: Configurat
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateChapterByIdStart', 'id', id)
             const localVarPath = `/Chapters/{id}/start`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+                .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;

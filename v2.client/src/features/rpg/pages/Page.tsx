@@ -21,7 +21,7 @@ const RPG: React.FC<{ draft: boolean }> = ({ draft }) => {
         };
 
         (filters || []).forEach(filter => {
-            params[filter.field] = filter.value.toLocaleString();
+            params[filter.field] = filter.value;
         });
 
         const result =   await  call<ResponseList<Story>>(storiesApi,draft ? storiesApi.getStorieDraft : storiesApi.getStorie, params);

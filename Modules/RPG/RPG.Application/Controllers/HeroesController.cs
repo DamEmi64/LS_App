@@ -10,7 +10,6 @@ using RPG.Domain.Repositories;
 
 namespace RPG.Application.Controllers
 {
-    [Route("[controller]")]
     [AuthPermission("rpg")]
     public class HeroesController : BaseController
     {

@@ -7,15 +7,15 @@ import { useDictionaryTranslation } from '@/lib/utils';
 
 const Editor = ({ initData, onChange, readonly }) => {
     const { t, i18n } = useTranslation();
-    const api = useApiConnect();
+    const {templatesApi,call} = useApiConnect();
     const getDictionaryTranslation = useDictionaryTranslation();
 
     // 👇 cache per editor instance
     const cacheRef = useRef(null);
 
     const loadSuggestions = async () => {
-        const res = await api.get<CommunicationRules>('communication_rules');
-        const data = res.data;
+        const res = await call<CommunicationRules>(templatesApi,templatesApi.getTemplateRule,{})
+        const data = res;
 
         // 👇 capture values NOW (not during async execution later)
         return {

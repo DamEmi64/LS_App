@@ -10,10 +10,8 @@ namespace RPG.Application.Filters
         public int Page { get; set; }
         public int PageSize { get; set; } = 10;
         public string? Title { get; set; }
-        public DateTimeOffset? StartFrom { get; set; }
-        public DateTimeOffset? StartTo { get; set; }
-        public DateTimeOffset? EndFrom { get; set; }
-        public DateTimeOffset? EndTo { get; set; }
+        public DateRange? Start { get; set;  }
+        public DateRange? End { get; set;  }
 
         public IEnumerable<Chapter> Filter(IEnumerable<Chapter> data)
         {
@@ -21,21 +19,48 @@ namespace RPG.Application.Filters
             {
                 data = data.Where(x => x.Title.Contains(Title));
             }
-            if (StartFrom is not null)
+
+            if (Start is not null)
             {
-                data = data.Where(x => x.Sessions.FirstOrDefault()?.Start >= StartFrom);
+                if (Start.From.HasValue)
+                {
+                    var from = Start.From.Value;
+                    data = data.Where(x => x.Sessions.Any(y => y.Start >= from));
+                }
+
+                if (Start.To.HasValue)
+                {
+                    var to = Start.To.Value;
+                    data = data.Where(x => x.Sessions.Any(y => y.Start <= to));
+                }
             }
-            if (StartTo is not null)
+            if (End is not null)
             {
-                data = data.Where(x => x.Sessions.FirstOrDefault()?.Start <= StartTo);
+                if (End.From.HasValue)
+                {
+                    var from = End.From.Value;
+                    data = data.Where(x => x.Sessions.Any(y=> y.End >= from));
+                }
+
+                if (End.To.HasValue)
+                {
+                    var to = End.To.Value;
+                    data = data.Where(x => x.Sessions.Any(y => y.End <= to));
+                }
             }
-            if (EndFrom is not null)
+
+            if (Start is not null)
             {
-                data = data.Where(x => x.Sessions.LastOrDefault()?.End >= EndFrom);
+                var from = Start.From ?? DateTime.MinValue;
+                var to = Start.To ?? DateTime.MaxValue;
+
+                data = data.Where(x => x.Sessions.Any(y => y.Start >= from && y.Start <= to));
             }
-            if (EndTo is not null)
+            if (End is not null)
             {
-                data = data.Where(x => x.Sessions.LastOrDefault()?.End <= EndTo);
+                var from = End.From ?? DateTime.MinValue;
+                var to = End.To ?? DateTime.MaxValue;
+                data = data.Where(x => x.Sessions.Any(y => y.End >= from && y.End <= to));
             }
 
             data = data.OrderBy(x => x.Order);

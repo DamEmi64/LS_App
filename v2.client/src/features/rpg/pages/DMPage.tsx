@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import {
     Button,
+    Checkbox,
     FormControl,
     FormControlLabel,
     Grid,
@@ -26,16 +27,21 @@ import DiceBox from "@/features/rpg/components/dice/dice";
 
 import BattlePage from "./BattlePage";
 import { battleNpc, Chapter, Hero, HeroDto } from "@/features/rpg";
+import { ProgressFlow } from "../components/flow/ProgressFlow";
 
 const DMPage: React.FC<{ chapter: Chapter }> = ({ chapter }) => {
     const {chaptersApi, call} = useApiConnect();
     const { t } = useTranslation();
     const { send } = useSignalR("rpg");
+    const [combatMode, setCombatMode] = useState(false);
 
     // 📱 RESPONSIVE
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
+    const textColor =
+        theme.palette.mode === 'dark'
+        ? theme.palette.text.primary
+        : theme.palette.text.secondary;
     const [hero, setHero] = useState<Hero | null>(null);
     const [withSummary, setWithSummary] = useState(false);
     const [query, setQuery] = useState<{ heroId: any; chapterId?: any }>();
@@ -104,7 +110,7 @@ const DMPage: React.FC<{ chapter: Chapter }> = ({ chapter }) => {
     const handleVideoChange = (value: string) => {
         setUrl(value);
         const selected = chapter.links?.find(l => l.url === value);
-        send("ChangeVideo", selected?.title || '');
+        send("ChangeVideo", selected || {});
     };
 
     return (
@@ -127,12 +133,20 @@ const DMPage: React.FC<{ chapter: Chapter }> = ({ chapter }) => {
                 </Button>
             </Grid>
 
-            {/* SUMMARY */}
             <Grid size={{ xs: 12 }}>
                 {chapter && <ChapterSummary chapter={chapter} />}
             </Grid>
-
-            {/* HERO SELECT + SUMMARY */}
+            <Grid size={{xs: 12}}>
+                <FormControlLabel
+                    label={t('rpg.story.gen_summary')}
+                    control={
+                        <Switch
+                            checked={combatMode}
+                            onChange={(e) => setCombatMode(e.target.checked)}
+                        />
+                    }
+                />
+            </Grid>
             <Grid size={{ xs: 12, md: 6 }}>
                 <FormControl fullWidth size={isMobile ? "small" : "medium"}>
                     <InputLabel>{t('rpg.story.hero')}</InputLabel>
@@ -168,34 +182,10 @@ const DMPage: React.FC<{ chapter: Chapter }> = ({ chapter }) => {
                 )}
             </Grid>
 
-            {/* DICE */}
             <Grid size={{ xs: 12, md: 6 }}>
                 <DiceBox />
             </Grid>
 
-            {/* BATTLE */}
-            <Grid size={{ xs: 12 }}>
-                <Select
-                    fullWidth
-                    value={battleBg}
-                    onChange={(e) => onBackgroundChange(e.target.value as string)}
-                    displayEmpty
-                    size={isMobile ? "small" : "medium"}
-                >
-                    <MenuItem value="">Default</MenuItem>
-                    <MenuItem value="/maps/forest.png">Forest</MenuItem>
-                    <MenuItem value="/maps/beach.png">Beach</MenuItem>
-                    <MenuItem value="/maps/city.png">City</MenuItem>
-                </Select>
-
-                <BattlePage
-                    players={playersToBattleNpcs(playerHeroes)}
-                    onChange={(data) => send("UpdateBattleState", data)}
-                    background={battleBg}
-                />
-            </Grid>
-
-            {/* VIDEO */}
             <Grid size={{ xs: 12 }}>
                 {chapter?.links?.length > 0 && (
                     <>
@@ -210,17 +200,30 @@ const DMPage: React.FC<{ chapter: Chapter }> = ({ chapter }) => {
                                 ))}
                             </Select>
                         </FormControl>
-
-                        {url && (
-                            <ReactPlayer
-                                width="100%"
-                                height={isMobile ? 200 : window.innerWidth / 3}
-                                src={url}
-                                controls
-                            />
-                        )}
                     </>
                 )}
+            </Grid>
+            
+            <Grid size={{ xs: 12 }}>
+                <Select
+                    fullWidth
+                    value={battleBg}
+                    onChange={(e) => onBackgroundChange(e.target.value as string)}
+                    displayEmpty
+                    size={isMobile ? "small" : "medium"}
+                >
+                    <MenuItem value="">Default</MenuItem>
+                    <MenuItem value="/maps/forest.png">Forest</MenuItem>
+                    <MenuItem value="/maps/beach.png">Beach</MenuItem>
+                    <MenuItem value="/maps/city.png">City</MenuItem>
+                </Select>
+                {combatMode && (<BattlePage
+                    players={playersToBattleNpcs(playerHeroes)}
+                    onChange={(data) => send("UpdateBattleState", data)}
+                    background={battleBg}
+                />)}
+                {!combatMode && (<ProgressFlow initialEdges={chapter.flow?.edges || []} initialNodes={chapter.flow?.nodes || []}/>)}
+                
             </Grid>
 
             {/* PLAYER WINDOW */}

@@ -86,7 +86,7 @@ export const HeroTable: React.FC<HeroTableProps> = ({
     };
 
     const saveHero = (data: HeroDto) => {
-       call(heroesApi,heroesApi.updateHeroeById,{id:data.id,body:data})
+       call(heroesApi,heroesApi.updateById,{id:data.id,body:data})
             .then(() => {
                 modal.hideModal();
                 refresh();
@@ -109,7 +109,7 @@ export const HeroTable: React.FC<HeroTableProps> = ({
                                 chapter: chapterId,
                                 image: imageData
                             };
-                            call(heroesApi,heroesApi.createHeroe,newHero)
+                            call(heroesApi,heroesApi.create,newHero)
                                 .then(() => modal.hideModal());
                         });
                 }}
@@ -130,7 +130,7 @@ export const HeroTable: React.FC<HeroTableProps> = ({
     };
 
     const delConfirm = (data: HeroDto) => {
-        call(heroesApi,heroesApi.deleteHeroeById,{id:data.id})
+        call(heroesApi,heroesApi.deleteById,{id:data.id})
             .then(() => {
                 modal.hideModal();
                 refresh();

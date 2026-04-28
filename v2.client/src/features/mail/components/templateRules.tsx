@@ -9,10 +9,10 @@ export const TemplateRules = () => {
     const { t } = useTranslation();
     const getDictionaryTranslation = useDictionaryTranslation();
     const [rules, setRules] = useState<CommunicationRules | null>(null);
-    const api = useApiConnect();
+    const {templatesApi,call} = useApiConnect();
 
-    api.get<CommunicationRules>('communication_rules').then(res => {
-        const data = res.data;
+    call<CommunicationRules>(templatesApi,templatesApi.getTemplateRule,{}).then(res => {
+        const data = res;
         setRules(data);   
         });
 

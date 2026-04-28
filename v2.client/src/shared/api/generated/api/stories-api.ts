@@ -123,7 +123,7 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
             // verify required parameter 'id' is not null or undefined
             assertParamExists('deleteStorieById', 'id', id)
             const localVarPath = `/Stories/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+                .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -195,25 +195,25 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
             }
 
             if (startFrom !== undefined) {
-                localVarQueryParameter['StartFrom'] = (startFrom as any instanceof Date) ?
+                localVarQueryParameter['Start.From'] = (startFrom as any instanceof Date) ?
                     (startFrom as any).toISOString() :
                     startFrom;
             }
 
             if (startTo !== undefined) {
-                localVarQueryParameter['StartTo'] = (startTo as any instanceof Date) ?
+                localVarQueryParameter['Start.To'] = (startTo as any instanceof Date) ?
                     (startTo as any).toISOString() :
                     startTo;
             }
 
             if (endFrom !== undefined) {
-                localVarQueryParameter['EndFrom'] = (endFrom as any instanceof Date) ?
+                localVarQueryParameter['End.From'] = (endFrom as any instanceof Date) ?
                     (endFrom as any).toISOString() :
                     endFrom;
             }
 
             if (endTo !== undefined) {
-                localVarQueryParameter['EndTo'] = (endTo as any instanceof Date) ?
+                localVarQueryParameter['End.To'] = (endTo as any instanceof Date) ?
                     (endTo as any).toISOString() :
                     endTo;
             }
@@ -239,7 +239,7 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getStorieById', 'id', id)
             const localVarPath = `/Stories/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+                .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -272,7 +272,7 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getStorieByIdDraft', 'id', id)
             const localVarPath = `/Stories/{id}/draft`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+                .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -305,7 +305,7 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getStorieByIdExport', 'id', id)
             const localVarPath = `/Stories/{id}/export`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+                .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -338,7 +338,7 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getStorieByIdSummary', 'id', id)
             const localVarPath = `/Stories/{id}/summary`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+                .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -411,25 +411,25 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
             }
 
             if (startFrom !== undefined) {
-                localVarQueryParameter['StartFrom'] = (startFrom as any instanceof Date) ?
+                localVarQueryParameter['Start.From'] = (startFrom as any instanceof Date) ?
                     (startFrom as any).toISOString() :
                     startFrom;
             }
 
             if (startTo !== undefined) {
-                localVarQueryParameter['StartTo'] = (startTo as any instanceof Date) ?
+                localVarQueryParameter['Start.To'] = (startTo as any instanceof Date) ?
                     (startTo as any).toISOString() :
                     startTo;
             }
 
             if (endFrom !== undefined) {
-                localVarQueryParameter['EndFrom'] = (endFrom as any instanceof Date) ?
+                localVarQueryParameter['End.From'] = (endFrom as any instanceof Date) ?
                     (endFrom as any).toISOString() :
                     endFrom;
             }
 
             if (endTo !== undefined) {
-                localVarQueryParameter['EndTo'] = (endTo as any instanceof Date) ?
+                localVarQueryParameter['End.To'] = (endTo as any instanceof Date) ?
                     (endTo as any).toISOString() :
                     endTo;
             }
@@ -456,7 +456,7 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateStorieById', 'id', id)
             const localVarPath = `/Stories/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+                .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -490,7 +490,7 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateStorieByIdEnd', 'id', id)
             const localVarPath = `/Stories/{id}/end`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+                .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -523,7 +523,7 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateStorieByIdFirebase', 'id', id)
             const localVarPath = `/Stories/{id}/firebase`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+                .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -557,7 +557,7 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateStorieByIdStart', 'id', id)
             const localVarPath = `/Stories/{id}/start`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+                .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -590,7 +590,7 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateStorieByIdSummary', 'id', id)
             const localVarPath = `/Stories/{id}/summary`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+                .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;

@@ -225,8 +225,8 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
 
     const filters: FilterItem[] = [
         { field: 'title', name: 'rpg.story.title', type: FilterType.String },
-        { field: 'startFrom', name: 'rpg.story.startDate', type: FilterType.Date },
-        { field: 'endTo', name: 'rpg.story.endDate', type: FilterType.Date }
+        { field: 'start', name: 'rpg.story.startDate', type: FilterType.DateRange },
+        { field: 'end', name: 'rpg.story.endDate', type: FilterType.DateRange }
     ];
 
     const operations: Operations<Story>[] = [
