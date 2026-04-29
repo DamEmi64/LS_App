@@ -100,6 +100,7 @@ namespace Api
                     {
                         var path = apiDesc.RelativePath ?? "endpoint";
                         var method = apiDesc.HttpMethod?.ToLowerInvariant();
+                        var controller = apiDesc.ActionDescriptor.RouteValues["controller"];
                         path = path.Split('?')[0];
                         var segments = path.Split('/', StringSplitOptions.RemoveEmptyEntries);
 
@@ -107,7 +108,11 @@ namespace Api
 
                         foreach (var segment in segments)
                         {
-                            if (segment.StartsWith("{"))
+                            if (segment == controller)
+                            {
+                                continue;
+                            }
+                            else if (segment.StartsWith("{"))
                             {
                                 var nameBy = segment.Trim('{', '}');
                                 parts.Add("By" + char.ToUpper(nameBy[0]) + nameBy.Substring(1));
@@ -227,7 +232,7 @@ namespace Api
 
                 app.MapControllerRoute(
                 name: "default",
-                pattern: "{entity=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Home}/{action=Index}/{id?}");
                 app.MapFallbackToFile("/index.html");
 
                 if (AppConfiguration.GetValue(AutoMigrate, true))

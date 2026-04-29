@@ -7,12 +7,18 @@ namespace Communication.Application.Filters
     {
         public string? Title { get; set; }
 
-        public IEnumerable<Template> Filter(IEnumerable<Template> data)
+        public int PageSize { get; set; }
+
+        public int Page { get; set; }
+
+        public IEnumerable<Template> Filter(IEnumerable<Template> data, out int? count)
         {
             if (!string.IsNullOrEmpty(Title))
             {
                 data = data.Where(x => x.Subject.Contains(Title));
             }
+
+            count = data.Count();
 
             return data;
         }

@@ -40,7 +40,6 @@ import { NotificationListener } from "@/shared/components/NotificationListener";
 import { NavbarItemProps } from "@/shared";
 import PlayerViewPage from "@/features/rpg/pages/PlayerViewPage";
 
-
 const queryClient = new QueryClient();
 
 const theme = createTheme({

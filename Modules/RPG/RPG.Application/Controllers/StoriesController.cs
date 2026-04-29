@@ -73,7 +73,7 @@ namespace RPG.Application.Controllers
         public async Task<IActionResult> ListData([FromQuery] StoryFilter filter)
         {
             var stories = _storyRepository.GetAll();
-            return Json(filter.Filter(stories).Select(x => _mapper.Map<StoryDto>(x)));
+            return Json(filter.Filter(stories, out var count).Select(_mapper.Map<StoryDto>), count);
         }
 
         [HttpGet("draft")]
@@ -82,7 +82,7 @@ namespace RPG.Application.Controllers
         public async Task<IActionResult> ListDrafts([FromQuery] StoryFilter filter)
         {
             var stories = _storyRepository.GetAllDraft();
-            return Json(filter.Filter(stories).Select(x => _mapper.Map<StoryDto>(x)));
+            return Json(filter.Filter(stories, out var count).Select(_mapper.Map<StoryDto>), count);
         }
 
         [HttpPost("")]

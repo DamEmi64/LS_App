@@ -15,7 +15,7 @@ namespace RPG.Application.Filters
         public DateRange? Start { get; set; }
         public DateRange? End { get; set; }
 
-        public IEnumerable<Story> Filter(IEnumerable<Story> data)
+        public IEnumerable<Story> Filter(IEnumerable<Story> data, out int? count)
         {
             if (!string.IsNullOrEmpty(Title))
             {
@@ -55,6 +55,8 @@ namespace RPG.Application.Filters
             {
                 data = Sort(data, OrderBy, Order);
             }
+
+            count = data.Count();
 
             return data.Skip(Page * PageSize).Take(PageSize);
         }

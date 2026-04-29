@@ -144,6 +144,7 @@ namespace System.Infrastructure.JobEngine
 
         private Task EndProcess(Process process)
         {
+            process.TempData = string.Empty;
             process.Status = ProgressStatus.Success;
             process.EndDate = DateTimeOffset.Now;
 

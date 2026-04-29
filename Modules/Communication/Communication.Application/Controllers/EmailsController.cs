@@ -43,7 +43,7 @@ namespace Communication.Application.Controllers
         [ProducesResponseType(typeof(IEnumerable<Email>), StatusCodes.Status200OK)]
         public IActionResult ListData([FromQuery] EmailFilter filter)
         {
-            return Json(filter.Filter(_emailRepository.GetAll()));
+            return Json(filter.Filter(_emailRepository.GetAll(), out var count), count);
         }
 
         [HttpPost("")]

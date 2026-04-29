@@ -10,10 +10,10 @@ namespace RPG.Application.Filters
         public int Page { get; set; }
         public int PageSize { get; set; } = 10;
         public string? Title { get; set; }
-        public DateRange? Start { get; set;  }
-        public DateRange? End { get; set;  }
+        public DateRange? Start { get; set; }
+        public DateRange? End { get; set; }
 
-        public IEnumerable<Chapter> Filter(IEnumerable<Chapter> data)
+        public IEnumerable<Chapter> Filter(IEnumerable<Chapter> data, out int? count)
         {
             if (!string.IsNullOrEmpty(Title))
             {
@@ -39,7 +39,7 @@ namespace RPG.Application.Filters
                 if (End.From.HasValue)
                 {
                     var from = End.From.Value;
-                    data = data.Where(x => x.Sessions.Any(y=> y.End >= from));
+                    data = data.Where(x => x.Sessions.Any(y => y.End >= from));
                 }
 
                 if (End.To.HasValue)
@@ -64,6 +64,8 @@ namespace RPG.Application.Filters
             }
 
             data = data.OrderBy(x => x.Order);
+
+            count = data.Count();
 
             return data.Skip(Page * PageSize).Take(PageSize);
         }

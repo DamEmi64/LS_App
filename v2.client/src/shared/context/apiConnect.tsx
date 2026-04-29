@@ -55,7 +55,7 @@ const ApiConnectContext = createContext<ApiConnectContextType | null>(null);
 export const ApiConnect = ({ children }: { children: ReactNode }) => {
     const [baseURL] = useLocalStorage(
         'apiEndpoint',
-        'https://192.168.1.58:5144'
+        'https://lsfamilia.runasp.net'
     );
 
     const axiosInstance = useMemo(() => {
@@ -89,7 +89,7 @@ export const ApiConnect = ({ children }: { children: ReactNode }) => {
         ) {
             const keys = Object.keys(input);
 
-            if (keys.includes('body') || (keys.includes('order') && keys.includes('orderBy'))) {
+            if (keys.includes('body') || (keys.includes('page') && keys.includes('pageSize'))) {
                 return input;
             }
 

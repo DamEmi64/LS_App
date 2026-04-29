@@ -16,7 +16,7 @@ namespace System.Application.Filters
         public DateTimeOffset? From { get; set; }
         public DateTimeOffset? To { get; set; }
 
-        public IEnumerable<ProcessRead> Filter(IEnumerable<ProcessRead> data)
+        public IEnumerable<ProcessRead> Filter(IEnumerable<ProcessRead> data, out int? count)
         {
             if (!string.IsNullOrEmpty(Title))
             {
@@ -39,6 +39,8 @@ namespace System.Application.Filters
             {
                 data = Sort(data, OrderBy, Order);
             }
+
+            count = data.Count();
 
             return data.Skip(Page * PageSize).Take(PageSize);
         }

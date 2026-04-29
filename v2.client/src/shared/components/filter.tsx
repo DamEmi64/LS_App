@@ -85,48 +85,34 @@ export const Filter: React.FC<FilterProps> = ({ filters, onChange }) => {
                         };
 
                         return (
-                            <Grid key={filter.field}>
-                                <Box
-                                    sx={{
-                                        border: "1px solid #ccc",
-                                        borderRadius: 2,
-                                        padding: 2,
-                                        display: "flex",
-                                        flexDirection: "column",
-                                        gap: 2,
-                                        minWidth: 280
-                                    }}
-                                >
-                                    <Typography variant="caption" sx={{ opacity: 0.7 }}>
-                                        {t(filter.name)}
-                                    </Typography>
+                            <>
+                                <DatePicker
+                                    label={t(filter.name)+' (from)'} 
+                                    value={range.from ? dayjs(range.from) : null}
+                                    onChange={(val: Dayjs | null) =>
+                                        handleFilterChange(
+                                            filter.field + "From",
+                                            val
+                                        )
+                                    }
+                                />
 
-                                    <DatePicker
-                                        value={range.from ? dayjs(range.from) : null}
-                                        onChange={(val: Dayjs | null) =>
-                                            handleFilterChange(
-                                                filter.field + "From",
-                                                val
-                                            )
-                                        }
-                                    />
-
-                                    <DatePicker
-                                        value={range.to ? dayjs(range.to) : null}
-                                        onChange={(val: Dayjs | null) =>
-                                            handleFilterChange(
-                                                filter.field + "To",
-                                                val
-                                            )
-                                        }
-                                    />
-                                </Box>
-                            </Grid>
+                                <DatePicker
+                                    label={t(filter.name)+' (to)'} 
+                                    value={range.to ? dayjs(range.to) : null}
+                                    onChange={(val: Dayjs | null) =>
+                                        handleFilterChange(
+                                            filter.field + "To",
+                                            val
+                                        )
+                                    }
+                                />
+                            </>
                         );
 
                     case "enum":
                         return (
-                            <Grid key={filter.field}>
+                            <Grid key={filter.field} minWidth={200}>
                                 <FormControl fullWidth>
                                     <InputLabel>{t(filter.name)}</InputLabel>
                                     <Select

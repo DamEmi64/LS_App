@@ -51,7 +51,7 @@ namespace Files.Application.Controllers
         [ProducesResponseType(typeof(ResponseList<Domain.Entities.File>), StatusCodes.Status200OK)]
         public async Task<IActionResult> ListData([FromQuery] FileFilter filter)
         {
-            var files = filter.Filter(_fileRepository.GetAll());
+            var files = filter.Filter(_fileRepository.GetAll(), out var count);
 
             var dtos = files
                 .Select(FileDto.ToDto)
@@ -77,7 +77,7 @@ namespace Files.Application.Controllers
                 }
             }
 
-            return Json(dtos);
+            return Json(dtos, count);
         }
 
         [HttpPost("")]

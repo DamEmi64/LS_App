@@ -17,11 +17,11 @@ namespace Base
             return _controllerService.GetUser(HttpContext);
         }
 
-        protected IActionResult Json<T>(IEnumerable<T> data)
+        protected IActionResult Json<T>(IEnumerable<T> data, int? count = null)
             => Json(new ResponseList<T>
             {
                 Data = data.ToList(),
-                Total = data.Count()
+                Total = count ?? data.Count()
             });
     }
 }

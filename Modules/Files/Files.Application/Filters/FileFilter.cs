@@ -18,7 +18,7 @@ namespace Files.Application.Filters
         public int? Semester { get; set; }
         public bool IncludeImages { get; set; } = false;
 
-        public IEnumerable<Domain.Entities.File> Filter(IEnumerable<Domain.Entities.File> data)
+        public IEnumerable<Domain.Entities.File> Filter(IEnumerable<Domain.Entities.File> data, out int? count)
         {
             if (!string.IsNullOrEmpty(Title))
             {
@@ -49,6 +49,8 @@ namespace Files.Application.Filters
             {
                 data = Sort(data, OrderBy, Order);
             }
+
+            count = data.Count();
 
             return data.Skip(Page * PageSize).Take(PageSize);
         }

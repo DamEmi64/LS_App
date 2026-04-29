@@ -48,7 +48,8 @@ namespace RPG.Application.Controllers
         [ProducesResponseType(typeof(ResponseList<Chapter>), StatusCodes.Status200OK)]
         public IActionResult ListData([FromQuery] ChapterFilter filter)
         {
-            return Json(filter.Filter(_chapterRepository.GetAll()));
+            var chapters = _chapterRepository.GetAll();
+            return Json(filter.Filter(chapters, out var count), count);
         }
 
         [HttpPost("")]

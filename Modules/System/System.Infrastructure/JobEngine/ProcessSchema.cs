@@ -1,4 +1,5 @@
 ﻿using Base;
+using Newtonsoft.Json;
 using System.Domain.Entities;
 using System.Infrastructure.JobEngine.Milestones;
 
@@ -40,7 +41,8 @@ namespace System.Infrastructure.JobEngine
                 Status = ProgressStatus.New,
                 InsDate = DateTime.Now,
                 RequestDate = job.RequestDate,
-                OperationId = job.OperationId
+                OperationId = job.OperationId,
+                JobData = new JobData { JsonData = JsonConvert.SerializeObject(job) }
             };
 
             job.Id = entity.Id;
