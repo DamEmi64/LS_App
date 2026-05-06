@@ -92,7 +92,7 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     }
 
     const saveNew = (data: Story) => {
-        call(api => api.storiesApi.createStorie,data).then(() => refresh());
+        call(api => api.storiesApi.create,data).then(() => refresh());
     }
 
     // NEW: import modal
@@ -107,14 +107,14 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
         formData.append("ConverterType", data.converterType.toString());
         if (data.externalUrl) formData.append("ExternalUrl", data.externalUrl);
 
-        call(api => api.storiesApi.createStorieImport,formData).then(() => {
+        call(api => api.storiesApi.createImport,formData).then(() => {
             modal.hideModal();
             refresh();
         });
     }
 
     const details = (data: any) => {
-        call<Story>(api => draft ? api.storiesApi.getStorieByIdDraft : api.storiesApi.getStorieById, {id: data.id})
+        call<Story>(api => draft ? api.storiesApi.getByIdDraft : api.storiesApi.getById, {id: data.id})
             .then(story => modal.showModal(<SessionInfo story={story} edit={editSession} del={del}></SessionInfo>))
     }
 
@@ -123,7 +123,7 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     }
 
     const saveEdit = (data: Story, id: string) => {
-        call(api => api.storiesApi.updateStorieById,{id:data.id,body:data}).then(() => refresh());
+        call(api => api.storiesApi.updateById,{id:data.id,body:data}).then(() => refresh());
     }
 
     const addChapter = (data: Story) => {
@@ -140,7 +140,7 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     }
 
     const saveChapter = (data: SessionDto) => {
-        call(api => api.chaptersApi.createChapter,data).then(() => {
+        call(api => api.chaptersApi.create,data).then(() => {
             modal.hideModal();
             refresh();
         });
@@ -151,15 +151,15 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     }
 
     const delConfirm = (data: any) => {
-        call(api => api.storiesApi.deleteStorieById,{id:data.id}).then(() => refresh());
+        call(api => api.storiesApi.deleteById,{id:data.id}).then(() => refresh());
     }
 
     const startStory = (data: any) => {
-        call(api => api.storiesApi.updateStorieByIdStart,{id:data.id}).then(() => refresh());
+        call(api => api.storiesApi.updateByIdStart,{id:data.id}).then(() => refresh());
     }
 
     const endStory = (data: any) => {
-        call(api => api.storiesApi.updateStorieByIdEnd,{id:data.id}).then(() => refresh());
+        call(api => api.storiesApi.updateByIdEnd,{id:data.id}).then(() => refresh());
     }
 
     const generateSummary = (data: any) => {
@@ -167,7 +167,7 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     }
 
     const generateSummaryConfirm = (data: Story, isPdf: boolean) => {
-        call(api => api.storiesApi.updateStorieByIdSummary, {id: data.id, body: { id: data.id, title: data.title, description: data.description, chapters: data.chapters.map((x) => x.id), isPdf}})
+        call(api => api.storiesApi.updateByIdSummary, {id: data.id, body: { id: data.id, title: data.title, description: data.description, chapters: data.chapters.map((x) => x.id), isPdf}})
             .then(() => modal.hideModal());
     }
 
@@ -176,12 +176,12 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     }
 
     const sendToFirebaseConfirm = (data: Story) => {
-        call(api => api.storiesApi.updateStorieByIdFirebase,{id: data.id, body:{ id: data.id, title: data.title, description: data.description, chapters: data.chapters.map((x) => x.id) }})
+        call(api => api.storiesApi.updateByIdFirebase,{id: data.id, body:{ id: data.id, title: data.title, description: data.description, chapters: data.chapters.map((x) => x.id) }})
             .then(() => modal.hideModal());
     }
 
     const exportData = (data: any) => {
-        raw(api => api.storiesApi.getStorieByIdExport,{id:data.id})
+        raw(api => api.storiesApi.getByIdExport,{id:data.id})
             .then((response) => {
                 const contentType = response.headers['content-type'] || 'application/octet-stream';
                 const disposition = response.headers['content-disposition'];
@@ -199,7 +199,7 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     }
 
     const downloadSummary = (data: any) => {
-        raw(api => api.storiesApi.getStorieByIdSummary,{id:data.id})
+        raw(api => api.storiesApi.getByIdSummary,{id:data.id})
             .then((response) => {
                 const contentType = response.headers['content-type'] || 'application/octet-stream';
                 const disposition = response.headers['content-disposition'];

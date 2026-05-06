@@ -4,18 +4,18 @@ All URIs are relative to *http://localhost*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**createFile**](#createfile) | **POST** /Files | |
-|[**deleteFileById**](#deletefilebyid) | **DELETE** /Files/{id} | |
-|[**getFile**](#getfile) | **GET** /Files | |
-|[**getFileById**](#getfilebyid) | **GET** /Files/{id} | |
-|[**getFileByIdExport**](#getfilebyidexport) | **GET** /Files/{id}/export | |
-|[**updateFileById**](#updatefilebyid) | **PUT** /Files/{id} | |
-|[**updateFileByIdCopy**](#updatefilebyidcopy) | **PUT** /Files/{id}/copy | |
-|[**updateFileByIdImport**](#updatefilebyidimport) | **PUT** /Files/{id}/import | |
-|[**updateFileByIdMove**](#updatefilebyidmove) | **PUT** /Files/{id}/move | |
+|[**create**](#create) | **POST** /api/Files | |
+|[**deleteById**](#deletebyid) | **DELETE** /api/Files/{id} | |
+|[**get**](#get) | **GET** /api/Files | |
+|[**getById**](#getbyid) | **GET** /api/Files/{id} | |
+|[**getByIdExport**](#getbyidexport) | **GET** /api/Files/{id}/export | |
+|[**updateById**](#updatebyid) | **PUT** /api/Files/{id} | |
+|[**updateByIdCopy**](#updatebyidcopy) | **PUT** /api/Files/{id}/copy | |
+|[**updateByIdImport**](#updatebyidimport) | **PUT** /api/Files/{id}/import | |
+|[**updateByIdMove**](#updatebyidmove) | **PUT** /api/Files/{id}/move | |
 
-# **createFile**
-> createFile()
+# **create**
+> create()
 
 
 ### Example
@@ -32,7 +32,7 @@ const apiInstance = new FilesApi(configuration);
 
 let body: FileDto; // (optional)
 
-const { status, data } = await apiInstance.createFile(
+const { status, data } = await apiInstance.create(
     body
 );
 ```
@@ -65,8 +65,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **deleteFileById**
-> deleteFileById()
+# **deleteById**
+> deleteById()
 
 
 ### Example
@@ -83,7 +83,7 @@ const apiInstance = new FilesApi(configuration);
 let id: string; // (default to undefined)
 let pernament: boolean; // (optional) (default to undefined)
 
-const { status, data } = await apiInstance.deleteFileById(
+const { status, data } = await apiInstance.deleteById(
     id,
     pernament
 );
@@ -118,8 +118,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getFile**
-> FileResponseList getFile()
+# **get**
+> FileResponseList get()
 
 
 ### Example
@@ -145,7 +145,7 @@ let year: number; // (optional) (default to undefined)
 let semester: number; // (optional) (default to undefined)
 let includeImages: boolean; // (optional) (default to undefined)
 
-const { status, data } = await apiInstance.getFile(
+const { status, data } = await apiInstance.get(
     order,
     page,
     pageSize,
@@ -198,8 +198,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getFileById**
-> any getFileById()
+# **getById**
+> any getById()
 
 
 ### Example
@@ -215,7 +215,7 @@ const apiInstance = new FilesApi(configuration);
 
 let id: string; // (default to undefined)
 
-const { status, data } = await apiInstance.getFileById(
+const { status, data } = await apiInstance.getById(
     id
 );
 ```
@@ -248,8 +248,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getFileByIdExport**
-> File getFileByIdExport()
+# **getByIdExport**
+> File getByIdExport()
 
 
 ### Example
@@ -266,7 +266,7 @@ const apiInstance = new FilesApi(configuration);
 let id: string; // (default to undefined)
 let newLocaction: string; // (optional) (default to undefined)
 
-const { status, data } = await apiInstance.getFileByIdExport(
+const { status, data } = await apiInstance.getByIdExport(
     id,
     newLocaction
 );
@@ -301,8 +301,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateFileById**
-> updateFileById()
+# **updateById**
+> updateById()
 
 
 ### Example
@@ -320,7 +320,7 @@ const apiInstance = new FilesApi(configuration);
 let id: string; // (default to undefined)
 let body: FileDto; // (optional)
 
-const { status, data } = await apiInstance.updateFileById(
+const { status, data } = await apiInstance.updateById(
     id,
     body
 );
@@ -355,8 +355,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateFileByIdCopy**
-> updateFileByIdCopy()
+# **updateByIdCopy**
+> updateByIdCopy()
 
 
 ### Example
@@ -373,7 +373,7 @@ const apiInstance = new FilesApi(configuration);
 let id: string; // (default to undefined)
 let newLocaction: string; // (optional) (default to undefined)
 
-const { status, data } = await apiInstance.updateFileByIdCopy(
+const { status, data } = await apiInstance.updateByIdCopy(
     id,
     newLocaction
 );
@@ -408,8 +408,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateFileByIdImport**
-> updateFileByIdImport()
+# **updateByIdImport**
+> updateByIdImport()
 
 
 ### Example
@@ -426,7 +426,7 @@ const apiInstance = new FilesApi(configuration);
 let id: string; // (default to undefined)
 let newLocaction: string; // (optional) (default to undefined)
 
-const { status, data } = await apiInstance.updateFileByIdImport(
+const { status, data } = await apiInstance.updateByIdImport(
     id,
     newLocaction
 );
@@ -461,8 +461,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateFileByIdMove**
-> updateFileByIdMove()
+# **updateByIdMove**
+> updateByIdMove()
 
 
 ### Example
@@ -479,7 +479,7 @@ const apiInstance = new FilesApi(configuration);
 let id: string; // (default to undefined)
 let newLocaction: string; // (optional) (default to undefined)
 
-const { status, data } = await apiInstance.updateFileByIdMove(
+const { status, data } = await apiInstance.updateByIdMove(
     id,
     newLocaction
 );

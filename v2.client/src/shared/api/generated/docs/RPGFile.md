@@ -1,17 +1,12 @@
-# Story
+# RPGFile
 
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**title** | **string** |  | [optional] [default to undefined]
-**description** | **string** |  | [optional] [default to undefined]
-**startDate** | **string** |  | [optional] [default to undefined]
-**endDate** | **string** |  | [optional] [default to undefined]
-**chapters** | [**Array&lt;Chapter&gt;**](Chapter.md) |  | [optional] [default to undefined]
-**summary** | **string** |  | [optional] [default to undefined]
-**files** | [**Array&lt;RPGFile&gt;**](RPGFile.md) |  | [optional] [default to undefined]
+**title** | **string** |  | [default to undefined]
+**content** | **string** |  | [default to undefined]
 **id** | **string** |  | [optional] [default to undefined]
 **insDate** | **string** |  | [optional] [default to undefined]
 **updDate** | **string** |  | [optional] [default to undefined]
@@ -21,16 +16,11 @@ Name | Type | Description | Notes
 ## Example
 
 ```typescript
-import { Story } from './api';
+import { RPGFile } from './api';
 
-const instance: Story = {
+const instance: RPGFile = {
     title,
-    description,
-    startDate,
-    endDate,
-    chapters,
-    summary,
-    files,
+    content,
     id,
     insDate,
     updDate,

@@ -14,6 +14,7 @@ using System.Infrastructure.Services.Auth.Models;
 
 namespace System.Application.Controllers
 {
+    [Route("[controller]")]
     [ApiExplorerSettings(IgnoreApi = true)]
     public class AdminController : BaseController
     {
@@ -290,12 +291,15 @@ namespace System.Application.Controllers
 
         [TypeFilter(typeof(AdminPanelFilter))]
         [HttpPost("[action]")]
-        public IActionResult LogsData([FromForm] LogFilter request, string? level)
+        public IActionResult LogsData([FromForm] LogFilter request, string? level, string? method)
         {
             var query = _adminService.GetLogs();
 
             if (!string.IsNullOrEmpty(level))
                 query = query.Where(l => l.Level == level);
+
+            if (!string.IsNullOrEmpty(method))
+                query = query.Where(l => l.HttpMethod == method);
 
             // Search
             if (!string.IsNullOrEmpty(request.Search?.Value))
@@ -303,6 +307,10 @@ namespace System.Application.Controllers
                 string term = request.Search.Value.ToLower();
                 query = query.Where(l =>
                     l.Message.ToLower().Contains(term) ||
+                    (l.User is not null &&
+                    l.User.ToLower().Contains(term)) ||
+                    (l.HttpUri is not null &&
+                    l.HttpUri.ToLower().Contains(term)) ||
                     (l.Exception is not null &&
                     l.Exception.ToLower().Contains(term)));
             }
@@ -321,6 +329,9 @@ namespace System.Application.Controllers
                     l.Id,
                     l.Level,
                     l.TimeStamp,
+                    l.HttpUri,
+                    l.HttpMethod,
+                    l.User,
                     l.Message,
                     l.Exception
                 })

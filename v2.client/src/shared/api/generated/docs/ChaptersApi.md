@@ -4,18 +4,18 @@ All URIs are relative to *http://localhost*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**createChapter**](#createchapter) | **POST** /Chapters | |
-|[**deleteChapterById**](#deletechapterbyid) | **DELETE** /Chapters/{id} | |
-|[**getChapter**](#getchapter) | **GET** /Chapters | |
-|[**getChapterById**](#getchapterbyid) | **GET** /Chapters/{id} | |
-|[**updateChapterById**](#updatechapterbyid) | **PUT** /Chapters/{id} | |
-|[**updateChapterByIdEnd**](#updatechapterbyidend) | **PUT** /Chapters/{id}/end | |
-|[**updateChapterByIdFlow**](#updatechapterbyidflow) | **PUT** /Chapters/{id}/flow | |
-|[**updateChapterByIdPublish**](#updatechapterbyidpublish) | **PUT** /Chapters/{id}/publish | |
-|[**updateChapterByIdStart**](#updatechapterbyidstart) | **PUT** /Chapters/{id}/start | |
+|[**create**](#create) | **POST** /api/Chapters | |
+|[**deleteById**](#deletebyid) | **DELETE** /api/Chapters/{id} | |
+|[**get**](#get) | **GET** /api/Chapters | |
+|[**getById**](#getbyid) | **GET** /api/Chapters/{id} | |
+|[**updateById**](#updatebyid) | **PUT** /api/Chapters/{id} | |
+|[**updateByIdEnd**](#updatebyidend) | **PUT** /api/Chapters/{id}/end | |
+|[**updateByIdFlow**](#updatebyidflow) | **PUT** /api/Chapters/{id}/flow | |
+|[**updateByIdPublish**](#updatebyidpublish) | **PUT** /api/Chapters/{id}/publish | |
+|[**updateByIdStart**](#updatebyidstart) | **PUT** /api/Chapters/{id}/start | |
 
-# **createChapter**
-> createChapter()
+# **create**
+> create()
 
 
 ### Example
@@ -32,7 +32,7 @@ const apiInstance = new ChaptersApi(configuration);
 
 let body: ChapterDto; // (optional)
 
-const { status, data } = await apiInstance.createChapter(
+const { status, data } = await apiInstance.create(
     body
 );
 ```
@@ -65,8 +65,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **deleteChapterById**
-> deleteChapterById()
+# **deleteById**
+> deleteById()
 
 
 ### Example
@@ -82,7 +82,7 @@ const apiInstance = new ChaptersApi(configuration);
 
 let id: string; // (default to undefined)
 
-const { status, data } = await apiInstance.deleteChapterById(
+const { status, data } = await apiInstance.deleteById(
     id
 );
 ```
@@ -115,8 +115,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getChapter**
-> ChapterResponseList getChapter()
+# **get**
+> ChapterResponseList get()
 
 
 ### Example
@@ -138,7 +138,7 @@ let startTo: string; // (optional) (default to undefined)
 let endFrom: string; // (optional) (default to undefined)
 let endTo: string; // (optional) (default to undefined)
 
-const { status, data } = await apiInstance.getChapter(
+const { status, data } = await apiInstance.get(
     page,
     pageSize,
     title,
@@ -183,8 +183,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getChapterById**
-> Chapter getChapterById()
+# **getById**
+> Chapter getById()
 
 
 ### Example
@@ -200,7 +200,7 @@ const apiInstance = new ChaptersApi(configuration);
 
 let id: string; // (default to undefined)
 
-const { status, data } = await apiInstance.getChapterById(
+const { status, data } = await apiInstance.getById(
     id
 );
 ```
@@ -233,8 +233,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateChapterById**
-> updateChapterById()
+# **updateById**
+> updateById()
 
 
 ### Example
@@ -252,7 +252,7 @@ const apiInstance = new ChaptersApi(configuration);
 let id: string; // (default to undefined)
 let body: ChapterDto; // (optional)
 
-const { status, data } = await apiInstance.updateChapterById(
+const { status, data } = await apiInstance.updateById(
     id,
     body
 );
@@ -287,8 +287,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateChapterByIdEnd**
-> updateChapterByIdEnd()
+# **updateByIdEnd**
+> updateByIdEnd()
 
 
 ### Example
@@ -304,7 +304,7 @@ const apiInstance = new ChaptersApi(configuration);
 
 let id: string; // (default to undefined)
 
-const { status, data } = await apiInstance.updateChapterByIdEnd(
+const { status, data } = await apiInstance.updateByIdEnd(
     id
 );
 ```
@@ -337,8 +337,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateChapterByIdFlow**
-> updateChapterByIdFlow()
+# **updateByIdFlow**
+> updateByIdFlow()
 
 
 ### Example
@@ -356,7 +356,7 @@ const apiInstance = new ChaptersApi(configuration);
 let id: string; // (default to undefined)
 let body: FlowDto; // (optional)
 
-const { status, data } = await apiInstance.updateChapterByIdFlow(
+const { status, data } = await apiInstance.updateByIdFlow(
     id,
     body
 );
@@ -391,8 +391,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateChapterByIdPublish**
-> updateChapterByIdPublish()
+# **updateByIdPublish**
+> updateByIdPublish()
 
 
 ### Example
@@ -408,7 +408,7 @@ const apiInstance = new ChaptersApi(configuration);
 
 let id: string; // (default to undefined)
 
-const { status, data } = await apiInstance.updateChapterByIdPublish(
+const { status, data } = await apiInstance.updateByIdPublish(
     id
 );
 ```
@@ -441,8 +441,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateChapterByIdStart**
-> updateChapterByIdStart()
+# **updateByIdStart**
+> updateByIdStart()
 
 
 ### Example
@@ -458,7 +458,7 @@ const apiInstance = new ChaptersApi(configuration);
 
 let id: string; // (default to undefined)
 
-const { status, data } = await apiInstance.updateChapterByIdStart(
+const { status, data } = await apiInstance.updateByIdStart(
     id
 );
 ```

@@ -2,6 +2,7 @@
 
 namespace Base
 {
+    [Route("api/[controller]")]
     public class BaseController : Controller
     {
         private readonly IControllerService _controllerService;

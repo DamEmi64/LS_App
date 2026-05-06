@@ -41,7 +41,7 @@ export const HeroesApiAxiosParamCreator = function (configuration?: Configuratio
          * @throws {RequiredError}
          */
         create: async (body?: HeroDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/`;
+            const localVarPath = `/api/Heroes`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -74,7 +74,7 @@ export const HeroesApiAxiosParamCreator = function (configuration?: Configuratio
         deleteById: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('deleteById', 'id', id)
-            const localVarPath = `/{id}`
+            const localVarPath = `/api/Heroes/{id}`
                 .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -111,7 +111,7 @@ export const HeroesApiAxiosParamCreator = function (configuration?: Configuratio
         get: async (order: string, page?: number, pageSize?: number, orderBy?: string, firstName?: string, lastName?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'order' is not null or undefined
             assertParamExists('get', 'order', order)
-            const localVarPath = `/`;
+            const localVarPath = `/api/Heroes`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -167,7 +167,7 @@ export const HeroesApiAxiosParamCreator = function (configuration?: Configuratio
         getById: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getById', 'id', id)
-            const localVarPath = `/{id}`
+            const localVarPath = `/api/Heroes/{id}`
                 .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -201,7 +201,7 @@ export const HeroesApiAxiosParamCreator = function (configuration?: Configuratio
         updateById: async (id: string, body?: HeroDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateById', 'id', id)
-            const localVarPath = `/{id}`
+            const localVarPath = `/api/Heroes/{id}`
                 .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -236,7 +236,7 @@ export const HeroesApiAxiosParamCreator = function (configuration?: Configuratio
         updateByIdPlayerData: async (id: string, body?: PlayerDataDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateByIdPlayerData', 'id', id)
-            const localVarPath = `/{id}/playerData`
+            const localVarPath = `/api/Heroes/{id}/playerData`
                 .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);

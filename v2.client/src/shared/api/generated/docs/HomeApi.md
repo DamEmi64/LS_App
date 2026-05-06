@@ -4,12 +4,12 @@ All URIs are relative to *http://localhost*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**getHome**](#gethome) | **GET** /Home | |
-|[**getHomeHealth**](#gethomehealth) | **GET** /Home/health | |
-|[**getHomeImage**](#gethomeimage) | **GET** /Home/image | |
+|[**get**](#get) | **GET** /api/Home | |
+|[**getHealth**](#gethealth) | **GET** /api/Home/health | |
+|[**getImage**](#getimage) | **GET** /api/Home/image | |
 
-# **getHome**
-> getHome()
+# **get**
+> get()
 
 
 ### Example
@@ -23,7 +23,7 @@ import {
 const configuration = new Configuration();
 const apiInstance = new HomeApi(configuration);
 
-const { status, data } = await apiInstance.getHome();
+const { status, data } = await apiInstance.get();
 ```
 
 ### Parameters
@@ -51,8 +51,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getHomeHealth**
-> getHomeHealth()
+# **getHealth**
+> getHealth()
 
 
 ### Example
@@ -66,7 +66,7 @@ import {
 const configuration = new Configuration();
 const apiInstance = new HomeApi(configuration);
 
-const { status, data } = await apiInstance.getHomeHealth();
+const { status, data } = await apiInstance.getHealth();
 ```
 
 ### Parameters
@@ -94,8 +94,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getHomeImage**
-> File getHomeImage()
+# **getImage**
+> File getImage()
 
 
 ### Example
@@ -111,7 +111,7 @@ const apiInstance = new HomeApi(configuration);
 
 let id: string; // (optional) (default to undefined)
 
-const { status, data } = await apiInstance.getHomeImage(
+const { status, data } = await apiInstance.getImage(
     id
 );
 ```

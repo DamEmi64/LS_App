@@ -10,7 +10,6 @@ import SwitchSelector from "react-switch-selector";
 import TileContainer from "@/shared/components/tileContainer";
 
 import { useTranslation } from "react-i18next";
-import { useApiConnect } from "@/shared/context/apiConnect";
 import { useModal } from "@/shared/context/modal";
 
 import FilesEdit from "@/features/files/components/filesEdit";
@@ -84,14 +83,14 @@ const Files: React.FC = () => {
     };
 
     const saveNew = (file: EditFile) => {
-        call(api => api.filesApi.createFile, file).then(() => {
+        call(api => api.filesApi.create, file).then(() => {
             modal.hideModal();
             refresh();
         });
     };
 
     const details = (file: File) => {
-        call<File>(api => api.filesApi.getFileById, { id: file.id }).then(res => {
+        call<File>(api => api.filesApi.getById, { id: file.id }).then(res => {
             modal.showModal(
                 <FilesInfo file={res} edit={edit} del={del} />
             );
@@ -99,7 +98,7 @@ const Files: React.FC = () => {
     };
 
     const edit = (file: File) => {
-        call<File>(api => api.filesApi.getFileById, { id: file.id }).then(res => {
+        call<File>(api => api.filesApi.getById, { id: file.id }).then(res => {
             modal.showModal(
                 <FilesEdit
                     file={toEditFile(res)}
@@ -110,7 +109,7 @@ const Files: React.FC = () => {
     };
 
     const saveEdit = (file: EditFile, id: string) => {
-        call(api => api.filesApi.updateFileById, { id, body: file }).then(() => {
+        call(api => api.filesApi.updateById, { id, body: file }).then(() => {
             modal.hideModal();
             refresh();
         });
@@ -129,16 +128,16 @@ const Files: React.FC = () => {
     };
 
     const delConfirm = (file: File) => {
-        call(api => api.filesApi.deleteFileById, { id: file.id }).then(() => {
+        call(api => api.filesApi.deleteById, { id: file.id }).then(() => {
             modal.hideModal();
             refresh();
         });
     };
 
-    const importFile = (file: File) => call(api => api.filesApi.updateFileByIdImport, { id: file.id, body: file });
+    const importFile = (file: File) => call(api => api.filesApi.updateByIdImport, { id: file.id, body: file });
 
     const exportFile = (file: File) => {
-        raw(api => api.filesApi.getFileByIdExport, { id: file.id })
+        raw(api => api.filesApi.getByIdExport, { id: file.id })
             .then((response) => {
                 const contentType =
                     response.headers["content-type"] || "application/octet-stream";
@@ -177,7 +176,7 @@ const Files: React.FC = () => {
             query[filter.field] = filter.value.toLocaleString();
         });
 
-        call<ResponseList<File>>(filesApi, filesApi.getFile, query).then(res => setData(res.data));
+        call<ResponseList<File>>(api => api.filesApi.get, query).then(res => setData(res.data));
     };
 
     const refresh = () => updateData(changeParams);

@@ -85,6 +85,9 @@
                 .ForMember(d => d.Summary, o => o.Ignore())
                 .ForMember(d => d.Chapters, o => o.MapFrom(s => s.Chapters ?? new()));
 
+            CreateMap<Story, CreateStoryDto>()
+            .ForMember(d => d.Files, o => o.Ignore());
+
             CreateMap<Story, StoryDto>()
                 .ForMember(d => d.Chapters, o => o.MapFrom(s => s.Chapters ?? new()))
                 .ForMember(d => d.Summary, o => o.Ignore())

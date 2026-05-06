@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { TextField, FormControlLabel, Switch, Select, MenuItem, InputLabel, FormControl, Box, Typography, useColorScheme } from '@mui/material';
 import { changeLanguage } from 'i18next';
 import { useTranslation } from 'react-i18next';
-import { ApiConnectContextType, useApiConnect } from '@/shared/context/apiConnect';
 import ServerInfo, { ServerInfoProps } from './serverInfo';
-import { HomeApi } from '@/shared/api/generated';
-import { useVariable } from '@/lib/utils';
 import useLocalStorage from 'react-use-localstorage';
+import { call } from '@/shared';
+import { useConfiguration } from '@/shared/context/configuration';
 
 const languages = [
     { code: 'en', label: 'English' },
@@ -16,10 +15,9 @@ const languages = [
     // Add more languages as needed
 ];
 
-const AppSettings: React.FC<{ api: ApiConnectContextType }> = () => {
+const AppSettings: React.FC = () => {
     const [frontendVersion, setFrontendVersion] = useState('v1.0');
-    const {homeApi, call} = useApiConnect();
-
+    const {useVariable} = useConfiguration();
     const { t, i18n } = useTranslation();
     const [endpoint, setEndpoint] = useVariable('apiEndpoint');
     const [language, setLanguage] = useLocalStorage('lang', i18n.language || 'en');
@@ -35,7 +33,7 @@ const AppSettings: React.FC<{ api: ApiConnectContextType }> = () => {
 
     // Always use updateData for initial load
     useEffect(() => {
-        call<ServerInfoProps>(homeApi,homeApi.getHome,{}).then(data => {
+        call<ServerInfoProps>(api => api.homeApi.get,{}).then(data => {
             data.frontendVersion = frontendVersion;
             setServerData(data);
         });
@@ -48,7 +46,7 @@ const AppSettings: React.FC<{ api: ApiConnectContextType }> = () => {
 
     const onEndpointChange = (data: string) => {
         setEndpoint(data);
-        call<ServerInfoProps>(homeApi,homeApi.getHome,{}).then(data => {
+        call<ServerInfoProps>(api => api.homeApi.get,{}).then(data => {
             data.frontendVersion = frontendVersion;
             setServerData(data);
         });

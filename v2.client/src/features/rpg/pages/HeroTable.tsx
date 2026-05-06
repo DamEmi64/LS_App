@@ -98,7 +98,7 @@ export const HeroTable: React.FC<HeroTableProps> = ({
                 chapters={storyChapters}
                 onSelect={(chapterId) => {
 
-                    call<Image>(api => api.homeApi.getHomeImage,{id:hero.imageId})
+                    call<Image>(api => api.homeApi.getImage,{id:hero.imageId})
                         .then((res) => {
                             const imageData = res?.contentStr || '';
 

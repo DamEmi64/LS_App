@@ -67,7 +67,7 @@ const Emails: React.FC = () => {
 
     // 👁 DETAILS
     const details = async (email: Email) => {
-        call<Email>(api => api.emailsApi.getEmail, { id: email.id })
+        call<Email>(api => api.emailsApi.get, { id: email.id })
             .then(res => modal.showModal(
                 <EmailEdit
                     email={res}
@@ -78,7 +78,7 @@ const Emails: React.FC = () => {
     };
 
     const send = async (email: Email) => {
-        call(api => api.emailsApi.updateEmailByIdSend,{id:email.id, body:email});
+        call(api => api.emailsApi.updateByIdSend,{id:email.id, body:email});
 
     };
 
@@ -95,17 +95,17 @@ const Emails: React.FC = () => {
     };
 
     const delConfirm = async (email: Email) => {
-        call(api => api.emailsApi.deleteEmailById,{id:email.id}).then(refresh);
+        call(api => api.emailsApi.deleteById,{id:email.id}).then(refresh);
     };
 
     const addData = async (email: Email) => {
-        await call(api => api.emailsApi.createEmail,{id:email.id,body:email});
+        await call(api => api.emailsApi.create,{id:email.id,body:email});
         modal.hideModal();
         refresh();
     };
 
     const editData = async (email: Email) => {
-        await call(api => api.emailsApi.updateEmailById,{id:email.id,body:email});
+        await call(api => api.emailsApi.updateById,{id:email.id,body:email});
 
         modal.hideModal();
         refresh();
@@ -139,7 +139,7 @@ const Emails: React.FC = () => {
         query[filter.field] = filter.value.toLocaleString();
         });
 
-        const result = await call<ResponseList<Email>>(api => api.emailsApi.getEmail,query);
+        const result = await call<ResponseList<Email>>(api => api.emailsApi.get,query);
 
 
         const tableData: TableData<Email> = {

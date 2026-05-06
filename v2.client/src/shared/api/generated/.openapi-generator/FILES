@@ -54,6 +54,7 @@ docs/ProcessDto.md
 docs/ProcessDtoResponseList.md
 docs/ProcessErrorDto.md
 docs/ProgressStatus.md
+docs/RPGFile.md
 docs/RegisterModel.md
 docs/RulesDto.md
 docs/Session.md
@@ -111,6 +112,7 @@ models/process-dto.ts
 models/process-error-dto.ts
 models/progress-status.ts
 models/register-model.ts
+models/rpgfile.ts
 models/rules-dto.ts
 models/session-dto.ts
 models/session.ts

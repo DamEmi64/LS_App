@@ -10,7 +10,6 @@ import {
 
 import { useTranslation } from "react-i18next";
 import { useModal } from "@/shared/context/modal";
-import { useApiConnect } from "@/shared/context/apiConnect";
 import { useAuth } from "@/features/auth/context/authProvider";
 
 import { DataTable } from "@/shared/components/datatable";
@@ -87,7 +86,7 @@ const Templates: React.FC = () => {
 
     // 👁 DETAILS
     const details = async (template: Template) => {
-        const result = await call<Template>(api => api.templatesApi.getTemplateById,{id:template.id})
+        const result = await call<Template>(api => api.templatesApi.getById,{id:template.id})
 
         modal.showModal(
             <TemplateEdit
@@ -115,7 +114,7 @@ const Templates: React.FC = () => {
     };
 
     const genConfirm = async (data: TemplateGenData) => {
-        await call(api => api.templatesApi.updateTemplateByIdGenerate,{id:data.template,body:data});
+        await call(api => api.templatesApi.updateByIdGenerate,{id:data.template,body:data});
 
         modal.hideModal();
         refresh();
@@ -135,7 +134,7 @@ const Templates: React.FC = () => {
     };
 
     const delConfirm = async (template: Template) => {
-        await call(api => api.templatesApi.updateTemplateById,{id:template.id});
+        await call(api => api.templatesApi.updateById,{id:template.id});
 
         modal.hideModal();
         refresh();
@@ -143,14 +142,14 @@ const Templates: React.FC = () => {
 
     // ➕ CREATE
     const addData = async (template: Template) => {
-        await call(api => api.templatesApi.createTemplate,template);
+        await call(api => api.templatesApi.create,template);
         modal.hideModal();
         refresh();
     };
 
     // ✏️ UPDATE
     const editData = async (template: Template) => {
-        await call(api => api.templatesApi.updateTemplateById,{id:template.id,body:template});
+        await call(api => api.templatesApi.updateById,{id:template.id,body:template});
 
         modal.hideModal();
         refresh();
@@ -171,7 +170,7 @@ const Templates: React.FC = () => {
             query[filter.field] = filter.value.toLocaleString();
         });
 
-        const result = await call<ResponseList<Template>>(api => api.templatesApi.getTemplate,query);
+        const result = await call<ResponseList<Template>>(api => api.templatesApi.get,query);
 
         const tableData: TableData<Template> = {
             data: result.data,

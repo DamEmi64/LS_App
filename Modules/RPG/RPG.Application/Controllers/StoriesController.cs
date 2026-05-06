@@ -10,6 +10,7 @@ using RPG.Domain.Repositories;
 using RPG.Infrastructure.Models;
 using RPG.Infrastructure.Services;
 using RPG.Infrastructure.Services.SummaryService;
+using System.Text;
 
 namespace RPG.Application.Controllers
 {
@@ -86,10 +87,25 @@ namespace RPG.Application.Controllers
 
         [HttpPost("")]
         [AuthPermission("rpg_write")]
-        public async Task<IActionResult> Create([FromBody] StoryDto dto)
+        public async Task<IActionResult> Create([FromForm] CreateStoryDto dto)
         {
             var entity = _mapper.Map<Story>(dto);
 
+            var files = new List<RPGFile>();
+            foreach (var file in dto.Files)
+            {
+                using (var stream = new MemoryStream())
+                {
+                    await file.CopyToAsync(stream);
+                    var fileId = await _mediaProvider.Save(stream.ToArray(), null);
+                    files.Add(new RPGFile
+                    {
+                        Content = fileId,
+                        Title = file.FileName
+                    });
+                }
+            }
+            entity.Files = files;
             await _storyRepository.Add(entity);
             await Notifier.Success(SessionNotifyTypes.SessionSaved, dto.Title);
 

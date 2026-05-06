@@ -40,8 +40,8 @@ export const TemplatesApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createTemplate: async (body?: Template, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/Templates`;
+        create: async (body?: Template, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/Templates`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -71,10 +71,10 @@ export const TemplatesApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteTemplateById: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deleteById: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('deleteTemplateById', 'id', id)
-            const localVarPath = `/Templates/{id}`
+            assertParamExists('deleteById', 'id', id)
+            const localVarPath = `/api/Templates/{id}`
                 .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -100,11 +100,13 @@ export const TemplatesApiAxiosParamCreator = function (configuration?: Configura
         /**
          * 
          * @param {string} [title] 
+         * @param {number} [pageSize] 
+         * @param {number} [page] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTemplate: async (title?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/Templates`;
+        get: async (title?: string, pageSize?: number, page?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/Templates`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -118,6 +120,14 @@ export const TemplatesApiAxiosParamCreator = function (configuration?: Configura
 
             if (title !== undefined) {
                 localVarQueryParameter['Title'] = title;
+            }
+
+            if (pageSize !== undefined) {
+                localVarQueryParameter['PageSize'] = pageSize;
+            }
+
+            if (page !== undefined) {
+                localVarQueryParameter['Page'] = page;
             }
 
             localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
@@ -137,10 +147,10 @@ export const TemplatesApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTemplateById: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getById: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('getTemplateById', 'id', id)
-            const localVarPath = `/Templates/{id}`
+            assertParamExists('getById', 'id', id)
+            const localVarPath = `/api/Templates/{id}`
                 .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -167,11 +177,13 @@ export const TemplatesApiAxiosParamCreator = function (configuration?: Configura
         /**
          * 
          * @param {string} [title] 
+         * @param {number} [pageSize] 
+         * @param {number} [page] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTemplateRule: async (title?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/Templates/rules`;
+        getRules: async (title?: string, pageSize?: number, page?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/Templates/rules`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -185,6 +197,14 @@ export const TemplatesApiAxiosParamCreator = function (configuration?: Configura
 
             if (title !== undefined) {
                 localVarQueryParameter['Title'] = title;
+            }
+
+            if (pageSize !== undefined) {
+                localVarQueryParameter['PageSize'] = pageSize;
+            }
+
+            if (page !== undefined) {
+                localVarQueryParameter['Page'] = page;
             }
 
             localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
@@ -205,10 +225,10 @@ export const TemplatesApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateTemplateById: async (id: string, body?: Template, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateById: async (id: string, body?: Template, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('updateTemplateById', 'id', id)
-            const localVarPath = `/Templates/{id}`
+            assertParamExists('updateById', 'id', id)
+            const localVarPath = `/api/Templates/{id}`
                 .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -240,10 +260,10 @@ export const TemplatesApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateTemplateByIdGenerate: async (id: string, body?: EmailGenerationDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateByIdGenerate: async (id: string, body?: EmailGenerationDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('updateTemplateByIdGenerate', 'id', id)
-            const localVarPath = `/Templates/{id}/generate`
+            assertParamExists('updateByIdGenerate', 'id', id)
+            const localVarPath = `/api/Templates/{id}/generate`
                 .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -283,10 +303,10 @@ export const TemplatesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createTemplate(body?: Template, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createTemplate(body, options);
+        async create(body?: Template, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.create(body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TemplatesApi.createTemplate']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['TemplatesApi.create']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -295,22 +315,24 @@ export const TemplatesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteTemplateById(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteTemplateById(id, options);
+        async deleteById(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteById(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TemplatesApi.deleteTemplateById']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['TemplatesApi.deleteById']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
          * @param {string} [title] 
+         * @param {number} [pageSize] 
+         * @param {number} [page] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getTemplate(title?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TemplateResponseList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getTemplate(title, options);
+        async get(title?: string, pageSize?: number, page?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<TemplateResponseList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.get(title, pageSize, page, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TemplatesApi.getTemplate']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['TemplatesApi.get']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -319,22 +341,24 @@ export const TemplatesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getTemplateById(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Template>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getTemplateById(id, options);
+        async getById(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Template>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getById(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TemplatesApi.getTemplateById']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['TemplatesApi.getById']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
          * @param {string} [title] 
+         * @param {number} [pageSize] 
+         * @param {number} [page] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getTemplateRule(title?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RulesDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getTemplateRule(title, options);
+        async getRules(title?: string, pageSize?: number, page?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<RulesDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getRules(title, pageSize, page, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TemplatesApi.getTemplateRule']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['TemplatesApi.getRules']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -344,10 +368,10 @@ export const TemplatesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateTemplateById(id: string, body?: Template, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateTemplateById(id, body, options);
+        async updateById(id: string, body?: Template, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateById(id, body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TemplatesApi.updateTemplateById']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['TemplatesApi.updateById']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -357,10 +381,10 @@ export const TemplatesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateTemplateByIdGenerate(id: string, body?: EmailGenerationDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateTemplateByIdGenerate(id, body, options);
+        async updateByIdGenerate(id: string, body?: EmailGenerationDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateByIdGenerate(id, body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['TemplatesApi.updateTemplateByIdGenerate']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['TemplatesApi.updateByIdGenerate']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -374,118 +398,126 @@ export const TemplatesApiFactory = function (configuration?: Configuration, base
     return {
         /**
          * 
-         * @param {TemplatesApiCreateTemplateRequest} requestParameters Request parameters.
+         * @param {TemplatesApiCreateRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createTemplate(requestParameters: TemplatesApiCreateTemplateRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.createTemplate(requestParameters.body, options).then((request) => request(axios, basePath));
+        create(requestParameters: TemplatesApiCreateRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.create(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {TemplatesApiDeleteTemplateByIdRequest} requestParameters Request parameters.
+         * @param {TemplatesApiDeleteByIdRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteTemplateById(requestParameters: TemplatesApiDeleteTemplateByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.deleteTemplateById(requestParameters.id, options).then((request) => request(axios, basePath));
+        deleteById(requestParameters: TemplatesApiDeleteByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.deleteById(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {TemplatesApiGetTemplateRequest} requestParameters Request parameters.
+         * @param {TemplatesApiGetRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTemplate(requestParameters: TemplatesApiGetTemplateRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<TemplateResponseList> {
-            return localVarFp.getTemplate(requestParameters.title, options).then((request) => request(axios, basePath));
+        get(requestParameters: TemplatesApiGetRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<TemplateResponseList> {
+            return localVarFp.get(requestParameters.title, requestParameters.pageSize, requestParameters.page, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {TemplatesApiGetTemplateByIdRequest} requestParameters Request parameters.
+         * @param {TemplatesApiGetByIdRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTemplateById(requestParameters: TemplatesApiGetTemplateByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<Template> {
-            return localVarFp.getTemplateById(requestParameters.id, options).then((request) => request(axios, basePath));
+        getById(requestParameters: TemplatesApiGetByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<Template> {
+            return localVarFp.getById(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {TemplatesApiGetTemplateRuleRequest} requestParameters Request parameters.
+         * @param {TemplatesApiGetRulesRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getTemplateRule(requestParameters: TemplatesApiGetTemplateRuleRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<RulesDto> {
-            return localVarFp.getTemplateRule(requestParameters.title, options).then((request) => request(axios, basePath));
+        getRules(requestParameters: TemplatesApiGetRulesRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<RulesDto> {
+            return localVarFp.getRules(requestParameters.title, requestParameters.pageSize, requestParameters.page, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {TemplatesApiUpdateTemplateByIdRequest} requestParameters Request parameters.
+         * @param {TemplatesApiUpdateByIdRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateTemplateById(requestParameters: TemplatesApiUpdateTemplateByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.updateTemplateById(requestParameters.id, requestParameters.body, options).then((request) => request(axios, basePath));
+        updateById(requestParameters: TemplatesApiUpdateByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.updateById(requestParameters.id, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {TemplatesApiUpdateTemplateByIdGenerateRequest} requestParameters Request parameters.
+         * @param {TemplatesApiUpdateByIdGenerateRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateTemplateByIdGenerate(requestParameters: TemplatesApiUpdateTemplateByIdGenerateRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.updateTemplateByIdGenerate(requestParameters.id, requestParameters.body, options).then((request) => request(axios, basePath));
+        updateByIdGenerate(requestParameters: TemplatesApiUpdateByIdGenerateRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.updateByIdGenerate(requestParameters.id, requestParameters.body, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * Request parameters for createTemplate operation in TemplatesApi.
+ * Request parameters for create operation in TemplatesApi.
  */
-export interface TemplatesApiCreateTemplateRequest {
+export interface TemplatesApiCreateRequest {
     readonly body?: Template
 }
 
 /**
- * Request parameters for deleteTemplateById operation in TemplatesApi.
+ * Request parameters for deleteById operation in TemplatesApi.
  */
-export interface TemplatesApiDeleteTemplateByIdRequest {
+export interface TemplatesApiDeleteByIdRequest {
     readonly id: string
 }
 
 /**
- * Request parameters for getTemplate operation in TemplatesApi.
+ * Request parameters for get operation in TemplatesApi.
  */
-export interface TemplatesApiGetTemplateRequest {
+export interface TemplatesApiGetRequest {
     readonly title?: string
+
+    readonly pageSize?: number
+
+    readonly page?: number
 }
 
 /**
- * Request parameters for getTemplateById operation in TemplatesApi.
+ * Request parameters for getById operation in TemplatesApi.
  */
-export interface TemplatesApiGetTemplateByIdRequest {
+export interface TemplatesApiGetByIdRequest {
     readonly id: string
 }
 
 /**
- * Request parameters for getTemplateRule operation in TemplatesApi.
+ * Request parameters for getRules operation in TemplatesApi.
  */
-export interface TemplatesApiGetTemplateRuleRequest {
+export interface TemplatesApiGetRulesRequest {
     readonly title?: string
+
+    readonly pageSize?: number
+
+    readonly page?: number
 }
 
 /**
- * Request parameters for updateTemplateById operation in TemplatesApi.
+ * Request parameters for updateById operation in TemplatesApi.
  */
-export interface TemplatesApiUpdateTemplateByIdRequest {
+export interface TemplatesApiUpdateByIdRequest {
     readonly id: string
 
     readonly body?: Template
 }
 
 /**
- * Request parameters for updateTemplateByIdGenerate operation in TemplatesApi.
+ * Request parameters for updateByIdGenerate operation in TemplatesApi.
  */
-export interface TemplatesApiUpdateTemplateByIdGenerateRequest {
+export interface TemplatesApiUpdateByIdGenerateRequest {
     readonly id: string
 
     readonly body?: EmailGenerationDto
@@ -497,72 +529,72 @@ export interface TemplatesApiUpdateTemplateByIdGenerateRequest {
 export class TemplatesApi extends BaseAPI {
     /**
      * 
-     * @param {TemplatesApiCreateTemplateRequest} requestParameters Request parameters.
+     * @param {TemplatesApiCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public createTemplate(requestParameters: TemplatesApiCreateTemplateRequest = {}, options?: RawAxiosRequestConfig) {
-        return TemplatesApiFp(this.configuration).createTemplate(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+    public create(requestParameters: TemplatesApiCreateRequest = {}, options?: RawAxiosRequestConfig) {
+        return TemplatesApiFp(this.configuration).create(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {TemplatesApiDeleteTemplateByIdRequest} requestParameters Request parameters.
+     * @param {TemplatesApiDeleteByIdRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public deleteTemplateById(requestParameters: TemplatesApiDeleteTemplateByIdRequest, options?: RawAxiosRequestConfig) {
-        return TemplatesApiFp(this.configuration).deleteTemplateById(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public deleteById(requestParameters: TemplatesApiDeleteByIdRequest, options?: RawAxiosRequestConfig) {
+        return TemplatesApiFp(this.configuration).deleteById(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {TemplatesApiGetTemplateRequest} requestParameters Request parameters.
+     * @param {TemplatesApiGetRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public getTemplate(requestParameters: TemplatesApiGetTemplateRequest = {}, options?: RawAxiosRequestConfig) {
-        return TemplatesApiFp(this.configuration).getTemplate(requestParameters.title, options).then((request) => request(this.axios, this.basePath));
+    public get(requestParameters: TemplatesApiGetRequest = {}, options?: RawAxiosRequestConfig) {
+        return TemplatesApiFp(this.configuration).get(requestParameters.title, requestParameters.pageSize, requestParameters.page, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {TemplatesApiGetTemplateByIdRequest} requestParameters Request parameters.
+     * @param {TemplatesApiGetByIdRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public getTemplateById(requestParameters: TemplatesApiGetTemplateByIdRequest, options?: RawAxiosRequestConfig) {
-        return TemplatesApiFp(this.configuration).getTemplateById(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public getById(requestParameters: TemplatesApiGetByIdRequest, options?: RawAxiosRequestConfig) {
+        return TemplatesApiFp(this.configuration).getById(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {TemplatesApiGetTemplateRuleRequest} requestParameters Request parameters.
+     * @param {TemplatesApiGetRulesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public getTemplateRule(requestParameters: TemplatesApiGetTemplateRuleRequest = {}, options?: RawAxiosRequestConfig) {
-        return TemplatesApiFp(this.configuration).getTemplateRule(requestParameters.title, options).then((request) => request(this.axios, this.basePath));
+    public getRules(requestParameters: TemplatesApiGetRulesRequest = {}, options?: RawAxiosRequestConfig) {
+        return TemplatesApiFp(this.configuration).getRules(requestParameters.title, requestParameters.pageSize, requestParameters.page, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {TemplatesApiUpdateTemplateByIdRequest} requestParameters Request parameters.
+     * @param {TemplatesApiUpdateByIdRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public updateTemplateById(requestParameters: TemplatesApiUpdateTemplateByIdRequest, options?: RawAxiosRequestConfig) {
-        return TemplatesApiFp(this.configuration).updateTemplateById(requestParameters.id, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+    public updateById(requestParameters: TemplatesApiUpdateByIdRequest, options?: RawAxiosRequestConfig) {
+        return TemplatesApiFp(this.configuration).updateById(requestParameters.id, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {TemplatesApiUpdateTemplateByIdGenerateRequest} requestParameters Request parameters.
+     * @param {TemplatesApiUpdateByIdGenerateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public updateTemplateByIdGenerate(requestParameters: TemplatesApiUpdateTemplateByIdGenerateRequest, options?: RawAxiosRequestConfig) {
-        return TemplatesApiFp(this.configuration).updateTemplateByIdGenerate(requestParameters.id, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+    public updateByIdGenerate(requestParameters: TemplatesApiUpdateByIdGenerateRequest, options?: RawAxiosRequestConfig) {
+        return TemplatesApiFp(this.configuration).updateByIdGenerate(requestParameters.id, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

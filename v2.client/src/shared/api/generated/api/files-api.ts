@@ -36,8 +36,8 @@ export const FilesApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createFile: async (body?: FileDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/Files`;
+        create: async (body?: FileDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/Files`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -68,10 +68,10 @@ export const FilesApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteFileById: async (id: string, pernament?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deleteById: async (id: string, pernament?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('deleteFileById', 'id', id)
-            const localVarPath = `/Files/{id}`
+            assertParamExists('deleteById', 'id', id)
+            const localVarPath = `/api/Files/{id}`
                 .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -114,10 +114,10 @@ export const FilesApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFile: async (order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, locaction?: string, fileType?: number, subject?: string, year?: number, semester?: number, includeImages?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        get: async (order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, locaction?: string, fileType?: number, subject?: string, year?: number, semester?: number, includeImages?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'order' is not null or undefined
-            assertParamExists('getFile', 'order', order)
-            const localVarPath = `/Files`;
+            assertParamExists('get', 'order', order)
+            const localVarPath = `/api/Files`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -190,10 +190,10 @@ export const FilesApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFileById: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getById: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('getFileById', 'id', id)
-            const localVarPath = `/Files/{id}`
+            assertParamExists('getById', 'id', id)
+            const localVarPath = `/api/Files/{id}`
                 .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -224,10 +224,10 @@ export const FilesApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFileByIdExport: async (id: string, newLocaction?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getByIdExport: async (id: string, newLocaction?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('getFileByIdExport', 'id', id)
-            const localVarPath = `/Files/{id}/export`
+            assertParamExists('getByIdExport', 'id', id)
+            const localVarPath = `/api/Files/{id}/export`
                 .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -262,10 +262,10 @@ export const FilesApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateFileById: async (id: string, body?: FileDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateById: async (id: string, body?: FileDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('updateFileById', 'id', id)
-            const localVarPath = `/Files/{id}`
+            assertParamExists('updateById', 'id', id)
+            const localVarPath = `/api/Files/{id}`
                 .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -297,10 +297,10 @@ export const FilesApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateFileByIdCopy: async (id: string, newLocaction?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateByIdCopy: async (id: string, newLocaction?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('updateFileByIdCopy', 'id', id)
-            const localVarPath = `/Files/{id}/copy`
+            assertParamExists('updateByIdCopy', 'id', id)
+            const localVarPath = `/api/Files/{id}/copy`
                 .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -334,10 +334,10 @@ export const FilesApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateFileByIdImport: async (id: string, newLocaction?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateByIdImport: async (id: string, newLocaction?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('updateFileByIdImport', 'id', id)
-            const localVarPath = `/Files/{id}/import`
+            assertParamExists('updateByIdImport', 'id', id)
+            const localVarPath = `/api/Files/{id}/import`
                 .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -371,10 +371,10 @@ export const FilesApiAxiosParamCreator = function (configuration?: Configuration
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateFileByIdMove: async (id: string, newLocaction?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateByIdMove: async (id: string, newLocaction?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('updateFileByIdMove', 'id', id)
-            const localVarPath = `/Files/{id}/move`
+            assertParamExists('updateByIdMove', 'id', id)
+            const localVarPath = `/api/Files/{id}/move`
                 .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -416,10 +416,10 @@ export const FilesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createFile(body?: FileDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createFile(body, options);
+        async create(body?: FileDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.create(body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['FilesApi.createFile']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['FilesApi.create']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -429,10 +429,10 @@ export const FilesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteFileById(id: string, pernament?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteFileById(id, pernament, options);
+        async deleteById(id: string, pernament?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteById(id, pernament, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['FilesApi.deleteFileById']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['FilesApi.deleteById']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -451,10 +451,10 @@ export const FilesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getFile(order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, locaction?: string, fileType?: number, subject?: string, year?: number, semester?: number, includeImages?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FileResponseList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getFile(order, page, pageSize, orderBy, title, locaction, fileType, subject, year, semester, includeImages, options);
+        async get(order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, locaction?: string, fileType?: number, subject?: string, year?: number, semester?: number, includeImages?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FileResponseList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.get(order, page, pageSize, orderBy, title, locaction, fileType, subject, year, semester, includeImages, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['FilesApi.getFile']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['FilesApi.get']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -463,10 +463,10 @@ export const FilesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getFileById(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getFileById(id, options);
+        async getById(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<any>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getById(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['FilesApi.getFileById']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['FilesApi.getById']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -476,10 +476,10 @@ export const FilesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getFileByIdExport(id: string, newLocaction?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<File>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getFileByIdExport(id, newLocaction, options);
+        async getByIdExport(id: string, newLocaction?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<File>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getByIdExport(id, newLocaction, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['FilesApi.getFileByIdExport']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['FilesApi.getByIdExport']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -489,10 +489,10 @@ export const FilesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateFileById(id: string, body?: FileDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateFileById(id, body, options);
+        async updateById(id: string, body?: FileDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateById(id, body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['FilesApi.updateFileById']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['FilesApi.updateById']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -502,10 +502,10 @@ export const FilesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateFileByIdCopy(id: string, newLocaction?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateFileByIdCopy(id, newLocaction, options);
+        async updateByIdCopy(id: string, newLocaction?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateByIdCopy(id, newLocaction, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['FilesApi.updateFileByIdCopy']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['FilesApi.updateByIdCopy']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -515,10 +515,10 @@ export const FilesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateFileByIdImport(id: string, newLocaction?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateFileByIdImport(id, newLocaction, options);
+        async updateByIdImport(id: string, newLocaction?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateByIdImport(id, newLocaction, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['FilesApi.updateFileByIdImport']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['FilesApi.updateByIdImport']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -528,10 +528,10 @@ export const FilesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateFileByIdMove(id: string, newLocaction?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateFileByIdMove(id, newLocaction, options);
+        async updateByIdMove(id: string, newLocaction?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateByIdMove(id, newLocaction, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['FilesApi.updateFileByIdMove']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['FilesApi.updateByIdMove']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -545,108 +545,108 @@ export const FilesApiFactory = function (configuration?: Configuration, basePath
     return {
         /**
          * 
-         * @param {FilesApiCreateFileRequest} requestParameters Request parameters.
+         * @param {FilesApiCreateRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createFile(requestParameters: FilesApiCreateFileRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.createFile(requestParameters.body, options).then((request) => request(axios, basePath));
+        create(requestParameters: FilesApiCreateRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.create(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {FilesApiDeleteFileByIdRequest} requestParameters Request parameters.
+         * @param {FilesApiDeleteByIdRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteFileById(requestParameters: FilesApiDeleteFileByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.deleteFileById(requestParameters.id, requestParameters.pernament, options).then((request) => request(axios, basePath));
+        deleteById(requestParameters: FilesApiDeleteByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.deleteById(requestParameters.id, requestParameters.pernament, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {FilesApiGetFileRequest} requestParameters Request parameters.
+         * @param {FilesApiGetRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFile(requestParameters: FilesApiGetFileRequest, options?: RawAxiosRequestConfig): AxiosPromise<FileResponseList> {
-            return localVarFp.getFile(requestParameters.order, requestParameters.page, requestParameters.pageSize, requestParameters.orderBy, requestParameters.title, requestParameters.locaction, requestParameters.fileType, requestParameters.subject, requestParameters.year, requestParameters.semester, requestParameters.includeImages, options).then((request) => request(axios, basePath));
+        get(requestParameters: FilesApiGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<FileResponseList> {
+            return localVarFp.get(requestParameters.order, requestParameters.page, requestParameters.pageSize, requestParameters.orderBy, requestParameters.title, requestParameters.locaction, requestParameters.fileType, requestParameters.subject, requestParameters.year, requestParameters.semester, requestParameters.includeImages, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {FilesApiGetFileByIdRequest} requestParameters Request parameters.
+         * @param {FilesApiGetByIdRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFileById(requestParameters: FilesApiGetFileByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<any> {
-            return localVarFp.getFileById(requestParameters.id, options).then((request) => request(axios, basePath));
+        getById(requestParameters: FilesApiGetByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<any> {
+            return localVarFp.getById(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {FilesApiGetFileByIdExportRequest} requestParameters Request parameters.
+         * @param {FilesApiGetByIdExportRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getFileByIdExport(requestParameters: FilesApiGetFileByIdExportRequest, options?: RawAxiosRequestConfig): AxiosPromise<File> {
-            return localVarFp.getFileByIdExport(requestParameters.id, requestParameters.newLocaction, options).then((request) => request(axios, basePath));
+        getByIdExport(requestParameters: FilesApiGetByIdExportRequest, options?: RawAxiosRequestConfig): AxiosPromise<File> {
+            return localVarFp.getByIdExport(requestParameters.id, requestParameters.newLocaction, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {FilesApiUpdateFileByIdRequest} requestParameters Request parameters.
+         * @param {FilesApiUpdateByIdRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateFileById(requestParameters: FilesApiUpdateFileByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.updateFileById(requestParameters.id, requestParameters.body, options).then((request) => request(axios, basePath));
+        updateById(requestParameters: FilesApiUpdateByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.updateById(requestParameters.id, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {FilesApiUpdateFileByIdCopyRequest} requestParameters Request parameters.
+         * @param {FilesApiUpdateByIdCopyRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateFileByIdCopy(requestParameters: FilesApiUpdateFileByIdCopyRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.updateFileByIdCopy(requestParameters.id, requestParameters.newLocaction, options).then((request) => request(axios, basePath));
+        updateByIdCopy(requestParameters: FilesApiUpdateByIdCopyRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.updateByIdCopy(requestParameters.id, requestParameters.newLocaction, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {FilesApiUpdateFileByIdImportRequest} requestParameters Request parameters.
+         * @param {FilesApiUpdateByIdImportRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateFileByIdImport(requestParameters: FilesApiUpdateFileByIdImportRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.updateFileByIdImport(requestParameters.id, requestParameters.newLocaction, options).then((request) => request(axios, basePath));
+        updateByIdImport(requestParameters: FilesApiUpdateByIdImportRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.updateByIdImport(requestParameters.id, requestParameters.newLocaction, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {FilesApiUpdateFileByIdMoveRequest} requestParameters Request parameters.
+         * @param {FilesApiUpdateByIdMoveRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateFileByIdMove(requestParameters: FilesApiUpdateFileByIdMoveRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.updateFileByIdMove(requestParameters.id, requestParameters.newLocaction, options).then((request) => request(axios, basePath));
+        updateByIdMove(requestParameters: FilesApiUpdateByIdMoveRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.updateByIdMove(requestParameters.id, requestParameters.newLocaction, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * Request parameters for createFile operation in FilesApi.
+ * Request parameters for create operation in FilesApi.
  */
-export interface FilesApiCreateFileRequest {
+export interface FilesApiCreateRequest {
     readonly body?: FileDto
 }
 
 /**
- * Request parameters for deleteFileById operation in FilesApi.
+ * Request parameters for deleteById operation in FilesApi.
  */
-export interface FilesApiDeleteFileByIdRequest {
+export interface FilesApiDeleteByIdRequest {
     readonly id: string
 
     readonly pernament?: boolean
 }
 
 /**
- * Request parameters for getFile operation in FilesApi.
+ * Request parameters for get operation in FilesApi.
  */
-export interface FilesApiGetFileRequest {
+export interface FilesApiGetRequest {
     readonly order: string
 
     readonly page?: number
@@ -671,52 +671,52 @@ export interface FilesApiGetFileRequest {
 }
 
 /**
- * Request parameters for getFileById operation in FilesApi.
+ * Request parameters for getById operation in FilesApi.
  */
-export interface FilesApiGetFileByIdRequest {
+export interface FilesApiGetByIdRequest {
     readonly id: string
 }
 
 /**
- * Request parameters for getFileByIdExport operation in FilesApi.
+ * Request parameters for getByIdExport operation in FilesApi.
  */
-export interface FilesApiGetFileByIdExportRequest {
+export interface FilesApiGetByIdExportRequest {
     readonly id: string
 
     readonly newLocaction?: string
 }
 
 /**
- * Request parameters for updateFileById operation in FilesApi.
+ * Request parameters for updateById operation in FilesApi.
  */
-export interface FilesApiUpdateFileByIdRequest {
+export interface FilesApiUpdateByIdRequest {
     readonly id: string
 
     readonly body?: FileDto
 }
 
 /**
- * Request parameters for updateFileByIdCopy operation in FilesApi.
+ * Request parameters for updateByIdCopy operation in FilesApi.
  */
-export interface FilesApiUpdateFileByIdCopyRequest {
+export interface FilesApiUpdateByIdCopyRequest {
     readonly id: string
 
     readonly newLocaction?: string
 }
 
 /**
- * Request parameters for updateFileByIdImport operation in FilesApi.
+ * Request parameters for updateByIdImport operation in FilesApi.
  */
-export interface FilesApiUpdateFileByIdImportRequest {
+export interface FilesApiUpdateByIdImportRequest {
     readonly id: string
 
     readonly newLocaction?: string
 }
 
 /**
- * Request parameters for updateFileByIdMove operation in FilesApi.
+ * Request parameters for updateByIdMove operation in FilesApi.
  */
-export interface FilesApiUpdateFileByIdMoveRequest {
+export interface FilesApiUpdateByIdMoveRequest {
     readonly id: string
 
     readonly newLocaction?: string
@@ -728,92 +728,92 @@ export interface FilesApiUpdateFileByIdMoveRequest {
 export class FilesApi extends BaseAPI {
     /**
      * 
-     * @param {FilesApiCreateFileRequest} requestParameters Request parameters.
+     * @param {FilesApiCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public createFile(requestParameters: FilesApiCreateFileRequest = {}, options?: RawAxiosRequestConfig) {
-        return FilesApiFp(this.configuration).createFile(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+    public create(requestParameters: FilesApiCreateRequest = {}, options?: RawAxiosRequestConfig) {
+        return FilesApiFp(this.configuration).create(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {FilesApiDeleteFileByIdRequest} requestParameters Request parameters.
+     * @param {FilesApiDeleteByIdRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public deleteFileById(requestParameters: FilesApiDeleteFileByIdRequest, options?: RawAxiosRequestConfig) {
-        return FilesApiFp(this.configuration).deleteFileById(requestParameters.id, requestParameters.pernament, options).then((request) => request(this.axios, this.basePath));
+    public deleteById(requestParameters: FilesApiDeleteByIdRequest, options?: RawAxiosRequestConfig) {
+        return FilesApiFp(this.configuration).deleteById(requestParameters.id, requestParameters.pernament, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {FilesApiGetFileRequest} requestParameters Request parameters.
+     * @param {FilesApiGetRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public getFile(requestParameters: FilesApiGetFileRequest, options?: RawAxiosRequestConfig) {
-        return FilesApiFp(this.configuration).getFile(requestParameters.order, requestParameters.page, requestParameters.pageSize, requestParameters.orderBy, requestParameters.title, requestParameters.locaction, requestParameters.fileType, requestParameters.subject, requestParameters.year, requestParameters.semester, requestParameters.includeImages, options).then((request) => request(this.axios, this.basePath));
+    public get(requestParameters: FilesApiGetRequest, options?: RawAxiosRequestConfig) {
+        return FilesApiFp(this.configuration).get(requestParameters.order, requestParameters.page, requestParameters.pageSize, requestParameters.orderBy, requestParameters.title, requestParameters.locaction, requestParameters.fileType, requestParameters.subject, requestParameters.year, requestParameters.semester, requestParameters.includeImages, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {FilesApiGetFileByIdRequest} requestParameters Request parameters.
+     * @param {FilesApiGetByIdRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public getFileById(requestParameters: FilesApiGetFileByIdRequest, options?: RawAxiosRequestConfig) {
-        return FilesApiFp(this.configuration).getFileById(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public getById(requestParameters: FilesApiGetByIdRequest, options?: RawAxiosRequestConfig) {
+        return FilesApiFp(this.configuration).getById(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {FilesApiGetFileByIdExportRequest} requestParameters Request parameters.
+     * @param {FilesApiGetByIdExportRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public getFileByIdExport(requestParameters: FilesApiGetFileByIdExportRequest, options?: RawAxiosRequestConfig) {
-        return FilesApiFp(this.configuration).getFileByIdExport(requestParameters.id, requestParameters.newLocaction, options).then((request) => request(this.axios, this.basePath));
+    public getByIdExport(requestParameters: FilesApiGetByIdExportRequest, options?: RawAxiosRequestConfig) {
+        return FilesApiFp(this.configuration).getByIdExport(requestParameters.id, requestParameters.newLocaction, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {FilesApiUpdateFileByIdRequest} requestParameters Request parameters.
+     * @param {FilesApiUpdateByIdRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public updateFileById(requestParameters: FilesApiUpdateFileByIdRequest, options?: RawAxiosRequestConfig) {
-        return FilesApiFp(this.configuration).updateFileById(requestParameters.id, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+    public updateById(requestParameters: FilesApiUpdateByIdRequest, options?: RawAxiosRequestConfig) {
+        return FilesApiFp(this.configuration).updateById(requestParameters.id, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {FilesApiUpdateFileByIdCopyRequest} requestParameters Request parameters.
+     * @param {FilesApiUpdateByIdCopyRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public updateFileByIdCopy(requestParameters: FilesApiUpdateFileByIdCopyRequest, options?: RawAxiosRequestConfig) {
-        return FilesApiFp(this.configuration).updateFileByIdCopy(requestParameters.id, requestParameters.newLocaction, options).then((request) => request(this.axios, this.basePath));
+    public updateByIdCopy(requestParameters: FilesApiUpdateByIdCopyRequest, options?: RawAxiosRequestConfig) {
+        return FilesApiFp(this.configuration).updateByIdCopy(requestParameters.id, requestParameters.newLocaction, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {FilesApiUpdateFileByIdImportRequest} requestParameters Request parameters.
+     * @param {FilesApiUpdateByIdImportRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public updateFileByIdImport(requestParameters: FilesApiUpdateFileByIdImportRequest, options?: RawAxiosRequestConfig) {
-        return FilesApiFp(this.configuration).updateFileByIdImport(requestParameters.id, requestParameters.newLocaction, options).then((request) => request(this.axios, this.basePath));
+    public updateByIdImport(requestParameters: FilesApiUpdateByIdImportRequest, options?: RawAxiosRequestConfig) {
+        return FilesApiFp(this.configuration).updateByIdImport(requestParameters.id, requestParameters.newLocaction, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {FilesApiUpdateFileByIdMoveRequest} requestParameters Request parameters.
+     * @param {FilesApiUpdateByIdMoveRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public updateFileByIdMove(requestParameters: FilesApiUpdateFileByIdMoveRequest, options?: RawAxiosRequestConfig) {
-        return FilesApiFp(this.configuration).updateFileByIdMove(requestParameters.id, requestParameters.newLocaction, options).then((request) => request(this.axios, this.basePath));
+    public updateByIdMove(requestParameters: FilesApiUpdateByIdMoveRequest, options?: RawAxiosRequestConfig) {
+        return FilesApiFp(this.configuration).updateByIdMove(requestParameters.id, requestParameters.newLocaction, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

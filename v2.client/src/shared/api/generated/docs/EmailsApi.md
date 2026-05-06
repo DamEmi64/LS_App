@@ -4,16 +4,16 @@ All URIs are relative to *http://localhost*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**createEmail**](#createemail) | **POST** /Emails | |
-|[**deleteEmailById**](#deleteemailbyid) | **DELETE** /Emails/{id} | |
-|[**getEmail**](#getemail) | **GET** /Emails | |
-|[**getEmailById**](#getemailbyid) | **GET** /Emails/{id} | |
-|[**updateEmailById**](#updateemailbyid) | **PUT** /Emails/{id} | |
-|[**updateEmailByIdSend**](#updateemailbyidsend) | **PUT** /Emails/{id}/send | |
-|[**updateEmailByIdSendExternal**](#updateemailbyidsendexternal) | **PUT** /Emails/{id}/sendExternal | |
+|[**create**](#create) | **POST** /api/Emails | |
+|[**deleteById**](#deletebyid) | **DELETE** /api/Emails/{id} | |
+|[**get**](#get) | **GET** /api/Emails | |
+|[**getById**](#getbyid) | **GET** /api/Emails/{id} | |
+|[**updateById**](#updatebyid) | **PUT** /api/Emails/{id} | |
+|[**updateByIdSend**](#updatebyidsend) | **PUT** /api/Emails/{id}/send | |
+|[**updateByIdSendExternal**](#updatebyidsendexternal) | **PUT** /api/Emails/{id}/sendExternal | |
 
-# **createEmail**
-> createEmail()
+# **create**
+> create()
 
 
 ### Example
@@ -30,7 +30,7 @@ const apiInstance = new EmailsApi(configuration);
 
 let body: Email; // (optional)
 
-const { status, data } = await apiInstance.createEmail(
+const { status, data } = await apiInstance.create(
     body
 );
 ```
@@ -63,8 +63,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **deleteEmailById**
-> deleteEmailById()
+# **deleteById**
+> deleteById()
 
 
 ### Example
@@ -80,7 +80,7 @@ const apiInstance = new EmailsApi(configuration);
 
 let id: string; // (default to undefined)
 
-const { status, data } = await apiInstance.deleteEmailById(
+const { status, data } = await apiInstance.deleteById(
     id
 );
 ```
@@ -113,8 +113,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getEmail**
-> Array<Email> getEmail()
+# **get**
+> Array<Email> get()
 
 
 ### Example
@@ -128,13 +128,17 @@ import {
 const configuration = new Configuration();
 const apiInstance = new EmailsApi(configuration);
 
+let pageSize: number; // (optional) (default to undefined)
+let page: number; // (optional) (default to undefined)
 let subject: string; // (optional) (default to undefined)
 let sender: string; // (optional) (default to undefined)
 let receiver: string; // (optional) (default to undefined)
 let sentDateFrom: string; // (optional) (default to undefined)
 let sentDateTo: string; // (optional) (default to undefined)
 
-const { status, data } = await apiInstance.getEmail(
+const { status, data } = await apiInstance.get(
+    pageSize,
+    page,
     subject,
     sender,
     receiver,
@@ -147,6 +151,8 @@ const { status, data } = await apiInstance.getEmail(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
+| **pageSize** | [**number**] |  | (optional) defaults to undefined|
+| **page** | [**number**] |  | (optional) defaults to undefined|
 | **subject** | [**string**] |  | (optional) defaults to undefined|
 | **sender** | [**string**] |  | (optional) defaults to undefined|
 | **receiver** | [**string**] |  | (optional) defaults to undefined|
@@ -175,8 +181,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getEmailById**
-> Email getEmailById()
+# **getById**
+> Email getById()
 
 
 ### Example
@@ -192,7 +198,7 @@ const apiInstance = new EmailsApi(configuration);
 
 let id: string; // (default to undefined)
 
-const { status, data } = await apiInstance.getEmailById(
+const { status, data } = await apiInstance.getById(
     id
 );
 ```
@@ -225,8 +231,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateEmailById**
-> updateEmailById()
+# **updateById**
+> updateById()
 
 
 ### Example
@@ -244,7 +250,7 @@ const apiInstance = new EmailsApi(configuration);
 let id: string; // (default to undefined)
 let body: Email; // (optional)
 
-const { status, data } = await apiInstance.updateEmailById(
+const { status, data } = await apiInstance.updateById(
     id,
     body
 );
@@ -279,8 +285,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateEmailByIdSend**
-> updateEmailByIdSend()
+# **updateByIdSend**
+> updateByIdSend()
 
 
 ### Example
@@ -296,7 +302,7 @@ const apiInstance = new EmailsApi(configuration);
 
 let id: string; // (default to undefined)
 
-const { status, data } = await apiInstance.updateEmailByIdSend(
+const { status, data } = await apiInstance.updateByIdSend(
     id
 );
 ```
@@ -329,8 +335,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateEmailByIdSendExternal**
-> updateEmailByIdSendExternal()
+# **updateByIdSendExternal**
+> updateByIdSendExternal()
 
 
 ### Example
@@ -350,7 +356,7 @@ let recipient: string; // (optional) (default to undefined)
 let subject: string; // (optional) (default to undefined)
 let body: string; // (optional)
 
-const { status, data } = await apiInstance.updateEmailByIdSendExternal(
+const { status, data } = await apiInstance.updateByIdSendExternal(
     id,
     sender,
     recipient,

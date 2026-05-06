@@ -34,8 +34,8 @@ export const EmailsApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createEmail: async (body?: Email, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/Emails`;
+        create: async (body?: Email, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/Emails`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -65,10 +65,10 @@ export const EmailsApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteEmailById: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deleteById: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('deleteEmailById', 'id', id)
-            const localVarPath = `/Emails/{id}`
+            assertParamExists('deleteById', 'id', id)
+            const localVarPath = `/api/Emails/{id}`
                 .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -93,6 +93,8 @@ export const EmailsApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * 
+         * @param {number} [pageSize] 
+         * @param {number} [page] 
          * @param {string} [subject] 
          * @param {string} [sender] 
          * @param {string} [receiver] 
@@ -101,8 +103,8 @@ export const EmailsApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getEmail: async (subject?: string, sender?: string, receiver?: string, sentDateFrom?: string, sentDateTo?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/Emails`;
+        get: async (pageSize?: number, page?: number, subject?: string, sender?: string, receiver?: string, sentDateFrom?: string, sentDateTo?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/Emails`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -113,6 +115,14 @@ export const EmailsApiAxiosParamCreator = function (configuration?: Configuratio
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            if (pageSize !== undefined) {
+                localVarQueryParameter['PageSize'] = pageSize;
+            }
+
+            if (page !== undefined) {
+                localVarQueryParameter['Page'] = page;
+            }
 
             if (subject !== undefined) {
                 localVarQueryParameter['Subject'] = subject;
@@ -155,10 +165,10 @@ export const EmailsApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getEmailById: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getById: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('getEmailById', 'id', id)
-            const localVarPath = `/Emails/{id}`
+            assertParamExists('getById', 'id', id)
+            const localVarPath = `/api/Emails/{id}`
                 .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -189,10 +199,10 @@ export const EmailsApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateEmailById: async (id: string, body?: Email, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateById: async (id: string, body?: Email, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('updateEmailById', 'id', id)
-            const localVarPath = `/Emails/{id}`
+            assertParamExists('updateById', 'id', id)
+            const localVarPath = `/api/Emails/{id}`
                 .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -223,10 +233,10 @@ export const EmailsApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateEmailByIdSend: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateByIdSend: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('updateEmailByIdSend', 'id', id)
-            const localVarPath = `/Emails/{id}/send`
+            assertParamExists('updateByIdSend', 'id', id)
+            const localVarPath = `/api/Emails/{id}/send`
                 .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -259,10 +269,10 @@ export const EmailsApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateEmailByIdSendExternal: async (id: string, sender?: string, recipient?: string, subject?: string, body?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateByIdSendExternal: async (id: string, sender?: string, recipient?: string, subject?: string, body?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('updateEmailByIdSendExternal', 'id', id)
-            const localVarPath = `/Emails/{id}/sendExternal`
+            assertParamExists('updateByIdSendExternal', 'id', id)
+            const localVarPath = `/api/Emails/{id}/sendExternal`
                 .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -314,10 +324,10 @@ export const EmailsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createEmail(body?: Email, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createEmail(body, options);
+        async create(body?: Email, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.create(body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['EmailsApi.createEmail']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['EmailsApi.create']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -326,14 +336,16 @@ export const EmailsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteEmailById(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteEmailById(id, options);
+        async deleteById(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteById(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['EmailsApi.deleteEmailById']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['EmailsApi.deleteById']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
+         * @param {number} [pageSize] 
+         * @param {number} [page] 
          * @param {string} [subject] 
          * @param {string} [sender] 
          * @param {string} [receiver] 
@@ -342,10 +354,10 @@ export const EmailsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getEmail(subject?: string, sender?: string, receiver?: string, sentDateFrom?: string, sentDateTo?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Email>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getEmail(subject, sender, receiver, sentDateFrom, sentDateTo, options);
+        async get(pageSize?: number, page?: number, subject?: string, sender?: string, receiver?: string, sentDateFrom?: string, sentDateTo?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Email>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.get(pageSize, page, subject, sender, receiver, sentDateFrom, sentDateTo, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['EmailsApi.getEmail']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['EmailsApi.get']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -354,10 +366,10 @@ export const EmailsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getEmailById(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Email>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getEmailById(id, options);
+        async getById(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Email>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getById(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['EmailsApi.getEmailById']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['EmailsApi.getById']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -367,10 +379,10 @@ export const EmailsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateEmailById(id: string, body?: Email, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateEmailById(id, body, options);
+        async updateById(id: string, body?: Email, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateById(id, body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['EmailsApi.updateEmailById']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['EmailsApi.updateById']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -379,10 +391,10 @@ export const EmailsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateEmailByIdSend(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateEmailByIdSend(id, options);
+        async updateByIdSend(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateByIdSend(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['EmailsApi.updateEmailByIdSend']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['EmailsApi.updateByIdSend']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -395,10 +407,10 @@ export const EmailsApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateEmailByIdSendExternal(id: string, sender?: string, recipient?: string, subject?: string, body?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateEmailByIdSendExternal(id, sender, recipient, subject, body, options);
+        async updateByIdSendExternal(id: string, sender?: string, recipient?: string, subject?: string, body?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateByIdSendExternal(id, sender, recipient, subject, body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['EmailsApi.updateEmailByIdSendExternal']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['EmailsApi.updateByIdSendExternal']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -412,88 +424,92 @@ export const EmailsApiFactory = function (configuration?: Configuration, basePat
     return {
         /**
          * 
-         * @param {EmailsApiCreateEmailRequest} requestParameters Request parameters.
+         * @param {EmailsApiCreateRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createEmail(requestParameters: EmailsApiCreateEmailRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.createEmail(requestParameters.body, options).then((request) => request(axios, basePath));
+        create(requestParameters: EmailsApiCreateRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.create(requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {EmailsApiDeleteEmailByIdRequest} requestParameters Request parameters.
+         * @param {EmailsApiDeleteByIdRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteEmailById(requestParameters: EmailsApiDeleteEmailByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.deleteEmailById(requestParameters.id, options).then((request) => request(axios, basePath));
+        deleteById(requestParameters: EmailsApiDeleteByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.deleteById(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {EmailsApiGetEmailRequest} requestParameters Request parameters.
+         * @param {EmailsApiGetRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getEmail(requestParameters: EmailsApiGetEmailRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<Email>> {
-            return localVarFp.getEmail(requestParameters.subject, requestParameters.sender, requestParameters.receiver, requestParameters.sentDateFrom, requestParameters.sentDateTo, options).then((request) => request(axios, basePath));
+        get(requestParameters: EmailsApiGetRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<Email>> {
+            return localVarFp.get(requestParameters.pageSize, requestParameters.page, requestParameters.subject, requestParameters.sender, requestParameters.receiver, requestParameters.sentDateFrom, requestParameters.sentDateTo, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {EmailsApiGetEmailByIdRequest} requestParameters Request parameters.
+         * @param {EmailsApiGetByIdRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getEmailById(requestParameters: EmailsApiGetEmailByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<Email> {
-            return localVarFp.getEmailById(requestParameters.id, options).then((request) => request(axios, basePath));
+        getById(requestParameters: EmailsApiGetByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<Email> {
+            return localVarFp.getById(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {EmailsApiUpdateEmailByIdRequest} requestParameters Request parameters.
+         * @param {EmailsApiUpdateByIdRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateEmailById(requestParameters: EmailsApiUpdateEmailByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.updateEmailById(requestParameters.id, requestParameters.body, options).then((request) => request(axios, basePath));
+        updateById(requestParameters: EmailsApiUpdateByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.updateById(requestParameters.id, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {EmailsApiUpdateEmailByIdSendRequest} requestParameters Request parameters.
+         * @param {EmailsApiUpdateByIdSendRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateEmailByIdSend(requestParameters: EmailsApiUpdateEmailByIdSendRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.updateEmailByIdSend(requestParameters.id, options).then((request) => request(axios, basePath));
+        updateByIdSend(requestParameters: EmailsApiUpdateByIdSendRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.updateByIdSend(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {EmailsApiUpdateEmailByIdSendExternalRequest} requestParameters Request parameters.
+         * @param {EmailsApiUpdateByIdSendExternalRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateEmailByIdSendExternal(requestParameters: EmailsApiUpdateEmailByIdSendExternalRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.updateEmailByIdSendExternal(requestParameters.id, requestParameters.sender, requestParameters.recipient, requestParameters.subject, requestParameters.body, options).then((request) => request(axios, basePath));
+        updateByIdSendExternal(requestParameters: EmailsApiUpdateByIdSendExternalRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.updateByIdSendExternal(requestParameters.id, requestParameters.sender, requestParameters.recipient, requestParameters.subject, requestParameters.body, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * Request parameters for createEmail operation in EmailsApi.
+ * Request parameters for create operation in EmailsApi.
  */
-export interface EmailsApiCreateEmailRequest {
+export interface EmailsApiCreateRequest {
     readonly body?: Email
 }
 
 /**
- * Request parameters for deleteEmailById operation in EmailsApi.
+ * Request parameters for deleteById operation in EmailsApi.
  */
-export interface EmailsApiDeleteEmailByIdRequest {
+export interface EmailsApiDeleteByIdRequest {
     readonly id: string
 }
 
 /**
- * Request parameters for getEmail operation in EmailsApi.
+ * Request parameters for get operation in EmailsApi.
  */
-export interface EmailsApiGetEmailRequest {
+export interface EmailsApiGetRequest {
+    readonly pageSize?: number
+
+    readonly page?: number
+
     readonly subject?: string
 
     readonly sender?: string
@@ -506,32 +522,32 @@ export interface EmailsApiGetEmailRequest {
 }
 
 /**
- * Request parameters for getEmailById operation in EmailsApi.
+ * Request parameters for getById operation in EmailsApi.
  */
-export interface EmailsApiGetEmailByIdRequest {
+export interface EmailsApiGetByIdRequest {
     readonly id: string
 }
 
 /**
- * Request parameters for updateEmailById operation in EmailsApi.
+ * Request parameters for updateById operation in EmailsApi.
  */
-export interface EmailsApiUpdateEmailByIdRequest {
+export interface EmailsApiUpdateByIdRequest {
     readonly id: string
 
     readonly body?: Email
 }
 
 /**
- * Request parameters for updateEmailByIdSend operation in EmailsApi.
+ * Request parameters for updateByIdSend operation in EmailsApi.
  */
-export interface EmailsApiUpdateEmailByIdSendRequest {
+export interface EmailsApiUpdateByIdSendRequest {
     readonly id: string
 }
 
 /**
- * Request parameters for updateEmailByIdSendExternal operation in EmailsApi.
+ * Request parameters for updateByIdSendExternal operation in EmailsApi.
  */
-export interface EmailsApiUpdateEmailByIdSendExternalRequest {
+export interface EmailsApiUpdateByIdSendExternalRequest {
     readonly id: string
 
     readonly sender?: string
@@ -549,72 +565,72 @@ export interface EmailsApiUpdateEmailByIdSendExternalRequest {
 export class EmailsApi extends BaseAPI {
     /**
      * 
-     * @param {EmailsApiCreateEmailRequest} requestParameters Request parameters.
+     * @param {EmailsApiCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public createEmail(requestParameters: EmailsApiCreateEmailRequest = {}, options?: RawAxiosRequestConfig) {
-        return EmailsApiFp(this.configuration).createEmail(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+    public create(requestParameters: EmailsApiCreateRequest = {}, options?: RawAxiosRequestConfig) {
+        return EmailsApiFp(this.configuration).create(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {EmailsApiDeleteEmailByIdRequest} requestParameters Request parameters.
+     * @param {EmailsApiDeleteByIdRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public deleteEmailById(requestParameters: EmailsApiDeleteEmailByIdRequest, options?: RawAxiosRequestConfig) {
-        return EmailsApiFp(this.configuration).deleteEmailById(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public deleteById(requestParameters: EmailsApiDeleteByIdRequest, options?: RawAxiosRequestConfig) {
+        return EmailsApiFp(this.configuration).deleteById(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {EmailsApiGetEmailRequest} requestParameters Request parameters.
+     * @param {EmailsApiGetRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public getEmail(requestParameters: EmailsApiGetEmailRequest = {}, options?: RawAxiosRequestConfig) {
-        return EmailsApiFp(this.configuration).getEmail(requestParameters.subject, requestParameters.sender, requestParameters.receiver, requestParameters.sentDateFrom, requestParameters.sentDateTo, options).then((request) => request(this.axios, this.basePath));
+    public get(requestParameters: EmailsApiGetRequest = {}, options?: RawAxiosRequestConfig) {
+        return EmailsApiFp(this.configuration).get(requestParameters.pageSize, requestParameters.page, requestParameters.subject, requestParameters.sender, requestParameters.receiver, requestParameters.sentDateFrom, requestParameters.sentDateTo, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {EmailsApiGetEmailByIdRequest} requestParameters Request parameters.
+     * @param {EmailsApiGetByIdRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public getEmailById(requestParameters: EmailsApiGetEmailByIdRequest, options?: RawAxiosRequestConfig) {
-        return EmailsApiFp(this.configuration).getEmailById(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public getById(requestParameters: EmailsApiGetByIdRequest, options?: RawAxiosRequestConfig) {
+        return EmailsApiFp(this.configuration).getById(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {EmailsApiUpdateEmailByIdRequest} requestParameters Request parameters.
+     * @param {EmailsApiUpdateByIdRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public updateEmailById(requestParameters: EmailsApiUpdateEmailByIdRequest, options?: RawAxiosRequestConfig) {
-        return EmailsApiFp(this.configuration).updateEmailById(requestParameters.id, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+    public updateById(requestParameters: EmailsApiUpdateByIdRequest, options?: RawAxiosRequestConfig) {
+        return EmailsApiFp(this.configuration).updateById(requestParameters.id, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {EmailsApiUpdateEmailByIdSendRequest} requestParameters Request parameters.
+     * @param {EmailsApiUpdateByIdSendRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public updateEmailByIdSend(requestParameters: EmailsApiUpdateEmailByIdSendRequest, options?: RawAxiosRequestConfig) {
-        return EmailsApiFp(this.configuration).updateEmailByIdSend(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public updateByIdSend(requestParameters: EmailsApiUpdateByIdSendRequest, options?: RawAxiosRequestConfig) {
+        return EmailsApiFp(this.configuration).updateByIdSend(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {EmailsApiUpdateEmailByIdSendExternalRequest} requestParameters Request parameters.
+     * @param {EmailsApiUpdateByIdSendExternalRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public updateEmailByIdSendExternal(requestParameters: EmailsApiUpdateEmailByIdSendExternalRequest, options?: RawAxiosRequestConfig) {
-        return EmailsApiFp(this.configuration).updateEmailByIdSendExternal(requestParameters.id, requestParameters.sender, requestParameters.recipient, requestParameters.subject, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+    public updateByIdSendExternal(requestParameters: EmailsApiUpdateByIdSendExternalRequest, options?: RawAxiosRequestConfig) {
+        return EmailsApiFp(this.configuration).updateByIdSendExternal(requestParameters.id, requestParameters.sender, requestParameters.recipient, requestParameters.subject, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

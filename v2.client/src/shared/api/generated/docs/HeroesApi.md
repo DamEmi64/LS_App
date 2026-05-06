@@ -4,12 +4,12 @@ All URIs are relative to *http://localhost*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**create**](#create) | **POST** / | |
-|[**deleteById**](#deletebyid) | **DELETE** /{id} | |
-|[**get**](#get) | **GET** / | |
-|[**getById**](#getbyid) | **GET** /{id} | |
-|[**updateById**](#updatebyid) | **PUT** /{id} | |
-|[**updateByIdPlayerData**](#updatebyidplayerdata) | **PUT** /{id}/playerData | |
+|[**create**](#create) | **POST** /api/Heroes | |
+|[**deleteById**](#deletebyid) | **DELETE** /api/Heroes/{id} | |
+|[**get**](#get) | **GET** /api/Heroes | |
+|[**getById**](#getbyid) | **GET** /api/Heroes/{id} | |
+|[**updateById**](#updatebyid) | **PUT** /api/Heroes/{id} | |
+|[**updateByIdPlayerData**](#updatebyidplayerdata) | **PUT** /api/Heroes/{id}/playerData | |
 
 # **create**
 > create()

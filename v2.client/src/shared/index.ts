@@ -1,5 +1,4 @@
 export * from './types';
-export * from './context/apiConnect';
 export * from './context/errorHandler';
 export * from './context/modal';
 export * from './components/NotificationListener';

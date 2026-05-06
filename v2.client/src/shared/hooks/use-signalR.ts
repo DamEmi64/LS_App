@@ -5,7 +5,7 @@ import {
   LogLevel
 } from "@microsoft/signalr";
 import { notify } from "../components/NotificationListener";
-import { useVariable } from "@/lib/utils";
+import { useConfiguration } from "../context/configuration";
 
 const hubs = [
   { name: "notify", url: "notify" },
@@ -17,6 +17,7 @@ type Handler = (...args: any[]) => void;
 export const useSignalR = (hubName: string, onConnected?: () => void) => {
   const connectionRef = useRef<HubConnection | null>(null);
   const handlersRef = useRef<Map<string, Handler>>(new Map());
+  const {useVariable} = useConfiguration();
 
   const [ednpoint] = useVariable('apiEndpoint');
   const [connected, setConnected] = useState(false);

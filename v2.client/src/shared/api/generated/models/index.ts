@@ -28,6 +28,7 @@ export * from './process-dto';
 export * from './process-dto-response-list';
 export * from './process-error-dto';
 export * from './progress-status';
+export * from './rpgfile';
 export * from './register-model';
 export * from './rules-dto';
 export * from './session';

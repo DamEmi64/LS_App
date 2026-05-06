@@ -1,25 +1,20 @@
-import { FilterItem, FilterProps, FilterType } from '@/shared';
+import { call, FilterItem, FilterProps, FilterType } from '@/shared';
 import { DataTable } from "@/shared/components/datatable";
 import { useTranslation } from "react-i18next";
-
-import { useApiConnect } from "@/shared/context/apiConnect";
 import { useEffect, useState } from "react";
 import { useModal } from "@/shared/context/modal";
-import axios from "axios";
 import ProcessInfo from "@/features/system/components/processInfo";
 import { FormLabel, Grid } from "@mui/material";
 import { Process } from "@/features/auth";
 import { ColumnDef, ColumnType, onChangeParams, Operations, TableData } from "@/shared";
-import { useDictionaryTranslation } from '@/lib/utils';
 import { ResponseList } from '@/shared/api/extension';
 
 const Processes = () => {
     const { t } = useTranslation();
-    const { processApi, call } = useApiConnect();
     const modal = useModal();
 
     const details = (data: Process) => {
-        call<Process>(processApi, processApi.getProcesById, { id: data.id })
+        call<Process>(api =>api.processApi.getById, { id: data.id })
             .then(process => {
                 modal.showModal(<ProcessInfo process={process}></ProcessInfo>);
             });
@@ -37,7 +32,7 @@ const Processes = () => {
             query[filter.field] = filter.value.toLocaleString();
         });
 
-        return call<ResponseList<Process>>(processApi, processApi.getProcesData, query)
+        return call<ResponseList<Process>>(api =>api.processApi.get, query)
             .then(response => ({ data: response.data, total: response.total } as TableData<Process>));
     };
 

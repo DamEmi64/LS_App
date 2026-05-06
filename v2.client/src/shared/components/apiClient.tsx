@@ -14,15 +14,18 @@ import {
 } from '@/shared/api/generated';
 
 import { notify } from '../components/NotificationListener';
+import { get } from '@/lib/utils';
+
 
 type ApiError = {
     message?: string;
     title?: string;
 };
 
+const uri = get('apiEndpoint');
 
 const axiosInstance = axios.create({
-    baseURL: 'https://lsfamilia.runasp.net',
+    baseURL: uri,
     withCredentials: true
 });
 

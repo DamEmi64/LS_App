@@ -44,7 +44,7 @@ namespace System.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Dictionaries");
+                    b.ToTable("Dictionaries", (string)null);
                 });
 
             modelBuilder.Entity("Base.Media", b =>
@@ -78,7 +78,7 @@ namespace System.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Media");
+                    b.ToTable("Media", (string)null);
                 });
 
             modelBuilder.Entity("Base.UserData", b =>
@@ -109,7 +109,7 @@ namespace System.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserData");
+                    b.ToTable("UserData", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -303,7 +303,7 @@ namespace System.Infrastructure.Migrations
 
                     b.HasIndex("ProcessId");
 
-                    b.ToTable("Jobs");
+                    b.ToTable("Jobs", (string)null);
                 });
 
             modelBuilder.Entity("System.Domain.Entities.JobData", b =>
@@ -331,7 +331,7 @@ namespace System.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("JobData");
+                    b.ToTable("JobData", (string)null);
                 });
 
             modelBuilder.Entity("System.Domain.Entities.Log", b =>
@@ -409,7 +409,7 @@ namespace System.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Processes");
+                    b.ToTable("Processes", (string)null);
                 });
 
             modelBuilder.Entity("System.Domain.Entities.ProcessError", b =>
@@ -446,7 +446,7 @@ namespace System.Infrastructure.Migrations
 
                     b.HasIndex("ProcessId");
 
-                    b.ToTable("ProcessErrors");
+                    b.ToTable("ProcessErrors", (string)null);
                 });
 
             modelBuilder.Entity("System.Domain.Entities.ProcessMilestone", b =>
@@ -483,7 +483,7 @@ namespace System.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Milestones");
+                    b.ToTable("Milestones", (string)null);
                 });
 
             modelBuilder.Entity("System.Domain.Entities.User", b =>

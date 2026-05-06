@@ -40,7 +40,7 @@ namespace System.Application.Controllers
             return Json(_mapper.Map<ProcessDto>(result));
         }
 
-        [HttpGet("data")]
+        [HttpGet("")]
         [ProducesResponseType(typeof(ResponseList<ProcessDto>), StatusCodes.Status200OK)]
         public IActionResult ListData([FromQuery] ProcessFilter filter)
         {

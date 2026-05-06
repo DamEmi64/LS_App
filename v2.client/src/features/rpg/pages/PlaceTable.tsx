@@ -84,7 +84,7 @@ export const PlaceTable: React.FC<PlaceTableProps> = ({
     };
 
     const savePlace = (data: SessionDto, place: Place) => {
-        call(api => api.placesApi.updatePlaceById,{id:place.id, body:data})
+        call(api => api.placesApi.updateById,{id:place.id, body:data})
             .then(() => refresh());
     };
 
@@ -94,7 +94,7 @@ export const PlaceTable: React.FC<PlaceTableProps> = ({
                 chapters={chapters}
                 onSelect={(chapterId) => {
 
-                    call<Image>(api => api.homeApi.getHomeImage,{id:place.imageId})
+                    call<Image>(api => api.homeApi.getImage,{id:place.imageId})
                         .then((res) => {
                             const imageData = res.contentStr || '';
 
@@ -105,7 +105,7 @@ export const PlaceTable: React.FC<PlaceTableProps> = ({
                                 image: imageData
                             };
                             
-                            call(api => api.placesApi.createPlace,newPlace)
+                            call(api => api.placesApi.create,newPlace)
                                 .then(() => modal.hideModal());
                         });
                 }}
@@ -126,7 +126,7 @@ export const PlaceTable: React.FC<PlaceTableProps> = ({
     };
 
     const delConfirm = (data: Place) => {
-        call(api => api.placesApi.deletePlaceById,{id:data.id})
+        call(api => api.placesApi.deleteById,{id:data.id})
             .then(() => refresh());
     };
 

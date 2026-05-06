@@ -15,9 +15,6 @@ import {
     useTheme
 } from "@mui/material";
 
-import ReactPlayer from "react-player";
-
-import { useApiConnect } from "@/shared/context/apiConnect";
 import { useSignalR } from "@/shared/hooks/use-signalR";
 
 import PlayerWindow from "@/features/rpg/components/PlayerWindow";
@@ -28,9 +25,9 @@ import DiceBox from "@/features/rpg/components/dice/dice";
 import BattlePage from "./BattlePage";
 import { battleNpc, Chapter, Hero, HeroDto } from "@/features/rpg";
 import { ProgressFlow } from "../components/flow/ProgressFlow";
+import {call} from "@/shared";
 
 const DMPage: React.FC<{ chapter: Chapter }> = ({ chapter }) => {
-    const {chaptersApi, call} = useApiConnect();
     const { t } = useTranslation();
     const { send } = useSignalR("rpg");
     const [combatMode, setCombatMode] = useState(false);
@@ -91,8 +88,8 @@ const DMPage: React.FC<{ chapter: Chapter }> = ({ chapter }) => {
         }
     };
 
-    const startChapter = () => call<Chapter>(chaptersApi,chaptersApi.updateChapterByIdStart,{id:chapter.id});
-    const endChapter = () => call<Chapter>(chaptersApi,chaptersApi.updateChapterByIdEnd,{id:chapter.id});
+    const startChapter = () => call<Chapter>(api =>api.chaptersApi.updateByIdStart,{id:chapter.id});
+    const endChapter = () => call<Chapter>(api => api.chaptersApi.updateByIdEnd,{id:chapter.id});
 
     const openPlayerView = () => {
         window.open('/rpg/playerView', '_blank');

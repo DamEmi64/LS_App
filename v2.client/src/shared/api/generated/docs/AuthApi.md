@@ -4,17 +4,17 @@ All URIs are relative to *http://localhost*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**createAuthDelete**](#createauthdelete) | **POST** /Auth/delete | |
-|[**createAuthLogin**](#createauthlogin) | **POST** /Auth/login | |
-|[**createAuthLogout**](#createauthlogout) | **POST** /Auth/logout | |
-|[**createAuthRegister**](#createauthregister) | **POST** /Auth/register | |
-|[**getAuthData**](#getauthdata) | **GET** /Auth/data | |
-|[**getAuthMe**](#getauthme) | **GET** /Auth/me | |
-|[**updateAuth**](#updateauth) | **PUT** /Auth | |
-|[**updateAuthChangePassword**](#updateauthchangepassword) | **PUT** /Auth/changePassword | |
+|[**createDelete**](#createdelete) | **POST** /api/Auth/delete | |
+|[**createLogin**](#createlogin) | **POST** /api/Auth/login | |
+|[**createLogout**](#createlogout) | **POST** /api/Auth/logout | |
+|[**createRegister**](#createregister) | **POST** /api/Auth/register | |
+|[**getData**](#getdata) | **GET** /api/Auth/data | |
+|[**getMe**](#getme) | **GET** /api/Auth/me | |
+|[**update**](#update) | **PUT** /api/Auth | |
+|[**updateChangePassword**](#updatechangepassword) | **PUT** /api/Auth/changePassword | |
 
-# **createAuthDelete**
-> createAuthDelete()
+# **createDelete**
+> createDelete()
 
 
 ### Example
@@ -28,7 +28,7 @@ import {
 const configuration = new Configuration();
 const apiInstance = new AuthApi(configuration);
 
-const { status, data } = await apiInstance.createAuthDelete();
+const { status, data } = await apiInstance.createDelete();
 ```
 
 ### Parameters
@@ -56,8 +56,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **createAuthLogin**
-> createAuthLogin()
+# **createLogin**
+> createLogin()
 
 
 ### Example
@@ -74,7 +74,7 @@ const apiInstance = new AuthApi(configuration);
 
 let body: LoginModel; // (optional)
 
-const { status, data } = await apiInstance.createAuthLogin(
+const { status, data } = await apiInstance.createLogin(
     body
 );
 ```
@@ -107,8 +107,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **createAuthLogout**
-> createAuthLogout()
+# **createLogout**
+> createLogout()
 
 
 ### Example
@@ -122,7 +122,7 @@ import {
 const configuration = new Configuration();
 const apiInstance = new AuthApi(configuration);
 
-const { status, data } = await apiInstance.createAuthLogout();
+const { status, data } = await apiInstance.createLogout();
 ```
 
 ### Parameters
@@ -150,8 +150,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **createAuthRegister**
-> createAuthRegister()
+# **createRegister**
+> createRegister()
 
 
 ### Example
@@ -168,7 +168,7 @@ const apiInstance = new AuthApi(configuration);
 
 let body: RegisterModel; // (optional)
 
-const { status, data } = await apiInstance.createAuthRegister(
+const { status, data } = await apiInstance.createRegister(
     body
 );
 ```
@@ -201,8 +201,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getAuthData**
-> User getAuthData()
+# **getData**
+> User getData()
 
 
 ### Example
@@ -216,7 +216,7 @@ import {
 const configuration = new Configuration();
 const apiInstance = new AuthApi(configuration);
 
-const { status, data } = await apiInstance.getAuthData();
+const { status, data } = await apiInstance.getData();
 ```
 
 ### Parameters
@@ -244,8 +244,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getAuthMe**
-> UserData getAuthMe()
+# **getMe**
+> UserData getMe()
 
 
 ### Example
@@ -259,7 +259,7 @@ import {
 const configuration = new Configuration();
 const apiInstance = new AuthApi(configuration);
 
-const { status, data } = await apiInstance.getAuthMe();
+const { status, data } = await apiInstance.getMe();
 ```
 
 ### Parameters
@@ -287,8 +287,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateAuth**
-> updateAuth()
+# **update**
+> update()
 
 
 ### Example
@@ -305,7 +305,7 @@ const apiInstance = new AuthApi(configuration);
 
 let body: User; // (optional)
 
-const { status, data } = await apiInstance.updateAuth(
+const { status, data } = await apiInstance.update(
     body
 );
 ```
@@ -338,8 +338,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateAuthChangePassword**
-> updateAuthChangePassword()
+# **updateChangePassword**
+> updateChangePassword()
 
 
 ### Example
@@ -357,7 +357,7 @@ let oldPassword: string; // (default to undefined)
 let newPassword: string; // (default to undefined)
 let userId: string; // (optional) (default to undefined)
 
-const { status, data } = await apiInstance.updateAuthChangePassword(
+const { status, data } = await apiInstance.updateChangePassword(
     oldPassword,
     newPassword,
     userId

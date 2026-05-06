@@ -1,20 +1,19 @@
 import React, { useRef } from 'react';
 import { CKEditor } from 'ckeditor4-react';
 import { useTranslation } from 'react-i18next';
-import { useApiConnect } from '@/shared';
 import { CommunicationRules } from '../types';
+import {call} from "@/shared";
 import { useDictionaryTranslation } from '@/lib/utils';
 
 const Editor = ({ initData, onChange, readonly }) => {
     const { t, i18n } = useTranslation();
-    const {templatesApi,call} = useApiConnect();
     const getDictionaryTranslation = useDictionaryTranslation();
 
     // 👇 cache per editor instance
     const cacheRef = useRef(null);
 
     const loadSuggestions = async () => {
-        const res = await call<CommunicationRules>(templatesApi,templatesApi.getTemplateRule,{})
+        const res = await call<CommunicationRules>(api =>api.templatesApi.getRule,{})
         const data = res;
 
         // 👇 capture values NOW (not during async execution later)

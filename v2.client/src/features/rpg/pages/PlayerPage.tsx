@@ -42,7 +42,7 @@ const PlayerPage = () => {
         }
 
         if (chapterId) {
-            call<Chapter>(api => api.chaptersApi.getChapterById, { id: chapterId })
+            call<Chapter>(api => api.chaptersApi.getById, { id: chapterId })
                 .then(setChapter);
         }
     };
