@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace System.Application.Controllers
 {
-    [Route("[controller]")]
     public class HomeController : BaseController
     {
         private readonly IConnectorResolver _connector;

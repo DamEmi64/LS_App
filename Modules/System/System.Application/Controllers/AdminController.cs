@@ -15,7 +15,6 @@ using System.Infrastructure.Services.Auth.Models;
 namespace System.Application.Controllers
 {
     [ApiExplorerSettings(IgnoreApi = true)]
-    [Route("[controller]")]
     public class AdminController : BaseController
     {
         private readonly IAdminService _adminService;

@@ -2,6 +2,8 @@ import { clsx, type ClassValue } from "clsx";
 import { useTranslation } from "react-i18next";
 import { twMerge } from "tailwind-merge";
 import dictionaries from '@/app/dictionaries.json';
+import configuration from '@/app/configuration.json';
+import useLocalStorage from "react-use-localstorage";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -42,6 +44,10 @@ export function getDictionary(dictionaryName: string): DictionaryItem[] {
         title: value.Title,
         description: value.Description
     }));
+}
+
+export function useVariable(key: string) {
+    return useLocalStorage(key,configuration[key])
 }
 
 export interface DictionaryItem {

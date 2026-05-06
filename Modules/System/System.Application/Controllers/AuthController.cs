@@ -9,7 +9,6 @@ using System.Infrastructure.Services.Auth.Models;
 
 namespace System.Application.Controllers
 {
-    [Route("[controller]")]
     public class AuthController : BaseController
     {
         private readonly IAuthService _authService;

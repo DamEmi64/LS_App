@@ -3,6 +3,7 @@ import { useApiConnect } from "@/shared/context/apiConnect";
 import { LoginData, RegisterData, User, UserData, PasswordChangeData } from "@/features/auth";
 import { notify } from "@/shared/components/NotificationListener";
 import { getNotify } from "@/lib/notifyProvider";
+import {call} from '@/shared';
 
 export interface AuthContextType {
   user: UserData | null;
@@ -20,14 +21,13 @@ export interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const {authApi, call} = useApiConnect();
 
   const [user, setUser] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
 
   const refreshUser = async () => {
     try {
-      const data = await call<UserData>(authApi,authApi.getAuthMe,{});
+      const data = await call<UserData>(api => api.authApi.getAuthMe,{});
       setUser(data?.userId ? data : null);
     } catch (err: any) {
       if (err.response?.status === 401) {
@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const getData = async (): Promise<User | null> => {
     try {
-      const data  = await call<User>(authApi,authApi.getAuthData,{}); 
+      const data  = await call<User>(api => api.authApi.getAuthData,{}); 
       return data;
     } catch (err) {
       console.error("Failed to fetch user data:", err);
@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = async (data: LoginData): Promise<boolean> => {
     try {
-      await call(authApi,authApi.createAuthLogin,data);
+      await call(api => api.authApi.createAuthLogin,data);
       await refreshUser();
       return true;
     } catch (error) {
@@ -60,7 +60,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const register = async (data: RegisterData): Promise<boolean> => {
     try {
-      await call(authApi,authApi.createAuthRegister,data);
+      await call(api => api.authApi.createAuthRegister,data);
       await refreshUser();
       return true;
     } catch (error) {
@@ -71,7 +71,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = async () => {
     try {
-      await call(authApi,authApi.createAuthLogout,{});
+      await call(api =>api.authApi.createAuthLogout,{});
     } finally {
       setUser(null);
     }
@@ -79,7 +79,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const update = async (data: User): Promise<boolean> => {
     try {
-      await call(authApi,authApi.updateAuth,{id:user.id, body:data});
+      await call(api => api.authApi.updateAuth,{id:user.id, body:data});
       return true;
     } catch (err) {
       console.error("Update failed:", err);
@@ -89,7 +89,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const changePassword = async (data: PasswordChangeData): Promise<boolean> => {
     try {
-      await call(authApi,authApi.updateAuth,{id:user.id, body:data});
+      await call(api => api.authApi.updateAuth,{id:user.id, body:data});
       return true;
     } catch (err) {
       console.error("Password change failed:", err);

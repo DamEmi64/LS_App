@@ -3,9 +3,10 @@ import { TextField, FormControlLabel, Switch, Select, MenuItem, InputLabel, Form
 import { changeLanguage } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { ApiConnectContextType, useApiConnect } from '@/shared/context/apiConnect';
-import useLocalStorage from 'react-use-localstorage';
 import ServerInfo, { ServerInfoProps } from './serverInfo';
 import { HomeApi } from '@/shared/api/generated';
+import { useVariable } from '@/lib/utils';
+import useLocalStorage from 'react-use-localstorage';
 
 const languages = [
     { code: 'en', label: 'English' },
@@ -20,17 +21,17 @@ const AppSettings: React.FC<{ api: ApiConnectContextType }> = () => {
     const {homeApi, call} = useApiConnect();
 
     const { t, i18n } = useTranslation();
-    const [endpoint, setEndpoint] = useLocalStorage('apiEndpoint', 'http://localhost:5144');
+    const [endpoint, setEndpoint] = useVariable('apiEndpoint');
     const [language, setLanguage] = useLocalStorage('lang', i18n.language || 'en');
-    const [labelColor, setLabelColor] = useLocalStorage('labelColor', '#fff')
+    const [labelColor, setLabelColor] = useVariable('labelColor')
     const { mode, setMode } = useColorScheme();
     const [darkTheme, setDarkTheme] = useState(mode === 'dark');
     const [serverData, setServerData] = useState<ServerInfoProps>({ frontendVersion: 'unknown', version: 'unknown', modules: [] });
-    const [position, setPosition] = useLocalStorage('toastPosition', "bottom-right");
-    const [autoClose, setAutoCLose] = useLocalStorage('toastAutoClose', '3000');
-    const [active, setActive] = useLocalStorage('toastActive', 'true');
-    const [process, setProcess] = useLocalStorage('toastProcess', 'false');
-    const [processError, setProcessError] = useLocalStorage('toastProcessError', 'false');
+    const [position, setPosition] = useVariable('toastPosition');
+    const [autoClose, setAutoCLose] = useVariable('toastAutoClose');
+    const [active, setActive] = useVariable('toastActive');
+    const [process, setProcess] = useVariable('toastProcess');
+    const [processError, setProcessError] = useVariable('toastProcessError');
 
     // Always use updateData for initial load
     useEffect(() => {

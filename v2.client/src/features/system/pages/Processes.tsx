@@ -25,10 +25,6 @@ const Processes = () => {
             });
     }
 
-    const restart = (data) => {
-        call(processApi, processApi.createProcesByIdRestart, { id: data.id });
-    }
-
     const updateData = (paramsObj: onChangeParams) => {
         const query = {
             page: paramsObj.page?.toString() || '1',
@@ -77,8 +73,7 @@ const Processes = () => {
     ];
 
     const operations: Operations<Process>[] = [
-        { name: 'opt.details', method: (o) => details(o) },
-        { name: 'processes.restart', method: (o) => restart(o) }
+        { name: 'opt.details', method: (o) => details(o) }
     ]
 
     const [data, setData] = useState<TableData<Process>>({ data: [], total: 0 });

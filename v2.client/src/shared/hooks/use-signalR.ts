@@ -4,9 +4,8 @@ import {
   HubConnectionBuilder,
   LogLevel
 } from "@microsoft/signalr";
-import { useApiConnect } from "@/shared/context/apiConnect";
-import useLocalStorage from "react-use-localstorage";
 import { notify } from "../components/NotificationListener";
+import { useVariable } from "@/lib/utils";
 
 const hubs = [
   { name: "notify", url: "notify" },
@@ -19,7 +18,7 @@ export const useSignalR = (hubName: string, onConnected?: () => void) => {
   const connectionRef = useRef<HubConnection | null>(null);
   const handlersRef = useRef<Map<string, Handler>>(new Map());
 
-  const [ednpoint] = useLocalStorage('apiEndpoint');
+  const [ednpoint] = useVariable('apiEndpoint');
   const [connected, setConnected] = useState(false);
 
   const hub = hubs.find(x => x.name == hubName);

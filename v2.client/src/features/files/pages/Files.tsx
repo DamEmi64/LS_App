@@ -17,7 +17,7 @@ import FilesEdit from "@/features/files/components/filesEdit";
 import FilesInfo from "@/features/files/components/filesInfo";
 import YesNoWindow from "@/shared/components/YesNoWindow";
 
-import { FilterItem, FilterType, onChangeParams, Operations } from "@/shared";
+import { call, FilterItem, FilterType, onChangeParams, Operations, raw } from "@/shared";
 
 import { saveAs } from "file-saver";
 
@@ -26,7 +26,6 @@ import { getDictionary, useDictionaryTranslation } from "@/lib/utils";
 import { ResponseList } from "@/shared/api/extension";
 
 const Files: React.FC = () => {
-    const { filesApi, call, raw } = useApiConnect();
     const modal = useModal();
     const { t } = useTranslation();
 
@@ -85,14 +84,14 @@ const Files: React.FC = () => {
     };
 
     const saveNew = (file: EditFile) => {
-        call(filesApi, filesApi.createFile, file).then(() => {
+        call(api => api.filesApi.createFile, file).then(() => {
             modal.hideModal();
             refresh();
         });
     };
 
     const details = (file: File) => {
-        call<File>(filesApi, filesApi.getFileById, { id: file.id }).then(res => {
+        call<File>(api => api.filesApi.getFileById, { id: file.id }).then(res => {
             modal.showModal(
                 <FilesInfo file={res} edit={edit} del={del} />
             );
@@ -100,7 +99,7 @@ const Files: React.FC = () => {
     };
 
     const edit = (file: File) => {
-        call<File>(filesApi, filesApi.getFileById, { id: file.id }).then(res => {
+        call<File>(api => api.filesApi.getFileById, { id: file.id }).then(res => {
             modal.showModal(
                 <FilesEdit
                     file={toEditFile(res)}
@@ -111,7 +110,7 @@ const Files: React.FC = () => {
     };
 
     const saveEdit = (file: EditFile, id: string) => {
-        call(filesApi, filesApi.updateFileById, { id, body: file }).then(() => {
+        call(api => api.filesApi.updateFileById, { id, body: file }).then(() => {
             modal.hideModal();
             refresh();
         });
@@ -130,16 +129,16 @@ const Files: React.FC = () => {
     };
 
     const delConfirm = (file: File) => {
-        call(filesApi, filesApi.deleteFileById, { id: file.id }).then(() => {
+        call(api => api.filesApi.deleteFileById, { id: file.id }).then(() => {
             modal.hideModal();
             refresh();
         });
     };
 
-    const importFile = (file: File) => call(filesApi, filesApi.updateFileByIdImport, { id: file.id, body: file });
+    const importFile = (file: File) => call(api => api.filesApi.updateFileByIdImport, { id: file.id, body: file });
 
     const exportFile = (file: File) => {
-        raw(filesApi, filesApi.getFileByIdExport, { id: file.id })
+        raw(api => api.filesApi.getFileByIdExport, { id: file.id })
             .then((response) => {
                 const contentType =
                     response.headers["content-type"] || "application/octet-stream";

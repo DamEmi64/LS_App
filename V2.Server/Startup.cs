@@ -108,7 +108,7 @@ namespace Api
 
                         foreach (var segment in segments)
                         {
-                            if (segment == controller)
+                            if (segment == controller || segment == "api")
                             {
                                 continue;
                             }

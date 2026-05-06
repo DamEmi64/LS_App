@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Files.Application.Controllers
 {
-    [Route("[controller]")]
     [AuthPermission("files")]
     public class FilesController : BaseController
     {

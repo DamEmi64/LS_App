@@ -13,7 +13,6 @@ using RPG.Infrastructure.Services.SummaryService;
 
 namespace RPG.Application.Controllers
 {
-    [Route("[controller]")]
     [AuthPermission("rpg")]
     public class StoriesController : BaseController
     {

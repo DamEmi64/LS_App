@@ -10,7 +10,6 @@ using System.Infrastructure.JobEngine;
 
 namespace System.Application.Controllers
 {
-    [Route("[controller]")]
     public class ProcessController : BaseController
     {
         private readonly IProcessRepository _processRepository;

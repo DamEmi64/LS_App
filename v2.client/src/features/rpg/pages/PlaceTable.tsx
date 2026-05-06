@@ -1,4 +1,4 @@
-import { useModal, useApiConnect, Operations } from "@/shared";
+import { useModal, call, Operations } from "@/shared";
 import OperationCell from "@/shared/components/operationCell";
 import YesNoWindow from "@/shared/components/YesNoWindow";
 
@@ -34,7 +34,6 @@ export const PlaceTable: React.FC<PlaceTableProps> = ({
 }) => {
     const { t } = useTranslation();
     const modal = useModal();
-    const {placesApi, homeApi, call} = useApiConnect();
     const { checkPermission } = useAuth();
 
     // 📱 RESPONSIVE
@@ -85,7 +84,7 @@ export const PlaceTable: React.FC<PlaceTableProps> = ({
     };
 
     const savePlace = (data: SessionDto, place: Place) => {
-        call(placesApi,placesApi.updatePlaceById,{id:place.id, body:data})
+        call(api => api.placesApi.updatePlaceById,{id:place.id, body:data})
             .then(() => refresh());
     };
 
@@ -95,7 +94,7 @@ export const PlaceTable: React.FC<PlaceTableProps> = ({
                 chapters={chapters}
                 onSelect={(chapterId) => {
 
-                    call<Image>(homeApi,homeApi.getHomeImage,{id:place.imageId})
+                    call<Image>(api => api.homeApi.getHomeImage,{id:place.imageId})
                         .then((res) => {
                             const imageData = res.contentStr || '';
 
@@ -106,7 +105,7 @@ export const PlaceTable: React.FC<PlaceTableProps> = ({
                                 image: imageData
                             };
                             
-                            call(placesApi,placesApi.createPlace,newPlace)
+                            call(api => api.placesApi.createPlace,newPlace)
                                 .then(() => modal.hideModal());
                         });
                 }}
@@ -127,7 +126,7 @@ export const PlaceTable: React.FC<PlaceTableProps> = ({
     };
 
     const delConfirm = (data: Place) => {
-        call(placesApi,placesApi.deletePlaceById,{id:data.id})
+        call(api => api.placesApi.deletePlaceById,{id:data.id})
             .then(() => refresh());
     };
 

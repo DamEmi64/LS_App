@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Communication.Application.Controllers
 {
-    [Route("[controller]")]
     [AuthPermission("communication")]
     public class EmailsController : BaseController
     {

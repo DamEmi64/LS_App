@@ -32,12 +32,12 @@ import YesNoWindow from "@/shared/components/YesNoWindow";
 import { TemplateEdit } from "../components/templateEdit";
 import { TemplateGenData, TemplateGen } from "../components/templateGen";
 import { ResponseList } from "@/shared/api/extension";
+import {call} from "@/shared";
 
 const Templates: React.FC = () => {
     const { t } = useTranslation();
     const modal = useModal();
     const auth = useAuth();
-    const {templatesApi, call} = useApiConnect();
 
     // 📱 RESPONSIVE
     const theme = useTheme();
@@ -87,7 +87,7 @@ const Templates: React.FC = () => {
 
     // 👁 DETAILS
     const details = async (template: Template) => {
-        const result = await call<Template>(templatesApi,templatesApi.getTemplateById,{id:template.id})
+        const result = await call<Template>(api => api.templatesApi.getTemplateById,{id:template.id})
 
         modal.showModal(
             <TemplateEdit
@@ -115,7 +115,7 @@ const Templates: React.FC = () => {
     };
 
     const genConfirm = async (data: TemplateGenData) => {
-        await call(templatesApi,templatesApi.updateTemplateByIdGenerate,{id:data.template,body:data});
+        await call(api => api.templatesApi.updateTemplateByIdGenerate,{id:data.template,body:data});
 
         modal.hideModal();
         refresh();
@@ -135,7 +135,7 @@ const Templates: React.FC = () => {
     };
 
     const delConfirm = async (template: Template) => {
-        await call(templatesApi,templatesApi.updateTemplateById,{id:template.id});
+        await call(api => api.templatesApi.updateTemplateById,{id:template.id});
 
         modal.hideModal();
         refresh();
@@ -143,14 +143,14 @@ const Templates: React.FC = () => {
 
     // ➕ CREATE
     const addData = async (template: Template) => {
-        await call(templatesApi,templatesApi.createTemplate,template);
+        await call(api => api.templatesApi.createTemplate,template);
         modal.hideModal();
         refresh();
     };
 
     // ✏️ UPDATE
     const editData = async (template: Template) => {
-        await call(templatesApi,templatesApi.updateTemplateById,{id:template.id,body:template});
+        await call(api => api.templatesApi.updateTemplateById,{id:template.id,body:template});
 
         modal.hideModal();
         refresh();
@@ -171,7 +171,7 @@ const Templates: React.FC = () => {
             query[filter.field] = filter.value.toLocaleString();
         });
 
-        const result = await call<ResponseList<Template>>(templatesApi,templatesApi.getTemplate,query);
+        const result = await call<ResponseList<Template>>(api => api.templatesApi.getTemplate,query);
 
         const tableData: TableData<Template> = {
             data: result.data,

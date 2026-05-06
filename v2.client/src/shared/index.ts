@@ -8,3 +8,4 @@ export * from './localization/i18n';
 export * from './components/operationMenu';
 export * from './components/tileContainer';
 export * from './components/filter';
+export * from './components/apiClient';

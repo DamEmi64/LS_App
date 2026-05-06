@@ -17,6 +17,7 @@ import {
 } from '@/shared/api/generated';
 import { notify } from '../components/NotificationListener';
 import { BaseAPI } from '../api/generated/base';
+import { useVariable } from '@/lib/utils';
 
 type ApiError = {
     message?: string;
@@ -53,10 +54,7 @@ export type ApiConnectContextType = {
 const ApiConnectContext = createContext<ApiConnectContextType | null>(null);
 
 export const ApiConnect = ({ children }: { children: ReactNode }) => {
-    const [baseURL] = useLocalStorage(
-        'apiEndpoint',
-        'https://lsfamilia.runasp.net'
-    );
+    const [baseURL] = UseVariable('apiEndpoint');
 
     const axiosInstance = useMemo(() => {
         const instance = axios.create({

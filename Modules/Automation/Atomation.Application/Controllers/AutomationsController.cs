@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Automation.Application.Controllers
 {
-    [Route("[controller]")]
     [AuthPermission("automation")]
     public class AutomationsController : BaseController
     {
