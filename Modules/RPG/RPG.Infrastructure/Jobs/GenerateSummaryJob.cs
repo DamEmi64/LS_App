@@ -54,15 +54,42 @@ namespace RPG.Infrastructure.Jobs
                 var pdf = new Pdf.PdfGenerator(storyModel).Generate();
 
                 var pdfMedia = await mediaProvider.Save(pdf, story.Summary);
-                story.Summary = pdfMedia;
-                await storyRepository.Update(story);
+
+                if (story.Summary is null || !story.Files.Any(x => x.Title == story.Title))
+                {
+                    story.Summary = pdfMedia;
+                    await storyRepository.AddFile(story, new Domain.Entities.RPGFile
+                    {
+                        Title = story.Title,
+                        Content = pdfMedia
+                    });
+                }
+                else
+                {
+                    story.Summary = pdfMedia;
+                    await storyRepository.Update(story);
+                }
+
                 return;
             }
 
             var html = await RazorTemplateEngine.RenderAsync(TemplatePath, storyModel);
             var media = await mediaProvider.Save(Encoding.UTF8.GetBytes(html), story.Summary, "html");
-            story.Summary = media;
-            await storyRepository.Update(story);
+
+            if (story.Summary is null || !story.Files.Any(x => x.Title == story.Title))
+            {
+                story.Summary = media;
+                await storyRepository.AddFile(story, new Domain.Entities.RPGFile
+                {
+                    Title = story.Title,
+                    Content = media
+                });
+            }
+            else
+            {
+                story.Summary = media;
+                await storyRepository.Update(story);
+            }
         }
     }
 }
