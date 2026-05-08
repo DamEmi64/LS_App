@@ -16,13 +16,11 @@ import LoginForm from '@/features/auth/components/loginForm';
 import RegisterForm from '@/features/auth/components/registerForm';
 import UserEdit from '@/features/auth/components/userEdit';
 import UserProfile from '@/features/auth/components/userProfile';
-import { useApiConnect } from '@/shared';
 import HouseIcon from '@mui/icons-material/House';
 
 export default function navMenu() {
     const modal = useModal();
     const auth = useAuth();
-    const api = useApiConnect();
     const { t } = useTranslation();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -47,7 +45,7 @@ export default function navMenu() {
     }
 
     const onSettings = () => {
-        modal.showModal(<AppSettings api={api} />);
+        modal.showModal(<AppSettings/>);
     }
 
     const onLogin = () => {

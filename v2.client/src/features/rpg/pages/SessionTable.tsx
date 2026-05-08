@@ -11,12 +11,12 @@ import { SessionDto, Story } from "@/features/rpg";
 import { useModal } from "@/shared/context/modal";
 import StoryEdit from "@/features/rpg/components/StoryEdit";
 import SessionInfo from "@/features/rpg/components/StoryInfo";
-import { useApiConnect } from "@/shared/context/apiConnect";
+import { call, raw } from "@/shared";
 import React from "react";
 import { ChapterTable } from "./ChapterTable";
 import { useTranslation } from "react-i18next";
 import SummaryGen from "@/features/rpg/components/summaryGen";
-import { convertToDateStr } from "@/lib/utils";
+import { convertToDateStr, download } from "@/lib/utils";
 import { saveAs } from 'file-saver';
 import { onChangeParams, ColumnDef, ColumnType, Operations, FilterItem, FilterType, FilterValue } from "@/shared";
 import YesNoWindow from "@/shared/components/YesNoWindow";
@@ -36,7 +36,6 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     const { t } = useTranslation();
     const { checkPermission } = useAuth();
     const modal = useModal();
-    const {chaptersApi, storiesApi, raw, call} = useApiConnect();
     const [openRows, setOpenRows] = useState<Record<string, boolean>>({});
     const [pageSize, setPageSize] = useState(10);
     const [orderBy, setOrderBy] = useState<string | null>(null);
@@ -93,7 +92,7 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     }
 
     const saveNew = (data: Story) => {
-        call(storiesApi,storiesApi.createStorie,data).then(() => refresh());
+        call(api => api.storiesApi.create,{storyDto: {storyDto:data}}).then(() => refresh());
     }
 
     // NEW: import modal
@@ -102,29 +101,25 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     }
 
     const handleImport = (data: any) => {
-        const formData = new FormData();
 
-        if (data.file) formData.append("File", data.file);
-        formData.append("ConverterType", data.converterType.toString());
-        if (data.externalUrl) formData.append("ExternalUrl", data.externalUrl);
-
-        call(storiesApi,storiesApi.createStorieImport,formData).then(() => {
+        call(api => api.storiesApi.createImport,{file:data.file, converterType:data.converterType,externalUrl:data.externalUrl}).then(() => {
             modal.hideModal();
             refresh();
         });
     }
 
     const details = (data: any) => {
-        call<Story>(storiesApi,draft ? storiesApi.getStorieByIdDraft : storiesApi.getStorieById, {id: data.id})
+        call<Story>(api => draft ? api.storiesApi.getByIdDraft : api.storiesApi.getById, {id: data.id})
             .then(story => modal.showModal(<SessionInfo story={story} edit={editSession} del={del}></SessionInfo>))
     }
 
     const editSession = (data: any) => {
-        modal.showModal(<StoryEdit story={data} toSave={(o) => saveEdit(o, data.id)} />)
+        call<Story>(api => draft ? api.storiesApi.getByIdDraft : api.storiesApi.getById, {id: data.id})
+            .then(story =>  modal.showModal(<StoryEdit story={story} toSave={(o) => saveEdit(o, data.id)} edit/>))
     }
 
     const saveEdit = (data: Story, id: string) => {
-        call(storiesApi,storiesApi.updateStorieById,{id:data.id,body:data}).then(() => refresh());
+        call(api => api.storiesApi.updateById,{id:data.id,storyDto:data}).then(() => refresh());
     }
 
     const addChapter = (data: Story) => {
@@ -141,7 +136,7 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     }
 
     const saveChapter = (data: SessionDto) => {
-        call(chaptersApi,chaptersApi.createChapter,data).then(() => {
+        call(api => api.chaptersApi.create,{chapterDto:data}).then(() => {
             modal.hideModal();
             refresh();
         });
@@ -152,15 +147,15 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     }
 
     const delConfirm = (data: any) => {
-        call(storiesApi,storiesApi.deleteStorieById,{id:data.id}).then(() => refresh());
+        call(api => api.storiesApi.deleteById,{id:data.id}).then(() => refresh());
     }
 
     const startStory = (data: any) => {
-        call(storiesApi,storiesApi.updateStorieByIdStart,{id:data.id}).then(() => refresh());
+        call(api => api.storiesApi.updateByIdStart,{id:data.id}).then(() => refresh());
     }
 
     const endStory = (data: any) => {
-        call(storiesApi,storiesApi.updateStorieByIdEnd,{id:data.id}).then(() => refresh());
+        call(api => api.storiesApi.updateByIdEnd,{id:data.id}).then(() => refresh());
     }
 
     const generateSummary = (data: any) => {
@@ -168,7 +163,7 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     }
 
     const generateSummaryConfirm = (data: Story, isPdf: boolean) => {
-        call(storiesApi,storiesApi.updateStorieByIdSummary, {id: data.id, body: { id: data.id, title: data.title, description: data.description, chapters: data.chapters.map((x) => x.id), isPdf}})
+        call(api => api.storiesApi.updateByIdSummary, {id:data.id, summaryModel:{id: data.id, title: data.title, description: data.description, chapters: data.chapters.map((x) => x.id), isPdf}})
             .then(() => modal.hideModal());
     }
 
@@ -177,12 +172,12 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     }
 
     const sendToFirebaseConfirm = (data: Story) => {
-        call(storiesApi,storiesApi.updateStorieByIdFirebase,{id: data.id, body:{ id: data.id, title: data.title, description: data.description, chapters: data.chapters.map((x) => x.id) }})
+        call(api => api.storiesApi.updateByIdFirebase,{id:data.id, summaryModel:{id: data.id, title: data.title, description: data.description, chapters: data.chapters.map((x) => x.id) }})
             .then(() => modal.hideModal());
     }
 
     const exportData = (data: any) => {
-        raw(storiesApi,storiesApi.getStorieByIdExport,{id:data.id})
+        raw(api => api.storiesApi.getByIdExport,{id:data.id})
             .then((response) => {
                 const contentType = response.headers['content-type'] || 'application/octet-stream';
                 const disposition = response.headers['content-disposition'];
@@ -193,29 +188,13 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
                     if (match?.[1]) filename = decodeURIComponent(match[1].replace(/"/g, ''));
                 }
 
-                const blob = new Blob([response.data], { type: contentType });
+                const blob = new Blob([response.data], { type: contentType.toLocaleString() });
                 saveAs(blob, filename);
             })
             .catch((error) => console.error('Download failed:', error));
     }
 
-    const downloadSummary = (data: any) => {
-        raw(storiesApi,storiesApi.getStorieByIdSummary,{id:data.id})
-            .then((response) => {
-                const contentType = response.headers['content-type'] || 'application/octet-stream';
-                const disposition = response.headers['content-disposition'];
-                let filename = data.title + '_summary' + (contentType === 'application/pdf' ? '.pdf' : '.html');
-
-                if (disposition) {
-                    const match = disposition.match(/filename\*?=(?:UTF-8'')?([^;]+)/);
-                    if (match?.[1]) filename = decodeURIComponent(match[1].replace(/"/g, ''));
-                }
-
-                const blob = new Blob([response.data], { type: contentType });
-                saveAs(blob, filename);
-            })
-            .catch((error) => console.error('Download failed:', error));
-    }
+    const downloadSummary = (data: Story) => download(data.summary,data.title);
 
     const columns: ColumnDef[] = [
         { field: 'title', header: 'rpg.story.title', type: ColumnType.String },
@@ -225,8 +204,8 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
 
     const filters: FilterItem[] = [
         { field: 'title', name: 'rpg.story.title', type: FilterType.String },
-        { field: 'startDate', name: 'rpg.story.startDate', type: FilterType.Date },
-        { field: 'endDate', name: 'rpg.story.endDate', type: FilterType.Date }
+        { field: 'start', name: 'rpg.story.startDate', type: FilterType.DateRange },
+        { field: 'end', name: 'rpg.story.endDate', type: FilterType.DateRange }
     ];
 
     const operations: Operations<Story>[] = [
@@ -244,7 +223,7 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     ]
 
     return (
-        <Grid sx={{ width: "100%", p: isMobile ? 1 : 3 }}>
+        <Grid sx={{ maxWidth: "100%", p: isMobile ? 1 : 3 }}>
             {/* HEADER */}
             <Grid sx={{ textAlign: "center", mb: 2 }}>
                 <InputLabel sx={{ fontSize: isMobile ? "1.8rem" : "2.5rem", fontWeight: "bold" }}>
@@ -278,9 +257,19 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
             }}>
                 <Filter filters={filters} onChange={handleFilterChange} />
 
-                <TableContainer sx={{ overflowX: "auto" }}>
-                    <Table size={isMobile ? "small" : "medium"} stickyHeader>
-
+            <TableContainer sx={{
+                width: "100%",
+                overflowX: "auto",
+                size: isMobile ? 'small' : 'medium',
+                WebkitOverflowScrolling: "touch"
+            }}>
+                    <Table
+                        stickyHeader
+                        sx={{
+                            maxWidth:'100%',
+                            WebkitOverflowScrolling: "touch"
+                        }}
+                    >
                         <TableHead>
                             <TableRow>
                                 <TableCell />

@@ -224,6 +224,42 @@ namespace RPG.Infrastructure.Migrations
                     b.ToTable("PlayerData");
                 });
 
+            modelBuilder.Entity("RPG.Domain.Entities.RPGFile", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("Content")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("InsBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("InsDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid?>("StoryId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpdBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("UpdDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StoryId");
+
+                    b.ToTable("RPGFile");
+                });
+
             modelBuilder.Entity("RPG.Domain.Entities.Session", b =>
                 {
                     b.Property<Guid>("Id")
@@ -385,6 +421,13 @@ namespace RPG.Infrastructure.Migrations
                     b.Navigation("Chapter");
                 });
 
+            modelBuilder.Entity("RPG.Domain.Entities.RPGFile", b =>
+                {
+                    b.HasOne("RPG.Domain.Entities.Story", null)
+                        .WithMany("Files")
+                        .HasForeignKey("StoryId");
+                });
+
             modelBuilder.Entity("RPG.Domain.Entities.Session", b =>
                 {
                     b.HasOne("RPG.Domain.Entities.Chapter", null)
@@ -418,6 +461,8 @@ namespace RPG.Infrastructure.Migrations
             modelBuilder.Entity("RPG.Domain.Entities.Story", b =>
                 {
                     b.Navigation("Chapters");
+
+                    b.Navigation("Files");
                 });
 #pragma warning restore 612, 618
         }

@@ -28,7 +28,7 @@ import { convertToDateStr } from '@/lib/utils';
 import DMPage from './DMPage';
 
 import SessionView from '@/features/rpg/components/sessionForm';
-import { useModal, useApiConnect, Operations } from '@/shared';
+import { useModal, call, Operations } from '@/shared';
 import OperationCell from '@/shared/components/operationCell';
 import YesNoWindow from '@/shared/components/YesNoWindow';
 
@@ -45,7 +45,6 @@ export type ChapterTableProps = {
 export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
     const { t } = useTranslation();
     const modal = useModal();
-    const {chaptersApi, heroesApi, placesApi, call} = useApiConnect();
     const { checkPermission } = useAuth();
 
     // 📱 RESPONSIVE
@@ -68,7 +67,7 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
 
         setLoadingRow(chapter.id);
 
-        call<Chapter>(chaptersApi,chaptersApi.getChapterById,{id:chapter.id})
+        call<Chapter>(api => api.chaptersApi.getById,{id:chapter.id})
             .then((res) => {
                 setLoadingRow(null);
 
@@ -84,7 +83,7 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
     };
 
     const refresh = (chapter: Chapter) => {
-        call<Chapter>(chaptersApi,chaptersApi.getChapterById,{id:chapter.id})
+        call<Chapter>(api => api.chaptersApi.getById,{id:chapter.id})
             .then((res) => {
                 setData(prev =>
                     prev.map(c => c.id === chapter.id ? res : c)
@@ -106,7 +105,7 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
     ];
 
     const details = (o: Chapter) => {
-        call<Chapter>(chaptersApi,chaptersApi.getChapterById,{id:o.id})
+        call<Chapter>(api => api.chaptersApi.getById,{id:o.id})
             .then((res) => {
                 modal.showModal(
                     <SessionView
@@ -121,7 +120,7 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
     };
 
     const edit = (o: Chapter) => {
-        call<Chapter>(chaptersApi,chaptersApi.getChapterById,{id:o.id})
+        call<Chapter>(api => api.chaptersApi.getById,{id:o.id})
             .then((res) => {
                 modal.showModal(
                     <SessionView
@@ -136,7 +135,7 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
     };
 
     const publishChapter = (o: Chapter) => {
-                call<Chapter>(chaptersApi,chaptersApi.updateChapterByIdPublish,{id:o.id})
+                call<Chapter>(api => api.chaptersApi.updateByIdPublish,{id:o.id})
     };
 
     const flow = (o: Chapter) => {
@@ -153,12 +152,12 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
 
     const saveFlow = (chapter: Chapter, nodes, edges) => {
         chapter.flow = { nodes, edges };
-        call(chaptersApi,chaptersApi.updateChapterByIdFlow,{id:chapter.id, body:{ nodes, edges }})
+        call(api => api.chaptersApi.updateByIdFlow,{id:chapter.id, flowDto:{ nodes, edges }})
             .then(() => refresh(chapter));
     }
 
     const saveEdit = (data: SessionDto, chapter: Chapter) => {
-        call(chaptersApi,chaptersApi.updateChapterById,{id:chapter.id, body:data})
+        call(api => api.chaptersApi.updateById,{id:chapter.id, chapterDto:data})
             .then(() => refresh(chapter));
     };
 
@@ -170,7 +169,7 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
     };
 
     const saveHero = (data: HeroDto, chapter: Chapter) => {
-        call(heroesApi,heroesApi.createHeroe,data)
+        call(api => api.heroesApi.create,{heroDto:data})
         .then(() => {
             modal.hideModal();
             refresh(chapter);
@@ -185,14 +184,14 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
     };
 
     const savePlace = (data: SessionDto, chapter: Chapter) => {
-        call(placesApi,placesApi.createPlace,data).then(() => {
+        call(api => api.placesApi.create,{placeDto:data}).then(() => {
             modal.hideModal();
             refresh(chapter);
         });
     };
 
     const dmPage = (chapter: Chapter) => {
-        call<Chapter>(chaptersApi,chaptersApi.getChapterById,{id:chapter.id})
+        call<Chapter>(api => api.chaptersApi.getById,{id:chapter.id})
             .then((res) => {
                 setData(prev =>
                     prev.map(c => c.id === chapter.id ? res : c)
@@ -215,14 +214,14 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
     };
 
     const delConfirm = (chapter: Chapter) => {
-        call<Chapter>(chaptersApi,chaptersApi.deleteChapterById,{id:chapter.id}).then(() => {
+        call<Chapter>(api => api.chaptersApi.deleteById,{id:chapter.id}).then(() => {
             modal.hideModal();
             setData(prev => prev.filter(c => c.id !== chapter.id));
         });
     };
 
-    const startChapter = (c: Chapter) => call<Chapter>(chaptersApi,chaptersApi.updateChapterByIdStart,{id:c.id}).then(() => refresh(c));
-    const endChapter = (c: Chapter) => call<Chapter>(chaptersApi,chaptersApi.updateChapterByIdEnd,{id:c.id}).then(() => refresh(c));
+    const startChapter = (c: Chapter) => call<Chapter>(api => api.chaptersApi.updateByIdStart,{id:c.id}).then(() => refresh(c));
+    const endChapter = (c: Chapter) => call<Chapter>(api => api.chaptersApi.updateByIdEnd,{id:c.id}).then(() => refresh(c));
 
     return (
         <Box sx={{ width: "100%", overflowX: "auto" }}>

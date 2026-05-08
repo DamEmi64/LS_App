@@ -44,16 +44,25 @@
         <option value="Info">Info</option>
         <option value="Debug">Debug</option>
     </select>
+    <select id="methodFilter">
+        <option value="">All</option>
+        <option value="Get">GET</option>
+        <option value="Post">POST</option>
+        <option value="Put">PUT</option>
+        <option value="Delete">DELETE</option>
+    </select>
 </div>
 
 <table id="logsTable" class="display" style="width:100%">
     <thead>
         <tr>
-            <th>Id</th>
             <th>Level</th>
+            <th>Method</th>
+            <th>Uri</th>
             <th>Time</th>
             <th>Message</th>
             <th>Exception</th>
+            <th>User</th>
         </tr>
     </thead>
 </table>
@@ -87,11 +96,13 @@
                     type: 'POST',
                     data: function (d) {
                         d.level = $('#levelFilter').val();
+                        d.method = $('#methodFilter').val();
                     }
                 },
                 columns: [
-                    { data: 'id' },
                     { data: 'level' },
+                    { data: "httpMethod" },
+                    { data: "httpUri" },
                     { data: 'timeStamp' },
                     {
                         data: 'message',
@@ -100,14 +111,15 @@
                     {
                         data: 'exception',
                         render: d => d && d.length > 80 ? d.substring(0, 80) + "..." : d
-                    }
+                    },
+                    { data: "user"}
                 ],
                 order: [[2, "desc"]],
                 pageLength: 25
             });
 
             $('#levelFilter').change(() => table.ajax.reload());
-
+            $('#methodFilter').change(() => table.ajax.reload());
             $('#logsTable tbody').on('click', 'tr', function () {
                 var data = table.row(this).data();
                 $('#logId').text(data.id);

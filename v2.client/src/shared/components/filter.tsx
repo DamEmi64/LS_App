@@ -1,129 +1,187 @@
 import React, { useState } from "react";
-import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import {
+    Box,
+    Button,
+    FormControl,
+    Grid,
+    InputLabel,
+    MenuItem,
+    Select,
+    TextField,
+    Typography
+} from "@mui/material";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { t } from "i18next";
+import dayjs, { Dayjs } from "dayjs";
+
 import { FilterProps, FilterValue } from "../types";
 
 export const Filter: React.FC<FilterProps> = ({ filters, onChange }) => {
     const [values, setValues] = useState<FilterValue[]>([]);
 
-    const handleFilterChange = (field: string, value: string | number | Date | null) => {
-        if (values.find(v => v.field === field)) {
-            values.find(v => v.field === field)!.value = value;
-        } else {
-            values.push({ field, value });
+    const getValue = (field: string) =>
+        values.find(v => v.field === field)?.value ?? null;
+
+    const handleFilterChange = (
+        field: string,
+        value: any
+    ) => {
+        const newValues = [...values];
+
+        let normalizedValue = value;
+
+        if (dayjs.isDayjs(value)) {
+            normalizedValue = value.toDate().toISOString();
+        } else if (value instanceof Date) {
+            normalizedValue = value.toISOString();
         }
-        setValues([...values]);
-        onChange(values);
+
+        const index = newValues.findIndex(v => v.field === field);
+
+        if (index >= 0) {
+            newValues[index] = { field, value: normalizedValue };
+        } else {
+            newValues.push({ field, value: normalizedValue });
+        }
+
+        setValues(newValues);
+        onChange(newValues);
     };
 
     const resetFilter = () => {
         setValues([]);
         onChange([]);
-    }
-    // Calculate width based on number of filters (max 5 per row)
-    const itemsPerRow = Math.min(filters.length, 5) + 1;
-    const itemWidth = `${100 / itemsPerRow - 1}%`;
+    };
 
     return (
-        <div
-            style={{
-                display: "flex",
-                gap: 10,
-                flexWrap: "wrap",
-                flexDirection: "row",
-                padding: 10,
-                border: "1px solid #ccc",
-                borderRadius: 5,
-                justifyContent: "flex-start"
-            }}
-        >
+        <Grid container spacing={2} p={2}>
             {filters.map((filter) => {
-                const commonStyle = { display: "flex", gap: 5, width: itemWidth, minWidth: 120, flex: `1 1 ${itemWidth}` };
                 switch (filter.type) {
+
+                    case "date":
+                        return (
+                            <Grid key={filter.field}>
+                                <DatePicker
+                                    label={t(filter.name)}
+                                    value={
+                                        getValue(filter.field)
+                                            ? dayjs(getValue(filter.field))
+                                            : null
+                                    }
+                                    onChange={(val: Dayjs | null) =>
+                                        handleFilterChange(
+                                            filter.field,
+                                            val
+                                        )
+                                    }
+                                />
+                            </Grid>
+                        );
+
+                    case "dateRange":
+                        const range = {
+                            from: getValue(filter.field + "From"),
+                            to: getValue(filter.field + "To"),
+                        };
+
+                        return (
+                            <>
+                                <DatePicker
+                                    label={t(filter.name)+' (from)'} 
+                                    value={range.from ? dayjs(range.from) : null}
+                                    onChange={(val: Dayjs | null) =>
+                                        handleFilterChange(
+                                            filter.field + "From",
+                                            val
+                                        )
+                                    }
+                                />
+
+                                <DatePicker
+                                    label={t(filter.name)+' (to)'} 
+                                    value={range.to ? dayjs(range.to) : null}
+                                    onChange={(val: Dayjs | null) =>
+                                        handleFilterChange(
+                                            filter.field + "To",
+                                            val
+                                        )
+                                    }
+                                />
+                            </>
+                        );
+
                     case "enum":
                         return (
-                            <div key={filter.field} style={commonStyle}>
+                            <Grid key={filter.field} minWidth={200}>
                                 <FormControl fullWidth>
-                                    <InputLabel id="demo-simple-select-label">{t(filter.name)}</InputLabel>
+                                    <InputLabel>{t(filter.name)}</InputLabel>
                                     <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
+                                        value={getValue(filter.field) ?? ""}
                                         label={t(filter.name)}
-                                        key={filter.field}
-                                        value={
-                                            (() => {
-                                                const val = values.find(v => v.field === filter.field)?.value;
-                                                if (val instanceof Date) return val.toISOString();
-                                                return val ?? "      ";
-                                            })()
+                                        onChange={(e) =>
+                                            handleFilterChange(
+                                                filter.field,
+                                                e.target.value
+                                            )
                                         }
-                                        onChange={(e) => handleFilterChange(filter.field, e.target.value)}
                                     >
                                         <MenuItem value="">---</MenuItem>
                                         {filter.options?.map((opt) => (
-                                            <MenuItem value={opt.value}>
+                                            <MenuItem
+                                                key={opt.value}
+                                                value={opt.value}
+                                            >
                                                 {t(opt.label)}
                                             </MenuItem>
                                         ))}
                                     </Select>
                                 </FormControl>
-                            </div>
+                            </Grid>
                         );
+
                     case "string":
                         return (
-                            <div key={filter.field} style={commonStyle}>
-                                <TextField id="standard-basic" label={t(filter.name)} variant="standard"
-                                    type="text"
-                                    value={
-                                        (() => {
-                                            const val = values.find(v => v.field === filter.field)?.value;
-                                            if (val instanceof Date) return val.toISOString();
-                                            return val ?? "";
-                                        })()
+                            <Grid key={filter.field}>
+                                <TextField
+                                    label={t(filter.name)}
+                                    value={getValue(filter.field) ?? ""}
+                                    onChange={(e) =>
+                                        handleFilterChange(
+                                            filter.field,
+                                            e.target.value
+                                        )
                                     }
-                                    onChange={(e) => handleFilterChange(filter.field, e.target.value)}
                                 />
-                            </div>
+                            </Grid>
                         );
+
                     case "number":
                         return (
-                            <div key={filter.field} style={commonStyle}>
-                                <TextField id="standard-basic" label={t(filter.name)} variant="standard"
+                            <Grid key={filter.field}>
+                                <TextField
                                     type="number"
-                                    value={
-                                        (() => {
-                                            const val = values.find(v => v.field === filter.field)?.value;
-                                            if (val instanceof Date) return val.toISOString();
-                                            return val ?? "";
-                                        })()
+                                    label={t(filter.name)}
+                                    value={getValue(filter.field) ?? ""}
+                                    onChange={(e) =>
+                                        handleFilterChange(
+                                            filter.field,
+                                            Number(e.target.value)
+                                        )
                                     }
-                                    onChange={(e) => handleFilterChange(filter.field, e.target.value)}
                                 />
-                            </div>
+                            </Grid>
                         );
-                    case "date":
-                        return (
-                            <div key={filter.field} style={{ display: "flex", gap: 5, width: itemWidth, minWidth: 120, flex: `1 1 ${itemWidth}`, flexDirection: 'column' }}>
-                                <InputLabel id="demo-simple-select-label">{t(filter.name)}</InputLabel>
-                                <TextField id="standard-basic" variant="standard"
-                                    type="datetime-local"
-                                    value={
-                                        (() => {
-                                            const val = values.find(v => v.field === filter.field)?.value;
-                                            if (val instanceof Date) return val.toISOString();
-                                            return val ?? "";
-                                        })()
-                                    }
-                                    onChange={(e) => handleFilterChange(filter.field, e.target.value)}
-                                />
 
-                            </div>
-                        );
                     default:
                         return null;
                 }
             })}
-            <Button onClick={resetFilter}>{t('filter_reset')}</Button>
-        </div>
+
+            <Grid>
+                <Button onClick={resetFilter}>
+                    {t("filter_reset")}
+                </Button>
+            </Grid>
+        </Grid>
     );
 };

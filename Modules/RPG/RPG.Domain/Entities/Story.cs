@@ -14,5 +14,6 @@ namespace RPG.Domain.Entities
         public List<Chapter> Chapters { get; set; } = new List<Chapter>();
 
         public Guid? Summary { get; set; }
+        public List<RPGFile> Files { get; set; } = new List<RPGFile>();
     }
 }

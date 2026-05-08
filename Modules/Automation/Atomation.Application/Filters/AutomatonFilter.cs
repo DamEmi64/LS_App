@@ -13,7 +13,7 @@ namespace Automation.Application.Filters
         public string? OrderBy { get; set; }
         public string? Title { get; set; }
 
-        public IEnumerable<Automat> Filter(IEnumerable<Automat> data)
+        public IEnumerable<Automat> Filter(IEnumerable<Automat> data, out int? count)
         {
             if (!string.IsNullOrEmpty(Title))
             {
@@ -24,6 +24,8 @@ namespace Automation.Application.Filters
             {
                 data = Sort(data, OrderBy, Order);
             }
+
+            count = data.Count();
 
             return data.Skip(Page * PageSize).Take(PageSize);
         }

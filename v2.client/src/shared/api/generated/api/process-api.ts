@@ -25,6 +25,8 @@ import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError
 import type { ProcessDto } from '../models';
 // @ts-ignore
 import type { ProcessDtoResponseList } from '../models';
+// @ts-ignore
+import type { ProgressStatus } from '../models';
 /**
  * ProcessApi - axios parameter creator
  */
@@ -32,86 +34,21 @@ export const ProcessApiAxiosParamCreator = function (configuration?: Configurati
     return {
         /**
          * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        createProcesByIdRestart: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('createProcesByIdRestart', 'id', id)
-            const localVarPath = `/Process/{id}/restart`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getProcesById: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('getProcesById', 'id', id)
-            const localVarPath = `/Process/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
          * @param {string} order 
          * @param {number} [page] 
          * @param {number} [pageSize] 
          * @param {string} [orderBy] 
          * @param {string} [title] 
-         * @param {string} [status] 
+         * @param {ProgressStatus} [status] 
          * @param {string} [from] 
          * @param {string} [to] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getProcesData: async (order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, status?: string, from?: string, to?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        get: async (order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, status?: ProgressStatus, from?: string, to?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'order' is not null or undefined
-            assertParamExists('getProcesData', 'order', order)
-            const localVarPath = `/Process/data`;
+            assertParamExists('get', 'order', order)
+            const localVarPath = `/api/Process`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -170,6 +107,39 @@ export const ProcessApiAxiosParamCreator = function (configuration?: Configurati
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getById: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getById', 'id', id)
+            const localVarPath = `/api/Process/{id}`
+                .replace('{id}', encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -181,45 +151,33 @@ export const ProcessApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async createProcesByIdRestart(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createProcesByIdRestart(id, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['ProcessApi.createProcesByIdRestart']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getProcesById(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProcessDto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getProcesById(id, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['ProcessApi.getProcesById']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
          * @param {string} order 
          * @param {number} [page] 
          * @param {number} [pageSize] 
          * @param {string} [orderBy] 
          * @param {string} [title] 
-         * @param {string} [status] 
+         * @param {ProgressStatus} [status] 
          * @param {string} [from] 
          * @param {string} [to] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getProcesData(order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, status?: string, from?: string, to?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProcessDtoResponseList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getProcesData(order, page, pageSize, orderBy, title, status, from, to, options);
+        async get(order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, status?: ProgressStatus, from?: string, to?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProcessDtoResponseList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.get(order, page, pageSize, orderBy, title, status, from, to, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['ProcessApi.getProcesData']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['ProcessApi.get']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getById(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProcessDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getById(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProcessApi.getById']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -233,52 +191,29 @@ export const ProcessApiFactory = function (configuration?: Configuration, basePa
     return {
         /**
          * 
-         * @param {ProcessApiCreateProcesByIdRestartRequest} requestParameters Request parameters.
+         * @param {ProcessApiGetRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createProcesByIdRestart(requestParameters: ProcessApiCreateProcesByIdRestartRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.createProcesByIdRestart(requestParameters.id, options).then((request) => request(axios, basePath));
+        get(requestParameters: ProcessApiGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<ProcessDtoResponseList> {
+            return localVarFp.get(requestParameters.order, requestParameters.page, requestParameters.pageSize, requestParameters.orderBy, requestParameters.title, requestParameters.status, requestParameters.from, requestParameters.to, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {ProcessApiGetProcesByIdRequest} requestParameters Request parameters.
+         * @param {ProcessApiGetByIdRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getProcesById(requestParameters: ProcessApiGetProcesByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<ProcessDto> {
-            return localVarFp.getProcesById(requestParameters.id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @param {ProcessApiGetProcesDataRequest} requestParameters Request parameters.
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getProcesData(requestParameters: ProcessApiGetProcesDataRequest, options?: RawAxiosRequestConfig): AxiosPromise<ProcessDtoResponseList> {
-            return localVarFp.getProcesData(requestParameters.order, requestParameters.page, requestParameters.pageSize, requestParameters.orderBy, requestParameters.title, requestParameters.status, requestParameters.from, requestParameters.to, options).then((request) => request(axios, basePath));
+        getById(requestParameters: ProcessApiGetByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<ProcessDto> {
+            return localVarFp.getById(requestParameters.id, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * Request parameters for createProcesByIdRestart operation in ProcessApi.
+ * Request parameters for get operation in ProcessApi.
  */
-export interface ProcessApiCreateProcesByIdRestartRequest {
-    readonly id: string
-}
-
-/**
- * Request parameters for getProcesById operation in ProcessApi.
- */
-export interface ProcessApiGetProcesByIdRequest {
-    readonly id: string
-}
-
-/**
- * Request parameters for getProcesData operation in ProcessApi.
- */
-export interface ProcessApiGetProcesDataRequest {
+export interface ProcessApiGetRequest {
     readonly order: string
 
     readonly page?: number
@@ -289,11 +224,18 @@ export interface ProcessApiGetProcesDataRequest {
 
     readonly title?: string
 
-    readonly status?: string
+    readonly status?: ProgressStatus
 
     readonly from?: string
 
     readonly to?: string
+}
+
+/**
+ * Request parameters for getById operation in ProcessApi.
+ */
+export interface ProcessApiGetByIdRequest {
+    readonly id: string
 }
 
 /**
@@ -302,32 +244,22 @@ export interface ProcessApiGetProcesDataRequest {
 export class ProcessApi extends BaseAPI {
     /**
      * 
-     * @param {ProcessApiCreateProcesByIdRestartRequest} requestParameters Request parameters.
+     * @param {ProcessApiGetRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public createProcesByIdRestart(requestParameters: ProcessApiCreateProcesByIdRestartRequest, options?: RawAxiosRequestConfig) {
-        return ProcessApiFp(this.configuration).createProcesByIdRestart(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public get(requestParameters: ProcessApiGetRequest, options?: RawAxiosRequestConfig) {
+        return ProcessApiFp(this.configuration).get(requestParameters.order, requestParameters.page, requestParameters.pageSize, requestParameters.orderBy, requestParameters.title, requestParameters.status, requestParameters.from, requestParameters.to, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {ProcessApiGetProcesByIdRequest} requestParameters Request parameters.
+     * @param {ProcessApiGetByIdRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public getProcesById(requestParameters: ProcessApiGetProcesByIdRequest, options?: RawAxiosRequestConfig) {
-        return ProcessApiFp(this.configuration).getProcesById(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
-    }
-
-    /**
-     * 
-     * @param {ProcessApiGetProcesDataRequest} requestParameters Request parameters.
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    public getProcesData(requestParameters: ProcessApiGetProcesDataRequest, options?: RawAxiosRequestConfig) {
-        return ProcessApiFp(this.configuration).getProcesData(requestParameters.order, requestParameters.page, requestParameters.pageSize, requestParameters.orderBy, requestParameters.title, requestParameters.status, requestParameters.from, requestParameters.to, options).then((request) => request(this.axios, this.basePath));
+    public getById(requestParameters: ProcessApiGetByIdRequest, options?: RawAxiosRequestConfig) {
+        return ProcessApiFp(this.configuration).getById(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

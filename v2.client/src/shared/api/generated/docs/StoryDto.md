@@ -12,6 +12,7 @@ Name | Type | Description | Notes
 **endDate** | **string** |  | [optional] [default to undefined]
 **chapters** | [**Array&lt;ChapterDto&gt;**](ChapterDto.md) |  | [optional] [default to undefined]
 **summary** | **string** |  | [optional] [default to undefined]
+**files** | [**Array&lt;RpgFileDto&gt;**](RpgFileDto.md) |  | [optional] [default to undefined]
 
 ## Example
 
@@ -26,6 +27,7 @@ const instance: StoryDto = {
     endDate,
     chapters,
     summary,
+    files,
 };
 ```
 

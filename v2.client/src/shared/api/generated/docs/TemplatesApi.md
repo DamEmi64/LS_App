@@ -4,16 +4,16 @@ All URIs are relative to *http://localhost*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**createTemplate**](#createtemplate) | **POST** /Templates | |
-|[**deleteTemplateById**](#deletetemplatebyid) | **DELETE** /Templates/{id} | |
-|[**getTemplate**](#gettemplate) | **GET** /Templates | |
-|[**getTemplateById**](#gettemplatebyid) | **GET** /Templates/{id} | |
-|[**getTemplateRule**](#gettemplaterule) | **GET** /Templates/rules | |
-|[**updateTemplateById**](#updatetemplatebyid) | **PUT** /Templates/{id} | |
-|[**updateTemplateByIdGenerate**](#updatetemplatebyidgenerate) | **PUT** /Templates/{id}/generate | |
+|[**create**](#create) | **POST** /api/Templates | |
+|[**deleteById**](#deletebyid) | **DELETE** /api/Templates/{id} | |
+|[**get**](#get) | **GET** /api/Templates | |
+|[**getById**](#getbyid) | **GET** /api/Templates/{id} | |
+|[**getRules**](#getrules) | **GET** /api/Templates/rules | |
+|[**updateById**](#updatebyid) | **PUT** /api/Templates/{id} | |
+|[**updateByIdGenerate**](#updatebyidgenerate) | **PUT** /api/Templates/{id}/generate | |
 
-# **createTemplate**
-> createTemplate()
+# **create**
+> create()
 
 
 ### Example
@@ -28,10 +28,10 @@ import {
 const configuration = new Configuration();
 const apiInstance = new TemplatesApi(configuration);
 
-let body: Template; // (optional)
+let template: Template; // (optional)
 
-const { status, data } = await apiInstance.createTemplate(
-    body
+const { status, data } = await apiInstance.create(
+    template
 );
 ```
 
@@ -39,7 +39,7 @@ const { status, data } = await apiInstance.createTemplate(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **Template**|  | |
+| **template** | **Template**|  | |
 
 
 ### Return type
@@ -63,8 +63,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **deleteTemplateById**
-> deleteTemplateById()
+# **deleteById**
+> deleteById()
 
 
 ### Example
@@ -80,7 +80,7 @@ const apiInstance = new TemplatesApi(configuration);
 
 let id: string; // (default to undefined)
 
-const { status, data } = await apiInstance.deleteTemplateById(
+const { status, data } = await apiInstance.deleteById(
     id
 );
 ```
@@ -113,8 +113,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getTemplate**
-> TemplateResponseList getTemplate()
+# **get**
+> TemplateResponseList get()
 
 
 ### Example
@@ -129,9 +129,13 @@ const configuration = new Configuration();
 const apiInstance = new TemplatesApi(configuration);
 
 let title: string; // (optional) (default to undefined)
+let pageSize: number; // (optional) (default to undefined)
+let page: number; // (optional) (default to undefined)
 
-const { status, data } = await apiInstance.getTemplate(
-    title
+const { status, data } = await apiInstance.get(
+    title,
+    pageSize,
+    page
 );
 ```
 
@@ -140,6 +144,8 @@ const { status, data } = await apiInstance.getTemplate(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **title** | [**string**] |  | (optional) defaults to undefined|
+| **pageSize** | [**number**] |  | (optional) defaults to undefined|
+| **page** | [**number**] |  | (optional) defaults to undefined|
 
 
 ### Return type
@@ -163,8 +169,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getTemplateById**
-> Template getTemplateById()
+# **getById**
+> Template getById()
 
 
 ### Example
@@ -180,7 +186,7 @@ const apiInstance = new TemplatesApi(configuration);
 
 let id: string; // (default to undefined)
 
-const { status, data } = await apiInstance.getTemplateById(
+const { status, data } = await apiInstance.getById(
     id
 );
 ```
@@ -213,8 +219,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getTemplateRule**
-> RulesDto getTemplateRule()
+# **getRules**
+> RulesDto getRules()
 
 
 ### Example
@@ -229,9 +235,13 @@ const configuration = new Configuration();
 const apiInstance = new TemplatesApi(configuration);
 
 let title: string; // (optional) (default to undefined)
+let pageSize: number; // (optional) (default to undefined)
+let page: number; // (optional) (default to undefined)
 
-const { status, data } = await apiInstance.getTemplateRule(
-    title
+const { status, data } = await apiInstance.getRules(
+    title,
+    pageSize,
+    page
 );
 ```
 
@@ -240,6 +250,8 @@ const { status, data } = await apiInstance.getTemplateRule(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **title** | [**string**] |  | (optional) defaults to undefined|
+| **pageSize** | [**number**] |  | (optional) defaults to undefined|
+| **page** | [**number**] |  | (optional) defaults to undefined|
 
 
 ### Return type
@@ -263,8 +275,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateTemplateById**
-> updateTemplateById()
+# **updateById**
+> updateById()
 
 
 ### Example
@@ -280,11 +292,11 @@ const configuration = new Configuration();
 const apiInstance = new TemplatesApi(configuration);
 
 let id: string; // (default to undefined)
-let body: Template; // (optional)
+let template: Template; // (optional)
 
-const { status, data } = await apiInstance.updateTemplateById(
+const { status, data } = await apiInstance.updateById(
     id,
-    body
+    template
 );
 ```
 
@@ -292,7 +304,7 @@ const { status, data } = await apiInstance.updateTemplateById(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **Template**|  | |
+| **template** | **Template**|  | |
 | **id** | [**string**] |  | defaults to undefined|
 
 
@@ -317,8 +329,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateTemplateByIdGenerate**
-> updateTemplateByIdGenerate()
+# **updateByIdGenerate**
+> updateByIdGenerate()
 
 
 ### Example
@@ -334,11 +346,11 @@ const configuration = new Configuration();
 const apiInstance = new TemplatesApi(configuration);
 
 let id: string; // (default to undefined)
-let body: EmailGenerationDto; // (optional)
+let emailGenerationDto: EmailGenerationDto; // (optional)
 
-const { status, data } = await apiInstance.updateTemplateByIdGenerate(
+const { status, data } = await apiInstance.updateByIdGenerate(
     id,
-    body
+    emailGenerationDto
 );
 ```
 
@@ -346,7 +358,7 @@ const { status, data } = await apiInstance.updateTemplateByIdGenerate(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **EmailGenerationDto**|  | |
+| **emailGenerationDto** | **EmailGenerationDto**|  | |
 | **id** | [**string**] |  | defaults to undefined|
 
 

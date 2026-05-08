@@ -17,12 +17,12 @@ namespace System.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.5")
+                .HasAnnotation("ProductVersion", "10.0.6")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Base.Entities.DictionaryItem", b =>
+            modelBuilder.Entity("Base.DictionaryItem", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -44,7 +44,7 @@ namespace System.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Dictionaries");
+                    b.ToTable("Dictionaries", (string)null);
                 });
 
             modelBuilder.Entity("Base.Media", b =>
@@ -63,22 +63,22 @@ namespace System.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("InsDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetimeoffset");
-
                     b.Property<string>("InsBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("UpdDate")
+                    b.Property<DateTimeOffset>("InsDate")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("UpdBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTimeOffset>("UpdDate")
+                        .HasColumnType("datetimeoffset");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Media");
+                    b.ToTable("Media", (string)null);
                 });
 
             modelBuilder.Entity("Base.UserData", b =>
@@ -109,7 +109,7 @@ namespace System.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserData");
+                    b.ToTable("UserData", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -254,15 +254,15 @@ namespace System.Infrastructure.Migrations
                     b.Property<DateTimeOffset?>("EndDate")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<string>("InsBy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTimeOffset>("InsDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("InsBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("JobData")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<Guid?>("JobDataId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("JobId")
                         .HasColumnType("nvarchar(max)");
@@ -289,19 +289,49 @@ namespace System.Infrastructure.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<DateTimeOffset>("UpdDate")
-                        .HasColumnType("datetimeoffset");
-
                     b.Property<string>("UpdBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTimeOffset>("UpdDate")
+                        .HasColumnType("datetimeoffset");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("JobDataId");
 
                     b.HasIndex("ParentId");
 
                     b.HasIndex("ProcessId");
 
-                    b.ToTable("Jobs");
+                    b.ToTable("Jobs", (string)null);
+                });
+
+            modelBuilder.Entity("System.Domain.Entities.JobData", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("InsBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("InsDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("JsonData")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpdBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("UpdDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("JobData", (string)null);
                 });
 
             modelBuilder.Entity("System.Domain.Entities.Log", b =>
@@ -343,18 +373,15 @@ namespace System.Infrastructure.Migrations
                     b.Property<DateTimeOffset?>("EndDate")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<string>("InsBy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTimeOffset>("InsDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("InsBy")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<double>("Percentage")
                         .HasColumnType("float");
-
-                    b.Property<string>("Schema")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset?>("StartDate")
                         .HasColumnType("datetimeoffset");
@@ -369,11 +396,11 @@ namespace System.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("UpdDate")
-                        .HasColumnType("datetimeoffset");
-
                     b.Property<string>("UpdBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("UpdDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<int?>("UserId")
                         .HasColumnType("int");
@@ -382,7 +409,7 @@ namespace System.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Processes");
+                    b.ToTable("Processes", (string)null);
                 });
 
             modelBuilder.Entity("System.Domain.Entities.ProcessError", b =>
@@ -391,12 +418,12 @@ namespace System.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("InsBy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTimeOffset>("InsDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("InsBy")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("JobId")
                         .IsRequired()
@@ -409,17 +436,17 @@ namespace System.Infrastructure.Migrations
                     b.Property<Guid?>("ProcessId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset>("UpdDate")
-                        .HasColumnType("datetimeoffset");
-
                     b.Property<string>("UpdBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("UpdDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProcessId");
 
-                    b.ToTable("ProcessErrors");
+                    b.ToTable("ProcessErrors", (string)null);
                 });
 
             modelBuilder.Entity("System.Domain.Entities.ProcessMilestone", b =>
@@ -431,12 +458,12 @@ namespace System.Infrastructure.Migrations
                     b.Property<bool>("Completed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("InsBy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTimeOffset>("InsDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("InsBy")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("JobId")
                         .HasColumnType("uniqueidentifier");
@@ -444,11 +471,11 @@ namespace System.Infrastructure.Migrations
                     b.Property<Guid>("ProcessId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTimeOffset>("UpdDate")
-                        .HasColumnType("datetimeoffset");
-
                     b.Property<string>("UpdBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("UpdDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.PrimitiveCollection<string>("VerifyJobIds")
                         .IsRequired()
@@ -456,7 +483,7 @@ namespace System.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Milestones");
+                    b.ToTable("Milestones", (string)null);
                 });
 
             modelBuilder.Entity("System.Domain.Entities.User", b =>
@@ -586,6 +613,10 @@ namespace System.Infrastructure.Migrations
 
             modelBuilder.Entity("System.Domain.Entities.Job", b =>
                 {
+                    b.HasOne("System.Domain.Entities.JobData", "JobData")
+                        .WithMany()
+                        .HasForeignKey("JobDataId");
+
                     b.HasOne("System.Domain.Entities.Job", "Parent")
                         .WithMany("Children")
                         .HasForeignKey("ParentId")
@@ -596,6 +627,8 @@ namespace System.Infrastructure.Migrations
                         .HasForeignKey("ProcessId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("JobData");
 
                     b.Navigation("Parent");
 

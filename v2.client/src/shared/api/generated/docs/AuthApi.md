@@ -4,17 +4,17 @@ All URIs are relative to *http://localhost*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**createAuthDelete**](#createauthdelete) | **POST** /Auth/delete | |
-|[**createAuthLogin**](#createauthlogin) | **POST** /Auth/login | |
-|[**createAuthLogout**](#createauthlogout) | **POST** /Auth/logout | |
-|[**createAuthRegister**](#createauthregister) | **POST** /Auth/register | |
-|[**getAuthData**](#getauthdata) | **GET** /Auth/data | |
-|[**getAuthMe**](#getauthme) | **GET** /Auth/me | |
-|[**updateAuth**](#updateauth) | **PUT** /Auth | |
-|[**updateAuthChangePassword**](#updateauthchangepassword) | **PUT** /Auth/changePassword | |
+|[**createDelete**](#createdelete) | **POST** /api/Auth/delete | |
+|[**createLogin**](#createlogin) | **POST** /api/Auth/login | |
+|[**createLogout**](#createlogout) | **POST** /api/Auth/logout | |
+|[**createRegister**](#createregister) | **POST** /api/Auth/register | |
+|[**getMe**](#getme) | **GET** /api/Auth/me | |
+|[**getUser**](#getuser) | **GET** /api/Auth/user | |
+|[**update**](#update) | **PUT** /api/Auth | |
+|[**updateChangePassword**](#updatechangepassword) | **PUT** /api/Auth/changePassword | |
 
-# **createAuthDelete**
-> createAuthDelete()
+# **createDelete**
+> createDelete()
 
 
 ### Example
@@ -28,7 +28,7 @@ import {
 const configuration = new Configuration();
 const apiInstance = new AuthApi(configuration);
 
-const { status, data } = await apiInstance.createAuthDelete();
+const { status, data } = await apiInstance.createDelete();
 ```
 
 ### Parameters
@@ -56,8 +56,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **createAuthLogin**
-> createAuthLogin()
+# **createLogin**
+> createLogin()
 
 
 ### Example
@@ -72,10 +72,10 @@ import {
 const configuration = new Configuration();
 const apiInstance = new AuthApi(configuration);
 
-let body: LoginModel; // (optional)
+let loginModel: LoginModel; // (optional)
 
-const { status, data } = await apiInstance.createAuthLogin(
-    body
+const { status, data } = await apiInstance.createLogin(
+    loginModel
 );
 ```
 
@@ -83,7 +83,7 @@ const { status, data } = await apiInstance.createAuthLogin(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **LoginModel**|  | |
+| **loginModel** | **LoginModel**|  | |
 
 
 ### Return type
@@ -107,8 +107,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **createAuthLogout**
-> createAuthLogout()
+# **createLogout**
+> createLogout()
 
 
 ### Example
@@ -122,7 +122,7 @@ import {
 const configuration = new Configuration();
 const apiInstance = new AuthApi(configuration);
 
-const { status, data } = await apiInstance.createAuthLogout();
+const { status, data } = await apiInstance.createLogout();
 ```
 
 ### Parameters
@@ -150,8 +150,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **createAuthRegister**
-> createAuthRegister()
+# **createRegister**
+> createRegister()
 
 
 ### Example
@@ -166,10 +166,10 @@ import {
 const configuration = new Configuration();
 const apiInstance = new AuthApi(configuration);
 
-let body: RegisterModel; // (optional)
+let registerModel: RegisterModel; // (optional)
 
-const { status, data } = await apiInstance.createAuthRegister(
-    body
+const { status, data } = await apiInstance.createRegister(
+    registerModel
 );
 ```
 
@@ -177,7 +177,7 @@ const { status, data } = await apiInstance.createAuthRegister(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **RegisterModel**|  | |
+| **registerModel** | **RegisterModel**|  | |
 
 
 ### Return type
@@ -201,8 +201,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getAuthData**
-> User getAuthData()
+# **getMe**
+> UserData getMe()
 
 
 ### Example
@@ -216,50 +216,7 @@ import {
 const configuration = new Configuration();
 const apiInstance = new AuthApi(configuration);
 
-const { status, data } = await apiInstance.getAuthData();
-```
-
-### Parameters
-This endpoint does not have any parameters.
-
-
-### Return type
-
-**User**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: text/plain, application/json, text/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **getAuthMe**
-> UserData getAuthMe()
-
-
-### Example
-
-```typescript
-import {
-    AuthApi,
-    Configuration
-} from './api';
-
-const configuration = new Configuration();
-const apiInstance = new AuthApi(configuration);
-
-const { status, data } = await apiInstance.getAuthMe();
+const { status, data } = await apiInstance.getMe();
 ```
 
 ### Parameters
@@ -287,8 +244,51 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateAuth**
-> updateAuth()
+# **getUser**
+> User getUser()
+
+
+### Example
+
+```typescript
+import {
+    AuthApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new AuthApi(configuration);
+
+const { status, data } = await apiInstance.getUser();
+```
+
+### Parameters
+This endpoint does not have any parameters.
+
+
+### Return type
+
+**User**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain, application/json, text/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **update**
+> update()
 
 
 ### Example
@@ -303,10 +303,10 @@ import {
 const configuration = new Configuration();
 const apiInstance = new AuthApi(configuration);
 
-let body: User; // (optional)
+let user: User; // (optional)
 
-const { status, data } = await apiInstance.updateAuth(
-    body
+const { status, data } = await apiInstance.update(
+    user
 );
 ```
 
@@ -314,7 +314,7 @@ const { status, data } = await apiInstance.updateAuth(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **User**|  | |
+| **user** | **User**|  | |
 
 
 ### Return type
@@ -338,8 +338,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateAuthChangePassword**
-> updateAuthChangePassword()
+# **updateChangePassword**
+> updateChangePassword()
 
 
 ### Example
@@ -347,20 +347,17 @@ No authorization required
 ```typescript
 import {
     AuthApi,
-    Configuration
+    Configuration,
+    ResetPasswordModel
 } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new AuthApi(configuration);
 
-let oldPassword: string; // (default to undefined)
-let newPassword: string; // (default to undefined)
-let userId: string; // (optional) (default to undefined)
+let resetPasswordModel: ResetPasswordModel; // (optional)
 
-const { status, data } = await apiInstance.updateAuthChangePassword(
-    oldPassword,
-    newPassword,
-    userId
+const { status, data } = await apiInstance.updateChangePassword(
+    resetPasswordModel
 );
 ```
 
@@ -368,9 +365,7 @@ const { status, data } = await apiInstance.updateAuthChangePassword(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **oldPassword** | [**string**] |  | defaults to undefined|
-| **newPassword** | [**string**] |  | defaults to undefined|
-| **userId** | [**string**] |  | (optional) defaults to undefined|
+| **resetPasswordModel** | **ResetPasswordModel**|  | |
 
 
 ### Return type
@@ -383,7 +378,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json-patch+json, application/json, text/json, application/*+json
  - **Accept**: Not defined
 
 

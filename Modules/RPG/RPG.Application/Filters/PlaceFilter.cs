@@ -13,7 +13,7 @@ namespace RPG.Application.Filters
         public string? OrderBy { get; set; }
         public string? Title { get; set; }
 
-        public IEnumerable<Place> Filter(IEnumerable<Place> data)
+        public IEnumerable<Place> Filter(IEnumerable<Place> data, out int? count)
         {
             if (!string.IsNullOrEmpty(Title))
             {
@@ -24,6 +24,8 @@ namespace RPG.Application.Filters
             {
                 data = Sort(data, OrderBy, Order);
             }
+
+            count = data.Count();
 
             return data.Skip(Page * PageSize).Take(PageSize);
         }

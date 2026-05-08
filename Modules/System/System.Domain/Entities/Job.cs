@@ -14,6 +14,6 @@ namespace System.Domain.Entities
         public Process Process { get; set; } = default!;
         public Job? Parent { get; set; }
         public List<Job> Children { get; set; } = new List<Job>();
-        public string? JobData { get; set; }
+        public JobData? JobData { get; set; }
     }
 }

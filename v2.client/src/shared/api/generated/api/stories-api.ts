@@ -36,12 +36,12 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
     return {
         /**
          * 
-         * @param {StoryDto} [body] 
+         * @param {StoryDto} [storyDto] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createStorie: async (body?: StoryDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/Stories`;
+        create: async (storyDto?: StoryDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/Stories`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -58,7 +58,7 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(storyDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -67,16 +67,61 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @param {string} file 
+         * @param {string} id 
+         * @param {File} file 
+         * @param {string} [fileId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createByIdFiles: async (id: string, file: File, fileId?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('createByIdFiles', 'id', id)
+            // verify required parameter 'file' is not null or undefined
+            assertParamExists('createByIdFiles', 'file', file)
+            const localVarPath = `/api/Stories/{id}/files`
+                .replace('{id}', encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
+
+
+            if (fileId !== undefined) { 
+                localVarFormParams.append('FileId', fileId as any);
+            }
+
+            if (file !== undefined) { 
+                localVarFormParams.append('File', file as any);
+            }
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = localVarFormParams;
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {File} [file] 
          * @param {number} [converterType] 
          * @param {string} [externalUrl] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createStorieImport: async (file: string, converterType?: number, externalUrl?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'file' is not null or undefined
-            assertParamExists('createStorieImport', 'file', file)
-            const localVarPath = `/Stories/import`;
+        createImport: async (file?: File, converterType?: number, externalUrl?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/Stories/import`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -119,11 +164,47 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteStorieById: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deleteById: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('deleteStorieById', 'id', id)
-            const localVarPath = `/Stories/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            assertParamExists('deleteById', 'id', id)
+            const localVarPath = `/api/Stories/{id}`
+                .replace('{id}', encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {string} fileId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteByIdFilesByFileId: async (id: string, fileId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deleteByIdFilesByFileId', 'id', id)
+            // verify required parameter 'fileId' is not null or undefined
+            assertParamExists('deleteByIdFilesByFileId', 'fileId', fileId)
+            const localVarPath = `/api/Stories/{id}/files/{fileId}`
+                .replace('{id}', encodeURIComponent(String(id)))
+                .replace('{fileId}', encodeURIComponent(String(fileId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -159,10 +240,10 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getStorie: async (order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, startFrom?: string, startTo?: string, endFrom?: string, endTo?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        get: async (order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, startFrom?: string, startTo?: string, endFrom?: string, endTo?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'order' is not null or undefined
-            assertParamExists('getStorie', 'order', order)
-            const localVarPath = `/Stories`;
+            assertParamExists('get', 'order', order)
+            const localVarPath = `/api/Stories`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -195,25 +276,25 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
             }
 
             if (startFrom !== undefined) {
-                localVarQueryParameter['StartFrom'] = (startFrom as any instanceof Date) ?
+                localVarQueryParameter['Start.From'] = (startFrom as any instanceof Date) ?
                     (startFrom as any).toISOString() :
                     startFrom;
             }
 
             if (startTo !== undefined) {
-                localVarQueryParameter['StartTo'] = (startTo as any instanceof Date) ?
+                localVarQueryParameter['Start.To'] = (startTo as any instanceof Date) ?
                     (startTo as any).toISOString() :
                     startTo;
             }
 
             if (endFrom !== undefined) {
-                localVarQueryParameter['EndFrom'] = (endFrom as any instanceof Date) ?
+                localVarQueryParameter['End.From'] = (endFrom as any instanceof Date) ?
                     (endFrom as any).toISOString() :
                     endFrom;
             }
 
             if (endTo !== undefined) {
-                localVarQueryParameter['EndTo'] = (endTo as any instanceof Date) ?
+                localVarQueryParameter['End.To'] = (endTo as any instanceof Date) ?
                     (endTo as any).toISOString() :
                     endTo;
             }
@@ -235,11 +316,11 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getStorieById: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getById: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('getStorieById', 'id', id)
-            const localVarPath = `/Stories/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            assertParamExists('getById', 'id', id)
+            const localVarPath = `/api/Stories/{id}`
+                .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -268,11 +349,11 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getStorieByIdDraft: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getByIdDraft: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('getStorieByIdDraft', 'id', id)
-            const localVarPath = `/Stories/{id}/draft`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            assertParamExists('getByIdDraft', 'id', id)
+            const localVarPath = `/api/Stories/{id}/draft`
+                .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -301,44 +382,11 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getStorieByIdExport: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getByIdExport: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('getStorieByIdExport', 'id', id)
-            const localVarPath = `/Stories/{id}/export`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        getStorieByIdSummary: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('getStorieByIdSummary', 'id', id)
-            const localVarPath = `/Stories/{id}/summary`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            assertParamExists('getByIdExport', 'id', id)
+            const localVarPath = `/api/Stories/{id}/export`
+                .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -375,10 +423,10 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getStorieDraft: async (order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, startFrom?: string, startTo?: string, endFrom?: string, endTo?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getDraft: async (order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, startFrom?: string, startTo?: string, endFrom?: string, endTo?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'order' is not null or undefined
-            assertParamExists('getStorieDraft', 'order', order)
-            const localVarPath = `/Stories/draft`;
+            assertParamExists('getDraft', 'order', order)
+            const localVarPath = `/api/Stories/draft`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -411,25 +459,25 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
             }
 
             if (startFrom !== undefined) {
-                localVarQueryParameter['StartFrom'] = (startFrom as any instanceof Date) ?
+                localVarQueryParameter['Start.From'] = (startFrom as any instanceof Date) ?
                     (startFrom as any).toISOString() :
                     startFrom;
             }
 
             if (startTo !== undefined) {
-                localVarQueryParameter['StartTo'] = (startTo as any instanceof Date) ?
+                localVarQueryParameter['Start.To'] = (startTo as any instanceof Date) ?
                     (startTo as any).toISOString() :
                     startTo;
             }
 
             if (endFrom !== undefined) {
-                localVarQueryParameter['EndFrom'] = (endFrom as any instanceof Date) ?
+                localVarQueryParameter['End.From'] = (endFrom as any instanceof Date) ?
                     (endFrom as any).toISOString() :
                     endFrom;
             }
 
             if (endTo !== undefined) {
-                localVarQueryParameter['EndTo'] = (endTo as any instanceof Date) ?
+                localVarQueryParameter['End.To'] = (endTo as any instanceof Date) ?
                     (endTo as any).toISOString() :
                     endTo;
             }
@@ -448,15 +496,15 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * 
          * @param {string} id 
-         * @param {StoryDto} [body] 
+         * @param {StoryDto} [storyDto] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateStorieById: async (id: string, body?: StoryDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateById: async (id: string, storyDto?: StoryDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('updateStorieById', 'id', id)
-            const localVarPath = `/Stories/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            assertParamExists('updateById', 'id', id)
+            const localVarPath = `/api/Stories/{id}`
+                .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -473,7 +521,7 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(storyDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -486,11 +534,11 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateStorieByIdEnd: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateByIdEnd: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('updateStorieByIdEnd', 'id', id)
-            const localVarPath = `/Stories/{id}/end`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            assertParamExists('updateByIdEnd', 'id', id)
+            const localVarPath = `/api/Stories/{id}/end`
+                .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -515,82 +563,15 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * 
          * @param {string} id 
-         * @param {SummaryModel} [body] 
+         * @param {SummaryModel} [summaryModel] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateStorieByIdFirebase: async (id: string, body?: SummaryModel, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateByIdFirebase: async (id: string, summaryModel?: SummaryModel, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('updateStorieByIdFirebase', 'id', id)
-            const localVarPath = `/Stories/{id}/firebase`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        updateStorieByIdStart: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('updateStorieByIdStart', 'id', id)
-            const localVarPath = `/Stories/{id}/start`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-
-            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-
-            setSearchParams(localVarUrlObj, localVarQueryParameter);
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: toPathString(localVarUrlObj),
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {SummaryModel} [body] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        updateStorieByIdSummary: async (id: string, body?: SummaryModel, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            assertParamExists('updateStorieByIdSummary', 'id', id)
-            const localVarPath = `/Stories/{id}/summary`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            assertParamExists('updateByIdFirebase', 'id', id)
+            const localVarPath = `/api/Stories/{id}/firebase`
+                .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -607,7 +588,74 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(summaryModel, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateByIdStart: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('updateByIdStart', 'id', id)
+            const localVarPath = `/api/Stories/{id}/start`
+                .replace('{id}', encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {SummaryModel} [summaryModel] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateByIdSummary: async (id: string, summaryModel?: SummaryModel, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('updateByIdSummary', 'id', id)
+            const localVarPath = `/api/Stories/{id}/summary`
+                .replace('{id}', encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(summaryModel, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -625,28 +673,42 @@ export const StoriesApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {StoryDto} [body] 
+         * @param {StoryDto} [storyDto] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createStorie(body?: StoryDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createStorie(body, options);
+        async create(storyDto?: StoryDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.create(storyDto, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['StoriesApi.createStorie']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['StoriesApi.create']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
-         * @param {string} file 
+         * @param {string} id 
+         * @param {File} file 
+         * @param {string} [fileId] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createByIdFiles(id: string, file: File, fileId?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createByIdFiles(id, file, fileId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['StoriesApi.createByIdFiles']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {File} [file] 
          * @param {number} [converterType] 
          * @param {string} [externalUrl] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createStorieImport(file: string, converterType?: number, externalUrl?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createStorieImport(file, converterType, externalUrl, options);
+        async createImport(file?: File, converterType?: number, externalUrl?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createImport(file, converterType, externalUrl, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['StoriesApi.createStorieImport']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['StoriesApi.createImport']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -655,10 +717,23 @@ export const StoriesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deleteStorieById(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteStorieById(id, options);
+        async deleteById(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteById(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['StoriesApi.deleteStorieById']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['StoriesApi.deleteById']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {string} fileId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteByIdFilesByFileId(id: string, fileId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteByIdFilesByFileId(id, fileId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['StoriesApi.deleteByIdFilesByFileId']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -675,10 +750,10 @@ export const StoriesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getStorie(order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, startFrom?: string, startTo?: string, endFrom?: string, endTo?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StoryResponseList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getStorie(order, page, pageSize, orderBy, title, startFrom, startTo, endFrom, endTo, options);
+        async get(order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, startFrom?: string, startTo?: string, endFrom?: string, endTo?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StoryResponseList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.get(order, page, pageSize, orderBy, title, startFrom, startTo, endFrom, endTo, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['StoriesApi.getStorie']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['StoriesApi.get']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -687,10 +762,10 @@ export const StoriesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getStorieById(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Story>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getStorieById(id, options);
+        async getById(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Story>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getById(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['StoriesApi.getStorieById']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['StoriesApi.getById']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -699,10 +774,10 @@ export const StoriesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getStorieByIdDraft(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Story>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getStorieByIdDraft(id, options);
+        async getByIdDraft(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Story>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getByIdDraft(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['StoriesApi.getStorieByIdDraft']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['StoriesApi.getByIdDraft']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -711,22 +786,10 @@ export const StoriesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getStorieByIdExport(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<File>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getStorieByIdExport(id, options);
+        async getByIdExport(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<File>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getByIdExport(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['StoriesApi.getStorieByIdExport']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getStorieByIdSummary(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<File>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getStorieByIdSummary(id, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['StoriesApi.getStorieByIdSummary']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['StoriesApi.getByIdExport']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -743,48 +806,23 @@ export const StoriesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getStorieDraft(order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, startFrom?: string, startTo?: string, endFrom?: string, endTo?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StoryResponseList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getStorieDraft(order, page, pageSize, orderBy, title, startFrom, startTo, endFrom, endTo, options);
+        async getDraft(order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, startFrom?: string, startTo?: string, endFrom?: string, endTo?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StoryResponseList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getDraft(order, page, pageSize, orderBy, title, startFrom, startTo, endFrom, endTo, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['StoriesApi.getStorieDraft']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['StoriesApi.getDraft']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
          * @param {string} id 
-         * @param {StoryDto} [body] 
+         * @param {StoryDto} [storyDto] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateStorieById(id: string, body?: StoryDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateStorieById(id, body, options);
+        async updateById(id: string, storyDto?: StoryDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateById(id, storyDto, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['StoriesApi.updateStorieById']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async updateStorieByIdEnd(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateStorieByIdEnd(id, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['StoriesApi.updateStorieByIdEnd']?.[localVarOperationServerIndex]?.url;
-            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
-        },
-        /**
-         * 
-         * @param {string} id 
-         * @param {SummaryModel} [body] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async updateStorieByIdFirebase(id: string, body?: SummaryModel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateStorieByIdFirebase(id, body, options);
-            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['StoriesApi.updateStorieByIdFirebase']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['StoriesApi.updateById']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -793,23 +831,48 @@ export const StoriesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateStorieByIdStart(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateStorieByIdStart(id, options);
+        async updateByIdEnd(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateByIdEnd(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['StoriesApi.updateStorieByIdStart']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['StoriesApi.updateByIdEnd']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
          * @param {string} id 
-         * @param {SummaryModel} [body] 
+         * @param {SummaryModel} [summaryModel] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateStorieByIdSummary(id: string, body?: SummaryModel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateStorieByIdSummary(id, body, options);
+        async updateByIdFirebase(id: string, summaryModel?: SummaryModel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateByIdFirebase(id, summaryModel, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['StoriesApi.updateStorieByIdSummary']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['StoriesApi.updateByIdFirebase']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateByIdStart(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateByIdStart(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['StoriesApi.updateByIdStart']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {SummaryModel} [summaryModel] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateByIdSummary(id: string, summaryModel?: SummaryModel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateByIdSummary(id, summaryModel, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['StoriesApi.updateByIdSummary']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -823,145 +886,165 @@ export const StoriesApiFactory = function (configuration?: Configuration, basePa
     return {
         /**
          * 
-         * @param {StoriesApiCreateStorieRequest} requestParameters Request parameters.
+         * @param {StoriesApiCreateRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createStorie(requestParameters: StoriesApiCreateStorieRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.createStorie(requestParameters.body, options).then((request) => request(axios, basePath));
+        create(requestParameters: StoriesApiCreateRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.create(requestParameters.storyDto, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {StoriesApiCreateStorieImportRequest} requestParameters Request parameters.
+         * @param {StoriesApiCreateByIdFilesRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createStorieImport(requestParameters: StoriesApiCreateStorieImportRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.createStorieImport(requestParameters.file, requestParameters.converterType, requestParameters.externalUrl, options).then((request) => request(axios, basePath));
+        createByIdFiles(requestParameters: StoriesApiCreateByIdFilesRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.createByIdFiles(requestParameters.id, requestParameters.file, requestParameters.fileId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {StoriesApiDeleteStorieByIdRequest} requestParameters Request parameters.
+         * @param {StoriesApiCreateImportRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deleteStorieById(requestParameters: StoriesApiDeleteStorieByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.deleteStorieById(requestParameters.id, options).then((request) => request(axios, basePath));
+        createImport(requestParameters: StoriesApiCreateImportRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.createImport(requestParameters.file, requestParameters.converterType, requestParameters.externalUrl, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {StoriesApiGetStorieRequest} requestParameters Request parameters.
+         * @param {StoriesApiDeleteByIdRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getStorie(requestParameters: StoriesApiGetStorieRequest, options?: RawAxiosRequestConfig): AxiosPromise<StoryResponseList> {
-            return localVarFp.getStorie(requestParameters.order, requestParameters.page, requestParameters.pageSize, requestParameters.orderBy, requestParameters.title, requestParameters.startFrom, requestParameters.startTo, requestParameters.endFrom, requestParameters.endTo, options).then((request) => request(axios, basePath));
+        deleteById(requestParameters: StoriesApiDeleteByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.deleteById(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {StoriesApiGetStorieByIdRequest} requestParameters Request parameters.
+         * @param {StoriesApiDeleteByIdFilesByFileIdRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getStorieById(requestParameters: StoriesApiGetStorieByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<Story> {
-            return localVarFp.getStorieById(requestParameters.id, options).then((request) => request(axios, basePath));
+        deleteByIdFilesByFileId(requestParameters: StoriesApiDeleteByIdFilesByFileIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.deleteByIdFilesByFileId(requestParameters.id, requestParameters.fileId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {StoriesApiGetStorieByIdDraftRequest} requestParameters Request parameters.
+         * @param {StoriesApiGetRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getStorieByIdDraft(requestParameters: StoriesApiGetStorieByIdDraftRequest, options?: RawAxiosRequestConfig): AxiosPromise<Story> {
-            return localVarFp.getStorieByIdDraft(requestParameters.id, options).then((request) => request(axios, basePath));
+        get(requestParameters: StoriesApiGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<StoryResponseList> {
+            return localVarFp.get(requestParameters.order, requestParameters.page, requestParameters.pageSize, requestParameters.orderBy, requestParameters.title, requestParameters.startFrom, requestParameters.startTo, requestParameters.endFrom, requestParameters.endTo, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {StoriesApiGetStorieByIdExportRequest} requestParameters Request parameters.
+         * @param {StoriesApiGetByIdRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getStorieByIdExport(requestParameters: StoriesApiGetStorieByIdExportRequest, options?: RawAxiosRequestConfig): AxiosPromise<File> {
-            return localVarFp.getStorieByIdExport(requestParameters.id, options).then((request) => request(axios, basePath));
+        getById(requestParameters: StoriesApiGetByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<Story> {
+            return localVarFp.getById(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {StoriesApiGetStorieByIdSummaryRequest} requestParameters Request parameters.
+         * @param {StoriesApiGetByIdDraftRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getStorieByIdSummary(requestParameters: StoriesApiGetStorieByIdSummaryRequest, options?: RawAxiosRequestConfig): AxiosPromise<File> {
-            return localVarFp.getStorieByIdSummary(requestParameters.id, options).then((request) => request(axios, basePath));
+        getByIdDraft(requestParameters: StoriesApiGetByIdDraftRequest, options?: RawAxiosRequestConfig): AxiosPromise<Story> {
+            return localVarFp.getByIdDraft(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {StoriesApiGetStorieDraftRequest} requestParameters Request parameters.
+         * @param {StoriesApiGetByIdExportRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getStorieDraft(requestParameters: StoriesApiGetStorieDraftRequest, options?: RawAxiosRequestConfig): AxiosPromise<StoryResponseList> {
-            return localVarFp.getStorieDraft(requestParameters.order, requestParameters.page, requestParameters.pageSize, requestParameters.orderBy, requestParameters.title, requestParameters.startFrom, requestParameters.startTo, requestParameters.endFrom, requestParameters.endTo, options).then((request) => request(axios, basePath));
+        getByIdExport(requestParameters: StoriesApiGetByIdExportRequest, options?: RawAxiosRequestConfig): AxiosPromise<File> {
+            return localVarFp.getByIdExport(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {StoriesApiUpdateStorieByIdRequest} requestParameters Request parameters.
+         * @param {StoriesApiGetDraftRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateStorieById(requestParameters: StoriesApiUpdateStorieByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.updateStorieById(requestParameters.id, requestParameters.body, options).then((request) => request(axios, basePath));
+        getDraft(requestParameters: StoriesApiGetDraftRequest, options?: RawAxiosRequestConfig): AxiosPromise<StoryResponseList> {
+            return localVarFp.getDraft(requestParameters.order, requestParameters.page, requestParameters.pageSize, requestParameters.orderBy, requestParameters.title, requestParameters.startFrom, requestParameters.startTo, requestParameters.endFrom, requestParameters.endTo, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {StoriesApiUpdateStorieByIdEndRequest} requestParameters Request parameters.
+         * @param {StoriesApiUpdateByIdRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateStorieByIdEnd(requestParameters: StoriesApiUpdateStorieByIdEndRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.updateStorieByIdEnd(requestParameters.id, options).then((request) => request(axios, basePath));
+        updateById(requestParameters: StoriesApiUpdateByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.updateById(requestParameters.id, requestParameters.storyDto, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {StoriesApiUpdateStorieByIdFirebaseRequest} requestParameters Request parameters.
+         * @param {StoriesApiUpdateByIdEndRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateStorieByIdFirebase(requestParameters: StoriesApiUpdateStorieByIdFirebaseRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.updateStorieByIdFirebase(requestParameters.id, requestParameters.body, options).then((request) => request(axios, basePath));
+        updateByIdEnd(requestParameters: StoriesApiUpdateByIdEndRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.updateByIdEnd(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {StoriesApiUpdateStorieByIdStartRequest} requestParameters Request parameters.
+         * @param {StoriesApiUpdateByIdFirebaseRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateStorieByIdStart(requestParameters: StoriesApiUpdateStorieByIdStartRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.updateStorieByIdStart(requestParameters.id, options).then((request) => request(axios, basePath));
+        updateByIdFirebase(requestParameters: StoriesApiUpdateByIdFirebaseRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.updateByIdFirebase(requestParameters.id, requestParameters.summaryModel, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {StoriesApiUpdateStorieByIdSummaryRequest} requestParameters Request parameters.
+         * @param {StoriesApiUpdateByIdStartRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateStorieByIdSummary(requestParameters: StoriesApiUpdateStorieByIdSummaryRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.updateStorieByIdSummary(requestParameters.id, requestParameters.body, options).then((request) => request(axios, basePath));
+        updateByIdStart(requestParameters: StoriesApiUpdateByIdStartRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.updateByIdStart(requestParameters.id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {StoriesApiUpdateByIdSummaryRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateByIdSummary(requestParameters: StoriesApiUpdateByIdSummaryRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.updateByIdSummary(requestParameters.id, requestParameters.summaryModel, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * Request parameters for createStorie operation in StoriesApi.
+ * Request parameters for create operation in StoriesApi.
  */
-export interface StoriesApiCreateStorieRequest {
-    readonly body?: StoryDto
+export interface StoriesApiCreateRequest {
+    readonly storyDto?: StoryDto
 }
 
 /**
- * Request parameters for createStorieImport operation in StoriesApi.
+ * Request parameters for createByIdFiles operation in StoriesApi.
  */
-export interface StoriesApiCreateStorieImportRequest {
-    readonly file: string
+export interface StoriesApiCreateByIdFilesRequest {
+    readonly id: string
+
+    readonly file: File
+
+    readonly fileId?: string
+}
+
+/**
+ * Request parameters for createImport operation in StoriesApi.
+ */
+export interface StoriesApiCreateImportRequest {
+    readonly file?: File
 
     readonly converterType?: number
 
@@ -969,16 +1052,25 @@ export interface StoriesApiCreateStorieImportRequest {
 }
 
 /**
- * Request parameters for deleteStorieById operation in StoriesApi.
+ * Request parameters for deleteById operation in StoriesApi.
  */
-export interface StoriesApiDeleteStorieByIdRequest {
+export interface StoriesApiDeleteByIdRequest {
     readonly id: string
 }
 
 /**
- * Request parameters for getStorie operation in StoriesApi.
+ * Request parameters for deleteByIdFilesByFileId operation in StoriesApi.
  */
-export interface StoriesApiGetStorieRequest {
+export interface StoriesApiDeleteByIdFilesByFileIdRequest {
+    readonly id: string
+
+    readonly fileId: string
+}
+
+/**
+ * Request parameters for get operation in StoriesApi.
+ */
+export interface StoriesApiGetRequest {
     readonly order: string
 
     readonly page?: number
@@ -999,37 +1091,30 @@ export interface StoriesApiGetStorieRequest {
 }
 
 /**
- * Request parameters for getStorieById operation in StoriesApi.
+ * Request parameters for getById operation in StoriesApi.
  */
-export interface StoriesApiGetStorieByIdRequest {
+export interface StoriesApiGetByIdRequest {
     readonly id: string
 }
 
 /**
- * Request parameters for getStorieByIdDraft operation in StoriesApi.
+ * Request parameters for getByIdDraft operation in StoriesApi.
  */
-export interface StoriesApiGetStorieByIdDraftRequest {
+export interface StoriesApiGetByIdDraftRequest {
     readonly id: string
 }
 
 /**
- * Request parameters for getStorieByIdExport operation in StoriesApi.
+ * Request parameters for getByIdExport operation in StoriesApi.
  */
-export interface StoriesApiGetStorieByIdExportRequest {
+export interface StoriesApiGetByIdExportRequest {
     readonly id: string
 }
 
 /**
- * Request parameters for getStorieByIdSummary operation in StoriesApi.
+ * Request parameters for getDraft operation in StoriesApi.
  */
-export interface StoriesApiGetStorieByIdSummaryRequest {
-    readonly id: string
-}
-
-/**
- * Request parameters for getStorieDraft operation in StoriesApi.
- */
-export interface StoriesApiGetStorieDraftRequest {
+export interface StoriesApiGetDraftRequest {
     readonly order: string
 
     readonly page?: number
@@ -1050,44 +1135,44 @@ export interface StoriesApiGetStorieDraftRequest {
 }
 
 /**
- * Request parameters for updateStorieById operation in StoriesApi.
+ * Request parameters for updateById operation in StoriesApi.
  */
-export interface StoriesApiUpdateStorieByIdRequest {
+export interface StoriesApiUpdateByIdRequest {
     readonly id: string
 
-    readonly body?: StoryDto
+    readonly storyDto?: StoryDto
 }
 
 /**
- * Request parameters for updateStorieByIdEnd operation in StoriesApi.
+ * Request parameters for updateByIdEnd operation in StoriesApi.
  */
-export interface StoriesApiUpdateStorieByIdEndRequest {
-    readonly id: string
-}
-
-/**
- * Request parameters for updateStorieByIdFirebase operation in StoriesApi.
- */
-export interface StoriesApiUpdateStorieByIdFirebaseRequest {
-    readonly id: string
-
-    readonly body?: SummaryModel
-}
-
-/**
- * Request parameters for updateStorieByIdStart operation in StoriesApi.
- */
-export interface StoriesApiUpdateStorieByIdStartRequest {
+export interface StoriesApiUpdateByIdEndRequest {
     readonly id: string
 }
 
 /**
- * Request parameters for updateStorieByIdSummary operation in StoriesApi.
+ * Request parameters for updateByIdFirebase operation in StoriesApi.
  */
-export interface StoriesApiUpdateStorieByIdSummaryRequest {
+export interface StoriesApiUpdateByIdFirebaseRequest {
     readonly id: string
 
-    readonly body?: SummaryModel
+    readonly summaryModel?: SummaryModel
+}
+
+/**
+ * Request parameters for updateByIdStart operation in StoriesApi.
+ */
+export interface StoriesApiUpdateByIdStartRequest {
+    readonly id: string
+}
+
+/**
+ * Request parameters for updateByIdSummary operation in StoriesApi.
+ */
+export interface StoriesApiUpdateByIdSummaryRequest {
+    readonly id: string
+
+    readonly summaryModel?: SummaryModel
 }
 
 /**
@@ -1096,142 +1181,152 @@ export interface StoriesApiUpdateStorieByIdSummaryRequest {
 export class StoriesApi extends BaseAPI {
     /**
      * 
-     * @param {StoriesApiCreateStorieRequest} requestParameters Request parameters.
+     * @param {StoriesApiCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public createStorie(requestParameters: StoriesApiCreateStorieRequest = {}, options?: RawAxiosRequestConfig) {
-        return StoriesApiFp(this.configuration).createStorie(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+    public create(requestParameters: StoriesApiCreateRequest = {}, options?: RawAxiosRequestConfig) {
+        return StoriesApiFp(this.configuration).create(requestParameters.storyDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {StoriesApiCreateStorieImportRequest} requestParameters Request parameters.
+     * @param {StoriesApiCreateByIdFilesRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public createStorieImport(requestParameters: StoriesApiCreateStorieImportRequest, options?: RawAxiosRequestConfig) {
-        return StoriesApiFp(this.configuration).createStorieImport(requestParameters.file, requestParameters.converterType, requestParameters.externalUrl, options).then((request) => request(this.axios, this.basePath));
+    public createByIdFiles(requestParameters: StoriesApiCreateByIdFilesRequest, options?: RawAxiosRequestConfig) {
+        return StoriesApiFp(this.configuration).createByIdFiles(requestParameters.id, requestParameters.file, requestParameters.fileId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {StoriesApiDeleteStorieByIdRequest} requestParameters Request parameters.
+     * @param {StoriesApiCreateImportRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public deleteStorieById(requestParameters: StoriesApiDeleteStorieByIdRequest, options?: RawAxiosRequestConfig) {
-        return StoriesApiFp(this.configuration).deleteStorieById(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public createImport(requestParameters: StoriesApiCreateImportRequest = {}, options?: RawAxiosRequestConfig) {
+        return StoriesApiFp(this.configuration).createImport(requestParameters.file, requestParameters.converterType, requestParameters.externalUrl, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {StoriesApiGetStorieRequest} requestParameters Request parameters.
+     * @param {StoriesApiDeleteByIdRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public getStorie(requestParameters: StoriesApiGetStorieRequest, options?: RawAxiosRequestConfig) {
-        return StoriesApiFp(this.configuration).getStorie(requestParameters.order, requestParameters.page, requestParameters.pageSize, requestParameters.orderBy, requestParameters.title, requestParameters.startFrom, requestParameters.startTo, requestParameters.endFrom, requestParameters.endTo, options).then((request) => request(this.axios, this.basePath));
+    public deleteById(requestParameters: StoriesApiDeleteByIdRequest, options?: RawAxiosRequestConfig) {
+        return StoriesApiFp(this.configuration).deleteById(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {StoriesApiGetStorieByIdRequest} requestParameters Request parameters.
+     * @param {StoriesApiDeleteByIdFilesByFileIdRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public getStorieById(requestParameters: StoriesApiGetStorieByIdRequest, options?: RawAxiosRequestConfig) {
-        return StoriesApiFp(this.configuration).getStorieById(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public deleteByIdFilesByFileId(requestParameters: StoriesApiDeleteByIdFilesByFileIdRequest, options?: RawAxiosRequestConfig) {
+        return StoriesApiFp(this.configuration).deleteByIdFilesByFileId(requestParameters.id, requestParameters.fileId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {StoriesApiGetStorieByIdDraftRequest} requestParameters Request parameters.
+     * @param {StoriesApiGetRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public getStorieByIdDraft(requestParameters: StoriesApiGetStorieByIdDraftRequest, options?: RawAxiosRequestConfig) {
-        return StoriesApiFp(this.configuration).getStorieByIdDraft(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public get(requestParameters: StoriesApiGetRequest, options?: RawAxiosRequestConfig) {
+        return StoriesApiFp(this.configuration).get(requestParameters.order, requestParameters.page, requestParameters.pageSize, requestParameters.orderBy, requestParameters.title, requestParameters.startFrom, requestParameters.startTo, requestParameters.endFrom, requestParameters.endTo, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {StoriesApiGetStorieByIdExportRequest} requestParameters Request parameters.
+     * @param {StoriesApiGetByIdRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public getStorieByIdExport(requestParameters: StoriesApiGetStorieByIdExportRequest, options?: RawAxiosRequestConfig) {
-        return StoriesApiFp(this.configuration).getStorieByIdExport(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public getById(requestParameters: StoriesApiGetByIdRequest, options?: RawAxiosRequestConfig) {
+        return StoriesApiFp(this.configuration).getById(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {StoriesApiGetStorieByIdSummaryRequest} requestParameters Request parameters.
+     * @param {StoriesApiGetByIdDraftRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public getStorieByIdSummary(requestParameters: StoriesApiGetStorieByIdSummaryRequest, options?: RawAxiosRequestConfig) {
-        return StoriesApiFp(this.configuration).getStorieByIdSummary(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public getByIdDraft(requestParameters: StoriesApiGetByIdDraftRequest, options?: RawAxiosRequestConfig) {
+        return StoriesApiFp(this.configuration).getByIdDraft(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {StoriesApiGetStorieDraftRequest} requestParameters Request parameters.
+     * @param {StoriesApiGetByIdExportRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public getStorieDraft(requestParameters: StoriesApiGetStorieDraftRequest, options?: RawAxiosRequestConfig) {
-        return StoriesApiFp(this.configuration).getStorieDraft(requestParameters.order, requestParameters.page, requestParameters.pageSize, requestParameters.orderBy, requestParameters.title, requestParameters.startFrom, requestParameters.startTo, requestParameters.endFrom, requestParameters.endTo, options).then((request) => request(this.axios, this.basePath));
+    public getByIdExport(requestParameters: StoriesApiGetByIdExportRequest, options?: RawAxiosRequestConfig) {
+        return StoriesApiFp(this.configuration).getByIdExport(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {StoriesApiUpdateStorieByIdRequest} requestParameters Request parameters.
+     * @param {StoriesApiGetDraftRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public updateStorieById(requestParameters: StoriesApiUpdateStorieByIdRequest, options?: RawAxiosRequestConfig) {
-        return StoriesApiFp(this.configuration).updateStorieById(requestParameters.id, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+    public getDraft(requestParameters: StoriesApiGetDraftRequest, options?: RawAxiosRequestConfig) {
+        return StoriesApiFp(this.configuration).getDraft(requestParameters.order, requestParameters.page, requestParameters.pageSize, requestParameters.orderBy, requestParameters.title, requestParameters.startFrom, requestParameters.startTo, requestParameters.endFrom, requestParameters.endTo, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {StoriesApiUpdateStorieByIdEndRequest} requestParameters Request parameters.
+     * @param {StoriesApiUpdateByIdRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public updateStorieByIdEnd(requestParameters: StoriesApiUpdateStorieByIdEndRequest, options?: RawAxiosRequestConfig) {
-        return StoriesApiFp(this.configuration).updateStorieByIdEnd(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public updateById(requestParameters: StoriesApiUpdateByIdRequest, options?: RawAxiosRequestConfig) {
+        return StoriesApiFp(this.configuration).updateById(requestParameters.id, requestParameters.storyDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {StoriesApiUpdateStorieByIdFirebaseRequest} requestParameters Request parameters.
+     * @param {StoriesApiUpdateByIdEndRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public updateStorieByIdFirebase(requestParameters: StoriesApiUpdateStorieByIdFirebaseRequest, options?: RawAxiosRequestConfig) {
-        return StoriesApiFp(this.configuration).updateStorieByIdFirebase(requestParameters.id, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+    public updateByIdEnd(requestParameters: StoriesApiUpdateByIdEndRequest, options?: RawAxiosRequestConfig) {
+        return StoriesApiFp(this.configuration).updateByIdEnd(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {StoriesApiUpdateStorieByIdStartRequest} requestParameters Request parameters.
+     * @param {StoriesApiUpdateByIdFirebaseRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public updateStorieByIdStart(requestParameters: StoriesApiUpdateStorieByIdStartRequest, options?: RawAxiosRequestConfig) {
-        return StoriesApiFp(this.configuration).updateStorieByIdStart(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public updateByIdFirebase(requestParameters: StoriesApiUpdateByIdFirebaseRequest, options?: RawAxiosRequestConfig) {
+        return StoriesApiFp(this.configuration).updateByIdFirebase(requestParameters.id, requestParameters.summaryModel, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {StoriesApiUpdateStorieByIdSummaryRequest} requestParameters Request parameters.
+     * @param {StoriesApiUpdateByIdStartRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public updateStorieByIdSummary(requestParameters: StoriesApiUpdateStorieByIdSummaryRequest, options?: RawAxiosRequestConfig) {
-        return StoriesApiFp(this.configuration).updateStorieByIdSummary(requestParameters.id, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+    public updateByIdStart(requestParameters: StoriesApiUpdateByIdStartRequest, options?: RawAxiosRequestConfig) {
+        return StoriesApiFp(this.configuration).updateByIdStart(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {StoriesApiUpdateByIdSummaryRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public updateByIdSummary(requestParameters: StoriesApiUpdateByIdSummaryRequest, options?: RawAxiosRequestConfig) {
+        return StoriesApiFp(this.configuration).updateByIdSummary(requestParameters.id, requestParameters.summaryModel, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

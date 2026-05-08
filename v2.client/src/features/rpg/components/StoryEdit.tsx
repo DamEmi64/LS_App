@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Box,
     TextField,
@@ -10,13 +10,16 @@ import {
 import { t } from 'i18next';
 import { useForm, Controller } from 'react-hook-form';
 import { Story } from '@/features/rpg';
+import FileManager from '@/shared/components/fileManager';
+import { call, FileItem } from '@/shared';
 
 type SessionInfoProps = {
     story: Story;
     toSave?: (data: Story) => void;
+    edit?: boolean
 };
 
-export const StoryEdit: React.FC<SessionInfoProps> = ({ story, toSave }) => {
+export const StoryEdit: React.FC<SessionInfoProps> = ({ story, toSave, edit }) => {
     const theme = useTheme();
     const textColor =
         theme.palette.mode === 'dark'
@@ -36,6 +39,12 @@ export const StoryEdit: React.FC<SessionInfoProps> = ({ story, toSave }) => {
     const onSubmit = (data: Story) => {
         if (toSave) toSave(data);
     };
+
+    const [files, setFiles] = useState(story.files);
+
+    const refreshFiles = () => {
+        call<Story>(api => api.storiesApi.getById,{id:story.id}).then(s => setFiles(s.files))
+    }
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -87,6 +96,12 @@ export const StoryEdit: React.FC<SessionInfoProps> = ({ story, toSave }) => {
                         )}
                     />
 
+                    {edit && (
+                        <FileManager files={files || []}
+                            editMode={true}
+                            add={o => call(api => api.storiesApi.createByIdFiles, {id:story.id, file:o}).then(() => refreshFiles())}
+                            remove={o => call(api => api.storiesApi.deleteByIdFilesByFileId, { id: story.id, fileId: o }).then(() => refreshFiles())} />
+                    )}
                     {/* Save button */}
                     <Box sx={{ display: 'flex', gap: 2, mt: 3 }}>
                         <Button type="submit" variant="contained" color="primary">

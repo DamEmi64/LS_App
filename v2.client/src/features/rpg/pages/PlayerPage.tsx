@@ -1,7 +1,7 @@
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
-import { useApiConnect } from "@/shared/context/apiConnect";
+import { call } from "@/shared";
 import { SessionTable } from "./SessionTable";
 import { Chapter, Hero, HeroDto, Story } from "@/features/rpg";
 import PlayerWindow from "@/features/rpg/components/PlayerWindow";
@@ -17,7 +17,6 @@ import HeroForm from '../components/heroForm';
 const PlayerPage = () => {
     const [hero, setHero] = useState<Hero>();
     const [chapter, setChapter] = useState<Chapter>();
-    const { heroesApi, chaptersApi, call } = useApiConnect();
 
     const { t } = useTranslation();
     const [searchParams] = useSearchParams();
@@ -33,17 +32,17 @@ const PlayerPage = () => {
     } as unknown as HeroDto);
 
     const saveHero = (data: HeroDto) => {
-        call(heroesApi, heroesApi.updateHeroeById, { id: data.id, body: data });
+        call(api => api.heroesApi.updateById, { id: data.id, body: data });
     };
 
     const updateData = async () => {
         if (heroId) {
-            call<Hero>(heroesApi, heroesApi.getHeroeById, { id: heroId })
+            call<Hero>(api => api.heroesApi.getById, { id: heroId })
                 .then(setHero);
         }
 
         if (chapterId) {
-            call<Chapter>(chaptersApi, chaptersApi.getChapterById, { id: chapterId })
+            call<Chapter>(api => api.chaptersApi.getById, { id: chapterId })
                 .then(setChapter);
         }
     };

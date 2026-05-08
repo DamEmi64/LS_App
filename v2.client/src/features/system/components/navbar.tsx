@@ -1,11 +1,12 @@
 import React from 'react';
 import NavItem from './navItem';
-import { useTranslation } from 'react-i18next';
-import { UserData } from '@/features/auth';
+import { useAuth } from '@/features/auth/context/authProvider';
 import { Box } from '@mui/material';
 import { NavbarItemProps } from '@/shared';
+import { UserData } from '@/features/auth';
+import { useTranslation } from 'react-i18next';
 
-const Navbar: React.FC<{ menu: NavbarItemProps[]; user: UserData }> = ({ menu, user }) => {
+const Navbar: React.FC<{ menu: NavbarItemProps[]; user: UserData, isDrawer?: boolean }> = ({ menu, user, isDrawer }) => {
     const { t } = useTranslation();
 
     return (
@@ -22,7 +23,7 @@ const Navbar: React.FC<{ menu: NavbarItemProps[]; user: UserData }> = ({ menu, u
             <Box
                 sx={{
                     display: 'flex',
-                    flexDirection: 'row',
+                    flexDirection: isDrawer ? 'column' : 'row',
                     gap: 1,
                     px: 1,
                     py: 0.5,
@@ -51,9 +52,8 @@ const Navbar: React.FC<{ menu: NavbarItemProps[]; user: UserData }> = ({ menu, u
                         <Box
                             key={index}
                             sx={{
-                                flex: '0 0 auto',
-                                color: item.href === window.location.pathname ? 'primary.main' : 'text.primary',
-                                minWidth: { xs: 90, sm: 'auto' },
+                                flex: { md: '0 0 auto' },
+                                width: { xs: '100%', md: 'auto' },
                             }}
                         >
                             <NavItem {...item} />
