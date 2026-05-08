@@ -1,4 +1,4 @@
-# TaskDto
+# RpgFileDto
 
 
 ## Properties
@@ -6,20 +6,18 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **id** | **string** |  | [optional] [default to undefined]
-**operationId** | **number** |  | [optional] [default to undefined]
-**order** | **number** |  | [optional] [default to undefined]
-**data** | **any** |  | [optional] [default to undefined]
+**title** | **string** |  | [optional] [default to undefined]
+**content** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
 ```typescript
-import { TaskDto } from './api';
+import { RpgFileDto } from './api';
 
-const instance: TaskDto = {
+const instance: RpgFileDto = {
     id,
-    operationId,
-    order,
-    data,
+    title,
+    content,
 };
 ```
 

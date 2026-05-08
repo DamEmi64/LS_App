@@ -85,7 +85,7 @@ export const HeroTable: React.FC<HeroTableProps> = ({
     };
 
     const saveHero = (data: HeroDto) => {
-       call(api => api.heroesApi.updateById,{id:data.id,body:data})
+       call(api => api.heroesApi.updateById,{id:data.id,heroDto:data})
             .then(() => {
                 modal.hideModal();
                 refresh();
@@ -98,7 +98,7 @@ export const HeroTable: React.FC<HeroTableProps> = ({
                 chapters={storyChapters}
                 onSelect={(chapterId) => {
 
-                    call<Image>(api => api.homeApi.getImage,{id:hero.imageId})
+                    call<Image>(api => api.homeApi.getMedia,{id:hero.imageId})
                         .then((res) => {
                             const imageData = res?.contentStr || '';
 

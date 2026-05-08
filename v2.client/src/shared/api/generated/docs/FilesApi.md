@@ -30,10 +30,10 @@ import {
 const configuration = new Configuration();
 const apiInstance = new FilesApi(configuration);
 
-let body: FileDto; // (optional)
+let fileDto: FileDto; // (optional)
 
 const { status, data } = await apiInstance.create(
-    body
+    fileDto
 );
 ```
 
@@ -41,7 +41,7 @@ const { status, data } = await apiInstance.create(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **FileDto**|  | |
+| **fileDto** | **FileDto**|  | |
 
 
 ### Return type
@@ -318,11 +318,11 @@ const configuration = new Configuration();
 const apiInstance = new FilesApi(configuration);
 
 let id: string; // (default to undefined)
-let body: FileDto; // (optional)
+let fileDto: FileDto; // (optional)
 
 const { status, data } = await apiInstance.updateById(
     id,
-    body
+    fileDto
 );
 ```
 
@@ -330,7 +330,7 @@ const { status, data } = await apiInstance.updateById(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **FileDto**|  | |
+| **fileDto** | **FileDto**|  | |
 | **id** | [**string**] |  | defaults to undefined|
 
 

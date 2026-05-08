@@ -134,7 +134,7 @@ const Templates: React.FC = () => {
     };
 
     const delConfirm = async (template: Template) => {
-        await call(api => api.templatesApi.updateById,{id:template.id});
+        await call(api => api.templatesApi.updateById,{id:template.id, template});
 
         modal.hideModal();
         refresh();
@@ -142,14 +142,14 @@ const Templates: React.FC = () => {
 
     // ➕ CREATE
     const addData = async (template: Template) => {
-        await call(api => api.templatesApi.create,template);
+        await call(api => api.templatesApi.create,{template});
         modal.hideModal();
         refresh();
     };
 
     // ✏️ UPDATE
     const editData = async (template: Template) => {
-        await call(api => api.templatesApi.updateById,{id:template.id,body:template});
+        await call(api => api.templatesApi.updateById,{id:template.id, template});
 
         modal.hideModal();
         refresh();

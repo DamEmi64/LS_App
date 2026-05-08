@@ -29,10 +29,10 @@ import {
 const configuration = new Configuration();
 const apiInstance = new AutomationsApi(configuration);
 
-let body: AutomationDto; // (optional)
+let automationDto: AutomationDto; // (optional)
 
 const { status, data } = await apiInstance.create(
-    body
+    automationDto
 );
 ```
 
@@ -40,7 +40,7 @@ const { status, data } = await apiInstance.create(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **AutomationDto**|  | |
+| **automationDto** | **AutomationDto**|  | |
 
 
 ### Return type
@@ -293,11 +293,11 @@ const configuration = new Configuration();
 const apiInstance = new AutomationsApi(configuration);
 
 let id: string; // (default to undefined)
-let body: AutomationDto; // (optional)
+let automationDto: AutomationDto; // (optional)
 
 const { status, data } = await apiInstance.updateById(
     id,
-    body
+    automationDto
 );
 ```
 
@@ -305,7 +305,7 @@ const { status, data } = await apiInstance.updateById(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **AutomationDto**|  | |
+| **automationDto** | **AutomationDto**|  | |
 | **id** | [**string**] |  | defaults to undefined|
 
 

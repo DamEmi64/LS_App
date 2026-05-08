@@ -32,7 +32,7 @@ export const ImageProvider: React.FC<ImageProviderProps> = ({ readonly = false, 
     };
 
     useEffect(() => {
-        call<Image>(api => api.homeApi.getImage,{id:imageId})
+        call<Image>(api => api.homeApi.getMedia,{id:imageId})
             .then((res) => {
                 if (res != null && res.contentStr !== '') {
                     setData(res.contentStr);

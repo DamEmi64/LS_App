@@ -36,11 +36,11 @@ export const TemplatesApiAxiosParamCreator = function (configuration?: Configura
     return {
         /**
          * 
-         * @param {Template} [body] 
+         * @param {Template} [template] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        create: async (body?: Template, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        create: async (template?: Template, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/Templates`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -58,7 +58,7 @@ export const TemplatesApiAxiosParamCreator = function (configuration?: Configura
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(template, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -221,11 +221,11 @@ export const TemplatesApiAxiosParamCreator = function (configuration?: Configura
         /**
          * 
          * @param {string} id 
-         * @param {Template} [body] 
+         * @param {Template} [template] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateById: async (id: string, body?: Template, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateById: async (id: string, template?: Template, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateById', 'id', id)
             const localVarPath = `/api/Templates/{id}`
@@ -246,7 +246,7 @@ export const TemplatesApiAxiosParamCreator = function (configuration?: Configura
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(template, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -256,11 +256,11 @@ export const TemplatesApiAxiosParamCreator = function (configuration?: Configura
         /**
          * 
          * @param {string} id 
-         * @param {EmailGenerationDto} [body] 
+         * @param {EmailGenerationDto} [emailGenerationDto] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateByIdGenerate: async (id: string, body?: EmailGenerationDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateByIdGenerate: async (id: string, emailGenerationDto?: EmailGenerationDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateByIdGenerate', 'id', id)
             const localVarPath = `/api/Templates/{id}/generate`
@@ -281,7 +281,7 @@ export const TemplatesApiAxiosParamCreator = function (configuration?: Configura
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(emailGenerationDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -299,12 +299,12 @@ export const TemplatesApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {Template} [body] 
+         * @param {Template} [template] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async create(body?: Template, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.create(body, options);
+        async create(template?: Template, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.create(template, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['TemplatesApi.create']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -364,12 +364,12 @@ export const TemplatesApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {string} id 
-         * @param {Template} [body] 
+         * @param {Template} [template] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateById(id: string, body?: Template, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateById(id, body, options);
+        async updateById(id: string, template?: Template, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateById(id, template, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['TemplatesApi.updateById']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -377,12 +377,12 @@ export const TemplatesApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {string} id 
-         * @param {EmailGenerationDto} [body] 
+         * @param {EmailGenerationDto} [emailGenerationDto] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateByIdGenerate(id: string, body?: EmailGenerationDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateByIdGenerate(id, body, options);
+        async updateByIdGenerate(id: string, emailGenerationDto?: EmailGenerationDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateByIdGenerate(id, emailGenerationDto, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['TemplatesApi.updateByIdGenerate']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -403,7 +403,7 @@ export const TemplatesApiFactory = function (configuration?: Configuration, base
          * @throws {RequiredError}
          */
         create(requestParameters: TemplatesApiCreateRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.create(requestParameters.body, options).then((request) => request(axios, basePath));
+            return localVarFp.create(requestParameters.template, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -448,7 +448,7 @@ export const TemplatesApiFactory = function (configuration?: Configuration, base
          * @throws {RequiredError}
          */
         updateById(requestParameters: TemplatesApiUpdateByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.updateById(requestParameters.id, requestParameters.body, options).then((request) => request(axios, basePath));
+            return localVarFp.updateById(requestParameters.id, requestParameters.template, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -457,7 +457,7 @@ export const TemplatesApiFactory = function (configuration?: Configuration, base
          * @throws {RequiredError}
          */
         updateByIdGenerate(requestParameters: TemplatesApiUpdateByIdGenerateRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.updateByIdGenerate(requestParameters.id, requestParameters.body, options).then((request) => request(axios, basePath));
+            return localVarFp.updateByIdGenerate(requestParameters.id, requestParameters.emailGenerationDto, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -466,7 +466,7 @@ export const TemplatesApiFactory = function (configuration?: Configuration, base
  * Request parameters for create operation in TemplatesApi.
  */
 export interface TemplatesApiCreateRequest {
-    readonly body?: Template
+    readonly template?: Template
 }
 
 /**
@@ -511,7 +511,7 @@ export interface TemplatesApiGetRulesRequest {
 export interface TemplatesApiUpdateByIdRequest {
     readonly id: string
 
-    readonly body?: Template
+    readonly template?: Template
 }
 
 /**
@@ -520,7 +520,7 @@ export interface TemplatesApiUpdateByIdRequest {
 export interface TemplatesApiUpdateByIdGenerateRequest {
     readonly id: string
 
-    readonly body?: EmailGenerationDto
+    readonly emailGenerationDto?: EmailGenerationDto
 }
 
 /**
@@ -534,7 +534,7 @@ export class TemplatesApi extends BaseAPI {
      * @throws {RequiredError}
      */
     public create(requestParameters: TemplatesApiCreateRequest = {}, options?: RawAxiosRequestConfig) {
-        return TemplatesApiFp(this.configuration).create(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+        return TemplatesApiFp(this.configuration).create(requestParameters.template, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -584,7 +584,7 @@ export class TemplatesApi extends BaseAPI {
      * @throws {RequiredError}
      */
     public updateById(requestParameters: TemplatesApiUpdateByIdRequest, options?: RawAxiosRequestConfig) {
-        return TemplatesApiFp(this.configuration).updateById(requestParameters.id, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+        return TemplatesApiFp(this.configuration).updateById(requestParameters.id, requestParameters.template, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -594,7 +594,7 @@ export class TemplatesApi extends BaseAPI {
      * @throws {RequiredError}
      */
     public updateByIdGenerate(requestParameters: TemplatesApiUpdateByIdGenerateRequest, options?: RawAxiosRequestConfig) {
-        return TemplatesApiFp(this.configuration).updateByIdGenerate(requestParameters.id, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+        return TemplatesApiFp(this.configuration).updateByIdGenerate(requestParameters.id, requestParameters.emailGenerationDto, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

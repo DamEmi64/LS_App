@@ -28,10 +28,10 @@ import {
 const configuration = new Configuration();
 const apiInstance = new TemplatesApi(configuration);
 
-let body: Template; // (optional)
+let template: Template; // (optional)
 
 const { status, data } = await apiInstance.create(
-    body
+    template
 );
 ```
 
@@ -39,7 +39,7 @@ const { status, data } = await apiInstance.create(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **Template**|  | |
+| **template** | **Template**|  | |
 
 
 ### Return type
@@ -292,11 +292,11 @@ const configuration = new Configuration();
 const apiInstance = new TemplatesApi(configuration);
 
 let id: string; // (default to undefined)
-let body: Template; // (optional)
+let template: Template; // (optional)
 
 const { status, data } = await apiInstance.updateById(
     id,
-    body
+    template
 );
 ```
 
@@ -304,7 +304,7 @@ const { status, data } = await apiInstance.updateById(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **Template**|  | |
+| **template** | **Template**|  | |
 | **id** | [**string**] |  | defaults to undefined|
 
 
@@ -346,11 +346,11 @@ const configuration = new Configuration();
 const apiInstance = new TemplatesApi(configuration);
 
 let id: string; // (default to undefined)
-let body: EmailGenerationDto; // (optional)
+let emailGenerationDto: EmailGenerationDto; // (optional)
 
 const { status, data } = await apiInstance.updateByIdGenerate(
     id,
-    body
+    emailGenerationDto
 );
 ```
 
@@ -358,7 +358,7 @@ const { status, data } = await apiInstance.updateByIdGenerate(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **EmailGenerationDto**|  | |
+| **emailGenerationDto** | **EmailGenerationDto**|  | |
 | **id** | [**string**] |  | defaults to undefined|
 
 

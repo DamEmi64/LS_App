@@ -16,8 +16,8 @@ const languages = [
 ];
 
 const AppSettings: React.FC = () => {
-    const [frontendVersion, setFrontendVersion] = useState('v1.0');
     const {useVariable} = useConfiguration();
+    const [frontendVersion, setFrontendVersion] = useVariable('version');
     const { t, i18n } = useTranslation();
     const [endpoint, setEndpoint] = useVariable('apiEndpoint');
     const [language, setLanguage] = useLocalStorage('lang', i18n.language || 'en');
@@ -191,7 +191,7 @@ const AppSettings: React.FC = () => {
                         ))}
                     </Select>
                 </FormControl>
-                <ServerInfo frontendVersion='0.0.1.' version={serverData.version} modules={serverData.modules || []}></ServerInfo>
+                <ServerInfo frontendVersion={frontendVersion} version={serverData.version} modules={serverData.modules || []}></ServerInfo>
             </Box >
         </>
     );

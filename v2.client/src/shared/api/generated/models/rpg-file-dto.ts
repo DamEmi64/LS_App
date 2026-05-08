@@ -14,10 +14,9 @@
 
 
 
-export interface TaskDto {
+export interface RpgFileDto {
     'id'?: string;
-    'operationId'?: number;
-    'order'?: number;
-    'data'?: any | null;
+    'title'?: string | null;
+    'content'?: string;
 }
 

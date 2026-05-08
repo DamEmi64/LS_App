@@ -78,7 +78,7 @@ const Emails: React.FC = () => {
     };
 
     const send = async (email: Email) => {
-        call(api => api.emailsApi.updateByIdSend,{id:email.id, body:email});
+        call(api => api.emailsApi.updateByIdSend,{id:email.id});
 
     };
 
@@ -99,13 +99,13 @@ const Emails: React.FC = () => {
     };
 
     const addData = async (email: Email) => {
-        await call(api => api.emailsApi.create,{id:email.id,body:email});
+        await call(api => api.emailsApi.create,{email});
         modal.hideModal();
         refresh();
     };
 
     const editData = async (email: Email) => {
-        await call(api => api.emailsApi.updateById,{id:email.id,body:email});
+        await call(api => api.emailsApi.updateById,{id:email.id, email});
 
         modal.hideModal();
         refresh();

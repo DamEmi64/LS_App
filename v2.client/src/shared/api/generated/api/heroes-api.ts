@@ -36,11 +36,11 @@ export const HeroesApiAxiosParamCreator = function (configuration?: Configuratio
     return {
         /**
          * 
-         * @param {HeroDto} [body] 
+         * @param {HeroDto} [heroDto] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        create: async (body?: HeroDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        create: async (heroDto?: HeroDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/Heroes`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -58,7 +58,7 @@ export const HeroesApiAxiosParamCreator = function (configuration?: Configuratio
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(heroDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -194,11 +194,11 @@ export const HeroesApiAxiosParamCreator = function (configuration?: Configuratio
         /**
          * 
          * @param {string} id 
-         * @param {HeroDto} [body] 
+         * @param {HeroDto} [heroDto] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateById: async (id: string, body?: HeroDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateById: async (id: string, heroDto?: HeroDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateById', 'id', id)
             const localVarPath = `/api/Heroes/{id}`
@@ -219,7 +219,7 @@ export const HeroesApiAxiosParamCreator = function (configuration?: Configuratio
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(heroDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -229,11 +229,11 @@ export const HeroesApiAxiosParamCreator = function (configuration?: Configuratio
         /**
          * 
          * @param {string} id 
-         * @param {PlayerDataDto} [body] 
+         * @param {PlayerDataDto} [playerDataDto] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateByIdPlayerData: async (id: string, body?: PlayerDataDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateByIdPlayerData: async (id: string, playerDataDto?: PlayerDataDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateByIdPlayerData', 'id', id)
             const localVarPath = `/api/Heroes/{id}/playerData`
@@ -254,7 +254,7 @@ export const HeroesApiAxiosParamCreator = function (configuration?: Configuratio
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(playerDataDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -272,12 +272,12 @@ export const HeroesApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {HeroDto} [body] 
+         * @param {HeroDto} [heroDto] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async create(body?: HeroDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.create(body, options);
+        async create(heroDto?: HeroDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.create(heroDto, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['HeroesApi.create']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -326,12 +326,12 @@ export const HeroesApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {string} id 
-         * @param {HeroDto} [body] 
+         * @param {HeroDto} [heroDto] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateById(id: string, body?: HeroDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateById(id, body, options);
+        async updateById(id: string, heroDto?: HeroDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateById(id, heroDto, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['HeroesApi.updateById']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -339,12 +339,12 @@ export const HeroesApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {string} id 
-         * @param {PlayerDataDto} [body] 
+         * @param {PlayerDataDto} [playerDataDto] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateByIdPlayerData(id: string, body?: PlayerDataDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateByIdPlayerData(id, body, options);
+        async updateByIdPlayerData(id: string, playerDataDto?: PlayerDataDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateByIdPlayerData(id, playerDataDto, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['HeroesApi.updateByIdPlayerData']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -365,7 +365,7 @@ export const HeroesApiFactory = function (configuration?: Configuration, basePat
          * @throws {RequiredError}
          */
         create(requestParameters: HeroesApiCreateRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.create(requestParameters.body, options).then((request) => request(axios, basePath));
+            return localVarFp.create(requestParameters.heroDto, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -401,7 +401,7 @@ export const HeroesApiFactory = function (configuration?: Configuration, basePat
          * @throws {RequiredError}
          */
         updateById(requestParameters: HeroesApiUpdateByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.updateById(requestParameters.id, requestParameters.body, options).then((request) => request(axios, basePath));
+            return localVarFp.updateById(requestParameters.id, requestParameters.heroDto, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -410,7 +410,7 @@ export const HeroesApiFactory = function (configuration?: Configuration, basePat
          * @throws {RequiredError}
          */
         updateByIdPlayerData(requestParameters: HeroesApiUpdateByIdPlayerDataRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.updateByIdPlayerData(requestParameters.id, requestParameters.body, options).then((request) => request(axios, basePath));
+            return localVarFp.updateByIdPlayerData(requestParameters.id, requestParameters.playerDataDto, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -419,7 +419,7 @@ export const HeroesApiFactory = function (configuration?: Configuration, basePat
  * Request parameters for create operation in HeroesApi.
  */
 export interface HeroesApiCreateRequest {
-    readonly body?: HeroDto
+    readonly heroDto?: HeroDto
 }
 
 /**
@@ -459,7 +459,7 @@ export interface HeroesApiGetByIdRequest {
 export interface HeroesApiUpdateByIdRequest {
     readonly id: string
 
-    readonly body?: HeroDto
+    readonly heroDto?: HeroDto
 }
 
 /**
@@ -468,7 +468,7 @@ export interface HeroesApiUpdateByIdRequest {
 export interface HeroesApiUpdateByIdPlayerDataRequest {
     readonly id: string
 
-    readonly body?: PlayerDataDto
+    readonly playerDataDto?: PlayerDataDto
 }
 
 /**
@@ -482,7 +482,7 @@ export class HeroesApi extends BaseAPI {
      * @throws {RequiredError}
      */
     public create(requestParameters: HeroesApiCreateRequest = {}, options?: RawAxiosRequestConfig) {
-        return HeroesApiFp(this.configuration).create(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+        return HeroesApiFp(this.configuration).create(requestParameters.heroDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -522,7 +522,7 @@ export class HeroesApi extends BaseAPI {
      * @throws {RequiredError}
      */
     public updateById(requestParameters: HeroesApiUpdateByIdRequest, options?: RawAxiosRequestConfig) {
-        return HeroesApiFp(this.configuration).updateById(requestParameters.id, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+        return HeroesApiFp(this.configuration).updateById(requestParameters.id, requestParameters.heroDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -532,7 +532,7 @@ export class HeroesApi extends BaseAPI {
      * @throws {RequiredError}
      */
     public updateByIdPlayerData(requestParameters: HeroesApiUpdateByIdPlayerDataRequest, options?: RawAxiosRequestConfig) {
-        return HeroesApiFp(this.configuration).updateByIdPlayerData(requestParameters.id, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+        return HeroesApiFp(this.configuration).updateByIdPlayerData(requestParameters.id, requestParameters.playerDataDto, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

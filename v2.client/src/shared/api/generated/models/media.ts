@@ -14,10 +14,14 @@
 
 
 
-export interface TaskDto {
+export interface Media {
+    'contentStr'?: string | null;
+    'content'?: string | null;
+    'extension'?: string | null;
     'id'?: string;
-    'operationId'?: number;
-    'order'?: number;
-    'data'?: any | null;
+    'insDate'?: string;
+    'updDate'?: string;
+    'insBy'?: string | null;
+    'updBy'?: string | null;
 }
 

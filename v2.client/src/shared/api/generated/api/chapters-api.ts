@@ -36,11 +36,11 @@ export const ChaptersApiAxiosParamCreator = function (configuration?: Configurat
     return {
         /**
          * 
-         * @param {ChapterDto} [body] 
+         * @param {ChapterDto} [chapterDto] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        create: async (body?: ChapterDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        create: async (chapterDto?: ChapterDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/Chapters`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -58,7 +58,7 @@ export const ChaptersApiAxiosParamCreator = function (configuration?: Configurat
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(chapterDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -205,11 +205,11 @@ export const ChaptersApiAxiosParamCreator = function (configuration?: Configurat
         /**
          * 
          * @param {string} id 
-         * @param {ChapterDto} [body] 
+         * @param {ChapterDto} [chapterDto] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateById: async (id: string, body?: ChapterDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateById: async (id: string, chapterDto?: ChapterDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateById', 'id', id)
             const localVarPath = `/api/Chapters/{id}`
@@ -230,7 +230,7 @@ export const ChaptersApiAxiosParamCreator = function (configuration?: Configurat
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(chapterDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -272,11 +272,11 @@ export const ChaptersApiAxiosParamCreator = function (configuration?: Configurat
         /**
          * 
          * @param {string} id 
-         * @param {FlowDto} [body] 
+         * @param {FlowDto} [flowDto] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateByIdFlow: async (id: string, body?: FlowDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateByIdFlow: async (id: string, flowDto?: FlowDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateByIdFlow', 'id', id)
             const localVarPath = `/api/Chapters/{id}/flow`
@@ -297,7 +297,7 @@ export const ChaptersApiAxiosParamCreator = function (configuration?: Configurat
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(flowDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -379,12 +379,12 @@ export const ChaptersApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {ChapterDto} [body] 
+         * @param {ChapterDto} [chapterDto] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async create(body?: ChapterDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.create(body, options);
+        async create(chapterDto?: ChapterDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.create(chapterDto, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ChaptersApi.create']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -434,12 +434,12 @@ export const ChaptersApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {string} id 
-         * @param {ChapterDto} [body] 
+         * @param {ChapterDto} [chapterDto] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateById(id: string, body?: ChapterDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateById(id, body, options);
+        async updateById(id: string, chapterDto?: ChapterDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateById(id, chapterDto, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ChaptersApi.updateById']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -459,12 +459,12 @@ export const ChaptersApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {string} id 
-         * @param {FlowDto} [body] 
+         * @param {FlowDto} [flowDto] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateByIdFlow(id: string, body?: FlowDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateByIdFlow(id, body, options);
+        async updateByIdFlow(id: string, flowDto?: FlowDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateByIdFlow(id, flowDto, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ChaptersApi.updateByIdFlow']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -509,7 +509,7 @@ export const ChaptersApiFactory = function (configuration?: Configuration, baseP
          * @throws {RequiredError}
          */
         create(requestParameters: ChaptersApiCreateRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.create(requestParameters.body, options).then((request) => request(axios, basePath));
+            return localVarFp.create(requestParameters.chapterDto, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -545,7 +545,7 @@ export const ChaptersApiFactory = function (configuration?: Configuration, baseP
          * @throws {RequiredError}
          */
         updateById(requestParameters: ChaptersApiUpdateByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.updateById(requestParameters.id, requestParameters.body, options).then((request) => request(axios, basePath));
+            return localVarFp.updateById(requestParameters.id, requestParameters.chapterDto, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -563,7 +563,7 @@ export const ChaptersApiFactory = function (configuration?: Configuration, baseP
          * @throws {RequiredError}
          */
         updateByIdFlow(requestParameters: ChaptersApiUpdateByIdFlowRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.updateByIdFlow(requestParameters.id, requestParameters.body, options).then((request) => request(axios, basePath));
+            return localVarFp.updateByIdFlow(requestParameters.id, requestParameters.flowDto, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -590,7 +590,7 @@ export const ChaptersApiFactory = function (configuration?: Configuration, baseP
  * Request parameters for create operation in ChaptersApi.
  */
 export interface ChaptersApiCreateRequest {
-    readonly body?: ChapterDto
+    readonly chapterDto?: ChapterDto
 }
 
 /**
@@ -632,7 +632,7 @@ export interface ChaptersApiGetByIdRequest {
 export interface ChaptersApiUpdateByIdRequest {
     readonly id: string
 
-    readonly body?: ChapterDto
+    readonly chapterDto?: ChapterDto
 }
 
 /**
@@ -648,7 +648,7 @@ export interface ChaptersApiUpdateByIdEndRequest {
 export interface ChaptersApiUpdateByIdFlowRequest {
     readonly id: string
 
-    readonly body?: FlowDto
+    readonly flowDto?: FlowDto
 }
 
 /**
@@ -676,7 +676,7 @@ export class ChaptersApi extends BaseAPI {
      * @throws {RequiredError}
      */
     public create(requestParameters: ChaptersApiCreateRequest = {}, options?: RawAxiosRequestConfig) {
-        return ChaptersApiFp(this.configuration).create(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+        return ChaptersApiFp(this.configuration).create(requestParameters.chapterDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -716,7 +716,7 @@ export class ChaptersApi extends BaseAPI {
      * @throws {RequiredError}
      */
     public updateById(requestParameters: ChaptersApiUpdateByIdRequest, options?: RawAxiosRequestConfig) {
-        return ChaptersApiFp(this.configuration).updateById(requestParameters.id, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+        return ChaptersApiFp(this.configuration).updateById(requestParameters.id, requestParameters.chapterDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -736,7 +736,7 @@ export class ChaptersApi extends BaseAPI {
      * @throws {RequiredError}
      */
     public updateByIdFlow(requestParameters: ChaptersApiUpdateByIdFlowRequest, options?: RawAxiosRequestConfig) {
-        return ChaptersApiFp(this.configuration).updateByIdFlow(requestParameters.id, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+        return ChaptersApiFp(this.configuration).updateByIdFlow(requestParameters.id, requestParameters.flowDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

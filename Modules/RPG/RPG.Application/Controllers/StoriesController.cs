@@ -87,25 +87,11 @@ namespace RPG.Application.Controllers
 
         [HttpPost("")]
         [AuthPermission("rpg_write")]
-        public async Task<IActionResult> Create([FromForm] CreateStoryDto dto)
+        public async Task<IActionResult> Create([FromBody] StoryDto dto)
         {
             var entity = _mapper.Map<Story>(dto);
 
             var files = new List<RPGFile>();
-            foreach (var file in dto.Files)
-            {
-                using (var stream = new MemoryStream())
-                {
-                    await file.CopyToAsync(stream);
-                    var fileId = await _mediaProvider.Save(stream.ToArray(), null);
-                    files.Add(new RPGFile
-                    {
-                        Content = fileId,
-                        Title = file.FileName
-                    });
-                }
-            }
-            entity.Files = files;
             await _storyRepository.Add(entity);
             await Notifier.Success(SessionNotifyTypes.SessionSaved, dto.Title);
 
@@ -114,6 +100,7 @@ namespace RPG.Application.Controllers
 
         [HttpPost("import")]
         [AuthPermission("rpg_write")]
+        [Consumes("multipart/form-data")]
         public async Task<IActionResult> Import([FromForm] ImportDto dto)
         {
             var fileName = dto.ExternalUrl;
@@ -211,22 +198,51 @@ namespace RPG.Application.Controllers
             return Ok();
         }
 
-        [HttpGet("{id}/summary")]
-        [ProducesResponseType(typeof(FileResult), StatusCodes.Status200OK)]
-        public async Task<IActionResult> DownloadSummary(Guid id)
+        [HttpPost("{id}/files")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> AddRPGFile(Guid id, [FromForm] CreateRPGFileDto dto)
+        {
+            if (dto.File is null)
+                return BadRequest();
+
+            var story = await _storyRepository.Get(id);
+
+            if (story is null)
+                return NotFound();
+
+            var title = Path.GetFileNameWithoutExtension(dto.File!.FileName);
+            var extension = Path.GetExtension(dto.File!.FileName);
+
+            using (var stream = new MemoryStream())
+            {
+                await dto.File.CopyToAsync(stream);
+                var fileId = await _mediaProvider.Save(stream.ToArray(), null, extension);
+                var file = new RPGFile
+                {
+                    Id = dto.FileId ?? Guid.NewGuid(),
+                    Title = title ?? "FILE",
+                    Content = fileId
+                };
+
+                await _storyRepository.AddFile(story, file);
+
+               return Ok();
+            }
+        }
+
+        [HttpDelete("{id}/files/{fileId}")]
+        public async Task<IActionResult> DeleteRPGFile([FromRoute] Guid id, [FromRoute] Guid fileId)
         {
             var story = await _storyRepository.Get(id);
-            if (story != null)
-            {
-                var file = await _mediaProvider.Load(story.Summary ?? Guid.Empty);
 
-                if (file is null || file.Content is null)
-                    return NotFound();
+            if (story is null)
+                return NotFound();
 
-                return File(file.Content, file.Extension.ToContentType(), story.Title + "_Summary." + file.Extension);
-            }
+            story.Files.RemoveAll(x => x.Id == fileId);
 
-            return NotFound();
+            await _storyRepository.Update(story);
+
+            return Ok();
         }
     }
 }

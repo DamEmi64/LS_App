@@ -5,13 +5,14 @@ All URIs are relative to *http://localhost*
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
 |[**create**](#create) | **POST** /api/Stories | |
+|[**createByIdFiles**](#createbyidfiles) | **POST** /api/Stories/{id}/files | |
 |[**createImport**](#createimport) | **POST** /api/Stories/import | |
 |[**deleteById**](#deletebyid) | **DELETE** /api/Stories/{id} | |
+|[**deleteByIdFilesByFileId**](#deletebyidfilesbyfileid) | **DELETE** /api/Stories/{id}/files/{fileId} | |
 |[**get**](#get) | **GET** /api/Stories | |
 |[**getById**](#getbyid) | **GET** /api/Stories/{id} | |
 |[**getByIdDraft**](#getbyiddraft) | **GET** /api/Stories/{id}/draft | |
 |[**getByIdExport**](#getbyidexport) | **GET** /api/Stories/{id}/export | |
-|[**getByIdSummary**](#getbyidsummary) | **GET** /api/Stories/{id}/summary | |
 |[**getDraft**](#getdraft) | **GET** /api/Stories/draft | |
 |[**updateById**](#updatebyid) | **PUT** /api/Stories/{id} | |
 |[**updateByIdEnd**](#updatebyidend) | **PUT** /api/Stories/{id}/end | |
@@ -28,20 +29,17 @@ All URIs are relative to *http://localhost*
 ```typescript
 import {
     StoriesApi,
-    Configuration
+    Configuration,
+    StoryDto
 } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new StoriesApi(configuration);
 
-let title: string; // (default to undefined)
-let description: string; // (default to undefined)
-let files: Array<File>; // (optional) (default to undefined)
+let storyDto: StoryDto; // (optional)
 
 const { status, data } = await apiInstance.create(
-    title,
-    description,
-    files
+    storyDto
 );
 ```
 
@@ -49,9 +47,63 @@ const { status, data } = await apiInstance.create(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **title** | [**string**] |  | defaults to undefined|
-| **description** | [**string**] |  | defaults to undefined|
-| **files** | **Array&lt;File&gt;** |  | (optional) defaults to undefined|
+| **storyDto** | **StoryDto**|  | |
+
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json-patch+json, application/json, text/json, application/*+json
+ - **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **createByIdFiles**
+> createByIdFiles()
+
+
+### Example
+
+```typescript
+import {
+    StoriesApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new StoriesApi(configuration);
+
+let id: string; // (default to undefined)
+let file: File; // (default to undefined)
+let fileId: string; // (optional) (default to undefined)
+
+const { status, data } = await apiInstance.createByIdFiles(
+    id,
+    file,
+    fileId
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **id** | [**string**] |  | defaults to undefined|
+| **file** | [**File**] |  | defaults to undefined|
+| **fileId** | [**string**] |  | (optional) defaults to undefined|
 
 
 ### Return type
@@ -90,7 +142,7 @@ import {
 const configuration = new Configuration();
 const apiInstance = new StoriesApi(configuration);
 
-let file: string; // (default to undefined)
+let file: File; // (optional) (default to undefined)
 let converterType: number; // (optional) (default to undefined)
 let externalUrl: string; // (optional) (default to undefined)
 
@@ -105,7 +157,7 @@ const { status, data } = await apiInstance.createImport(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **file** | [**string**] |  | defaults to undefined|
+| **file** | [**File**] |  | (optional) defaults to undefined|
 | **converterType** | [**number**] |  | (optional) defaults to undefined|
 | **externalUrl** | [**string**] |  | (optional) defaults to undefined|
 
@@ -158,6 +210,59 @@ const { status, data } = await apiInstance.deleteById(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **id** | [**string**] |  | defaults to undefined|
+
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **deleteByIdFilesByFileId**
+> deleteByIdFilesByFileId()
+
+
+### Example
+
+```typescript
+import {
+    StoriesApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new StoriesApi(configuration);
+
+let id: string; // (default to undefined)
+let fileId: string; // (default to undefined)
+
+const { status, data } = await apiInstance.deleteByIdFilesByFileId(
+    id,
+    fileId
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **id** | [**string**] |  | defaults to undefined|
+| **fileId** | [**string**] |  | defaults to undefined|
 
 
 ### Return type
@@ -405,56 +510,6 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getByIdSummary**
-> File getByIdSummary()
-
-
-### Example
-
-```typescript
-import {
-    StoriesApi,
-    Configuration
-} from './api';
-
-const configuration = new Configuration();
-const apiInstance = new StoriesApi(configuration);
-
-let id: string; // (default to undefined)
-
-const { status, data } = await apiInstance.getByIdSummary(
-    id
-);
-```
-
-### Parameters
-
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **id** | [**string**] |  | defaults to undefined|
-
-
-### Return type
-
-**File**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: text/plain, application/json, text/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
 # **getDraft**
 > StoryResponseList getDraft()
 
@@ -546,11 +601,11 @@ const configuration = new Configuration();
 const apiInstance = new StoriesApi(configuration);
 
 let id: string; // (default to undefined)
-let body: StoryDto; // (optional)
+let storyDto: StoryDto; // (optional)
 
 const { status, data } = await apiInstance.updateById(
     id,
-    body
+    storyDto
 );
 ```
 
@@ -558,7 +613,7 @@ const { status, data } = await apiInstance.updateById(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **StoryDto**|  | |
+| **storyDto** | **StoryDto**|  | |
 | **id** | [**string**] |  | defaults to undefined|
 
 
@@ -650,11 +705,11 @@ const configuration = new Configuration();
 const apiInstance = new StoriesApi(configuration);
 
 let id: string; // (default to undefined)
-let body: SummaryModel; // (optional)
+let summaryModel: SummaryModel; // (optional)
 
 const { status, data } = await apiInstance.updateByIdFirebase(
     id,
-    body
+    summaryModel
 );
 ```
 
@@ -662,7 +717,7 @@ const { status, data } = await apiInstance.updateByIdFirebase(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **SummaryModel**|  | |
+| **summaryModel** | **SummaryModel**|  | |
 | **id** | [**string**] |  | defaults to undefined|
 
 
@@ -754,11 +809,11 @@ const configuration = new Configuration();
 const apiInstance = new StoriesApi(configuration);
 
 let id: string; // (default to undefined)
-let body: SummaryModel; // (optional)
+let summaryModel: SummaryModel; // (optional)
 
 const { status, data } = await apiInstance.updateByIdSummary(
     id,
-    body
+    summaryModel
 );
 ```
 
@@ -766,7 +821,7 @@ const { status, data } = await apiInstance.updateByIdSummary(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **SummaryModel**|  | |
+| **summaryModel** | **SummaryModel**|  | |
 | **id** | [**string**] |  | defaults to undefined|
 
 

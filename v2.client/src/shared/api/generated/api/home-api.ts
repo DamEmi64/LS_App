@@ -21,6 +21,8 @@ import globalAxios from 'axios';
 import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction, replaceWithSerializableTypeIfNeeded } from '../common';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
+// @ts-ignore
+import type { Media } from '../models';
 /**
  * HomeApi - axios parameter creator
  */
@@ -88,8 +90,8 @@ export const HomeApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getImage: async (id?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/Home/image`;
+        getMedia: async (id?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/Home/media`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -153,10 +155,10 @@ export const HomeApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getImage(id?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<File>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getImage(id, options);
+        async getMedia(id?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Media>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getMedia(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['HomeApi.getImage']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['HomeApi.getMedia']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -186,20 +188,20 @@ export const HomeApiFactory = function (configuration?: Configuration, basePath?
         },
         /**
          * 
-         * @param {HomeApiGetImageRequest} requestParameters Request parameters.
+         * @param {HomeApiGetMediaRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getImage(requestParameters: HomeApiGetImageRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<File> {
-            return localVarFp.getImage(requestParameters.id, options).then((request) => request(axios, basePath));
+        getMedia(requestParameters: HomeApiGetMediaRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Media> {
+            return localVarFp.getMedia(requestParameters.id, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * Request parameters for getImage operation in HomeApi.
+ * Request parameters for getMedia operation in HomeApi.
  */
-export interface HomeApiGetImageRequest {
+export interface HomeApiGetMediaRequest {
     readonly id?: string
 }
 
@@ -227,12 +229,12 @@ export class HomeApi extends BaseAPI {
 
     /**
      * 
-     * @param {HomeApiGetImageRequest} requestParameters Request parameters.
+     * @param {HomeApiGetMediaRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public getImage(requestParameters: HomeApiGetImageRequest = {}, options?: RawAxiosRequestConfig) {
-        return HomeApiFp(this.configuration).getImage(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public getMedia(requestParameters: HomeApiGetMediaRequest = {}, options?: RawAxiosRequestConfig) {
+        return HomeApiFp(this.configuration).getMedia(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

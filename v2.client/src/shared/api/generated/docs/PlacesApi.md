@@ -26,10 +26,10 @@ import {
 const configuration = new Configuration();
 const apiInstance = new PlacesApi(configuration);
 
-let body: PlaceDto; // (optional)
+let placeDto: PlaceDto; // (optional)
 
 const { status, data } = await apiInstance.create(
-    body
+    placeDto
 );
 ```
 
@@ -37,7 +37,7 @@ const { status, data } = await apiInstance.create(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **PlaceDto**|  | |
+| **placeDto** | **PlaceDto**|  | |
 
 
 ### Return type
@@ -240,11 +240,11 @@ const configuration = new Configuration();
 const apiInstance = new PlacesApi(configuration);
 
 let id: string; // (default to undefined)
-let body: PlaceDto; // (optional)
+let placeDto: PlaceDto; // (optional)
 
 const { status, data } = await apiInstance.updateById(
     id,
-    body
+    placeDto
 );
 ```
 
@@ -252,7 +252,7 @@ const { status, data } = await apiInstance.updateById(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **PlaceDto**|  | |
+| **placeDto** | **PlaceDto**|  | |
 | **id** | [**string**] |  | defaults to undefined|
 
 

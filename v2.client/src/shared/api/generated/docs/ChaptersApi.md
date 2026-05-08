@@ -30,10 +30,10 @@ import {
 const configuration = new Configuration();
 const apiInstance = new ChaptersApi(configuration);
 
-let body: ChapterDto; // (optional)
+let chapterDto: ChapterDto; // (optional)
 
 const { status, data } = await apiInstance.create(
-    body
+    chapterDto
 );
 ```
 
@@ -41,7 +41,7 @@ const { status, data } = await apiInstance.create(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **ChapterDto**|  | |
+| **chapterDto** | **ChapterDto**|  | |
 
 
 ### Return type
@@ -250,11 +250,11 @@ const configuration = new Configuration();
 const apiInstance = new ChaptersApi(configuration);
 
 let id: string; // (default to undefined)
-let body: ChapterDto; // (optional)
+let chapterDto: ChapterDto; // (optional)
 
 const { status, data } = await apiInstance.updateById(
     id,
-    body
+    chapterDto
 );
 ```
 
@@ -262,7 +262,7 @@ const { status, data } = await apiInstance.updateById(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **ChapterDto**|  | |
+| **chapterDto** | **ChapterDto**|  | |
 | **id** | [**string**] |  | defaults to undefined|
 
 
@@ -354,11 +354,11 @@ const configuration = new Configuration();
 const apiInstance = new ChaptersApi(configuration);
 
 let id: string; // (default to undefined)
-let body: FlowDto; // (optional)
+let flowDto: FlowDto; // (optional)
 
 const { status, data } = await apiInstance.updateByIdFlow(
     id,
-    body
+    flowDto
 );
 ```
 
@@ -366,7 +366,7 @@ const { status, data } = await apiInstance.updateByIdFlow(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **FlowDto**|  | |
+| **flowDto** | **FlowDto**|  | |
 | **id** | [**string**] |  | defaults to undefined|
 
 

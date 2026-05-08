@@ -8,8 +8,8 @@ All URIs are relative to *http://localhost*
 |[**createLogin**](#createlogin) | **POST** /api/Auth/login | |
 |[**createLogout**](#createlogout) | **POST** /api/Auth/logout | |
 |[**createRegister**](#createregister) | **POST** /api/Auth/register | |
-|[**getData**](#getdata) | **GET** /api/Auth/data | |
 |[**getMe**](#getme) | **GET** /api/Auth/me | |
+|[**getUser**](#getuser) | **GET** /api/Auth/user | |
 |[**update**](#update) | **PUT** /api/Auth | |
 |[**updateChangePassword**](#updatechangepassword) | **PUT** /api/Auth/changePassword | |
 
@@ -72,10 +72,10 @@ import {
 const configuration = new Configuration();
 const apiInstance = new AuthApi(configuration);
 
-let body: LoginModel; // (optional)
+let loginModel: LoginModel; // (optional)
 
 const { status, data } = await apiInstance.createLogin(
-    body
+    loginModel
 );
 ```
 
@@ -83,7 +83,7 @@ const { status, data } = await apiInstance.createLogin(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **LoginModel**|  | |
+| **loginModel** | **LoginModel**|  | |
 
 
 ### Return type
@@ -166,10 +166,10 @@ import {
 const configuration = new Configuration();
 const apiInstance = new AuthApi(configuration);
 
-let body: RegisterModel; // (optional)
+let registerModel: RegisterModel; // (optional)
 
 const { status, data } = await apiInstance.createRegister(
-    body
+    registerModel
 );
 ```
 
@@ -177,7 +177,7 @@ const { status, data } = await apiInstance.createRegister(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **RegisterModel**|  | |
+| **registerModel** | **RegisterModel**|  | |
 
 
 ### Return type
@@ -192,49 +192,6 @@ No authorization required
 
  - **Content-Type**: application/json-patch+json, application/json, text/json, application/*+json
  - **Accept**: Not defined
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **getData**
-> User getData()
-
-
-### Example
-
-```typescript
-import {
-    AuthApi,
-    Configuration
-} from './api';
-
-const configuration = new Configuration();
-const apiInstance = new AuthApi(configuration);
-
-const { status, data } = await apiInstance.getData();
-```
-
-### Parameters
-This endpoint does not have any parameters.
-
-
-### Return type
-
-**User**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: text/plain, application/json, text/json
 
 
 ### HTTP response details
@@ -287,6 +244,49 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **getUser**
+> User getUser()
+
+
+### Example
+
+```typescript
+import {
+    AuthApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new AuthApi(configuration);
+
+const { status, data } = await apiInstance.getUser();
+```
+
+### Parameters
+This endpoint does not have any parameters.
+
+
+### Return type
+
+**User**
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain, application/json, text/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **update**
 > update()
 
@@ -303,10 +303,10 @@ import {
 const configuration = new Configuration();
 const apiInstance = new AuthApi(configuration);
 
-let body: User; // (optional)
+let user: User; // (optional)
 
 const { status, data } = await apiInstance.update(
-    body
+    user
 );
 ```
 
@@ -314,7 +314,7 @@ const { status, data } = await apiInstance.update(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **User**|  | |
+| **user** | **User**|  | |
 
 
 ### Return type
@@ -347,20 +347,17 @@ No authorization required
 ```typescript
 import {
     AuthApi,
-    Configuration
+    Configuration,
+    ResetPasswordModel
 } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new AuthApi(configuration);
 
-let oldPassword: string; // (default to undefined)
-let newPassword: string; // (default to undefined)
-let userId: string; // (optional) (default to undefined)
+let resetPasswordModel: ResetPasswordModel; // (optional)
 
 const { status, data } = await apiInstance.updateChangePassword(
-    oldPassword,
-    newPassword,
-    userId
+    resetPasswordModel
 );
 ```
 
@@ -368,9 +365,7 @@ const { status, data } = await apiInstance.updateChangePassword(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **oldPassword** | [**string**] |  | defaults to undefined|
-| **newPassword** | [**string**] |  | defaults to undefined|
-| **userId** | [**string**] |  | (optional) defaults to undefined|
+| **resetPasswordModel** | **ResetPasswordModel**|  | |
 
 
 ### Return type
@@ -383,7 +378,7 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json-patch+json, application/json, text/json, application/*+json
  - **Accept**: Not defined
 
 

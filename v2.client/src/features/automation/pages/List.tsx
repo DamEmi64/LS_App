@@ -68,7 +68,7 @@ const List: React.FC = () => {
   };
 
   const saveNew = (automat: Automat) => {
-    call(api=>api.automationApi.create,automat).then(refresh);
+    call(api=>api.automationApi.create,{automationDto:automat}).then(refresh);
   };
 
   const editAutomat = (automat: Automat) => {
@@ -78,7 +78,7 @@ const List: React.FC = () => {
   };
 
   const saveEdit = (automat: Automat, id: string) => {
-    call(api=>api.automationApi.updateById,{ id, body: automat }).then(refresh);
+    call(api=>api.automationApi.updateById,{ id, automationDto: automat }).then(refresh);
   };
 
   const turnOnOff = (automat: Automat) => {

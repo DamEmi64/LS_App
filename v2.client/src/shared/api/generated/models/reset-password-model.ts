@@ -14,10 +14,9 @@
 
 
 
-export interface TaskDto {
-    'id'?: string;
-    'operationId'?: number;
-    'order'?: number;
-    'data'?: any | null;
+export interface ResetPasswordModel {
+    'userId'?: string | null;
+    'oldPassword': string | null;
+    'newPassword': string | null;
 }
 

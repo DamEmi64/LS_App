@@ -16,7 +16,7 @@ import React from "react";
 import { ChapterTable } from "./ChapterTable";
 import { useTranslation } from "react-i18next";
 import SummaryGen from "@/features/rpg/components/summaryGen";
-import { convertToDateStr } from "@/lib/utils";
+import { convertToDateStr, download } from "@/lib/utils";
 import { saveAs } from 'file-saver';
 import { onChangeParams, ColumnDef, ColumnType, Operations, FilterItem, FilterType, FilterValue } from "@/shared";
 import YesNoWindow from "@/shared/components/YesNoWindow";
@@ -92,7 +92,7 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     }
 
     const saveNew = (data: Story) => {
-        call(api => api.storiesApi.create,data).then(() => refresh());
+        call(api => api.storiesApi.create,{storyDto: {storyDto:data}}).then(() => refresh());
     }
 
     // NEW: import modal
@@ -101,13 +101,8 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     }
 
     const handleImport = (data: any) => {
-        const formData = new FormData();
 
-        if (data.file) formData.append("File", data.file);
-        formData.append("ConverterType", data.converterType.toString());
-        if (data.externalUrl) formData.append("ExternalUrl", data.externalUrl);
-
-        call(api => api.storiesApi.createImport,formData).then(() => {
+        call(api => api.storiesApi.createImport,{file:data.file, converterType:data.converterType,externalUrl:data.externalUrl}).then(() => {
             modal.hideModal();
             refresh();
         });
@@ -119,11 +114,12 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     }
 
     const editSession = (data: any) => {
-        modal.showModal(<StoryEdit story={data} toSave={(o) => saveEdit(o, data.id)} />)
+        call<Story>(api => draft ? api.storiesApi.getByIdDraft : api.storiesApi.getById, {id: data.id})
+            .then(story =>  modal.showModal(<StoryEdit story={story} toSave={(o) => saveEdit(o, data.id)} edit/>))
     }
 
     const saveEdit = (data: Story, id: string) => {
-        call(api => api.storiesApi.updateById,{id:data.id,body:data}).then(() => refresh());
+        call(api => api.storiesApi.updateById,{id:data.id,storyDto:data}).then(() => refresh());
     }
 
     const addChapter = (data: Story) => {
@@ -140,7 +136,7 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     }
 
     const saveChapter = (data: SessionDto) => {
-        call(api => api.chaptersApi.create,data).then(() => {
+        call(api => api.chaptersApi.create,{chapterDto:data}).then(() => {
             modal.hideModal();
             refresh();
         });
@@ -167,7 +163,7 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     }
 
     const generateSummaryConfirm = (data: Story, isPdf: boolean) => {
-        call(api => api.storiesApi.updateByIdSummary, {id: data.id, body: { id: data.id, title: data.title, description: data.description, chapters: data.chapters.map((x) => x.id), isPdf}})
+        call(api => api.storiesApi.updateByIdSummary, {id:data.id, summaryModel:{id: data.id, title: data.title, description: data.description, chapters: data.chapters.map((x) => x.id), isPdf}})
             .then(() => modal.hideModal());
     }
 
@@ -176,7 +172,7 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     }
 
     const sendToFirebaseConfirm = (data: Story) => {
-        call(api => api.storiesApi.updateByIdFirebase,{id: data.id, body:{ id: data.id, title: data.title, description: data.description, chapters: data.chapters.map((x) => x.id) }})
+        call(api => api.storiesApi.updateByIdFirebase,{id:data.id, summaryModel:{id: data.id, title: data.title, description: data.description, chapters: data.chapters.map((x) => x.id) }})
             .then(() => modal.hideModal());
     }
 
@@ -198,23 +194,7 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
             .catch((error) => console.error('Download failed:', error));
     }
 
-    const downloadSummary = (data: any) => {
-        raw(api => api.storiesApi.getByIdSummary,{id:data.id})
-            .then((response) => {
-                const contentType = response.headers['content-type'] || 'application/octet-stream';
-                const disposition = response.headers['content-disposition'];
-                let filename = data.title + '_summary' + (contentType === 'application/pdf' ? '.pdf' : '.html');
-
-                if (disposition) {
-                    const match = disposition.match(/filename\*?=(?:UTF-8'')?([^;]+)/);
-                    if (match?.[1]) filename = decodeURIComponent(match[1].replace(/"/g, ''));
-                }
-
-                const blob = new Blob([response.data], { type: contentType.toLocaleString() });
-                saveAs(blob, filename);
-            })
-            .catch((error) => console.error('Download failed:', error));
-    }
+    const downloadSummary = (data: Story) => download(data.summary,data.title);
 
     const columns: ColumnDef[] = [
         { field: 'title', header: 'rpg.story.title', type: ColumnType.String },

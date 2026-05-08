@@ -25,7 +25,7 @@ namespace System.Application.Controllers
             return await _authService.Me(HttpContext);
         }
 
-        [HttpGet("data")]
+        [HttpGet("user")]
         [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
         public async Task<User?> GetUser()
         {
@@ -33,14 +33,14 @@ namespace System.Application.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterModel model)
+        public async Task<IActionResult> Register([FromBody] RegisterModel dto)
         {
-            var result = await _authService.Register(model);
+            var result = await _authService.Register(dto);
 
             if (result.Succeeded)
             {
                 await _authService.Logout();
-                await _authService.Login(new LoginModel { Login = model.Login, Password = model.Password });
+                await _authService.Login(new LoginModel { Login = dto.Login, Password = dto.Password });
 
                 return Ok(result);
             }
@@ -49,9 +49,9 @@ namespace System.Application.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginModel model)
+        public async Task<IActionResult> Login([FromBody] LoginModel dto)
         {
-            var result = await _authService.Login(model);
+            var result = await _authService.Login(dto);
 
             return result switch
             {
@@ -71,9 +71,9 @@ namespace System.Application.Controllers
         }
 
         [HttpPut("changePassword")]
-        public async Task<IActionResult> ChangePassword(ResetPasswordModel model)
+        public async Task<IActionResult> ChangePassword(ResetPasswordModel dto)
         {
-            var result = await _authService.ChangePassword(model, HttpContext);
+            var result = await _authService.ChangePassword(dto, HttpContext);
 
             return result switch
             {
@@ -83,9 +83,9 @@ namespace System.Application.Controllers
         }
 
         [HttpPut("")]
-        public async Task<IActionResult> Update([FromBody] User data)
+        public async Task<IActionResult> Update([FromBody] User user)
         {
-            await _authService.Update(data, HttpContext);
+            await _authService.Update(user, HttpContext);
 
             return Ok();
         }

@@ -15,6 +15,8 @@ import {
 
 import { notify } from '../components/NotificationListener';
 import { get } from '@/lib/utils';
+import { MapRule } from '../types';
+import { map } from '../api/extension';
 
 
 type ApiError = {
@@ -75,43 +77,16 @@ export const API = {
     homeApi: bindApi(new HomeApi(null, null, axiosInstance)),
 };
 
-/* ---------------------------------- */
-/* Normalize request */
-/* ---------------------------------- */
 
-const normalizeRequest = (input: any) => {
-    if (
-        input &&
-        typeof input === 'object' &&
-        !Array.isArray(input)
-    ) {
-        const keys = Object.keys(input);
 
-        if (
-            keys.includes('body') ||
-            (keys.includes('page') && keys.includes('pageSize'))
-        ) {
-            return input;
-        }
 
-        if (keys.length === 1 && keys[0] === 'id') {
-            return input;
-        }
-
-        return { body: input };
-    }
-
-    return input;
-};
-
-export const call = async <TRes = unknown>(
-    selector: (api: typeof API) => (req) => Promise<any>,
+export const call = async <TRes = unknown,TReq = unknown>(
+    selector: (api: typeof API) => (req:TReq) => Promise<any>,
     input: any,
     mapResponse?: (data: any) => TRes
 ): Promise<TRes> => {
     const method = selector(API);
-
-    const res = await method(normalizeRequest(input));
+    const res = await method(input);
 
     return mapResponse ? mapResponse(res.data) : res.data;
 };
@@ -121,5 +96,5 @@ export const raw = async <TRes, TReq>(
     input: TReq
 ) => {
     const method = selector(API);
-    return await method(normalizeRequest(input));
+    return await method(input);
 };

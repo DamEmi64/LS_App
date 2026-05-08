@@ -183,7 +183,7 @@ namespace Api
             {
                 var app = webApplicationBuilder.Build();
 
-                app.UseSwagger(o => o.OpenApiVersion = OpenApiSpecVersion.OpenApi2_0);
+                app.UseSwagger(o => o.OpenApiVersion = OpenApiSpecVersion.OpenApi3_0);
                 app.UseSwaggerUI();
                 app.UseMiddleware<ErrorMiddleware>();
                 app.UseMiddleware<SerilogMiddleware>();

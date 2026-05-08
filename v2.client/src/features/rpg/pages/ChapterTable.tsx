@@ -152,12 +152,12 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
 
     const saveFlow = (chapter: Chapter, nodes, edges) => {
         chapter.flow = { nodes, edges };
-        call(api => api.chaptersApi.updateByIdFlow,{id:chapter.id, body:{ nodes, edges }})
+        call(api => api.chaptersApi.updateByIdFlow,{id:chapter.id, flowDto:{ nodes, edges }})
             .then(() => refresh(chapter));
     }
 
     const saveEdit = (data: SessionDto, chapter: Chapter) => {
-        call(api => api.chaptersApi.updateById,{id:chapter.id, body:data})
+        call(api => api.chaptersApi.updateById,{id:chapter.id, chapterDto:data})
             .then(() => refresh(chapter));
     };
 
@@ -169,7 +169,7 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
     };
 
     const saveHero = (data: HeroDto, chapter: Chapter) => {
-        call(api => api.heroesApi.create,data)
+        call(api => api.heroesApi.create,{heroDto:data})
         .then(() => {
             modal.hideModal();
             refresh(chapter);
@@ -184,7 +184,7 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
     };
 
     const savePlace = (data: SessionDto, chapter: Chapter) => {
-        call(api => api.placesApi.create,data).then(() => {
+        call(api => api.placesApi.create,{placeDto:data}).then(() => {
             modal.hideModal();
             refresh(chapter);
         });

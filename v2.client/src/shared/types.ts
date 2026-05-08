@@ -4,6 +4,17 @@ export interface Row {
     title?: string;
 }
 
+export interface FileItem {
+    id: string;
+    title: string;
+    content: string;
+}
+
+export type MapRule = {
+    method: string
+    map: (input:any) => any
+}
+
 export interface NavbarItemProps {
     label: string;
     href: string;

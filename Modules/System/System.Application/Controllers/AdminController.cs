@@ -104,7 +104,7 @@ namespace System.Application.Controllers
 
         [TypeFilter(typeof(AdminPanelFilter))]
         [HttpPost("[action]")]
-        public async Task<IActionResult> CreateUser([FromForm] RegisterModel register)
+        public async Task<IActionResult> CreateUser(RegisterModel register)
         {
             var result = await _authService.Register(register);
 
@@ -291,7 +291,7 @@ namespace System.Application.Controllers
 
         [TypeFilter(typeof(AdminPanelFilter))]
         [HttpPost("[action]")]
-        public IActionResult LogsData([FromForm] LogFilter request, string? level, string? method)
+        public IActionResult LogsData(LogFilter request, string? level, string? method)
         {
             var query = _adminService.GetLogs();
 

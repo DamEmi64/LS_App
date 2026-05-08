@@ -27,10 +27,10 @@ import {
 const configuration = new Configuration();
 const apiInstance = new HeroesApi(configuration);
 
-let body: HeroDto; // (optional)
+let heroDto: HeroDto; // (optional)
 
 const { status, data } = await apiInstance.create(
-    body
+    heroDto
 );
 ```
 
@@ -38,7 +38,7 @@ const { status, data } = await apiInstance.create(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **HeroDto**|  | |
+| **heroDto** | **HeroDto**|  | |
 
 
 ### Return type
@@ -244,11 +244,11 @@ const configuration = new Configuration();
 const apiInstance = new HeroesApi(configuration);
 
 let id: string; // (default to undefined)
-let body: HeroDto; // (optional)
+let heroDto: HeroDto; // (optional)
 
 const { status, data } = await apiInstance.updateById(
     id,
-    body
+    heroDto
 );
 ```
 
@@ -256,7 +256,7 @@ const { status, data } = await apiInstance.updateById(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **HeroDto**|  | |
+| **heroDto** | **HeroDto**|  | |
 | **id** | [**string**] |  | defaults to undefined|
 
 
@@ -298,11 +298,11 @@ const configuration = new Configuration();
 const apiInstance = new HeroesApi(configuration);
 
 let id: string; // (default to undefined)
-let body: PlayerDataDto; // (optional)
+let playerDataDto: PlayerDataDto; // (optional)
 
 const { status, data } = await apiInstance.updateByIdPlayerData(
     id,
-    body
+    playerDataDto
 );
 ```
 
@@ -310,7 +310,7 @@ const { status, data } = await apiInstance.updateByIdPlayerData(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **PlayerDataDto**|  | |
+| **playerDataDto** | **PlayerDataDto**|  | |
 | **id** | [**string**] |  | defaults to undefined|
 
 

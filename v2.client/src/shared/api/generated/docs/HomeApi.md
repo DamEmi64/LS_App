@@ -6,7 +6,7 @@ All URIs are relative to *http://localhost*
 |------------- | ------------- | -------------|
 |[**get**](#get) | **GET** /api/Home | |
 |[**getHealth**](#gethealth) | **GET** /api/Home/health | |
-|[**getImage**](#getimage) | **GET** /api/Home/image | |
+|[**getMedia**](#getmedia) | **GET** /api/Home/media | |
 
 # **get**
 > get()
@@ -94,8 +94,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getImage**
-> File getImage()
+# **getMedia**
+> Media getMedia()
 
 
 ### Example
@@ -111,7 +111,7 @@ const apiInstance = new HomeApi(configuration);
 
 let id: string; // (optional) (default to undefined)
 
-const { status, data } = await apiInstance.getImage(
+const { status, data } = await apiInstance.getMedia(
     id
 );
 ```
@@ -125,7 +125,7 @@ const { status, data } = await apiInstance.getImage(
 
 ### Return type
 
-**File**
+**Media**
 
 ### Authorization
 

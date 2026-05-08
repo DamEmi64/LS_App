@@ -84,7 +84,7 @@ export const PlaceTable: React.FC<PlaceTableProps> = ({
     };
 
     const savePlace = (data: SessionDto, place: Place) => {
-        call(api => api.placesApi.updateById,{id:place.id, body:data})
+        call(api => api.placesApi.updateById,{id:place.id,placeDto:data})
             .then(() => refresh());
     };
 
@@ -94,7 +94,7 @@ export const PlaceTable: React.FC<PlaceTableProps> = ({
                 chapters={chapters}
                 onSelect={(chapterId) => {
 
-                    call<Image>(api => api.homeApi.getImage,{id:place.imageId})
+                    call<Image>(api => api.homeApi.getMedia,{id:place.imageId})
                         .then((res) => {
                             const imageData = res.contentStr || '';
 

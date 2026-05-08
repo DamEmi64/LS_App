@@ -25,6 +25,8 @@ import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError
 import type { ProcessDto } from '../models';
 // @ts-ignore
 import type { ProcessDtoResponseList } from '../models';
+// @ts-ignore
+import type { ProgressStatus } from '../models';
 /**
  * ProcessApi - axios parameter creator
  */
@@ -37,13 +39,13 @@ export const ProcessApiAxiosParamCreator = function (configuration?: Configurati
          * @param {number} [pageSize] 
          * @param {string} [orderBy] 
          * @param {string} [title] 
-         * @param {string} [status] 
+         * @param {ProgressStatus} [status] 
          * @param {string} [from] 
          * @param {string} [to] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        get: async (order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, status?: string, from?: string, to?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        get: async (order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, status?: ProgressStatus, from?: string, to?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'order' is not null or undefined
             assertParamExists('get', 'order', order)
             const localVarPath = `/api/Process`;
@@ -154,13 +156,13 @@ export const ProcessApiFp = function(configuration?: Configuration) {
          * @param {number} [pageSize] 
          * @param {string} [orderBy] 
          * @param {string} [title] 
-         * @param {string} [status] 
+         * @param {ProgressStatus} [status] 
          * @param {string} [from] 
          * @param {string} [to] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async get(order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, status?: string, from?: string, to?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProcessDtoResponseList>> {
+        async get(order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, status?: ProgressStatus, from?: string, to?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ProcessDtoResponseList>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.get(order, page, pageSize, orderBy, title, status, from, to, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ProcessApi.get']?.[localVarOperationServerIndex]?.url;
@@ -222,7 +224,7 @@ export interface ProcessApiGetRequest {
 
     readonly title?: string
 
-    readonly status?: string
+    readonly status?: ProgressStatus
 
     readonly from?: string
 

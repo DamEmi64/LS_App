@@ -83,7 +83,7 @@ const Files: React.FC = () => {
     };
 
     const saveNew = (file: EditFile) => {
-        call(api => api.filesApi.create, file).then(() => {
+        call(api => api.filesApi.create, {fileDto:file}).then(() => {
             modal.hideModal();
             refresh();
         });
@@ -109,7 +109,7 @@ const Files: React.FC = () => {
     };
 
     const saveEdit = (file: EditFile, id: string) => {
-        call(api => api.filesApi.updateById, { id, body: file }).then(() => {
+        call(api => api.filesApi.updateById, { id, fileDto: file }).then(() => {
             modal.hideModal();
             refresh();
         });
@@ -134,8 +134,6 @@ const Files: React.FC = () => {
         });
     };
 
-    const importFile = (file: File) => call(api => api.filesApi.updateByIdImport, { id: file.id, body: file });
-
     const exportFile = (file: File) => {
         raw(api => api.filesApi.getByIdExport, { id: file.id })
             .then((response) => {
@@ -153,7 +151,6 @@ const Files: React.FC = () => {
         { name: "opt.details", method: details },
         { name: "opt.edit", method: edit },
         { name: "opt.delete", method: del },
-        { name: "files.import", method: importFile },
         { name: "files.export", method: exportFile }
     ];
 

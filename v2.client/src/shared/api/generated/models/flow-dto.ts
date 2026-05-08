@@ -15,7 +15,7 @@
 
 
 export interface FlowDto {
-    'nodes'?: Array<object> | null;
-    'edges'?: Array<object> | null;
+    'nodes'?: Array<any> | null;
+    'edges'?: Array<any> | null;
 }
 

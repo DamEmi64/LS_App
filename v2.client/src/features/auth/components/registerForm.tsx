@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { TextField, Box, Typography, Button, useTheme } from '@mui/material';
+import { Box, Typography, Button, TextField, useTheme, Grid } from '@mui/material';
+import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { RegisterData } from '@/features/auth';
 import { AuthContextType } from '@/features/auth/context/authProvider';
 import { notify } from '@/shared';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 interface RegisterFormProps {
   auth: AuthContextType;
@@ -14,33 +17,31 @@ interface RegisterFormProps {
 const RegisterForm: React.FC<RegisterFormProps> = ({ auth, onClose }) => {
   const { t } = useTranslation();
   const theme = useTheme();
-
+  const [showPassword, setShowPassword] = useState(false);
+  
   const textColor =
     theme.palette.mode === 'dark'
       ? theme.palette.text.primary
       : theme.palette.text.secondary;
 
-  const [username, setUsername] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting, isValid },
+  } = useForm<RegisterData>({
+    mode: 'onChange',
+    defaultValues: {
+      login: '',
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+    },
+  });
 
-  const handleSubmit = async () => {
-    if (!username || !email || !password) return;
-
-    setLoading(true);
-
+  const onSubmit = async (data: RegisterData) => {
     try {
-      const registerData = {} as RegisterData;
-      registerData.login = username;
-      registerData.firstName = firstName;
-      registerData.lastName = lastName;
-      registerData.email = email;
-      registerData.password = password;
-
-      const success = await auth.register(registerData);
+      const success = await auth.register(data);
 
       if (success) {
         onClose();
@@ -49,8 +50,6 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ auth, onClose }) => {
       }
     } catch (err) {
       notify('error', err instanceof Error ? err.message : t('auth.register.failed'));
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -60,60 +59,127 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ auth, onClose }) => {
         {t('register')}
       </Typography>
 
-      <Box display="flex" flexDirection="column" gap={2}>
-        <TextField
-          label={t('auth.register.username')}
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          fullWidth
-          autoComplete="username"
-          InputLabelProps={{ sx: { color: textColor } }}
+      <Box
+        component="form"
+        display="flex"
+        flexDirection="column"
+        gap={2}
+        onSubmit={handleSubmit(onSubmit)}
+      >
+        <Controller
+          name="login"
+          control={control}
+          rules={{
+            required: t('validation.required'),
+            minLength: {
+              value: 3,
+              message: t('validation.minLength'),
+            },
+          }}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label={t('auth.register.username')}
+              fullWidth
+              autoComplete="username"
+              error={!!errors.login}
+              helperText={errors.login?.message}
+              InputLabelProps={{ sx: { color: textColor } }}
+            />
+          )}
         />
 
-        <TextField
-          label={t('auth.register.firstName')}
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-          fullWidth
-          autoComplete="given-name"
-          InputLabelProps={{ sx: { color: textColor } }}
+        <Controller
+          name="firstName"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label={t('auth.register.firstName')}
+              fullWidth
+              autoComplete="given-name"
+              error={!!errors.firstName}
+              helperText={errors.firstName?.message}
+              InputLabelProps={{ sx: { color: textColor } }}
+            />
+          )}
         />
 
-        <TextField
-          label={t('auth.register.lastName')}
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-          fullWidth
-          autoComplete="family-name"
-          InputLabelProps={{ sx: { color: textColor } }}
+        <Controller
+          name="lastName"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label={t('auth.register.lastName')}
+              fullWidth
+              autoComplete="family-name"
+              error={!!errors.lastName}
+              helperText={errors.lastName?.message}
+              InputLabelProps={{ sx: { color: textColor } }}
+            />
+          )}
         />
 
-        <TextField
-          label={t('auth.register.email')}
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          fullWidth
-          autoComplete="email"
-          InputLabelProps={{ sx: { color: textColor } }}
+        <Controller
+          name="email"
+          control={control}
+          rules={{
+            required: t('validation.required'),
+            pattern: {
+              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+              message: t('validation.invalidEmail'),
+            },
+          }}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label={t('auth.register.email')}
+              type="email"
+              fullWidth
+              autoComplete="email"
+              error={!!errors.email}
+              helperText={errors.email?.message}
+              InputLabelProps={{ sx: { color: textColor } }}
+            />
+          )}
         />
 
-        <TextField
-          label={t('auth.register.password')}
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          fullWidth
-          autoComplete="new-password"
-          InputLabelProps={{ sx: { color: textColor } }}
+        <Controller
+          name="password"
+          control={control}
+          rules={{
+            required: t('validation.required'),
+            minLength: {
+              value: 6,
+              message: t('validation.minLength', { count: 6 }),
+            },
+          }}
+          render={({ field }) => (
+            <>
+              <TextField
+                {...field}
+                label={t('auth.register.password')}
+                type={showPassword ? "text" : "password"}
+                fullWidth
+                autoComplete="new-password"
+                error={!!errors.password}
+                helperText={errors.password?.message}
+                InputLabelProps={{ sx: { color: textColor } }}
+              />
+              <Button
+                onClick={() => setShowPassword(!showPassword)}
+                variant="outlined"
+                size="small"
+              >
+                {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
+              </Button>
+            </>
+          )}
         />
 
         <Box sx={{ display: 'flex', gap: 2, mt: 3 }}>
-          <Button
-            onClick={handleSubmit}
-            variant="contained"
-            disabled={loading || !username || !email || !password}
-          >
+          <Button type="submit" variant="contained" disabled={isSubmitting || !isValid}>
             {t('opt.register')}
           </Button>
         </Box>

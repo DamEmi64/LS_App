@@ -28,10 +28,10 @@ import {
 const configuration = new Configuration();
 const apiInstance = new EmailsApi(configuration);
 
-let body: Email; // (optional)
+let email: Email; // (optional)
 
 const { status, data } = await apiInstance.create(
-    body
+    email
 );
 ```
 
@@ -39,7 +39,7 @@ const { status, data } = await apiInstance.create(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **Email**|  | |
+| **email** | **Email**|  | |
 
 
 ### Return type
@@ -248,11 +248,11 @@ const configuration = new Configuration();
 const apiInstance = new EmailsApi(configuration);
 
 let id: string; // (default to undefined)
-let body: Email; // (optional)
+let email: Email; // (optional)
 
 const { status, data } = await apiInstance.updateById(
     id,
-    body
+    email
 );
 ```
 
@@ -260,7 +260,7 @@ const { status, data } = await apiInstance.updateById(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **Email**|  | |
+| **email** | **Email**|  | |
 | **id** | [**string**] |  | defaults to undefined|
 
 

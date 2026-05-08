@@ -10,5 +10,6 @@ namespace RPG.Domain.Repositories
         Task<Story?> GetFull(Guid id);
         Task<Story?> GetDraft(Guid id);
         IEnumerable<Story> GetAllDraft();
+        Task AddFile(Story story, RPGFile file);
     }
 }

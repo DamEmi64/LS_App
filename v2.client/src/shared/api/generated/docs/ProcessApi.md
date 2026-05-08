@@ -27,7 +27,7 @@ let page: number; // (optional) (default to undefined)
 let pageSize: number; // (optional) (default to undefined)
 let orderBy: string; // (optional) (default to undefined)
 let title: string; // (optional) (default to undefined)
-let status: string; // (optional) (default to undefined)
+let status: ProgressStatus; // (optional) (default to undefined)
 let from: string; // (optional) (default to undefined)
 let to: string; // (optional) (default to undefined)
 
@@ -52,7 +52,7 @@ const { status, data } = await apiInstance.get(
 | **pageSize** | [**number**] |  | (optional) defaults to undefined|
 | **orderBy** | [**string**] |  | (optional) defaults to undefined|
 | **title** | [**string**] |  | (optional) defaults to undefined|
-| **status** | [**string**] |  | (optional) defaults to undefined|
+| **status** | **ProgressStatus** |  | (optional) defaults to undefined|
 | **from** | [**string**] |  | (optional) defaults to undefined|
 | **to** | [**string**] |  | (optional) defaults to undefined|
 
