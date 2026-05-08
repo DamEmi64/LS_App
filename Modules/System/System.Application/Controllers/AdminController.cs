@@ -291,7 +291,7 @@ namespace System.Application.Controllers
 
         [TypeFilter(typeof(AdminPanelFilter))]
         [HttpPost("[action]")]
-        public IActionResult LogsData(LogFilter request, string? level, string? method)
+        public IActionResult LogsData([FromQuery] LogFilter request, string? level, string? method)
         {
             var query = _adminService.GetLogs();
 

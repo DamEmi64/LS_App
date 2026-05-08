@@ -93,7 +93,7 @@
                 serverSide: true,
                 ajax: {
                     url: '/Admin/LogsData',
-                    type: 'POST',
+                    type: 'GET',
                     data: function (d) {
                         d.level = $('#levelFilter').val();
                         d.method = $('#methodFilter').val();
