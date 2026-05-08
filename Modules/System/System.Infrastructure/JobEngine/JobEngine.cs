@@ -38,7 +38,6 @@ namespace System.Infrastructure.JobEngine
 
             var schemaObject = (ProcessSchema)schema;
             schemaObject.Process.User = userData.Clone();
-            schemaObject.Process.Schema = JsonConvert.SerializeObject(schemaObject, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All });
             await _processRepository.Add(schemaObject.Process);
             var root = ScheduleJobs(schemaObject.Process, schemaObject.Jobs);
             await _processRepository.Update(schemaObject.Process);

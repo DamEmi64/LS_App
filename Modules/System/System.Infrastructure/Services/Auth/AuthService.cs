@@ -42,7 +42,6 @@ namespace System.Infrastructure.Services.Auth
             var user = new User();
             user.FirstName = register.FirstName;
             user.LastName = register.LastName;
-            user.PhoneNumber = register.PhoneNumber;
             await _userStore.SetUserNameAsync(user, register.Login, CancellationToken.None);
             await _userManager.SetEmailAsync(user, register.Email);
             var result = await _userManager.CreateAsync(user, register.Password);

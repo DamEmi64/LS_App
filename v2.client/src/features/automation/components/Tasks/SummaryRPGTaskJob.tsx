@@ -1,9 +1,9 @@
 import { Autocomplete, Box, TextField } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { useApiConnect } from "@/shared/context/apiConnect";
 import { useEffect, useState } from "react";
 import { Story } from "@/features/rpg";
 import { ResponseList } from "@/shared/api/extension";
+import {call} from "@/shared";
 
 const SummaryTaskForm = ({ task, onChange }) => {
   const { t } = useTranslation();
@@ -11,11 +11,9 @@ const SummaryTaskForm = ({ task, onChange }) => {
  const [rpgList, setRPGList] = useState<{label: string, value: string}[]>([]);
  
 
-  const {storiesApi, call: mapResponse} = useApiConnect();
-
   const getListRPG = async() => {
 
-    const stories = await mapResponse<ResponseList<Story>>(storiesApi,storiesApi.getStorie,{order:''})
+    const stories = await call<ResponseList<Story>>(api => api.storiesApi.get,{order:''})
     setRPGList(stories.data.map((story) => ({ label: story.title, value: story.id })));
   }
 

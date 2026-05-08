@@ -1,3 +1,5 @@
+import { FileItem } from "@/shared";
+
 export interface ChapterTableProps {
     chapter: Chapter
 }
@@ -11,7 +13,8 @@ export interface Story {
     startDate?: Date;
     endDate?: Date;
     chapters: Chapter[];
-    summary?: Uint8Array;
+    files: FileItem[];
+    summary?: string;
 }
 export interface Place {
     id: string;

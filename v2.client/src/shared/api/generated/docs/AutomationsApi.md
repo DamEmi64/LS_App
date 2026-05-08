@@ -4,17 +4,17 @@ All URIs are relative to *http://localhost*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**createAutomation**](#createautomation) | **POST** /Automations | |
-|[**deleteAutomationById**](#deleteautomationbyid) | **DELETE** /Automations/{id} | |
-|[**getAutomation**](#getautomation) | **GET** /Automations | |
-|[**getAutomationById**](#getautomationbyid) | **GET** /Automations/{id} | |
-|[**getAutomationByIdTask**](#getautomationbyidtask) | **GET** /Automations/{id}/tasks | |
-|[**updateAutomationById**](#updateautomationbyid) | **PUT** /Automations/{id} | |
-|[**updateAutomationByIdTurnoff**](#updateautomationbyidturnoff) | **PUT** /Automations/{id}/turnoff | |
-|[**updateAutomationByIdTurnon**](#updateautomationbyidturnon) | **PUT** /Automations/{id}/turnon | |
+|[**create**](#create) | **POST** /api/Automations | |
+|[**deleteById**](#deletebyid) | **DELETE** /api/Automations/{id} | |
+|[**get**](#get) | **GET** /api/Automations | |
+|[**getById**](#getbyid) | **GET** /api/Automations/{id} | |
+|[**getByIdTasks**](#getbyidtasks) | **GET** /api/Automations/{id}/tasks | |
+|[**updateById**](#updatebyid) | **PUT** /api/Automations/{id} | |
+|[**updateByIdTurnoff**](#updatebyidturnoff) | **PUT** /api/Automations/{id}/turnoff | |
+|[**updateByIdTurnon**](#updatebyidturnon) | **PUT** /api/Automations/{id}/turnon | |
 
-# **createAutomation**
-> createAutomation()
+# **create**
+> create()
 
 
 ### Example
@@ -29,10 +29,10 @@ import {
 const configuration = new Configuration();
 const apiInstance = new AutomationsApi(configuration);
 
-let body: AutomationDto; // (optional)
+let automationDto: AutomationDto; // (optional)
 
-const { status, data } = await apiInstance.createAutomation(
-    body
+const { status, data } = await apiInstance.create(
+    automationDto
 );
 ```
 
@@ -40,7 +40,7 @@ const { status, data } = await apiInstance.createAutomation(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **AutomationDto**|  | |
+| **automationDto** | **AutomationDto**|  | |
 
 
 ### Return type
@@ -64,8 +64,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **deleteAutomationById**
-> deleteAutomationById()
+# **deleteById**
+> deleteById()
 
 
 ### Example
@@ -81,7 +81,7 @@ const apiInstance = new AutomationsApi(configuration);
 
 let id: string; // (default to undefined)
 
-const { status, data } = await apiInstance.deleteAutomationById(
+const { status, data } = await apiInstance.deleteById(
     id
 );
 ```
@@ -114,8 +114,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getAutomation**
-> AutomatResponseList getAutomation()
+# **get**
+> AutomatResponseList get()
 
 
 ### Example
@@ -135,7 +135,7 @@ let pageSize: number; // (optional) (default to undefined)
 let orderBy: string; // (optional) (default to undefined)
 let title: string; // (optional) (default to undefined)
 
-const { status, data } = await apiInstance.getAutomation(
+const { status, data } = await apiInstance.get(
     order,
     page,
     pageSize,
@@ -176,8 +176,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getAutomationById**
-> Automat getAutomationById()
+# **getById**
+> Automat getById()
 
 
 ### Example
@@ -193,7 +193,7 @@ const apiInstance = new AutomationsApi(configuration);
 
 let id: string; // (default to undefined)
 
-const { status, data } = await apiInstance.getAutomationById(
+const { status, data } = await apiInstance.getById(
     id
 );
 ```
@@ -226,8 +226,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getAutomationByIdTask**
-> TaskResponseList getAutomationByIdTask()
+# **getByIdTasks**
+> TaskResponseList getByIdTasks()
 
 
 ### Example
@@ -243,7 +243,7 @@ const apiInstance = new AutomationsApi(configuration);
 
 let id: string; // (default to undefined)
 
-const { status, data } = await apiInstance.getAutomationByIdTask(
+const { status, data } = await apiInstance.getByIdTasks(
     id
 );
 ```
@@ -276,8 +276,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateAutomationById**
-> updateAutomationById()
+# **updateById**
+> updateById()
 
 
 ### Example
@@ -293,11 +293,11 @@ const configuration = new Configuration();
 const apiInstance = new AutomationsApi(configuration);
 
 let id: string; // (default to undefined)
-let body: AutomationDto; // (optional)
+let automationDto: AutomationDto; // (optional)
 
-const { status, data } = await apiInstance.updateAutomationById(
+const { status, data } = await apiInstance.updateById(
     id,
-    body
+    automationDto
 );
 ```
 
@@ -305,7 +305,7 @@ const { status, data } = await apiInstance.updateAutomationById(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **AutomationDto**|  | |
+| **automationDto** | **AutomationDto**|  | |
 | **id** | [**string**] |  | defaults to undefined|
 
 
@@ -330,8 +330,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateAutomationByIdTurnoff**
-> updateAutomationByIdTurnoff()
+# **updateByIdTurnoff**
+> updateByIdTurnoff()
 
 
 ### Example
@@ -347,7 +347,7 @@ const apiInstance = new AutomationsApi(configuration);
 
 let id: string; // (default to undefined)
 
-const { status, data } = await apiInstance.updateAutomationByIdTurnoff(
+const { status, data } = await apiInstance.updateByIdTurnoff(
     id
 );
 ```
@@ -380,8 +380,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateAutomationByIdTurnon**
-> updateAutomationByIdTurnon()
+# **updateByIdTurnon**
+> updateByIdTurnon()
 
 
 ### Example
@@ -397,7 +397,7 @@ const apiInstance = new AutomationsApi(configuration);
 
 let id: string; // (default to undefined)
 
-const { status, data } = await apiInstance.updateAutomationByIdTurnon(
+const { status, data } = await apiInstance.updateByIdTurnon(
     id
 );
 ```

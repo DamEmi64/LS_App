@@ -49,7 +49,7 @@ namespace System.Application
             app.UseMiddleware<EntityContextMiddleware>();
 
             RecurringJob.AddOrUpdate<MilestoneWorker>("milestone-manager", job => job.Execute(), "*/15 * * * *");
-            RecurringJob.AddOrUpdate<ArchiveLogsWorker>("archive-logs-cleaner", job => job.Execute(app.ApplicationServices), Cron.Monthly());
+            RecurringJob.AddOrUpdate<ArchiveLogsWorker>("archive-logs-cleaner", job => job.Execute(DateTime.Now.Date), Cron.Weekly());
 
             if (app is WebApplication webApplication)
             {

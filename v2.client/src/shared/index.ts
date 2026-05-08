@@ -1,5 +1,4 @@
 export * from './types';
-export * from './context/apiConnect';
 export * from './context/errorHandler';
 export * from './context/modal';
 export * from './components/NotificationListener';
@@ -8,3 +7,4 @@ export * from './localization/i18n';
 export * from './components/operationMenu';
 export * from './components/tileContainer';
 export * from './components/filter';
+export * from './components/apiClient';

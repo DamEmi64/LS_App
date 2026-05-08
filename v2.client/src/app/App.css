@@ -43,3 +43,7 @@
 .read-the-docs {
     color: #888;
 }
+
+.w-layout-width {
+    width: 100vw;
+}

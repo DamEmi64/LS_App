@@ -4,7 +4,7 @@ namespace RPG.Infrastructure.Hubs
 {
     public class RPGHub : Hub
     {
-        public async Task ChangeVideo(string title)
+        public async Task ChangeVideo(object title)
         {
             await Clients.All.SendAsync("VideoChanged", title);
         }

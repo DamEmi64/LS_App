@@ -1,27 +1,38 @@
 import { useTranslation } from "react-i18next";
+import React, { useState } from "react";
 
 import { useAuth } from "@/features/auth/context/authProvider";
 import AuthPage from "@/features/auth/pages/AuthPage";
 import PermissionPage from "@/features/auth/pages/PermissionPage";
-import React from "react";
-import { LayoutProps, NavbarItemProps } from "@/shared";
+
 import Navbar from "@/features/system/components/navbar";
 import Authbar from "@/features/system/components/navMenu";
+import { GridCloseIcon, GridMenuIcon } from "@mui/x-data-grid";
+import { Button, Grid, IconButton, useMediaQuery, useTheme } from "@mui/material";
 
-const Layout: React.FC<LayoutProps> = ({ image, content, title, permissions, menu, allowAnonymous }) => {
+const Layout = ({
+    image,
+    content,
+    title,
+    permissions,
+    menu,
+    allowAnonymous,
+}: any) => {
     const { t } = useTranslation();
     const auth = useAuth();
+
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     document.title = t(title);
 
     let toShow;
 
     if (auth.user || allowAnonymous) {
-        if (permissions && permissions.length > 0) {
-            if (auth.checkPermission(permissions)) {
-                toShow = React.createElement(content);
-            } else {
-                toShow = <PermissionPage />;
-            }
+        if (permissions?.length > 0) {
+            toShow = auth.checkPermission(permissions)
+                ? React.createElement(content)
+                : <PermissionPage />;
         } else {
             toShow = React.createElement(content);
         }
@@ -30,8 +41,8 @@ const Layout: React.FC<LayoutProps> = ({ image, content, title, permissions, men
     }
 
     return (
-        <div
-            className="min-h-screen bg-background flex flex-col items-center justify-center"
+        <Grid
+            className="min-h-screen w-full overflow-hidden flex flex-col"
             style={{
                 backgroundImage: `url(${image})`,
                 backgroundRepeat: "no-repeat",
@@ -39,28 +50,57 @@ const Layout: React.FC<LayoutProps> = ({ image, content, title, permissions, men
                 backgroundSize: "cover",
             }}
         >
+            {/* HEADER */}
+            <header className="relative w-full h-14 flex items-center">
 
-            <div className=" absoulute w-full flex items-center justify-center" >
-                {/* Navbar centered */}
-                <div className="relative ml-auto">
+                {/* Desktop centered navbar */}
+                <div className="hidden md:block absolute left-1/2 -translate-x-1/2">
                     <Navbar user={auth.user} menu={menu} />
                 </div>
-                {/* Authbar on the right */}
-                <div className="ml-auto">
+
+                {/* Desktop authbar */}
+                <div className="hidden md:flex absolute right-4">
                     <Authbar />
                 </div>
-            </div>
 
-            <div className="flex justify-center items-center w-full flex-1">
-                {toShow}
-            </div>
+                {/* Mobile menu button */}
+                <Button
+                    onClick={() => setMobileMenuOpen(true)}
+                    sx={{
+                        ml: "auto",
+                        display: isMobile && !mobileMenuOpen ? "flex" : "none",
+                        minWidth: 40,
+                    }}
+                >
+                    <GridMenuIcon />
+                </Button>
+            </header>
 
-            {/* Google Fonts Link */}
-            <link
-                href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
-                rel="stylesheet"
-            />
-        </div>
+            {/* MOBILE DRAWER */}
+            <Grid
+                className={`fixed top-0 right-0 h-full w-72 bg-black/90 z-50 transition-transform duration-300
+                ${mobileMenuOpen ? "translate-x-0" : "translate-x-full"}`}
+            >
+                <Grid className="p-4 flex flex-col gap-4 text-white">
+                    <Button
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="self-end"
+                    >
+                        <GridCloseIcon />
+                    </Button>
+
+                    <Navbar user={auth.user} menu={menu} isDrawer />
+                    <Authbar />
+                </Grid>
+            </Grid>
+
+            {/* CONTENT */}
+            <div className="flex-1 w-full overflow-hidden" style={{ width: '100vw' }}>
+                <div className="w-full h-full overflow-auto">
+                    {toShow}
+                </div>
+            </div>
+        </Grid>
     );
 };
 

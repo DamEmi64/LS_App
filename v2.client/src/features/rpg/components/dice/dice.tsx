@@ -25,16 +25,22 @@ const DiceBox: React.FC<{notation?: string }> = ({notation}) =>  {
     const rollDice = (notationStr: string) => {
         Dice.clear();
         const notation = notationStr.split('+');
-
+        let retries = 3;
         Dice.show().roll(notation).then(result => {
             let val = '';
 
             result.forEach(element => {
+
+                if (element.value === 0) {
+                    rollDice(notationStr);
+                    return;
+                }
+
                 val = val + ' ' + element.value;
             });
-
+            
             setDiceVal(val); 
-        }).catch((ex) => alert(ex.message));
+        }).catch((ex) => console.error(ex));
     };
 
     return (

@@ -3,16 +3,15 @@ import { Accordion, AccordionDetails, AccordionSummary, Table, TableBody, TableC
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CommunicationRules } from "../types";
-import { useApiConnect } from "@/shared";
+import {call} from "@/shared";
 
 export const TemplateRules = () => {
     const { t } = useTranslation();
     const getDictionaryTranslation = useDictionaryTranslation();
     const [rules, setRules] = useState<CommunicationRules | null>(null);
-    const api = useApiConnect();
 
-    api.get<CommunicationRules>('communication_rules').then(res => {
-        const data = res.data;
+    call<CommunicationRules>(api => api.templatesApi.get,{}).then(res => {
+        const data = res;
         setRules(data);   
         });
 

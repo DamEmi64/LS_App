@@ -4,14 +4,14 @@ All URIs are relative to *http://localhost*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**createPlace**](#createplace) | **POST** /Places | |
-|[**deletePlaceById**](#deleteplacebyid) | **DELETE** /Places/{id} | |
-|[**getPlace**](#getplace) | **GET** /Places | |
-|[**getPlaceById**](#getplacebyid) | **GET** /Places/{id} | |
-|[**updatePlaceById**](#updateplacebyid) | **PUT** /Places/{id} | |
+|[**create**](#create) | **POST** /api/Places | |
+|[**deleteById**](#deletebyid) | **DELETE** /api/Places/{id} | |
+|[**get**](#get) | **GET** /api/Places | |
+|[**getById**](#getbyid) | **GET** /api/Places/{id} | |
+|[**updateById**](#updatebyid) | **PUT** /api/Places/{id} | |
 
-# **createPlace**
-> createPlace()
+# **create**
+> create()
 
 
 ### Example
@@ -26,10 +26,10 @@ import {
 const configuration = new Configuration();
 const apiInstance = new PlacesApi(configuration);
 
-let body: PlaceDto; // (optional)
+let placeDto: PlaceDto; // (optional)
 
-const { status, data } = await apiInstance.createPlace(
-    body
+const { status, data } = await apiInstance.create(
+    placeDto
 );
 ```
 
@@ -37,7 +37,7 @@ const { status, data } = await apiInstance.createPlace(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **PlaceDto**|  | |
+| **placeDto** | **PlaceDto**|  | |
 
 
 ### Return type
@@ -61,8 +61,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **deletePlaceById**
-> deletePlaceById()
+# **deleteById**
+> deleteById()
 
 
 ### Example
@@ -78,7 +78,7 @@ const apiInstance = new PlacesApi(configuration);
 
 let id: string; // (default to undefined)
 
-const { status, data } = await apiInstance.deletePlaceById(
+const { status, data } = await apiInstance.deleteById(
     id
 );
 ```
@@ -111,8 +111,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getPlace**
-> PlaceResponseList getPlace()
+# **get**
+> PlaceResponseList get()
 
 
 ### Example
@@ -132,7 +132,7 @@ let pageSize: number; // (optional) (default to undefined)
 let orderBy: string; // (optional) (default to undefined)
 let title: string; // (optional) (default to undefined)
 
-const { status, data } = await apiInstance.getPlace(
+const { status, data } = await apiInstance.get(
     order,
     page,
     pageSize,
@@ -173,8 +173,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getPlaceById**
-> Place getPlaceById()
+# **getById**
+> Place getById()
 
 
 ### Example
@@ -190,7 +190,7 @@ const apiInstance = new PlacesApi(configuration);
 
 let id: string; // (default to undefined)
 
-const { status, data } = await apiInstance.getPlaceById(
+const { status, data } = await apiInstance.getById(
     id
 );
 ```
@@ -223,8 +223,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updatePlaceById**
-> updatePlaceById()
+# **updateById**
+> updateById()
 
 
 ### Example
@@ -240,11 +240,11 @@ const configuration = new Configuration();
 const apiInstance = new PlacesApi(configuration);
 
 let id: string; // (default to undefined)
-let body: PlaceDto; // (optional)
+let placeDto: PlaceDto; // (optional)
 
-const { status, data } = await apiInstance.updatePlaceById(
+const { status, data } = await apiInstance.updateById(
     id,
-    body
+    placeDto
 );
 ```
 
@@ -252,7 +252,7 @@ const { status, data } = await apiInstance.updatePlaceById(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **PlaceDto**|  | |
+| **placeDto** | **PlaceDto**|  | |
 | **id** | [**string**] |  | defaults to undefined|
 
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Base;
+using Microsoft.EntityFrameworkCore;
 using System.Domain.Entities;
 using System.Domain.Repositories;
 using System.Infrastructure.Db;
@@ -97,12 +98,15 @@ namespace System.Infrastructure.Repositories
         public Task<ProcessRead?> GetReadData(Guid processId)
         {
             return _context.Set<Process>()
+                .AsNoTracking()
+                .AsSplitQuery()
                 .Include(x => x.User)
                 .Include(x => x.Jobs)
                 .Include(x => x.Errors)
                 .Where(x => x.Id == processId)
-                .Select(x=> new ProcessRead
+                .Select(x => new ProcessRead
                 {
+                    Id = x.Id,
                     Title = x.Title,
                     StartDate = x.StartDate,
                     EndDate = x.EndDate,
@@ -118,14 +122,15 @@ namespace System.Infrastructure.Repositories
         public IEnumerable<ProcessRead> GetAllReadData()
         {
             return _context.Set<Process>()
+                .Include(x => x.User)
+                .AsNoTracking()
                 .Select(x => new ProcessRead
                 {
+                    Id = x.Id,
                     Title = x.Title,
                     StartDate = x.StartDate,
                     EndDate = x.EndDate,
-                    Errors = x.Errors,
                     Status = x.Status,
-                    Jobs = x.Jobs,
                     Percentage = x.Percentage,
                     User = x.User
                 });

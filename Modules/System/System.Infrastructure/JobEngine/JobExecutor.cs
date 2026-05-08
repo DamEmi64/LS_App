@@ -75,7 +75,6 @@ namespace System.Infrastructure.JobEngine
                 dbJob.StartDate = DateTimeOffset.Now;
                 dbJob.JobId = context.BackgroundJob.Id;
                 dbJob.Status = ProgressStatus.Executing;
-                dbJob.JobData = JsonConvert.SerializeObject(job);
                 await _jobRepository.Update(dbJob);
 
                 jobContext = JobContext.GetContext(_serviceProvider, dbJob.Id, process.Id, context.BackgroundJob.Id);
@@ -145,6 +144,7 @@ namespace System.Infrastructure.JobEngine
 
         private Task EndProcess(Process process)
         {
+            process.TempData = string.Empty;
             process.Status = ProgressStatus.Success;
             process.EndDate = DateTimeOffset.Now;
 

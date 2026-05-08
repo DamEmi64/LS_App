@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Avatar, IconButton, CircularProgress, useTheme, Box } from '@mui/material';
 import ReactImagePickerEditor, { ImagePickerConf } from 'react-image-picker-editor';
-import { useApiConnect } from '@/shared/context/apiConnect';
 import noImage from '@/assets/no-image.png';
 import { Image } from '@/features/system';
+import { call } from './apiClient';
 
 export interface ImageProviderProps {
     readonly?: boolean;
@@ -13,7 +13,6 @@ export interface ImageProviderProps {
 }
 
 export const ImageProvider: React.FC<ImageProviderProps> = ({ readonly = false, saveImage, imageId }) => {
-    const {homeApi, call} = useApiConnect();
     const theme = useTheme();
     const [image, setImage] = useState<string>();
 
@@ -33,7 +32,7 @@ export const ImageProvider: React.FC<ImageProviderProps> = ({ readonly = false, 
     };
 
     useEffect(() => {
-        call<Image>(homeApi,homeApi.getHomeImage,{id:imageId})
+        call<Image>(api => api.homeApi.getMedia,{id:imageId})
             .then((res) => {
                 if (res != null && res.contentStr !== '') {
                     setData(res.contentStr);

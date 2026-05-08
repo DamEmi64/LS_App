@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Communication.Application.Controllers
 {
-    [Route("[controller]")]
     [AuthPermission("communication")]
     public class TemplatesController : BaseController
     {
@@ -72,7 +71,7 @@ namespace Communication.Application.Controllers
         [ProducesResponseType(typeof(ResponseList<Template>), StatusCodes.Status200OK)]
         public IActionResult ListData([FromQuery] TemplateFilter filter)
         {
-            return Json(filter.Filter(_templateRepository.GetAll()));
+            return Json(filter.Filter(_templateRepository.GetAll(), out var count), count);
         }
 
         [HttpPost("")]

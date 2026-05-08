@@ -3,7 +3,7 @@ import { Box, Paper, Typography, Grid } from "@mui/material";
 import * as signalR from "@microsoft/signalr";
 import { battleNpc } from "@/features/rpg";
 import { GridTable } from "@/shared/components/gridTable";
-import { ColumnDef, ColumnType, TableData, useApiConnect } from "@/shared";
+import { ColumnDef, ColumnType, TableData } from "@/shared";
 import DiceBox from "../components/dice/dice";
 import { useSignalR } from "@/shared/hooks/use-signalR";
 

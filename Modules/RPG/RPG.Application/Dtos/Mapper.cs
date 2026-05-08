@@ -87,10 +87,10 @@
 
             CreateMap<Story, StoryDto>()
                 .ForMember(d => d.Chapters, o => o.MapFrom(s => s.Chapters ?? new()))
-                .ForMember(d => d.Summary, o => o.Ignore())
                 .MaxDepth(3);
 
             CreateMap<SkillDto, Skill>().ReverseMap();
+            CreateMap<RPGFile, RpgFileDto>().ReverseMap();
         }
     }
 }
