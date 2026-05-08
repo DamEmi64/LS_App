@@ -301,7 +301,7 @@ namespace System.Application.Controllers
                 query = query.Where(l => l.Level == level);
 
             if (!string.IsNullOrEmpty(method))
-                query = query.Where(l => l.HttpMethod == method);
+                query = query.Where(l => l.HttpMethod?.ToLower() == method?.ToLower());
 
             // Search
             if (!string.IsNullOrEmpty(request.Search?.Value))

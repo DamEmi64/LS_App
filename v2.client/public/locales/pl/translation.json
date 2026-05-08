@@ -1,1 +1,367 @@
-{"window":{"yes":"Tak","no":"Nie","cancel":"Anuluj","info":"Informacje"},"validation":{"required":"Wymagane","minLength":"Wymagane 6 znaków","maxLength":"Maksymalna długość to {0} znaków","email":"Nieprawidłowy adres email","url":"Nieprawidłowy adres URL","number":"To pole musi być liczbą","invalidEmail":"Nieprawidłowy email"},"notify":{"processActive":"Powiadomienia z zadań","processError":"Tylko powiadomienia z błędów zadań","position":"Pozycja powiadomienia","notification":"Powiadomienia","autoClose":"Czas wyświetlania (ms)","active":"Aktywne","bottomRight":"Na dole po prawej","topRight":"Na górze po prawej","bottomLeft":"Na dole po lewej","topLeft":"Na górze po lewej"},"user":{"firstName":"Imię","lastName":"Nazwisko","email":"Adres email","phoneNumber":"Numer telefonu","info":"Informacje o użytkowniku","userName":"Nazwa użytkownika"},"processes":{"title":"Procesy","description":"Zarządzaj procesami, które są uruchomione","name":"Proces","queue":"Kolejka","startingDate":"Data rozpoczęcia","startingDateFrom":"Data rozpoczęcia od","startingDateTo":"Data rozpoczęcia do","percentage":"Poziom ukończenia","status":"Status","jobs":"Zadania","noJobs":"Brak zadań powiązanych z procesem","errors":"Błędy procesu","errorMessage":"Komunikat błędu","restart":"Uruchom ponownie proces","processStatus":{"New":"Nowy","Executing":"W trakcie wykonywania","Success":"Zakończony sukcesem","Failed":"Zakończony porażką","Paused":"Zatrzymany"}},"jobs":{"id":"Id","jobId":"Id hangfire","status":"Status zadania","requestData":"Planowana data rozpoczęcia","startDate":"Data rozpoczęcia","endDate":"Data zakończenia","name":"Nazwa","percentage":"Poziom ukończenia","operation":"Operacja"},"entity":{"insDate":"Data utworzenia","upDate":"Data aktualizacji","del_info":"Czy usunąć dane?"},"files":{"title":"Pliki","all":"*","games":"Gry","docs":"Dokumenty","name":"Tytuł","image":"Obraz","location":"Lokalizacja","fileType":"Typ pliku","additionalData":"Dodatkowe dane","sources":"Źródła","show_file":"Pokaż pliki","subject":"Kurs","year":"Rok","semester":"Semestr","sourceType":"Typ źródła","import":"Pobierz z serwera zewnętrznego","export":"Pobierz z serwera","gameGenre":"Gatunek gry","useFileUpload":"Zapisz plik w bazie danych","single":"plik","multpile":"pliki","empty":"brak plików"},"communication":{"title":"Komunikacja","emails":"Emaile","templates":"Szablony","description":"Zarządzaj komunikacją z użytkownikami","template":{"title":"Szablony wiadomości","description":"Zarządzaj szablonami wiadomości","name":"Nazwa szablonu","subject":"Temat","body":"Treść","add":"Dodaj szablon","edit":"Edytuj szablon","del":"Usuń szablon","gen":"Wygeneruj wiadomość","strategies":{"title":"Funkcje szablonu","description":"Funkcje szablonu wiadomości, które można wykorzystać w treści wiadomości","example":"Przykład","increment":{"title":"Automatycznie zwiększaj numer wiadomości","description":"Automatycznie zwiększa numer wiadomości w szablonie","example":" {{ increment()}}"},"randomNumber":{"title":"Automatyczne numerowanie","description":"Automatycznie zwiększa numer wiadomości w szablonie, jeśli podano zakres liczbowy, wygeneruje losową liczbę z tego zakresu","example":" {{ randomNumber(0,20)}}"},"random":{"title":"Automatyczne wylosowanie wartości z podanych argumentów","description":"Automatycznie wylosowuje wartość z podanych argumentów w szablonie","example":" {{ random('', 'a', 'b', 'c')}}"},"randomUnique":{"title":"Automatyczne unikalne wylosowanie wartości z podanych argumentów","description":"Automatycznie wylosowuje unikalną wartość z podanych argumentów w szablonie. W przypadku nazwania argumentu tak jak odbiorca wiadomości, zostanie wylosowana unikalna wartość z podanego argumentu, gdzie wartości w argumencie są oddzielone ;","example":" {{ randomUnique( test@test.com='d;e;f', 'a', 'b', 'c')}}"}}},"email":{"title":"Email","subject":"Temat","sendDate":"Data wysłania","description":"Wysyłaj maile","body":"Treść","from":"Od","to":"Do","cc":"Kopia do","bcc":"Ukryta kopia do","send":"Wyślij email","sender":{"title":"Nadawca","email":"Adres email","name":"Imię i nazwisko"},"recipient":{"title":"Odbiorca","email":"Adres email","name":"Imię i nazwisko"}},"editor":{"title":"Edytor wiadomości"}},"rpg":{"import":{"converterType":"Typ konwertera","externalUrl":"Nazwa sesji RPG z zewnętrznego źródła (tylko dla konwertera Firebase)","selectFile":"Wybierz plik z dysku"},"deleteConfirm":{"place":"Czy chcesz usunąć miejsce {0} ?","hero":"Czy chcesz usunąć bohatera {0} ?","story":"Czy chcesz usunąć historię {0} ?"},"flow":{"title":"Tytuł","condition":"Warunek","description":"Opis","export":"Eksportuj przebieg jako png","add_node":"Dodaj węzeł","type":"Typ zdarzenia","default_node":"domyślny","success_node":"sukces","fail_node":"porażka","additional_node":"Zdarzenie dodatkowe","quest":"Zadanie","important":"Kluczowa decyzja","event":"Zdarzenie w świecie gry","flow_title":"Przebieg rozdziału"},"story":{"startDate":"Data rozpoczęcia historii","endDate":"Data zakończenia historii","description":"Opis","heroes":"Bohaterowie","places":"Miejsca","chapters":"Rozdziały","summary":"Podsumowanie","start":" Rozpocznij historię","end":"Zakończ historię","gen_summary":"Generuj podsumowanie","download_summary":"Pobierz podsumowanie","title":"Tytuł","gen_summary_desc":"Wybierz rozdziały do wygenerowania podsumowania","send_firebase":"Wyslij do aplikacji z podsumowaniem"},"chapter":{"title":"Tytuł","description":"Opis","add":"Dodaj rozdział","addDraft":"Dodaj szkic rozdziału","chapters":"Rozdziały","startDate":"Data rozpoczęcia rozdziału","endDate":"Data zakończenia rozdziału","start":"Rozpocznij spotkanie","end":"Zakończ spotkanie","order":" Kolejność","dmPage":"Strona bajarza","playerPage":"Strona gracza","sessions":"Spotkania","links":"Linki do materiałów pomocniczych"},"hero":{"firstName":"Imię","health":"Zdrowie","pos":"Pozycja","lastName":"Nazwisko","player":"Grany przez","description":"Historia postaci","add":"Dodaj postać","playerData":"Informacje gracza","diceRoll":"Rzuć kością","skills":"Zdolności","skill":{"title":"Tytuł zdolności","value":"Wartość zdolności","add":"Dodaj zdolnosć","remove":"Usuń zdolnosć"}},"place":{"title":"Tytuł","description":"Opis","add":"Dodaj miejsce"},"other":{"title":"Tytuł","description":"Opis","image":"Rycina","url":"Link","output_player_view":"Wyświetl stronę gracza","condition":"Warunek"},"title":"Sesje RPG","draftTitle":"Szkice sesji RPG","description":"Historie do opowiedzenia"},"menu":{"home":"Strona główna","processes":"Procesy","files":" Pliki","settings":" Ustawienia","communication":"Komunikacja","emails":"Emaile","templates":"Szablony","automations":"Automatyzacje","rpg_sessions":"Sesje RPG","register":"Zarejestruj się","login":"Zaloguj się","logout":"Wyloguj się","draft":"Szkice RPG"},"server":{"info":"Stan aplikacji","server_version":"Wersja serwera","frontend_version":"Wersja nakładki","modules":"Aktywne moduły","module_name":"Nazwa modułu","module_version":"Wersja modułu"},"no_data":"brak danych","EndpointNotFound":"Nie znaleziono adresu URL","filter_reset":"Usuń filtry","language":"Język","settings":" Ustawienia","login":"Zaloguj się","register":"Zarejestruj się","apiEndpoint":"Link do serwera","darkTheme":"Ciemny motyw","error":"Błąd","opt":{"add":"Nowy","delete":"Usuń","edit":"Edytuj","details":"Informacje","operations":"Operacje","save":"Zapisz","change_pass":"Zmień hasło","login":"Zaloguj się","register":"Zarejestruj się","cancel":"Anuluj","create":"Utwórz","import":"Importuj","export":"Eksportuj","copy":"Kopiuj","publish":"Publikuj","select":"Wybierz"},"auth":{"welcome":"Witamy w aplikacji","info":"Zaloguj się lub zarejestruj, aby kontynuować","no_permission":"Nie masz uprawnień do wyświetlenia tej strony. Skontaktuj się z administratorem.","register":{"username":"Nazwa użytkownika","password":"Hasło","email":"Adres email","firstName":"Imię","lastName":"Nazwisko","phoneNumber":"Numer telefonu","failed":"Rejestracja nieudana"},"login":{"username":"Nazwa użytkownika","password":"Hasło","rememberMe":"Zapamiętaj mnie","failed":"Nieprawidłowa nazwa użytkownika lub hasło","error":"Wystąpił błąd podczas logowania. Spróbuj ponownie później."}},"automations":{"jobs":{"archive":{"title":"Archiwizacja plików","sourceDir":"Katalog źródłowy","descDir":"Katalog docelowy"},"summaryDataRPG":"Sesja RPG do podsumowania","downloadLastFile":"Pobierz ostatni zapisany plik"},"add_task":"Dodaj zadanie","site_title":"Automatyzacje","subtitle":"Zarządzaj automatyzacjami procesów","title":"Tytuł","description":"Opis","active":"Aktywne","turnOnOff":"Włącz/Wyłącz automatyzację","order":"Kolejność wykonywania","tasks":"Zadania","frequency":"Częstotliwość uruchamiania (w minutach)","triggers":{"title":"Wyzwalacze automatyzacji","type":"Typ wyzwalacza","cron":"Czasowe (cron)","onRPGModify":"Po zmianie w sesji RPG"},"actions":{"archive":"Archiwizuj pliki","GenerateRPGSummary":"Wygeneruj podsumowanie rozdziału RPG","downloadLastFile":"Pobierz ostatni zapisany plik"}}}
+{
+    "window": {
+        "yes": "Tak",
+        "no": "Nie",
+        "cancel": "Anuluj",
+        "info": "Informacje"
+    },
+    "validation": {
+        "required": "Wymagane",
+        "minLength": "Wymagane 6 znaków",
+        "maxLength": "Maksymalna długość to {0} znaków",
+        "email": "Nieprawidłowy adres email",
+        "url": "Nieprawidłowy adres URL",
+        "number": "To pole musi być liczbą",
+        "invalidEmail": "Nieprawidłowy email"
+    },
+    "notify": {
+        "processActive": "Powiadomienia z zadań",
+        "processError": "Tylko powiadomienia z błędów zadań",
+        "position": "Pozycja powiadomienia",
+        "notification": "Powiadomienia",
+        "autoClose": "Czas wyświetlania (ms)",
+        "active": "Aktywne",
+        "bottomRight": "Na dole po prawej",
+        "topRight": "Na górze po prawej",
+        "bottomLeft": "Na dole po lewej",
+        "topLeft": "Na górze po lewej"
+    },
+    "user": {
+        "firstName": "Imię",
+        "lastName": "Nazwisko",
+        "email": "Adres email",
+        "phoneNumber": "Numer telefonu",
+        "info": "Informacje o użytkowniku",
+        "userName": "Nazwa użytkownika"
+    },
+    "processes": {
+        "title": "Procesy",
+        "description": "Zarządzaj procesami, które są uruchomione",
+        "name": "Proces",
+        "queue": "Kolejka",
+        "startingDate": "Data rozpoczęcia",
+        "startingDateFrom": "Data rozpoczęcia od",
+        "startingDateTo": "Data rozpoczęcia do",
+        "percentage": "Poziom ukończenia",
+        "status": "Status",
+        "jobs": "Zadania",
+        "noJobs": "Brak zadań powiązanych z procesem",
+        "errors": "Błędy procesu",
+        "errorMessage": "Komunikat błędu",
+        "restart": "Uruchom ponownie proces",
+        "processStatus": {
+            "New": "Nowy",
+            "Executing": "W trakcie wykonywania",
+            "Success": "Zakończony sukcesem",
+            "Failed": "Zakończony porażką",
+            "Paused": "Zatrzymany"
+        }
+    },
+    "jobs": {
+        "id": "Id",
+        "jobId": "Id hangfire",
+        "status": "Status zadania",
+        "requestData": "Planowana data rozpoczęcia",
+        "startDate": "Data rozpoczęcia",
+        "endDate": "Data zakończenia",
+        "name": "Nazwa",
+        "percentage": "Poziom ukończenia",
+        "operation": "Operacja"
+    },
+    "entity": {
+        "insDate": "Data utworzenia",
+        "upDate": "Data aktualizacji",
+        "del_info": "Czy usunąć dane?"
+    },
+    "files": {
+        "title": "Pliki",
+        "all": "*",
+        "games": "Gry",
+        "docs": "Dokumenty",
+        "name": "Tytuł",
+        "image": "Obraz",
+        "location": "Lokalizacja",
+        "fileType": "Typ pliku",
+        "additionalData": "Dodatkowe dane",
+        "sources": "Źródła",
+        "show_file": "Pokaż pliki",
+        "subject": "Kurs",
+        "year": "Rok",
+        "semester": "Semestr",
+        "sourceType": "Typ źródła",
+        "import": "Pobierz z serwera zewnętrznego",
+        "export": "Pobierz z serwera",
+        "gameGenre": "Gatunek gry",
+        "useFileUpload": "Zapisz plik w bazie danych",
+        "single": "plik",
+        "multiple": "pliki",
+        "empty": "brak plików"
+    },
+    "communication": {
+        "title": "Komunikacja",
+        "emails": "Emaile",
+        "templates": "Szablony",
+        "description": "Zarządzaj komunikacją z użytkownikami",
+        "template": {
+            "title": "Szablony wiadomości",
+            "description": "Zarządzaj szablonami wiadomości",
+            "name": "Nazwa szablonu",
+            "subject": "Temat",
+            "body": "Treść",
+            "add": "Dodaj szablon",
+            "edit": "Edytuj szablon",
+            "del": "Usuń szablon",
+            "gen": "Wygeneruj wiadomość",
+            "strategies": {
+                "title": "Funkcje szablonu",
+                "description": "Funkcje szablonu wiadomości, które można wykorzystać w treści wiadomości",
+                "example": "Przykład",
+                "increment": {
+                    "title": "Automatycznie zwiększaj numer wiadomości",
+                    "description": "Automatycznie zwiększa numer wiadomości w szablonie",
+                    "example": " {{ increment()}}"
+                },
+                "randomNumber": {
+                    "title": "Automatyczne numerowanie",
+                    "description": "Automatycznie zwiększa numer wiadomości w szablonie, jeśli podano zakres liczbowy, wygeneruje losową liczbę z tego zakresu",
+                    "example": " {{ randomNumber(0,20)}}"
+                },
+                "random": {
+                    "title": "Automatyczne wylosowanie wartości z podanych argumentów",
+                    "description": "Automatycznie wylosowuje wartość z podanych argumentów w szablonie",
+                    "example": " {{ random('', 'a', 'b', 'c')}}"
+                },
+                "randomUnique": {
+                    "title": "Automatyczne unikalne wylosowanie wartości z podanych argumentów",
+                    "description": "Automatycznie wylosowuje unikalną wartość z podanych argumentów w szablonie. W przypadku nazwania argumentu tak jak odbiorca wiadomości, zostanie wylosowana unikalna wartość z podanego argumentu, gdzie wartości w argumencie są oddzielone ;",
+                    "example": " {{ randomUnique( test@test.com='d;e;f', 'a', 'b', 'c')}}"
+                }
+            }
+        },
+        "email": {
+            "title": "Email",
+            "subject": "Temat",
+            "sendDate": "Data wysłania",
+            "description": "Wysyłaj maile",
+            "body": "Treść",
+            "from": "Od",
+            "to": "Do",
+            "cc": "Kopia do",
+            "bcc": "Ukryta kopia do",
+            "send": "Wyślij email",
+            "sender": {
+                "title": "Nadawca",
+                "email": "Adres email",
+                "name": "Imię i nazwisko"
+            },
+            "recipient": {
+                "title": "Odbiorca",
+                "email": "Adres email",
+                "name": "Imię i nazwisko"
+            }
+        },
+        "editor": {
+            "title": "Edytor wiadomości"
+        }
+    },
+    "rpg": {
+        "import": {
+            "converterType": "Typ konwertera",
+            "externalUrl": "Nazwa sesji RPG z zewnętrznego źródła (tylko dla konwertera Firebase)",
+            "selectFile": "Wybierz plik z dysku"
+        },
+        "deleteConfirm": {
+            "place": "Czy chcesz usunąć miejsce {0} ?",
+            "hero": "Czy chcesz usunąć bohatera {0} ?",
+            "story": "Czy chcesz usunąć historię {0} ?"
+        },
+        "flow": {
+            "title": "Tytuł",
+            "condition": "Warunek",
+            "description": "Opis",
+            "export": "Eksportuj przebieg jako png",
+            "add_node": "Dodaj węzeł",
+            "type": "Typ zdarzenia",
+            "default_node": "domyślny",
+            "success_node": "sukces",
+            "fail_node": "porażka",
+            "additional_node": "Zdarzenie dodatkowe",
+            "quest": "Zadanie",
+            "important": "Kluczowa decyzja",
+            "event": "Zdarzenie w świecie gry",
+            "flow_title": "Przebieg rozdziału"
+        },
+        "story": {
+            "startDate": "Data rozpoczęcia historii",
+            "endDate": "Data zakończenia historii",
+            "description": "Opis",
+            "heroes": "Bohaterowie",
+            "places": "Miejsca",
+            "chapters": "Rozdziały",
+            "summary": "Podsumowanie",
+            "start": " Rozpocznij historię",
+            "end": "Zakończ historię",
+            "gen_summary": "Generuj podsumowanie",
+            "download_summary": "Pobierz podsumowanie",
+            "title": "Tytuł",
+            "gen_summary_desc": "Wybierz rozdziały do wygenerowania podsumowania",
+            "send_firebase": "Wyslij do aplikacji z podsumowaniem"
+        },
+        "chapter": {
+            "title": "Tytuł",
+            "description": "Opis",
+            "add": "Dodaj rozdział",
+            "addDraft": "Dodaj szkic rozdziału",
+            "chapters": "Rozdziały",
+            "startDate": "Data rozpoczęcia rozdziału",
+            "endDate": "Data zakończenia rozdziału",
+            "start": "Rozpocznij spotkanie",
+            "end": "Zakończ spotkanie",
+            "order": " Kolejność",
+            "dmPage": "Strona bajarza",
+            "playerPage": "Strona gracza",
+            "sessions": "Spotkania",
+            "links": "Linki do materiałów pomocniczych"
+        },
+        "hero": {
+            "firstName": "Imię",
+            "health": "Zdrowie",
+            "pos": "Pozycja",
+            "lastName": "Nazwisko",
+            "player": "Grany przez",
+            "description": "Historia postaci",
+            "add": "Dodaj postać",
+            "playerData": "Informacje gracza",
+            "diceRoll": "Rzuć kością",
+            "skills": "Zdolności",
+            "skill": {
+                "title": "Tytuł zdolności",
+                "value": "Wartość zdolności",
+                "add": "Dodaj zdolnosć",
+                "remove": "Usuń zdolnosć"
+            }
+        },
+        "place": {
+            "title": "Tytuł",
+            "description": "Opis",
+            "add": "Dodaj miejsce"
+        },
+        "other": {
+            "title": "Tytuł",
+            "description": "Opis",
+            "image": "Rycina",
+            "url": "Link",
+            "output_player_view": "Wyświetl stronę gracza",
+            "condition": "Warunek"
+        },
+        "title": "Sesje RPG",
+        "draftTitle": "Szkice sesji RPG",
+        "description": "Historie do opowiedzenia"
+    },
+    "menu": {
+        "home": "Strona główna",
+        "processes": "Procesy",
+        "files": " Pliki",
+        "settings": " Ustawienia",
+        "communication": "Komunikacja",
+        "emails": "Emaile",
+        "templates": "Szablony",
+        "automations": "Automatyzacje",
+        "rpg_sessions": "Sesje RPG",
+        "register": "Zarejestruj się",
+        "login": "Zaloguj się",
+        "logout": "Wyloguj się",
+        "draft": "Szkice RPG"
+    },
+    "server": {
+        "info": "Stan aplikacji",
+        "server_version": "Wersja serwera",
+        "frontend_version": "Wersja nakładki",
+        "modules": "Aktywne moduły",
+        "module_name": "Nazwa modułu",
+        "module_version": "Wersja modułu"
+    },
+    "no_data": "brak danych",
+    "EndpointNotFound": "Nie znaleziono adresu URL",
+    "filter_reset": "Usuń filtry",
+    "language": "Język",
+    "settings": " Ustawienia",
+    "login": "Zaloguj się",
+    "register": "Zarejestruj się",
+    "apiEndpoint": "Link do serwera",
+    "darkTheme": "Ciemny motyw",
+    "error": "Błąd",
+    "opt": {
+        "add": "Nowy",
+        "delete": "Usuń",
+        "edit": "Edytuj",
+        "details": "Informacje",
+        "operations": "Operacje",
+        "save": "Zapisz",
+        "change_pass": "Zmień hasło",
+        "login": "Zaloguj się",
+        "register": "Zarejestruj się",
+        "cancel": "Anuluj",
+        "create": "Utwórz",
+        "import": "Importuj",
+        "export": "Eksportuj",
+        "copy": "Kopiuj",
+        "publish": "Publikuj",
+        "select": "Wybierz",
+        "from": "Od",
+        "to": "Do"
+    },
+    "auth": {
+        "welcome": "Witamy w aplikacji",
+        "info": "Zaloguj się lub zarejestruj, aby kontynuować",
+        "no_permission": "Nie masz uprawnień do wyświetlenia tej strony. Skontaktuj się z administratorem.",
+        "register": {
+            "username": "Nazwa użytkownika",
+            "password": "Hasło",
+            "email": "Adres email",
+            "firstName": "Imię",
+            "lastName": "Nazwisko",
+            "phoneNumber": "Numer telefonu",
+            "failed": "Rejestracja nieudana"
+        },
+        "login": {
+            "username": "Nazwa użytkownika",
+            "password": "Hasło",
+            "rememberMe": "Zapamiętaj mnie",
+            "failed": "Nieprawidłowa nazwa użytkownika lub hasło",
+            "error": "Wystąpił błąd podczas logowania. Spróbuj ponownie później."
+        }
+    },
+    "automations": {
+        "jobs": {
+            "archive": {
+                "title": "Archiwizacja plików",
+                "sourceDir": "Katalog źródłowy",
+                "descDir": "Katalog docelowy"
+            },
+            "summaryDataRPG": "Sesja RPG do podsumowania",
+            "downloadLastFile": "Pobierz ostatni zapisany plik"
+        },
+        "add_task": "Dodaj zadanie",
+        "site_title": "Automatyzacje",
+        "subtitle": "Zarządzaj automatyzacjami procesów",
+        "title": "Tytuł",
+        "description": "Opis",
+        "active": "Aktywne",
+        "turnOnOff": "Włącz/Wyłącz automatyzację",
+        "order": "Kolejność wykonywania",
+        "tasks": "Zadania",
+        "frequency": "Częstotliwość uruchamiania (w minutach)",
+        "triggers": {
+            "title": "Wyzwalacze automatyzacji",
+            "type": "Typ wyzwalacza",
+            "cron": "Czasowe (cron)",
+            "onRPGModify": "Po zmianie w sesji RPG"
+        },
+        "actions": {
+            "archive": "Archiwizuj pliki",
+            "GenerateRPGSummary": "Wygeneruj podsumowanie rozdziału RPG",
+            "downloadLastFile": "Pobierz ostatni zapisany plik"
+        }
+    }
+}

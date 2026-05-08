@@ -271,7 +271,7 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
                         }}
                     >
                         <TableHead>
-                            <TableRow>
+                            <TableRow key={'0'}>
                                 <TableCell />
 
                                 {columns.map(col => (

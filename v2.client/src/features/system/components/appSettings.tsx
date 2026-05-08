@@ -11,12 +11,12 @@ const languages = [
     { code: 'en', label: 'English' },
     { code: 'pl', label: 'Polski' },
     { code: 'fr', label: 'French' },
-    {code: 'de', label: 'German'}
+    { code: 'de', label: 'German' }
     // Add more languages as needed
 ];
 
 const AppSettings: React.FC = () => {
-    const {useVariable} = useConfiguration();
+    const { useVariable } = useConfiguration();
     const [frontendVersion, setFrontendVersion] = useVariable('version');
     const { t, i18n } = useTranslation();
     const [endpoint, setEndpoint] = useVariable('apiEndpoint');
@@ -33,7 +33,7 @@ const AppSettings: React.FC = () => {
 
     // Always use updateData for initial load
     useEffect(() => {
-        call<ServerInfoProps>(api => api.homeApi.get,{}).then(data => {
+        call<ServerInfoProps>(api => api.homeApi.get, {}).then(data => {
             data.frontendVersion = frontendVersion;
             setServerData(data);
         });
@@ -46,7 +46,7 @@ const AppSettings: React.FC = () => {
 
     const onEndpointChange = (data: string) => {
         setEndpoint(data);
-        call<ServerInfoProps>(api => api.homeApi.get,{}).then(data => {
+        call<ServerInfoProps>(api => api.homeApi.get, {}).then(data => {
             data.frontendVersion = frontendVersion;
             setServerData(data);
         });
@@ -137,18 +137,16 @@ const AppSettings: React.FC = () => {
                             )}
 
                             <br />
-                            <FormControlLabel
-                                control={
-                                    <TextField
-                                        type='number'
-                                        value={autoClose}
-                                        onChange={e => setAutoCLose(e.target.value)}
-                                        color="primary"
-                                    />
-                                }
-                                label={t('notify.autoClose')}
-                                sx={{ color: labelColor }}
-                            />
+                            <br />
+                            <FormControl fullWidth>
+                                <TextField
+                                    type='number'
+                                    value={autoClose}
+                                    onChange={e => setAutoCLose(e.target.value)}
+                                    color="primary"
+                                    label={t('notify.autoClose')}
+                                />
+                            </FormControl>
                         </>
                     )
                     )}

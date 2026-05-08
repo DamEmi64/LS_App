@@ -1,1 +1,367 @@
-{"window":{"yes":"Yes","no":"No","cancel":"Cancel","info":"Info"},"validation":{"required":"required","minLength":"6 characters required","maxLength":"Enter no more than {0} characters","email":"Enter a valid email address","url":"Enter a valid URL","number":"Enter a valid number","invalidEmail":"invalid email"},"notify":{"processActive":"All task notifications","processError":"Errors only","position":"Notification position","notification":"Notifications","autoClose":"Auto-close time (ms)","active":"Enabled","bottomRight":"Bottom right","topRight":"Top right","bottomLeft":"Bottom left","topLeft":"Top left"},"user":{"firstName":"First name","lastName":"Last name","email":"Email","phoneNumber":"Phone number","info":"User details","userName":"Username"},"processes":{"title":"Processes","description":"Manage running processes","name":"Process","queue":"Queue","startingDate":"Start date","startingDateFrom":"Start date (from)","startingDateTo":"Start date (to)","percentage":"Progress","status":"Status","jobs":"Jobs","noJobs":"No jobs linked to this process","errors":"Errors","errorMessage":"Error message","restart":"Restart process","processStatus":{"New":"New","Executing":"In progress","Success":"Completed","Failed":"Failed","Paused":"Paused"}},"jobs":{"id":"ID","jobId":"Hangfire Job ID","status":"Status","requestData":"Scheduled start","startDate":"Start date","endDate":"End date","name":"Name","percentage":"Progress","operation":"Operation"},"entity":{"insDate":"Created at","upDate":"Last updated","del_info":"Delete this item?"},"files":{"title":"Files","all":"*","games":"Games","docs":"Documents","name":"Title","image":"Image","location":"Location","fileType":"Type","additionalData":"Additional info","sources":"Sources","show_file":"View files","subject":"Course","year":"Year","semester":"Semester","sourceType":"Source","import":"Import from external source","export":"Download","gameGenre":"Genre","useFileUpload":"Store file in database","single":"file","multpile":"files","empty":"no files"},"communication":{"title":"Communication","emails":"Emails","templates":"Templates","description":"Manage user communication","template":{"title":"Templates","description":"Create and manage message templates","name":"Template name","subject":"Subject","body":"Message","add":"Add template","edit":"Edit template","del":"Delete template","gen":"Generate message","strategies":{"title":"Template functions","description":"Dynamic functions you can use in messages","example":"Example","increment":{"title":"Auto-increment number","description":"Automatically increases a counter","example":"{{ increment() }}"},"randomNumber":{"title":"Random number","description":"Generates a number within a range","example":"{{ randomNumber(0,20) }}"},"random":{"title":"Random value","description":"Selects a random value","example":"{{ random('', 'a', 'b', 'c') }}"},"randomUnique":{"title":"Unique random value","description":"Ensures unique values per recipient when possible","example":"{{ randomUnique(test@test.com='d;e;f', 'a', 'b', 'c') }}"}}},"email":{"title":"Email","subject":"Subject","sendDate":"Send date","description":"Send emails","body":"Message","from":"From","to":"To","cc":"CC","bcc":"BCC","send":"Send email","sender":{"title":"Sender","email":"Email","name":"Name"},"recipient":{"title":"Recipient","email":"Email","name":"Name"}},"editor":{"title":"Message editor"}},"rpg":{"import":{"converterType":"Converter type","externalUrl":"External RPG session name (Firebase only)","selectFile":"Select file"},"deleteConfirm":{"place":"Delete location {0}?","hero":"Delete character {0}?","story":"Delete story {0}?"},"flow":{"title":"Title","condition":"Condition","description":"Description","export":"Export flow as PNG","add_node":"Add node","type":"Event type","default_node":"Default","success_node":"Success","fail_node":"Failure","additional_node":"Additional event","quest":"Quest","important":"Key decision","event":"In-game event","flow_title":"Chapter flow"},"story":{"startDate":"Start date","endDate":"End date","description":"Description","heroes":"Characters","places":"Locations","chapters":"Chapters","summary":"Summary","start":"Start story","end":"End story","gen_summary":"Generate summary","download_summary":"Download summary","title":"Title","gen_summary_desc":"Select chapters to include in the summary","send_firebase":"Send to summary app"},"chapter":{"title":"Title","description":"Description","add":"Add chapter","addDraft":"Add draft","chapters":"Chapters","startDate":"Start date","endDate":"End date","start":"Start session","end":"End session","order":"Order","dmPage":"DM view","playerPage":"Player view","sessions":"Sessions","links":"Resources"},"hero":{"firstName":"First name","health":"Health","pos":"Position","lastName":"Last name","player":"Played by","description":"Backstory","add":"Add character","playerData":"Player details","diceRoll":"Roll dice","skills":"Skills","skill":{"title":"Skill name","value":"Value","add":"Add skill","remove":"Remove skill"}},"place":{"title":"Title","description":"Description","add":"Add location"},"other":{"title":"Title","description":"Description","image":"Image","url":"Link","output_player_view":"Show player view","condition":"Condition"},"title":"RPG Sessions","draftTitle":"Draft sessions","description":"Stories to tell"},"menu":{"home":"Home","processes":"Processes","files":"Files","settings":"Settings","communication":"Communication","emails":"Emails","templates":"Templates","automations":"Automations","rpg_sessions":"RPG Sessions","register":"Sign up","login":"Sign in","logout":"Sign out","draft":"Drafts"},"server":{"info":"System status","server_version":"Server version","frontend_version":"Frontend version","modules":"Active modules","module_name":"Module name","module_version":"Version"},"no_data":"No data","EndpointNotFound":"Endpoint not found","filter_reset":"Reset filters","language":"Language","settings":"Settings","login":"Sign in","register":"Sign up","apiEndpoint":"API endpoint","darkTheme":"Dark mode","error":"Error","opt":{"add":"Add","delete":"Delete","edit":"Edit","details":"Details","operations":"Actions","save":"Save","change_pass":"Change password","login":"Sign in","register":"Sign up","cancel":"Cancel","create":"Create","import":"Import","export":"Export","copy":"Copy","publish":"Publish","select":"Select"},"auth":{"welcome":"Welcome","info":"Sign in or create an account to continue","no_permission":"You don’t have access to this page. Contact your administrator.","register":{"username":"Username","password":"Password","email":"Email","firstName":"First name","lastName":"Last name","phoneNumber":"Phone number","failed":"Register failed"},"login":{"username":"Username","password":"Password","rememberMe":"Remember me","failed":"Invalid username or password","error":"Something went wrong. Please try again later."}},"automations":{"jobs":{"archive":{"title":"File archiving","sourceDir":"Source folder","descDir":"Destination folder"},"summaryDataRPG":"RPG session for summary","downloadLastFile":"Download the last saved file"},"add_task":"Add task","site_title":"Automations","subtitle":"Manage automated processes","title":"Title","description":"Description","active":"Enabled","turnOnOff":"Toggle automation","order":"Execution order","tasks":"Tasks","frequency":"Run frequency (minutes)","triggers":{"title":"Triggers","type":"Trigger type","cron":"Schedule (cron)","onRPGModify":"On RPG update"},"actions":{"archive":"Archive files","GenerateRPGSummary":"Generate RPG summary","downloadLastFile":"Download the last saved file"}}}
+{
+    "window": {
+        "yes": "Yes",
+        "no": "No",
+        "cancel": "Cancel",
+        "info": "Info"
+    },
+    "validation": {
+        "required": "required",
+        "minLength": "6 characters required",
+        "maxLength": "Enter no more than {0} characters",
+        "email": "Enter a valid email address",
+        "url": "Enter a valid URL",
+        "number": "Enter a valid number",
+        "invalidEmail": "invalid email"
+    },
+    "notify": {
+        "processActive": "All task notifications",
+        "processError": "Errors only",
+        "position": "Notification position",
+        "notification": "Notifications",
+        "autoClose": "Auto-close time (ms)",
+        "active": "Enabled",
+        "bottomRight": "Bottom right",
+        "topRight": "Top right",
+        "bottomLeft": "Bottom left",
+        "topLeft": "Top left"
+    },
+    "user": {
+        "firstName": "First name",
+        "lastName": "Last name",
+        "email": "Email",
+        "phoneNumber": "Phone number",
+        "info": "User details",
+        "userName": "Username"
+    },
+    "processes": {
+        "title": "Processes",
+        "description": "Manage running processes",
+        "name": "Process",
+        "queue": "Queue",
+        "startingDate": "Start date",
+        "startingDateFrom": "Start date (from)",
+        "startingDateTo": "Start date (to)",
+        "percentage": "Progress",
+        "status": "Status",
+        "jobs": "Jobs",
+        "noJobs": "No jobs linked to this process",
+        "errors": "Errors",
+        "errorMessage": "Error message",
+        "restart": "Restart process",
+        "processStatus": {
+            "New": "New",
+            "Executing": "In progress",
+            "Success": "Completed",
+            "Failed": "Failed",
+            "Paused": "Paused"
+        }
+    },
+    "jobs": {
+        "id": "ID",
+        "jobId": "Hangfire Job ID",
+        "status": "Status",
+        "requestData": "Scheduled start",
+        "startDate": "Start date",
+        "endDate": "End date",
+        "name": "Name",
+        "percentage": "Progress",
+        "operation": "Operation"
+    },
+    "entity": {
+        "insDate": "Created at",
+        "upDate": "Last updated",
+        "del_info": "Delete this item?"
+    },
+    "files": {
+        "title": "Files",
+        "all": "*",
+        "games": "Games",
+        "docs": "Documents",
+        "name": "Title",
+        "image": "Image",
+        "location": "Location",
+        "fileType": "Type",
+        "additionalData": "Additional info",
+        "sources": "Sources",
+        "show_file": "View files",
+        "subject": "Course",
+        "year": "Year",
+        "semester": "Semester",
+        "sourceType": "Source",
+        "import": "Import from external source",
+        "export": "Download",
+        "gameGenre": "Genre",
+        "useFileUpload": "Store file in database",
+        "single": "file",
+        "multiple": "files",
+        "empty": "no files"
+    },
+    "communication": {
+        "title": "Communication",
+        "emails": "Emails",
+        "templates": "Templates",
+        "description": "Manage user communication",
+        "template": {
+            "title": "Templates",
+            "description": "Create and manage message templates",
+            "name": "Template name",
+            "subject": "Subject",
+            "body": "Message",
+            "add": "Add template",
+            "edit": "Edit template",
+            "del": "Delete template",
+            "gen": "Generate message",
+            "strategies": {
+                "title": "Template functions",
+                "description": "Dynamic functions you can use in messages",
+                "example": "Example",
+                "increment": {
+                    "title": "Auto-increment number",
+                    "description": "Automatically increases a counter",
+                    "example": "{{ increment() }}"
+                },
+                "randomNumber": {
+                    "title": "Random number",
+                    "description": "Generates a number within a range",
+                    "example": "{{ randomNumber(0,20) }}"
+                },
+                "random": {
+                    "title": "Random value",
+                    "description": "Selects a random value",
+                    "example": "{{ random('', 'a', 'b', 'c') }}"
+                },
+                "randomUnique": {
+                    "title": "Unique random value",
+                    "description": "Ensures unique values per recipient when possible",
+                    "example": "{{ randomUnique(test@test.com='d;e;f', 'a', 'b', 'c') }}"
+                }
+            }
+        },
+        "email": {
+            "title": "Email",
+            "subject": "Subject",
+            "sendDate": "Send date",
+            "description": "Send emails",
+            "body": "Message",
+            "from": "From",
+            "to": "To",
+            "cc": "CC",
+            "bcc": "BCC",
+            "send": "Send email",
+            "sender": {
+                "title": "Sender",
+                "email": "Email",
+                "name": "Name"
+            },
+            "recipient": {
+                "title": "Recipient",
+                "email": "Email",
+                "name": "Name"
+            }
+        },
+        "editor": {
+            "title": "Message editor"
+        }
+    },
+    "rpg": {
+        "import": {
+            "converterType": "Converter type",
+            "externalUrl": "External RPG session name (Firebase only)",
+            "selectFile": "Select file"
+        },
+        "deleteConfirm": {
+            "place": "Delete location {0}?",
+            "hero": "Delete character {0}?",
+            "story": "Delete story {0}?"
+        },
+        "flow": {
+            "title": "Title",
+            "condition": "Condition",
+            "description": "Description",
+            "export": "Export flow as PNG",
+            "add_node": "Add node",
+            "type": "Event type",
+            "default_node": "Default",
+            "success_node": "Success",
+            "fail_node": "Failure",
+            "additional_node": "Additional event",
+            "quest": "Quest",
+            "important": "Key decision",
+            "event": "In-game event",
+            "flow_title": "Chapter flow"
+        },
+        "story": {
+            "startDate": "Start date",
+            "endDate": "End date",
+            "description": "Description",
+            "heroes": "Characters",
+            "places": "Locations",
+            "chapters": "Chapters",
+            "summary": "Summary",
+            "start": "Start story",
+            "end": "End story",
+            "gen_summary": "Generate summary",
+            "download_summary": "Download summary",
+            "title": "Title",
+            "gen_summary_desc": "Select chapters to include in the summary",
+            "send_firebase": "Send to summary app"
+        },
+        "chapter": {
+            "title": "Title",
+            "description": "Description",
+            "add": "Add chapter",
+            "addDraft": "Add draft",
+            "chapters": "Chapters",
+            "startDate": "Start date",
+            "endDate": "End date",
+            "start": "Start session",
+            "end": "End session",
+            "order": "Order",
+            "dmPage": "DM view",
+            "playerPage": "Player view",
+            "sessions": "Sessions",
+            "links": "Resources"
+        },
+        "hero": {
+            "firstName": "First name",
+            "health": "Health",
+            "pos": "Position",
+            "lastName": "Last name",
+            "player": "Played by",
+            "description": "Backstory",
+            "add": "Add character",
+            "playerData": "Player details",
+            "diceRoll": "Roll dice",
+            "skills": "Skills",
+            "skill": {
+                "title": "Skill name",
+                "value": "Value",
+                "add": "Add skill",
+                "remove": "Remove skill"
+            }
+        },
+        "place": {
+            "title": "Title",
+            "description": "Description",
+            "add": "Add location"
+        },
+        "other": {
+            "title": "Title",
+            "description": "Description",
+            "image": "Image",
+            "url": "Link",
+            "output_player_view": "Show player view",
+            "condition": "Condition"
+        },
+        "title": "RPG Sessions",
+        "draftTitle": "Draft sessions",
+        "description": "Stories to tell"
+    },
+    "menu": {
+        "home": "Home",
+        "processes": "Processes",
+        "files": "Files",
+        "settings": "Settings",
+        "communication": "Communication",
+        "emails": "Emails",
+        "templates": "Templates",
+        "automations": "Automations",
+        "rpg_sessions": "RPG Sessions",
+        "register": "Sign up",
+        "login": "Sign in",
+        "logout": "Sign out",
+        "draft": "Drafts"
+    },
+    "server": {
+        "info": "System status",
+        "server_version": "Server version",
+        "frontend_version": "Frontend version",
+        "modules": "Active modules",
+        "module_name": "Module name",
+        "module_version": "Version"
+    },
+    "no_data": "No data",
+    "EndpointNotFound": "Endpoint not found",
+    "filter_reset": "Reset filters",
+    "language": "Language",
+    "settings": "Settings",
+    "login": "Sign in",
+    "register": "Sign up",
+    "apiEndpoint": "API endpoint",
+    "darkTheme": "Dark mode",
+    "error": "Error",
+    "opt": {
+        "add": "Add",
+        "delete": "Delete",
+        "edit": "Edit",
+        "details": "Details",
+        "operations": "Actions",
+        "save": "Save",
+        "change_pass": "Change password",
+        "login": "Sign in",
+        "register": "Sign up",
+        "cancel": "Cancel",
+        "create": "Create",
+        "import": "Import",
+        "export": "Export",
+        "copy": "Copy",
+        "publish": "Publish",
+        "select": "Select",
+        "from": "From",
+        "to": "To"
+    },
+    "auth": {
+        "welcome": "Welcome",
+        "info": "Sign in or create an account to continue",
+        "no_permission": "You don’t have access to this page. Contact your administrator.",
+        "register": {
+            "username": "Username",
+            "password": "Password",
+            "email": "Email",
+            "firstName": "First name",
+            "lastName": "Last name",
+            "phoneNumber": "Phone number",
+            "failed": "Register failed"
+        },
+        "login": {
+            "username": "Username",
+            "password": "Password",
+            "rememberMe": "Remember me",
+            "failed": "Invalid username or password",
+            "error": "Something went wrong. Please try again later."
+        }
+    },
+    "automations": {
+        "jobs": {
+            "archive": {
+                "title": "File archiving",
+                "sourceDir": "Source folder",
+                "descDir": "Destination folder"
+            },
+            "summaryDataRPG": "RPG session for summary",
+            "downloadLastFile": "Download the last saved file"
+        },
+        "add_task": "Add task",
+        "site_title": "Automations",
+        "subtitle": "Manage automated processes",
+        "title": "Title",
+        "description": "Description",
+        "active": "Enabled",
+        "turnOnOff": "Toggle automation",
+        "order": "Execution order",
+        "tasks": "Tasks",
+        "frequency": "Run frequency (minutes)",
+        "triggers": {
+            "title": "Triggers",
+            "type": "Trigger type",
+            "cron": "Schedule (cron)",
+            "onRPGModify": "On RPG update"
+        },
+        "actions": {
+            "archive": "Archive files",
+            "GenerateRPGSummary": "Generate RPG summary",
+            "downloadLastFile": "Download the last saved file"
+        }
+    }
+}

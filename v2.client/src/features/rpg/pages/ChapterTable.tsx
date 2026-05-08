@@ -263,7 +263,7 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
                                         <OperationCell operations={operations} data={chapter} />
                                     </TableRow>
 
-                                    <TableRow>
+                                    <TableRow  key={chapter.id + '_1'}>
                                         <TableCell colSpan={6} sx={{ p: 0 }}>
                                             <Collapse in={isOpen} timeout="auto" unmountOnExit>
                                                 <Box sx={{ p: isMobile ? 1 : 2 }}>

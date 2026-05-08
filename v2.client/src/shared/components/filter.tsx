@@ -15,6 +15,7 @@ import { t } from "i18next";
 import dayjs, { Dayjs } from "dayjs";
 
 import { FilterProps, FilterValue } from "../types";
+import { randomUUID } from "crypto";
 
 export const Filter: React.FC<FilterProps> = ({ filters, onChange }) => {
     const [values, setValues] = useState<FilterValue[]>([]);
@@ -60,7 +61,7 @@ export const Filter: React.FC<FilterProps> = ({ filters, onChange }) => {
 
                     case "date":
                         return (
-                            <Grid key={filter.field}>
+                            <Grid key={filter.field + '_filter'}>
                                 <DatePicker
                                     label={t(filter.name)}
                                     value={
@@ -87,7 +88,8 @@ export const Filter: React.FC<FilterProps> = ({ filters, onChange }) => {
                         return (
                             <>
                                 <DatePicker
-                                    label={t(filter.name)+' (from)'} 
+                                    label={t(filter.name)+' ' + t('opt.from')} 
+                                    key={filter.field + '_filterFrom'}
                                     value={range.from ? dayjs(range.from) : null}
                                     onChange={(val: Dayjs | null) =>
                                         handleFilterChange(
@@ -98,7 +100,8 @@ export const Filter: React.FC<FilterProps> = ({ filters, onChange }) => {
                                 />
 
                                 <DatePicker
-                                    label={t(filter.name)+' (to)'} 
+                                    label={t(filter.name)+' ' + t('opt.to')} 
+                                    key={filter.field + '_filterTo'}
                                     value={range.to ? dayjs(range.to) : null}
                                     onChange={(val: Dayjs | null) =>
                                         handleFilterChange(
@@ -112,7 +115,7 @@ export const Filter: React.FC<FilterProps> = ({ filters, onChange }) => {
 
                     case "enum":
                         return (
-                            <Grid key={filter.field} minWidth={200}>
+                            <Grid key={filter.field + '_filter'} minWidth={200}>
                                 <FormControl fullWidth>
                                     <InputLabel>{t(filter.name)}</InputLabel>
                                     <Select
@@ -141,7 +144,7 @@ export const Filter: React.FC<FilterProps> = ({ filters, onChange }) => {
 
                     case "string":
                         return (
-                            <Grid key={filter.field}>
+                            <Grid key={filter.field + '_filter'}>
                                 <TextField
                                     label={t(filter.name)}
                                     value={getValue(filter.field) ?? ""}
@@ -157,7 +160,7 @@ export const Filter: React.FC<FilterProps> = ({ filters, onChange }) => {
 
                     case "number":
                         return (
-                            <Grid key={filter.field}>
+                            <Grid key={filter.field + '_filter'}>
                                 <TextField
                                     type="number"
                                     label={t(filter.name)}
