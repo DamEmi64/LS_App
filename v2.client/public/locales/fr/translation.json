@@ -6,12 +6,13 @@
         "info": "Info"
     },
     "validation": {
-        "required": "Ce champ est requis",
-        "minLength": "Saisissez au moins {0} caractères",
+        "required": "requis",
+        "minLength": "6 caractères requis",
         "maxLength": "Saisissez au maximum {0} caractères",
         "email": "Saisissez une adresse e-mail valide",
         "url": "Saisissez une URL valide",
-        "number": "Saisissez un nombre valide"
+        "number": "Saisissez un nombre valide",
+        "invalidEmail": "adresse e-mail invalide"
     },
     "notify": {
         "processActive": "Toutes les notifications de tâches",
@@ -91,7 +92,10 @@
         "import": "Importer depuis une source externe",
         "export": "Télécharger",
         "gameGenre": "Genre",
-        "useFileUpload": "Stocker le fichier en base de données"
+        "useFileUpload": "Stocker le fichier en base de données",
+        "single": "fichier",
+        "multiple": "fichies",
+        "empty": "aucun fichier"
     },
     "communication": {
         "title": "Communication",
@@ -303,7 +307,9 @@
         "export": "Exporter",
         "copy": "Copier",
         "publish": "Publier",
-        "select": "Sélectionner"
+        "select": "Sélectionner",
+        "from": "De",
+        "to": "à"
     },
     "auth": {
         "welcome": "Bienvenue",

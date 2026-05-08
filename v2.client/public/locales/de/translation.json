@@ -6,12 +6,13 @@
         "info": "Info"
     },
     "validation": {
-        "required": "Dieses Feld ist erforderlich",
-        "minLength": "Geben Sie mindestens {0} Zeichen ein",
+        "required": "erforderlich",
+        "minLength": "6 Zeichen erforderlich",
         "maxLength": "Geben Sie höchstens {0} Zeichen ein",
         "email": "Geben Sie eine gültige E-Mail-Adresse ein",
         "url": "Geben Sie eine gültige URL ein",
-        "number": "Geben Sie eine gültige Zahl ein"
+        "number": "Geben Sie eine gültige Zahl ein",
+        "invalidEmail": "ungültige E-Mail-Adresse"
     },
     "notify": {
         "processActive": "Alle Aufgabenbenachrichtigungen",
@@ -91,7 +92,10 @@
         "import": "Aus externer Quelle importieren",
         "export": "Herunterladen",
         "gameGenre": "Genre",
-        "useFileUpload": "Datei in Datenbank speichern"
+        "useFileUpload": "Datei in Datenbank speichern",
+        "single": "datei",
+        "multiple": "dataien",
+        "empty": "keine dateien"
     },
     "communication": {
         "title": "Kommunikation",
@@ -303,7 +307,9 @@
         "export": "Exportieren",
         "copy": "Kopieren",
         "publish": "Veröffentlichen",
-        "select": "Auswählen"
+        "select": "Auswählen",
+        "from": "Von",
+        "to": "bis"
     },
     "auth": {
         "welcome": "Willkommen",
