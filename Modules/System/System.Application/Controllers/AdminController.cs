@@ -104,7 +104,7 @@ namespace System.Application.Controllers
 
         [TypeFilter(typeof(AdminPanelFilter))]
         [HttpPost("[action]")]
-        public async Task<IActionResult> CreateUser(RegisterModel register)
+        public async Task<IActionResult> CreateUser([FromForm] RegisterModel register)
         {
             var result = await _authService.Register(register);
 
@@ -113,7 +113,7 @@ namespace System.Application.Controllers
 
         [TypeFilter(typeof(AdminPanelFilter))]
         [HttpPost("[action]")]
-        public async Task<IActionResult> UpdateUser(string id, string email, bool locked, string role)
+        public async Task<IActionResult> UpdateUser([FromForm] string id, [FromForm] string firstName, [FromForm] string lastName, [FromForm] string email, [FromForm] string? locked, [FromForm] string role)
         {
             try
             {
@@ -123,8 +123,10 @@ namespace System.Application.Controllers
                 if (user == null)
                     return NotFound("User not found.");
 
+                user.FirstName = firstName;
+                user.LastName = lastName;
                 user.Email = email;
-                user.LockoutEnd = locked ? DateTimeOffset.MaxValue : default(DateTimeOffset?);
+                user.LockoutEnd = locked == "on" ? DateTimeOffset.MaxValue : default(DateTimeOffset?);
 
                 var result = await _adminService.UpdateUser(user, role);
 
@@ -139,7 +141,7 @@ namespace System.Application.Controllers
 
         [TypeFilter(typeof(AdminPanelFilter))]
         [HttpDelete("[action]")]
-        public async Task<ActionResult> DeleteUser(string id)
+        public async Task<ActionResult> DeleteUser([FromForm] string id)
         {
             var userInfo = await _adminService.GetUser(id);
             var user = userInfo?.User;
@@ -154,7 +156,7 @@ namespace System.Application.Controllers
 
         [TypeFilter(typeof(AdminPanelFilter))]
         [HttpPost("[action]")]
-        public async Task<IActionResult> ResetPassword(string id, string password, string verify)
+        public async Task<IActionResult> ResetPassword([FromForm] string id, [FromForm] string password, [FromForm] string verify)
         {
             try
             {
@@ -181,7 +183,7 @@ namespace System.Application.Controllers
 
         [TypeFilter(typeof(AdminPanelFilter))]
         [HttpPost("[action]")]
-        public async Task<IActionResult> CreateRole(RoleDto role)
+        public async Task<IActionResult> CreateRole([FromForm] RoleDto role)
         {
             try
             {
@@ -247,11 +249,11 @@ namespace System.Application.Controllers
 
         [TypeFilter(typeof(AdminPanelFilter))]
         [HttpPost("[action]")]
-        public async Task<IActionResult> UpdateRole(RoleDto dto)
+        public async Task<IActionResult> UpdateRole([FromForm] RoleDto dto)
         {
             try
             {
-                var role = await _adminService.GetRole(dto.Id);
+                var role = await _adminService.GetRole(dto.Id ?? string.Empty);
                 if (role == null)
                     return NotFound("Role not found.");
 
@@ -270,7 +272,7 @@ namespace System.Application.Controllers
 
         [TypeFilter(typeof(AdminPanelFilter))]
         [HttpDelete("[action]")]
-        public async Task<IActionResult> DeleteRole(string id)
+        public async Task<IActionResult> DeleteRole([FromForm] string id)
         {
             try
             {
@@ -290,7 +292,7 @@ namespace System.Application.Controllers
         }
 
         [TypeFilter(typeof(AdminPanelFilter))]
-        [HttpPost("[action]")]
+        [HttpGet("[action]")]
         public IActionResult LogsData([FromQuery] LogFilter request, string? level, string? method)
         {
             var query = _adminService.GetLogs();
