@@ -79,13 +79,13 @@ const getMimeFromExtension = (extension) => {
     }
 };
 
-export const get = (key: keyof typeof configuration) => {
+export const get = (key: keyof typeof configuration): string | undefined => {
     return (
         localStorage.getItem(key) ??
         configuration[key] ??
-        ''
+        undefined
     );
-}
+};
 
 export function useDictionaryTranslation() {
     const { t } = useTranslation('dictionaries');

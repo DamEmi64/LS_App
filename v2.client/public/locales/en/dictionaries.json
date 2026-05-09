@@ -1,28 +1,4 @@
 {
-    "File_source_type": {
-        "300": {
-            "title": "Local",
-            "description": ""
-        },
-        "301": {
-            "title": "FuckingFast website",
-            "description": ""
-        }
-    },
-    "File_types": {
-        "101": {
-            "title": "Games",
-            "description": ""
-        },
-        "102": {
-            "title": "Documents",
-            "description": ""
-        },
-        "103": {
-            "title": "Study Files",
-            "description": ""
-        }
-    },
     "Fluid_functions": {
         "601": {
             "title": "Random number",
@@ -63,152 +39,6 @@
             "description": null
         }
     },
-    "Game_genres": {
-        "200": {
-            "title": "Platformer",
-            "description": ""
-        },
-        "201": {
-            "title": "Shooter",
-            "description": ""
-        },
-        "202": {
-            "title": "First Person Shooter",
-            "description": ""
-        },
-        "203": {
-            "title": "Third Person Shooter",
-            "description": ""
-        },
-        "204": {
-            "title": "Beat 'Em Up",
-            "description": ""
-        },
-        "205": {
-            "title": "Stealth",
-            "description": ""
-        },
-        "206": {
-            "title": "Survival",
-            "description": ""
-        },
-        "210": {
-            "title": "Action Adventure",
-            "description": ""
-        },
-        "211": {
-            "title": "Narrative Adventure",
-            "description": ""
-        },
-        "212": {
-            "title": "Point and Click",
-            "description": ""
-        },
-        "220": {
-            "title": "Action RPG",
-            "description": ""
-        },
-        "221": {
-            "title": "Turn-Based RPG",
-            "description": ""
-        },
-        "222": {
-            "title": "Tactical RPG",
-            "description": ""
-        },
-        "223": {
-            "title": "MMORPG",
-            "description": ""
-        },
-        "224": {
-            "title": "Open World RPG",
-            "description": ""
-        },
-        "230": {
-            "title": "Life Simulation",
-            "description": ""
-        },
-        "231": {
-            "title": "Farming Simulation",
-            "description": ""
-        },
-        "232": {
-            "title": "Vehicle Simulation",
-            "description": ""
-        },
-        "233": {
-            "title": "City Building",
-            "description": ""
-        },
-        "240": {
-            "title": "Real-Time Strategy",
-            "description": ""
-        },
-        "241": {
-            "title": "Turn-Based Strategy",
-            "description": ""
-        },
-        "242": {
-            "title": "Tower Defense",
-            "description": ""
-        },
-        "243": {
-            "title": "4X Strategy",
-            "description": ""
-        },
-        "250": {
-            "title": "Classic Puzzle",
-            "description": ""
-        },
-        "251": {
-            "title": "Physics Puzzle",
-            "description": ""
-        },
-        "252": {
-            "title": "Match 3",
-            "description": ""
-        },
-        "260": {
-            "title": "Traditional Sports",
-            "description": ""
-        },
-        "261": {
-            "title": "Extreme Sports",
-            "description": ""
-        },
-        "262": {
-            "title": "Racing",
-            "description": ""
-        },
-        "270": {
-            "title": "Traditional Fighting",
-            "description": ""
-        },
-        "271": {
-            "title": "Platform Fighting",
-            "description": ""
-        },
-        "280": {
-            "title": "Survival Horror",
-            "description": ""
-        },
-        "281": {
-            "title": "Psychological Horror",
-            "description": ""
-        },
-        "290": {
-            "title": "Party Game",
-            "description": ""
-        },
-        "291": {
-            "title": "Rhythm Game",
-            "description": ""
-        },
-        "299": {
-            "title": "Other",
-            "description": ""
-        }
-    },
     "Notify_types": {
         "1000": {
             "title": "Log",
@@ -232,30 +62,6 @@
         },
         "1005": {
             "title": "Process {0} added to queue",
-            "description": ""
-        },
-        "1006": {
-            "title": "File {0} saved",
-            "description": ""
-        },
-        "1007": {
-            "title": "File {0} deleted",
-            "description": ""
-        },
-        "1008": {
-            "title": "File {0} updated",
-            "description": ""
-        },
-        "1009": {
-            "title": "File {0} not found",
-            "description": ""
-        },
-        "1010": {
-            "title": "File {0} already exists",
-            "description": ""
-        },
-        "1011": {
-            "title": "File {0} was not saved",
             "description": ""
         },
         "1012": {
@@ -380,22 +186,6 @@
         }
     },
     "Operations": {
-        "11": {
-            "title": "Import file",
-            "description": ""
-        },
-        "12": {
-            "title": "Move file",
-            "description": ""
-        },
-        "13": {
-            "title": "Copy file",
-            "description": ""
-        },
-        "14": {
-            "title": "Delete file",
-            "description": ""
-        },
         "21": {
             "title": "Send email",
             "description": ""

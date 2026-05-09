@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { TextField, FormControlLabel, Switch, Select, MenuItem, InputLabel, FormControl, Box, Typography, useColorScheme } from '@mui/material';
+import { TextField, FormControlLabel, Switch, Select, MenuItem, InputLabel, FormControl, Box, Typography, useColorScheme, IconButton, Grid, Button } from '@mui/material';
 import { changeLanguage } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import ServerInfo, { ServerInfoProps } from './serverInfo';
 import useLocalStorage from 'react-use-localstorage';
 import { call } from '@/shared';
 import { useConfiguration } from '@/shared/context/configuration';
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 const languages = [
     { code: 'en', label: 'English' },
@@ -46,6 +47,10 @@ const AppSettings: React.FC = () => {
 
     const onEndpointChange = (data: string) => {
         setEndpoint(data);
+        refreshConnection();
+    }
+
+    const refreshConnection = () => {
         call<ServerInfoProps>(api => api.homeApi.get, {}).then(data => {
             data.frontendVersion = frontendVersion;
             setServerData(data);
@@ -70,13 +75,20 @@ const AppSettings: React.FC = () => {
                 {t('settings')}
             </Typography>
             <Box display="flex" flexDirection="column" gap={2}>
-                <TextField
-                    label={t('apiEndpoint')}
-                    value={endpoint}
-                    onChange={e => onEndpointChange(e.target.value)}
-                    fullWidth
-                    InputLabelProps={{ sx: { color: labelColor } }}
-                />
+                <Grid display="flex" flexDirection="row" gap={1}>
+                    <TextField
+                        fullWidth
+                        label={t('apiEndpoint')}
+                        value={endpoint}
+                        onChange={e => onEndpointChange(e.target.value)}
+                        InputLabelProps={{ sx: { color: labelColor } }}
+                    />
+                    <Button onClick={() => refreshConnection()}
+                        variant="outlined"
+                        size="small">
+                        <RefreshIcon />
+                    </Button>
+                </Grid>
                 <FormControlLabel
                     control={
                         <Switch

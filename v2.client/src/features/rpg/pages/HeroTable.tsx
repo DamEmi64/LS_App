@@ -112,6 +112,7 @@ export const HeroTable: React.FC<HeroTableProps> = ({
                                 .then(() => modal.hideModal());
                         });
                 }}
+                onClose={() => modal.hideModal()}
             />
         );
     };

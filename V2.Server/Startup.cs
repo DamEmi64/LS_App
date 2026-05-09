@@ -185,12 +185,12 @@ namespace Api
 
                 app.UseSwagger(o => o.OpenApiVersion = OpenApiSpecVersion.OpenApi3_0);
                 app.UseSwaggerUI();
-                app.UseMiddleware<ErrorMiddleware>();
-                app.UseMiddleware<SerilogMiddleware>();
                 app.UseSerilogRequestLogging();
 
                 app.UseAuthentication();
                 app.UseAuthorization();
+                app.UseMiddleware<ErrorMiddleware>();
+                app.UseMiddleware<SerilogMiddleware>();
                 app.MapRazorPages();
 
                 app.MapControllerRoute(

@@ -24,11 +24,26 @@ type ApiError = {
     title?: string;
 };
 
-const uri = get('apiEndpoint');
-
 const axiosInstance = axios.create({
-    baseURL: uri,
     withCredentials: true
+});
+
+axiosInstance.interceptors.request.use((config) => {
+    const baseURL = get('apiEndpoint');
+
+    if (!baseURL) {
+        throw new Error('apiEndpoint is missing in localStorage');
+    }
+
+    config.baseURL = baseURL.endsWith('/')
+        ? baseURL.slice(0, -1)
+        : baseURL;
+
+    if (!config.url || config.url === 'null') {
+        config.url = '';
+    }
+
+    return config;
 });
 
 axiosInstance.interceptors.response.use(
@@ -64,17 +79,17 @@ function bindApi<T extends object>(api: T): T {
 }
 
 export const API = {
-    storiesApi: bindApi(new StoriesApi(null, null, axiosInstance)),
-    placesApi: bindApi(new PlacesApi(null, null, axiosInstance)),
-    heroesApi: bindApi(new HeroesApi(null, null, axiosInstance)),
-    chaptersApi: bindApi(new ChaptersApi(null, null, axiosInstance)),
-    processApi: bindApi(new ProcessApi(null, null, axiosInstance)),
-    emailsApi: bindApi(new EmailsApi(null, null, axiosInstance)),
-    templatesApi: bindApi(new TemplatesApi(null, null, axiosInstance)),
-    authApi: bindApi(new AuthApi(null, null, axiosInstance)),
-    filesApi: bindApi(new FilesApi(null, null, axiosInstance)),
-    automationApi: bindApi(new AutomationsApi(null, null, axiosInstance)),
-    homeApi: bindApi(new HomeApi(null, null, axiosInstance)),
+    storiesApi: bindApi(new StoriesApi(null, '', axiosInstance)),
+    placesApi: bindApi(new PlacesApi(null, '', axiosInstance)),
+    heroesApi: bindApi(new HeroesApi(null, '', axiosInstance)),
+    chaptersApi: bindApi(new ChaptersApi(null, '', axiosInstance)),
+    processApi: bindApi(new ProcessApi(null, '', axiosInstance)),
+    emailsApi: bindApi(new EmailsApi(null, '', axiosInstance)),
+    templatesApi: bindApi(new TemplatesApi(null, '', axiosInstance)),
+    authApi: bindApi(new AuthApi(null, '', axiosInstance)),
+    filesApi: bindApi(new FilesApi(null, '', axiosInstance)),
+    automationApi: bindApi(new AutomationsApi(null, '', axiosInstance)),
+    homeApi: bindApi(new HomeApi(null, '', axiosInstance)),
 };
 
 
