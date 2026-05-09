@@ -219,7 +219,7 @@ const DMPage: React.FC<{ chapter: Chapter }> = ({ chapter }) => {
                     onChange={(data) => send("UpdateBattleState", data)}
                     background={battleBg}
                 />)}
-                {!combatMode && (<ProgressFlow initialEdges={chapter.flow?.edges || []} initialNodes={chapter.flow?.nodes || []}/>)}
+                {!combatMode && (<ProgressFlow initialEdges={chapter.flow?.edges || []} initialNodes={chapter.flow?.nodes || []} onSave={ o => call(api => api.chaptersApi.updateByIdFlow,{id: chapter.id, flowDto:o})}/>)}
                 
             </Grid>
 
