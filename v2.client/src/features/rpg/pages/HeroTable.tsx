@@ -102,13 +102,13 @@ export const HeroTable: React.FC<HeroTableProps> = ({
                         .then((res) => {
                             const imageData = res?.contentStr || '';
 
-                            const newHero = {
+                            const newHero = { 
                                 ...hero,
                                 id: undefined,
                                 chapter: chapterId,
                                 image: imageData
                             };
-                            call(api => api.heroesApi.create,newHero)
+                            call(api => api.heroesApi.create,{heroDto:newHero})
                                 .then(() => modal.hideModal());
                         });
                 }}
