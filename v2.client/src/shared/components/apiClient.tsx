@@ -31,10 +31,6 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use((config) => {
     const baseURL = get('apiEndpoint');
 
-    if (!baseURL) {
-        throw new Error('apiEndpoint is missing in localStorage');
-    }
-
     config.baseURL = baseURL.endsWith('/')
         ? baseURL.slice(0, -1)
         : baseURL;
