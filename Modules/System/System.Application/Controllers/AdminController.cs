@@ -293,20 +293,20 @@ namespace System.Application.Controllers
 
         [TypeFilter(typeof(AdminPanelFilter))]
         [HttpGet("[action]")]
-        public IActionResult LogsData([FromQuery] LogFilter request, string? level, string? method)
+        public IActionResult LogsData([FromQuery] LogFilter request)
         {
             var query = _adminService.GetLogs();
 
-            if (!string.IsNullOrEmpty(level))
-                query = query.Where(l => l.Level == level);
+            if (!string.IsNullOrEmpty(request.Level))
+                query = query.Where(l => l.Level == request.Level);
 
-            if (!string.IsNullOrEmpty(method))
-                query = query.Where(l => l.HttpMethod?.ToLower() == method?.ToLower());
+            if (!string.IsNullOrEmpty(request.Method))
+                query = query.Where(l => l.HttpMethod?.ToLower() == request.Method?.ToLower());
 
             // Search
-            if (!string.IsNullOrEmpty(request.Search?.Value))
+            if (!string.IsNullOrEmpty(request.SearchValue))
             {
-                string term = request.Search.Value.ToLower();
+                string term = request.SearchValue.ToLower();
                 query = query.Where(l =>
                     l.Message.ToLower().Contains(term) ||
                     (l.User is not null &&
