@@ -15,12 +15,14 @@ namespace RPG.Infrastructure.Repositories
         public override async Task<Story?> Get(Guid id)
         {
             return await DbContext.Set<Story>()
+                                .Include(x => x.Files)
                                 .Include(x => x.Chapters.Where(x => !x.Draft)).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Story?> GetDraft(Guid id)
         {
             return await DbContext.Set<Story>()
+                                .Include(x => x.Files)
                                 .Include(x => x.Chapters.Where(x => x.Draft)).FirstOrDefaultAsync(x => x.Id == id);
         }
 
@@ -81,6 +83,14 @@ namespace RPG.Infrastructure.Repositories
                 DbContext.Stories.Remove(entity);
                 await DbContext.SaveChangesAsync();
             }
+        }
+
+        public async Task AddFile(Story story, RPGFile file)
+        {
+            await DbContext.Set<RPGFile>().AddAsync(file);
+            story.Files.Add(file);
+            DbContext.Update(story);
+            await DbContext.SaveChangesAsync();
         }
     }
 }

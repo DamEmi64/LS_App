@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Automation.Application.Controllers
 {
-    [Route("[controller]")]
     [AuthPermission("automation")]
     public class AutomationsController : BaseController
     {
@@ -64,7 +63,7 @@ namespace Automation.Application.Controllers
         public async Task<IActionResult> ListData([FromQuery] AutomatonFilter filter)
         {
             var automats = _automatRepository.GetAll();
-            return Json(filter.Filter(automats));
+            return Json(filter.Filter(automats, out var count), count);
         }
 
         [HttpPost("")]

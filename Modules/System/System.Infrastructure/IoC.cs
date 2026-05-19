@@ -91,7 +91,7 @@ namespace System.Infrastructure
             {
                 // Cookie settings
                 options.Cookie.SameSite = SameSiteMode.None;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                options.ExpireTimeSpan = TimeSpan.FromHours(1);
 
                 options.LoginPath = "/Identity/Account/Login";
                 options.AccessDeniedPath = "/Identity/Account/AccessDenied";

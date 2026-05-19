@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, TextField, Typography, useTheme, Avatar, Grid, Button } from '@mui/material';
 import { t } from 'i18next';
 import { Story } from '../types';
+import FileManager from '@/shared/components/fileManager';
 
 type SessionInfoProps = {
     story: Story;
@@ -65,6 +66,10 @@ export const StoryInfo: React.FC<SessionInfoProps> = ({ story, edit, del }) => {
                     margin="dense"
                     variant="outlined"
                 />
+                <FileManager files={story.files || []}
+                    editMode={false}
+                    remove={async o => {}}
+                    add= {async o => {}} />
 
                 <Box sx={{ display: 'flex', gap: 2, mt: 3 }}>
                     <Button type="button" onClick={edit ? () => edit(story) : undefined} style={{ padding: '8px 16px', background: theme.palette.primary.main, color: '#fff', border: 'none', borderRadius: 4, cursor: 'pointer' }}>

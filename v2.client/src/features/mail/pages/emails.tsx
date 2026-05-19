@@ -10,7 +10,7 @@ import {
 
 import { useTranslation } from "react-i18next";
 import { useModal } from "@/shared/context/modal";
-import { useApiConnect } from "@/shared/context/apiConnect";
+import { call } from "@/shared";
 import { useAuth } from "@/features/auth/context/authProvider";
 
 import { DataTable } from "@/shared/components/datatable";
@@ -34,7 +34,6 @@ import { ResponseList } from "@/shared/api/extension";
 const Emails: React.FC = () => {
     const { t } = useTranslation();
     const modal = useModal();
-    const { emailsApi, call } = useApiConnect();
     const auth = useAuth();
 
     // 📱 RESPONSIVE
@@ -68,7 +67,7 @@ const Emails: React.FC = () => {
 
     // 👁 DETAILS
     const details = async (email: Email) => {
-        call<Email>(emailsApi,emailsApi.getEmail, { id: email.id })
+        call<Email>(api => api.emailsApi.get, { id: email.id })
             .then(res => modal.showModal(
                 <EmailEdit
                     email={res}
@@ -79,11 +78,10 @@ const Emails: React.FC = () => {
     };
 
     const send = async (email: Email) => {
-        call(emailsApi,emailsApi.updateEmailByIdSend,{id:email.id, body:email});
+        call(api => api.emailsApi.updateByIdSend,{id:email.id});
 
     };
 
-    // ❌ DELETE
     const del = (email: Email) => {
         modal.showModal(
             <YesNoWindow
@@ -97,19 +95,17 @@ const Emails: React.FC = () => {
     };
 
     const delConfirm = async (email: Email) => {
-        call(emailsApi,emailsApi.updateEmailByIdSend,{id:email.id, body:email}).then(refresh);
+        call(api => api.emailsApi.deleteById,{id:email.id}).then(refresh);
     };
 
-    // ➕ CREATE
     const addData = async (email: Email) => {
-        await call(emailsApi,emailsApi.createEmail,{id:email.id,body:email});
+        await call(api => api.emailsApi.create,{email});
         modal.hideModal();
         refresh();
     };
 
-    // ✏️ UPDATE
     const editData = async (email: Email) => {
-        await call(emailsApi,emailsApi.getEmailById,{id:email.id,body:email});
+        await call(api => api.emailsApi.updateById,{id:email.id, email});
 
         modal.hideModal();
         refresh();
@@ -143,7 +139,7 @@ const Emails: React.FC = () => {
         query[filter.field] = filter.value.toLocaleString();
         });
 
-        const result = await call<ResponseList<Email>>(emailsApi,emailsApi.getEmail,query);
+        const result = await call<ResponseList<Email>>(api => api.emailsApi.get,query);
 
 
         const tableData: TableData<Email> = {

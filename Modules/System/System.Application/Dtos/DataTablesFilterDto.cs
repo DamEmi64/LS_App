@@ -8,6 +8,6 @@
 
         public int? Length { get; set; }
 
-        public required string Search { get; set; }
+        public string? Search { get; set; }
     }
 }

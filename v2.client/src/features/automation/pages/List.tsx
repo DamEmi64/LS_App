@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Button, Grid, InputLabel } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useModal } from "@/shared/context/modal";
-import { useApiConnect } from "@/shared/context/apiConnect";
 import YesNoWindow from "@/shared/components/YesNoWindow";
 import { DataTable } from "@/shared/components/datatable";
+import {call} from "@/shared";
 import { AutomatForm } from "@/features/automation/components/AutomatForm";
 
 import {
@@ -24,7 +24,6 @@ import { ResponseList } from "@/shared/api/extension";
 const List: React.FC = () => {
   const { t } = useTranslation();
   const modal = useModal();
-  const { automationApi, call: mapResponse } = useApiConnect();
 
   // Table state
   const [data, setData] = useState<TableData<Automat>>({ data: [], total: 0 });
@@ -48,7 +47,7 @@ const List: React.FC = () => {
       query[filter.field] = filter.value.toLocaleString();
     });
 
-    const result = await mapResponse<ResponseList<Automat>>(automationApi, automationApi.getAutomation, query);
+    const result = await call<ResponseList<Automat>>(api=>api.automationApi.get, query);
     setData({ data: result.data, total: result.total });
 
     return { data: result.data, total: result.total };
@@ -69,7 +68,7 @@ const List: React.FC = () => {
   };
 
   const saveNew = (automat: Automat) => {
-    automationApi.createAutomation(automat as unknown).then(refresh);
+    call(api=>api.automationApi.create,{automationDto:automat}).then(refresh);
   };
 
   const editAutomat = (automat: Automat) => {
@@ -79,17 +78,17 @@ const List: React.FC = () => {
   };
 
   const saveEdit = (automat: Automat, id: string) => {
-    mapResponse(automationApi, automationApi.updateAutomationById, { id, body: automat }).then(refresh);
+    call(api=>api.automationApi.updateById,{ id, automationDto: automat }).then(refresh);
   };
 
   const turnOnOff = (automat: Automat) => {
 
     const id = automat.id;
     if (automat.active) {
-      mapResponse(automationApi, automationApi.updateAutomationByIdTurnoff, { id }).then(refresh);
+          call(api=>api.automationApi.updateByIdTurnoff,{ id }).then(refresh);
     }
     else {
-      mapResponse(automationApi, automationApi.updateAutomationByIdTurnon, { id }).then(refresh);
+          call(api=>api.automationApi.updateByIdTurnon,{ id }).then(refresh);
     }
   };
 
@@ -97,8 +96,7 @@ const List: React.FC = () => {
     const index = automat.tasks.findIndex(t => t.id === taskId);
     if (index >= 0) automat.tasks[index] = task;
     else automat.tasks.push(task);
-
-    mapResponse(automationApi, automationApi.getAutomationById, { id: automat.id, automat }).then(refresh);
+      call(api=>api.automationApi.getById,{ id:automat.id }).then(refresh);
   };
 
   const del = (automat: Automat) => {
@@ -114,7 +112,7 @@ const List: React.FC = () => {
   };
 
   const delConfirm = (automat: Automat) => {
-    mapResponse(automationApi, automationApi.updateAutomationById, { id: automat.id }).then(refresh);
+      call(api=>api.automationApi.deleteById,{ id:automat.id }).then(refresh);
   };
 
   // Columns, filters, operations

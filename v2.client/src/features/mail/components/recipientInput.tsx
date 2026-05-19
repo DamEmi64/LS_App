@@ -13,7 +13,7 @@ export default function RecipientInput({
 
     const addEmails = (input) => {
         const newEmails = input
-            .split(/[,;\\n\\r]+/)
+            .split(/[,;\n\r]+/)
             .map((e) => e.trim())
             .filter(Boolean);
 

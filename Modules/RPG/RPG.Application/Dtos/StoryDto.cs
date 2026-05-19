@@ -8,6 +8,8 @@
         public DateTimeOffset? StartDate { get; set; }
         public DateTimeOffset? EndDate { get; set; }
         public List<ChapterDto> Chapters { get; set; } = new List<ChapterDto>();
-        public byte[]? Summary { get; set; }
+        public Guid? Summary { get; set; }
+        public List<RpgFileDto> Files { get; set; } = new();
+
     }
 }

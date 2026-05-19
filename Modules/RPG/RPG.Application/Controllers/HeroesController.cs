@@ -10,7 +10,6 @@ using RPG.Domain.Repositories;
 
 namespace RPG.Application.Controllers
 {
-    [Route("[controller]")]
     [AuthPermission("rpg")]
     public class HeroesController : BaseController
     {
@@ -50,7 +49,7 @@ namespace RPG.Application.Controllers
         [ProducesResponseType(typeof(ResponseList<Hero>), StatusCodes.Status200OK)]
         public IActionResult ListData([FromQuery] HeroFilter filter)
         {
-            return Json(filter.Filter(_heroRepository.GetAll()));
+            return Json(filter.Filter(_heroRepository.GetAll(), out var count), count);
         }
 
         [HttpPost("")]

@@ -1,40 +1,40 @@
 import React, { useEffect, useState } from 'react';
-import { TextField, FormControlLabel, Switch, Select, MenuItem, InputLabel, FormControl, Box, Typography, useColorScheme } from '@mui/material';
+import { TextField, FormControlLabel, Switch, Select, MenuItem, InputLabel, FormControl, Box, Typography, useColorScheme, IconButton, Grid, Button } from '@mui/material';
 import { changeLanguage } from 'i18next';
 import { useTranslation } from 'react-i18next';
-import { ApiConnectContextType, useApiConnect } from '@/shared/context/apiConnect';
-import useLocalStorage from 'react-use-localstorage';
 import ServerInfo, { ServerInfoProps } from './serverInfo';
-import { HomeApi } from '@/shared/api/generated';
+import useLocalStorage from 'react-use-localstorage';
+import { call } from '@/shared';
+import { useConfiguration } from '@/shared/context/configuration';
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 const languages = [
     { code: 'en', label: 'English' },
     { code: 'pl', label: 'Polski' },
     { code: 'fr', label: 'French' },
-    {code: 'de', label: 'German'}
+    { code: 'de', label: 'German' }
     // Add more languages as needed
 ];
 
-const AppSettings: React.FC<{ api: ApiConnectContextType }> = () => {
-    const [frontendVersion, setFrontendVersion] = useState('v1.0');
-    const {homeApi, call} = useApiConnect();
-
+const AppSettings: React.FC = () => {
+    const { useVariable } = useConfiguration();
+    const [frontendVersion, setFrontendVersion] = useVariable('version');
     const { t, i18n } = useTranslation();
-    const [endpoint, setEndpoint] = useLocalStorage('apiEndpoint', 'http://localhost:5144');
+    const [endpoint, setEndpoint] = useVariable('apiEndpoint');
     const [language, setLanguage] = useLocalStorage('lang', i18n.language || 'en');
-    const [labelColor, setLabelColor] = useLocalStorage('labelColor', '#fff')
+    const [labelColor, setLabelColor] = useVariable('labelColor')
     const { mode, setMode } = useColorScheme();
     const [darkTheme, setDarkTheme] = useState(mode === 'dark');
     const [serverData, setServerData] = useState<ServerInfoProps>({ frontendVersion: 'unknown', version: 'unknown', modules: [] });
-    const [position, setPosition] = useLocalStorage('toastPosition', "bottom-right");
-    const [autoClose, setAutoCLose] = useLocalStorage('toastAutoClose', '3000');
-    const [active, setActive] = useLocalStorage('toastActive', 'true');
-    const [process, setProcess] = useLocalStorage('toastProcess', 'false');
-    const [processError, setProcessError] = useLocalStorage('toastProcessError', 'false');
+    const [position, setPosition] = useVariable('toastPosition');
+    const [autoClose, setAutoCLose] = useVariable('toastAutoClose');
+    const [active, setActive] = useVariable('toastActive');
+    const [process, setProcess] = useVariable('toastProcess');
+    const [processError, setProcessError] = useVariable('toastProcessError');
 
     // Always use updateData for initial load
     useEffect(() => {
-        call<ServerInfoProps>(homeApi,homeApi.getHome,{}).then(data => {
+        call<ServerInfoProps>(api => api.homeApi.get, {}).then(data => {
             data.frontendVersion = frontendVersion;
             setServerData(data);
         });
@@ -47,7 +47,11 @@ const AppSettings: React.FC<{ api: ApiConnectContextType }> = () => {
 
     const onEndpointChange = (data: string) => {
         setEndpoint(data);
-        call<ServerInfoProps>(homeApi,homeApi.getHome,{}).then(data => {
+        refreshConnection();
+    }
+
+    const refreshConnection = () => {
+        call<ServerInfoProps>(api => api.homeApi.get, {}).then(data => {
             data.frontendVersion = frontendVersion;
             setServerData(data);
         });
@@ -71,13 +75,20 @@ const AppSettings: React.FC<{ api: ApiConnectContextType }> = () => {
                 {t('settings')}
             </Typography>
             <Box display="flex" flexDirection="column" gap={2}>
-                <TextField
-                    label={t('apiEndpoint')}
-                    value={endpoint}
-                    onChange={e => onEndpointChange(e.target.value)}
-                    fullWidth
-                    InputLabelProps={{ sx: { color: labelColor } }}
-                />
+                <Grid display="flex" flexDirection="row" gap={1}>
+                    <TextField
+                        fullWidth
+                        label={t('apiEndpoint')}
+                        value={endpoint}
+                        onChange={e => onEndpointChange(e.target.value)}
+                        InputLabelProps={{ sx: { color: labelColor } }}
+                    />
+                    <Button onClick={() => refreshConnection()}
+                        variant="outlined"
+                        size="small">
+                        <RefreshIcon />
+                    </Button>
+                </Grid>
                 <FormControlLabel
                     control={
                         <Switch
@@ -138,18 +149,16 @@ const AppSettings: React.FC<{ api: ApiConnectContextType }> = () => {
                             )}
 
                             <br />
-                            <FormControlLabel
-                                control={
-                                    <TextField
-                                        type='number'
-                                        value={autoClose}
-                                        onChange={e => setAutoCLose(e.target.value)}
-                                        color="primary"
-                                    />
-                                }
-                                label={t('notify.autoClose')}
-                                sx={{ color: labelColor }}
-                            />
+                            <br />
+                            <FormControl fullWidth>
+                                <TextField
+                                    type='number'
+                                    value={autoClose}
+                                    onChange={e => setAutoCLose(e.target.value)}
+                                    color="primary"
+                                    label={t('notify.autoClose')}
+                                />
+                            </FormControl>
                         </>
                     )
                     )}
@@ -192,7 +201,7 @@ const AppSettings: React.FC<{ api: ApiConnectContextType }> = () => {
                         ))}
                     </Select>
                 </FormControl>
-                <ServerInfo frontendVersion='0.0.1.' version={serverData.version} modules={serverData.modules || []}></ServerInfo>
+                <ServerInfo frontendVersion={frontendVersion} version={serverData.version} modules={serverData.modules || []}></ServerInfo>
             </Box >
         </>
     );

@@ -6,12 +6,13 @@
         "info": "Informacje"
     },
     "validation": {
-        "required": "To pole jest wymagane",
-        "minLength": "Minimalna długość to {0} znaków",
+        "required": "Wymagane",
+        "minLength": "Wymagane 6 znaków",
         "maxLength": "Maksymalna długość to {0} znaków",
         "email": "Nieprawidłowy adres email",
         "url": "Nieprawidłowy adres URL",
-        "number": "To pole musi być liczbą"
+        "number": "To pole musi być liczbą",
+        "invalidEmail": "Nieprawidłowy email"
     },
     "notify": {
         "processActive": "Powiadomienia z zadań",
@@ -91,7 +92,10 @@
         "import": "Pobierz z serwera zewnętrznego",
         "export": "Pobierz z serwera",
         "gameGenre": "Gatunek gry",
-        "useFileUpload": "Zapisz plik w bazie danych"
+        "useFileUpload": "Zapisz plik w bazie danych",
+        "single": "plik",
+        "multiple": "pliki",
+        "empty": "brak plików"
     },
     "communication": {
         "title": "Komunikacja",
@@ -201,7 +205,9 @@
             "download_summary": "Pobierz podsumowanie",
             "title": "Tytuł",
             "gen_summary_desc": "Wybierz rozdziały do wygenerowania podsumowania",
-            "send_firebase": "Wyslij do aplikacji z podsumowaniem"
+            "send_firebase": "Wyslij do aplikacji z podsumowaniem",
+            "battleMode": "Tryb walki",
+            "hero": "Bohater"
         },
         "chapter": {
             "title": "Tytuł",
@@ -303,7 +309,9 @@
         "export": "Eksportuj",
         "copy": "Kopiuj",
         "publish": "Publikuj",
-        "select": "Wybierz"
+        "select": "Wybierz",
+        "from": "Od",
+        "to": "Do"
     },
     "auth": {
         "welcome": "Witamy w aplikacji",

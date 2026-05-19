@@ -1,14 +1,10 @@
 // NotificationListener.js
 import React, { useEffect } from 'react';
 import { toast, ToastContainer, ToastPosition } from 'react-toastify';
-import {useApiConnect } from '@/shared/context/apiConnect';
 import { getNotify } from '@/lib/notifyProvider';
 import { useSignalR } from '../hooks/use-signalR';
-import { useTranslation } from 'react-i18next';
-import { format } from 'path/win32';
 
 export const NotificationListener = () => {
-    const api = useApiConnect();
     const { on } = useSignalR('notify', () =>
         notify('info', 'Connected to notification service')
     );

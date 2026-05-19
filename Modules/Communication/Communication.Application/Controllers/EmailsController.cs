@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Communication.Application.Controllers
 {
-    [Route("[controller]")]
     [AuthPermission("communication")]
     public class EmailsController : BaseController
     {
@@ -43,7 +42,7 @@ namespace Communication.Application.Controllers
         [ProducesResponseType(typeof(IEnumerable<Email>), StatusCodes.Status200OK)]
         public IActionResult ListData([FromQuery] EmailFilter filter)
         {
-            return Json(filter.Filter(_emailRepository.GetAll()));
+            return Json(filter.Filter(_emailRepository.GetAll(), out var count), count);
         }
 
         [HttpPost("")]

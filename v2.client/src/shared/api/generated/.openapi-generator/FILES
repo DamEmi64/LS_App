@@ -1,6 +1,5 @@
 .gitignore
 .npmignore
-.openapi-generator-ignore
 api.ts
 api/auth-api.ts
 api/automations-api.ts
@@ -44,6 +43,7 @@ docs/JobDto.md
 docs/Link.md
 docs/LinkDto.md
 docs/LoginModel.md
+docs/Media.md
 docs/Place.md
 docs/PlaceDto.md
 docs/PlaceResponseList.md
@@ -55,7 +55,10 @@ docs/ProcessDto.md
 docs/ProcessDtoResponseList.md
 docs/ProcessErrorDto.md
 docs/ProgressStatus.md
+docs/RPGFile.md
 docs/RegisterModel.md
+docs/ResetPasswordModel.md
+docs/RpgFileDto.md
 docs/RulesDto.md
 docs/Session.md
 docs/SessionDto.md
@@ -101,6 +104,7 @@ models/job-dto.ts
 models/link-dto.ts
 models/link.ts
 models/login-model.ts
+models/media.ts
 models/model-file.ts
 models/place-dto.ts
 models/place-response-list.ts
@@ -112,6 +116,9 @@ models/process-dto.ts
 models/process-error-dto.ts
 models/progress-status.ts
 models/register-model.ts
+models/reset-password-model.ts
+models/rpg-file-dto.ts
+models/rpgfile.ts
 models/rules-dto.ts
 models/session-dto.ts
 models/session.ts

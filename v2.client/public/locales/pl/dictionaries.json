@@ -1,28 +1,4 @@
 {
-    "File_source_type": {
-        "300": {
-            "title": "test",
-            "description": null
-        },
-        "301": {
-            "title": "test2",
-            "description": null
-        }
-    },
-    "File_types": {
-        "101": {
-            "title": "Gry",
-            "description": ""
-        },
-        "102": {
-            "title": "Dokumenty",
-            "description": ""
-        },
-        "103": {
-            "title": "Pliki do nauki",
-            "description": ""
-        }
-    },
     "Fluid_functions": {
         "601": {
             "title": "Liczba losowa",
@@ -63,152 +39,6 @@
             "description": null
         }
     },
-    "Game_genres": {
-        "200": {
-            "title": "Platformówka",
-            "description": ""
-        },
-        "201": {
-            "title": "Strzelanka",
-            "description": ""
-        },
-        "202": {
-            "title": "Strzelanka FPS",
-            "description": ""
-        },
-        "203": {
-            "title": "Strzelanka TPP",
-            "description": ""
-        },
-        "204": {
-            "title": "Bijatyka (Beat 'Em Up)",
-            "description": ""
-        },
-        "205": {
-            "title": "Skradanka",
-            "description": ""
-        },
-        "206": {
-            "title": "Survival",
-            "description": ""
-        },
-        "210": {
-            "title": "Akcja-przygodowa",
-            "description": ""
-        },
-        "211": {
-            "title": "Przygodowa narracyjna",
-            "description": ""
-        },
-        "212": {
-            "title": "Point and click",
-            "description": ""
-        },
-        "220": {
-            "title": "RPG akcji",
-            "description": ""
-        },
-        "221": {
-            "title": "RPG turowe",
-            "description": ""
-        },
-        "222": {
-            "title": "Taktyczne RPG",
-            "description": ""
-        },
-        "223": {
-            "title": "MMORPG",
-            "description": ""
-        },
-        "224": {
-            "title": "RPG z otwartym światem",
-            "description": ""
-        },
-        "230": {
-            "title": "Symulacja życia",
-            "description": ""
-        },
-        "231": {
-            "title": "Symulacja farmy",
-            "description": ""
-        },
-        "232": {
-            "title": "Symulacja pojazdów",
-            "description": ""
-        },
-        "233": {
-            "title": "Budowanie miasta",
-            "description": ""
-        },
-        "240": {
-            "title": "Strategia czasu rzeczywistego",
-            "description": ""
-        },
-        "241": {
-            "title": "Strategia turowa",
-            "description": ""
-        },
-        "242": {
-            "title": "Tower defense",
-            "description": ""
-        },
-        "243": {
-            "title": "Strategia 4X",
-            "description": ""
-        },
-        "250": {
-            "title": "Klasyczna gra logiczna",
-            "description": ""
-        },
-        "251": {
-            "title": "Logiczna fizyczna",
-            "description": ""
-        },
-        "252": {
-            "title": "Dopasuj 3",
-            "description": ""
-        },
-        "260": {
-            "title": "Sporty tradycyjne",
-            "description": ""
-        },
-        "261": {
-            "title": "Sporty ekstremalne",
-            "description": ""
-        },
-        "262": {
-            "title": "Wyścigi",
-            "description": ""
-        },
-        "270": {
-            "title": "Bijatyka klasyczna",
-            "description": ""
-        },
-        "271": {
-            "title": "Bijatyka platformowa",
-            "description": ""
-        },
-        "280": {
-            "title": "Horror survivalowy",
-            "description": ""
-        },
-        "281": {
-            "title": "Horror psychologiczny",
-            "description": ""
-        },
-        "290": {
-            "title": "Gra imprezowa",
-            "description": ""
-        },
-        "291": {
-            "title": "Gra rytmiczna",
-            "description": ""
-        },
-        "299": {
-            "title": "Inne",
-            "description": ""
-        }
-    },
     "Notify_types": {
         "1000": {
             "title": "Log",
@@ -232,30 +62,6 @@
         },
         "1005": {
             "title": "Proces {0} dodany do kolejki",
-            "description": ""
-        },
-        "1006": {
-            "title": "Plik {0} zapisany",
-            "description": ""
-        },
-        "1007": {
-            "title": "Plik {0} usunięty",
-            "description": ""
-        },
-        "1008": {
-            "title": "Plik {0} zaktualizowany",
-            "description": ""
-        },
-        "1009": {
-            "title": "Plik {0} nie znaleziony",
-            "description": ""
-        },
-        "1010": {
-            "title": "Plik {0} już istnieje",
-            "description": ""
-        },
-        "1011": {
-            "title": "Plik {0} nie został zapisany",
             "description": ""
         },
         "1012": {
@@ -380,22 +186,6 @@
         }
     },
     "Operations": {
-        "11": {
-            "title": "Importuj plik",
-            "description": ""
-        },
-        "12": {
-            "title": "Przenieś plik",
-            "description": ""
-        },
-        "13": {
-            "title": "Kopiuj plik",
-            "description": ""
-        },
-        "14": {
-            "title": "Usuń plik",
-            "description": ""
-        },
         "21": {
             "title": "Wyślij e-mail",
             "description": ""

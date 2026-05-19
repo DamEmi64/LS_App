@@ -10,14 +10,13 @@ import SwitchSelector from "react-switch-selector";
 import TileContainer from "@/shared/components/tileContainer";
 
 import { useTranslation } from "react-i18next";
-import { useApiConnect } from "@/shared/context/apiConnect";
 import { useModal } from "@/shared/context/modal";
 
 import FilesEdit from "@/features/files/components/filesEdit";
 import FilesInfo from "@/features/files/components/filesInfo";
 import YesNoWindow from "@/shared/components/YesNoWindow";
 
-import { FilterItem, FilterType, onChangeParams, Operations } from "@/shared";
+import { call, FilterItem, FilterType, onChangeParams, Operations, raw } from "@/shared";
 
 import { saveAs } from "file-saver";
 
@@ -26,7 +25,6 @@ import { getDictionary, useDictionaryTranslation } from "@/lib/utils";
 import { ResponseList } from "@/shared/api/extension";
 
 const Files: React.FC = () => {
-    const { filesApi, call, raw } = useApiConnect();
     const modal = useModal();
     const { t } = useTranslation();
 
@@ -85,14 +83,14 @@ const Files: React.FC = () => {
     };
 
     const saveNew = (file: EditFile) => {
-        call(filesApi, filesApi.createFile, file).then(() => {
+        call(api => api.filesApi.create, {fileDto:file}).then(() => {
             modal.hideModal();
             refresh();
         });
     };
 
     const details = (file: File) => {
-        call<File>(filesApi, filesApi.getFileById, { id: file.id }).then(res => {
+        call<File>(api => api.filesApi.getById, { id: file.id }).then(res => {
             modal.showModal(
                 <FilesInfo file={res} edit={edit} del={del} />
             );
@@ -100,7 +98,7 @@ const Files: React.FC = () => {
     };
 
     const edit = (file: File) => {
-        call<File>(filesApi, filesApi.getFileById, { id: file.id }).then(res => {
+        call<File>(api => api.filesApi.getById, { id: file.id }).then(res => {
             modal.showModal(
                 <FilesEdit
                     file={toEditFile(res)}
@@ -111,7 +109,7 @@ const Files: React.FC = () => {
     };
 
     const saveEdit = (file: EditFile, id: string) => {
-        call(filesApi, filesApi.updateFileById, { id, body: file }).then(() => {
+        call(api => api.filesApi.updateById, { id, fileDto: file }).then(() => {
             modal.hideModal();
             refresh();
         });
@@ -130,21 +128,19 @@ const Files: React.FC = () => {
     };
 
     const delConfirm = (file: File) => {
-        call(filesApi, filesApi.deleteFileById, { id: file.id }).then(() => {
+        call(api => api.filesApi.deleteById, { id: file.id }).then(() => {
             modal.hideModal();
             refresh();
         });
     };
 
-    const importFile = (file: File) => call(filesApi, filesApi.updateFileByIdImport, { id: file.id, body: file });
-
     const exportFile = (file: File) => {
-        raw(filesApi, filesApi.getFileByIdExport, { id: file.id })
+        raw(api => api.filesApi.getByIdExport, { id: file.id })
             .then((response) => {
                 const contentType =
                     response.headers["content-type"] || "application/octet-stream";
 
-                const blob = new Blob([response.data], { type: contentType });
+                const blob = new Blob([response.data], { type: contentType.toLocaleString() });
 
                 saveAs(blob, file.title);
             })
@@ -155,7 +151,6 @@ const Files: React.FC = () => {
         { name: "opt.details", method: details },
         { name: "opt.edit", method: edit },
         { name: "opt.delete", method: del },
-        { name: "files.import", method: importFile },
         { name: "files.export", method: exportFile }
     ];
 
@@ -178,7 +173,7 @@ const Files: React.FC = () => {
             query[filter.field] = filter.value.toLocaleString();
         });
 
-        call<ResponseList<File>>(filesApi, filesApi.getFile, query).then(res => setData(res.data));
+        call<ResponseList<File>>(api => api.filesApi.get, query).then(res => setData(res.data));
     };
 
     const refresh = () => updateData(changeParams);
@@ -188,7 +183,7 @@ const Files: React.FC = () => {
     }, []);
 
     return (
-        <Grid container sx={{ width: "100%", minHeight: "100vh", flexDirection: "column", alignItems: "center", p: isMobile ? 1 : 2 }}>
+        <Grid container sx={{ width: "100%", flexDirection: "column", alignItems: "center", p: isMobile ? 1 : 2 }}>
             <Grid size={12} sx={{ textAlign: "center", mb: 2 }}>
                 <FormLabel sx={{ color: "white", fontSize: isMobile ? "1.8rem" : "2.5rem", fontWeight: "bold" }}>
                     {t("files.title")}

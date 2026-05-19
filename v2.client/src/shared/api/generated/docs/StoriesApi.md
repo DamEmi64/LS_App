@@ -4,23 +4,24 @@ All URIs are relative to *http://localhost*
 
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
-|[**createStorie**](#createstorie) | **POST** /Stories | |
-|[**createStorieImport**](#createstorieimport) | **POST** /Stories/import | |
-|[**deleteStorieById**](#deletestoriebyid) | **DELETE** /Stories/{id} | |
-|[**getStorie**](#getstorie) | **GET** /Stories | |
-|[**getStorieById**](#getstoriebyid) | **GET** /Stories/{id} | |
-|[**getStorieByIdDraft**](#getstoriebyiddraft) | **GET** /Stories/{id}/draft | |
-|[**getStorieByIdExport**](#getstoriebyidexport) | **GET** /Stories/{id}/export | |
-|[**getStorieByIdSummary**](#getstoriebyidsummary) | **GET** /Stories/{id}/summary | |
-|[**getStorieDraft**](#getstoriedraft) | **GET** /Stories/draft | |
-|[**updateStorieById**](#updatestoriebyid) | **PUT** /Stories/{id} | |
-|[**updateStorieByIdEnd**](#updatestoriebyidend) | **PUT** /Stories/{id}/end | |
-|[**updateStorieByIdFirebase**](#updatestoriebyidfirebase) | **PUT** /Stories/{id}/firebase | |
-|[**updateStorieByIdStart**](#updatestoriebyidstart) | **PUT** /Stories/{id}/start | |
-|[**updateStorieByIdSummary**](#updatestoriebyidsummary) | **PUT** /Stories/{id}/summary | |
+|[**create**](#create) | **POST** /api/Stories | |
+|[**createByIdFiles**](#createbyidfiles) | **POST** /api/Stories/{id}/files | |
+|[**createImport**](#createimport) | **POST** /api/Stories/import | |
+|[**deleteById**](#deletebyid) | **DELETE** /api/Stories/{id} | |
+|[**deleteByIdFilesByFileId**](#deletebyidfilesbyfileid) | **DELETE** /api/Stories/{id}/files/{fileId} | |
+|[**get**](#get) | **GET** /api/Stories | |
+|[**getById**](#getbyid) | **GET** /api/Stories/{id} | |
+|[**getByIdDraft**](#getbyiddraft) | **GET** /api/Stories/{id}/draft | |
+|[**getByIdExport**](#getbyidexport) | **GET** /api/Stories/{id}/export | |
+|[**getDraft**](#getdraft) | **GET** /api/Stories/draft | |
+|[**updateById**](#updatebyid) | **PUT** /api/Stories/{id} | |
+|[**updateByIdEnd**](#updatebyidend) | **PUT** /api/Stories/{id}/end | |
+|[**updateByIdFirebase**](#updatebyidfirebase) | **PUT** /api/Stories/{id}/firebase | |
+|[**updateByIdStart**](#updatebyidstart) | **PUT** /api/Stories/{id}/start | |
+|[**updateByIdSummary**](#updatebyidsummary) | **PUT** /api/Stories/{id}/summary | |
 
-# **createStorie**
-> createStorie()
+# **create**
+> create()
 
 
 ### Example
@@ -35,10 +36,10 @@ import {
 const configuration = new Configuration();
 const apiInstance = new StoriesApi(configuration);
 
-let body: StoryDto; // (optional)
+let storyDto: StoryDto; // (optional)
 
-const { status, data } = await apiInstance.createStorie(
-    body
+const { status, data } = await apiInstance.create(
+    storyDto
 );
 ```
 
@@ -46,7 +47,7 @@ const { status, data } = await apiInstance.createStorie(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **StoryDto**|  | |
+| **storyDto** | **StoryDto**|  | |
 
 
 ### Return type
@@ -70,8 +71,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **createStorieImport**
-> createStorieImport()
+# **createByIdFiles**
+> createByIdFiles()
 
 
 ### Example
@@ -85,11 +86,67 @@ import {
 const configuration = new Configuration();
 const apiInstance = new StoriesApi(configuration);
 
-let file: string; // (default to undefined)
+let id: string; // (default to undefined)
+let file: File; // (default to undefined)
+let fileId: string; // (optional) (default to undefined)
+
+const { status, data } = await apiInstance.createByIdFiles(
+    id,
+    file,
+    fileId
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **id** | [**string**] |  | defaults to undefined|
+| **file** | [**File**] |  | defaults to undefined|
+| **fileId** | [**string**] |  | (optional) defaults to undefined|
+
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: multipart/form-data
+ - **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **createImport**
+> createImport()
+
+
+### Example
+
+```typescript
+import {
+    StoriesApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new StoriesApi(configuration);
+
+let file: File; // (optional) (default to undefined)
 let converterType: number; // (optional) (default to undefined)
 let externalUrl: string; // (optional) (default to undefined)
 
-const { status, data } = await apiInstance.createStorieImport(
+const { status, data } = await apiInstance.createImport(
     file,
     converterType,
     externalUrl
@@ -100,7 +157,7 @@ const { status, data } = await apiInstance.createStorieImport(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **file** | [**string**] |  | defaults to undefined|
+| **file** | [**File**] |  | (optional) defaults to undefined|
 | **converterType** | [**number**] |  | (optional) defaults to undefined|
 | **externalUrl** | [**string**] |  | (optional) defaults to undefined|
 
@@ -126,8 +183,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **deleteStorieById**
-> deleteStorieById()
+# **deleteById**
+> deleteById()
 
 
 ### Example
@@ -143,7 +200,7 @@ const apiInstance = new StoriesApi(configuration);
 
 let id: string; // (default to undefined)
 
-const { status, data } = await apiInstance.deleteStorieById(
+const { status, data } = await apiInstance.deleteById(
     id
 );
 ```
@@ -176,8 +233,61 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getStorie**
-> StoryResponseList getStorie()
+# **deleteByIdFilesByFileId**
+> deleteByIdFilesByFileId()
+
+
+### Example
+
+```typescript
+import {
+    StoriesApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new StoriesApi(configuration);
+
+let id: string; // (default to undefined)
+let fileId: string; // (default to undefined)
+
+const { status, data } = await apiInstance.deleteByIdFilesByFileId(
+    id,
+    fileId
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **id** | [**string**] |  | defaults to undefined|
+| **fileId** | [**string**] |  | defaults to undefined|
+
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **get**
+> StoryResponseList get()
 
 
 ### Example
@@ -201,7 +311,7 @@ let startTo: string; // (optional) (default to undefined)
 let endFrom: string; // (optional) (default to undefined)
 let endTo: string; // (optional) (default to undefined)
 
-const { status, data } = await apiInstance.getStorie(
+const { status, data } = await apiInstance.get(
     order,
     page,
     pageSize,
@@ -250,8 +360,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getStorieById**
-> Story getStorieById()
+# **getById**
+> Story getById()
 
 
 ### Example
@@ -267,7 +377,7 @@ const apiInstance = new StoriesApi(configuration);
 
 let id: string; // (default to undefined)
 
-const { status, data } = await apiInstance.getStorieById(
+const { status, data } = await apiInstance.getById(
     id
 );
 ```
@@ -300,8 +410,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getStorieByIdDraft**
-> Story getStorieByIdDraft()
+# **getByIdDraft**
+> Story getByIdDraft()
 
 
 ### Example
@@ -317,7 +427,7 @@ const apiInstance = new StoriesApi(configuration);
 
 let id: string; // (default to undefined)
 
-const { status, data } = await apiInstance.getStorieByIdDraft(
+const { status, data } = await apiInstance.getByIdDraft(
     id
 );
 ```
@@ -350,8 +460,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getStorieByIdExport**
-> File getStorieByIdExport()
+# **getByIdExport**
+> File getByIdExport()
 
 
 ### Example
@@ -367,7 +477,7 @@ const apiInstance = new StoriesApi(configuration);
 
 let id: string; // (default to undefined)
 
-const { status, data } = await apiInstance.getStorieByIdExport(
+const { status, data } = await apiInstance.getByIdExport(
     id
 );
 ```
@@ -400,58 +510,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **getStorieByIdSummary**
-> File getStorieByIdSummary()
-
-
-### Example
-
-```typescript
-import {
-    StoriesApi,
-    Configuration
-} from './api';
-
-const configuration = new Configuration();
-const apiInstance = new StoriesApi(configuration);
-
-let id: string; // (default to undefined)
-
-const { status, data } = await apiInstance.getStorieByIdSummary(
-    id
-);
-```
-
-### Parameters
-
-|Name | Type | Description  | Notes|
-|------------- | ------------- | ------------- | -------------|
-| **id** | [**string**] |  | defaults to undefined|
-
-
-### Return type
-
-**File**
-
-### Authorization
-
-No authorization required
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: text/plain, application/json, text/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-|**200** | OK |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
-
-# **getStorieDraft**
-> StoryResponseList getStorieDraft()
+# **getDraft**
+> StoryResponseList getDraft()
 
 
 ### Example
@@ -475,7 +535,7 @@ let startTo: string; // (optional) (default to undefined)
 let endFrom: string; // (optional) (default to undefined)
 let endTo: string; // (optional) (default to undefined)
 
-const { status, data } = await apiInstance.getStorieDraft(
+const { status, data } = await apiInstance.getDraft(
     order,
     page,
     pageSize,
@@ -524,8 +584,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateStorieById**
-> updateStorieById()
+# **updateById**
+> updateById()
 
 
 ### Example
@@ -541,11 +601,11 @@ const configuration = new Configuration();
 const apiInstance = new StoriesApi(configuration);
 
 let id: string; // (default to undefined)
-let body: StoryDto; // (optional)
+let storyDto: StoryDto; // (optional)
 
-const { status, data } = await apiInstance.updateStorieById(
+const { status, data } = await apiInstance.updateById(
     id,
-    body
+    storyDto
 );
 ```
 
@@ -553,7 +613,7 @@ const { status, data } = await apiInstance.updateStorieById(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **StoryDto**|  | |
+| **storyDto** | **StoryDto**|  | |
 | **id** | [**string**] |  | defaults to undefined|
 
 
@@ -578,8 +638,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateStorieByIdEnd**
-> updateStorieByIdEnd()
+# **updateByIdEnd**
+> updateByIdEnd()
 
 
 ### Example
@@ -595,7 +655,7 @@ const apiInstance = new StoriesApi(configuration);
 
 let id: string; // (default to undefined)
 
-const { status, data } = await apiInstance.updateStorieByIdEnd(
+const { status, data } = await apiInstance.updateByIdEnd(
     id
 );
 ```
@@ -628,8 +688,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateStorieByIdFirebase**
-> updateStorieByIdFirebase()
+# **updateByIdFirebase**
+> updateByIdFirebase()
 
 
 ### Example
@@ -645,11 +705,11 @@ const configuration = new Configuration();
 const apiInstance = new StoriesApi(configuration);
 
 let id: string; // (default to undefined)
-let body: SummaryModel; // (optional)
+let summaryModel: SummaryModel; // (optional)
 
-const { status, data } = await apiInstance.updateStorieByIdFirebase(
+const { status, data } = await apiInstance.updateByIdFirebase(
     id,
-    body
+    summaryModel
 );
 ```
 
@@ -657,7 +717,7 @@ const { status, data } = await apiInstance.updateStorieByIdFirebase(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **SummaryModel**|  | |
+| **summaryModel** | **SummaryModel**|  | |
 | **id** | [**string**] |  | defaults to undefined|
 
 
@@ -682,8 +742,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateStorieByIdStart**
-> updateStorieByIdStart()
+# **updateByIdStart**
+> updateByIdStart()
 
 
 ### Example
@@ -699,7 +759,7 @@ const apiInstance = new StoriesApi(configuration);
 
 let id: string; // (default to undefined)
 
-const { status, data } = await apiInstance.updateStorieByIdStart(
+const { status, data } = await apiInstance.updateByIdStart(
     id
 );
 ```
@@ -732,8 +792,8 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
-# **updateStorieByIdSummary**
-> updateStorieByIdSummary()
+# **updateByIdSummary**
+> updateByIdSummary()
 
 
 ### Example
@@ -749,11 +809,11 @@ const configuration = new Configuration();
 const apiInstance = new StoriesApi(configuration);
 
 let id: string; // (default to undefined)
-let body: SummaryModel; // (optional)
+let summaryModel: SummaryModel; // (optional)
 
-const { status, data } = await apiInstance.updateStorieByIdSummary(
+const { status, data } = await apiInstance.updateByIdSummary(
     id,
-    body
+    summaryModel
 );
 ```
 
@@ -761,7 +821,7 @@ const { status, data } = await apiInstance.updateStorieByIdSummary(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **body** | **SummaryModel**|  | |
+| **summaryModel** | **SummaryModel**|  | |
 | **id** | [**string**] |  | defaults to undefined|
 
 

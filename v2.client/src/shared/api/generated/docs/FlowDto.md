@@ -5,8 +5,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**nodes** | **Array&lt;object&gt;** |  | [optional] [default to undefined]
-**edges** | **Array&lt;object&gt;** |  | [optional] [default to undefined]
+**nodes** | **Array&lt;any&gt;** |  | [optional] [default to undefined]
+**edges** | **Array&lt;any&gt;** |  | [optional] [default to undefined]
 
 ## Example
 

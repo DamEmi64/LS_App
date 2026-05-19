@@ -11,6 +11,7 @@ import {
     Box,
     useTheme,
     TextField,
+    Grid,
 } from '@mui/material';
 import { convertToDateStr, useDictionaryTranslation } from "@/lib/utils";
 
@@ -36,7 +37,7 @@ const ProcessInfo: React.FC<ProcessInfoProps> = ({ process }) => {
     };
 
     return (
-        <>
+        <Grid>
             <Typography variant="h6" gutterBottom sx={{ color: textColor }}>
                 {t('window.info')}
             </Typography>
@@ -124,7 +125,7 @@ const ProcessInfo: React.FC<ProcessInfoProps> = ({ process }) => {
                     </TableBody>
                 </Table>
             </TableContainer>
-        </>
+        </Grid>
     );
 };
 

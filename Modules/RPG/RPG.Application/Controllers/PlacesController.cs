@@ -9,7 +9,6 @@ using RPG.Domain.Repositories;
 
 namespace RPG.Application.Controllers
 {
-    [Route("[controller]")]
     [AuthPermission("rpg")]
     public class PlacesController : BaseController
     {
@@ -47,7 +46,7 @@ namespace RPG.Application.Controllers
         [ProducesResponseType(typeof(ResponseList<Place>), StatusCodes.Status200OK)]
         public IActionResult ListData([FromQuery] PlaceFilter filter)
         {
-            return Json(filter.Filter(_placeRepository.GetAll()));
+            return Json(filter.Filter(_placeRepository.GetAll(), out var count), count);
         }
 
         [HttpPost("")]

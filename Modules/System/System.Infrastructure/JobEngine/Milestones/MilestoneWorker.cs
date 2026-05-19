@@ -1,4 +1,5 @@
 ﻿using Hangfire;
+using System.ComponentModel;
 using System.Domain.Repositories;
 
 namespace System.Infrastructure.JobEngine.Milestones
@@ -19,6 +20,7 @@ namespace System.Infrastructure.JobEngine.Milestones
             _processRepository = processRepository;
         }
 
+        [DisplayName("[MILESTONE CHECKER]")]
         public void Execute()
         {
             foreach (var milestone in _processRepository.GetActiveMilestones())

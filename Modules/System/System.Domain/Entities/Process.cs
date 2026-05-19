@@ -13,7 +13,6 @@ namespace System.Domain.Entities
         public UserData? User { get; set; }
         public string? TempData { get; set; }
         public List<ProcessError> Errors { get; set; } = new List<ProcessError>();
-        public string? Schema { get; set; }
 
         public Job? GetJob(Guid id)
         {

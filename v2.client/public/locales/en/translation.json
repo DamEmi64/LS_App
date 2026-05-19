@@ -6,12 +6,13 @@
         "info": "Info"
     },
     "validation": {
-        "required": "This field is required",
-        "minLength": "Enter at least {0} characters",
+        "required": "required",
+        "minLength": "6 characters required",
         "maxLength": "Enter no more than {0} characters",
         "email": "Enter a valid email address",
         "url": "Enter a valid URL",
-        "number": "Enter a valid number"
+        "number": "Enter a valid number",
+        "invalidEmail": "invalid email"
     },
     "notify": {
         "processActive": "All task notifications",
@@ -91,7 +92,10 @@
         "import": "Import from external source",
         "export": "Download",
         "gameGenre": "Genre",
-        "useFileUpload": "Store file in database"
+        "useFileUpload": "Store file in database",
+        "single": "file",
+        "multiple": "files",
+        "empty": "no files"
     },
     "communication": {
         "title": "Communication",
@@ -201,7 +205,9 @@
             "download_summary": "Download summary",
             "title": "Title",
             "gen_summary_desc": "Select chapters to include in the summary",
-            "send_firebase": "Send to summary app"
+            "send_firebase": "Send to summary app",
+            "battleMode": "Combat mode",
+            "hero": "Hero"
         },
         "chapter": {
             "title": "Title",
@@ -303,7 +309,9 @@
         "export": "Export",
         "copy": "Copy",
         "publish": "Publish",
-        "select": "Select"
+        "select": "Select",
+        "from": "From",
+        "to": "To"
     },
     "auth": {
         "welcome": "Welcome",

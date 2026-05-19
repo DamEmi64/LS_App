@@ -10,7 +10,6 @@ Name | Type | Description | Notes
 **password** | **string** |  | [default to undefined]
 **firstName** | **string** |  | [default to undefined]
 **lastName** | **string** |  | [default to undefined]
-**phoneNumber** | **string** |  | [default to undefined]
 **role** | **string** |  | [optional] [default to undefined]
 
 ## Example
@@ -24,7 +23,6 @@ const instance: RegisterModel = {
     password,
     firstName,
     lastName,
-    phoneNumber,
     role,
 };
 ```

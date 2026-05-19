@@ -104,37 +104,20 @@ export const PlaceForm: React.FC<PlaceForm> = ({
                             )}
                         />
 
-                        {/* LINKS (optional) */}
-                        {data.links && (
-                            <>
-                                <Typography variant="h6" sx={{ color: textColor, mt: 2 }}>
-                                    {t('rpg.other.links')}
-                                </Typography>
-                                <GridTable
-                                    columns={linkColumns}
-                                    data={{
-                                        data: watch('links') || [],
-                                        total: watch('links')?.length || 0,
-                                    } as TableData<Link>}
-                                    setData={(o) => setValue('links', o.data)}
-                                />
-                            </>
-                        )}
-
                         {/* ACTIONS */}
                         <Box sx={{ display: 'flex', gap: 2, mt: 3 }}>
                             <Button type="submit" variant="contained" color="success">
                                 {t('opt.save')}
                             </Button>
-                            { !isNew && (
-                            <Button
-                                type="button"
-                                variant="outlined"
-                                color="error"
-                                onClick={() => setEditing(false)}
-                            >
-                                {t('opt.cancel')}
-                            </Button>
+                            {!isNew && (
+                                <Button
+                                    type="button"
+                                    variant="outlined"
+                                    color="error"
+                                    onClick={() => setEditing(false)}
+                                >
+                                    {t('opt.cancel')}
+                                </Button>
                             )}
                         </Box>
                     </form>
@@ -187,13 +170,11 @@ export const PlaceForm: React.FC<PlaceForm> = ({
                 size={{ xs: 12, md: 4 }}
                 sx={{ display: 'flex', justifyContent: 'flex-end' }}
             >
-                {data.imageId && (
-                    <ImageProvider
-                        imageId={data.imageId}
-                        readonly={!editing}
-                        saveImage={editing ? setImage : undefined}
-                    />
-                )}
+                <ImageProvider
+                    imageId={data.imageId || ''}
+                    readonly={!editing}
+                    saveImage={editing ? setImage : undefined}
+                />
             </Grid>
         </Grid>
     );

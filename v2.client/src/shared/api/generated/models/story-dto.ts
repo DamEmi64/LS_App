@@ -16,6 +16,9 @@
 // May contain unused imports in some cases
 // @ts-ignore
 import type { ChapterDto } from './chapter-dto';
+// May contain unused imports in some cases
+// @ts-ignore
+import type { RpgFileDto } from './rpg-file-dto';
 
 export interface StoryDto {
     'id'?: string | null;
@@ -25,5 +28,6 @@ export interface StoryDto {
     'endDate'?: string | null;
     'chapters'?: Array<ChapterDto> | null;
     'summary'?: string | null;
+    'files'?: Array<RpgFileDto> | null;
 }
 

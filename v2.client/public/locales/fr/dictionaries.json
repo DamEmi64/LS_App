@@ -1,28 +1,4 @@
 {
-    "File_source_type": {
-        "300": {
-            "title": "Local",
-            "description": ""
-        },
-        "301": {
-            "title": "Site FuckingFast",
-            "description": ""
-        }
-    },
-    "File_types": {
-        "101": {
-            "title": "Jeux",
-            "description": ""
-        },
-        "102": {
-            "title": "Documents",
-            "description": ""
-        },
-        "103": {
-            "title": "Fichiers d’étude",
-            "description": ""
-        }
-    },
     "Fluid_functions": {
         "601": {
             "title": "Nombre aléatoire",
@@ -63,152 +39,6 @@
             "description": null
         }
     },
-    "Game_genres": {
-        "200": {
-            "title": "Plateforme",
-            "description": ""
-        },
-        "201": {
-            "title": "Jeu de tir",
-            "description": ""
-        },
-        "202": {
-            "title": "FPS (tir à la première personne)",
-            "description": ""
-        },
-        "203": {
-            "title": "TPS (tir à la troisième personne)",
-            "description": ""
-        },
-        "204": {
-            "title": "Beat ’em up",
-            "description": ""
-        },
-        "205": {
-            "title": "Infiltration",
-            "description": ""
-        },
-        "206": {
-            "title": "Survie",
-            "description": ""
-        },
-        "210": {
-            "title": "Action-aventure",
-            "description": ""
-        },
-        "211": {
-            "title": "Aventure narrative",
-            "description": ""
-        },
-        "212": {
-            "title": "Point-and-click",
-            "description": ""
-        },
-        "220": {
-            "title": "Action RPG",
-            "description": ""
-        },
-        "221": {
-            "title": "RPG au tour par tour",
-            "description": ""
-        },
-        "222": {
-            "title": "RPG tactique",
-            "description": ""
-        },
-        "223": {
-            "title": "MMORPG",
-            "description": ""
-        },
-        "224": {
-            "title": "RPG en monde ouvert",
-            "description": ""
-        },
-        "230": {
-            "title": "Simulation de vie",
-            "description": ""
-        },
-        "231": {
-            "title": "Simulation agricole",
-            "description": ""
-        },
-        "232": {
-            "title": "Simulation de véhicule",
-            "description": ""
-        },
-        "233": {
-            "title": "Construction de ville",
-            "description": ""
-        },
-        "240": {
-            "title": "Stratégie en temps réel",
-            "description": ""
-        },
-        "241": {
-            "title": "Stratégie au tour par tour",
-            "description": ""
-        },
-        "242": {
-            "title": "Défense de tour",
-            "description": ""
-        },
-        "243": {
-            "title": "Stratégie 4X",
-            "description": ""
-        },
-        "250": {
-            "title": "Puzzle classique",
-            "description": ""
-        },
-        "251": {
-            "title": "Puzzle physique",
-            "description": ""
-        },
-        "252": {
-            "title": "Match 3",
-            "description": ""
-        },
-        "260": {
-            "title": "Sports traditionnels",
-            "description": ""
-        },
-        "261": {
-            "title": "Sports extrêmes",
-            "description": ""
-        },
-        "262": {
-            "title": "Course",
-            "description": ""
-        },
-        "270": {
-            "title": "Combat traditionnel",
-            "description": ""
-        },
-        "271": {
-            "title": "Combat de plateforme",
-            "description": ""
-        },
-        "280": {
-            "title": "Survival horror",
-            "description": ""
-        },
-        "281": {
-            "title": "Horreur psychologique",
-            "description": ""
-        },
-        "290": {
-            "title": "Jeu de fête",
-            "description": ""
-        },
-        "291": {
-            "title": "Jeu de rythme",
-            "description": ""
-        },
-        "299": {
-            "title": "Autre",
-            "description": ""
-        }
-    },
     "Notify_types": {
         "1000": {
             "title": "Journal",
@@ -232,30 +62,6 @@
         },
         "1005": {
             "title": "Processus {0} ajouté à la file d’attente",
-            "description": ""
-        },
-        "1006": {
-            "title": "Fichier {0} enregistré",
-            "description": ""
-        },
-        "1007": {
-            "title": "Fichier {0} supprimé",
-            "description": ""
-        },
-        "1008": {
-            "title": "Fichier {0} mis à jour",
-            "description": ""
-        },
-        "1009": {
-            "title": "Fichier {0} introuvable",
-            "description": ""
-        },
-        "1010": {
-            "title": "Fichier {0} existe déjà",
-            "description": ""
-        },
-        "1011": {
-            "title": "Fichier {0} n’a pas été enregistré",
             "description": ""
         },
         "1012": {
@@ -380,22 +186,6 @@
         }
     },
     "Operations": {
-        "11": {
-            "title": "Importer un fichier",
-            "description": ""
-        },
-        "12": {
-            "title": "Déplacer le fichier",
-            "description": ""
-        },
-        "13": {
-            "title": "Copier le fichier",
-            "description": ""
-        },
-        "14": {
-            "title": "Supprimer le fichier",
-            "description": ""
-        },
         "21": {
             "title": "Envoyer un e-mail",
             "description": ""

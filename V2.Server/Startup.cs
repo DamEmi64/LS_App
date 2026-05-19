@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 using Newtonsoft.Json.Converters;
 using Serilog;
-using Serilog.Sinks.MSSqlServer;
 using System.Domain.Repositories;
 using System.Reflection;
 
@@ -32,42 +31,12 @@ namespace Api
             _connector = builder.InitializeConnector();
             _builder.Services.AddSingleton(_connector);
 
-            if (builder.Environment.IsDevelopment())
-            {
-                Log.Logger = new LoggerConfiguration()
-                               .MinimumLevel.Information()
-                               .Enrich.FromLogContext()
-                               .WriteTo.Console() // optional but recommended
-                               .WriteTo.MSSqlServer(
-                                   connectionString: AppConfiguration.GetConnectionString("LogContext") ?? AppConfiguration.DefaultConnectionString,
-                                   sinkOptions: new MSSqlServerSinkOptions
-                                   {
-                                       TableName = "Logs",
-                                       AutoCreateSqlTable = true,
-                                       AutoCreateSqlDatabase = true
-                                   })
-                               .CreateLogger();
-            }
-            else
-            {
-                Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Warning()
-                .Enrich.FromLogContext()
-                .WriteTo.Console() // optional but recommended
-                .WriteTo.MSSqlServer(
-                    connectionString: AppConfiguration.GetConnectionString("LogContext") ?? AppConfiguration.DefaultConnectionString,
-                    sinkOptions: new MSSqlServerSinkOptions
-                    {
-                        TableName = "Logs",
-                        AutoCreateSqlTable = true,
-                        AutoCreateSqlDatabase = true
-                    })
-                .CreateLogger();
-            }
-
             if (builder is WebApplicationBuilder webBuilder)
             {
-                webBuilder.Host.UseSerilog();
+                webBuilder.Host.UseSerilog((context, services, loggerConfig) =>
+                {
+                    loggerConfig.ReadFrom.Configuration(context.Configuration);
+                });
             }
 
             Configure(builder.Services, builder.Configuration);
@@ -100,6 +69,7 @@ namespace Api
                     {
                         var path = apiDesc.RelativePath ?? "endpoint";
                         var method = apiDesc.HttpMethod?.ToLowerInvariant();
+                        var controller = apiDesc.ActionDescriptor.RouteValues["controller"];
                         path = path.Split('?')[0];
                         var segments = path.Split('/', StringSplitOptions.RemoveEmptyEntries);
 
@@ -107,25 +77,18 @@ namespace Api
 
                         foreach (var segment in segments)
                         {
-                            if (segment.StartsWith("{"))
+                            if (segment == controller || segment == "api")
+                            {
+                                continue;
+                            }
+                            else if (segment.StartsWith("{"))
                             {
                                 var nameBy = segment.Trim('{', '}');
                                 parts.Add("By" + char.ToUpper(nameBy[0]) + nameBy.Substring(1));
                             }
                             else
                             {
-                                if (segment.EndsWith("s"))
-                                {
-                                    parts.Add(char.ToUpper(segment[0]) + segment.Substring(1, segment.Length - 2));
-                                }
-                                else if (segment.EndsWith("es"))
-                                {
-                                    parts.Add(char.ToUpper(segment[0]) + segment.Substring(1, segment.Length - 3));
-                                }
-                                else
-                                {
-                                    parts.Add(char.ToUpper(segment[0]) + segment.Substring(1));
-                                }
+                                parts.Add(char.ToUpper(segment[0]) + segment.Substring(1));
                             }
                         }
 
@@ -143,10 +106,12 @@ namespace Api
 
                     opt.TagActionsBy(api =>
                     {
-                        if (api.GroupName != null)
-                            return new[] { api.GroupName };
+                        var controller = api.ActionDescriptor.RouteValues["controller"] ?? "default";
 
-                        return new[] { api.ActionDescriptor.RouteValues["controller"] ?? "Default" };
+                        return new[]
+                        {
+                            char.ToLowerInvariant(controller[0]) + controller[1..]
+                        };
                     });
 
                     opt.DocInclusionPredicate((name, api) => true);
@@ -216,19 +181,22 @@ namespace Api
             if (_builder is WebApplicationBuilder webApplicationBuilder)
             {
                 var app = webApplicationBuilder.Build();
+                UseModules(app);
 
-                app.UseSwagger(o => o.OpenApiVersion = OpenApiSpecVersion.OpenApi2_0);
+                app.UseSwagger(o => o.OpenApiVersion = OpenApiSpecVersion.OpenApi3_0);
                 app.UseSwaggerUI();
-                app.UseMiddleware<ErrorMiddleware>();
 
                 app.UseAuthentication();
                 app.UseAuthorization();
+                app.UseMiddleware<ErrorMiddleware>();
+                app.UseMiddleware<SerilogMiddleware>();
                 app.MapRazorPages();
 
                 app.MapControllerRoute(
                 name: "default",
-                pattern: "{entity=Home}/{action=Index}/{id?}");
+                pattern: "api/{controller=Home}/{action=Index}/{id?}");
                 app.MapFallbackToFile("/index.html");
+                app.UseSerilogRequestLogging();
 
                 if (AppConfiguration.GetValue(AutoMigrate, true))
                 {
@@ -237,7 +205,6 @@ namespace Api
 
                 UpdateDictionaries(app);
 
-                UseModules(app);
                 app.Logger.LogInformation(Banner, AppConfiguration.Version);
 
                 return app;

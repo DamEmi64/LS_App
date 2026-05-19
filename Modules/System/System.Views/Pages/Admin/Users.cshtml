@@ -436,7 +436,7 @@
 
         $('#editForm').submit(function (e) {
             e.preventDefault();
-
+            $(this).locked = $(this).locked ==- 'on';
             $.post('UpdateUser', $(this).serialize())
                 .done(() => {
                     closeModal('editModal');

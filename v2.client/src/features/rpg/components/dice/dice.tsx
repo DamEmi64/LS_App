@@ -1,60 +1,187 @@
 import "./styles.css";
-import { useState } from "react";
-import { Dice } from "./dicebox";
+import React, { useEffect, useRef, useState } from "react";
+import DiceBoxLib from "@3d-dice/dice-box";
 import { useTranslation } from "react-i18next";
-import React from "react";
-import { Box, Button, FormLabel, Grid, Paper, TextField } from "@mui/material";
+import {
+    Box,
+    Button,
+    Grid,
+    Paper,
+    TextField
+} from "@mui/material";
 
-// initialize the Dice Box outside of the component
-Dice.init().then(() => {
-    // clear dice on click anywhere on the screen
-    document.addEventListener("mousedown", () => {
-        const diceBoxCanvas = document.getElementById("dice-canvas");
-        if (window.getComputedStyle(diceBoxCanvas).display !== "none") {
-            Dice.hide().clear();
-        }
-    });
+/* ---------------- DICE INSTANCE ---------------- */
+
+const Dice = new DiceBoxLib("#dice-box", {
+    id: "dice-canvas",
+    assetPath: "/assets/",
+    startingHeight: 8,
+    throwForce: 6,
+    spinForce: 5,
+    lightIntensity: 0.9
 });
 
-const DiceBox: React.FC<{notation?: string }> = ({notation}) =>  {
+/* ---------------- COMPONENT ---------------- */
+
+const DiceBox: React.FC<{ notation?: string }> = ({ notation }) => {
     const { t } = useTranslation();
-    const [diceVal, setDiceVal] = useState('');
-    const [diceNotatation, setDiceNotation] = useState(notation ||'1d20 + 1d6');
 
-    // trigger dice roll
-    const rollDice = (notationStr: string) => {
-        Dice.clear();
-        const notation = notationStr.split('+');
+    const [diceVal, setDiceVal] = useState("");
+    const [diceNotation, setDiceNotation] = useState(
+        notation || "1d20 + 1d6"
+    );
 
-        Dice.show().roll(notation).then(result => {
-            let val = '';
+    const rollingRef = useRef(false);
+    const initializedRef = useRef(false);
 
-            result.forEach(element => {
-                val = val + ' ' + element.value;
-            });
+    /* ---------------- INIT ---------------- */
 
-            setDiceVal(val); 
-        }).catch((ex) => alert(ex.message));
+    useEffect(() => {
+        if (initializedRef.current) return;
+
+        initializedRef.current = true;
+
+        let mounted = true;
+
+        const initDice = async () => {
+            await Dice.init();
+
+            if (!mounted) return;
+
+            const handler = () => {
+                // do not clear while rolling
+                if (rollingRef.current) return;
+
+                const diceCanvas =
+                    document.getElementById("dice-canvas");
+
+                if (
+                    diceCanvas &&
+                    window.getComputedStyle(diceCanvas).display !== "none"
+                ) {
+                    Dice.hide().clear();
+                }
+            };
+
+            document.addEventListener("mousedown", handler);
+
+            return () => {
+                document.removeEventListener(
+                    "mousedown",
+                    handler
+                );
+            };
+        };
+
+        initDice();
+
+        return () => {
+            mounted = false;
+        };
+    }, []);
+
+    /* ---------------- ROLL ---------------- */
+
+    const rollDice = async (notationStr: string) => {
+        // prevent overlapping rolls
+        if (rollingRef.current) return;
+
+        rollingRef.current = true;
+
+        try {
+            Dice.clear();
+
+            const notation = notationStr
+                .split("+")
+                .map((n) => n.trim())
+                .filter(Boolean);
+
+            const result = await Dice.show().roll(notation);
+
+            // validate values
+            const invalid = result.some(
+                (d: any) =>
+                    d.value == null ||
+                    d.value <= 0
+            );
+
+            if (invalid) {
+                console.warn(
+                    "Invalid dice result received:",
+                    result
+                );
+
+                setDiceVal("Roll failed");
+                return;
+            }
+
+            const val = result
+                .map((d: any) => d.value)
+                .join(" ");
+
+            setDiceVal(val);
+        } catch (ex) {
+            console.error(ex);
+            setDiceVal("Error");
+        } finally {
+            rollingRef.current = false;
+        }
     };
 
+    /* ---------------- UI ---------------- */
+
     return (
-        <Paper>
-            <Grid container>
-                <Grid size={{ xs: 6 }}>
-                    <TextField value={diceVal} type="outlined" />
+        <Paper sx={{ p: 2 }}>
+            <Grid container spacing={2}>
+                <Grid size={{ xs: 12, md: 6 }}>
+                    <TextField
+                        fullWidth
+                        value={diceVal}
+                        variant="outlined"
+                        label="Result"
+                        InputProps={{
+                            readOnly: true
+                        }}
+                    />
                 </Grid>
-                <Grid container size={{ xs: 6 }} direction={'row'}>
-                    <TextField value={diceNotatation} onChange={(e) => setDiceNotation(e.target.value)} />
-                    <Button
-                        onClick={(e) => rollDice(diceNotatation || '1d20')}
-                    >
-                        {t('rpg.hero.diceRoll')}
-                    </Button>
+
+                <Grid
+                    container
+                    size={{ xs: 12, md: 6 }}
+                    spacing={1}
+                    alignItems="center"
+                >
+                    <Grid size={{ xs: 8 }}>
+                        <TextField
+                            fullWidth
+                            value={diceNotation}
+                            variant="outlined"
+                            label="Dice notation"
+                            onChange={(e) =>
+                                setDiceNotation(
+                                    e.target.value
+                                )
+                            }
+                        />
+                    </Grid>
+
+                    <Grid size={{ xs: 4 }}>
+                        <Button
+                            fullWidth
+                            variant="contained"
+                            onClick={() =>
+                                rollDice(
+                                    diceNotation || "1d20"
+                                )
+                            }
+                        >
+                            {t("rpg.hero.diceRoll")}
+                        </Button>
+                    </Grid>
                 </Grid>
             </Grid>
-
         </Paper>
-    )
-}
+    );
+};
 
 export default DiceBox;

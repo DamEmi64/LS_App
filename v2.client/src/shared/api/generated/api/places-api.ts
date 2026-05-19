@@ -34,12 +34,12 @@ export const PlacesApiAxiosParamCreator = function (configuration?: Configuratio
     return {
         /**
          * 
-         * @param {PlaceDto} [body] 
+         * @param {PlaceDto} [placeDto] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createPlace: async (body?: PlaceDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/Places`;
+        create: async (placeDto?: PlaceDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/Places`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -56,7 +56,7 @@ export const PlacesApiAxiosParamCreator = function (configuration?: Configuratio
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(placeDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -69,11 +69,11 @@ export const PlacesApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deletePlaceById: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        deleteById: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('deletePlaceById', 'id', id)
-            const localVarPath = `/Places/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            assertParamExists('deleteById', 'id', id)
+            const localVarPath = `/api/Places/{id}`
+                .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -105,10 +105,10 @@ export const PlacesApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPlace: async (order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        get: async (order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'order' is not null or undefined
-            assertParamExists('getPlace', 'order', order)
-            const localVarPath = `/Places`;
+            assertParamExists('get', 'order', order)
+            const localVarPath = `/api/Places`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -157,11 +157,11 @@ export const PlacesApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPlaceById: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getById: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('getPlaceById', 'id', id)
-            const localVarPath = `/Places/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            assertParamExists('getById', 'id', id)
+            const localVarPath = `/api/Places/{id}`
+                .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -187,15 +187,15 @@ export const PlacesApiAxiosParamCreator = function (configuration?: Configuratio
         /**
          * 
          * @param {string} id 
-         * @param {PlaceDto} [body] 
+         * @param {PlaceDto} [placeDto] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updatePlaceById: async (id: string, body?: PlaceDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateById: async (id: string, placeDto?: PlaceDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
-            assertParamExists('updatePlaceById', 'id', id)
-            const localVarPath = `/Places/{id}`
-                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            assertParamExists('updateById', 'id', id)
+            const localVarPath = `/api/Places/{id}`
+                .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -212,7 +212,7 @@ export const PlacesApiAxiosParamCreator = function (configuration?: Configuratio
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(placeDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -230,14 +230,14 @@ export const PlacesApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @param {PlaceDto} [body] 
+         * @param {PlaceDto} [placeDto] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async createPlace(body?: PlaceDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.createPlace(body, options);
+        async create(placeDto?: PlaceDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.create(placeDto, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['PlacesApi.createPlace']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['PlacesApi.create']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -246,10 +246,10 @@ export const PlacesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async deletePlaceById(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.deletePlaceById(id, options);
+        async deleteById(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteById(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['PlacesApi.deletePlaceById']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['PlacesApi.deleteById']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -262,10 +262,10 @@ export const PlacesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getPlace(order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PlaceResponseList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getPlace(order, page, pageSize, orderBy, title, options);
+        async get(order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PlaceResponseList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.get(order, page, pageSize, orderBy, title, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['PlacesApi.getPlace']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['PlacesApi.get']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -274,23 +274,23 @@ export const PlacesApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getPlaceById(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Place>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getPlaceById(id, options);
+        async getById(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Place>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getById(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['PlacesApi.getPlaceById']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['PlacesApi.getById']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
          * 
          * @param {string} id 
-         * @param {PlaceDto} [body] 
+         * @param {PlaceDto} [placeDto] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updatePlaceById(id: string, body?: PlaceDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updatePlaceById(id, body, options);
+        async updateById(id: string, placeDto?: PlaceDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateById(id, placeDto, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
-            const localVarOperationServerBasePath = operationServerMap['PlacesApi.updatePlaceById']?.[localVarOperationServerIndex]?.url;
+            const localVarOperationServerBasePath = operationServerMap['PlacesApi.updateById']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
     }
@@ -304,70 +304,70 @@ export const PlacesApiFactory = function (configuration?: Configuration, basePat
     return {
         /**
          * 
-         * @param {PlacesApiCreatePlaceRequest} requestParameters Request parameters.
+         * @param {PlacesApiCreateRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        createPlace(requestParameters: PlacesApiCreatePlaceRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.createPlace(requestParameters.body, options).then((request) => request(axios, basePath));
+        create(requestParameters: PlacesApiCreateRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.create(requestParameters.placeDto, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {PlacesApiDeletePlaceByIdRequest} requestParameters Request parameters.
+         * @param {PlacesApiDeleteByIdRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        deletePlaceById(requestParameters: PlacesApiDeletePlaceByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.deletePlaceById(requestParameters.id, options).then((request) => request(axios, basePath));
+        deleteById(requestParameters: PlacesApiDeleteByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.deleteById(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {PlacesApiGetPlaceRequest} requestParameters Request parameters.
+         * @param {PlacesApiGetRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPlace(requestParameters: PlacesApiGetPlaceRequest, options?: RawAxiosRequestConfig): AxiosPromise<PlaceResponseList> {
-            return localVarFp.getPlace(requestParameters.order, requestParameters.page, requestParameters.pageSize, requestParameters.orderBy, requestParameters.title, options).then((request) => request(axios, basePath));
+        get(requestParameters: PlacesApiGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<PlaceResponseList> {
+            return localVarFp.get(requestParameters.order, requestParameters.page, requestParameters.pageSize, requestParameters.orderBy, requestParameters.title, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {PlacesApiGetPlaceByIdRequest} requestParameters Request parameters.
+         * @param {PlacesApiGetByIdRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getPlaceById(requestParameters: PlacesApiGetPlaceByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<Place> {
-            return localVarFp.getPlaceById(requestParameters.id, options).then((request) => request(axios, basePath));
+        getById(requestParameters: PlacesApiGetByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<Place> {
+            return localVarFp.getById(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @param {PlacesApiUpdatePlaceByIdRequest} requestParameters Request parameters.
+         * @param {PlacesApiUpdateByIdRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updatePlaceById(requestParameters: PlacesApiUpdatePlaceByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.updatePlaceById(requestParameters.id, requestParameters.body, options).then((request) => request(axios, basePath));
+        updateById(requestParameters: PlacesApiUpdateByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.updateById(requestParameters.id, requestParameters.placeDto, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * Request parameters for createPlace operation in PlacesApi.
+ * Request parameters for create operation in PlacesApi.
  */
-export interface PlacesApiCreatePlaceRequest {
-    readonly body?: PlaceDto
+export interface PlacesApiCreateRequest {
+    readonly placeDto?: PlaceDto
 }
 
 /**
- * Request parameters for deletePlaceById operation in PlacesApi.
+ * Request parameters for deleteById operation in PlacesApi.
  */
-export interface PlacesApiDeletePlaceByIdRequest {
+export interface PlacesApiDeleteByIdRequest {
     readonly id: string
 }
 
 /**
- * Request parameters for getPlace operation in PlacesApi.
+ * Request parameters for get operation in PlacesApi.
  */
-export interface PlacesApiGetPlaceRequest {
+export interface PlacesApiGetRequest {
     readonly order: string
 
     readonly page?: number
@@ -380,19 +380,19 @@ export interface PlacesApiGetPlaceRequest {
 }
 
 /**
- * Request parameters for getPlaceById operation in PlacesApi.
+ * Request parameters for getById operation in PlacesApi.
  */
-export interface PlacesApiGetPlaceByIdRequest {
+export interface PlacesApiGetByIdRequest {
     readonly id: string
 }
 
 /**
- * Request parameters for updatePlaceById operation in PlacesApi.
+ * Request parameters for updateById operation in PlacesApi.
  */
-export interface PlacesApiUpdatePlaceByIdRequest {
+export interface PlacesApiUpdateByIdRequest {
     readonly id: string
 
-    readonly body?: PlaceDto
+    readonly placeDto?: PlaceDto
 }
 
 /**
@@ -401,52 +401,52 @@ export interface PlacesApiUpdatePlaceByIdRequest {
 export class PlacesApi extends BaseAPI {
     /**
      * 
-     * @param {PlacesApiCreatePlaceRequest} requestParameters Request parameters.
+     * @param {PlacesApiCreateRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public createPlace(requestParameters: PlacesApiCreatePlaceRequest = {}, options?: RawAxiosRequestConfig) {
-        return PlacesApiFp(this.configuration).createPlace(requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+    public create(requestParameters: PlacesApiCreateRequest = {}, options?: RawAxiosRequestConfig) {
+        return PlacesApiFp(this.configuration).create(requestParameters.placeDto, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {PlacesApiDeletePlaceByIdRequest} requestParameters Request parameters.
+     * @param {PlacesApiDeleteByIdRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public deletePlaceById(requestParameters: PlacesApiDeletePlaceByIdRequest, options?: RawAxiosRequestConfig) {
-        return PlacesApiFp(this.configuration).deletePlaceById(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public deleteById(requestParameters: PlacesApiDeleteByIdRequest, options?: RawAxiosRequestConfig) {
+        return PlacesApiFp(this.configuration).deleteById(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {PlacesApiGetPlaceRequest} requestParameters Request parameters.
+     * @param {PlacesApiGetRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public getPlace(requestParameters: PlacesApiGetPlaceRequest, options?: RawAxiosRequestConfig) {
-        return PlacesApiFp(this.configuration).getPlace(requestParameters.order, requestParameters.page, requestParameters.pageSize, requestParameters.orderBy, requestParameters.title, options).then((request) => request(this.axios, this.basePath));
+    public get(requestParameters: PlacesApiGetRequest, options?: RawAxiosRequestConfig) {
+        return PlacesApiFp(this.configuration).get(requestParameters.order, requestParameters.page, requestParameters.pageSize, requestParameters.orderBy, requestParameters.title, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {PlacesApiGetPlaceByIdRequest} requestParameters Request parameters.
+     * @param {PlacesApiGetByIdRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public getPlaceById(requestParameters: PlacesApiGetPlaceByIdRequest, options?: RawAxiosRequestConfig) {
-        return PlacesApiFp(this.configuration).getPlaceById(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    public getById(requestParameters: PlacesApiGetByIdRequest, options?: RawAxiosRequestConfig) {
+        return PlacesApiFp(this.configuration).getById(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
      * 
-     * @param {PlacesApiUpdatePlaceByIdRequest} requestParameters Request parameters.
+     * @param {PlacesApiUpdateByIdRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    public updatePlaceById(requestParameters: PlacesApiUpdatePlaceByIdRequest, options?: RawAxiosRequestConfig) {
-        return PlacesApiFp(this.configuration).updatePlaceById(requestParameters.id, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
+    public updateById(requestParameters: PlacesApiUpdateByIdRequest, options?: RawAxiosRequestConfig) {
+        return PlacesApiFp(this.configuration).updateById(requestParameters.id, requestParameters.placeDto, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

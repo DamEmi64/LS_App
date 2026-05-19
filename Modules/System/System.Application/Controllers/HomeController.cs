@@ -1,10 +1,10 @@
 using Base;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace System.Application.Controllers
 {
-    [Route("[controller]")]
     public class HomeController : BaseController
     {
         private readonly IConnectorResolver _connector;
@@ -28,13 +28,14 @@ namespace System.Application.Controllers
         [HttpGet("health")]
         public IActionResult HealthCheck() => Ok();
 
-        [HttpGet("image")]
-        [ProducesResponseType(typeof(FileResult), StatusCodes.Status200OK)]
-        public async Task<IActionResult?> GetImage([FromQuery] Guid id)
+        [HttpGet("media")]
+        [Authorize]
+        [ProducesResponseType(typeof(Base.Media), StatusCodes.Status200OK)]
+        public async Task<IActionResult?> GetMedia([FromQuery] Guid id)
         {
             var media = await _mediaProvider.Load(id);
 
-            if (media is null || !media.IsImage())
+            if (media is null)
             {
                 return Json(new Base.Media());
             }

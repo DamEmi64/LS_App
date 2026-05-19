@@ -5,13 +5,15 @@ namespace Communication.Application.Filters
 {
     public class EmailFilter : IEntityFilter<Email>
     {
+        public int PageSize { get; set; }
+        public int Page { get; set; }
         public string? Subject { get; set; }
         public string? Sender { get; set; }
         public string? Receiver { get; set; }
         public DateTimeOffset? SentDateFrom { get; set; }
         public DateTimeOffset? SentDateTo { get; set; }
 
-        public IEnumerable<Email> Filter(IEnumerable<Email> data)
+        public IEnumerable<Email> Filter(IEnumerable<Email> data, out int? count)
         {
             if (!string.IsNullOrEmpty(Subject))
             {
@@ -33,6 +35,8 @@ namespace Communication.Application.Filters
             {
                 data = data.Where(x => x.SentDate < SentDateTo);
             }
+
+            count = data.Count();
 
             return data;
         }
