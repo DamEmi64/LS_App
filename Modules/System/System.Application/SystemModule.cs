@@ -1,5 +1,6 @@
 ﻿using Base;
 using Hangfire;
+using Hangfire.Dashboard;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System.Infrastructure;
@@ -43,7 +44,11 @@ namespace System.Application
             app.UseAuthorization();
             app.UseHangfireDashboard(options: new DashboardOptions
             {
-                AppPath = "/admin/logs"
+                AppPath = "/admin/logs",
+                Authorization = new IDashboardAuthorizationFilter[]
+                {
+                    new DashboardAuthFilter()
+                }
             });
 
             app.UseMiddleware<EntityContextMiddleware>();
