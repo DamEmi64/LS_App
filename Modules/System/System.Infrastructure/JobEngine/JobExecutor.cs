@@ -1,7 +1,6 @@
 ﻿using Base;
 using Hangfire.Server;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json;
 using System.Domain.Entities;
 using System.Domain.Repositories;
 using System.Infrastructure.Services.EntityContext;
@@ -107,7 +106,7 @@ namespace System.Infrastructure.JobEngine
                     });
 
                     await _processRepository.Update(process);
-                    throw;  
+                    throw;
                 }
 
                 if (process.Errors.Any())

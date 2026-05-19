@@ -10,7 +10,7 @@ namespace System.Application.Filters
 
         [FromQuery(Name = "search[value]")]
         public string? SearchValue { get; set; }
-        public string? Level { get; set;}
-        public string? Method { get; set;  }
+        public string? Level { get; set; }
+        public string? Method { get; set; }
     }
 }

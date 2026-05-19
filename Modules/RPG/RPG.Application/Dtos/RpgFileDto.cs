@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace RPG.Application.Dtos
+﻿namespace RPG.Application.Dtos
 {
     public class RpgFileDto
     {

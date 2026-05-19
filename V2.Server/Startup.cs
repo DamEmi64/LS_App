@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 using Newtonsoft.Json.Converters;
 using Serilog;
-using Serilog.Sinks.MSSqlServer;
 using System.Domain.Repositories;
 using System.Reflection;
 

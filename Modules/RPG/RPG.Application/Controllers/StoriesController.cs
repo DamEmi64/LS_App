@@ -10,7 +10,6 @@ using RPG.Domain.Repositories;
 using RPG.Infrastructure.Models;
 using RPG.Infrastructure.Services;
 using RPG.Infrastructure.Services.SummaryService;
-using System.Text;
 
 namespace RPG.Application.Controllers
 {
@@ -226,7 +225,7 @@ namespace RPG.Application.Controllers
 
                 await _storyRepository.AddFile(story, file);
 
-               return Ok();
+                return Ok();
             }
         }
 

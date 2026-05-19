@@ -1,5 +1,4 @@
-﻿using Base;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Domain.Entities;
 using System.Domain.Repositories;
 using System.Infrastructure.Db;
