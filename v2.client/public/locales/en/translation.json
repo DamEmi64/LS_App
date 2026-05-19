@@ -205,7 +205,9 @@
             "download_summary": "Download summary",
             "title": "Title",
             "gen_summary_desc": "Select chapters to include in the summary",
-            "send_firebase": "Send to summary app"
+            "send_firebase": "Send to summary app",
+            "battleMode": "Combat mode",
+            "hero": "Hero"
         },
         "chapter": {
             "title": "Title",

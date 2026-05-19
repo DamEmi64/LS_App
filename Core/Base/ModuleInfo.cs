@@ -12,7 +12,7 @@
 
         /// <summary>
         ///     Module version
-        ///     If used in <see cref="ModuleExtensions.UseModules(IApplicationBuilder, ModuleInfo[])"/> verify minimal version to run
+        ///     If used in <see cref="Extensions.UseModules(Microsoft.AspNetCore.Builder.IApplicationBuilder, ModuleInfo[])"/> verify minimal version to run
         /// </summary>
         public required string Version { get; set; }
 

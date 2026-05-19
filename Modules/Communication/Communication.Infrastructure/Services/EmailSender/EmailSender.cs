@@ -22,7 +22,7 @@ namespace Communication.Infrastructure.Services.EmailSender
             {
                 var mail = new MailMessage();
 
-                SmtpClient client = new SmtpClient(_options.SmtpServer, _options.SmtpPort) { EnableSsl = false };
+                SmtpClient client = new(_options.SmtpServer, _options.SmtpPort) { EnableSsl = false };
 
                 if (!string.IsNullOrEmpty(_options.PublicKey) && !string.IsNullOrEmpty(_options.PrivateKey))
                 {

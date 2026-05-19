@@ -2,11 +2,9 @@
 using Base;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using System.Application.Dtos;
 using System.Application.Filters;
 using System.Domain.Repositories;
-using System.Infrastructure.JobEngine;
 
 namespace System.Application.Controllers
 {

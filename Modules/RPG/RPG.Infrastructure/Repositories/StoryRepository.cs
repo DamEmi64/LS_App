@@ -15,7 +15,7 @@ namespace RPG.Infrastructure.Repositories
         public override async Task<Story?> Get(Guid id)
         {
             return await DbContext.Set<Story>()
-                                .Include(x=>x.Files)
+                                .Include(x => x.Files)
                                 .Include(x => x.Chapters.Where(x => !x.Draft)).FirstOrDefaultAsync(x => x.Id == id);
         }
 

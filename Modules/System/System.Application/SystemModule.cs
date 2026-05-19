@@ -43,11 +43,7 @@ namespace System.Application
             app.UseAuthorization();
             app.UseHangfireDashboard(options: new DashboardOptions
             {
-                Authorization = new[]
-                {
-                    new DashboardAuthFilter()
-                },
-                AppPath = "/admin"
+                AppPath = "/admin/logs"
             });
 
             app.UseMiddleware<EntityContextMiddleware>();

@@ -9,7 +9,7 @@
         public DateTimeOffset? EndDate { get; set; }
         public List<ChapterDto> Chapters { get; set; } = new List<ChapterDto>();
         public Guid? Summary { get; set; }
-        public List<RpgFileDto> Files { get; set; } = new(); 
+        public List<RpgFileDto> Files { get; set; } = new();
 
     }
 }

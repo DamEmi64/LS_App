@@ -8,7 +8,8 @@ import PermissionPage from "@/features/auth/pages/PermissionPage";
 import Navbar from "@/features/system/components/navbar";
 import Authbar from "@/features/system/components/navMenu";
 import { GridCloseIcon, GridMenuIcon } from "@mui/x-data-grid";
-import { Button, Grid, IconButton, useMediaQuery, useTheme } from "@mui/material";
+import { Avatar, Button, Grid, IconButton, useMediaQuery, useTheme } from "@mui/material";
+import GitHubIcon from '@mui/icons-material/GitHub';
 
 const Layout = ({
     image,
@@ -59,7 +60,18 @@ const Layout = ({
                 </div>
 
                 {/* Desktop authbar */}
-                <div className="hidden md:flex absolute right-4">
+                <div className="hidden md:flex absolute right-4 items-center gap-1">
+                    <IconButton
+                        component="a"
+                        href="https://github.com/DamEmi64/LS_App"
+                        target="_blank"
+                        type="un"
+                        rel="noopener noreferrer"
+                        size="large"
+                    >
+                        <Avatar sx={{ width: 32, height: 32 }}><GitHubIcon /></Avatar>
+                    </IconButton>
+
                     <Authbar />
                 </div>
 
@@ -88,9 +100,22 @@ const Layout = ({
                     >
                         <GridCloseIcon />
                     </Button>
+                    <Grid container direction="row" alignItems="center">
+                        <IconButton
+                            component="a"
+                            href="https://github.com/DamEmi64/LS_App"
+                            size="small"
+                            sx={{ ml: 2 }}
+                        >
+                            <Avatar sx={{ width: 32, height: 32 }}>
+                                <GitHubIcon />
+                            </Avatar>
+                        </IconButton>
+
+                        <Authbar />
+                    </Grid>
 
                     <Navbar user={auth.user} menu={menu} isDrawer />
-                    <Authbar />
                 </Grid>
             </Grid>
 

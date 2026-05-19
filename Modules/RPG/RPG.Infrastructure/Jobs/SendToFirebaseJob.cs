@@ -1,11 +1,9 @@
 ﻿using Base;
-using Google.Cloud.Firestore;
 using RPG.Infrastructure.External.Firebase;
 using RPG.Infrastructure.Models;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Processing;
-using System.Text;
 using Image = SixLabors.ImageSharp.Image;
 
 namespace RPG.Infrastructure.Jobs
@@ -46,6 +44,7 @@ namespace RPG.Infrastructure.Jobs
         public async Task ExecuteInternal(IMediaProvider mediaProvider, StoryModel story)
         {
             var firestore = await FirebaseExtensions.GetDb();
+
             var storyRef = firestore.Collection(StoriesCollection).Document(StoryId.ToString());
 
             story.Id = StoryId;

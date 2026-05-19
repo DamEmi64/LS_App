@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi;
 using Newtonsoft.Json.Converters;
 using Serilog;
-using Serilog.Sinks.MSSqlServer;
 using System.Domain.Repositories;
 using System.Reflection;
 
@@ -182,21 +181,22 @@ namespace Api
             if (_builder is WebApplicationBuilder webApplicationBuilder)
             {
                 var app = webApplicationBuilder.Build();
+                UseModules(app);
 
                 app.UseSwagger(o => o.OpenApiVersion = OpenApiSpecVersion.OpenApi3_0);
                 app.UseSwaggerUI();
-                app.UseMiddleware<ErrorMiddleware>();
-                app.UseMiddleware<SerilogMiddleware>();
-                app.UseSerilogRequestLogging();
 
                 app.UseAuthentication();
                 app.UseAuthorization();
+                app.UseMiddleware<ErrorMiddleware>();
+                app.UseMiddleware<SerilogMiddleware>();
                 app.MapRazorPages();
 
                 app.MapControllerRoute(
                 name: "default",
                 pattern: "api/{controller=Home}/{action=Index}/{id?}");
                 app.MapFallbackToFile("/index.html");
+                app.UseSerilogRequestLogging();
 
                 if (AppConfiguration.GetValue(AutoMigrate, true))
                 {
@@ -205,7 +205,6 @@ namespace Api
 
                 UpdateDictionaries(app);
 
-                UseModules(app);
                 app.Logger.LogInformation(Banner, AppConfiguration.Version);
 
                 return app;

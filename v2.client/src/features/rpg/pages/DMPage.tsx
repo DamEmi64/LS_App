@@ -135,7 +135,8 @@ const DMPage: React.FC<{ chapter: Chapter }> = ({ chapter }) => {
             </Grid>
             <Grid size={{xs: 12}}>
                 <FormControlLabel
-                    label={t('rpg.story.gen_summary')}
+                    color={textColor}
+                    label={t('rpg.story.battleMode')}
                     control={
                         <Switch
                             checked={combatMode}
@@ -163,6 +164,7 @@ const DMPage: React.FC<{ chapter: Chapter }> = ({ chapter }) => {
 
                 <FormControlLabel
                     label={t('rpg.story.gen_summary')}
+                    color={textColor}
                     control={
                         <Switch
                             checked={withSummary}
@@ -219,7 +221,7 @@ const DMPage: React.FC<{ chapter: Chapter }> = ({ chapter }) => {
                     onChange={(data) => send("UpdateBattleState", data)}
                     background={battleBg}
                 />)}
-                {!combatMode && (<ProgressFlow initialEdges={chapter.flow?.edges || []} initialNodes={chapter.flow?.nodes || []}/>)}
+                {!combatMode && (<ProgressFlow initialEdges={chapter.flow?.edges || []} initialNodes={chapter.flow?.nodes || []} onSave={ o => call(api => api.chaptersApi.updateByIdFlow,{id: chapter.id, flowDto:o})}/>)}
                 
             </Grid>
 

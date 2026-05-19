@@ -205,7 +205,9 @@
             "download_summary": "Pobierz podsumowanie",
             "title": "Tytuł",
             "gen_summary_desc": "Wybierz rozdziały do wygenerowania podsumowania",
-            "send_firebase": "Wyslij do aplikacji z podsumowaniem"
+            "send_firebase": "Wyslij do aplikacji z podsumowaniem",
+            "battleMode": "Tryb walki",
+            "hero": "Bohater"
         },
         "chapter": {
             "title": "Tytuł",

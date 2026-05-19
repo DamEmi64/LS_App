@@ -205,7 +205,9 @@
             "download_summary": "Télécharger le résumé",
             "title": "Titre",
             "gen_summary_desc": "Sélectionnez les chapitres à inclure",
-            "send_firebase": "Envoyer vers l’application"
+            "send_firebase": "Envoyer vers l’application",
+            "battleMode": "mode combat",
+            "hero": "héros"
         },
         "chapter": {
             "title": "Titre",
