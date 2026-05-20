@@ -73,6 +73,17 @@
         "upDate": "Zuletzt aktualisiert",
         "del_info": "Dieses Element löschen?"
     },
+    "events": {
+        "title": "Titel",
+        "description": "Beschreibung",
+        "image": "Bildschlüssel",
+        "imageExternalKey": "Externer Medienschlüssel für die Bildvorschau",
+        "participants": {
+            "title": "Teilnehmer",
+            "id": "ID",
+            "login": "Login"
+        }
+    },
     "files": {
         "title": "Dateien",
         "all": "*",

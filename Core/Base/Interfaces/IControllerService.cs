@@ -11,7 +11,7 @@ namespace Base
         ///    Get current user as user data
         /// </summary>
         /// <returns></returns>
-        public Task<UserData?> GetCurrentUser();
+        UserData? CurrentUser { get; }
 
         /// <summary>
         ///    Get user data from http context
@@ -24,5 +24,10 @@ namespace Base
         ///    Notifier instance
         /// </summary>
         public INotifier Notifier { get; }
+
+        /// <summary>
+        ///     List of all register users
+        /// </summary>
+        IEnumerable<UserData> Users { get; }
     }
 }

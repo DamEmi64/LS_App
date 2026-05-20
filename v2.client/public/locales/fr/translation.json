@@ -73,6 +73,17 @@
         "upDate": "Mis à jour le",
         "del_info": "Supprimer cet élément ?"
     },
+    "events": {
+        "title": "Titre",
+        "description": "Description",
+        "image": "Clé d'image",
+        "imageExternalKey": "Clé média externe utilisée pour l'aperçu de l'image",
+        "participants": {
+            "title": "Participants",
+            "id": "ID",
+            "login": "Login"
+        }
+    },
     "files": {
         "title": "Fichiers",
         "all": "*",

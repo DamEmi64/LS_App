@@ -17,7 +17,7 @@ namespace RPG.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.6")
+                .HasAnnotation("ProductVersion", "10.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -65,7 +65,7 @@ namespace RPG.Infrastructure.Migrations
 
                     b.HasIndex("StoryId");
 
-                    b.ToTable("Chapters");
+                    b.ToTable("Chapters", (string)null);
                 });
 
             modelBuilder.Entity("RPG.Domain.Entities.Hero", b =>
@@ -117,7 +117,7 @@ namespace RPG.Infrastructure.Migrations
 
                     b.HasIndex("PlayerDataId");
 
-                    b.ToTable("Heroes");
+                    b.ToTable("Heroes", (string)null);
                 });
 
             modelBuilder.Entity("RPG.Domain.Entities.Link", b =>
@@ -154,7 +154,7 @@ namespace RPG.Infrastructure.Migrations
 
                     b.HasIndex("ChapterId");
 
-                    b.ToTable("Link");
+                    b.ToTable("Link", (string)null);
                 });
 
             modelBuilder.Entity("RPG.Domain.Entities.Place", b =>
@@ -194,7 +194,7 @@ namespace RPG.Infrastructure.Migrations
 
                     b.HasIndex("ChapterId");
 
-                    b.ToTable("Places");
+                    b.ToTable("Places", (string)null);
                 });
 
             modelBuilder.Entity("RPG.Domain.Entities.PlayerData", b =>
@@ -221,7 +221,7 @@ namespace RPG.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PlayerData");
+                    b.ToTable("PlayerData", (string)null);
                 });
 
             modelBuilder.Entity("RPG.Domain.Entities.RPGFile", b =>
@@ -257,7 +257,7 @@ namespace RPG.Infrastructure.Migrations
 
                     b.HasIndex("StoryId");
 
-                    b.ToTable("RPGFile");
+                    b.ToTable("RPGFile", (string)null);
                 });
 
             modelBuilder.Entity("RPG.Domain.Entities.Session", b =>
@@ -292,7 +292,7 @@ namespace RPG.Infrastructure.Migrations
 
                     b.HasIndex("ChapterId");
 
-                    b.ToTable("Session");
+                    b.ToTable("Session", (string)null);
                 });
 
             modelBuilder.Entity("RPG.Domain.Entities.Skill", b =>
@@ -331,7 +331,7 @@ namespace RPG.Infrastructure.Migrations
 
                     b.HasIndex("PlayerDataId");
 
-                    b.ToTable("Skill");
+                    b.ToTable("Skill", (string)null);
                 });
 
             modelBuilder.Entity("RPG.Domain.Entities.Story", b =>
@@ -372,7 +372,7 @@ namespace RPG.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Stories");
+                    b.ToTable("Stories", (string)null);
                 });
 
             modelBuilder.Entity("RPG.Domain.Entities.Chapter", b =>

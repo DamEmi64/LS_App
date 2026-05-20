@@ -1,6 +1,7 @@
 ﻿using Automation.Application;
 using Base;
 using Communication.Application;
+using Events.Application;
 using Files.Application;
 using RPG.Application;
 using System.Application;
@@ -15,7 +16,8 @@ namespace Connector
             new FilesModule().Info(),
             new RPGModule().Info(),
             new CommunicationModule().Info(),
-            new AutomationModule().Info()
+            new AutomationModule().Info(),
+            new EventModule().Info(),
         };
 
         public string Version => AppConfiguration.Version;

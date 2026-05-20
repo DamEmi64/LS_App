@@ -1,6 +1,7 @@
 ﻿using Automation.Domain.Entities;
 using Base;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Automation.Infrastructure.Context
 {
@@ -9,6 +10,12 @@ namespace Automation.Infrastructure.Context
         public AutomationContext(DbContextOptions<AutomationContext> options, IEntityContext entityContext)
         : base(options, entityContext)
         {
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AutomationContext).Assembly);
         }
 
         public override string ContextName => "Automation";

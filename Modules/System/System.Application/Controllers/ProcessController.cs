@@ -44,5 +44,12 @@ namespace System.Application.Controllers
         {
             return Json(filter.Filter(_processRepository.GetAllReadData(), out var count).Select(_mapper.Map<ProcessDto>), count);
         }
+
+        [HttpPut("{id}/cancel")]
+        public async Task<IActionResult> Cancel(Guid id)
+        {
+            await _jobEngine.Cancel(id);
+            return Ok();
+        }
     }
 }

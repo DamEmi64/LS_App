@@ -20,13 +20,15 @@ namespace System.Infrastructure.Services.Controller
 
         public INotifier Notifier => _notifier;
 
-        public Task<UserData?> GetCurrentUser()
+        public UserData? CurrentUser => _contextAccessor?.HttpContext != null ? GetUser(_contextAccessor.HttpContext).Result : null;
+
+        public IEnumerable<UserData> Users => _userManager.Users.Select(u => new UserData
         {
-            var http = _contextAccessor?.HttpContext;
-            if (http is null)
-                return Task.FromResult<UserData?>(null);
-            return GetUser(http);
-        }
+            Email = u.Email,
+            UserId = u.Id,
+            Id = 0,
+            Login = u.UserName
+        });
 
         public async Task<UserData?> GetUser(HttpContext context)
         {

@@ -20,7 +20,8 @@ export const GridTable = <T,>({
     columns,
     data,
     setData,
-    canDelete = true
+    canDelete = true,
+    readonly = false
 }: GridTableProps<T>) => {
 
     const [rows, setRows] = useState<any[]>(data.data || []);
@@ -56,7 +57,7 @@ export const GridTable = <T,>({
         const cols = data.map((val) => ({
             field: val.field,
             headerName: t(val.header),
-            editable: true,
+            editable: !readonly,
             type: getColumntType(val.type),
             valueOptions: val.options,
             flex: 1
@@ -159,11 +160,13 @@ export const GridTable = <T,>({
 
     return (
         <Paper sx={{ overflow: 'hidden', margin: 'auto', padding: 2 }}>
-            <Stack direction="row" spacing={1} sx={{ mb: 1 }}>
-                <IconButton size="small" color='success' onClick={handleAddRow}>
-                    <GridAddIcon />
-                </IconButton>
-            </Stack>
+            {!readonly && (
+                <Stack direction="row" spacing={1} sx={{ mb: 1 }}>
+                    <IconButton size="small" color='success' onClick={handleAddRow}>
+                        <GridAddIcon />
+                    </IconButton>
+                </Stack>
+            )}
 
             <DataGrid
                 columns={toColumnGridDef(columns)}
@@ -176,8 +179,8 @@ export const GridTable = <T,>({
                 }}
                 pageSizeOptions={[5, 10, 25, 50, 100]}
                 editMode="cell"
-                processRowUpdate={handleRowUpdate}
-                onRowEditStop={handleRowEditStop}
+                processRowUpdate={readonly ? undefined : handleRowUpdate}
+                onRowEditStop={readonly ? undefined : handleRowEditStop}
             />
         </Paper>
     );

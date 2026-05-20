@@ -1,5 +1,6 @@
 ﻿using Base;
 using Hangfire;
+using Hangfire.Dashboard.BasicAuthorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System.Infrastructure;

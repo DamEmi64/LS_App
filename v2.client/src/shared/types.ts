@@ -138,6 +138,7 @@ export interface GridTableProps<T> {
     pageSizeOptionArray?: number[],
     setData?: (data: TableData<T>) => void,
     canDelete?: boolean;
+    readonly?: boolean;
 }
 
 export interface dateRange {

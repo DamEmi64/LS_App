@@ -73,6 +73,17 @@
         "upDate": "Last updated",
         "del_info": "Delete this item?"
     },
+    "events": {
+        "title": "Title",
+        "description": "Description",
+        "image": "Image key",
+        "imageExternalKey": "External media key used for the image preview",
+        "participants": {
+            "title": "Participants",
+            "id": "ID",
+            "login": "Login"
+        }
+    },
     "files": {
         "title": "Files",
         "all": "*",

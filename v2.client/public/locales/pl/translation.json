@@ -73,6 +73,17 @@
         "upDate": "Data aktualizacji",
         "del_info": "Czy usunąć dane?"
     },
+    "events": {
+        "title": "Tytuł",
+        "description": "Opis",
+        "image": "Klucz obrazu",
+        "imageExternalKey": "Zewnętrzny klucz medium używany do podglądu obrazu",
+        "participants": {
+            "title": "Uczestnicy",
+            "id": "ID",
+            "login": "Login"
+        }
+    },
     "files": {
         "title": "Pliki",
         "all": "*",
