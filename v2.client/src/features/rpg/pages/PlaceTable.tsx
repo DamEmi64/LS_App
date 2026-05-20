@@ -1,30 +1,30 @@
-import { useModal, call, Operations } from "@/shared";
-import OperationCell from "@/shared/components/operationCell";
-import YesNoWindow from "@/shared/components/YesNoWindow";
-
-import { format } from 'react-string-format';
+import { format } from "react-string-format";
 import { useTranslation } from "react-i18next";
 
-import PlaceForm from "../components/PlaceForm";
-import { Chapter, Place, SessionDto, HeroDto } from "../types";
-import SelectChapter from "@/features/rpg/components/SelectChapter";
-import { Image } from "@/features/system";
+import { useModal, call, Operations } from "@/shared";
 
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableRow,
-    Box,
-    useMediaQuery,
-    useTheme
-} from "@mui/material";
+import YesNoWindow from "@/shared/components/YesNoWindow";
+
+import PlaceForm from "../components/PlaceForm";
+
+import SelectChapter from "@/features/rpg/components/SelectChapter";
+
 import { useAuth } from "@/features/auth/context/authProvider";
 
+import { ExpandableTable } from "@/shared";
+
+import {
+    Chapter,
+    Place,
+    SessionDto
+} from "@/features/rpg";
+
+import { Image } from "@/features/system";
+
 export type PlaceTableProps = {
-    places: Place[],
-    chapters: Chapter[],
-    refresh: () => void
+    places: Place[];
+    chapters: Chapter[];
+    refresh: () => void;
 };
 
 export const PlaceTable: React.FC<PlaceTableProps> = ({
@@ -32,24 +32,46 @@ export const PlaceTable: React.FC<PlaceTableProps> = ({
     chapters,
     refresh
 }) => {
+
     const { t } = useTranslation();
+
     const modal = useModal();
+
     const { checkPermission } = useAuth();
 
-    // 📱 RESPONSIVE
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-
     const operations: Operations<Place>[] = [
-        { name: 'opt.details', method: (o) => details(o) },
-        { name: 'opt.edit', method: (o) => editPlace(o), hidden: (o) => !checkPermission(['rpg_write']) },
-        { name: 'opt.delete', method: (o) => del(o), hidden: (o) => !checkPermission(['rpg_write']) }
+        {
+            name: "opt.details",
+            method: (o) => details(o)
+        },
+        {
+            name: "opt.edit",
+            method: (o) => editPlace(o),
+            hidden: () =>
+                !checkPermission(["rpg_write"])
+        },
+        {
+            name: "opt.copy",
+            method: (o) =>
+                copyPlace(o as unknown as SessionDto),
+            hidden: () =>
+                !checkPermission(["rpg_write"])
+        },
+        {
+            name: "opt.delete",
+            method: (o) => del(o),
+            hidden: () =>
+                !checkPermission(["rpg_write"])
+        }
     ];
 
     const details = (o: Place) => {
-        const data = o as unknown as SessionDto;
 
-        if (checkPermission(['rpg_write'])) {
+        const data =
+            o as unknown as SessionDto;
+
+        if (checkPermission(["rpg_write"])) {
+
             modal.showModal(
                 <PlaceForm
                     data={data}
@@ -58,16 +80,19 @@ export const PlaceTable: React.FC<PlaceTableProps> = ({
                     onCopy={(s) => copyPlace(s)}
                 />
             );
+
         } else {
+
             modal.showModal(
                 <PlaceForm
                     data={data}
                 />
-        );
+            );
         }
     };
 
     const editPlace = (o: Place) => {
+
         const data = {
             ...o,
             image: o.image
@@ -76,48 +101,78 @@ export const PlaceTable: React.FC<PlaceTableProps> = ({
         modal.showModal(
             <PlaceForm
                 data={data}
-                onSave={(s) => savePlace(s, o)}
+                onSave={(s) =>
+                    savePlace(s, o)
+                }
                 onDelete={() => del(o)}
                 isEdit
             />
         );
     };
 
-    const savePlace = (data: SessionDto, place: Place) => {
-        call(api => api.placesApi.updateById,{id:place.id,placeDto:data})
-            .then(() => refresh());
+    const savePlace = (
+        data: SessionDto,
+        place: Place
+    ) => {
+
+        call(
+            api => api.placesApi.updateById,
+            {
+                id: place.id,
+                placeDto: data
+            }
+        ).then(() => refresh());
     };
 
-    const copyPlace = (place: SessionDto) => {
+    const copyPlace = (
+        place: SessionDto
+    ) => {
+
         modal.showModal(
             <SelectChapter
                 chapters={chapters}
                 onSelect={(chapterId) => {
 
-                    call<Image>(api => api.homeApi.getMedia,{id:place.imageId})
-                        .then((res) => {
-                            const imageData = res.contentStr || '';
+                    call<Image>(
+                        api => api.homeApi.getMedia,
+                        {
+                            id: place.imageId
+                        }
+                    ).then((res) => {
 
-                            const newPlace = {
-                                ...place,
-                                id: undefined,
-                                chapter: chapterId,
-                                image: imageData
-                            };
-                            
-                            call(api => api.placesApi.create,newPlace)
-                                .then(() => modal.hideModal());
-                        });
+                        const imageData =
+                            res.contentStr || "";
+
+                        const newPlace = {
+                            ...place,
+                            id: undefined,
+                            chapter: chapterId,
+                            image: imageData
+                        };
+
+                        call(
+                            api => api.placesApi.create,
+                            newPlace
+                        ).then(() =>
+                            modal.hideModal()
+                        );
+                    });
                 }}
             />
         );
     };
 
     const del = (data: Place) => {
+
         modal.showModal(
             <YesNoWindow
-                message={format(t('rpg.deleteConfirm.place'), data.title)}
-                yesMethod={() => delConfirm(data)}
+                message={format(
+                    t("rpg.deleteConfirm.place"),
+                    data.title
+                )}
+                yesMethod={() =>
+                    delConfirm(data)
+                }
                 open
                 onClose={modal.hideModal}
                 noMethod={modal.hideModal}
@@ -125,55 +180,42 @@ export const PlaceTable: React.FC<PlaceTableProps> = ({
         );
     };
 
-    const delConfirm = (data: Place) => {
-        call(api => api.placesApi.deleteById,{id:data.id})
-            .then(() => refresh());
+    const delConfirm = (
+        data: Place
+    ) => {
+
+        call(
+            api => api.placesApi.deleteById,
+            {
+                id: data.id
+            }
+        ).then(() => refresh());
     };
 
     return (
-        <Box sx={{ width: "100%", overflowX: "auto" }}>
-            <Table size={isMobile ? "small" : "medium"}>
+        <ExpandableTable
+            rows={places}
+            getRowId={(x) =>
+                x.id ?? x.title
+            }
+            operations={operations}
+            columns={[
+                {
+                    field: "title",
+                    header: t("rpg.other.title")
+                },
+                {
+                    field: "description",
+                    header: t("rpg.other.description"),
 
-                <TableBody>
-
-                    {/* HEADER */}
-                    <TableRow key={'0_place'}>
-                        <TableCell sx={{ fontWeight: "bold" }}>
-                            {t('rpg.other.title')}
-                        </TableCell>
-
-                        <TableCell sx={{ fontWeight: "bold" }}>
-                            {t('rpg.other.description')}
-                        </TableCell>
-
-                        <TableCell />
-                    </TableRow>
-
-                    {/* DATA */}
-                    {places?.map((place: Place) => (
-                        <TableRow key={place.id ?? place.title}>
-
-                            <TableCell sx={{ py: isMobile ? 1 : 1.5 }}>
-                                {place.title}
-                            </TableCell>
-
-                            <TableCell sx={{ py: isMobile ? 1 : 1.5 }}>
-                                {place.description
-                                    ? place.description.length > 30
-                                        ? place.description.slice(0, 30) + "..."
-                                        : place.description
-                                    : "--"}
-                            </TableCell>
-
-                            <TableCell sx={{ whiteSpace: "nowrap" }}>
-                                <OperationCell operations={operations} data={place} />
-                            </TableCell>
-
-                        </TableRow>
-                    ))}
-
-                </TableBody>
-            </Table>
-        </Box>
+                    render: (place) =>
+                        place.description
+                            ? place.description.length > 30
+                                ? place.description.slice(0, 30) + "..."
+                                : place.description
+                            : "--"
+                }
+            ]}
+        />
     );
 };

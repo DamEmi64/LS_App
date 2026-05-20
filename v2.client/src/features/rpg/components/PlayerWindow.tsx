@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Box, TextField, Typography, useTheme, Grid, Button } from '@mui/material';
 import { t } from 'i18next';
 import { HeroDto, Skill } from '@/features/rpg';
-import { ColumnDef, ColumnType, TableData } from '@/shared';
-import { GridTable } from '@/shared/components/gridTable';
+import { ColumnType, TableColumn, TableData } from '@/shared';
+import { GridTable } from '@/shared/components/datatables/gridTable';
 
 type PlayerWindowProps = {
     hero: HeroDto;
@@ -14,7 +14,7 @@ export const PlayerWindow: React.FC<PlayerWindowProps> = ({ hero, toSave }) => {
     const theme = useTheme();
     const textColor = theme.palette.mode === 'dark' ? theme.palette.text.primary : theme.palette.text.secondary;
 
-    const skillCol: ColumnDef[] = [
+    const skillCol: TableColumn<Skill>[] = [
         { field: 'title', header: 'rpg.hero.skill.title', type: ColumnType.String },
         { field: 'value', header: 'rpg.hero.skill.value', type: ColumnType.String },
     ];

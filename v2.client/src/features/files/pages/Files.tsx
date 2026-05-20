@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 
 import SwitchSelector from "react-switch-selector";
-import TileContainer from "@/shared/components/tileContainer";
+import {TileContainerProps} from "@/shared";
 
 import { useTranslation } from "react-i18next";
 import { useModal } from "@/shared/context/modal";
@@ -23,6 +23,7 @@ import { saveAs } from "file-saver";
 import { EditFile, File } from "@/features/files";
 import { getDictionary, useDictionaryTranslation } from "@/lib/utils";
 import { ResponseList } from "@/shared/api/extension";
+import TileContainer from "@/shared/components/datatables/tileContainer";
 
 const Files: React.FC = () => {
     const modal = useModal();

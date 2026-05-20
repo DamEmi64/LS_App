@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface Row {
     id: string;
     imageData? : string;
@@ -102,14 +104,6 @@ export interface Operations<T> {
     hidden?: (data: T) => boolean;
 }
 
-export interface ColumnDef {
-    field: string;
-    header: string;
-    type: ColumnType;
-    options? : string[];
-    toShow?: (string) => string;
-}
-
 export interface onChangeParams {
     page: number;
     pageSize: number;
@@ -119,7 +113,7 @@ export interface onChangeParams {
 }
 
 export interface TableProps<T> {
-    columns: ColumnDef[];
+    columns: TableColumn<T>[],
     filters?: FilterItem[],
     data: TableData<T>,
     operations: Operations<T>[],
@@ -133,13 +127,13 @@ export interface TableData<T> {
 }
 
 export interface TableFilterProps {
-    columns: ColumnDef[];
+    columns: TableColumn<any>[];
     filters: FilterItem[];
     onFilterChange: (filters: FilterItem[]) => void;
 };
 
 export interface GridTableProps<T> {
-    columns: ColumnDef[];
+    columns: TableColumn<T>[];
     data: TableData<T>,
     pageSizeOptionArray?: number[],
     setData?: (data: TableData<T>) => void,
@@ -150,3 +144,28 @@ export interface dateRange {
     start: Date,
     end: Date
 }
+
+export type TableColumn<T> = {
+    field: keyof T | string;
+    header: string;
+    render?: (row: T) => ReactNode;
+    sortable?: boolean;
+    type: ColumnType;
+    width?: number | string;
+    options? : string[];
+};
+
+export type ExpandableTableProps<T> = {
+    rows: T[];
+    columns: TableColumn<T>[];
+    getRowId: (row: T) => string;
+    operations?: Operations<T>[];
+    renderExpanded?: (row: T) => ReactNode;
+    loadingRow?: string | null;
+    onToggle?: (row: T, open: boolean) => void;
+    orderBy?: string | null;
+    order?: "asc" | "desc";
+    onSort?: (field: string) => void;
+    filters?: FilterItem[];
+    onFilterChange?: (filters: FilterValue[]) => void;
+};
