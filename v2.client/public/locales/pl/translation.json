@@ -74,12 +74,21 @@
         "del_info": "Czy usunąć dane?"
     },
     "events": {
+        "siteTitle": "Wydarzenia",
+        "mySiteTitle": "Moje wydarzenia",
+        "noEventsForDay": "Brak zapisanych wydarzen tego dnia",
+        "noSignedEvents": "Nie jestes jeszcze zapisany na zadne wydarzenia",
+        "eventDate": "Data wydarzenia",
+        "category": "Kategoria",
+        "signIn": "Zapisz sie",
+        "signOut": "Wypisz sie",
         "title": "Tytuł",
         "description": "Opis",
         "image": "Klucz obrazu",
         "imageExternalKey": "Zewnętrzny klucz medium używany do podglądu obrazu",
         "participants": {
             "title": "Uczestnicy",
+            "email": "Email",
             "id": "ID",
             "login": "Login"
         }
@@ -280,6 +289,9 @@
         "emails": "Emaile",
         "templates": "Szablony",
         "automations": "Automatyzacje",
+        "events": "Wydarzenia",
+        "allEvents": "Wszystkie wydarzenia",
+        "myEvents": "Moje wydarzenia",
         "rpg_sessions": "Sesje RPG",
         "register": "Zarejestruj się",
         "login": "Zaloguj się",

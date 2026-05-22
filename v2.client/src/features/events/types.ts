@@ -7,6 +7,7 @@ export interface EventBody {
   title: string;
   description: string;
   image: string;
+  eventDate: string;
   participants?: EventParticipant[];
 }
 

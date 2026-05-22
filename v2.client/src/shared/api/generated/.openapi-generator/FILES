@@ -5,6 +5,7 @@ api/auth-api.ts
 api/automations-api.ts
 api/chapters-api.ts
 api/emails-api.ts
+api/events-api.ts
 api/files-api.ts
 api/heroes-api.ts
 api/home-api.ts
@@ -28,6 +29,9 @@ docs/ChaptersApi.md
 docs/Email.md
 docs/EmailGenerationDto.md
 docs/EmailsApi.md
+docs/EventDto.md
+docs/EventDtoResponseList.md
+docs/EventsApi.md
 docs/File.md
 docs/FileDto.md
 docs/FileResponseList.md
@@ -57,6 +61,7 @@ docs/ProcessErrorDto.md
 docs/ProgressStatus.md
 docs/RPGFile.md
 docs/RegisterModel.md
+docs/ReminderDto.md
 docs/ResetPasswordModel.md
 docs/RpgFileDto.md
 docs/RulesDto.md
@@ -81,6 +86,7 @@ docs/TriggerDto.md
 docs/TriggerType.md
 docs/User.md
 docs/UserData.md
+docs/UserDto.md
 git_push.sh
 index.ts
 models/additional-data.ts
@@ -92,6 +98,8 @@ models/chapter-response-list.ts
 models/chapter.ts
 models/email-generation-dto.ts
 models/email.ts
+models/event-dto-response-list.ts
+models/event-dto.ts
 models/file-dto.ts
 models/file-response-list.ts
 models/flow-dto.ts
@@ -116,6 +124,7 @@ models/process-dto.ts
 models/process-error-dto.ts
 models/progress-status.ts
 models/register-model.ts
+models/reminder-dto.ts
 models/reset-password-model.ts
 models/rpg-file-dto.ts
 models/rpgfile.ts
@@ -138,4 +147,5 @@ models/trigger-dto.ts
 models/trigger-type.ts
 models/trigger.ts
 models/user-data.ts
+models/user-dto.ts
 models/user.ts

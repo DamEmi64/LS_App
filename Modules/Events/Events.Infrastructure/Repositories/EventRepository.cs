@@ -29,6 +29,11 @@ namespace Events.Infrastructure.Repositories
             return DbContext.Set<Event>().Include(x => x.Participates).Where(x => x.Participates.Any(x => x.UserId == userId));
         }
 
+        public async Task SignIn(EventUser user)
+        {
+            await DbContext.AddAsync(user);
+            await DbContext.SaveChangesAsync();
+        }
         public Event? GetLastAdded()
         {
             return GetAll().OrderByDescending(x => x.InsDate).FirstOrDefault();

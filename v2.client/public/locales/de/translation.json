@@ -74,6 +74,14 @@
         "del_info": "Dieses Element löschen?"
     },
     "events": {
+        "siteTitle": "Events",
+        "mySiteTitle": "Meine Events",
+        "noEventsForDay": "Keine angemeldeten Events an diesem Tag",
+        "noSignedEvents": "Du bist noch fur keine Events angemeldet",
+        "eventDate": "Eventdatum",
+        "category": "Kategorie",
+        "signIn": "Anmelden",
+        "signOut": "Abmelden",
         "title": "Titel",
         "description": "Beschreibung",
         "image": "Bildschlüssel",
@@ -81,7 +89,8 @@
         "participants": {
             "title": "Teilnehmer",
             "id": "ID",
-            "login": "Login"
+            "login": "Login",
+            "email": "E-Mail"
         }
     },
     "files": {
@@ -280,6 +289,9 @@
         "emails": "E-Mails",
         "templates": "Vorlagen",
         "automations": "Automationen",
+        "events": "Events",
+        "allEvents": "Alle Events",
+        "myEvents": "Meine Events",
         "rpg_sessions": "RPG-Sitzungen",
         "register": "Registrieren",
         "login": "Anmelden",

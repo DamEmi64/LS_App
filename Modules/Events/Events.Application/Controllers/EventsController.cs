@@ -107,9 +107,16 @@ namespace Events.Application.Controllers
             var entity = await _eventRepository.Get(id);
             ArgumentNullException.ThrowIfNull(entity);
             ArgumentNullException.ThrowIfNull(CurrentUser);
-            var eventUser = _mapper.Map<EventUser>(CurrentUser);
-            entity.Participates.Add(eventUser);
-            await _eventRepository.Update(entity);
+
+            var eventUser = new EventUser
+            {
+                Event = entity,
+                UserId = CurrentUser.UserId,
+                Email = CurrentUser.Email,
+                Login = CurrentUser.Login
+            };
+
+            await _eventRepository.SignIn(eventUser);
 
             await Notifier.Success(EventNotifyTypes.EventSignIn, entity.Title);
             return Ok();

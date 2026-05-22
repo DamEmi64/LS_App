@@ -7,5 +7,6 @@ namespace Events.Domain.Repositories
     {
         IEnumerable<Event> GetByUser(string userId);
         Event? GetLastAdded();
+        Task SignIn(EventUser user);
     }
 }

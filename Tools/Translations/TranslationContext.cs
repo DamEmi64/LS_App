@@ -20,7 +20,7 @@ namespace Translations
         private const string FR = "fr";
         private const string DE = "de";
 
-        private const string ConnString = @"Server=(localdb)\MSSQLLocalDB;Database=AppContext-dev;Trusted_Connection=True;MultipleActiveResultSets=true";
+        private const string ConnString = @"Server=(localdb)\MSSQLLocalDB;Database=AppContext;Trusted_Connection=True;MultipleActiveResultSets=true";
 
         public TranslationContext()
         {

@@ -21,6 +21,7 @@ namespace Events.Application
 
         public IServiceCollection Configure(IServiceCollection services)
         {
+            services.AddAutoMapper(opt => opt.AddMaps(typeof(EventModule).Assembly));
             return services.AddDatabase<EventContext>(AppConfiguration.DefaultConnectionString)
                 .AddServices()
                 .AddRepositories();

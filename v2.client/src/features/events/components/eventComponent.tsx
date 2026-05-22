@@ -12,6 +12,7 @@ const emptyEvent: EventBody = {
   description: "",
   image: "",
   participants: [],
+  eventDate: "",
 };
 
 export const EventComponent: React.FC<EventComponentProps> = ({
@@ -31,34 +32,40 @@ export const EventComponent: React.FC<EventComponentProps> = ({
 
   const initialData = { ...emptyEvent, ...event };
   const [isEditing, setIsEditing] = useState(isNew || isEdit);
-  const [previewImageId, setPreviewImageId] = useState(initialData.image);
+  const [image, setImage] = useState(initialData.image);
 
   const {
     control,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<EventBody>({
     defaultValues: initialData,
   });
 
   const participantColumns: TableColumn<EventParticipant>[] = [
-    { field: "id", header: "events.participants.id", type: ColumnType.String },
-    {
+   {
       field: "login",
       header: "events.participants.login",
+      type: ColumnType.String,
+    },
+    {
+      field: "email",
+      header: "events.participants.email",
       type: ColumnType.String,
     },
   ];
 
   useEffect(() => {
     reset(initialData);
-    setPreviewImageId(initialData.image);
+    setImage(initialData.image);
   }, [event]);
 
   const onSubmit = (data: EventBody) => {
     onSave?.({
       ...data,
+      image,
       participants: initialData.participants,
     });
     if (!isNew) setIsEditing(false);
@@ -66,8 +73,13 @@ export const EventComponent: React.FC<EventComponentProps> = ({
 
   const cancelEdit = () => {
     reset(initialData);
-    setPreviewImageId(initialData.image);
+    setImage(initialData.image);
     setIsEditing(false);
+  };
+
+  const updateImage = (data: string) => {
+    setImage(data);
+    setValue("image", data);
   };
 
   const canEdit = !readonly;
@@ -78,7 +90,11 @@ export const EventComponent: React.FC<EventComponentProps> = ({
         size={{ xs: 12, md: 4 }}
         sx={{ display: "flex", justifyContent: "flex-start" }}
       >
-        <ImageProvider imageId={previewImageId || ""} readonly />
+        <ImageProvider
+          imageId={initialData.image || ""}
+          readonly={!isEditing || readonly}
+          saveImage={updateImage}
+        />
       </Grid>
 
       <Grid size={{ xs: 12, md: 8 }}>
@@ -101,23 +117,20 @@ export const EventComponent: React.FC<EventComponentProps> = ({
                 />
               )}
             />
-
             <Controller
-              name="image"
+              name="eventDate"
               control={control}
+              rules={{ required: t("validation.required") as string }}
               render={({ field }) => (
                 <TextField
                   {...field}
-                  label={t("events.image")}
+                  label={t("events.eventDate")}
                   fullWidth
                   margin="dense"
+                  inputProps={{ type: "datetime-local" , style: { color: textColor } }}
                   variant="outlined"
-                  helperText={t("events.imageExternalKey")}
-                  InputProps={{ style: { color: textColor } }}
-                  onChange={(changeEvent) => {
-                    field.onChange(changeEvent.target.value);
-                    setPreviewImageId(changeEvent.target.value);
-                  }}
+                  error={!!errors.eventDate}
+                  helperText={errors.eventDate?.message}
                 />
               )}
             />

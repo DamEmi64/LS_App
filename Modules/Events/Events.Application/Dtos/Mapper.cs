@@ -12,7 +12,8 @@ namespace Events.Application.Dtos
                 .ReverseMap();
 
             CreateMap<EventUser, UserDto>().ReverseMap();
-            CreateMap<UserData, EventUser>().ReverseMap();
+            CreateMap<UserData, EventUser>().ReverseMap()
+                .ForMember(desc => desc.Permissions, opt => opt.Ignore());
 
             CreateMap<UserData, UserDto>().ReverseMap();
         }

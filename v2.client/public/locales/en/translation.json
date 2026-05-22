@@ -74,6 +74,14 @@
         "del_info": "Delete this item?"
     },
     "events": {
+        "siteTitle": "Events",
+        "mySiteTitle": "My events",
+        "noEventsForDay": "No signed-up events on this day",
+        "noSignedEvents": "You are not signed up for any events yet",
+        "eventDate": "Event date",
+        "category": "Category",
+        "signIn": "Sign in",
+        "signOut": "Sign out",
         "title": "Title",
         "description": "Description",
         "image": "Image key",
@@ -81,7 +89,8 @@
         "participants": {
             "title": "Participants",
             "id": "ID",
-            "login": "Login"
+            "login": "Login",
+            "email": "Email"
         }
     },
     "files": {
@@ -280,6 +289,9 @@
         "emails": "Emails",
         "templates": "Templates",
         "automations": "Automations",
+        "events": "Events",
+        "allEvents": "All events",
+        "myEvents": "My events",
         "rpg_sessions": "RPG Sessions",
         "register": "Sign up",
         "login": "Sign in",
