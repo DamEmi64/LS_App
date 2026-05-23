@@ -1,5 +1,6 @@
 ﻿using Automation.Domain.Entities;
 using Automation.Domain.Repositories;
+using AutomationBase.Dictionaries;
 using Base;
 using Base.Automation;
 using Hangfire;
@@ -26,7 +27,7 @@ namespace Automation.Infrastructure.Services.AutomationService
         {
             foreach (var trigger in automat.Triggers)
             {
-                if (trigger.Type == Domain.Enums.TriggerType.Cron)
+                if (trigger.EventId == AutomationEvents.Cron)
                 {
                     _recurringJobManager.AddOrUpdate(automat.Id.ToString(), () => ExecuteAutomat(automat.Id, automat.Title, automat), trigger.Cron ?? Cron.Hourly());
                 }
@@ -49,7 +50,7 @@ namespace Automation.Infrastructure.Services.AutomationService
         {
             foreach (var trigger in automat.Triggers)
             {
-                if (trigger.Type == Domain.Enums.TriggerType.Cron)
+                if (trigger.EventId == AutomationEvents.Cron)
                 {
                     _recurringJobManager.RemoveIfExists(automat.Id.ToString());
                 }
@@ -63,7 +64,7 @@ namespace Automation.Infrastructure.Services.AutomationService
         {
             foreach (var trigger in automat.Triggers)
             {
-                if (trigger.Type == Domain.Enums.TriggerType.Cron)
+                if (trigger.EventId == AutomationEvents.Cron)
                 {
                     _recurringJobManager.AddOrUpdate(automat.Id.ToString(), () => ExecuteAutomat(automat.Id, automat.Title, automat), trigger.Cron ?? Cron.Hourly());
                 }
@@ -76,7 +77,7 @@ namespace Automation.Infrastructure.Services.AutomationService
         {
             foreach (var trigger in automat.Triggers)
             {
-                if (trigger.Type == Domain.Enums.TriggerType.Cron)
+                if (trigger.EventId == AutomationEvents.Cron)
                 {
                     _recurringJobManager.RemoveIfExists(automat.Id.ToString());
                 }
@@ -103,7 +104,7 @@ namespace Automation.Infrastructure.Services.AutomationService
 
         private IProcessSchema CreateSchema(Automat automat)
         {
-            var schema = _jobEngine.Create($"[AUTOMAT] {automat.Title} - {DateTime.UtcNow.ToShortTimeString()}");
+            var schema = _jobEngine.Create($"[AUTOMAT] {automat.Title} - {DateTime.Now.ToString()}");
 
             var automationTasks = automat.Tasks.Select(x => new AutomationTask
             {

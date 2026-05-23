@@ -17,7 +17,7 @@ namespace Automation.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.5")
+                .HasAnnotation("ProductVersion", "10.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -34,12 +34,12 @@ namespace Automation.Infrastructure.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("InsBy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTimeOffset>("InsDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("InsBy")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset?>("LastRun")
                         .HasColumnType("datetimeoffset");
@@ -48,11 +48,11 @@ namespace Automation.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("UpdDate")
-                        .HasColumnType("datetimeoffset");
-
                     b.Property<string>("UpdBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("UpdDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
 
@@ -72,12 +72,12 @@ namespace Automation.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("InsBy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTimeOffset>("InsDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("InsBy")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("OperationId")
                         .HasColumnType("int");
@@ -85,11 +85,11 @@ namespace Automation.Infrastructure.Migrations
                     b.Property<int>("Order")
                         .HasColumnType("int");
 
-                    b.Property<DateTimeOffset>("UpdDate")
-                        .HasColumnType("datetimeoffset");
-
                     b.Property<string>("UpdBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("UpdDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
 
@@ -108,48 +108,45 @@ namespace Automation.Infrastructure.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Cron")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.PrimitiveCollection<string>("EventId")
-                        .IsRequired()
+                    b.Property<int>("EventId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("InsBy")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset>("InsDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("InsBy")
+                    b.Property<string>("UpdBy")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset>("UpdDate")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("UpdBy")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AutomatId");
 
-                    b.ToTable("Trigger");
+                    b.ToTable("Triggers");
                 });
 
             modelBuilder.Entity("Automation.Domain.Entities.Task", b =>
                 {
                     b.HasOne("Automation.Domain.Entities.Automat", null)
                         .WithMany("Tasks")
-                        .HasForeignKey("AutomatId");
+                        .HasForeignKey("AutomatId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Automation.Domain.Entities.Trigger", b =>
                 {
                     b.HasOne("Automation.Domain.Entities.Automat", null)
                         .WithMany("Triggers")
-                        .HasForeignKey("AutomatId");
+                        .HasForeignKey("AutomatId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Automation.Domain.Entities.Automat", b =>

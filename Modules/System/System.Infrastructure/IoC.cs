@@ -38,6 +38,7 @@ namespace System.Infrastructure
         {
             return serviceDescriptors.AddScoped<IControllerService, ControllerService>()
                 .AddScoped<INotifier, Notifier>()
+                .AddScoped<IUserService, UserService>()
                 .AddScoped<IEntityContext, EntityContext>()
                 .AddScoped<IMediaProvider, CachedMediaService>();
         }
@@ -52,6 +53,8 @@ namespace System.Infrastructure
 
         public static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration configuration)
         {
+            var frontendUrl = AppConfiguration.GetValue<string[]>("FrontendUrl") ?? Array.Empty<string>();
+
             services.AddIdentity<User, IdentityRole>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
@@ -110,7 +113,7 @@ namespace System.Infrastructure
                   policy.AllowAnyHeader();
                   policy.AllowAnyMethod();
                   policy.AllowCredentials()
-                        .SetIsOriginAllowed(origin => true);
+                        .SetIsOriginAllowed(origin => frontendUrl.Length == 0 || frontendUrl.Contains(origin));
               }));
             services.AddScoped<IAuthService, AuthService>();
 

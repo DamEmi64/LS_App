@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import {
     Box,
     Button,
+    Checkbox,
     FormControl,
+    FormControlLabel,
     Grid,
     InputLabel,
     MenuItem,
@@ -58,7 +60,6 @@ export const Filter: React.FC<FilterProps> = ({ filters, onChange }) => {
         <Grid container spacing={2} p={2}>
             {filters.map((filter) => {
                 switch (filter.type) {
-
                     case "date":
                         return (
                             <Grid key={filter.field + '_filter'}>
@@ -174,11 +175,31 @@ export const Filter: React.FC<FilterProps> = ({ filters, onChange }) => {
                                 />
                             </Grid>
                         );
+                    case "boolean":
+                        return (
+                            <Grid key={filter.field + '_filter'}>
+                                <FormControlLabel
+                                    key={filter.field + '_filter_boolean'}
+                                    control={
+                                        <Checkbox
+                                            checked={getValue(filter.field) === true}
+                                            onChange={(e) =>
+                                                handleFilterChange(
+                                                    filter.field,
+                                                    e.target.checked
+                                                )
+                                            }
+                                        />
+                                    }
+                                    label={t(filter.name)}
+                                />
+                            </Grid>
+                        );
 
                     default:
                         return null;
-                }
-            })}
+                
+            }})}
 
             <Grid>
                 <Button onClick={resetFilter}>

@@ -21,25 +21,23 @@ import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { GridAddIcon } from "@mui/x-data-grid";
 import ArchiveTaskForm from "./Tasks/ArchiveTaskForm";
-import SummaryTaskForm from "./Tasks/SummaryRPGTaskJob";
 import { Automat, Trigger } from "@/features/automation";
 import { useTheme } from "@mui/material";
 import SummaryLastRPGTaskForm from "./Tasks/SummaryLastRPGTaskJob";
 import DownloadLastFileForm from "./Tasks/DownloadLastFile";
+import { DictionaryItem, getDictionary, useDictionaryTranslation } from "@/lib/utils";
 
 const taskTypes = [
-    { id: 1, label: "automations.actions.archive" },
-    { id: 2, label: "automations.actions.GenerateRPGSummary" },
-    { id: 3, label: "automations.actions.GenerateRPGSummary" },
-    { id: 4, label: "automations.actions.downloadLastFile" },
+    { id: 41, label: "automations.actions.archive" },
+    { id: 31, label: "automations.actions.GenerateRPGSummary" }
 ];
 
-const triggerTypes = [
-    { id: 1, label: "automations.triggers.cron" },
-    { id: 2, label: "automations.triggers.onRPGModify" }
-];
 
 export const AutomatForm = ({ initialData, onSubmit }) => {
+
+    const triggerTypes = getDictionary('Automation events');
+
+    const translateDictionary = useDictionaryTranslation();
     const { t } = useTranslation();
     const theme = useTheme();
     const textColor =
@@ -54,22 +52,13 @@ export const AutomatForm = ({ initialData, onSubmit }) => {
     const addTrigger = () => {
         const newTrigger = {
             id: crypto.randomUUID(),
-            type: 1,
             cron: "",
-            eventId: []
+            eventId: 110
         };
         setTriggers([...triggers, newTrigger]);
     };
 
     const updateTrigger = (index, updated: Trigger) => {
-        //if type is rpg changed
-        if (updated.type == 2) {
-            updated.eventId = [];
-            for (let i = 1012; i <= 1027; i++) {
-                updated.eventId.push(i);
-            }
-        }
-
         const arr = [...triggers];
         arr[index] = updated;
         setTriggers(arr);
@@ -80,7 +69,7 @@ export const AutomatForm = ({ initialData, onSubmit }) => {
     };
 
     const onSubmitInternal = (data) => {
-        onSubmit({ ...data, tasks: convertTasks(tasks), triggers: triggers });
+        onSubmit({ ...data, tasks: tasks, triggers: triggers });
     }
 
     const addTask = () => {
@@ -133,7 +122,6 @@ export const AutomatForm = ({ initialData, onSubmit }) => {
                         }
                     }
                 };
-
                 convertedTasks.push(generateStoryFromSummaryTask);
 
                 var generateSummaryJob = {
@@ -165,14 +153,14 @@ export const AutomatForm = ({ initialData, onSubmit }) => {
                     order: tasks.length + 1,
                     data: {}
                 };
-                
+
                 convertedTasks.push(generateSummaryJob);
             }
         }
 
         return convertedTasks;
     };
-
+    
     return (
         <Paper sx={{ p: 3 }}>
             <form onSubmit={handleSubmit(onSubmitInternal)}>
@@ -245,17 +233,23 @@ export const AutomatForm = ({ initialData, onSubmit }) => {
                             <FormControl fullWidth sx={{ mt: 2 }}>
                                 <InputLabel>{t("automations.triggers.type")}</InputLabel>
                                 <Select
-                                    value={tr.type}
+                                    value={tr.eventId}
                                     label={t("automations.triggers.type")}
-                                    onChange={(e) => updateTrigger(index, { ...tr, type: e.target.value })}
+                                    onChange={(e) => updateTrigger(index, { ...tr, eventId: e.target.value })}
                                 >
-                                    {triggerTypes.map((tItem) => (
-                                        <MenuItem key={tItem.id} value={tItem.id}>{t(tItem.label)}</MenuItem>
-                                    ))}
+                                    {triggerTypes.map((tItem) => {
+                                        if (tItem.key === '1') {
+                                            return (<MenuItem key={tItem.key} value={tItem.key}>{t(tItem.title)}</MenuItem>);
+                                        }
+                                        else {
+                                            return (<MenuItem key={tItem.key} value={tItem.key}>{translateDictionary('Automation events', tItem.key).title}</MenuItem>);
+                                        }
+                                        
+            })}
                                 </Select>
                             </FormControl>
 
-                            {tr.type === 1 && (
+                            {(tr.eventId === 110 || tr.eventId === '110') && (
                                 <TextField
                                     label={t("automations.triggers.cron")}
                                     sx={{ mt: 2 }}
@@ -287,8 +281,7 @@ export const AutomatForm = ({ initialData, onSubmit }) => {
                                 </Select>
                             </FormControl>
                             {task.operationId === 1 && <ArchiveTaskForm task={task} onChange={(t) => updateTask(index, t)} />}
-                            {task.operationId === 2 && <SummaryTaskForm task={task} onChange={(t) => updateTask(index, t)} />}
-                            {task.operationId === 3 && <SummaryLastRPGTaskForm task={task} onChange={(t) => updateTask(index, t)} />}
+                            {task.operationId === 31 && <SummaryLastRPGTaskForm task={task} onChange={(t) => updateTask(index, t)} />}
                             {task.operationId === 4 && <DownloadLastFileForm task={task} onChange={(t) => updateTask(index, t)} />}
                         </Paper>
                     ))}

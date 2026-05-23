@@ -1,12 +1,12 @@
-import { call, FilterItem, FilterProps, FilterType } from '@/shared';
-import { DataTable } from "@/shared/components/datatable";
+import { call, FilterItem, FilterProps, FilterType, TableColumn} from '@/shared';
+import { DataTable } from "@/shared/components/datatables/datatable";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { useModal } from "@/shared/context/modal";
 import ProcessInfo from "@/features/system/components/processInfo";
 import { FormLabel, Grid } from "@mui/material";
 import { Process } from "@/features/auth";
-import { ColumnDef, ColumnType, onChangeParams, Operations, TableData } from "@/shared";
+import { ColumnType, onChangeParams, Operations, TableData } from "@/shared";
 import { ResponseList } from '@/shared/api/extension';
 
 const Processes = () => {
@@ -45,11 +45,11 @@ const Processes = () => {
         return id;
     };
 
-    const columns: ColumnDef[] = [
+    const columns: TableColumn<Process>[] = [
         { field: 'title', header: 'processes.name', type: ColumnType.String },
         { field: 'percentage', header: 'processes.percentage', type: ColumnType.Progress },
         { field: 'startDate', header: 'processes.startingDate', type: ColumnType.Date },
-        { field: 'status', header: 'processes.status', type: ColumnType.Enum, toShow: convertProcessStatus }
+        { field: 'status', header: 'processes.status', type: ColumnType.Enum, render: (r) => convertProcessStatus(r.status) }
     ];
 
     const filters: FilterItem[] = [

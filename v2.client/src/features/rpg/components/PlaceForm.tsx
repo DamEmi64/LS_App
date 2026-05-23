@@ -9,8 +9,7 @@ import {
 } from '@mui/material';
 import { t } from 'i18next';
 import { ImageProvider } from '@/shared/components/imageProvider';
-import { ColumnDef, ColumnType, TableData } from '@/shared';
-import { GridTable } from '@/shared/components/gridTable';
+import { ColumnType, TableColumn, TableData } from '@/shared';
 import { useForm, Controller } from 'react-hook-form';
 import { SessionDto, Link } from '../types';
 import noImage from '@/assets/no-image.png';
@@ -44,7 +43,7 @@ export const PlaceForm: React.FC<PlaceForm> = ({
             defaultValues: { ...data, image: data.image || noImage },
         });
 
-    const linkColumns: ColumnDef[] = [
+    const linkColumns: TableColumn<Link>[] = [
         { field: 'title', header: 'rpg.other.title', type: ColumnType.String },
         { field: 'url', header: 'rpg.other.url', type: ColumnType.String },
     ];

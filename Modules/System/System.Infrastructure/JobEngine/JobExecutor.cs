@@ -17,7 +17,6 @@ namespace System.Infrastructure.JobEngine
         private readonly IProcessRepository _processRepository;
         private readonly IJobRepository _jobRepository;
         private readonly IServiceProvider _serviceProvider;
-        private readonly List<INotifier> _notifiers;
         private readonly EntityContext _entityContext;
 
         public JobExecutor(IProcessRepository processRepository,
@@ -27,7 +26,6 @@ namespace System.Infrastructure.JobEngine
             _processRepository = processRepository;
             _jobRepository = jobRepository;
             _serviceProvider = serviceProvider;
-            _notifiers = serviceProvider.GetServices<INotifier>().ToList();
             _entityContext = serviceProvider.GetRequiredService<IEntityContext>() as EntityContext ?? throw new NullReferenceException();
         }
 
@@ -47,7 +45,6 @@ namespace System.Infrastructure.JobEngine
             {
                 process.StartDate = DateTime.Now;
                 await _processRepository.Update(process);
-                await Notify(NotifyTypes.ProcessStart, process.Title);
             }
 
             if (process.Status != ProgressStatus.Executing)
@@ -63,7 +60,6 @@ namespace System.Infrastructure.JobEngine
                 process.Status = ProgressStatus.Success;
                 process.EndDate = DateTimeOffset.Now;
                 await _processRepository.Update(process);
-                await Notify(NotifyTypes.ProcessCompleted, process.Title);
                 return;
             }
 
@@ -119,26 +115,15 @@ namespace System.Infrastructure.JobEngine
                 process.Status = ProgressStatus.Paused;
                 await _processRepository.Update(process);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 dbJob.Status = ProgressStatus.Failed;
                 dbJob.EndDate = DateTimeOffset.Now;
                 process.Status = ProgressStatus.Failed;
                 await _jobRepository.Update(dbJob);
                 await _processRepository.Update(process);
-                await NotifyError(NotifyTypes.ProcessError, process.Title, ex.Message);
                 throw;
             }
-        }
-
-        private Task Notify(int messageId, params object[] args)
-        {
-            return Task.WhenAll(_notifiers.Select(n => n.Process(messageId, args)));
-        }
-
-        private Task NotifyError(int messageId, params object[] args)
-        {
-            return Task.WhenAll(_notifiers.Select(n => n.ProcessError(messageId, args)));
         }
 
         private Task EndProcess(Process process)

@@ -20,7 +20,7 @@ namespace Translations
         private const string FR = "fr";
         private const string DE = "de";
 
-        private const string ConnString = @"Server=(localdb)\MSSQLLocalDB;Database=AppContext-dev;Trusted_Connection=True;MultipleActiveResultSets=true";
+        private const string ConnString = @"Server=(localdb)\MSSQLLocalDB;Database=AppContext;Trusted_Connection=True;MultipleActiveResultSets=true";
 
         public TranslationContext()
         {
@@ -211,7 +211,7 @@ namespace Translations
             Save(output, "de", "dictionaries.json", translatedDe);
             Save(output, "fr", "dictionaries.json", translatedFr);
 
-            File.WriteAllText("dictionaries.json", JsonConvert.SerializeObject(Dictionaries));
+            File.WriteAllText("dictionaries.json", JsonConvert.SerializeObject(Dictionaries, Formatting.Indented));
         }
 
         private void LoadTranslations()
@@ -282,7 +282,7 @@ namespace Translations
             GenerateTranslationObject(output, "de");
             GenerateTranslationObject(output, "en");
 
-            File.WriteAllText("translations.json", JsonConvert.SerializeObject(Translations));
+            File.WriteAllText("translations.json", JsonConvert.SerializeObject(Translations, Formatting.Indented));
         }
 
         private void GenerateTranslationObject(string output, string lang)
@@ -340,7 +340,7 @@ namespace Translations
 
             File.WriteAllText(
                 System.IO.Path.Combine(langFolder, title),
-                JsonConvert.SerializeObject(data));
+                JsonConvert.SerializeObject(data, Formatting.Indented)); ;
         }
 
     }

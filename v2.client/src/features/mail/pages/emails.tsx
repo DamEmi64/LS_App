@@ -13,10 +13,10 @@ import { useModal } from "@/shared/context/modal";
 import { call } from "@/shared";
 import { useAuth } from "@/features/auth/context/authProvider";
 
-import { DataTable } from "@/shared/components/datatable";
+import { DataTable } from "@/shared/components/datatables/datatable";
 
 import {
-    ColumnDef,
+    TableColumn,
     ColumnType,
     FilterItem,
     FilterType,
@@ -154,7 +154,7 @@ const Emails: React.FC = () => {
     };
 
     // 📊 COLUMNS
-    const columns: ColumnDef[] = [
+    const columns: TableColumn<Email>[] = [
         { field: "subject", header: "communication.email.subject", type: ColumnType.String },
         { field: "sender", header: "communication.email.sender.title", type: ColumnType.String },
         { field: "recipient", header: "communication.email.recipient.title", type: ColumnType.String },

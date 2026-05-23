@@ -17,6 +17,9 @@ import TemplateImg from "@/assets/template.jpg";
 import Emails from "@/features/mail/pages/emails";
 import EmailImg from "@/assets/emails.jpg";
 
+import EventsPage from "@/features/events/pages/allPage";
+import MyEventsPage from "@/features/events/pages/myPage";
+
 import RPG from "@/features/rpg/pages/Page";
 import RPGImg from "@/assets/rpg.jpg";
 import PlayerPage from "@/features/rpg/pages/PlayerPage";
@@ -31,7 +34,7 @@ import SlideRoutes from 'react-slide-routes';
 import "@/shared/localization/i18n"; // Ensure i18n is initialized
 import { AuthProvider } from "@/features/auth/context/authProvider";
 import { ModalProvider } from "@/shared/context/modal";
-import { ThemeProvider, createTheme } from '@mui/material/styles';
+import { ThemeProvider, alpha, createTheme } from '@mui/material/styles';
 import { ErrorHandlerProvider } from "@/shared/context/errorHandler";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -49,6 +52,8 @@ const theme = createTheme({
     },
 });
 
+(theme as typeof theme & { alpha: typeof alpha }).alpha = alpha;
+
 const menu: NavbarItemProps[] = [
     { label: 'home', href: '/', submenu: [] },
     { label: 'files', href: '/Files', submenu: [], permissions: ['files'] },
@@ -63,6 +68,21 @@ const menu: NavbarItemProps[] = [
                 submenu: []
             },
         ], permissions: ['communication']
+    },
+    {
+        label: 'events', href: '', submenu: [
+            {
+                label: 'allEvents', href: '/events',
+                submenu: [],
+                permissions: ['events']
+            },
+            {
+                label: 'myEvents', href: '/events/me',
+                submenu: [],
+                permissions: ['events']
+            },
+        ],
+        permissions: ['events']
     },
     {
         label: 'rpg_sessions', href: '', submenu: [
@@ -95,6 +115,8 @@ const App = () => (
                                         <Route path="/processes" element={<Layout content={Processes} image={ProcessesImg} title={'menu.processes'} permissions={['processes']} menu={menu} />} />
                                         <Route path="/files" element={<Layout content={Files} image={FilesImg} title={'menu.files'} permissions={['files']} menu={menu} />} />
                                         <Route path="/emails" element={<Layout content={Emails} image={EmailImg} title={'menu.emails'} permissions={['communication']} menu={menu} />} />
+                                        <Route path="/events" element={<Layout content={EventsPage} image={IndexImg} title={'menu.events'} menu={menu} />} />
+                                        <Route path="/events/me" element={<Layout content={MyEventsPage} image={IndexImg} title={'menu.myEvents'} menu={menu} />} />
                                         <Route path="/templates" element={<Layout content={Templates} image={TemplateImg} title={'menu.templates'} permissions={['communication']} menu={menu} />} />
                                         <Route path="/rpg/playerData" element={<Layout content={PlayerPage} image={RPGImg} title={'menu.rpg_sessions'} permissions={['rpg']} menu={menu} />} />
                                         <Route path="/rpg/playerView" element={<Layout content={PlayerViewPage} image={RPGImg} title={'menu.rpg_sessions'} menu={menu} allowAnonymous />} />

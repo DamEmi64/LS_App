@@ -1,13 +1,7 @@
-import { useModal, call, Operations } from "@/shared";
-import OperationCell from "@/shared/components/operationCell";
+import { useModal, call, Operations, ExpandableTable } from "@/shared";
 import YesNoWindow from "@/shared/components/YesNoWindow";
 
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableRow,
-    Box,
     useMediaQuery,
     useTheme
 } from "@mui/material";
@@ -138,41 +132,24 @@ export const HeroTable: React.FC<HeroTableProps> = ({
     };
 
     return (
-        <Box sx={{ width: "100%", overflowX: "auto" }}>
-            <Table size={isMobile ? "small" : "medium"}>
-
-                <TableBody>
-                    {/* HEADER ROW */}
-                    <TableRow sx={{ fontWeight: "bold" }} key={'0_hero'}>
-                        <TableCell>{t('rpg.hero.firstName')}</TableCell>
-                        <TableCell>{t('rpg.hero.lastName')}</TableCell>
-                        <TableCell>{t('rpg.hero.player')}</TableCell>
-                        <TableCell />
-                    </TableRow>
-
-                    {/* DATA */}
-                    {heroes?.map((hero: Hero) => (
-                        <TableRow key={hero.id ?? `${hero.firstName}-${hero.lastName}`}>
-                            <TableCell sx={{ py: isMobile ? 1 : 1.5 }}>
-                                {hero.firstName}
-                            </TableCell>
-
-                            <TableCell sx={{ py: isMobile ? 1 : 1.5 }}>
-                                {hero.lastName}
-                            </TableCell>
-
-                            <TableCell sx={{ py: isMobile ? 1 : 1.5 }}>
-                                {hero.player}
-                            </TableCell>
-
-                            <TableCell sx={{ whiteSpace: "nowrap" }}>
-                                <OperationCell operations={operations} data={hero} />
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-
-            </Table>
-        </Box>
+        <ExpandableTable
+            rows={heroes}
+            getRowId={x => x.id}
+            operations={operations}
+            columns={[
+                {
+                    field: "firstName",
+                    header: t('rpg.hero.firstName')
+                },
+                {
+                    field: "lastName",
+                    header: t('rpg.hero.lastName')
+                },
+                {
+                    field: "player",
+                    header: t('rpg.hero.player')
+                }
+            ]}
+        />
     );
 };

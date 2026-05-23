@@ -3,12 +3,12 @@ import { Button, Grid, InputLabel } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useModal } from "@/shared/context/modal";
 import YesNoWindow from "@/shared/components/YesNoWindow";
-import { DataTable } from "@/shared/components/datatable";
+import { DataTable } from "@/shared/components/datatables/datatable";
 import {call} from "@/shared";
 import { AutomatForm } from "@/features/automation/components/AutomatForm";
 
 import {
-  ColumnDef,
+  TableColumn,
   ColumnType,
   FilterItem,
   FilterType,
@@ -116,16 +116,14 @@ const List: React.FC = () => {
   };
 
   // Columns, filters, operations
-  const columns: ColumnDef[] = [
+  const columns: TableColumn<Automat>[] = [
     { field: "title", header: "automations.title", type: ColumnType.String },
     { field: "description", header: "automations.description", type: ColumnType.String },
     { field: "active", header: "automations.active", type: ColumnType.Boolean }
   ];
 
   const filters: FilterItem[] = [
-    { field: "title", name: "automations.title", type: FilterType.String },
-    { field: "frequency", name: "automations.frequency", type: FilterType.Date },
-    { field: "active", name: "automations.active", type: FilterType.Boolean }
+    { field: "title", name: "automations.title", type: FilterType.String }
   ];
 
   const operations: Operations<Automat>[] = [

@@ -1,6 +1,7 @@
 ﻿using Automation.Domain.Repositories;
 using Automation.Infrastructure.Services.AutomationService;
 using Base;
+using Base.Automation;
 
 namespace Automation.Infrastructure.Services.NotifyListener
 {
@@ -8,11 +9,13 @@ namespace Automation.Infrastructure.Services.NotifyListener
     {
         private readonly IAutomationService _automationService;
         private readonly IAutomatRepository _automatRepository;
+        private readonly List<IAutomationResolver> _resolvers;
 
-        public NotifyListener(IAutomatRepository automatRepository, IAutomationService automationService)
+        public NotifyListener(IAutomatRepository automatRepository, IAutomationService automationService, IEnumerable<IAutomationResolver> resolvers)
         {
             _automatRepository = automatRepository;
             _automationService = automationService;
+            _resolvers = resolvers.ToList();
         }
 
         public Task Error(int messageId, params object[] args)
@@ -47,7 +50,11 @@ namespace Automation.Infrastructure.Services.NotifyListener
 
         private async Task CheckAutomats(int messageId)
         {
-            var automats = _automatRepository.TriggeredByEvent(messageId);
+            var eventIds = _resolvers.Select(r => r.ConvertToEventId(messageId))
+                                        .Where(id => id.HasValue)
+                                        .Select(id => id!.Value).ToArray();
+
+            var automats = _automatRepository.TriggeredByEvent(eventIds);
 
             foreach (var automat in automats)
             {

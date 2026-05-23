@@ -108,7 +108,7 @@ namespace RPG.Application.Controllers
                 fileName = dto.File.FileName;
             }
 
-            var job = await _importService.ImportFromFile(dto.File ?? null, dto.ConverterType, dto.ExternalUrl, await GetCurrentUser() ?? new UserData { UserId = Guid.Empty.ToString() });
+            var job = await _importService.ImportFromFile(dto.File ?? null, dto.ConverterType, dto.ExternalUrl, CurrentUser ?? new UserData { UserId = Guid.Empty.ToString() });
 
             await Notifier.Success(NotifyTypes.ProcessQueued, job);
 
@@ -184,7 +184,7 @@ namespace RPG.Application.Controllers
         [HttpPut("{id}/summary")]
         public async Task<IActionResult> GenerateSummary(Guid id, [FromBody] SummaryModel dto)
         {
-            var title = await _summaryService.QueueGenerateSummaryJob(id, dto, await GetCurrentUser() ?? new UserData() { Id = 0, UserId = Guid.Empty.ToString() }, dto.IsPdf);
+            var title = await _summaryService.QueueGenerateSummaryJob(id, dto, CurrentUser ?? new UserData() { Id = 0, UserId = Guid.Empty.ToString() }, dto.IsPdf);
             await Notifier.Success(NotifyTypes.ProcessQueued, title);
             return Ok();
         }
@@ -192,7 +192,7 @@ namespace RPG.Application.Controllers
         [HttpPut("{id}/firebase")]
         public async Task<IActionResult> SendToFirebase(Guid id, [FromBody] SummaryModel dto)
         {
-            var title = await _summaryService.QueueSendToFirebaseJob(id, dto, await GetCurrentUser() ?? new UserData() { Id = 0, UserId = Guid.Empty.ToString() });
+            var title = await _summaryService.QueueSendToFirebaseJob(id, dto, CurrentUser ?? new UserData() { Id = 0, UserId = Guid.Empty.ToString() });
             await Notifier.Success(NotifyTypes.ProcessQueued, title);
             return Ok();
         }

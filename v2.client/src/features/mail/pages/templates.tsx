@@ -12,10 +12,10 @@ import { useTranslation } from "react-i18next";
 import { useModal } from "@/shared/context/modal";
 import { useAuth } from "@/features/auth/context/authProvider";
 
-import { DataTable } from "@/shared/components/datatable";
+import { DataTable } from "@/shared/components/datatables/datatable";
 
 import {
-    ColumnDef,
+    TableColumn,
     ColumnType,
     FilterItem,
     FilterType,
@@ -184,7 +184,7 @@ const Templates: React.FC = () => {
     };
 
     // 📊 TABLE CONFIG
-    const columns: ColumnDef[] = [
+    const columns: TableColumn<Template>[] = [
         {
             field: "subject",
             header: "communication.template.subject",

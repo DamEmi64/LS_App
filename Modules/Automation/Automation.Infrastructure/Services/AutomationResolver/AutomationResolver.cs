@@ -8,6 +8,12 @@ namespace Automation.Infrastructure.Services
 {
     public class AutomationResolver : IAutomationResolver
     {
+        public int? ConvertToEventId(int notifyTypeId)
+           => notifyTypeId switch
+           {
+               _ => null
+           };
+
         public void Resolve(IProcessSchema schema, IEnumerable<AutomationTask> tasks)
         {
             var currentSchema = schema;

@@ -31,7 +31,7 @@ namespace System.Infrastructure.JobEngine
 
         public IProcessSchema Create(string title) => new ProcessSchema(title);
 
-        public async Task Execute(IProcessSchema schema, UserData userData)
+        public async Task<Guid> Execute(IProcessSchema schema, UserData userData)
         {
             Validate(schema, userData);
 
@@ -52,6 +52,8 @@ namespace System.Infrastructure.JobEngine
             }));
 
             _backgroundJobClient.Reschedule(root, DateTimeOffset.Now.AddSeconds(1));
+
+            return schemaObject.Process.Id;
         }
 
         private void Validate(IProcessSchema schema, UserData userData)
@@ -72,7 +74,6 @@ namespace System.Infrastructure.JobEngine
                 var operation = _connector.GetOperation(job.OperationId);
                 ArgumentNullException.ThrowIfNull(operation, $"Operation {job.OperationId} not found");
                 var taskname = $"[{process.Id}:{process.Title}] {job.Name}";
-
                 var jobId = _backgroundJobClient.ContinueJobWith(root, operation.Queue, () => ExecuteJob(taskname, job, process.Id, null));
                 SetJobId(process, job, jobId);
                 stack.Push((job.Children, jobId));
@@ -114,6 +115,16 @@ namespace System.Infrastructure.JobEngine
         [DisplayName("[PROCESS START] {0}")]
         public void ProcessStart(string title)
         {
+        }
+
+        public async Task Cancel(Guid processId)
+        {
+            var process = await _processRepository.Get(processId);
+            ArgumentNullException.ThrowIfNull(process);
+            foreach(var job in process.Jobs)
+            {
+                _backgroundJobClient.Delete(job.JobId);
+            }
         }
     }
 }
