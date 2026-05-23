@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Core\AutomationBase\AutomationBase.csproj" />
     <ProjectReference Include="..\Events.Domain\Events.Domain.csproj" />
+    <ProjectReference Include="..\Events.Extras\Events.Extras.csproj" />
   </ItemGroup>
 
 </Project>

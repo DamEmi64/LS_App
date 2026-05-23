@@ -33,6 +33,7 @@ namespace Communication.Infrastructure.Services.EmailSender
                     };
                 }
 
+                mail.Sender = new MailAddress(_options.ApiEmail, from);
                 mail.From = new MailAddress(_options.ApiEmail, from);
 
                 mail.To.Add(to);

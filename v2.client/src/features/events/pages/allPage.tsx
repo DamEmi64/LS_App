@@ -12,6 +12,7 @@ import {
 import { useTranslation } from "react-i18next";
 
 import EventComponent from "@/features/events/components/eventComponent";
+import ReminderSetup from "@/features/events/components/reminderSetup";
 import { EventBody, EventParticipant } from "@/features/events/types";
 import { useModal } from "@/shared/context/modal";
 import YesNoWindow from "@/shared/components/YesNoWindow";
@@ -21,6 +22,7 @@ import { ResponseList } from "@/shared/api/extension";
 
 const toEventBody = (event: EventDto): EventBody => ({
     title: event.title || "",
+    eventDate: event.eventDate || "",
     description: event.description || "",
     image: "",
     participants: (event.participates || []).map<EventParticipant>((participant) => ({
@@ -174,6 +176,49 @@ const EventsPage: React.FC = () => {
         });
     };
 
+    const sendInvitation = (event: EventDto) => {
+        if (!event.id) return;
+
+        call(api => api.eventClient.createByIdInvitation, { id: event.id }).then(() => {
+            refresh();
+            reloadExpanded(event);
+        });
+    };
+
+    const setReminder = (event: EventDto) => {
+        if (!event.id) return;
+
+        modal.showModal(
+            <ReminderSetup
+                onSubmit={(reminderDate) => saveReminder(event, reminderDate)}
+                onCancel={modal.hideModal}
+            />
+        );
+    };
+
+    const saveReminder = (event: EventDto, reminderDate: Date | null) => {
+        if (!event.id || !reminderDate) return;
+
+        call(api => api.eventClient.createByIdReminder, {
+            id: event.id,
+            reminderDto: {
+                reminderDate: reminderDate.toISOString()
+            }
+        }).then(() => {
+            refresh();
+            reloadExpanded(event);
+        });
+    };
+
+    const removeReminder = (event: EventDto) => {
+        if (!event.id) return;
+
+        call(api => api.eventClient.deleteByIdReminder, { id: event.id }).then(() => {
+            refresh();
+            reloadExpanded(event);
+        });
+    };
+
     const columns: TableColumn<EventDto>[] = [
         { field: "title", header: "events.title", type: ColumnType.String, sortable: true },
         { field: "eventDate", header: "events.eventDate", type: ColumnType.Date, sortable: true },
@@ -191,6 +236,9 @@ const EventsPage: React.FC = () => {
         { name: "opt.delete", method: del },
         { name: "events.signIn", method: signIn },
         { name: "events.signOut", method: signOut },
+        { name: "events.sendInvitation", method: sendInvitation },
+        { name: "events.setReminder", method: setReminder },
+        { name: "events.removeReminder", method: removeReminder },
     ];
 
     useEffect(() => {
