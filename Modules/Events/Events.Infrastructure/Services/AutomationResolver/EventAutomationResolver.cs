@@ -10,14 +10,22 @@ namespace Events.Infrastructure.Services.AutomationResolver
 {
     public class EventAutomationResolver : IAutomationResolver
     {
-        private readonly IControllerService _controllerService;
         private readonly IEventRepository _eventRepository;
+        private readonly IUserService _userService;
 
-        public EventAutomationResolver(IControllerService controllerService, IEventRepository eventRepository)
+        public EventAutomationResolver(IEventRepository eventRepository, IUserService userService)
         {
-            _controllerService = controllerService;
             _eventRepository = eventRepository;
+            _userService = userService;
         }
+
+        public int? ConvertToEventId(int notifyTypeId)
+         => true switch
+         {
+             true when EventNotifyTypes.EventCreated is { Key: var k1 } && k1 == notifyTypeId => AutomationEvents.EventCreated?.Key,
+             true when EventNotifyTypes.EventSignIn is { Key: var k1 } && k1 == notifyTypeId => AutomationEvents.UserSignIn?.Key,
+             _ => null
+         };
 
         public void Resolve(IProcessSchema schema, IEnumerable<AutomationTask> tasks)
         {
@@ -54,7 +62,7 @@ namespace Events.Infrastructure.Services.AutomationResolver
                     if (lastAddedEvent is null || lastAddedEvent.EventDate is null)
                         continue;
 
-                    foreach (var user in _controllerService.Users)
+                    foreach (var user in _userService.Users)
                     {
                         var job = new SendInvitationJob
                         {

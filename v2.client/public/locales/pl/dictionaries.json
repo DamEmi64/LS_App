@@ -1,258 +1,564 @@
 {
-    "Fluid_functions": {
-        "601": {
-            "title": "Liczba losowa",
-            "description": ""
-        },
-        "602": {
-            "title": "Losowy",
-            "description": ""
-        },
-        "603": {
-            "title": "Losowy unikalny",
-            "description": ""
-        },
-        "604": {
-            "title": "Zwiększ",
-            "description": ""
-        }
+  "Automation_events": {
+    "110": {
+      "title": "Częstotliwość (w minutach)",
+      "description": ""
     },
-    "Fluid_variables": {
-        "605": {
-            "title": "Dane użytkownika",
-            "description": ""
-        },
-        "606": {
-            "title": "Nadawca",
-            "description": ""
-        },
-        "607": {
-            "title": "Odbiorca",
-            "description": ""
-        },
-        "608": {
-            "title": "Odbiorcy",
-            "description": ""
-        },
-        "609": {
-            "title": null,
-            "description": null
-        }
+    "111": {
+      "title": "Przy pobieraniu pliku",
+      "description": null
     },
-    "Notify_types": {
-        "1000": {
-            "title": "Log",
-            "description": ""
-        },
-        "1001": {
-            "title": "Błąd wewnętrznego procesu {0}",
-            "description": ""
-        },
-        "1002": {
-            "title": "Proces {0} rozpoczęty",
-            "description": ""
-        },
-        "1003": {
-            "title": "Proces {0} zakończony",
-            "description": ""
-        },
-        "1004": {
-            "title": "Proces {0} zakończony błędem",
-            "description": ""
-        },
-        "1005": {
-            "title": "Proces {0} dodany do kolejki",
-            "description": ""
-        },
-        "1012": {
-            "title": "Sesja {0} zapisana",
-            "description": ""
-        },
-        "1013": {
-            "title": "Sesja {0} usunięta",
-            "description": ""
-        },
-        "1014": {
-            "title": "Sesja {0} zaktualizowana",
-            "description": ""
-        },
-        "1015": {
-            "title": "Sesja {0} nie znaleziona",
-            "description": ""
-        },
-        "1016": {
-            "title": "Rozdział {0} zapisany",
-            "description": ""
-        },
-        "1017": {
-            "title": "Rozdział {0} usunięty",
-            "description": ""
-        },
-        "1018": {
-            "title": "Rozdział {0} zaktualizowany",
-            "description": ""
-        },
-        "1019": {
-            "title": "Rozdział {0} nie znaleziony",
-            "description": ""
-        },
-        "1020": {
-            "title": "Bohater {0} zapisany",
-            "description": ""
-        },
-        "1021": {
-            "title": "Bohater {0} usunięty",
-            "description": ""
-        },
-        "1022": {
-            "title": "Bohater {0} zaktualizowany",
-            "description": ""
-        },
-        "1023": {
-            "title": "Bohater {0} nie znaleziony",
-            "description": ""
-        },
-        "1024": {
-            "title": "Miejsce {0} zapisane",
-            "description": ""
-        },
-        "1025": {
-            "title": "Miejsce {0} usunięte",
-            "description": ""
-        },
-        "1026": {
-            "title": "Miejsce {0} zaktualizowane",
-            "description": ""
-        },
-        "1027": {
-            "title": "Miejsce {0} nie znalezione",
-            "description": ""
-        },
-        "1030": {
-            "title": "Logowanie zakończone sukcesem",
-            "description": ""
-        },
-        "1031": {
-            "title": "Logowanie zakończone niepowodzeniem",
-            "description": ""
-        },
-        "1032": {
-            "title": "Nieprawidłowe hasło",
-            "description": ""
-        },
-        "1033": {
-            "title": "Konto zablokowane",
-            "description": ""
-        },
-        "1034": {
-            "title": "Niepowodzenie uwierzytelniania dwuskładnikowego",
-            "description": ""
-        },
-        "1035": {
-            "title": "Rejestracja zakończona sukcesem",
-            "description": ""
-        },
-        "1036": {
-            "title": "Rejestracja zakończona niepowodzeniem",
-            "description": ""
-        },
-        "1037": {
-            "title": "Email wysłany pomyślnie",
-            "description": ""
-        },
-        "1038": {
-            "title": "Email wygenerowany pomyślnie",
-            "description": ""
-        },
-        "1039": {
-            "title": "Hasło zbyt krótkie",
-            "description": ""
-        },
-        "1040": {
-            "title": "Hasło wymaga znaku niealfanumerycznego",
-            "description": ""
-        },
-        "1041": {
-            "title": "Hasło wymaga cyfry",
-            "description": ""
-        },
-        "1042": {
-            "title": "Hasło wymaga małej litery",
-            "description": ""
-        },
-        "1043": {
-            "title": "Hasło wymaga dużej litery",
-            "description": ""
-        }
+    "112": {
+      "title": "Przy utworzeniu wydarzenia",
+      "description": null
     },
-    "Operations": {
-        "21": {
-            "title": "Wyślij e-mail",
-            "description": ""
-        },
-        "22": {
-            "title": "Generuj z szablonu",
-            "description": ""
-        },
-        "31": {
-            "title": "Generuj podsumowanie sesji RPG",
-            "description": "Zadanie generowania podsumowania sesji RPG"
-        },
-        "32": {
-            "title": "Wyślij dane RPG do aplikacji Firebase",
-            "description": "Zadanie wysyłania danych RPG do aplikacji Firebase"
-        },
-        "33": {
-            "title": "Pobierz ostatnie dane RPG",
-            "description": "Zadanie pobierania ostatnich danych RPG"
-        },
-        "34": {
-            "title": "Generuj historię ze streszczenia",
-            "description": "Zadanie generowania historii ze streszczenia"
-        },
-        "35": {
-            "title": "Importuj RPG z pliku",
-            "description": "Zadanie importowania RPG z pliku"
-        },
-        "40": {
-            "title": "Uruchom automat",
-            "description": ""
-        },
-        "41": {
-            "title": "Archiwizuj dane",
-            "description": ""
-        }
+    "113": {
+      "title": "Przy zapisie na wydarzenie",
+      "description": null
     },
-    "RPG_file_types": {
-        "501": {
-            "title": "JSON",
-            "description": ""
-        },
-        "502": {
-            "title": "Stary JSON (NIEOBSŁUGIWANY)",
-            "description": ""
-        },
-        "503": {
-            "title": "Dane Firebase",
-            "description": ""
-        }
+    "114": {
+      "title": "Przy edycji sesji RPG",
+      "description": null
     },
-    "Skill_category": {
-        "401": {
-            "title": "Siła",
-            "description": ""
-        },
-        "402": {
-            "title": "Zręczność",
-            "description": ""
-        },
-        "403": {
-            "title": "Inteligencja",
-            "description": ""
-        },
-        "404": {
-            "title": "Komunikacja",
-            "description": ""
-        }
+    "115": {
+      "title": "Przy zapisaniu pliku",
+      "description": null
     }
+  },
+  "Event_category": {
+    "421": {
+      "title": "Film",
+      "description": null
+    },
+    "422": {
+      "title": "Koncert",
+      "description": null
+    },
+    "423": {
+      "title": "Wakacje/Urlop",
+      "description": null
+    },
+    "424": {
+      "title": "Spotkanie",
+      "description": null
+    }
+  },
+  "File_source_type": {
+    "300": {
+      "title": "Lokalny",
+      "description": null
+    },
+    "301": {
+      "title": "z serwisu FuckingFast",
+      "description": null
+    }
+  },
+  "File_types": {
+    "101": {
+      "title": "Gry",
+      "description": null
+    },
+    "102": {
+      "title": "Dokumenty",
+      "description": null
+    },
+    "103": {
+      "title": "Pliki na studia",
+      "description": null
+    }
+  },
+  "Fluid_functions": {
+    "601": {
+      "title": "Losowanie liczby",
+      "description": null
+    },
+    "602": {
+      "title": "Losowanie",
+      "description": null
+    },
+    "603": {
+      "title": "Uniikalne losowanie",
+      "description": null
+    },
+    "604": {
+      "title": "Zwiększenie",
+      "description": null
+    }
+  },
+  "Fluid_variables": {
+    "605": {
+      "title": "Użytkownik",
+      "description": "User"
+    },
+    "606": {
+      "title": "Nadawca",
+      "description": null
+    },
+    "607": {
+      "title": "Odbiorca",
+      "description": null
+    },
+    "608": {
+      "title": "Odbiorcy",
+      "description": null
+    },
+    "609": {
+      "title": "Licznik",
+      "description": ""
+    }
+  },
+  "Game_genres": {
+    "200": {
+      "title": "Platformówka",
+      "description": null
+    },
+    "201": {
+      "title": "Strzelanka",
+      "description": null
+    },
+    "202": {
+      "title": "Strzelanka pierwszoosobowa",
+      "description": null
+    },
+    "203": {
+      "title": "Strzelanka trzecioosobowa",
+      "description": null
+    },
+    "204": {
+      "title": "Bijatyka",
+      "description": null
+    },
+    "205": {
+      "title": "Skradanka",
+      "description": null
+    },
+    "206": {
+      "title": "Survival",
+      "description": null
+    },
+    "210": {
+      "title": "Przygodowa akcja",
+      "description": null
+    },
+    "211": {
+      "title": "Przygodowa narracyjna",
+      "description": null
+    },
+    "212": {
+      "title": "Point and Click",
+      "description": null
+    },
+    "220": {
+      "title": "Akcyjne RPG",
+      "description": null
+    },
+    "221": {
+      "title": "Turowe RPG",
+      "description": null
+    },
+    "222": {
+      "title": "Taktyczne RPG",
+      "description": null
+    },
+    "223": {
+      "title": "MMORPG",
+      "description": null
+    },
+    "224": {
+      "title": "RPG z otwartym światem",
+      "description": null
+    },
+    "230": {
+      "title": "Symulator życia",
+      "description": null
+    },
+    "231": {
+      "title": "Symulator farmy",
+      "description": null
+    },
+    "232": {
+      "title": "Symulator pojazdów",
+      "description": null
+    },
+    "233": {
+      "title": "Budowanie miasta",
+      "description": null
+    },
+    "240": {
+      "title": "Strategia czasu rzeczywistego",
+      "description": null
+    },
+    "241": {
+      "title": "Strategia turowa",
+      "description": null
+    },
+    "242": {
+      "title": "Tower Defense",
+      "description": null
+    },
+    "243": {
+      "title": "Strategia 4X",
+      "description": null
+    },
+    "250": {
+      "title": "Klasyczna gra logiczna",
+      "description": null
+    },
+    "251": {
+      "title": "Gra logiczna oparta na fizyce",
+      "description": null
+    },
+    "252": {
+      "title": "Dopasuj 3",
+      "description": null
+    },
+    "260": {
+      "title": "Sport tradycyjny",
+      "description": null
+    },
+    "261": {
+      "title": "Sport ekstremalny",
+      "description": null
+    },
+    "262": {
+      "title": "Wyścigi",
+      "description": null
+    },
+    "270": {
+      "title": "Bijatyka tradycyjna",
+      "description": null
+    },
+    "271": {
+      "title": "Bijatyka platformowa",
+      "description": null
+    },
+    "280": {
+      "title": "Survival horror",
+      "description": null
+    },
+    "281": {
+      "title": "Horror psychologiczny",
+      "description": null
+    },
+    "290": {
+      "title": "Gra imprezowa",
+      "description": null
+    },
+    "291": {
+      "title": "Gra rytmiczna",
+      "description": null
+    },
+    "299": {
+      "title": "Inne",
+      "description": null
+    }
+  },
+  "Notify_types": {
+    "1000": {
+      "title": "Log",
+      "description": null
+    },
+    "1001": {
+      "title": "Wewnętrzny błąd systemu",
+      "description": null
+    },
+    "1002": {
+      "title": "Proces {0} rozpoczęty",
+      "description": null
+    },
+    "1003": {
+      "title": "Zakończono proces {0}",
+      "description": null
+    },
+    "1004": {
+      "title": "Zakończono proces {0} niepowodzeniem",
+      "description": null
+    },
+    "1005": {
+      "title": "Dodano proces {0} do kolejki",
+      "description": null
+    },
+    "1006": {
+      "title": "Zapisano plik {0}",
+      "description": null
+    },
+    "1007": {
+      "title": "Usunięto plik {0}",
+      "description": null
+    },
+    "1008": {
+      "title": "Zaktualizowano plik {0}",
+      "description": null
+    },
+    "1009": {
+      "title": "Nie znaleziono pliku",
+      "description": null
+    },
+    "1010": {
+      "title": "Plik {0} już istnieje",
+      "description": null
+    },
+    "1011": {
+      "title": "Zapis pliku {0} nie udał się",
+      "description": null
+    },
+    "1012": {
+      "title": "Sesja {0} zapisana",
+      "description": ""
+    },
+    "1013": {
+      "title": "Sesja {0} usunięta",
+      "description": ""
+    },
+    "1014": {
+      "title": "Sesja {0} zaktualizowana",
+      "description": ""
+    },
+    "1015": {
+      "title": "Sesja {0} nie znaleziona",
+      "description": ""
+    },
+    "1016": {
+      "title": "Rozdział {0} zapisany",
+      "description": ""
+    },
+    "1017": {
+      "title": "Rozdział {0} usunięty",
+      "description": ""
+    },
+    "1018": {
+      "title": "Rozdział {0} zaktualizowany",
+      "description": ""
+    },
+    "1019": {
+      "title": "Rozdział {0} nie znaleziony",
+      "description": ""
+    },
+    "1020": {
+      "title": "Bohater {0} zapisany",
+      "description": ""
+    },
+    "1021": {
+      "title": "Bohater {0} usunięty",
+      "description": ""
+    },
+    "1022": {
+      "title": "Bohater {0} zaktualizowany",
+      "description": ""
+    },
+    "1023": {
+      "title": "Bohater {0} nie znaleziony",
+      "description": ""
+    },
+    "1024": {
+      "title": "Miejsce {0} zapisane",
+      "description": ""
+    },
+    "1025": {
+      "title": "Miejsce {0} usunięte",
+      "description": ""
+    },
+    "1026": {
+      "title": "Miejsce {0} zaktualizowane",
+      "description": ""
+    },
+    "1027": {
+      "title": "Miejsce {0} nie znalezione",
+      "description": ""
+    },
+    "1030": {
+      "title": "Logowanie zakończone sukcesem",
+      "description": ""
+    },
+    "1031": {
+      "title": "Logowanie zakończone niepowodzeniem",
+      "description": ""
+    },
+    "1032": {
+      "title": "Nieprawidłowe hasło",
+      "description": ""
+    },
+    "1033": {
+      "title": "Konto zablokowane",
+      "description": ""
+    },
+    "1034": {
+      "title": "Niepowodzenie uwierzytelniania dwuskładnikowego",
+      "description": ""
+    },
+    "1035": {
+      "title": "Rejestracja zakończona sukcesem",
+      "description": ""
+    },
+    "1036": {
+      "title": "Rejestracja zakończona niepowodzeniem",
+      "description": ""
+    },
+    "1037": {
+      "title": "Email wysłany pomyślnie",
+      "description": ""
+    },
+    "1038": {
+      "title": "Email wygenerowany pomyślnie",
+      "description": ""
+    },
+    "1039": {
+      "title": "Hasło zbyt krótkie",
+      "description": ""
+    },
+    "1040": {
+      "title": "Hasło wymaga znaku niealfanumerycznego",
+      "description": ""
+    },
+    "1041": {
+      "title": "Hasło wymaga cyfry",
+      "description": ""
+    },
+    "1042": {
+      "title": "Hasło wymaga małej litery",
+      "description": ""
+    },
+    "1043": {
+      "title": "Hasło wymaga dużej litery",
+      "description": ""
+    },
+    "1044": {
+      "title": "Utworzono automat",
+      "description": "Automat został utworzony"
+    },
+    "1045": {
+      "title": "Zaktualizowano automat",
+      "description": "Automat został zaktualizowany"
+    },
+    "1046": {
+      "title": "Usunięto automat",
+      "description": "Automat został usunięty"
+    },
+    "1047": {
+      "title": "Wyłączono automat",
+      "description": "Automat został wyłączony"
+    },
+    "1048": {
+      "title": "Włączono automat",
+      "description": "Automat został włączony"
+    },
+    "1050": {
+      "title": "Utworzono wydarzenie",
+      "description": "Wydarzenie zostało utworzone"
+    },
+    "1051": {
+      "title": "Zaktualizowano wydarzenie",
+      "description": "Wydarzenie zostało zaktualizowane"
+    },
+    "1052": {
+      "title": "Usunięto wydarzenie",
+      "description": "Wydarzenie zostało usunięte"
+    },
+    "1053": {
+      "title": "Użytkownik zapisał się na wydarzenie",
+      "description": "Użytkownik został zapisany na wydarzenie"
+    },
+    "1054": {
+      "title": "Użytkownik wypisał się z wydarzenia",
+      "description": "Użytkownik został wypisany z wydarzenia"
+    },
+    "1055": {
+      "title": "Wysłano zaproszenie",
+      "description": "Zaproszenie na wydarzenie zostało wysłane"
+    },
+    "1056": {
+      "title": "Ustawiono przypomnienie",
+      "description": "Przypomnienie o wydarzeniu zostało ustawione"
+    },
+    "1057": {
+      "title": "Usunięto przypomnienie",
+      "description": "Przypomnienie o wydarzeniu zostało usunięte"
+    }
+  },
+  "Operations": {
+    "11": {
+      "title": "Import pliku",
+      "description": null
+    },
+    "12": {
+      "title": "Przeniesienie pliku",
+      "description": null
+    },
+    "13": {
+      "title": "Kopiowanie pliku",
+      "description": null
+    },
+    "14": {
+      "title": "Usunięcie pliku",
+      "description": null
+    },
+    "21": {
+      "title": "Wyślij e-mail",
+      "description": ""
+    },
+    "22": {
+      "title": "Generuj z szablonu",
+      "description": ""
+    },
+    "31": {
+      "title": "Generuj podsumowanie sesji RPG",
+      "description": "Zadanie generowania podsumowania sesji RPG"
+    },
+    "32": {
+      "title": "Wyślij dane RPG do aplikacji Firebase",
+      "description": "Zadanie wysyłania danych RPG do aplikacji Firebase"
+    },
+    "33": {
+      "title": "Pobierz ostatnie dane RPG",
+      "description": "Zadanie pobierania ostatnich danych RPG"
+    },
+    "34": {
+      "title": "Generuj historię ze streszczenia",
+      "description": "Zadanie generowania historii ze streszczenia"
+    },
+    "35": {
+      "title": "Importuj RPG z pliku",
+      "description": "Zadanie importowania RPG z pliku"
+    },
+    "40": {
+      "title": "Uruchom automat",
+      "description": ""
+    },
+    "41": {
+      "title": "Archiwizuj dane",
+      "description": ""
+    }
+  },
+  "RPG_file_types": {
+    "501": {
+      "title": "JSON",
+      "description": ""
+    },
+    "502": {
+      "title": "Stary JSON (NIEOBSŁUGIWANY)",
+      "description": ""
+    },
+    "503": {
+      "title": "Dane Firebase",
+      "description": ""
+    }
+  },
+  "Skill_category": {
+    "401": {
+      "title": "Siła",
+      "description": ""
+    },
+    "402": {
+      "title": "Zręczność",
+      "description": ""
+    },
+    "403": {
+      "title": "Inteligencja",
+      "description": ""
+    },
+    "404": {
+      "title": "Komunikacja",
+      "description": ""
+    }
+  }
 }

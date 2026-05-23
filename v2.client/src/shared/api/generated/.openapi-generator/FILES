@@ -83,7 +83,6 @@ docs/TemplateResponseList.md
 docs/TemplatesApi.md
 docs/Trigger.md
 docs/TriggerDto.md
-docs/TriggerType.md
 docs/User.md
 docs/UserData.md
 docs/UserDto.md
@@ -144,7 +143,6 @@ models/task.ts
 models/template-response-list.ts
 models/template.ts
 models/trigger-dto.ts
-models/trigger-type.ts
 models/trigger.ts
 models/user-data.ts
 models/user-dto.ts

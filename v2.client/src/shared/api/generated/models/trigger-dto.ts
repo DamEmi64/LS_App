@@ -13,16 +13,10 @@
  */
 
 
-// May contain unused imports in some cases
-// @ts-ignore
-import type { TriggerType } from './trigger-type';
 
 export interface TriggerDto {
     'id'?: string;
-    'type'?: TriggerType;
     'cron'?: string | null;
-    'eventId'?: Array<number> | null;
+    'eventId'?: number;
 }
-
-
 

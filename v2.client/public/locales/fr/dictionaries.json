@@ -1,258 +1,564 @@
 {
-    "Fluid_functions": {
-        "601": {
-            "title": "Nombre aléatoire",
-            "description": ""
-        },
-        "602": {
-            "title": "Aléatoire",
-            "description": ""
-        },
-        "603": {
-            "title": "Aléatoire unique",
-            "description": ""
-        },
-        "604": {
-            "title": "Incrément",
-            "description": ""
-        }
+  "Automation_events": {
+    "110": {
+      "title": "Fréquence (minutes)",
+      "description": null
     },
-    "Fluid_variables": {
-        "605": {
-            "title": "Données utilisateur",
-            "description": ""
-        },
-        "606": {
-            "title": "Expéditeur",
-            "description": ""
-        },
-        "607": {
-            "title": "Destinataire",
-            "description": ""
-        },
-        "608": {
-            "title": "Récepteurs",
-            "description": ""
-        },
-        "609": {
-            "title": null,
-            "description": null
-        }
+    "111": {
+      "title": "Lors du téléchargement d’un fichier",
+      "description": null
     },
-    "Notify_types": {
-        "1000": {
-            "title": "Journal",
-            "description": ""
-        },
-        "1001": {
-            "title": "Erreur du processus interne {0}",
-            "description": ""
-        },
-        "1002": {
-            "title": "Processus {0} démarré",
-            "description": ""
-        },
-        "1003": {
-            "title": "Processus {0} terminé",
-            "description": ""
-        },
-        "1004": {
-            "title": "Processus {0} terminé avec erreur",
-            "description": ""
-        },
-        "1005": {
-            "title": "Processus {0} ajouté à la file d’attente",
-            "description": ""
-        },
-        "1012": {
-            "title": "Session {0} enregistrée",
-            "description": ""
-        },
-        "1013": {
-            "title": "Session {0} supprimée",
-            "description": ""
-        },
-        "1014": {
-            "title": "Session {0} mise à jour",
-            "description": ""
-        },
-        "1015": {
-            "title": "Session {0} introuvable",
-            "description": ""
-        },
-        "1016": {
-            "title": "Chapitre {0} enregistré",
-            "description": ""
-        },
-        "1017": {
-            "title": "Chapitre {0} supprimé",
-            "description": ""
-        },
-        "1018": {
-            "title": "Chapitre {0} mis à jour",
-            "description": ""
-        },
-        "1019": {
-            "title": "Chapitre {0} introuvable",
-            "description": ""
-        },
-        "1020": {
-            "title": "Héros {0} enregistré",
-            "description": ""
-        },
-        "1021": {
-            "title": "Héros {0} supprimé",
-            "description": ""
-        },
-        "1022": {
-            "title": "Héros {0} mis à jour",
-            "description": ""
-        },
-        "1023": {
-            "title": "Héros {0} introuvable",
-            "description": ""
-        },
-        "1024": {
-            "title": "Lieu {0} enregistré",
-            "description": ""
-        },
-        "1025": {
-            "title": "Lieu {0} supprimé",
-            "description": ""
-        },
-        "1026": {
-            "title": "Lieu {0} mis à jour",
-            "description": ""
-        },
-        "1027": {
-            "title": "Lieu {0} introuvable",
-            "description": ""
-        },
-        "1030": {
-            "title": "Connexion réussie",
-            "description": ""
-        },
-        "1031": {
-            "title": "Échec de la connexion",
-            "description": ""
-        },
-        "1032": {
-            "title": "Mot de passe incorrect",
-            "description": ""
-        },
-        "1033": {
-            "title": "Compte verrouillé",
-            "description": ""
-        },
-        "1034": {
-            "title": "Échec de l’authentification à deux facteurs",
-            "description": ""
-        },
-        "1035": {
-            "title": "Inscription réussie",
-            "description": ""
-        },
-        "1036": {
-            "title": "Échec de l’inscription",
-            "description": ""
-        },
-        "1037": {
-            "title": "E-mail envoyé avec succès",
-            "description": ""
-        },
-        "1038": {
-            "title": "E-mail généré avec succès",
-            "description": ""
-        },
-        "1039": {
-            "title": "Mot de passe trop court",
-            "description": ""
-        },
-        "1040": {
-            "title": "Le mot de passe nécessite un caractère spécial",
-            "description": ""
-        },
-        "1041": {
-            "title": "Le mot de passe nécessite un chiffre",
-            "description": ""
-        },
-        "1042": {
-            "title": "Le mot de passe nécessite une lettre minuscule",
-            "description": ""
-        },
-        "1043": {
-            "title": "Le mot de passe nécessite une majuscule",
-            "description": ""
-        }
+    "112": {
+      "title": "Lors de la création d’un événement",
+      "description": null
     },
-    "Operations": {
-        "21": {
-            "title": "Envoyer un e-mail",
-            "description": ""
-        },
-        "22": {
-            "title": "Générer à partir d’un modèle",
-            "description": ""
-        },
-        "31": {
-            "title": "Générer le résumé de session RPG",
-            "description": ""
-        },
-        "32": {
-            "title": "Envoyer les données RPG à l’application Firebase",
-            "description": ""
-        },
-        "33": {
-            "title": "Récupérer les dernières données RPG",
-            "description": ""
-        },
-        "34": {
-            "title": "Générer une histoire à partir d’un résumé",
-            "description": ""
-        },
-        "35": {
-            "title": "Importer un RPG depuis un fichier",
-            "description": ""
-        },
-        "40": {
-            "title": "Lancer l’automate",
-            "description": ""
-        },
-        "41": {
-            "title": "Archiver les données",
-            "description": ""
-        }
+    "113": {
+      "title": "Lors de l’inscription à un événement",
+      "description": null
     },
-    "RPG_file_types": {
-        "501": {
-            "title": "JSON",
-            "description": ""
-        },
-        "502": {
-            "title": "Ancien JSON (NON SUPPORTÉ)",
-            "description": ""
-        },
-        "503": {
-            "title": "Données Firebase",
-            "description": ""
-        }
+    "114": {
+      "title": "Lors de la modification d’une session RPG",
+      "description": null
     },
-    "Skill_category": {
-        "401": {
-            "title": "Force",
-            "description": ""
-        },
-        "402": {
-            "title": "Dextérité",
-            "description": ""
-        },
-        "403": {
-            "title": "Intelligence",
-            "description": ""
-        },
-        "404": {
-            "title": "Communication",
-            "description": ""
-        }
+    "115": {
+      "title": "\"Lors de l’enregistrement d’un fichier",
+      "description": null
     }
+  },
+  "Event_category": {
+    "421": {
+      "title": "Film",
+      "description": null
+    },
+    "422": {
+      "title": "Concert",
+      "description": null
+    },
+    "423": {
+      "title": "Vacances/Congés",
+      "description": null
+    },
+    "424": {
+      "title": "Réunion",
+      "description": null
+    }
+  },
+  "File_source_type": {
+    "300": {
+      "title": "Local",
+      "description": null
+    },
+    "301": {
+      "title": "depuis le service FuckingFast",
+      "description": null
+    }
+  },
+  "File_types": {
+    "101": {
+      "title": "Jeux",
+      "description": null
+    },
+    "102": {
+      "title": "Documents",
+      "description": null
+    },
+    "103": {
+      "title": "Fichiers d'études",
+      "description": null
+    }
+  },
+  "Fluid_functions": {
+    "601": {
+      "title": "Nombre aléatoire",
+      "description": null
+    },
+    "602": {
+      "title": "Aléatoire",
+      "description": null
+    },
+    "603": {
+      "title": "Aléatoire unique",
+      "description": null
+    },
+    "604": {
+      "title": "Incrémenter",
+      "description": null
+    }
+  },
+  "Fluid_variables": {
+    "605": {
+      "title": "Utilisateur",
+      "description": null
+    },
+    "606": {
+      "title": "Expéditeur",
+      "description": null
+    },
+    "607": {
+      "title": "Destinataire",
+      "description": null
+    },
+    "608": {
+      "title": "Destinataires",
+      "description": null
+    },
+    "609": {
+      "title": "Date",
+      "description": ""
+    }
+  },
+  "Game_genres": {
+    "200": {
+      "title": "Jeu de plateforme",
+      "description": null
+    },
+    "201": {
+      "title": "Jeu de tir",
+      "description": null
+    },
+    "202": {
+      "title": "Jeu de tir à la première personne",
+      "description": null
+    },
+    "203": {
+      "title": "Jeu de tir à la troisième personne",
+      "description": null
+    },
+    "204": {
+      "title": "Beat ’em up",
+      "description": null
+    },
+    "205": {
+      "title": "Infiltration",
+      "description": null
+    },
+    "206": {
+      "title": "Survie",
+      "description": null
+    },
+    "210": {
+      "title": "Action-aventure",
+      "description": null
+    },
+    "211": {
+      "title": "Aventure narrative",
+      "description": null
+    },
+    "212": {
+      "title": "Point-and-click",
+      "description": null
+    },
+    "220": {
+      "title": "RPG d’action",
+      "description": null
+    },
+    "221": {
+      "title": "RPG au tour par tour",
+      "description": null
+    },
+    "222": {
+      "title": "RPG tactique",
+      "description": null
+    },
+    "223": {
+      "title": "MMORPG",
+      "description": null
+    },
+    "224": {
+      "title": "RPG en monde ouvert",
+      "description": null
+    },
+    "230": {
+      "title": "Simulation de vie",
+      "description": null
+    },
+    "231": {
+      "title": "Simulation agricole",
+      "description": null
+    },
+    "232": {
+      "title": "Simulation de véhicule",
+      "description": null
+    },
+    "233": {
+      "title": "Construction de ville",
+      "description": null
+    },
+    "240": {
+      "title": "Stratégie en temps réel",
+      "description": null
+    },
+    "241": {
+      "title": "Stratégie au tour par tour",
+      "description": null
+    },
+    "242": {
+      "title": "Tower Defense",
+      "description": null
+    },
+    "243": {
+      "title": "Stratégie 4X",
+      "description": null
+    },
+    "250": {
+      "title": "Puzzle classique",
+      "description": null
+    },
+    "251": {
+      "title": "Puzzle physique",
+      "description": null
+    },
+    "252": {
+      "title": "Match 3",
+      "description": null
+    },
+    "260": {
+      "title": "Sport traditionnel",
+      "description": null
+    },
+    "261": {
+      "title": "Sport extrême",
+      "description": null
+    },
+    "262": {
+      "title": "Course",
+      "description": null
+    },
+    "270": {
+      "title": "Jeu de combat traditionnel",
+      "description": null
+    },
+    "271": {
+      "title": "Jeu de combat de plateforme",
+      "description": null
+    },
+    "280": {
+      "title": "Survival horror",
+      "description": null
+    },
+    "281": {
+      "title": "Horreur psychologique",
+      "description": null
+    },
+    "290": {
+      "title": "Party game",
+      "description": null
+    },
+    "291": {
+      "title": "Jeu de rythme",
+      "description": null
+    },
+    "299": {
+      "title": "Autre",
+      "description": null
+    }
+  },
+  "Notify_types": {
+    "1000": {
+      "title": "Journal",
+      "description": null
+    },
+    "1001": {
+      "title": "Erreur système interne",
+      "description": null
+    },
+    "1002": {
+      "title": "Processus {0} démarré",
+      "description": null
+    },
+    "1003": {
+      "title": "Processus {0} terminé",
+      "description": null
+    },
+    "1004": {
+      "title": "Processus {0} terminé avec échec",
+      "description": null
+    },
+    "1005": {
+      "title": "Processus {0} ajouté à la file d’attente",
+      "description": null
+    },
+    "1006": {
+      "title": "Fichier {0} enregistré",
+      "description": null
+    },
+    "1007": {
+      "title": "Fichier {0} supprimé",
+      "description": null
+    },
+    "1008": {
+      "title": "Fichier {0} mis à jour",
+      "description": null
+    },
+    "1009": {
+      "title": "Fichier introuvable",
+      "description": null
+    },
+    "1010": {
+      "title": "Le fichier {0} existe déjà",
+      "description": null
+    },
+    "1011": {
+      "title": "Échec de l’enregistrement du fichier {0}",
+      "description": null
+    },
+    "1012": {
+      "title": "Session {0} enregistrée",
+      "description": ""
+    },
+    "1013": {
+      "title": "Session {0} supprimée",
+      "description": ""
+    },
+    "1014": {
+      "title": "Session {0} mise à jour",
+      "description": ""
+    },
+    "1015": {
+      "title": "Session {0} introuvable",
+      "description": ""
+    },
+    "1016": {
+      "title": "Chapitre {0} enregistré",
+      "description": ""
+    },
+    "1017": {
+      "title": "Chapitre {0} supprimé",
+      "description": ""
+    },
+    "1018": {
+      "title": "Chapitre {0} mis à jour",
+      "description": ""
+    },
+    "1019": {
+      "title": "Chapitre {0} introuvable",
+      "description": ""
+    },
+    "1020": {
+      "title": "Héros {0} enregistré",
+      "description": ""
+    },
+    "1021": {
+      "title": "Héros {0} supprimé",
+      "description": ""
+    },
+    "1022": {
+      "title": "Héros {0} mis à jour",
+      "description": ""
+    },
+    "1023": {
+      "title": "Héros {0} introuvable",
+      "description": ""
+    },
+    "1024": {
+      "title": "Lieu {0} enregistré",
+      "description": ""
+    },
+    "1025": {
+      "title": "Lieu {0} supprimé",
+      "description": ""
+    },
+    "1026": {
+      "title": "Lieu {0} mis à jour",
+      "description": ""
+    },
+    "1027": {
+      "title": "Lieu {0} introuvable",
+      "description": ""
+    },
+    "1030": {
+      "title": "Connexion réussie",
+      "description": ""
+    },
+    "1031": {
+      "title": "Échec de la connexion",
+      "description": ""
+    },
+    "1032": {
+      "title": "Mot de passe incorrect",
+      "description": ""
+    },
+    "1033": {
+      "title": "Compte verrouillé",
+      "description": ""
+    },
+    "1034": {
+      "title": "Échec de l’authentification à deux facteurs",
+      "description": ""
+    },
+    "1035": {
+      "title": "Inscription réussie",
+      "description": ""
+    },
+    "1036": {
+      "title": "Échec de l’inscription",
+      "description": ""
+    },
+    "1037": {
+      "title": "E-mail envoyé avec succès",
+      "description": ""
+    },
+    "1038": {
+      "title": "E-mail généré avec succès",
+      "description": ""
+    },
+    "1039": {
+      "title": "Mot de passe trop court",
+      "description": ""
+    },
+    "1040": {
+      "title": "Le mot de passe nécessite un caractère spécial",
+      "description": ""
+    },
+    "1041": {
+      "title": "Le mot de passe nécessite un chiffre",
+      "description": ""
+    },
+    "1042": {
+      "title": "Le mot de passe nécessite une lettre minuscule",
+      "description": ""
+    },
+    "1043": {
+      "title": "Le mot de passe nécessite une majuscule",
+      "description": ""
+    },
+    "1044": {
+      "title": "Automate créé",
+      "description": "L’automatisation a été créée"
+    },
+    "1045": {
+      "title": "Automate mis à jour",
+      "description": "L’automatisation a été mise à jour"
+    },
+    "1046": {
+      "title": "Automate supprimé",
+      "description": "L’automatisation a été supprimée"
+    },
+    "1047": {
+      "title": "Automate désactivé",
+      "description": "L’automatisation a été désactivée"
+    },
+    "1048": {
+      "title": "Automate activé",
+      "description": "L’automatisation a été activée"
+    },
+    "1050": {
+      "title": "Événement créé",
+      "description": "L’événement a été créé"
+    },
+    "1051": {
+      "title": "Événement mis à jour",
+      "description": "L’événement a été mis à jour"
+    },
+    "1052": {
+      "title": "Événement supprimé",
+      "description": "L’événement a été supprimé"
+    },
+    "1053": {
+      "title": "Utilisateur inscrit à l’événement",
+      "description": "L’utilisateur a été inscrit à l’événement"
+    },
+    "1054": {
+      "title": "Utilisateur désinscrit de l’événement",
+      "description": "L’utilisateur a été désinscrit de l’événement"
+    },
+    "1055": {
+      "title": "Invitation envoyée",
+      "description": "L’invitation à l’événement a été envoyée"
+    },
+    "1056": {
+      "title": "Rappel défini",
+      "description": "Le rappel de l’événement a été défini"
+    },
+    "1057": {
+      "title": "Rappel supprimé",
+      "description": "Le rappel de l’événement a été supprimé"
+    }
+  },
+  "Operations": {
+    "11": {
+      "title": "Importer un fichier",
+      "description": null
+    },
+    "12": {
+      "title": "Déplacer un fichier",
+      "description": null
+    },
+    "13": {
+      "title": "Copier un fichier",
+      "description": null
+    },
+    "14": {
+      "title": "Supprimer un fichier",
+      "description": null
+    },
+    "21": {
+      "title": "Envoyer un e-mail",
+      "description": ""
+    },
+    "22": {
+      "title": "Générer à partir d’un modèle",
+      "description": ""
+    },
+    "31": {
+      "title": "Générer le résumé de session RPG",
+      "description": ""
+    },
+    "32": {
+      "title": "Envoyer les données RPG à l’application Firebase",
+      "description": ""
+    },
+    "33": {
+      "title": "Récupérer les dernières données RPG",
+      "description": ""
+    },
+    "34": {
+      "title": "Générer une histoire à partir d’un résumé",
+      "description": ""
+    },
+    "35": {
+      "title": "Importer un RPG depuis un fichier",
+      "description": ""
+    },
+    "40": {
+      "title": "Lancer l’automate",
+      "description": ""
+    },
+    "41": {
+      "title": "Archiver les données",
+      "description": ""
+    }
+  },
+  "RPG_file_types": {
+    "501": {
+      "title": "JSON",
+      "description": ""
+    },
+    "502": {
+      "title": "Ancien JSON (NON SUPPORTÉ)",
+      "description": ""
+    },
+    "503": {
+      "title": "Données Firebase",
+      "description": ""
+    }
+  },
+  "Skill_category": {
+    "401": {
+      "title": "Force",
+      "description": ""
+    },
+    "402": {
+      "title": "Dextérité",
+      "description": ""
+    },
+    "403": {
+      "title": "Intelligence",
+      "description": ""
+    },
+    "404": {
+      "title": "Communication",
+      "description": ""
+    }
+  }
 }

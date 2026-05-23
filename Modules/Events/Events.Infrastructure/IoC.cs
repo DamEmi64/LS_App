@@ -1,5 +1,7 @@
-﻿using Events.Domain.Repositories;
+﻿using Base.Automation;
+using Events.Domain.Repositories;
 using Events.Infrastructure.Repositories;
+using Events.Infrastructure.Services.AutomationResolver;
 using Events.Infrastructure.Services.InvitationService;
 using Events.Infrastructure.Services.ReminderService;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +14,8 @@ namespace Events.Infrastructure
         {
             return services
                 .AddScoped<IReminderService,ReminderService>()
-                .AddScoped<IInvitationService, InvitationService>();
+                .AddScoped<IInvitationService, InvitationService>()
+                .AddScoped<IAutomationResolver,EventAutomationResolver>();
         }
 
         public static IServiceCollection AddRepositories(this IServiceCollection services)

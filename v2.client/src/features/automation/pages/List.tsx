@@ -123,9 +123,7 @@ const List: React.FC = () => {
   ];
 
   const filters: FilterItem[] = [
-    { field: "title", name: "automations.title", type: FilterType.String },
-    { field: "frequency", name: "automations.frequency", type: FilterType.Date },
-    { field: "active", name: "automations.active", type: FilterType.Boolean }
+    { field: "title", name: "automations.title", type: FilterType.String }
   ];
 
   const operations: Operations<Automat>[] = [

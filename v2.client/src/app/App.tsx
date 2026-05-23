@@ -73,13 +73,16 @@ const menu: NavbarItemProps[] = [
         label: 'events', href: '', submenu: [
             {
                 label: 'allEvents', href: '/events',
-                submenu: []
+                submenu: [],
+                permissions: ['events']
             },
             {
                 label: 'myEvents', href: '/events/me',
-                submenu: []
+                submenu: [],
+                permissions: ['events']
             },
-        ]
+        ],
+        permissions: ['events']
     },
     {
         label: 'rpg_sessions', href: '', submenu: [

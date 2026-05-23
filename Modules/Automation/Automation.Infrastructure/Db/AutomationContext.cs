@@ -22,5 +22,6 @@ namespace Automation.Infrastructure.Context
 
         public DbSet<Automat> Automats { get; set; } = default!;
         public DbSet<Domain.Entities.Task> AutomatTasks { get; set; } = default!;
+        public DbSet<Domain.Entities.Trigger> Triggers { get; set; } = default!;
     }
 }

@@ -53,7 +53,6 @@ export * from './template';
 export * from './template-response-list';
 export * from './trigger';
 export * from './trigger-dto';
-export * from './trigger-type';
 export * from './user';
 export * from './user-data';
 export * from './user-dto';

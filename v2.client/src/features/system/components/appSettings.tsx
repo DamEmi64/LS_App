@@ -117,40 +117,7 @@ const AppSettings: React.FC = () => {
                     />
                     <br />
                     {(active == 'true' && (
-                        <>
-                            <FormControlLabel
-                                control={
-                                    <Switch
-                                        checked={process == 'true'}
-                                        onChange={e => setProcess(e.target.checked.toString())}
-                                        color="primary"
-                                    />
-                                }
-                                label={t('notify.processActive')}
-                                sx={{ color: labelColor }}
-                            />
-                            {(process == 'true' && (
-                                <>
-                                    <br />
-                                    <FormControlLabel
-                                        control={
-                                            <Switch
-                                                checked={processError == 'true'}
-                                                onChange={e => setProcessError(e.target.checked.toString())}
-                                                color="primary"
-                                            />
-                                        }
-                                        label={t('notify.processError')}
-                                        sx={{ color: labelColor }}
-                                    />
-                                </>
-
-                            )
-                            )}
-
-                            <br />
-                            <br />
-                            <FormControl fullWidth>
+                        <FormControl fullWidth>
                                 <TextField
                                     type='number'
                                     value={autoClose}
@@ -158,8 +125,7 @@ const AppSettings: React.FC = () => {
                                     color="primary"
                                     label={t('notify.autoClose')}
                                 />
-                            </FormControl>
-                        </>
+                        </FormControl>
                     )
                     )}
                     <br />
