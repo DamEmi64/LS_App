@@ -14,21 +14,5 @@ namespace Files.Infrastructure.Jobs
         public List<IJob> Children { get; set; } = new();
 
         public int OperationId => Operations.ImportFile;
-
-        public async Task Execute(IJobContext jobContext)
-        {
-            var byteArray = Convert.FromBase64String(FileData);
-
-            var path = Locaction;
-
-            bool exists = Directory.Exists(path);
-
-            if (!exists)
-            {
-                Directory.CreateDirectory(path);
-            }
-
-            await File.WriteAllBytesAsync(path, byteArray);
-        }
     }
 }

@@ -3,10 +3,10 @@ using Base;
 using Communication.Application.Dtos;
 using Communication.Application.Filters;
 using Communication.Domain.Entities;
+using Communication.Domain.Repositories;
 using Communication.Infrastructure.Services;
 using Communication.Infrastructure.Services.SendService;
 using Communication.Infrastructure.Services.SendService.Models;
-using Files.Domain.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

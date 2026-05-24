@@ -21,6 +21,11 @@ public abstract class JobHandler<T> : IRequestHandler<T, Result> where T : IJob
             await _jobContext.OnStart();
             await Execute(request);
         }
+        catch (Exception ex)
+        {
+            await LogError(ex.Message);
+            throw;
+        }
         finally
         {
             await _jobContext.OnComplete();
@@ -31,4 +36,6 @@ public abstract class JobHandler<T> : IRequestHandler<T, Result> where T : IJob
 
     public Task LogError(string log) => _jobContext.AddError(log);
     public Task Log(string log) => _jobContext.AddLog(log);
+    public void PassData<T2>(T2 data) => _jobContext.PassData(data);
+    public T2? GetData<T2>() => _jobContext.GetData<T2>();
 }

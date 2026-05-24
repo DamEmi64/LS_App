@@ -23,37 +23,5 @@ namespace Events.Infrastructure.Jobs
 
         public required Event Event { get; set; }
         public required UserData Receiver { get; set; }
-
-        public async Task Execute(IJobContext jobContext)
-        {
-            var mediaProvider = jobContext.Resolve<IMediaProvider>();
-            var connectClient = jobContext.Resolve<IConnect>();
-            await ExecuteInternal(jobContext, mediaProvider, connectClient);
-        }
-
-        private async Task ExecuteInternal(IJobContext jobContext, IMediaProvider mediaProvider, IConnect connectClient)
-        {
-            if (string.IsNullOrEmpty(Receiver.Email))
-            {
-                await jobContext.AddError($"User {Receiver.Login} has no email");
-                return;
-            }
-
-            var image = await mediaProvider.Load(Event.Image);
-
-            var html = await RazorTemplateEngine.RenderAsync(TemplatePath, new EventSendingData(Event, Receiver, image?.ContentStr, string.Format(LinkToEvent, Event.Id)));
-
-            var sendEmailData = new SharedEvents.Communication.SendEmail(Receiver.Email, $"Reminder for event {Event.Title}", html);
-
-            var result = await connectClient.Send(sendEmailData);
-
-            if (result.IsFailed)
-            {
-                foreach (var error in result.Errors)
-                {
-                    await jobContext.AddError(error.Message);
-                }
-            }
-        }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using Base;
 using CommunicationBase.Dtos;
+using CommunicationBase.Events;
 using CommunicationBase.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
-using SharedEvents.Communication;
 
 namespace CommunicationBase
 {

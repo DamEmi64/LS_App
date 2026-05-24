@@ -5,7 +5,6 @@ using Events.Domain.Enums;
 using Events.Domain.Repositories;
 using Events.Infrastructure.Jobs;
 using Newtonsoft.Json;
-using SharedEvents.Auth;
 
 namespace Events.Infrastructure.Services.AutomationResolver
 {

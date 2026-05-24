@@ -182,6 +182,8 @@ namespace Base
 
             UpdateDictionaries(app);
 
+            ProvideBasicRoles(app);
+
             app.Logger.LogInformation(Banner, AppConfiguration.Version);
         }
 
@@ -196,6 +198,16 @@ namespace Base
             }
             catch (Exception)
             {
+            }
+        }
+
+        private void ProvideBasicRoles(WebApplication app)
+        {
+            using (var scope = app.Services.CreateScope())
+            {
+                var connectClient = scope.ServiceProvider.GetRequiredService<IConnect>();
+                connectClient.Send(new ProvideBasicRoles(Permissions.ToList())).Wait();
+
             }
         }
 

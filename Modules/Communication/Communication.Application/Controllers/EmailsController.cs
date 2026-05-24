@@ -1,8 +1,8 @@
 ﻿using Base;
 using Communication.Application.Filters;
 using Communication.Domain.Entities;
+using Communication.Domain.Repositories;
 using Communication.Infrastructure.Services.SendService;
-using Files.Domain.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

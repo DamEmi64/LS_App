@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RPG.Application;
-using SharedEvents.Auth;
 using System.Application;
 using System.Infrastructure.Services.ConnectorResolver;
 
@@ -39,19 +38,7 @@ namespace Connector
         public override void OnConnectorStartup(WebApplication app)
         {
             app.UseMiddleware<SerilogMiddleware>();
-            app.UseMiddleware<ErrorMiddleware>();
-            ProvideBasicRoles(app);
-            
-        }
-
-        public void ProvideBasicRoles(WebApplication app)
-        {
-            using (var scope = app.Services.CreateScope())
-            {
-                var connectClient = scope.ServiceProvider.GetRequiredService<IConnect>();
-                connectClient.Send(new ProvideBasicRoles(Permissions.ToList())).Wait();
-
-            }
+            app.UseMiddleware<ErrorMiddleware>();        
         }
     }
 }

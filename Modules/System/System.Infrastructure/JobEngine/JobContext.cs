@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System.Domain.Entities;
 using System.Domain.Repositories;
 using System.Infrastructure.Services.EntityContext;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace System.Infrastructure.JobEngine
 {
@@ -49,15 +50,18 @@ namespace System.Infrastructure.JobEngine
 
         public void PassData<T>(T data)
         {
-            Data = JsonConvert.SerializeObject(data);
+            var process = _processRepository.Get(ProcessId).Result;
+            if (process != null)
+                process.TempData = JsonConvert.SerializeObject(data);
         }
 
         public T? GetData<T>()
         {
-            if (Data is null)
-                return default(T);
+            var process = _processRepository.Get(ProcessId).Result;
+            if (process != null)
+                return JsonConvert.DeserializeObject<T>(process.TempData ?? string.Empty);
 
-            return JsonConvert.DeserializeObject<T>(Data);
+            return default;
         }
 
         public async Task OnStart()
@@ -104,7 +108,6 @@ namespace System.Infrastructure.JobEngine
             dbJob.EndDate = DateTimeOffset.Now;
             dbJob.Status = ProgressStatus.Success;
             await _jobRepository.Update(dbJob);
-            process.TempData = Data;
             process.Percentage = (process.Jobs.Where(x => x.Status == ProgressStatus.Success).Count() * 1.0 / process.Jobs.Count) * 100;
 
             if (process.Percentage == 100)

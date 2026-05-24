@@ -1,4 +1,5 @@
 ﻿using Base;
+using CommunicationBase;
 using Events.Extras.Resources;
 using Razor.Templating.Core;
 
@@ -12,7 +13,7 @@ namespace Events.Infrastructure.Jobs.SendReminder
         private readonly IMediaProvider _mediaProvider;
         private readonly IConnect _connectClient;
 
-        public SendInvitationJobHandler(IJobContext jobContext,
+        public SendReminderJobHandler(IJobContext jobContext,
             IMediaProvider mediaProvider,
             IConnect connectClient)
             : base(jobContext)
@@ -33,9 +34,7 @@ namespace Events.Infrastructure.Jobs.SendReminder
 
             var html = await RazorTemplateEngine.RenderAsync(TemplatePath, new EventSendingData(request.Event, request.Receiver, image?.ContentStr, string.Format(LinkToEvent, request.Event.Id)));
 
-            var sendEmailData = new SharedEvents.Communication.SendEmail(request.Receiver.Email, $"Invitation to event {request.Event.Title}", html);
-
-            var result = await _connectClient.Send(sendEmailData);
+            var result = await _connectClient.SendEmailAsync(request.Receiver.Email, $"Reminder for event {request.Event.Title}", html);
 
             if (result.IsFailed)
             {

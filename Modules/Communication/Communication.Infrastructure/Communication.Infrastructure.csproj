@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Core\CommunicationBase\CommunicationBase.csproj" />
-    <ProjectReference Include="..\..\..\Core\SharedEvents\SharedEvents.csproj" />
     <ProjectReference Include="..\Communication.Domain\Communication.Domain.csproj" />
   </ItemGroup>
 

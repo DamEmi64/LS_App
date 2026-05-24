@@ -1,12 +1,6 @@
 ﻿using Base;
-using Base.Job;
-using Communication.Domain.Entities;
 using Communication.Domain.Repositories;
-using Communication.Infrastructure.Repositories;
-using SharedEvents.Communication;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using CommunicationBase;
 
 namespace Communication.Infrastructure.Jobs.SendEmail
 {
@@ -28,9 +22,7 @@ namespace Communication.Infrastructure.Jobs.SendEmail
         {
             ArgumentNullException.ThrowIfNull(request.Email);
 
-            var sendEmail = new SharedEvents.Communication.SendEmail(request.Email.Recipient, request.Email.Subject, request.Email.Body, request.Email.Sender);
-
-            var result = await _connect.Send(sendEmail);
+            var result = await _connect.SendEmailAsync(request.Email.Recipient, request.Email.Subject, request.Email.Body, request.Email.Sender);
 
             if (result.IsFailed)
             {

@@ -1,8 +1,6 @@
 ﻿using Base;
 using Events.Domain.Dictionaries;
 using Events.Domain.Entities;
-using Events.Extras.Resources;
-using Razor.Templating.Core;
 
 namespace Events.Infrastructure.Jobs
 {
@@ -21,17 +19,5 @@ namespace Events.Infrastructure.Jobs
         public required Event Event { get; set; }
 
         public required UserData Receiver { get; set; }
-
-        public async Task Execute(IJobContext jobContext)
-        {
-            var mediaProvider = jobContext.Resolve<IMediaProvider>();
-            var connectClient = jobContext.Resolve<IConnect>();
-            await ExecuteInternal(jobContext, mediaProvider, connectClient);
-        }
-
-        private async Task ExecuteInternal(IJobContext jobContext, IMediaProvider mediaProvider, IConnect connectClient)
-        {
-            
-        }
     }
 }

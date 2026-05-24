@@ -32,11 +32,4 @@ public interface IJob :IRequest<Result>
     ///     Name
     /// </summary>
     string Name { get; }
-
-    /// <summary>
-    ///     Execution method
-    /// </summary>
-    /// <param name="jobContext">Job context</param>
-    /// <returns></returns>
-    Task Execute(IJobContext jobContext);
 }

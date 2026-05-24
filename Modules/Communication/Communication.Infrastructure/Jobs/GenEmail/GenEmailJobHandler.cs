@@ -1,17 +1,11 @@
 ﻿using Base;
-using Base.Job;
 using Communication.Domain.Entities;
 using Communication.Domain.Repositories;
 using Communication.Infrastructure.EmailGenerator;
-using Communication.Infrastructure.Repositories;
 using CommunicationBase;
 using CommunicationBase.Interfaces;
-using Files.Domain.Repositories;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Text;
 
 namespace Communication.Infrastructure.Jobs.GenEmail
 {

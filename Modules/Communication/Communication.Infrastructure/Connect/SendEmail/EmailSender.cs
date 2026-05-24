@@ -8,7 +8,7 @@ using System.Net.Mail;
 
 namespace Communication.Infrastructure.Connect.SendEmail
 {
-    public class EmailSender : ConnectInstance<SharedEvents.Communication.SendEmail>
+    public class EmailSender : ConnectInstance<CommunicationBase.Events.SendEmail>
     {
         private readonly EmailOptions _options;
 
@@ -18,7 +18,7 @@ namespace Communication.Infrastructure.Connect.SendEmail
         }
 
 
-        public override Task<Result> HandleAsync(SharedEvents.Communication.SendEmail request)
+        public override Task<Result> HandleAsync(CommunicationBase.Events.SendEmail request)
             => SendEmailAsync(request.To, request.Subject, request.Body, request.From);
 
         private async Task<Result> SendEmailAsync(string to, string subject, string body, string? from = null)

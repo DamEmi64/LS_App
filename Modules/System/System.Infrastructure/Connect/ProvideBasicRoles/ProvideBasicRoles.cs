@@ -1,15 +1,9 @@
 ﻿using Base;
-using FluentResults;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
 using System.Infrastructure.Services.Admin;
-using System.Text;
 
 namespace System.Infrastructure.Connect.ProvideBasicRoles
 {
-    public class ProvideBasicRoles : ConnectInstance<SharedEvents.Auth.ProvideBasicRoles>
+    public class ProvideBasicRoles : ConnectInstance<Base.ProvideBasicRoles>
     {
         private readonly IAdminService _adminService;
 
@@ -18,7 +12,7 @@ namespace System.Infrastructure.Connect.ProvideBasicRoles
             _adminService = adminService;
         }
 
-        public override async Task HandleAsync(SharedEvents.Auth.ProvideBasicRoles request)
+        public override async Task HandleAsync(Base.ProvideBasicRoles request)
         {
             var roles = _adminService.GetRoles();
             if (!roles.Select(x => x.Name).Contains("admin"))

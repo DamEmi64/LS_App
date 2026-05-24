@@ -81,8 +81,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Events.Application", "Modul
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Events.Extras", "Modules\Events\Events.Extras\Events.Extras.csproj", "{8FDD3D3A-0CED-4CAE-B41F-862F1EEC1BC6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharedEvents", "Core\SharedEvents\SharedEvents.csproj", "{84F83E88-6A74-45BD-8FF3-76BB145C4010}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -207,10 +205,6 @@ Global
 		{8FDD3D3A-0CED-4CAE-B41F-862F1EEC1BC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FDD3D3A-0CED-4CAE-B41F-862F1EEC1BC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8FDD3D3A-0CED-4CAE-B41F-862F1EEC1BC6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{84F83E88-6A74-45BD-8FF3-76BB145C4010}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{84F83E88-6A74-45BD-8FF3-76BB145C4010}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{84F83E88-6A74-45BD-8FF3-76BB145C4010}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{84F83E88-6A74-45BD-8FF3-76BB145C4010}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -250,7 +244,6 @@ Global
 		{60281EFA-7CBF-43FE-897B-C85E56528D0A} = {B60DAF13-A686-46B2-A687-CF247B9B8829}
 		{64792109-5058-4CE7-9FD7-1B9B7CC98E20} = {B60DAF13-A686-46B2-A687-CF247B9B8829}
 		{8FDD3D3A-0CED-4CAE-B41F-862F1EEC1BC6} = {B60DAF13-A686-46B2-A687-CF247B9B8829}
-		{84F83E88-6A74-45BD-8FF3-76BB145C4010} = {6D0CA674-CDDE-4F8D-8128-3E888CCE3131}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F657432B-47C1-402E-92C1-68D8E8D47B87}
