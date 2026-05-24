@@ -18,7 +18,7 @@ public abstract class BaseStartup
         ConfigureServices(builder.Services, builder.Configuration);
     }
 
-    protected virtual void ConfigureServices(
+    protected void ConfigureServices(
         IServiceCollection services,
         IConfiguration configuration)
     {
@@ -30,8 +30,10 @@ public abstract class BaseStartup
         services.AddScoped<IConnect, ConnectClient>();
         ConfigureMediator(services);
         AppConfiguration.Initialize(configuration, Permissions, Modules);
+        OnConfigure(services, configuration);
     }
 
+    public abstract void OnConfigure(IServiceCollection services, IConfiguration configuration);
     public abstract void OnStartup(WebApplication app);
 
     public virtual IReadOnlyCollection<PermissionInfo> Permissions => new List<PermissionInfo>();

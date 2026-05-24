@@ -28,9 +28,8 @@ namespace Base
 
         public override IReadOnlyCollection<PermissionInfo> Permissions => Modules.SelectMany(x => x.Module.Permissions).ToList();
 
-        protected override void ConfigureServices(IServiceCollection services, IConfiguration configuration)
+        public override void OnConfigure(IServiceCollection services, IConfiguration configuration)
         {
-            base.ConfigureServices(services, configuration);
             ConfigureModules(services);
             ConfigureLogging(services);
             ConfigureSwagger(services);
