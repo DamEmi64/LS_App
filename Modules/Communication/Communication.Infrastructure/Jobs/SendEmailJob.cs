@@ -1,6 +1,6 @@
 ﻿using Base;
-using Base.Interfaces;
 using Communication.Domain.Entities;
+using CommunicationBase;
 using Files.Domain.Repositories;
 
 namespace Communication.Infrastructure.Jobs
@@ -22,16 +22,16 @@ namespace Communication.Infrastructure.Jobs
         public async Task Execute(IJobContext jobContext)
         {
             var repo = jobContext.Resolve<IEmailRepository>();
-            var sender = jobContext.Resolve<IEmailSender>();
+            var sender = jobContext.Resolve<IConnect>();
 
             await ExecuteInternal(repo, sender);
         }
 
-        private async Task ExecuteInternal(IEmailRepository emailRepository, IEmailSender sender)
+        private async Task ExecuteInternal(IEmailRepository emailRepository, IConnect connectClient)
         {
             ArgumentNullException.ThrowIfNull(Email);
 
-            var result = await sender.SendEmailAsync(Email.Recipient, Email.Subject, Email.Body, Email.Sender);
+            var result = await connectClient.SendEmailAsync(Email.Recipient, Email.Subject, Email.Body, Email.Sender);
 
             if (result.IsFailed)
             {

@@ -3,12 +3,12 @@ using System.Collections.ObjectModel;
 
 namespace System.Infrastructure.Services.ConnectorResolver
 {
-    public class ConnectorResolver : IConnectorResolver
+    public class ConnectorService : IConnectorService
     {
         private readonly IConnector _connector;
         private List<DictionaryItem> _dictionaries { get; set; } = new List<DictionaryItem>();
 
-        public ConnectorResolver(IConnector connector)
+        public ConnectorService(IConnector connector)
         {
             _connector = connector;
         }

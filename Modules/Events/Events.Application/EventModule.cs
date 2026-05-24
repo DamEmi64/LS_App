@@ -19,6 +19,8 @@ namespace Events.Application
 
         public string Version => "v0.1";
 
+        public IEnumerable<PermissionInfo> Permissions => [PermissionInfo.Create("events", "Manage events", true),];
+
         public IServiceCollection Configure(IServiceCollection services)
         {
             services.AddAutoMapper(opt => opt.AddMaps(typeof(EventModule).Assembly));

@@ -8,18 +8,11 @@ namespace System.Views.Pages.Admin
     [TypeFilter(typeof(AdminPanelFilter))]
     public class RolesModel : PageModel
     {
-        private readonly IConnectorResolver _connector;
-
-        public RolesModel(IConnectorResolver connector)
-        {
-            _connector = connector;
-        }
-
         public Dictionary<string, string>? Claims { get; set; }
 
         public void OnGet()
         {
-            Claims = _connector.Permissions.ToDictionary(PermissionInfo => PermissionInfo.Key, PermissionInfo => PermissionInfo.Description);
+            Claims = AppConfiguration.Permissions.ToDictionary(PermissionInfo => PermissionInfo.Key, PermissionInfo => PermissionInfo.Description);
         }
     }
 }

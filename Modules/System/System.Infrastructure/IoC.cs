@@ -16,6 +16,7 @@ using System.Infrastructure.JobEngine.Milestones;
 using System.Infrastructure.Repositories;
 using System.Infrastructure.Services.Admin;
 using System.Infrastructure.Services.Auth;
+using System.Infrastructure.Services.ConnectorResolver;
 using System.Infrastructure.Services.Controller;
 using System.Infrastructure.Services.EntityContext;
 using System.Infrastructure.Services.Media;
@@ -30,7 +31,7 @@ namespace System.Infrastructure
         {
             return services.AddScoped<IProcessRepository, ProcessRepository>()
                 .AddScoped<IJobRepository, JobRepository>()
-                .AddScoped<IDictionaryRepository, DictionaryRepository>()
+                .AddScoped<IDictionaryProvider, DictionaryRepository>()
                 .AddScoped<ILogRepository, LogRepository>();
         }
 
@@ -38,7 +39,6 @@ namespace System.Infrastructure
         {
             return serviceDescriptors.AddScoped<IControllerService, ControllerService>()
                 .AddScoped<INotifier, Notifier>()
-                .AddScoped<IUserService, UserService>()
                 .AddScoped<IEntityContext, EntityContext>()
                 .AddScoped<IMediaProvider, CachedMediaService>();
         }

@@ -12,12 +12,12 @@ namespace System.Infrastructure.Services.Admin
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogRepository _logRepository;
-        private readonly IDictionaryRepository _dictionaryRepository;
+        private readonly IDictionaryProvider _dictionaryRepository;
 
         public AdminService(UserManager<User> userManager,
             RoleManager<IdentityRole> roleManager,
             ILogRepository logRepository,
-            IDictionaryRepository dictionaryRepository)
+            IDictionaryProvider dictionaryRepository)
         {
             _userManager = userManager;
             _roleManager = roleManager;

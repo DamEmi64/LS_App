@@ -25,6 +25,11 @@ namespace RPG.Application
 
         public string Version => "v0.8";
 
+        public IEnumerable<PermissionInfo> Permissions => [
+            PermissionInfo.Create("rpg","Read RPG sessions",true),
+            PermissionInfo.Create("rpg_write","Manage RPG sessions",false),
+            PermissionInfo.Create("rpg_draft","Manage drafts of RPG sessions",false)];
+
         public IServiceCollection Configure(IServiceCollection services)
         {
             services.Configure<FirebaseOptions>(AppConfiguration.Get<FirebaseOptions>());

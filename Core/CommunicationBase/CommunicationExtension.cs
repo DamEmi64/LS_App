@@ -1,6 +1,8 @@
-﻿using CommunicationBase.Dtos;
+﻿using Base;
+using CommunicationBase.Dtos;
 using CommunicationBase.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
+using SharedEvents.Communication;
 
 namespace CommunicationBase
 {
@@ -44,5 +46,12 @@ namespace CommunicationBase
 
             return services;
         }
+
+        public static Task<FluentResults.Result> SendEmailAsync(this IConnect connect, string to,string subject,string body,string? from = null)
+        {
+            var cmd = new SendEmail(to,subject,body,from);
+
+            return connect.Send(cmd);
+        } 
     }
 }

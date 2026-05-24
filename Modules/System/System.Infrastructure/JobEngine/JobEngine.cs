@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using System.ComponentModel;
 using System.Domain.Entities;
 using System.Domain.Repositories;
+using System.Infrastructure.Services.ConnectorResolver;
 
 namespace System.Infrastructure.JobEngine
 {
@@ -14,19 +15,19 @@ namespace System.Infrastructure.JobEngine
         private readonly UserManager<User> _userStore;
         private readonly IBackgroundJobClient _backgroundJobClient;
         private readonly IJobExecutor _jobExecutor;
-        private readonly IConnectorResolver _connector;
+        private readonly IConnectorService _connectorService;
 
         public JobEngine(UserManager<User> userStore,
             IProcessRepository processRepository,
             IBackgroundJobClient backgroundJobClient,
             IJobExecutor jobExecutor,
-            IConnectorResolver connector)
+            IConnectorService connectorService)
         {
             _userStore = userStore;
             _processRepository = processRepository;
             _backgroundJobClient = backgroundJobClient;
             _jobExecutor = jobExecutor;
-            _connector = connector;
+            _connectorService = connectorService;
         }
 
         public IProcessSchema Create(string title) => new ProcessSchema(title);
@@ -71,7 +72,7 @@ namespace System.Infrastructure.JobEngine
             var root = _backgroundJobClient.Schedule(() => ProcessStart(process.Title), DateTimeOffset.MaxValue);
             foreach (var job in jobs)
             {
-                var operation = _connector.GetOperation(job.OperationId);
+                var operation = _connectorService.GetOperation(job.OperationId);
                 ArgumentNullException.ThrowIfNull(operation, $"Operation {job.OperationId} not found");
                 var taskname = $"[{process.Id}:{process.Title}] {job.Name}";
                 var jobId = _backgroundJobClient.ContinueJobWith(root, operation.Queue, () => ExecuteJob(taskname, job, process.Id, null));
@@ -84,7 +85,7 @@ namespace System.Infrastructure.JobEngine
                 var current = stack.Pop();
                 foreach (var child in current.Item1)
                 {
-                    var operation = _connector.GetOperation(child.OperationId);
+                    var operation = _connectorService.GetOperation(child.OperationId);
                     ArgumentNullException.ThrowIfNull(operation, $"Operation {child.OperationId} not found");
                     var taskname = $"({process.Title}) {child.Name}";
 

@@ -7,20 +7,18 @@ namespace System.Application.Controllers
 {
     public class HomeController : BaseController
     {
-        private readonly IConnectorResolver _connector;
         private readonly IMediaProvider _mediaProvider;
 
-        public HomeController(IControllerService controllerService, IConnectorResolver connector, IMediaProvider mediaProvider) : base(controllerService)
+        public HomeController(IControllerService controllerService, IMediaProvider mediaProvider) : base(controllerService)
         {
-            _connector = connector;
             _mediaProvider = mediaProvider;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            var modules = _connector.Modules.Select(x => new { x.Name, x.Version });
-            var version = _connector.Version;
+            var modules = AppConfiguration.Modules.Select(x => new { x.Key, x.Value });
+            var version = AppConfiguration.Version;
 
             return Json(new { modules, version });
         }

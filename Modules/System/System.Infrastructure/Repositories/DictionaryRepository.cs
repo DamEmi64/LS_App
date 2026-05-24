@@ -1,11 +1,10 @@
 ﻿using Base;
 using Serilog;
-using System.Domain.Repositories;
 using System.Infrastructure.Db;
 
 namespace System.Infrastructure.Repositories
 {
-    public class DictionaryRepository : IDictionaryRepository
+    public class DictionaryRepository : IDictionaryProvider
     {
         private readonly SystemContext _context;
 

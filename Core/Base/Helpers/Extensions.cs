@@ -137,7 +137,7 @@ namespace Base
             this IApplicationBuilder applicationBuilder,
             params ModuleInfo[] modules)
         {
-            if (applicationBuilder == null)
+            /*if (applicationBuilder == null)
                 throw new ArgumentNullException(nameof(applicationBuilder));
 
             var connector = applicationBuilder.ApplicationServices
@@ -160,7 +160,7 @@ namespace Base
                         throw new ModuleInfoEx.ModuleVersionInvalidException(module.Name, existing.Version, module.Version);
                     }
                 }
-            }
+            }*/
 
             return applicationBuilder;
         }

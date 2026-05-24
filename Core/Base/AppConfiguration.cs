@@ -13,6 +13,8 @@ namespace Base
         private const string DEFAULT_DB = "DbContext";
 
         private static IConfiguration _configuration = default!;
+        private static List<PermissionInfo> _permissions = default!;
+        private static Dictionary<string, string> _modules = default!;
 
         /// <summary>
         /// Gets the root configuration section used for application-specific settings.
@@ -79,14 +81,27 @@ namespace Base
             _configuration.GetValue<string>(VERSION) ?? "(unknown)";
 
         /// <summary>
+        ///     List of permissions
+        /// </summary>
+        public static List<PermissionInfo> Permissions => _permissions ?? new List<PermissionInfo>();
+
+        /// <summary>
+        ///     List of modules
+        /// </summary>
+        public static Dictionary<string, string> Modules => _modules ?? new Dictionary<string, string>();
+
+        /// <summary>
         /// Initializes the configuration provider.
         /// This method must be called before accessing configuration values.
         /// </summary>
         /// <param name="configuration">The application configuration instance.</param>
-        /// <exception cref="ArgumentNullException">Thrown when configuration is null.</exception>
-        public static void Initialize(IConfiguration configuration)
+        /// <param name="permissions">The permissions.</param>
+        /// <exception cref="ArgumentNullException">Thrown when configuration is null .</exception>
+        public static void Initialize(IConfiguration configuration, IEnumerable<PermissionInfo> permissions, IEnumerable<ModuleInfo> modules)
         {
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            _permissions = permissions.ToList();
+            _modules = modules.ToDictionary(x => x.Name, x => x.Version);
         }
     }
 }

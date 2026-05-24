@@ -1,13 +1,14 @@
-﻿using Base.Interfaces;
+﻿using Base;
 using Communication.Domain;
 using FluentResults;
+using MediatR;
 using Microsoft.Extensions.Options;
 using System.Net;
 using System.Net.Mail;
 
-namespace Communication.Infrastructure.Services.EmailSender
+namespace Communication.Infrastructure.Connect.SendEmail
 {
-    public class EmailSender : IEmailSender
+    public class EmailSender : ConnectInstance<SharedEvents.Communication.SendEmail>
     {
         private readonly EmailOptions _options;
 
@@ -16,7 +17,11 @@ namespace Communication.Infrastructure.Services.EmailSender
             _options = options.Value;
         }
 
-        public async Task<Result> SendEmailAsync(string to, string subject, string body, string? from = null)
+
+        public override Task<Result> HandleAsync(SharedEvents.Communication.SendEmail request)
+            => SendEmailAsync(request.To, request.Subject, request.Body, request.From);
+
+        private async Task<Result> SendEmailAsync(string to, string subject, string body, string? from = null)
         {
             try
             {

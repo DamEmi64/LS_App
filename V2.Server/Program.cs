@@ -1,8 +1,6 @@
-using Api;
-
 var builder = WebApplication.CreateBuilder(args);
 
-var build = new Startup(builder);
+var build = Connector.Main.InitializeConnector(builder);
 
 var app = build.Build();
 

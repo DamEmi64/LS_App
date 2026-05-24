@@ -1,5 +1,4 @@
 ﻿using Base;
-using Base.Interfaces;
 using Events.Domain.Dictionaries;
 using Events.Domain.Entities;
 using Events.Extras.Resources;
@@ -27,12 +26,12 @@ namespace Events.Infrastructure.Jobs
 
         public async Task Execute(IJobContext jobContext)
         {
-            var emailSender = jobContext.Resolve<IEmailSender>();
             var mediaProvider = jobContext.Resolve<IMediaProvider>();
-            await ExecuteInternal(emailSender, jobContext, mediaProvider);
+            var connectClient = jobContext.Resolve<IConnect>();
+            await ExecuteInternal(jobContext, mediaProvider, connectClient);
         }
 
-        private async Task ExecuteInternal(IEmailSender emailSender, IJobContext jobContext, IMediaProvider mediaProvider)
+        private async Task ExecuteInternal(IJobContext jobContext, IMediaProvider mediaProvider, IConnect connectClient)
         {
             if (string.IsNullOrEmpty(Receiver.Email))
             {
@@ -43,7 +42,10 @@ namespace Events.Infrastructure.Jobs
             var image = await mediaProvider.Load(Event.Image);
 
             var html = await RazorTemplateEngine.RenderAsync(TemplatePath, new EventSendingData(Event, Receiver, image?.ContentStr, string.Format(LinkToEvent, Event.Id)));
-            var result = await emailSender.SendEmailAsync(Receiver.Email, $"Invitation to event {Event.Title}", html);
+
+            var sendEmailData = new SharedEvents.Communication.SendEmail(Receiver.Email, $"Reminder for event {Event.Title}", html);
+
+            var result = await connectClient.Send(sendEmailData);
 
             if (result.IsFailed)
             {

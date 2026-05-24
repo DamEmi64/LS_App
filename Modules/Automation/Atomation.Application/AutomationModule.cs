@@ -17,6 +17,8 @@ namespace Automation.Application
 
         public string Version => "v0.3 Alpha";
 
+        public IEnumerable<PermissionInfo> Permissions => [PermissionInfo.Create("automation", "Manage automation tasks", false)];
+
         public IServiceCollection Configure(IServiceCollection services)
         {
             services.AddAutoMapper(opt => opt.AddMaps(typeof(AutomationModule).Assembly));
