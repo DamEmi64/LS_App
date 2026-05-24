@@ -153,7 +153,7 @@ namespace System.Infrastructure
             return services.AddScoped<IJobEngine, JobEngine.JobEngine>()
                 .AddScoped<IMilestoneWorker, MilestoneWorker>()
                 .AddScoped<ArchiveLogsWorker>()
-                .AddScoped<IJobExecutor, JobExecutor>()
+                .AddScoped<IJobContext,JobContext>()
                 .AddHangfire(options =>
                 {
                     options.UseSqlServerStorage(connectionString);

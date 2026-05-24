@@ -12,22 +12,23 @@ namespace System.Infrastructure.JobEngine
     public class JobEngine : IJobEngine
     {
         private readonly IProcessRepository _processRepository;
-        private readonly UserManager<User> _userStore;
         private readonly IBackgroundJobClient _backgroundJobClient;
-        private readonly IJobExecutor _jobExecutor;
         private readonly IConnectorService _connectorService;
+        private readonly IJobContext _jobContext;
+        private readonly IConnect _connect;
 
-        public JobEngine(UserManager<User> userStore,
+        public JobEngine(
             IProcessRepository processRepository,
             IBackgroundJobClient backgroundJobClient,
-            IJobExecutor jobExecutor,
-            IConnectorService connectorService)
+            IConnect connect,
+            IConnectorService connectorService,
+            IJobContext jobContext)
         {
-            _userStore = userStore;
             _processRepository = processRepository;
             _backgroundJobClient = backgroundJobClient;
-            _jobExecutor = jobExecutor;
+            _connect = connect;
             _connectorService = connectorService;
+            _jobContext = jobContext;
         }
 
         public IProcessSchema Create(string title) => new ProcessSchema(title);
@@ -101,7 +102,21 @@ namespace System.Infrastructure.JobEngine
         [DisplayName("{0}")]
         public void ExecuteJob(string title, IJob job, Guid processId, PerformContext? performContext)
         {
-            _jobExecutor.Execute(title, job, processId, performContext);
+            ArgumentNullException.ThrowIfNull(performContext);
+            ExecuteAsync(job, processId, performContext).Wait();
+        }
+
+        private async Task ExecuteAsync(IJob job, Guid processId, PerformContext performContext)
+        {
+            if (_jobContext is JobContext jobContext)
+            {
+                jobContext.Setup(job.Id, processId, performContext.BackgroundJob.Id);
+                _ = await _connect.Send(job);
+            }
+            else
+            {
+                throw new InvalidCastException("Invalid job context");
+            }
         }
 
         private void SetJobId(Process process, IJob job, string jobId)
@@ -122,7 +137,7 @@ namespace System.Infrastructure.JobEngine
         {
             var process = await _processRepository.Get(processId);
             ArgumentNullException.ThrowIfNull(process);
-            foreach(var job in process.Jobs)
+            foreach (var job in process.Jobs)
             {
                 _backgroundJobClient.Delete(job.JobId);
             }

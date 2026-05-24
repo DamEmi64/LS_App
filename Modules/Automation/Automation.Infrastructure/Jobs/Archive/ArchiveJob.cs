@@ -21,13 +21,7 @@ namespace Automation.Infrastructure.Jobs
 
         public async Task Execute(IJobContext jobContext)
         {
-            if (File.Exists(DestDir))
-            {
-                File.Delete(DestDir);
-            }
 
-            // Create the zip archive
-            ZipFile.CreateFromDirectory(SourceDir, DestDir, CompressionLevel.Optimal, includeBaseDirectory: true);
         }
     }
 }
