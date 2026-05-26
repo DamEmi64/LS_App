@@ -2,105 +2,105 @@
   "Automation_events": {
     "110": {
       "title": "Ausführungsintervall (Minuten)",
-      "description": null
+      "description": ""
     },
     "111": {
       "title": "Beim Herunterladen einer Datei",
-      "description": null
+      "description": ""
     },
     "112": {
       "title": "Beim Erstellen eines Ereignisses",
-      "description": null
+      "description": ""
     },
     "113": {
       "title": "Bei der Anmeldung zu einem Ereignis",
-      "description": null
+      "description": ""
     },
     "114": {
       "title": "Beim Bearbeiten einer RPG-Sitzung",
-      "description": null
+      "description": ""
     },
     "115": {
       "title": "Beim Speichern einer Datei",
-      "description": null
+      "description": ""
     }
   },
-  "Event_category": {
+  "Event_categories": {
     "421": {
       "title": "Film",
-      "description": null
+      "description": ""
     },
     "422": {
       "title": "Konzert",
-      "description": null
+      "description": ""
     },
     "423": {
       "title": "Urlaub/Ferien",
-      "description": null
+      "description": ""
     },
     "424": {
       "title": "Treffen",
-      "description": null
+      "description": ""
     }
   },
   "File_source_type": {
     "300": {
       "title": "Lokal",
-      "description": null
+      "description": ""
     },
     "301": {
       "title": "vom Dienst FuckingFast",
-      "description": null
+      "description": ""
     }
   },
   "File_types": {
     "101": {
       "title": "Spiele",
-      "description": null
+      "description": ""
     },
     "102": {
       "title": "Dokumente",
-      "description": null
+      "description": ""
     },
     "103": {
       "title": "Studienunterlagen",
-      "description": null
+      "description": ""
     }
   },
   "Fluid_functions": {
     "601": {
       "title": "Zufallszahl",
-      "description": null
+      "description": ""
     },
     "602": {
       "title": "Zufällig",
-      "description": null
+      "description": ""
     },
     "603": {
       "title": "Zufällig eindeutig",
-      "description": null
+      "description": ""
     },
     "604": {
       "title": "Inkrementieren",
-      "description": null
+      "description": ""
     }
   },
   "Fluid_variables": {
     "605": {
       "title": "Benutzer",
-      "description": null
+      "description": ""
     },
     "606": {
       "title": "Absender",
-      "description": null
+      "description": ""
     },
     "607": {
       "title": "Empfänger",
-      "description": null
+      "description": ""
     },
     "608": {
       "title": "Empfänger",
-      "description": null
+      "description": ""
     },
     "609": {
       "title": "Datum",
@@ -110,197 +110,197 @@
   "Game_genres": {
     "200": {
       "title": "Plattformspiel",
-      "description": null
+      "description": ""
     },
     "201": {
       "title": "Shooter",
-      "description": null
+      "description": ""
     },
     "202": {
       "title": "Ego-Shooter",
-      "description": null
+      "description": ""
     },
     "203": {
       "title": "Third-Person-Shooter",
-      "description": null
+      "description": ""
     },
     "204": {
       "title": "Beat ’em Up",
-      "description": null
+      "description": ""
     },
     "205": {
       "title": "Stealth",
-      "description": null
+      "description": ""
     },
     "206": {
       "title": "Survival",
-      "description": null
+      "description": ""
     },
     "210": {
       "title": "Action-Adventure",
-      "description": null
+      "description": ""
     },
     "211": {
       "title": "Narratives Abenteuer",
-      "description": null
+      "description": ""
     },
     "212": {
       "title": "Point-and-Click",
-      "description": null
+      "description": ""
     },
     "220": {
       "title": "Action-RPG",
-      "description": null
+      "description": ""
     },
     "221": {
       "title": "Rundenbasiertes RPG",
-      "description": null
+      "description": ""
     },
     "222": {
       "title": "Taktisches RPG",
-      "description": null
+      "description": ""
     },
     "223": {
       "title": "MMORPG",
-      "description": null
+      "description": ""
     },
     "224": {
       "title": "Open-World-RPG",
-      "description": null
+      "description": ""
     },
     "230": {
       "title": "Lebenssimulation",
-      "description": null
+      "description": ""
     },
     "231": {
       "title": "Landwirtschaftssimulation",
-      "description": null
+      "description": ""
     },
     "232": {
       "title": "Fahrzeugsimulation",
-      "description": null
+      "description": ""
     },
     "233": {
       "title": "Städtebau",
-      "description": null
+      "description": ""
     },
     "240": {
       "title": "Echtzeitstrategie",
-      "description": null
+      "description": ""
     },
     "241": {
       "title": "Rundenstrategie",
-      "description": null
+      "description": ""
     },
     "242": {
       "title": "Tower Defense",
-      "description": null
+      "description": ""
     },
     "243": {
       "title": "4X-Strategie",
-      "description": null
+      "description": ""
     },
     "250": {
       "title": "Klassisches Puzzlespiel",
-      "description": null
+      "description": ""
     },
     "251": {
       "title": "Physik-Puzzle",
-      "description": null
+      "description": ""
     },
     "252": {
       "title": "Match-3",
-      "description": null
+      "description": ""
     },
     "260": {
       "title": "Traditioneller Sport",
-      "description": null
+      "description": ""
     },
     "261": {
       "title": "Extremsport",
-      "description": null
+      "description": ""
     },
     "262": {
       "title": "Rennspiel",
-      "description": null
+      "description": ""
     },
     "270": {
       "title": "Klassisches Kampfspiel",
-      "description": null
+      "description": ""
     },
     "271": {
       "title": "Plattform-Kampfspiel",
-      "description": null
+      "description": ""
     },
     "280": {
       "title": "Survival Horror",
-      "description": null
+      "description": ""
     },
     "281": {
       "title": "Psychologischer Horror",
-      "description": null
+      "description": ""
     },
     "290": {
       "title": "Partyspiel",
-      "description": null
+      "description": ""
     },
     "291": {
       "title": "Rhythmusspiel",
-      "description": null
+      "description": ""
     },
     "299": {
       "title": "Andere",
-      "description": null
+      "description": ""
     }
   },
   "Notify_types": {
     "1000": {
       "title": "Protokoll",
-      "description": null
+      "description": ""
     },
     "1001": {
       "title": "Interner Systemfehler",
-      "description": null
+      "description": ""
     },
     "1002": {
       "title": "Prozess {0} gestartet",
-      "description": null
+      "description": ""
     },
     "1003": {
       "title": "Prozess {0} abgeschlossen",
-      "description": null
+      "description": ""
     },
     "1004": {
       "title": "Prozess {0} mit Fehler beendet",
-      "description": null
+      "description": ""
     },
     "1005": {
       "title": "Prozess {0} zur Warteschlange hinzugefügt",
-      "description": null
+      "description": ""
     },
     "1006": {
       "title": "Datei {0} gespeichert",
-      "description": null
+      "description": ""
     },
     "1007": {
       "title": "Datei {0} gelöscht",
-      "description": null
+      "description": ""
     },
     "1008": {
       "title": "Datei {0} aktualisiert",
-      "description": null
+      "description": ""
     },
     "1009": {
       "title": "Datei nicht gefunden",
-      "description": null
+      "description": ""
     },
     "1010": {
       "title": "Datei {0} existiert bereits",
-      "description": null
+      "description": ""
     },
     "1011": {
       "title": "Speichern der Datei {0} fehlgeschlagen",
-      "description": null
+      "description": ""
     },
     "1012": {
       "title": "Sitzung {0} gespeichert",
@@ -473,24 +473,28 @@
     "1057": {
       "title": "Erinnerung entfernt",
       "description": "Ereigniserinnerung wurde entfernt"
+    },
+    "1058": {
+      "title": "Vorgang {0} wurde abgebrochen",
+      "description": ""
     }
   },
   "Operations": {
     "11": {
       "title": "Datei importieren",
-      "description": null
+      "description": ""
     },
     "12": {
       "title": "Datei verschieben",
-      "description": null
+      "description": ""
     },
     "13": {
       "title": "Datei kopieren",
-      "description": null
+      "description": ""
     },
     "14": {
       "title": "Datei löschen",
-      "description": null
+      "description": ""
     },
     "21": {
       "title": "E-Mail senden",
@@ -526,6 +530,14 @@
     },
     "41": {
       "title": "Daten archivieren",
+      "description": ""
+    },
+    "51": {
+      "title": null,
+      "description": ""
+    },
+    "52": {
+      "title": null,
       "description": ""
     }
   },

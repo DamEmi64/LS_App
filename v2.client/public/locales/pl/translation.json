@@ -276,7 +276,7 @@
     "draft": "Szkice RPG",
     "events": "Wydarzenia",
     "allEvents": "Wszystkie wydarzenia",
-    "myEvents": "Moje wyarzenia"
+    "myEvents": "Moje wydarzenia"
   },
   "server": {
     "info": "Stan aplikacji",
@@ -387,6 +387,9 @@
       "id": "Id uczestnika",
       "login": "Uczestnik",
       "email": "Email"
-    }
+    },
+    "setReminder": "Ustaw przypomnienie",
+    "sendInvitation": "Wyślij zaproszenie",
+    "removeReminder": "Usuń przypomnienie"
   }
 }

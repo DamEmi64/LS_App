@@ -3,6 +3,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { Box, Button, Typography } from "@mui/material";
+import { t } from "i18next";
 
 type Props = {
   onSubmit: (date: Date | null) => void;
@@ -15,7 +16,6 @@ const ReminderSetup: React.FC<Props> = ({
   onSubmit,
   onCancel,
   initialDate = null,
-  submitLabel = "Set reminder",
 }) => {
   const [date, setDate] = useState<Date | null>(initialDate);
 
@@ -35,7 +35,7 @@ const ReminderSetup: React.FC<Props> = ({
         <DateTimePicker
           label="Reminder"
           value={date}
-          onChange={(newVal) => setDate(newVal)}
+          onChange={(newVal) => setDate(newVal as Date)}
           slotProps={{
             textField: {
               fullWidth: true,
@@ -46,11 +46,11 @@ const ReminderSetup: React.FC<Props> = ({
         <Box sx={{ display: "flex", justifyContent: "flex-end", gap: 2 }}>
           {onCancel && (
             <Button type="button" variant="outlined" onClick={onCancel}>
-              Cancel
+              {t('opt.cancel')}
             </Button>
           )}
           <Button type="submit" variant="contained" color="primary" disabled={!date}>
-            {submitLabel}
+            {t('opt.save')}
           </Button>
         </Box>
       </Box>

@@ -7,8 +7,10 @@ export interface EventBody {
   title: string;
   description: string;
   image: string;
+  imageContent: string;
   eventDate: string;
   participants?: EventParticipant[];
+  category: number;
 }
 
 export interface EventComponentProps {

@@ -139,8 +139,13 @@ namespace System.Infrastructure.JobEngine
             ArgumentNullException.ThrowIfNull(process);
             foreach (var job in process.Jobs)
             {
-                _backgroundJobClient.Delete(job.JobId);
+                if (_backgroundJobClient.Delete(job.JobId))
+                {
+                    job.Status = ProgressStatus.Cancelled;
+                }
             }
+            process.Status = ProgressStatus.Cancelled;
+            await _processRepository.Update(process);
         }
     }
 }

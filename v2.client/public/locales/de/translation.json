@@ -387,6 +387,9 @@
       "id": "ID",
       "login": "Login",
       "email": "E-Mail"
-    }
+    },
+    "setReminder": "Erinnerung festlegen",
+    "sendInvitation": "Einladung senden",
+    "removeReminder": "Erinnerung entfernen"
   }
 }

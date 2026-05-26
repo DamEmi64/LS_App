@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Application.Dtos;
 using System.Application.Filters;
+using System.Domain.Dictionaries;
 using System.Domain.Repositories;
 
 namespace System.Application.Controllers
@@ -49,6 +50,7 @@ namespace System.Application.Controllers
         public async Task<IActionResult> Cancel(Guid id)
         {
             await _jobEngine.Cancel(id);
+            await Notifier.Info(SystemNotifyTypes.ProcessCancelled, id);
             return Ok();
         }
     }

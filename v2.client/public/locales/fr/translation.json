@@ -387,6 +387,9 @@
       "id": "ID",
       "login": "Participant",
       "email": "E-mail"
-    }
+    },
+    "setReminder": "Définir un rappel",
+    "sendInvitation": "Envoyer une invitation",
+    "removeReminder": "Supprimer le rappel"
   }
 }

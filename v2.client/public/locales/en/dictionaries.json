@@ -2,105 +2,105 @@
   "Automation_events": {
     "110": {
       "title": "Run frequency (minutes)",
-      "description": null
+      "description": ""
     },
     "111": {
       "title": "On file download",
-      "description": null
+      "description": ""
     },
     "112": {
       "title": "On event creation",
-      "description": null
+      "description": ""
     },
     "113": {
       "title": "On event registration",
-      "description": null
+      "description": ""
     },
     "114": {
       "title": "On RPG session edit",
-      "description": null
+      "description": ""
     },
     "115": {
       "title": "On file save",
-      "description": null
+      "description": ""
     }
   },
-  "Event_category": {
+  "Event_categories": {
     "421": {
       "title": "Movie",
-      "description": null
+      "description": ""
     },
     "422": {
       "title": "Concert",
-      "description": null
+      "description": ""
     },
     "423": {
       "title": "Vacation/Holiday",
-      "description": null
+      "description": ""
     },
     "424": {
       "title": "Meeting",
-      "description": null
+      "description": ""
     }
   },
   "File_source_type": {
     "300": {
       "title": "Local",
-      "description": null
+      "description": ""
     },
     "301": {
       "title": "from FuckingFast service",
-      "description": null
+      "description": ""
     }
   },
   "File_types": {
     "101": {
       "title": "Games",
-      "description": null
+      "description": ""
     },
     "102": {
       "title": "Documents",
-      "description": null
+      "description": ""
     },
     "103": {
       "title": "Study files",
-      "description": null
+      "description": ""
     }
   },
   "Fluid_functions": {
     "601": {
       "title": "Random Number",
-      "description": null
+      "description": ""
     },
     "602": {
       "title": "Random",
-      "description": null
+      "description": ""
     },
     "603": {
       "title": "Random Unique",
-      "description": null
+      "description": ""
     },
     "604": {
       "title": "Increment",
-      "description": null
+      "description": ""
     }
   },
   "Fluid_variables": {
     "605": {
       "title": "User",
-      "description": null
+      "description": ""
     },
     "606": {
       "title": "Sender",
-      "description": null
+      "description": ""
     },
     "607": {
       "title": "Receiver",
-      "description": null
+      "description": ""
     },
     "608": {
       "title": "Receivers",
-      "description": null
+      "description": ""
     },
     "609": {
       "title": "Date",
@@ -110,197 +110,197 @@
   "Game_genres": {
     "200": {
       "title": "Platformer",
-      "description": null
+      "description": ""
     },
     "201": {
       "title": "Shooter",
-      "description": null
+      "description": ""
     },
     "202": {
       "title": "First Person Shooter",
-      "description": null
+      "description": ""
     },
     "203": {
       "title": "Third Person Shooter",
-      "description": null
+      "description": ""
     },
     "204": {
       "title": "Beat 'Em Up",
-      "description": null
+      "description": ""
     },
     "205": {
       "title": "Stealth",
-      "description": null
+      "description": ""
     },
     "206": {
       "title": "Survival",
-      "description": null
+      "description": ""
     },
     "210": {
       "title": "Action Adventure",
-      "description": null
+      "description": ""
     },
     "211": {
       "title": "Narrative Adventure",
-      "description": null
+      "description": ""
     },
     "212": {
       "title": "Point and Click",
-      "description": null
+      "description": ""
     },
     "220": {
       "title": "Action RPG",
-      "description": null
+      "description": ""
     },
     "221": {
       "title": "Turn-Based RPG",
-      "description": null
+      "description": ""
     },
     "222": {
       "title": "Tactical RPG",
-      "description": null
+      "description": ""
     },
     "223": {
       "title": "MMORPG",
-      "description": null
+      "description": ""
     },
     "224": {
       "title": "Open World RPG",
-      "description": null
+      "description": ""
     },
     "230": {
       "title": "Life Simulation",
-      "description": null
+      "description": ""
     },
     "231": {
       "title": "Farming Simulation",
-      "description": null
+      "description": ""
     },
     "232": {
       "title": "Vehicle Simulation",
-      "description": null
+      "description": ""
     },
     "233": {
       "title": "City Building",
-      "description": null
+      "description": ""
     },
     "240": {
       "title": "Real-Time Strategy",
-      "description": null
+      "description": ""
     },
     "241": {
       "title": "Turn-Based Strategy",
-      "description": null
+      "description": ""
     },
     "242": {
       "title": "Tower Defense",
-      "description": null
+      "description": ""
     },
     "243": {
       "title": "4X Strategy",
-      "description": null
+      "description": ""
     },
     "250": {
       "title": "Classic Puzzle",
-      "description": null
+      "description": ""
     },
     "251": {
       "title": "Physics Puzzle",
-      "description": null
+      "description": ""
     },
     "252": {
       "title": "Match 3",
-      "description": null
+      "description": ""
     },
     "260": {
       "title": "Traditional Sports",
-      "description": null
+      "description": ""
     },
     "261": {
       "title": "Extreme Sports",
-      "description": null
+      "description": ""
     },
     "262": {
       "title": "Racing",
-      "description": null
+      "description": ""
     },
     "270": {
       "title": "Traditional Fighting",
-      "description": null
+      "description": ""
     },
     "271": {
       "title": "Platform Fighting",
-      "description": null
+      "description": ""
     },
     "280": {
       "title": "Survival Horror",
-      "description": null
+      "description": ""
     },
     "281": {
       "title": "Psychological Horror",
-      "description": null
+      "description": ""
     },
     "290": {
       "title": "Party Game",
-      "description": null
+      "description": ""
     },
     "291": {
       "title": "Rhythm Game",
-      "description": null
+      "description": ""
     },
     "299": {
       "title": "Other",
-      "description": null
+      "description": ""
     }
   },
   "Notify_types": {
     "1000": {
       "title": "Log",
-      "description": null
+      "description": ""
     },
     "1001": {
       "title": "Internal system error",
-      "description": null
+      "description": ""
     },
     "1002": {
       "title": "Process {0} started",
-      "description": null
+      "description": ""
     },
     "1003": {
       "title": "Process {0} completed",
-      "description": null
+      "description": ""
     },
     "1004": {
       "title": "Process {0} failed",
-      "description": null
+      "description": ""
     },
     "1005": {
       "title": "Process {0} added to queue",
-      "description": null
+      "description": ""
     },
     "1006": {
       "title": "File {0} saved",
-      "description": null
+      "description": ""
     },
     "1007": {
       "title": "File {0} deleted",
-      "description": null
+      "description": ""
     },
     "1008": {
       "title": "File {0} updated",
-      "description": null
+      "description": ""
     },
     "1009": {
       "title": "File not found",
-      "description": null
+      "description": ""
     },
     "1010": {
       "title": "File {0} already exists",
-      "description": null
+      "description": ""
     },
     "1011": {
       "title": "Failed to save file {0}",
-      "description": null
+      "description": ""
     },
     "1012": {
       "title": "Session {0} saved",
@@ -473,24 +473,28 @@
     "1057": {
       "title": "Remove reminder",
       "description": "Event reminder was removed"
+    },
+    "1058": {
+      "title": "Process {0} was cancelled",
+      "description": ""
     }
   },
   "Operations": {
     "11": {
       "title": "Import file",
-      "description": null
+      "description": ""
     },
     "12": {
       "title": "Move file",
-      "description": null
+      "description": ""
     },
     "13": {
       "title": "Copy file",
-      "description": null
+      "description": ""
     },
     "14": {
       "title": "Delete file",
-      "description": null
+      "description": ""
     },
     "21": {
       "title": "Send email",
@@ -526,6 +530,14 @@
     },
     "41": {
       "title": "Archive data",
+      "description": ""
+    },
+    "51": {
+      "title": null,
+      "description": ""
+    },
+    "52": {
+      "title": null,
       "description": ""
     }
   },

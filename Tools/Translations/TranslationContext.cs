@@ -182,7 +182,7 @@ namespace Translations
 
             File.WriteAllText(
                 System.IO.Path.Combine(output, "dictionaries.json"),
-                JsonConvert.SerializeObject(dictionaryData)
+                JsonConvert.SerializeObject(dictionaryData, Formatting.Indented)
             );
 
             if (Dictionaries is null)
@@ -192,19 +192,19 @@ namespace Translations
 
             var translatedEn = dict2.ToDictionary(
                    e => e.Key.Replace(" ", "_"),
-                   e => e.ToDictionary(x => x.Key, x => new { title = x.TitleEN, description = x.DescriptionEN }));
+                   e => e.ToDictionary(x => x.Key, x => new { title = x.TitleEN, description = x.DescriptionEN ?? string.Empty }));
 
             var translatedPl = dict2.ToDictionary(
                    e => e.Key.Replace(" ", "_"),
-                   e => e.ToDictionary(x => x.Key, x => new { title = x.TitlePL, description = x.DescriptionPL }));
+                   e => e.ToDictionary(x => x.Key, x => new { title = x.TitlePL, description = x.DescriptionPL ?? string.Empty }));
 
             var translatedDe = dict2.ToDictionary(
                    e => e.Key.Replace(" ", "_"),
-                   e => e.ToDictionary(x => x.Key, x => new { title = x.TitleDE, description = x.DescriptionDE }));
+                   e => e.ToDictionary(x => x.Key, x => new { title = x.TitleDE, description = x.DescriptionDE ?? string.Empty }));
 
             var translatedFr = dict2.ToDictionary(
                    e => e.Key.Replace(" ", "_"),
-                   e => e.ToDictionary(x => x.Key, x => new { title = x.TitleFR, description = x.DescriptionFR }));
+                   e => e.ToDictionary(x => x.Key, x => new { title = x.TitleFR, description = x.DescriptionFR ?? string.Empty }));
 
             Save(output, "en", "dictionaries.json", translatedEn);
             Save(output, "pl", "dictionaries.json", translatedPl);

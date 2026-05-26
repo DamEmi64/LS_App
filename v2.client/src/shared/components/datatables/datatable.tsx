@@ -22,7 +22,7 @@ import OperationCell from "@/shared/components/operationCell";
 
 import { t } from "i18next";
 
-import { convertToDateStr } from "@/lib/utils";
+import { convertToDateStr, useDictionaryTranslation } from "@/lib/utils";
 
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
 import DoNotDisturbAltIcon from "@mui/icons-material/DoNotDisturbAlt";
@@ -44,6 +44,8 @@ export const DataTable = <T,>({
 }: TableProps<T>) => {
 
     const theme = useTheme();
+
+    const translateDictionary = useDictionaryTranslation();
 
     const isMobile = useMediaQuery(
         theme.breakpoints.down("sm")
@@ -153,7 +155,8 @@ export const DataTable = <T,>({
 
     const showData = (
         value: any,
-        type: ColumnType
+        type: ColumnType,
+        dictionary?: string
     ) => {
 
         switch (type) {
@@ -175,6 +178,9 @@ export const DataTable = <T,>({
                 ) : (
                     <DoNotDisturbAltIcon color="error" />
                 );
+
+            case ColumnType.Dictionary:
+                return value ? translateDictionary(dictionary, value).title : "";
 
             default:
                 return String(value ?? "");
@@ -306,7 +312,8 @@ export const DataTable = <T,>({
                                                             row[
                                                             col.field
                                                             ],
-                                                            col.type
+                                                            col.type,
+                                                            col.dictionary
                                                         )}
 
                                                 </TableCell>

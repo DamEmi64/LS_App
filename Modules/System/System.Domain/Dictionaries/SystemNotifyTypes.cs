@@ -17,5 +17,6 @@ namespace System.Domain.Dictionaries
         public static DictionaryItem PasswordRequiresDigit => EntityDictionary.Item(1041, "Password requires digit");
         public static DictionaryItem PasswordRequiresLower => EntityDictionary.Item(1042, "Password requires lowercase");
         public static DictionaryItem PasswordRequiresUpper => EntityDictionary.Item(1043, "Password requires upercase");
+        public static DictionaryItem ProcessCancelled => EntityDictionary.Item(1058, "Process was cancelled");
     }
 }

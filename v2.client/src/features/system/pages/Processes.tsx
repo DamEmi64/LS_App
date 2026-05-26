@@ -20,6 +20,16 @@ const Processes = () => {
             });
     }
 
+    const cancel = (data: Process) => {
+        call<Process>(api =>api.processApi.updateByIdCancel, { id: data.id })
+            .then(() => {
+                updateData({ page: 0, pageSize: 10, orderBy: '', order: 'asc', filters: [] })
+                    .then(result => {
+                        setData(result);
+                    });
+        });
+    }
+
     const updateData = (paramsObj: onChangeParams) => {
         const query = {
             page: paramsObj.page?.toString() || '1',
@@ -68,7 +78,8 @@ const Processes = () => {
     ];
 
     const operations: Operations<Process>[] = [
-        { name: 'opt.details', method: (o) => details(o) }
+        { name: 'opt.details', method: (o) => details(o) },
+        { name: 'opt.cancel', method: (o) => cancel(o) }
     ]
 
     const [data, setData] = useState<TableData<Process>>({ data: [], total: 0 });

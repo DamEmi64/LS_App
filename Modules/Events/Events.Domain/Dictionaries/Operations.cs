@@ -2,6 +2,7 @@
 
 namespace Events.Domain.Dictionaries
 {
+    [Dictionary("Operations")]
     public class Operations
     {
         public static DictionaryItem SendReminder => EntityDictionary.Item(51, "Send reminder about event");

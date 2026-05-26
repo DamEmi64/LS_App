@@ -387,6 +387,9 @@
       "id": "ID",
       "login": "Participant",
       "email": "Email"
-    }
+    },
+    "setReminder": "Set reminder",
+    "sendInvitation": "Send invitation",
+    "removeReminder": "Remove reminder"
   }
 }

@@ -19,19 +19,22 @@ namespace Events.Application.Controllers
         private readonly IMapper _mapper;
         private readonly IInvitationService _invitationService;
         private readonly IReminderService _reminderService;
+        private readonly IMediaProvider _mediaProvider;
 
         public EventsController(
             IControllerService controllerService,
             IEventRepository eventRepository,
             IMapper mapper,
             IInvitationService invitationService,
-            IReminderService reminderService)
+            IReminderService reminderService,
+            IMediaProvider mediaProvider)
             : base(controllerService)
         {
             _eventRepository = eventRepository;
             _mapper = mapper;
             _invitationService = invitationService;
             _reminderService = reminderService;
+            _mediaProvider = mediaProvider;
         }
 
         [HttpGet("{id}")]
@@ -68,6 +71,11 @@ namespace Events.Application.Controllers
         [HttpPost("")]
         public async Task<IActionResult> Create([FromBody] EventDto dto)
         {
+            if (!string.IsNullOrEmpty(dto.ImageContent))
+            {
+                dto.Image = await _mediaProvider.Save(dto.ImageContent, dto.Image);
+            }
+
             var entity = _mapper.Map<Event>(dto);
             await _eventRepository.Add(entity);
 
@@ -79,12 +87,18 @@ namespace Events.Application.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Edit(Guid id, [FromBody] EventDto dto)
         {
+            if (!string.IsNullOrEmpty(dto.ImageContent))
+            {
+                dto.Image = await _mediaProvider.Save(dto.ImageContent, dto.Image);
+            }
+
             var entity = await _eventRepository.Get(id);
             ArgumentNullException.ThrowIfNull(entity);
 
             entity.Title = dto.Title;
             entity.Description = dto.Description;
             entity.EventDate = dto.EventDate;
+            entity.CategoryId = dto.Category;
 
             await _eventRepository.Update(entity);
             await Notifier.Success(EventNotifyTypes.EventUpdated, dto.Title);
@@ -107,6 +121,9 @@ namespace Events.Application.Controllers
             var entity = await _eventRepository.Get(id);
             ArgumentNullException.ThrowIfNull(entity);
             ArgumentNullException.ThrowIfNull(CurrentUser);
+
+            if (entity.Participates.Any(x => x.UserId == CurrentUser.UserId))
+                return Ok();
 
             var eventUser = new EventUser
             {

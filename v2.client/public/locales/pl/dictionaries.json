@@ -6,83 +6,83 @@
     },
     "111": {
       "title": "Przy pobieraniu pliku",
-      "description": null
+      "description": ""
     },
     "112": {
       "title": "Przy utworzeniu wydarzenia",
-      "description": null
+      "description": ""
     },
     "113": {
       "title": "Przy zapisie na wydarzenie",
-      "description": null
+      "description": ""
     },
     "114": {
       "title": "Przy edycji sesji RPG",
-      "description": null
+      "description": ""
     },
     "115": {
       "title": "Przy zapisaniu pliku",
-      "description": null
+      "description": ""
     }
   },
-  "Event_category": {
+  "Event_categories": {
     "421": {
       "title": "Film",
-      "description": null
+      "description": ""
     },
     "422": {
       "title": "Koncert",
-      "description": null
+      "description": ""
     },
     "423": {
       "title": "Wakacje/Urlop",
-      "description": null
+      "description": ""
     },
     "424": {
       "title": "Spotkanie",
-      "description": null
+      "description": ""
     }
   },
   "File_source_type": {
     "300": {
       "title": "Lokalny",
-      "description": null
+      "description": ""
     },
     "301": {
       "title": "z serwisu FuckingFast",
-      "description": null
+      "description": ""
     }
   },
   "File_types": {
     "101": {
       "title": "Gry",
-      "description": null
+      "description": ""
     },
     "102": {
       "title": "Dokumenty",
-      "description": null
+      "description": ""
     },
     "103": {
       "title": "Pliki na studia",
-      "description": null
+      "description": ""
     }
   },
   "Fluid_functions": {
     "601": {
       "title": "Losowanie liczby",
-      "description": null
+      "description": ""
     },
     "602": {
       "title": "Losowanie",
-      "description": null
+      "description": ""
     },
     "603": {
       "title": "Uniikalne losowanie",
-      "description": null
+      "description": ""
     },
     "604": {
       "title": "Zwiększenie",
-      "description": null
+      "description": ""
     }
   },
   "Fluid_variables": {
@@ -92,15 +92,15 @@
     },
     "606": {
       "title": "Nadawca",
-      "description": null
+      "description": ""
     },
     "607": {
       "title": "Odbiorca",
-      "description": null
+      "description": ""
     },
     "608": {
       "title": "Odbiorcy",
-      "description": null
+      "description": ""
     },
     "609": {
       "title": "Licznik",
@@ -110,197 +110,197 @@
   "Game_genres": {
     "200": {
       "title": "Platformówka",
-      "description": null
+      "description": ""
     },
     "201": {
       "title": "Strzelanka",
-      "description": null
+      "description": ""
     },
     "202": {
       "title": "Strzelanka pierwszoosobowa",
-      "description": null
+      "description": ""
     },
     "203": {
       "title": "Strzelanka trzecioosobowa",
-      "description": null
+      "description": ""
     },
     "204": {
       "title": "Bijatyka",
-      "description": null
+      "description": ""
     },
     "205": {
       "title": "Skradanka",
-      "description": null
+      "description": ""
     },
     "206": {
       "title": "Survival",
-      "description": null
+      "description": ""
     },
     "210": {
       "title": "Przygodowa akcja",
-      "description": null
+      "description": ""
     },
     "211": {
       "title": "Przygodowa narracyjna",
-      "description": null
+      "description": ""
     },
     "212": {
       "title": "Point and Click",
-      "description": null
+      "description": ""
     },
     "220": {
       "title": "Akcyjne RPG",
-      "description": null
+      "description": ""
     },
     "221": {
       "title": "Turowe RPG",
-      "description": null
+      "description": ""
     },
     "222": {
       "title": "Taktyczne RPG",
-      "description": null
+      "description": ""
     },
     "223": {
       "title": "MMORPG",
-      "description": null
+      "description": ""
     },
     "224": {
       "title": "RPG z otwartym światem",
-      "description": null
+      "description": ""
     },
     "230": {
       "title": "Symulator życia",
-      "description": null
+      "description": ""
     },
     "231": {
       "title": "Symulator farmy",
-      "description": null
+      "description": ""
     },
     "232": {
       "title": "Symulator pojazdów",
-      "description": null
+      "description": ""
     },
     "233": {
       "title": "Budowanie miasta",
-      "description": null
+      "description": ""
     },
     "240": {
       "title": "Strategia czasu rzeczywistego",
-      "description": null
+      "description": ""
     },
     "241": {
       "title": "Strategia turowa",
-      "description": null
+      "description": ""
     },
     "242": {
       "title": "Tower Defense",
-      "description": null
+      "description": ""
     },
     "243": {
       "title": "Strategia 4X",
-      "description": null
+      "description": ""
     },
     "250": {
       "title": "Klasyczna gra logiczna",
-      "description": null
+      "description": ""
     },
     "251": {
       "title": "Gra logiczna oparta na fizyce",
-      "description": null
+      "description": ""
     },
     "252": {
       "title": "Dopasuj 3",
-      "description": null
+      "description": ""
     },
     "260": {
       "title": "Sport tradycyjny",
-      "description": null
+      "description": ""
     },
     "261": {
       "title": "Sport ekstremalny",
-      "description": null
+      "description": ""
     },
     "262": {
       "title": "Wyścigi",
-      "description": null
+      "description": ""
     },
     "270": {
       "title": "Bijatyka tradycyjna",
-      "description": null
+      "description": ""
     },
     "271": {
       "title": "Bijatyka platformowa",
-      "description": null
+      "description": ""
     },
     "280": {
       "title": "Survival horror",
-      "description": null
+      "description": ""
     },
     "281": {
       "title": "Horror psychologiczny",
-      "description": null
+      "description": ""
     },
     "290": {
       "title": "Gra imprezowa",
-      "description": null
+      "description": ""
     },
     "291": {
       "title": "Gra rytmiczna",
-      "description": null
+      "description": ""
     },
     "299": {
       "title": "Inne",
-      "description": null
+      "description": ""
     }
   },
   "Notify_types": {
     "1000": {
       "title": "Log",
-      "description": null
+      "description": ""
     },
     "1001": {
       "title": "Wewnętrzny błąd systemu",
-      "description": null
+      "description": ""
     },
     "1002": {
       "title": "Proces {0} rozpoczęty",
-      "description": null
+      "description": ""
     },
     "1003": {
       "title": "Zakończono proces {0}",
-      "description": null
+      "description": ""
     },
     "1004": {
       "title": "Zakończono proces {0} niepowodzeniem",
-      "description": null
+      "description": ""
     },
     "1005": {
       "title": "Dodano proces {0} do kolejki",
-      "description": null
+      "description": ""
     },
     "1006": {
       "title": "Zapisano plik {0}",
-      "description": null
+      "description": ""
     },
     "1007": {
       "title": "Usunięto plik {0}",
-      "description": null
+      "description": ""
     },
     "1008": {
       "title": "Zaktualizowano plik {0}",
-      "description": null
+      "description": ""
     },
     "1009": {
       "title": "Nie znaleziono pliku",
-      "description": null
+      "description": ""
     },
     "1010": {
       "title": "Plik {0} już istnieje",
-      "description": null
+      "description": ""
     },
     "1011": {
       "title": "Zapis pliku {0} nie udał się",
-      "description": null
+      "description": ""
     },
     "1012": {
       "title": "Sesja {0} zapisana",
@@ -473,24 +473,28 @@
     "1057": {
       "title": "Usunięto przypomnienie",
       "description": "Przypomnienie o wydarzeniu zostało usunięte"
+    },
+    "1058": {
+      "title": "Proces {0} został anulowany",
+      "description": ""
     }
   },
   "Operations": {
     "11": {
       "title": "Import pliku",
-      "description": null
+      "description": ""
     },
     "12": {
       "title": "Przeniesienie pliku",
-      "description": null
+      "description": ""
     },
     "13": {
       "title": "Kopiowanie pliku",
-      "description": null
+      "description": ""
     },
     "14": {
       "title": "Usunięcie pliku",
-      "description": null
+      "description": ""
     },
     "21": {
       "title": "Wyślij e-mail",
@@ -526,6 +530,14 @@
     },
     "41": {
       "title": "Archiwizuj dane",
+      "description": ""
+    },
+    "51": {
+      "title": null,
+      "description": ""
+    },
+    "52": {
+      "title": null,
       "description": ""
     }
   },
