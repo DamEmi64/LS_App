@@ -108,12 +108,16 @@ namespace System.Infrastructure.JobEngine
             dbJob.EndDate = DateTimeOffset.Now;
             dbJob.Status = ProgressStatus.Success;
             await _jobRepository.Update(dbJob);
-            process.Percentage = (process.Jobs.Where(x => x.Status == ProgressStatus.Success).Count() * 1.0 / process.Jobs.Count) * 100;
+            process.Percentage = (process.Jobs.Count(x => x.Status == ProgressStatus.Success) * 1.0 / process.Jobs.Count) * 100;
 
             if (process.Percentage == 100)
             {
                 await EndProcess(process);
                 return;
+            }
+            else
+            {
+                await _processRepository.Update(process);
             }
         }
 
