@@ -10,7 +10,7 @@ namespace System.Infrastructure.Services.Auth
     {
         Task<IdentityResult> ResetPassword(ResetPasswordModel model);
 
-        Task<IdentityResult> ChangePassword(ResetPasswordModel model, HttpContext context);
+        Task<IdentityResult> ChangePassword(ChangePasswordModel model, HttpContext context);
 
         Task<SignInResult> Login(LoginModel model);
 
@@ -23,5 +23,7 @@ namespace System.Infrastructure.Services.Auth
         Task<User?> GetUser(HttpContext context);
 
         Task Update(User data, HttpContext context);
+
+        Task ForgotPassword(string login);
     }
 }

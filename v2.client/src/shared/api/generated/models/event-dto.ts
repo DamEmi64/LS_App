@@ -23,8 +23,8 @@ export interface EventDto {
     'description'?: string | null;
     'category'?: number;
     'eventDate'?: string | null;
+    'participates'?: Array<UserDto> | null;
     'image'?: string | null;
     'imageContent'?: string | null;
-    'participates'?: Array<UserDto> | null;
 }
 

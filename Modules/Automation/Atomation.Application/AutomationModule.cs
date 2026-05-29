@@ -13,7 +13,7 @@ namespace Automation.Application
         {
         };
 
-        public string Name => "Automation module";
+        public string Name => "Automation";
 
         public string Version => "v0.3 Alpha";
 

@@ -5,14 +5,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**title** | **string** |  | [default to undefined]
-**categoryId** | **number** |  | [optional] [default to undefined]
-**value** | **number** |  | [optional] [default to undefined]
 **id** | **string** |  | [optional] [default to undefined]
 **insDate** | **string** |  | [optional] [default to undefined]
 **updDate** | **string** |  | [optional] [default to undefined]
 **insBy** | **string** |  | [optional] [default to undefined]
 **updBy** | **string** |  | [optional] [default to undefined]
+**title** | **string** |  | [default to undefined]
+**categoryId** | **number** |  | [optional] [default to undefined]
+**value** | **number** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -20,14 +20,14 @@ Name | Type | Description | Notes
 import { Skill } from './api';
 
 const instance: Skill = {
-    title,
-    categoryId,
-    value,
     id,
     insDate,
     updDate,
     insBy,
     updBy,
+    title,
+    categoryId,
+    value,
 };
 ```
 

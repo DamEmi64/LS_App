@@ -15,15 +15,15 @@
 
 
 export interface Email {
-    'subject': string | null;
-    'body': string | null;
-    'sender': string | null;
-    'recipient': string | null;
-    'sentDate'?: string | null;
     'id'?: string;
     'insDate'?: string;
     'updDate'?: string;
     'insBy'?: string | null;
     'updBy'?: string | null;
+    'subject': string | null;
+    'body': string | null;
+    'sender': string | null;
+    'recipient': string | null;
+    'sentDate'?: string | null;
 }
 

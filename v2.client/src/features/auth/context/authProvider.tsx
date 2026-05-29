@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import { LoginData, RegisterData, User, UserData, PasswordChangeData } from "@/features/auth";
+import { LoginData, RegisterData, User, UserData, PasswordChangeData, ResetPasswordData } from "@/features/auth";
 import { notify } from "@/shared/components/NotificationListener";
 import { getNotify } from "@/lib/notifyProvider";
 import {call} from '@/shared';
@@ -14,6 +14,8 @@ export interface AuthContextType {
   getData: () => Promise<User | null>;
   update: (data: User) => Promise<boolean>;
   changePassword: (data: PasswordChangeData) => Promise<boolean>;
+  forgotPassword: (login: string) => Promise<boolean>;
+  resetPassword: (data: ResetPasswordData) => Promise<boolean>;
   checkPermission: (permissions: string[]) => boolean;
 }
 
@@ -96,6 +98,26 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const forgotPassword = async (login: string): Promise<boolean> => {
+    try {
+      await call(api => api.authApi.getForgotPassword,{username: login});
+      return true;
+    } catch (err) {
+      console.error("Forgot password request failed:", err);
+      return false;
+    }
+  };
+
+  const resetPassword = async (data: ResetPasswordData): Promise<boolean> => {
+    try {
+      await call(api => api.authApi.createResetPassword,{resetPasswordModel: data});
+      return true;
+    } catch (err) {
+      console.error("Password reset failed:", err);
+      return false;
+    }
+  };
+
   const checkPermission = (permissions: string[]): boolean => {
     if (!user) return false;
 
@@ -124,6 +146,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         getData,
         update,
         changePassword,
+        forgotPassword,
+        resetPassword,
         checkPermission,
       }}
     >

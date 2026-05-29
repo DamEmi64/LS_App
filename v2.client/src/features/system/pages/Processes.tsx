@@ -52,6 +52,7 @@ const Processes = () => {
         if (id == 'Success') return t('processes.processStatus.Success');
         if (id == 'Failed') return t('processes.processStatus.Failed');
         if (id == 'Paused') return t('processes.processStatus.Paused');
+        if (id == 'Cancelled') return t('processes.processStatus.Cancelled');
         return id;
     };
 
@@ -63,7 +64,7 @@ const Processes = () => {
     ];
 
     const filters: FilterItem[] = [
-        { field: 'name', name: 'processes.name', type: FilterType.String },
+        { field: 'title', name: 'processes.name', type: FilterType.String },
         { field: 'from', name: 'processes.startingDateFrom', type: FilterType.Date },
         { field: 'to', name: 'processes.startingDateTo', type: FilterType.Date },
         {
@@ -72,7 +73,8 @@ const Processes = () => {
                 { label: 'processes.processStatus.Executing', value: 'Executing' },
                 { label: 'processes.processStatus.Success', value: 'Success' },
                 { label: 'processes.processStatus.Failed', value: 'Failed' },
-                { label: 'processes.processStatus.Paused', value: 'Paused' }
+                { label: 'processes.processStatus.Paused', value: 'Paused' },
+                { label: 'processes.processStatus.Cancelled', value: 'Cancelled' },
             ]
         }
     ];

@@ -9,24 +9,24 @@ import Files from "@/features/files/pages/Files";
 import FilesImg from "@/assets/files.jpg";
 
 import Processes from "@/features/system/pages/Processes";
-import ProcessesImg from "@/assets/settings.jpg";
+import ProcessesImg from "@/assets/processes.png";
 
 import Templates from "@/features/mail/pages/templates";
 import TemplateImg from "@/assets/template.jpg";
 
 import Emails from "@/features/mail/pages/emails";
-import EmailImg from "@/assets/emails.jpg";
+import EmailImg from "@/assets/emails.png";
 
 import EventsPage from "@/features/events/pages/allPage";
 import MyEventsPage from "@/features/events/pages/myPage";
 import EventsImg from "@/assets/events.png";
 
 import RPG from "@/features/rpg/pages/Page";
-import RPGImg from "@/assets/rpg.jpg";
+import RPGImg from "@/assets/rpg.png";
 import PlayerPage from "@/features/rpg/pages/PlayerPage";
 
 import Automations from "@/features/automation/pages/List";
-import AutomationsImg from "@/assets/settings.jpg";
+import AutomationsImg from "@/assets/settings.png";
 
 
 import NotFound from "@/features/system/pages/NotFound";

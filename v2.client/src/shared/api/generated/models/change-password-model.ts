@@ -14,14 +14,9 @@
 
 
 
-export interface Task {
-    'id'?: string;
-    'insDate'?: string;
-    'updDate'?: string;
-    'insBy'?: string | null;
-    'updBy'?: string | null;
-    'operationId'?: number;
-    'order'?: number;
-    'data'?: string | null;
+export interface ChangePasswordModel {
+    'userId'?: string | null;
+    'oldPassword': string | null;
+    'newPassword': string | null;
 }
 

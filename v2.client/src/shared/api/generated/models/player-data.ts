@@ -18,12 +18,12 @@
 import type { Skill } from './skill';
 
 export interface PlayerData {
-    'content'?: string | null;
-    'skills'?: Array<Skill> | null;
     'id'?: string;
     'insDate'?: string;
     'updDate'?: string;
     'insBy'?: string | null;
     'updBy'?: string | null;
+    'content'?: string | null;
+    'skills'?: Array<Skill> | null;
 }
 

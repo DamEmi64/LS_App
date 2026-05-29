@@ -15,8 +15,8 @@
 
 
 export interface ResetPasswordModel {
-    'userId'?: string | null;
-    'oldPassword': string | null;
-    'newPassword': string | null;
+    'login': string | null;
+    'code': string | null;
+    'password': string | null;
 }
 

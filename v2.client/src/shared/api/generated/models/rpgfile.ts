@@ -15,12 +15,12 @@
 
 
 export interface RPGFile {
-    'title': string | null;
-    'content': string;
     'id'?: string;
     'insDate'?: string;
     'updDate'?: string;
     'insBy'?: string | null;
     'updBy'?: string | null;
+    'title': string | null;
+    'content': string;
 }
 

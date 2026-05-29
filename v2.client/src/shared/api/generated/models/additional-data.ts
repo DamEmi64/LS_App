@@ -15,14 +15,14 @@
 
 
 export interface AdditionalData {
-    'gameGenre'?: number | null;
-    'subject'?: string | null;
-    'year'?: number | null;
-    'semester'?: number | null;
     'id'?: string;
     'insDate'?: string;
     'updDate'?: string;
     'insBy'?: string | null;
     'updBy'?: string | null;
+    'gameGenre'?: number | null;
+    'subject'?: string | null;
+    'year'?: number | null;
+    'semester'?: number | null;
 }
 

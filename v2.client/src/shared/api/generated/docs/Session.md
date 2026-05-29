@@ -5,13 +5,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**start** | **string** |  | [optional] [default to undefined]
-**end** | **string** |  | [optional] [default to undefined]
 **id** | **string** |  | [optional] [default to undefined]
 **insDate** | **string** |  | [optional] [default to undefined]
 **updDate** | **string** |  | [optional] [default to undefined]
 **insBy** | **string** |  | [optional] [default to undefined]
 **updBy** | **string** |  | [optional] [default to undefined]
+**start** | **string** |  | [optional] [default to undefined]
+**end** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -19,13 +19,13 @@ Name | Type | Description | Notes
 import { Session } from './api';
 
 const instance: Session = {
-    start,
-    end,
     id,
     insDate,
     updDate,
     insBy,
     updBy,
+    start,
+    end,
 };
 ```
 

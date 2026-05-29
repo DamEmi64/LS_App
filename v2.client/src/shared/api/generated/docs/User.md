@@ -5,9 +5,6 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**firstName** | **string** |  | [optional] [default to undefined]
-**lastName** | **string** |  | [optional] [default to undefined]
-**insDate** | **string** |  | [optional] [default to undefined]
 **id** | **string** |  | [optional] [default to undefined]
 **userName** | **string** |  | [optional] [default to undefined]
 **normalizedUserName** | **string** |  | [optional] [default to undefined]
@@ -23,6 +20,9 @@ Name | Type | Description | Notes
 **lockoutEnd** | **string** |  | [optional] [default to undefined]
 **lockoutEnabled** | **boolean** |  | [optional] [default to undefined]
 **accessFailedCount** | **number** |  | [optional] [default to undefined]
+**firstName** | **string** |  | [optional] [default to undefined]
+**lastName** | **string** |  | [optional] [default to undefined]
+**insDate** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -30,9 +30,6 @@ Name | Type | Description | Notes
 import { User } from './api';
 
 const instance: User = {
-    firstName,
-    lastName,
-    insDate,
     id,
     userName,
     normalizedUserName,
@@ -48,6 +45,9 @@ const instance: User = {
     lockoutEnd,
     lockoutEnabled,
     accessFailedCount,
+    firstName,
+    lastName,
+    insDate,
 };
 ```
 

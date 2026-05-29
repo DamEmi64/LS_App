@@ -22,6 +22,7 @@ docs/Automat.md
 docs/AutomatResponseList.md
 docs/AutomationDto.md
 docs/AutomationsApi.md
+docs/ChangePasswordModel.md
 docs/Chapter.md
 docs/ChapterDto.md
 docs/ChapterResponseList.md
@@ -92,6 +93,7 @@ models/additional-data.ts
 models/automat-response-list.ts
 models/automat.ts
 models/automation-dto.ts
+models/change-password-model.ts
 models/chapter-dto.ts
 models/chapter-response-list.ts
 models/chapter.ts

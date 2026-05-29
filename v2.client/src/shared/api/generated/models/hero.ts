@@ -15,23 +15,19 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { Chapter } from './chapter';
-// May contain unused imports in some cases
-// @ts-ignore
 import type { PlayerData } from './player-data';
 
 export interface Hero {
-    'firstName': string | null;
-    'lastName': string | null;
-    'description': string | null;
-    'player'?: string | null;
-    'image'?: string | null;
-    'chapter': Chapter;
-    'playerData'?: PlayerData;
     'id'?: string;
     'insDate'?: string;
     'updDate'?: string;
     'insBy'?: string | null;
     'updBy'?: string | null;
+    'firstName': string | null;
+    'lastName': string | null;
+    'description': string | null;
+    'player'?: string | null;
+    'image'?: string | null;
+    'playerData'?: PlayerData;
 }
 

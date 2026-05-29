@@ -71,9 +71,21 @@ namespace System.Application.Controllers
         }
 
         [HttpPut("changePassword")]
-        public async Task<IActionResult> ChangePassword(ResetPasswordModel dto)
+        public async Task<IActionResult> ChangePassword(ChangePasswordModel dto)
         {
             var result = await _authService.ChangePassword(dto, HttpContext);
+
+            return result switch
+            {
+                _ when result.Succeeded => Ok(),
+                _ => BadRequest(string.Join("\n", result.Errors.Select(e => e.Description)))
+            };
+        }
+
+        [HttpPost("resetPassword")]
+        public async Task<IActionResult> ResetPassword(ResetPasswordModel dto)
+        {
+            var result = await _authService.ResetPassword(dto);
 
             return result switch
             {
@@ -87,6 +99,13 @@ namespace System.Application.Controllers
         {
             await _authService.Update(user, HttpContext);
 
+            return Ok();
+        }
+
+        [HttpGet("forgotPassword")]
+        public async Task<IActionResult> ChangePassword([FromQuery] string username)
+        {
+            await _authService.ForgotPassword(username);
             return Ok();
         }
 
