@@ -356,7 +356,15 @@
         "descDir": "Destination folder"
       },
       "summaryDataRPG": "RPG session for summary",
-      "downloadLastFile": "Download the last saved file"
+      "downloadLastFile": "Download the last saved file",
+      "reminder": {
+        "type": "Reminder type",
+        "Min15": "15 minutes before",
+        "Min30": "30 minutes before\"",
+        "Day1": "1 day before",
+        "Week1": "1 week before",
+        "Month1": "1 month before"
+      }
     },
     "add_task": "Add task",
     "site_title": "Automations",
@@ -377,7 +385,9 @@
     "actions": {
       "archive": "Archive files",
       "GenerateRPGSummary": "Generate RPG summary",
-      "downloadLastFile": "Download the last saved file"
+      "downloadLastFile": "Download the last saved file",
+      "sendReminder": "Send an event notification",
+      "sendInvitation": "Send invitations to the event"
     }
   },
   "events": {

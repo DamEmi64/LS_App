@@ -356,7 +356,15 @@
         "descDir": "Katalog docelowy"
       },
       "summaryDataRPG": "Sesja RPG do podsumowania",
-      "downloadLastFile": "Pobierz ostatni zapisany plik"
+      "downloadLastFile": "Pobierz ostatni zapisany plik",
+      "reminder": {
+        "type": "Częstotliwość przypomnienia",
+        "Min15": "15 min przed",
+        "Min30": "30 min przed",
+        "Day1": "Dzień przed",
+        "Week1": "Tydzień przed",
+        "Month1": "Miesiąc przed"
+      }
     },
     "add_task": "Dodaj zadanie",
     "site_title": "Automatyzacje",
@@ -377,7 +385,9 @@
     "actions": {
       "archive": "Archiwizuj pliki",
       "GenerateRPGSummary": "Wygeneruj podsumowanie rozdziału RPG",
-      "downloadLastFile": "Pobierz ostatni zapisany plik"
+      "downloadLastFile": "Pobierz ostatni zapisany plik",
+      "sendReminder": "Wyślij powiadomienie o wydarzeniu",
+      "sendInvitation": "Wyślij zaproszenie na wydarzenie"
     }
   },
   "events": {

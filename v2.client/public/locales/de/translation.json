@@ -356,7 +356,15 @@
         "descDir": "Zielordner"
       },
       "summaryDataRPG": "RPG-Sitzung für Zusammenfassung",
-      "downloadLastFile": "Letzte gespeicherte Datei herunterladen"
+      "downloadLastFile": "Letzte gespeicherte Datei herunterladen",
+      "reminder": {
+        "type": "Erinnerungstyp",
+        "Min15": "15 Minuten vorher",
+        "Min30": "30 Minuten vorher",
+        "Day1": "1 Tag vorher",
+        "Week1": "1 Woche vorher",
+        "Month1": "1 Monat vorher"
+      }
     },
     "add_task": "Aufgabe hinzufügen",
     "site_title": "Automationen",
@@ -377,7 +385,9 @@
     "actions": {
       "archive": "Dateien archivieren",
       "GenerateRPGSummary": "RPG-Zusammenfassung erstellen",
-      "downloadLastFile": "Letzte gespeicherte Datei herunterladen"
+      "downloadLastFile": "Letzte gespeicherte Datei herunterladen",
+      "sendReminder": "Benachrichtigung über die Veranstaltung senden",
+      "sendInvitation": "Einladungen zur Veranstaltung senden"
     }
   },
   "events": {

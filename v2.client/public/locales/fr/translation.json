@@ -356,7 +356,15 @@
         "descDir": "Dossier de destination"
       },
       "summaryDataRPG": "Session RPG à résumer",
-      "downloadLastFile": "Télécharger le dernier fichier enregistré"
+      "downloadLastFile": "Télécharger le dernier fichier enregistré",
+      "reminder": {
+        "type": "Type de rappel",
+        "Min15": "15 minutes avant",
+        "Min30": "30 minutes avant",
+        "Day1": "1 jour avant",
+        "Week1": "1 semaine avant",
+        "Month1": "1 mois avant"
+      }
     },
     "add_task": "Ajouter une tâche",
     "site_title": "Automatisations",
@@ -377,7 +385,9 @@
     "actions": {
       "archive": "Archiver les fichiers",
       "GenerateRPGSummary": "Générer un résumé RPG",
-      "downloadLastFile": "Télécharger le dernier fichier enregistré"
+      "downloadLastFile": "Télécharger le dernier fichier enregistré",
+      "sendReminder": "Envoyer une notification concernant l’événement",
+      "sendInvitation": "Envoyer des invitations à l’événement"
     }
   },
   "events": {
