@@ -48,10 +48,10 @@ namespace Events.Infrastructure.Services.AutomationResolver
                                 UserId = participate.UserId,
                                 Email = participate.Email,
                                 Login = participate.Login
-                            },
-                            RequestDate = CalcDate(lastAddedEvent.EventDate ?? DateTime.Now, autoReminderSettings)
+                            }
                         };
                         schema.AddJob(job);
+                        schema.RequestDate = CalcDate(lastAddedEvent.EventDate ?? DateTime.Now, autoReminderSettings);
                     }
 
                     task.Handled = true;
@@ -77,8 +77,7 @@ namespace Events.Infrastructure.Services.AutomationResolver
                                 UserId = user.UserId,
                                 Email = user.Email,
                                 Login = user.Login
-                            },
-                            RequestDate = DateTime.Now
+                            }
                         };
                         schema.AddJob(job);
                     }

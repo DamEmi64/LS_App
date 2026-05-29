@@ -6,6 +6,10 @@
     public interface IProcessSchema
     {
         /// <summary>
+        ///     Request date
+        /// </summary>
+        DateTimeOffset RequestDate { get; set;  }
+        /// <summary>
         ///     Add job to current level
         /// </summary>
         /// <param name="job"></param>

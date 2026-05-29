@@ -8,7 +8,6 @@ namespace System.Domain.Entities
         public string? JobId { get; set; }
         public int OperationId { get; set; }
         public ProgressStatus Status { get; set; }
-        public DateTimeOffset RequestDate { get; set; }
         public DateTimeOffset? StartDate { get; set; }
         public DateTimeOffset? EndDate { get; set; }
         public Process Process { get; set; } = default!;

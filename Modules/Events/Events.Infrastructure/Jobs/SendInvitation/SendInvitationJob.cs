@@ -12,9 +12,7 @@ namespace Events.Infrastructure.Jobs
 
         public List<IJob> Children => new List<IJob>();
 
-        public DateTimeOffset RequestDate { get; set; } = DateTimeOffset.Now;
-
-        public string Name => $"Send invitation about {Event?.Title} {RequestDate}";
+        public string Name => $"Send invitation about {Event?.Title}";
 
         public required Event Event { get; set; }
 

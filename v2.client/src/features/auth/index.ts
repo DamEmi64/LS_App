@@ -49,6 +49,7 @@ export interface Process {
     errors: ProcessError[];
     endDate?: Date;
     startDate?: Date;
+    requestDate?: Date;
     percentage: number;
     status: ProgressStatus;
     user?: UserData;

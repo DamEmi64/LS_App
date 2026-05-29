@@ -9,8 +9,6 @@ namespace Communication.Infrastructure.Jobs
 
         public List<IJob> Children { get; set; } = new();
 
-        public DateTimeOffset RequestDate => DateTimeOffset.Now;
-
         public string Name => $"Send mail to {Email?.Recipient}";
 
         public Email? Email { get; set; }

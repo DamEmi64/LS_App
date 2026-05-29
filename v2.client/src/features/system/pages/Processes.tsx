@@ -59,6 +59,7 @@ const Processes = () => {
     const columns: TableColumn<Process>[] = [
         { field: 'title', header: 'processes.name', type: ColumnType.String },
         { field: 'percentage', header: 'processes.percentage', type: ColumnType.Progress },
+         { field: 'requestDate', header: 'jobs.requestData', type: ColumnType.Date },
         { field: 'startDate', header: 'processes.startingDate', type: ColumnType.Date },
         { field: 'status', header: 'processes.status', type: ColumnType.Enum, render: (r) => convertProcessStatus(r.status) }
     ];

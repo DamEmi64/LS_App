@@ -9,7 +9,7 @@
         ///     Create process schema
         /// </summary>
         /// <returns></returns>
-        IProcessSchema Create(string title);
+        IProcessSchema Create(string title, DateTimeOffset? requestDate = null);
 
         /// <summary>
         ///     Create process and execute using process schema and user data

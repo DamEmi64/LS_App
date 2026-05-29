@@ -7,7 +7,6 @@ namespace System.Application.Dtos
         public required string Name { get; set; }
         public string? JobId { get; set; }
         public ProgressStatus Status { get; set; }
-        public DateTimeOffset RequestDate { get; set; }
         public DateTimeOffset? StartDate { get; set; }
         public DateTimeOffset? EndDate { get; set; }
         public Guid Process { get; set; }

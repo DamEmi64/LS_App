@@ -31,7 +31,7 @@ namespace System.Infrastructure.JobEngine
             _jobContext = jobContext;
         }
 
-        public IProcessSchema Create(string title) => new ProcessSchema(title);
+        public IProcessSchema Create(string title,DateTimeOffset? requestDate = null) => new ProcessSchema(title, requestDate ?? DateTimeOffset.Now);
 
         public async Task<Guid> Execute(IProcessSchema schema, UserData userData)
         {

@@ -9,8 +9,6 @@ namespace RPG.Infrastructure.Jobs
 
         public List<IJob> Children { get; set; } = new();
 
-        public DateTimeOffset RequestDate => DateTimeOffset.Now;
-
         public string Name => $"Send {Story?.Title ?? StoryId.ToString()} to firebase";
 
         public Guid StoryId { get; set; }

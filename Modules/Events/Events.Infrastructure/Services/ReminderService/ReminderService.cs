@@ -20,7 +20,6 @@ namespace Events.Infrastructure.Services.ReminderService
             {
                 schema.AddJob(new SendReminderJob
                 {
-                    RequestDate = remindAt,
                     Event = eventData,
                     Receiver = new UserData
                     {

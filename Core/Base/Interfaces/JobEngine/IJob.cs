@@ -24,11 +24,6 @@ public interface IJob :IRequest<Result>
     List<IJob> Children { get; }
 
     /// <summary>
-    ///     Request date
-    /// </summary>
-    DateTimeOffset RequestDate { get; }
-
-    /// <summary>
     ///     Name
     /// </summary>
     string Name { get; }

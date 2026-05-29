@@ -6,6 +6,7 @@ namespace System.Domain.Entities
     {
         public required string Title { get; set; }
         public List<Job> Jobs { get; set; } = new List<Job>();
+        public DateTimeOffset? RequestDate { get; set; }
         public DateTimeOffset? StartDate { get; set; }
         public DateTimeOffset? EndDate { get; set; }
         public double Percentage { get; set; }

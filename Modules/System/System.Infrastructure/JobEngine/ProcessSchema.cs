@@ -7,13 +7,14 @@ namespace System.Infrastructure.JobEngine
 {
     public class ProcessSchema : IProcessSchema
     {
-        public ProcessSchema(string title)
+        public ProcessSchema(string title, DateTimeOffset requestDate)
         {
             Process = new Process
             {
                 Status = ProgressStatus.New,
                 Jobs = new List<Job>(),
-                Title = title
+                Title = title,
+                RequestDate = requestDate
             };
 
             Jobs = new();
@@ -25,6 +26,18 @@ namespace System.Infrastructure.JobEngine
             Process = process;
             Jobs = jobs;
             Milestones = milestones;
+        }
+
+        public DateTimeOffset RequestDate
+        {
+            get
+            {
+                return Process.RequestDate;
+            }
+            set
+            {
+                Process.RequestDate = value;
+            }
         }
 
         public Process Process { get; set; }
@@ -40,7 +53,6 @@ namespace System.Infrastructure.JobEngine
                 Name = job.Name,
                 Status = ProgressStatus.New,
                 InsDate = DateTime.Now,
-                RequestDate = job.RequestDate,
                 OperationId = job.OperationId,
                 JobData = new JobData { JsonData = JsonConvert.SerializeObject(job) }
             };
@@ -88,7 +100,6 @@ namespace System.Infrastructure.JobEngine
                 Name = job.Name,
                 Status = ProgressStatus.New,
                 InsDate = DateTime.Now,
-                RequestDate = job.RequestDate,
                 OperationId = job.OperationId
             };
 
@@ -116,7 +127,6 @@ namespace System.Infrastructure.JobEngine
                 Name = job.Name,
                 Status = ProgressStatus.New,
                 InsDate = DateTime.Now,
-                RequestDate = job.RequestDate,
                 OperationId = job.OperationId
             };
 

@@ -131,7 +131,8 @@ namespace System.Infrastructure.Repositories
                     EndDate = x.EndDate,
                     Status = x.Status,
                     Percentage = x.Percentage,
-                    User = x.User
+                    User = x.User,
+                    RequestDate = x.RequestDate
                 });
         }
     }

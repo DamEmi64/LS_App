@@ -9,8 +9,6 @@ namespace RPG.Infrastructure.Jobs
 
         public List<IJob> Children { get; set; } = new();
 
-        public DateTimeOffset RequestDate => DateTimeOffset.Now;
-
         public string Name => $"Convert {Summary?.Title ?? string.Empty} to story model";
 
         public SummaryModel? Summary { get; set; }

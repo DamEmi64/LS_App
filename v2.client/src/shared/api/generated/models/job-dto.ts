@@ -21,7 +21,6 @@ export interface JobDto {
     'name': string | null;
     'jobId'?: string | null;
     'status'?: ProgressStatus;
-    'requestDate'?: string;
     'startDate'?: string | null;
     'endDate'?: string | null;
     'process'?: string;

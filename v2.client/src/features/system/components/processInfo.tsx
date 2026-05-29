@@ -70,7 +70,6 @@ const ProcessInfo: React.FC<ProcessInfoProps> = ({ process }) => {
                             <TableCell sx={{ color: textColor }}>{t('jobs.name')}</TableCell>
                             <TableCell sx={{ color: textColor }}>{t('jobs.operation')}</TableCell>
                             <TableCell sx={{ color: textColor }}>{t('jobs.status')}</TableCell>
-                            <TableCell sx={{ color: textColor }}>{t('jobs.requestData')}</TableCell>
                             <TableCell sx={{ color: textColor }}>{t('jobs.startDate')}</TableCell>
                             <TableCell sx={{ color: textColor }}>{t('jobs.endDate')}</TableCell>
                         </TableRow>
@@ -82,7 +81,6 @@ const ProcessInfo: React.FC<ProcessInfoProps> = ({ process }) => {
                                 <TableCell sx={{ color: textColor }}>{job.name}</TableCell>
                                 <TableCell sx={{ color: textColor }}>{convertOperation(job.operation)}</TableCell>
                                 <TableCell sx={{ color: textColor }}>{convertJobStatus(job.status)}</TableCell>
-                                <TableCell sx={{ color: textColor }}>{convertToDateStr(job.requestDate.toString())}</TableCell>
                                 <TableCell sx={{ color: textColor }}>{job.startDate == null ? '-' : convertToDateStr(job.startDate.toString())}</TableCell>
                                 <TableCell sx={{ color: textColor }}>{job.endDate == null ? '-' : convertToDateStr(job.endDate.toString())}</TableCell>
                             </TableRow>
