@@ -29,7 +29,8 @@ const toEventBody = (event: EventDto): EventBody => ({
     category: event.category,
     participants: (event.participates || []).map<EventParticipant>((participant) => ({
         id: participant.id || participant.userId || "",
-        login: participant.login || participant.email || ""
+        login: participant.login || participant.email || "",
+        email: participant.email || "",
     }))
 });
 
