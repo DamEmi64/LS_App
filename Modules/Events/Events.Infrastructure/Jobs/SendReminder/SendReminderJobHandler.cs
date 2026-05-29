@@ -1,6 +1,8 @@
 ﻿using Base;
 using CommunicationBase;
+using Events.Domain;
 using Events.Extras.Resources;
+using Microsoft.Extensions.Options;
 using Razor.Templating.Core;
 
 namespace Events.Infrastructure.Jobs.SendReminder
@@ -8,18 +10,20 @@ namespace Events.Infrastructure.Jobs.SendReminder
     public class SendReminderJobHandler : JobHandler<SendReminderJob>
     {
         private const string TemplatePath = "/Views/EventReminder.cshtml";
-        private const string LinkToEvent = "https://lsfamilia-app.web.app/events#{0}";
 
         private readonly IMediaProvider _mediaProvider;
         private readonly IConnect _connectClient;
+        private readonly string _linkToEventTemplate;
 
         public SendReminderJobHandler(IJobContext jobContext,
             IMediaProvider mediaProvider,
+            IOptions<EventOptions> options,
             IConnect connectClient)
             : base(jobContext)
         {
             _mediaProvider = mediaProvider;
             _connectClient = connectClient;
+            _linkToEventTemplate = options.Value.EventLinkTemplate;
         }
 
         public override async Task Execute(SendReminderJob request)
@@ -32,7 +36,7 @@ namespace Events.Infrastructure.Jobs.SendReminder
 
             var image = await _mediaProvider.Load(request.Event.Image);
 
-            var html = await RazorTemplateEngine.RenderAsync(TemplatePath, new EventSendingData(request.Event, request.Receiver, image?.ContentStr, string.Format(LinkToEvent, request.Event.Id)));
+            var html = await RazorTemplateEngine.RenderAsync(TemplatePath, new EventSendingData(request.Event, request.Receiver, image?.ContentStr, string.Format(_linkToEventTemplate, request.Event.Id)));
 
             var result = await _connectClient.SendEmailAsync(request.Receiver.Email, $"Reminder for event {request.Event.Title}", html);
 

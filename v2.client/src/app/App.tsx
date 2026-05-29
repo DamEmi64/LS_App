@@ -19,6 +19,7 @@ import EmailImg from "@/assets/emails.jpg";
 
 import EventsPage from "@/features/events/pages/allPage";
 import MyEventsPage from "@/features/events/pages/myPage";
+import EventsImg from "@/assets/events.png";
 
 import RPG from "@/features/rpg/pages/Page";
 import RPGImg from "@/assets/rpg.jpg";
@@ -115,8 +116,8 @@ const App = () => (
                                         <Route path="/processes" element={<Layout content={Processes} image={ProcessesImg} title={'menu.processes'} permissions={['processes']} menu={menu} />} />
                                         <Route path="/files" element={<Layout content={Files} image={FilesImg} title={'menu.files'} permissions={['files']} menu={menu} />} />
                                         <Route path="/emails" element={<Layout content={Emails} image={EmailImg} title={'menu.emails'} permissions={['communication']} menu={menu} />} />
-                                        <Route path="/events" element={<Layout content={EventsPage} image={IndexImg} title={'menu.events'} menu={menu} />} />
-                                        <Route path="/events/me" element={<Layout content={MyEventsPage} image={IndexImg} title={'menu.myEvents'} menu={menu} />} />
+                                        <Route path="/events" element={<Layout content={EventsPage} image={EventsImg} title={'menu.events'} permissions={['events']} menu={menu} />} />
+                                        <Route path="/events/me" element={<Layout content={MyEventsPage} image={EventsImg} title={'menu.myEvents'} permissions={['events']}  menu={menu} />} />
                                         <Route path="/templates" element={<Layout content={Templates} image={TemplateImg} title={'menu.templates'} permissions={['communication']} menu={menu} />} />
                                         <Route path="/rpg/playerData" element={<Layout content={PlayerPage} image={RPGImg} title={'menu.rpg_sessions'} permissions={['rpg']} menu={menu} />} />
                                         <Route path="/rpg/playerView" element={<Layout content={PlayerViewPage} image={RPGImg} title={'menu.rpg_sessions'} menu={menu} allowAnonymous />} />
