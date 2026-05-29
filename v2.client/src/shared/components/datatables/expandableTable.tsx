@@ -25,7 +25,7 @@ import DoNotDisturbAltIcon from "@mui/icons-material/DoNotDisturbAlt";
 import OperationCell from "@/shared/components/operationCell";
 import { ColumnType, ExpandableTableProps, Filter } from "@/shared";
 import { t } from "i18next";
-import { convertToDateStr } from "@/lib/utils";
+import { convertToDateStr, useDictionaryTranslation } from "@/lib/utils";
 
 export function ExpandableTable<T>({
     rows,
@@ -44,6 +44,7 @@ export function ExpandableTable<T>({
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+    const translateDictionary = useDictionaryTranslation();
 
     const [openRows, setOpenRows] = useState<Record<string, boolean>>({});
 
@@ -59,7 +60,7 @@ export function ExpandableTable<T>({
         onToggle?.(row, !isOpen);
     };
 
-    const showData = (value: any, type: ColumnType) => {
+    const showData = (value: any, type: ColumnType, dictionary?: string) => {
         switch (type) {
             case ColumnType.Date:
                 return convertToDateStr(value);
@@ -71,6 +72,9 @@ export function ExpandableTable<T>({
                         value={value}
                     />
                 );
+
+            case ColumnType.Dictionary:
+                return value ? translateDictionary(dictionary, value).title : "";
 
             case ColumnType.Boolean:
                 return value ? (
@@ -162,7 +166,7 @@ export function ExpandableTable<T>({
                                             <TableCell key={String(col.field)}>
                                                 {col.render
                                                     ? col.render(row)
-                                                    : showData((row as any)[col.field], col.type)}
+                                                    : showData((row as any)[col.field], col.type, col.dictionary)}
                                             </TableCell>
                                         ))}
 

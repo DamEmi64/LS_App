@@ -30,7 +30,7 @@ namespace Events.Infrastructure.Repositories
         }
 
         public async Task SignIn(EventUser user)
-        {
+        { 
             await DbContext.AddAsync(user);
             await DbContext.SaveChangesAsync();
         }

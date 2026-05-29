@@ -20,6 +20,8 @@ namespace Files.Application
 
         public string Version => "v0.2";
 
+        public IEnumerable<PermissionInfo> Permissions => [PermissionInfo.Create("files", "Manage files", true)];
+
         public IServiceCollection Configure(IServiceCollection services)
         {
             services.AddAutoMapper(opt => opt.AddMaps(typeof(FilesModule).Assembly));

@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Grid, TextField, Typography, useTheme } from "@mui/material";
+import { Box, Button, Grid, MenuItem, TextField, Typography, useTheme } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { ColumnType, TableColumn } from "@/shared";
 import { GridTable } from "@/shared/components/datatables/gridTable";
 import { ImageProvider } from "@/shared/components/imageProvider";
 import { EventBody, EventComponentProps, EventParticipant } from "../types";
+import { getDictionary, useDictionaryTranslation } from "@/lib/utils";
+import { DateTimePicker  } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
 
 const emptyEvent: EventBody = {
   title: "",
   description: "",
   image: "",
+  imageContent: "",
   participants: [],
-  eventDate: "",
+  eventDate: new Date().toISOString(),
+  category: 0
 };
 
 export const EventComponent: React.FC<EventComponentProps> = ({
@@ -32,7 +37,10 @@ export const EventComponent: React.FC<EventComponentProps> = ({
 
   const initialData = { ...emptyEvent, ...event };
   const [isEditing, setIsEditing] = useState(isNew || isEdit);
-  const [image, setImage] = useState(initialData.image);
+  const [image, setImage] = useState(initialData.imageContent);
+
+  const categories = getDictionary("Event categories");
+  const translateDictonary = useDictionaryTranslation();
 
   const {
     control,
@@ -59,13 +67,13 @@ export const EventComponent: React.FC<EventComponentProps> = ({
 
   useEffect(() => {
     reset(initialData);
-    setImage(initialData.image);
+    setImage(initialData.imageContent);
   }, [event]);
 
   const onSubmit = (data: EventBody) => {
     onSave?.({
       ...data,
-      image,
+      imageContent: image,
       participants: initialData.participants,
     });
     if (!isNew) setIsEditing(false);
@@ -73,13 +81,13 @@ export const EventComponent: React.FC<EventComponentProps> = ({
 
   const cancelEdit = () => {
     reset(initialData);
-    setImage(initialData.image);
+    setImage(initialData.imageContent);
     setIsEditing(false);
   };
 
   const updateImage = (data: string) => {
     setImage(data);
-    setValue("image", data);
+    setValue("imageContent", data);
   };
 
   const canEdit = !readonly;
@@ -118,19 +126,52 @@ export const EventComponent: React.FC<EventComponentProps> = ({
               )}
             />
             <Controller
-              name="eventDate"
+              name="category"
               control={control}
               rules={{ required: t("validation.required") as string }}
               render={({ field }) => (
                 <TextField
                   {...field}
-                  label={t("events.eventDate")}
+                  select
+                  label={t("events.category")}
                   fullWidth
                   margin="dense"
-                  inputProps={{ type: "datetime-local" , style: { color: textColor } }}
                   variant="outlined"
-                  error={!!errors.eventDate}
-                  helperText={errors.eventDate?.message}
+                  error={!!errors.category}
+                  helperText={errors.category?.message}
+                  SelectProps={{
+                    native: false,
+                  }}
+                >
+                  {categories.map((category) => (
+                    <MenuItem key={category.key} value={category.key}>
+                      {translateDictonary("Event categories", category.key).title}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              )}
+            />
+            <Controller
+              name="eventDate"
+              control={control}
+              rules={{ required: t("validation.required") as string }}
+              render={({ field }) => (
+                <DateTimePicker
+                  label={t("events.eventDate")}
+                  value={field.value ? dayjs(field.value) : null}
+                  onChange={(date) => field.onChange(date)}
+                  slotProps={{
+                    textField: {
+                      fullWidth: true,
+                      margin: "dense",
+                      variant: "outlined",
+                      error: !!errors.eventDate,
+                      helperText: errors.eventDate?.message,
+                      InputProps: {
+                        style: { color: textColor },
+                      },
+                    },
+                  }}
                 />
               )}
             />
@@ -179,6 +220,10 @@ export const EventComponent: React.FC<EventComponentProps> = ({
             </Typography>
 
             <Typography sx={{ color: textColor, whiteSpace: "pre-line" }}>
+              {t('events.category')}: {translateDictonary("Event categories", initialData.category)?.title}
+            </Typography>
+
+            <Typography sx={{ color: textColor, whiteSpace: "pre-line" }}>
               {initialData.description}
             </Typography>
 
@@ -207,7 +252,7 @@ export const EventComponent: React.FC<EventComponentProps> = ({
           </>
         )}
       </Grid>
-
+      {!isEditing && (
       <Grid size={{ xs: 12 }}>
         <Typography variant="h6" sx={{ color: textColor, mb: 2 }}>
           {t("events.participants.title")}
@@ -221,7 +266,7 @@ export const EventComponent: React.FC<EventComponentProps> = ({
           canDelete={false}
           readonly
         />
-      </Grid>
+      </Grid>)}
     </Grid>
   );
 };

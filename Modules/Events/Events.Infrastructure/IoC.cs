@@ -1,4 +1,6 @@
-﻿using Base.Automation;
+﻿using Base;
+using Base.Automation;
+using Events.Domain;
 using Events.Domain.Repositories;
 using Events.Infrastructure.Repositories;
 using Events.Infrastructure.Services.AutomationResolver;
@@ -12,6 +14,7 @@ namespace Events.Infrastructure
     {
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
+            services.Configure<EventOptions>(AppConfiguration.Get<EventOptions>());
             return services
                 .AddScoped<IReminderService,ReminderService>()
                 .AddScoped<IInvitationService, InvitationService>()

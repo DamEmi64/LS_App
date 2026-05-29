@@ -1,12 +1,9 @@
 ﻿using Base;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
 using System.Domain.Entities;
 namespace System.Infrastructure.Services.Controller
 {
-    public class UserService : IUserService
+    public class UserService
     {
         private readonly UserManager<User> _userManager;
 

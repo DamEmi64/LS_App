@@ -40,11 +40,15 @@
         T? GetData<T>();
 
         /// <summary>
-        ///     Resolve a service
+        ///     Method invoke before execution
         /// </summary>
-        /// <typeparam name="T">Service type</typeparam>
-        /// <param name="key">Service key</param>
         /// <returns></returns>
-        T Resolve<T>(object? key = null);
+        Task OnStart();
+
+        /// <summary>
+        ///     Method invoke after execution
+        /// </summary>
+        /// <returns></returns>
+        Task OnComplete();
     }
 }

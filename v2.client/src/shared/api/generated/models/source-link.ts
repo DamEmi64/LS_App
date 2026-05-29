@@ -15,13 +15,13 @@
 
 
 export interface SourceLink {
-    'sourceType'?: number;
-    'link': string | null;
-    'imported'?: boolean;
     'id'?: string;
     'insDate'?: string;
     'updDate'?: string;
     'insBy'?: string | null;
     'updBy'?: string | null;
+    'sourceType'?: number;
+    'link': string | null;
+    'imported'?: boolean;
 }
 

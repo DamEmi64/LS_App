@@ -15,13 +15,13 @@
 
 
 export interface Task {
-    'operationId'?: number;
-    'order'?: number;
-    'data'?: string | null;
     'id'?: string;
     'insDate'?: string;
     'updDate'?: string;
     'insBy'?: string | null;
     'updBy'?: string | null;
+    'operationId'?: number;
+    'order'?: number;
+    'data'?: string | null;
 }
 

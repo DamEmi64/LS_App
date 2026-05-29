@@ -5,21 +5,20 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**title** | **string** |  | [optional] [default to undefined]
-**description** | **string** |  | [optional] [default to undefined]
-**order** | **number** |  | [optional] [default to undefined]
-**heroes** | [**Array&lt;Hero&gt;**](Hero.md) |  | [optional] [default to undefined]
-**places** | [**Array&lt;Place&gt;**](Place.md) |  | [optional] [default to undefined]
-**story** | [**Story**](Story.md) |  | [optional] [default to undefined]
-**sessions** | [**Array&lt;Session&gt;**](Session.md) |  | [optional] [default to undefined]
-**links** | [**Array&lt;Link&gt;**](Link.md) |  | [optional] [default to undefined]
-**draft** | **boolean** |  | [optional] [default to undefined]
-**flowJson** | **string** |  | [optional] [default to undefined]
 **id** | **string** |  | [optional] [default to undefined]
 **insDate** | **string** |  | [optional] [default to undefined]
 **updDate** | **string** |  | [optional] [default to undefined]
 **insBy** | **string** |  | [optional] [default to undefined]
 **updBy** | **string** |  | [optional] [default to undefined]
+**title** | **string** |  | [optional] [default to undefined]
+**description** | **string** |  | [optional] [default to undefined]
+**order** | **number** |  | [optional] [default to undefined]
+**heroes** | [**Array&lt;Hero&gt;**](Hero.md) |  | [optional] [default to undefined]
+**places** | [**Array&lt;Place&gt;**](Place.md) |  | [optional] [default to undefined]
+**sessions** | [**Array&lt;Session&gt;**](Session.md) |  | [optional] [default to undefined]
+**links** | [**Array&lt;Link&gt;**](Link.md) |  | [optional] [default to undefined]
+**draft** | **boolean** |  | [optional] [default to undefined]
+**flowJson** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -27,21 +26,20 @@ Name | Type | Description | Notes
 import { Chapter } from './api';
 
 const instance: Chapter = {
-    title,
-    description,
-    order,
-    heroes,
-    places,
-    story,
-    sessions,
-    links,
-    draft,
-    flowJson,
     id,
     insDate,
     updDate,
     insBy,
     updBy,
+    title,
+    description,
+    order,
+    heroes,
+    places,
+    sessions,
+    links,
+    draft,
+    flowJson,
 };
 ```
 

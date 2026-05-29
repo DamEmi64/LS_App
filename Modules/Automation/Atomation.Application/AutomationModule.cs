@@ -13,9 +13,11 @@ namespace Automation.Application
         {
         };
 
-        public string Name => "Automation module";
+        public string Name => "Automation";
 
         public string Version => "v0.3 Alpha";
+
+        public IEnumerable<PermissionInfo> Permissions => [PermissionInfo.Create("automation", "Manage automation tasks", false)];
 
         public IServiceCollection Configure(IServiceCollection services)
         {

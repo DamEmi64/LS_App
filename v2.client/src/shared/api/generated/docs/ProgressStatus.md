@@ -3,14 +3,16 @@
 
 ## Enum
 
-* `New` (value: `'New'`)
+* `NUMBER_0` (value: `0`)
 
-* `Executing` (value: `'Executing'`)
+* `NUMBER_1` (value: `1`)
 
-* `Success` (value: `'Success'`)
+* `NUMBER_2` (value: `2`)
 
-* `Failed` (value: `'Failed'`)
+* `NUMBER_3` (value: `3`)
 
-* `Paused` (value: `'Paused'`)
+* `NUMBER_4` (value: `4`)
+
+* `NUMBER_5` (value: `5`)
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

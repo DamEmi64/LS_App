@@ -16,11 +16,12 @@
 
 
 export const ProgressStatus = {
-    New: 'New',
-    Executing: 'Executing',
-    Success: 'Success',
-    Failed: 'Failed',
-    Paused: 'Paused',
+    NUMBER_0: 0,
+    NUMBER_1: 1,
+    NUMBER_2: 2,
+    NUMBER_3: 3,
+    NUMBER_4: 4,
+    NUMBER_5: 5,
 } as const;
 
 export type ProgressStatus = typeof ProgressStatus[keyof typeof ProgressStatus];

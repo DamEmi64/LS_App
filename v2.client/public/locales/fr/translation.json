@@ -54,7 +54,8 @@
       "Executing": "En cours",
       "Success": "Terminé",
       "Failed": "Échec",
-      "Paused": "En pause"
+      "Paused": "En pause",
+      "Cancelled": "annulé "
     }
   },
   "jobs": {
@@ -335,7 +336,17 @@
       "rememberMe": "Se souvenir de moi",
       "failed": "Identifiants invalides",
       "error": "Une erreur est survenue. Réessayez plus tard."
-    }
+    },
+    "forgotPassword": "J’ai oublié mon mot de passe",
+    "reset_password": "Réinitialisation du mot de passe",
+    "new_password": "Nouveau mot de passe",
+    "forgot_info": "Nous avons envoyé un code de réinitialisation du mot de passe à l’adresse e-mail associée à votre compte.",
+    "reset_password_code": "Code de réinitialisation",
+    ",reset_password_failed": "La réinitialisation du mot de passe a échoué",
+    "forgot_info_initial": "Pour réinitialiser votre mot de passe, vous devez disposer d’un code de réinitialisation",
+    "forgot_password_send_code": "Envoyer le code de réinitialisation du mot de passe",
+    "forgot_password_wait": "Attendez {seconds} avant de renvoyer le code",
+    "reset_password_success": "Le mot de passe a été réinitialisé"
   },
   "automations": {
     "jobs": {
@@ -387,6 +398,10 @@
       "id": "ID",
       "login": "Participant",
       "email": "E-mail"
-    }
-  }
+    },
+    "setReminder": "Définir un rappel",
+    "sendInvitation": "Envoyer une invitation",
+    "removeReminder": "Supprimer le rappel"
+  },
+  "auth_forgot_password_sent_failed": "L’envoi du code de réinitialisation du mot de passe a échoué"
 }

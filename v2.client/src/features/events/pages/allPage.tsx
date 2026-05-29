@@ -24,7 +24,9 @@ const toEventBody = (event: EventDto): EventBody => ({
     title: event.title || "",
     eventDate: event.eventDate || "",
     description: event.description || "",
-    image: "",
+    image: event.image || "",
+    imageContent: event.imageContent || "",
+    category: event.category,
     participants: (event.participates || []).map<EventParticipant>((participant) => ({
         id: participant.id || participant.userId || "",
         login: participant.login || participant.email || ""
@@ -135,7 +137,11 @@ const EventsPage: React.FC = () => {
             eventDto: {
                 ...event,
                 title: updatedEvent.title,
-                description: updatedEvent.description
+                description: updatedEvent.description,
+                eventDate: updatedEvent.eventDate,
+                image: updatedEvent.image,
+                imageContent: updatedEvent.imageContent,
+                category: updatedEvent.category
             }
         }).then(refresh);
     };
@@ -222,13 +228,13 @@ const EventsPage: React.FC = () => {
     const columns: TableColumn<EventDto>[] = [
         { field: "title", header: "events.title", type: ColumnType.String, sortable: true },
         { field: "eventDate", header: "events.eventDate", type: ColumnType.Date, sortable: true },
-        { field: "categoryId", header: "events.category", type: ColumnType.Number },
+        { field: "categoryId", header: "events.category", type: ColumnType.Dictionary, dictionary: "Event categories" },
     ];
 
     const filters: FilterItem[] = [
         { field: "title", name: "events.title", type: FilterType.String },
         { field: "date", name: "events.eventDate", type: FilterType.DateRange },
-        { field: "category", name: "events.category", type: FilterType.Number },
+        { field: "category", name: "events.category", type: FilterType.Dictionary, dictionary: "Event categories" },
     ];
 
     const operations: Operations<EventDto>[] = [

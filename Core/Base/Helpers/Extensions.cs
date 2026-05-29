@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using FluentResults;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
@@ -120,6 +121,12 @@ namespace Base
                 media.Extension.Equals("webp", StringComparison.OrdinalIgnoreCase)
             );
 
+        public static Task<Result<List<UserData>>> GetUsers(this IConnect connectClient)
+            => connectClient.Send<GetUsers, List<UserData>>(new GetUsers());
+
+        public static Task ProvideBasicRoles(this IConnect connectClient, List<PermissionInfo> permissions)
+            => connectClient.Send(new ProvideBasicRoles(permissions));
+
         /// <summary>
         /// Validates required modules against the connector.
         /// Ensures that each module exists and meets the minimum version requirement.
@@ -140,25 +147,20 @@ namespace Base
             if (applicationBuilder == null)
                 throw new ArgumentNullException(nameof(applicationBuilder));
 
-            var connector = applicationBuilder.ApplicationServices
-                .GetRequiredService<IConnectorResolver>();
+            var existingModules = AppConfiguration.Modules;
 
             foreach (var module in modules)
             {
-                var existing = connector.Modules
-                    .FirstOrDefault(x => x.Name == module.Name);
-
-                if (existing is null)
+                if (existingModules.TryGetValue(module.Name, out var version))
+                {
+                    if (!Matches(version, module.Version))
+                    {
+                        throw new ModuleInfoEx.ModuleVersionInvalidException(module.Name, version, module.Version);
+                    }
+                }
+                else
                 {
                     throw new ModuleInfoEx.NeccessaryModuleNeededException(module.Name);
-                }
-
-                if (module.Version is not null)
-                {
-                    if (!Matches(existing.Version, module.Version))
-                    {
-                        throw new ModuleInfoEx.ModuleVersionInvalidException(module.Name, existing.Version, module.Version);
-                    }
                 }
             }
 

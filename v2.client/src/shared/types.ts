@@ -63,7 +63,8 @@ export enum FilterType {
     Date = 'date',
     Enum = 'enum',
     Boolean = 'boolean',
-    DateRange = 'dateRange'
+    DateRange = 'dateRange',
+    Dictionary = 'dictionary'
 }
 
 export interface FilterOption {
@@ -76,6 +77,7 @@ export interface FilterItem {
     name: string;
     type: FilterType;
     options?: FilterOption[]; // For combo type
+    dictionary?: string; // For dictionary type
 }
 
 export interface FilterValue {
@@ -95,7 +97,8 @@ export enum ColumnType {
     Enum = 'enum',
     Boolean = 'boolean',
     Progress = 'progress',
-    SubString = 'substring'
+    SubString = 'substring',
+    Dictionary = 'dictionary'
 }
 
 export interface Operations<T> {
@@ -154,6 +157,7 @@ export type TableColumn<T> = {
     type: ColumnType;
     width?: number | string;
     options? : string[];
+    dictionary?: string;
 };
 
 export type ExpandableTableProps<T> = {

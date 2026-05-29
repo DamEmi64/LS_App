@@ -132,7 +132,7 @@ namespace Files.Application.Controllers
                 return NotFound();
             }
 
-            return File(media.Content, media.Extension.ToContentType(), file.Title + "." + media.Extension);
+            return File(media.Content ?? Array.Empty<byte>(), media.Extension.ToContentType(), file.Title + "." + media.Extension);
         }
 
         [HttpPut("{id}/copy")]

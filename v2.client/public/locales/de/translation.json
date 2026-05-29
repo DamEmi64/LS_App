@@ -54,7 +54,8 @@
       "Executing": "In Bearbeitung",
       "Success": "Abgeschlossen",
       "Failed": "Fehlgeschlagen",
-      "Paused": "Pausiert"
+      "Paused": "Pausiert",
+      "Cancelled": "ausgefallen"
     }
   },
   "jobs": {
@@ -335,7 +336,17 @@
       "rememberMe": "Angemeldet bleiben",
       "failed": "Ungültige Zugangsdaten",
       "error": "Ein Fehler ist aufgetreten. Bitte später erneut versuchen."
-    }
+    },
+    "forgotPassword": "Ich habe mein Passwort vergessen",
+    "reset_password": "Passwort zurücksetzen",
+    "new_password": "Neues Passwort",
+    "forgot_info": "Wir haben einen Code zum Zurücksetzen des Passworts an die mit Ihrem Konto verknüpfte E-Mail-Adresse gesendet.",
+    "reset_password_code": "Zurücksetzungscode",
+    ",reset_password_failed": "Das Zurücksetzen des Passworts ist fehlgeschlagen",
+    "forgot_info_initial": "Um Ihr Passwort zurückzusetzen, benötigen Sie einen Code zum Zurücksetzen des Passworts",
+    "forgot_password_send_code": "Code zum Zurücksetzen des Passworts senden",
+    "forgot_password_wait": "Warten Sie {seconds}, bevor Sie den Code erneut senden",
+    "reset_password_success": "Das Passwort wurde zurückgesetzt"
   },
   "automations": {
     "jobs": {
@@ -387,6 +398,10 @@
       "id": "ID",
       "login": "Login",
       "email": "E-Mail"
-    }
-  }
+    },
+    "setReminder": "Erinnerung festlegen",
+    "sendInvitation": "Einladung senden",
+    "removeReminder": "Erinnerung entfernen"
+  },
+  "auth_forgot_password_sent_failed": "Der Code zum Zurücksetzen des Passworts konnte nicht gesendet werden"
 }

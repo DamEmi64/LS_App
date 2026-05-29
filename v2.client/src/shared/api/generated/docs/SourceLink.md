@@ -5,14 +5,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**sourceType** | **number** |  | [optional] [default to undefined]
-**link** | **string** |  | [default to undefined]
-**imported** | **boolean** |  | [optional] [default to undefined]
 **id** | **string** |  | [optional] [default to undefined]
 **insDate** | **string** |  | [optional] [default to undefined]
 **updDate** | **string** |  | [optional] [default to undefined]
 **insBy** | **string** |  | [optional] [default to undefined]
 **updBy** | **string** |  | [optional] [default to undefined]
+**sourceType** | **number** |  | [optional] [default to undefined]
+**link** | **string** |  | [default to undefined]
+**imported** | **boolean** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -20,14 +20,14 @@ Name | Type | Description | Notes
 import { SourceLink } from './api';
 
 const instance: SourceLink = {
-    sourceType,
-    link,
-    imported,
     id,
     insDate,
     updDate,
     insBy,
     updBy,
+    sourceType,
+    link,
+    imported,
 };
 ```
 

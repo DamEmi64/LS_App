@@ -15,23 +15,19 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
-import type { Chapter } from './chapter';
-// May contain unused imports in some cases
-// @ts-ignore
 import type { RPGFile } from './rpgfile';
 
 export interface Story {
-    'title'?: string | null;
-    'description'?: string | null;
-    'startDate'?: string | null;
-    'endDate'?: string | null;
-    'chapters'?: Array<Chapter> | null;
-    'summary'?: string | null;
-    'files'?: Array<RPGFile> | null;
     'id'?: string;
     'insDate'?: string;
     'updDate'?: string;
     'insBy'?: string | null;
     'updBy'?: string | null;
+    'title'?: string | null;
+    'description'?: string | null;
+    'startDate'?: string | null;
+    'endDate'?: string | null;
+    'summary'?: string | null;
+    'files'?: Array<RPGFile> | null;
 }
 

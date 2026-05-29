@@ -28,6 +28,12 @@ export interface PasswordChangeData {
     newPassword: string;
 }
 
+export interface ResetPasswordData {
+    login: string;
+    code: string;
+    password: string;
+}
+
 export enum ProgressStatus {
     New = 'New',
     Executing = 'Executing',

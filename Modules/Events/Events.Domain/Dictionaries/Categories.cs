@@ -2,7 +2,7 @@
 
 namespace Events.Domain.Dictionaries
 {
-    [Dictionary("Event category")]
+    [Dictionary("Event categories")]
     public class Categories
     {
         public static DictionaryItem Movies => EntityDictionary.Item(421, "Movies");

@@ -5,6 +5,11 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**id** | **string** |  | [optional] [default to undefined]
+**insDate** | **string** |  | [optional] [default to undefined]
+**updDate** | **string** |  | [optional] [default to undefined]
+**insBy** | **string** |  | [optional] [default to undefined]
+**updBy** | **string** |  | [optional] [default to undefined]
 **title** | **string** |  | [default to undefined]
 **image** | **string** |  | [optional] [default to undefined]
 **locaction** | **string** |  | [optional] [default to undefined]
@@ -12,11 +17,6 @@ Name | Type | Description | Notes
 **fileType** | **number** |  | [optional] [default to undefined]
 **additionalData** | [**AdditionalData**](AdditionalData.md) |  | [optional] [default to undefined]
 **sources** | [**Array&lt;SourceLink&gt;**](SourceLink.md) |  | [default to undefined]
-**id** | **string** |  | [optional] [default to undefined]
-**insDate** | **string** |  | [optional] [default to undefined]
-**updDate** | **string** |  | [optional] [default to undefined]
-**insBy** | **string** |  | [optional] [default to undefined]
-**updBy** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -24,6 +24,11 @@ Name | Type | Description | Notes
 import { ModelFile } from './api';
 
 const instance: ModelFile = {
+    id,
+    insDate,
+    updDate,
+    insBy,
+    updBy,
     title,
     image,
     locaction,
@@ -31,11 +36,6 @@ const instance: ModelFile = {
     fileType,
     additionalData,
     sources,
-    id,
-    insDate,
-    updDate,
-    insBy,
-    updBy,
 };
 ```
 

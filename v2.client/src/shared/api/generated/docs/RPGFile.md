@@ -5,13 +5,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**title** | **string** |  | [default to undefined]
-**content** | **string** |  | [default to undefined]
 **id** | **string** |  | [optional] [default to undefined]
 **insDate** | **string** |  | [optional] [default to undefined]
 **updDate** | **string** |  | [optional] [default to undefined]
 **insBy** | **string** |  | [optional] [default to undefined]
 **updBy** | **string** |  | [optional] [default to undefined]
+**title** | **string** |  | [default to undefined]
+**content** | **string** |  | [default to undefined]
 
 ## Example
 
@@ -19,13 +19,13 @@ Name | Type | Description | Notes
 import { RPGFile } from './api';
 
 const instance: RPGFile = {
-    title,
-    content,
     id,
     insDate,
     updDate,
     insBy,
     updBy,
+    title,
+    content,
 };
 ```
 

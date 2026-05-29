@@ -1,21 +1,23 @@
 ﻿using Automation.Domain.Repositories;
 using Automation.Infrastructure.Services.AutomationService;
+using Automation.Infrastructure.Services.NotifyListener.Command;
 using Base;
 using Base.Automation;
+using MediatR;
 
 namespace Automation.Infrastructure.Services.NotifyListener
 {
     public class NotifyListener : INotifierInstance
     {
-        private readonly IAutomationService _automationService;
         private readonly IAutomatRepository _automatRepository;
         private readonly List<IAutomationResolver> _resolvers;
+        private readonly IMediator _mediator;
 
-        public NotifyListener(IAutomatRepository automatRepository, IAutomationService automationService, IEnumerable<IAutomationResolver> resolvers)
+        public NotifyListener(IAutomatRepository automatRepository, IEnumerable<IAutomationResolver> resolvers, IMediator mediator)
         {
             _automatRepository = automatRepository;
-            _automationService = automationService;
             _resolvers = resolvers.ToList();
+            _mediator = mediator;
         }
 
         public Task Error(int messageId, params object[] args)
@@ -58,7 +60,7 @@ namespace Automation.Infrastructure.Services.NotifyListener
 
             foreach (var automat in automats)
             {
-                await _automationService.ExecuteAutomatAsync(automat);
+                await _mediator.Send(new AutomationExecuter { Automat = automat });
                 automat.LastRun = DateTimeOffset.UtcNow;
                 await _automatRepository.Update(automat);
             }

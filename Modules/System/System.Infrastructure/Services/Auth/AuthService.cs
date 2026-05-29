@@ -14,18 +14,21 @@ namespace System.Infrastructure.Services.Auth
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger<AuthService> _logger;
         private readonly IUserStore<User> _userStore;
+        private readonly IConnect _connect;
 
         public AuthService(SignInManager<User> signInManager,
             UserManager<User> userManager,
             ILogger<AuthService> logger,
             IUserStore<User> userStore,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            IConnect connect)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _logger = logger;
             _userStore = userStore;
             _roleManager = roleManager;
+            _connect = connect;
         }
 
         public async Task<SignInResult> Login(LoginModel model)
@@ -74,23 +77,19 @@ namespace System.Infrastructure.Services.Auth
 
         public async Task<IdentityResult> ResetPassword(ResetPasswordModel model)
         {
-            if (model.UserId is not null)
+            var user = await _userManager.FindByNameAsync(model.Login);
+
+            if (user is null)
             {
-                var user = await _userManager.FindByIdAsync(model.UserId);
-
-                if (user is null)
-                {
-                    return IdentityResult.Failed(new IdentityError() { Description = "User not found" });
-                }
-
-                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                return await _userManager.ResetPasswordAsync(user, code, model.NewPassword);
+                return IdentityResult.Failed(new IdentityError() { Description = "User not found" });
             }
 
-            return IdentityResult.Failed(new IdentityError() { Description = "No User id provided" });
+            var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
+
+            return result;
         }
 
-        public async Task<IdentityResult> ChangePassword(ResetPasswordModel model, HttpContext context)
+        public async Task<IdentityResult> ChangePassword(ChangePasswordModel model, HttpContext context)
         {
             var user = await _userManager.FindByIdAsync(model.UserId ?? string.Empty);
 
@@ -150,6 +149,22 @@ namespace System.Infrastructure.Services.Auth
                 await _userManager.UpdateAsync(user);
                 await _signInManager.RefreshSignInAsync(user);
             }
+        }
+
+        public async Task ForgotPassword(string login)
+        {
+            var user = await _userManager.FindByNameAsync(login);
+
+            if (user is null || !(user.EmailConfirmed) || user.Email is null)
+            {
+                return;
+            }
+
+            var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+            var html = $"To reset your password use this code: {code}";
+
+            await _connect.Send(new SendEmail(user.Email, "Reset password", html));
         }
     }
 }

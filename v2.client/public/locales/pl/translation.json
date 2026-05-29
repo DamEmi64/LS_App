@@ -54,7 +54,8 @@
       "Executing": "W trakcie wykonywania",
       "Success": "Zakończony sukcesem",
       "Failed": "Zakończony porażką",
-      "Paused": "Zatrzymany"
+      "Paused": "Zatrzymany",
+      "Cancelled": "Anulowano"
     }
   },
   "jobs": {
@@ -276,7 +277,7 @@
     "draft": "Szkice RPG",
     "events": "Wydarzenia",
     "allEvents": "Wszystkie wydarzenia",
-    "myEvents": "Moje wyarzenia"
+    "myEvents": "Moje wydarzenia"
   },
   "server": {
     "info": "Stan aplikacji",
@@ -335,7 +336,17 @@
       "rememberMe": "Zapamiętaj mnie",
       "failed": "Nieprawidłowa nazwa użytkownika lub hasło",
       "error": "Wystąpił błąd podczas logowania. Spróbuj ponownie później."
-    }
+    },
+    "forgotPassword": "Zapomniałem hasła",
+    "reset_password": "Reset hasła",
+    "new_password": "Nowe hasło",
+    "forgot_info": "Na adres email powiązany z kontem wysłaliśmy kod do resetu hasła.",
+    "reset_password_code": "Kod do resetu",
+    ",reset_password_failed": "Reset hasła nie udał się",
+    "forgot_info_initial": "By zresetować hasło, musisz mieć kod do resetu hasła",
+    "forgot_password_send_code": "Wyślij kod do resetu hasła",
+    "forgot_password_wait": "Zaczekaj {seconds} na ponowne wysłanie kodu",
+    "reset_password_success": "Hasło zostało zresetowane"
   },
   "automations": {
     "jobs": {
@@ -387,6 +398,10 @@
       "id": "Id uczestnika",
       "login": "Uczestnik",
       "email": "Email"
-    }
-  }
+    },
+    "setReminder": "Ustaw przypomnienie",
+    "sendInvitation": "Wyślij zaproszenie",
+    "removeReminder": "Usuń przypomnienie"
+  },
+  "auth_forgot_password_sent_failed": "Wysłanie kodu do resetu hasła nie powiodło się"
 }

@@ -1,147 +1,210 @@
-# Ls App Project
+# LS App
 
-**Ls App** is a modular application built with **ASP.NET Core** designed to be extensible through independent modules. It provides a backend API, optional frontend, and a local app that runs both. The app emphasizes modular architecture, background job processing, and clear separation of concerns.
+LS App is a modular web application built around a backend-first architecture. The backend owns the main application structure: API modules, authentication, permissions, background jobs, notifications, configuration, and shared infrastructure. A React frontend is included as the user interface.
 
----
+## 1. Project Idea
 
-## Features
+The application is designed as a set of independent modules connected by a shared backend foundation.
 
-* Modular architecture – extend functionality via independent modules.
-* Core base project providing all necessary interfaces and classes required for modules.
-* Core system module (`SystemModule`) implementing all required interfaces.
-* Job system with background execution using **Hangfire**.
-* Process and job management: support for parent-child job execution.
-* Built-in modules for files, RPG, communication, and automation.
-* Backend API ready for integration; optional React frontend.
-* Centralized configuration and permission system.
+Each module owns one feature area and can provide:
 
----
+- API endpoints
+- services and repositories
+- database context and migrations
+- permissions
+- background job operations
+- startup behavior such as hubs, middleware, or scheduled work
 
-## Technology
+This keeps features separated while still letting them work together through shared base contracts.
 
-* **ASP.NET Core** – backend API and module hosting.
-* **Entity Framework Core** – database context support via `AddDatabase`.
-* **Hangfire** – background job processing.
-* **React** – frontend interface (optional).
-* PostgreSQL (optional) or default database provider.
-* Firebase and email integration support.
+## 2. Architecture Overview
 
----
+### 2.1 Connector
 
-## Architecture Overview
+The connector is the backend composition root.
 
-### Base Project
+It decides which modules are enabled, loads them into the application, registers their services and controllers, and runs their startup logic. It also wires shared application behavior such as logging, error handling, Swagger, authentication, authorization, migrations, dictionaries, and role setup.
 
-The base project is required for all modules. It provides:
+In short: the server starts the connector, and the connector starts the modules.
 
-* Core interfaces and classes necessary for module functionality.
-* Helper methods for adding services and database context.
-* `AddDatabase` method to register the database context (EF Core) with options for modified migration history and automatic migrations based on configuration.
-* Supports `AutoMigrate` from configuration to run database migrations automatically.
+### 2.2 Base Project
 
----
+`Core/Base` contains the common building blocks used by all modules.
 
-### Modules
+It provides:
 
-Modules are independent projects implementing the `IModule` interface and structured following clean architecture (app/domain/infrastructure). They are connected to the main app via a `Connector` instance. The `SystemModule` is mandatory.
+- module and connector contracts
+- database registration helpers
+- job and process contracts
+- permission models
+- common entities
+- controller helpers
+- shared configuration access
 
----
+Modules should use these shared elements instead of reimplementing their own infrastructure.
 
-### Jobs and Processes
+### 2.3 Modules
 
-Jobs implement `IJob` and are executed in background processes. Job context is provided via `IJobContext`. Summary of job context capabilities in JSON format:
+Every backend feature is packaged as a module. A module implements `IModule`, which gives the connector a consistent way to load and run it.
+
+The module contract includes:
+
+- `Configure`: registers services and infrastructure
+- `OnStartup`: adds runtime behavior
+- `Name`: identifies the module
+- `Version`: exposes the module version
+- `Permissions`: declares access rules
+- `Operations`: declares background job operations
+
+Most modules use three layers:
+
+- **Application**: controllers, DTOs, filters, module setup
+- **Domain**: entities, dictionaries, repository contracts
+- **Infrastructure**: database contexts, repositories, services, jobs, hubs, external integrations
+
+## 3. Main Modules
+
+### System
+
+Core module required for the application to run. It provides users, authentication, roles, permissions, logs, dictionaries, process tracking, notifications, and job infrastructure.
+
+### Files
+
+Handles file management, including imports, exports, moving, copying, and deleting.
+
+### RPG
+
+Handles RPG session data, stories, chapters, heroes, places, summaries, imports/exports, and Firebase synchronization.
+
+### Communication
+
+Handles email templates, generated emails, template rules, and email sending.
+
+### Automation
+
+Handles automation definitions and notification-based task execution.
+
+### Events
+
+Handles event management, invitations, reminders, and participant sign-in/sign-out.
+
+## 4. Core Backend Concepts
+
+### 4.1 AddDatabase
+
+`AddDatabase<T>()` is the shared helper used by modules to register their EF Core database context.
+
+It keeps database setup consistent across modules and allows the application to switch database providers through configuration. When automatic migrations are enabled, module contexts can be discovered and migrated during backend startup.
+
+### 4.2 AppConfiguration
+
+`AppConfiguration` centralizes access to backend settings, connection strings, module versions, and permissions.
+
+Modules use it to read their own options without needing to know how the root configuration is loaded.
+
+### 4.3 Module Communication Client
+
+The base project provides a communication client for synchronization between modules. In code this is exposed through `IConnect` and implemented by `ConnectClient`.
+
+Modules use it to send typed requests to other modules without depending directly on their services or infrastructure. This keeps module boundaries cleaner while still allowing shared workflows such as:
+
+- providing basic roles from module permissions
+- requesting user data from the System module
+- sending emails from another module
+- triggering cross-module background work
+
+Internally, the client uses the application's request pipeline, so communication stays typed and consistent across modules.
+
+### 4.4 Permissions
+
+Modules declare permissions as part of their module definition.
+
+During startup, the System module uses those permissions to provide the basic role setup for the application. This allows every module to describe its own access rules while keeping role management centralized.
+
+### 4.5 Operations
+
+Operations describe background work that a module can perform.
+
+Jobs reference operations so the process engine knows what work is being executed and which queue should handle it.
+
+## 5. Jobs And Processes
+
+Long-running work is handled as background processes.
+
+A process can contain multiple jobs. Jobs can be chained, child jobs can run after parent jobs, and milestones can wait for specific work to complete. Job handlers can add logs, record errors, and pass data between jobs during execution.
+
+This model is used for tasks such as:
+
+- file operations
+- email generation and sending
+- RPG imports and summaries
+- Firebase export
+- event reminders
+- event invitations
+
+## 6. Configuration
+
+Configuration is kept in the backend settings and should be overridden per environment. Sensitive or environment-specific values should be provided through local overrides, deployment configuration, or user secrets.
+
+### 6.1 Config Section
+
+The most important application-specific settings are grouped under the `config` section.
 
 ```json
 {
-  "IJobContext": {
-    "Id": "Job identifier",
-    "JobId": "Hangfire job ID",
-    "ServiceProvider": "Access to services",
-    "Methods": [
-      "AddLog(string) - log messages",
-      "AddError(string) - record errors",
-      "PassData<T>(T data) - share data between jobs",
-      "GetData<T>() - retrieve shared data"
-    ]
+  "config": {
+    "autoMigrate": true,
+    "usePostgresql": false,
+    "frontendUrl": [
+      "https://frontend-origin.example"
+    ],
+    "FirebaseOptions": {
+      "ProjectId": "firebase-project-id"
+    },
+    "EmailOptions": {
+      "SmtpServer": "string",
+      "SmtpPort": 587,
+      "PublicKey": "string",
+      "PrivateKey": "string",
+      "ApiEmail": "string"
+    },
+    "EventOptions": {
+      "EventLinkTemplate": "https://frontend-origin.example/events#{0}"
+    }
   }
 }
 ```
 
-* Supports logging, error handling, and data passing between jobs.
-* Provides service provider access for dependency resolution.
-* Jobs can be executed immediately or scheduled.
-* Child jobs run after the parent completes successfully.
+### 6.2 Field Meaning
 
----
+- `autoMigrate`: controls whether module database migrations run automatically on startup.
+- `usePostgresql`: switches module database registration to PostgreSQL instead of the default provider.
+- `frontendUrl`: allowed frontend origins for browser requests.
+- `FirebaseOptions`: settings used by RPG Firebase synchronization.
+- `EmailOptions`: settings used by the Communication module for email sending.
+- `EventOptions`: settings used by the Events module when generating event links.
 
-### Permissions
+## 7. Running The Application
 
-Modules define permissions. Core summary:
+The backend can be run from source during development or as a packaged local executable from a release.
 
-```json
-{
-  "Permissions": [
-    {"Module":"rpg","Description":"Manage RPG sessions","Default":true},
-    {"Module":"files","Description":"Manage files","Default":true},
-    {"Module":"communication","Description":"Manage and send emails","Default":true},
-    {"Module":"process","Description":"Manage background processes","Default":false},
-    {"Module":"automation","Description":"Manage automation tasks","Default":false}
-  ]
-}
-```
+The release package also includes a local launcher that starts both:
 
----
+- the backend executable
+- the packaged frontend
 
-### Configuration
+The frontend is a React application that consumes the backend API. It is useful for the full app experience, but the backend modules are the main architectural unit of the project.
 
-Configuration is mapped to `ConfigStructure`. Summary in JSON:
+## 8. Extending The Backend
 
-```json
-{
-  "ConfigStructure": {
-    "AutoMigrate": "Automatically migrate database",
-    "UsePostgresql": "Use PostgreSQL provider",
-    "FirebaseOptions": "Firebase integration settings",
-    "EmailOptions": "Email service settings"
-  }
-}
-```
+To add a feature, create a new module or extend an existing one.
 
----
+Basic flow:
 
-## Getting Started
+1. Implement the module contract.
+2. Register services, repositories, database context, and other infrastructure.
+3. Add controllers or startup behavior if needed.
+4. Define permissions and background operations.
+5. Add the module to the connector.
 
-### Releases
-
-Three apps in each release:
-
-1. Frontend – React app (optional)
-2. Backend – ASP.NET Core API
-3. Local – runs both frontend and backend locally
-
-**Run local version:**
-
-- Run Local.exe
-- Endpoint:
-  - Backend: https://localhost:5144
-  - Frontend: http://localhost:8080
-
-
----
-
-### Extending with Modules
-
-1. Implement `IModule` interface.
-2. Structure project (app/domain/infrastructure).
-3. Add module to `Connector`.
-4. Define operations and permissions.
-5. Register database context using `AddDatabase` if needed.
-
----
-
-### Notes
-
-* Base Project is required for all modules.
-* System Module is critical.
-* Frontend is optional.
-* Jobs and processes managed via `IJob` and `IJobContext`.
+This keeps new features isolated while still making them available to the shared API, permission system, and background process engine.

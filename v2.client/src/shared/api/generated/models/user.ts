@@ -15,9 +15,6 @@
 
 
 export interface User {
-    'firstName'?: string | null;
-    'lastName'?: string | null;
-    'insDate'?: string;
     'id'?: string | null;
     'userName'?: string | null;
     'normalizedUserName'?: string | null;
@@ -33,5 +30,8 @@ export interface User {
     'lockoutEnd'?: string | null;
     'lockoutEnabled'?: boolean;
     'accessFailedCount'?: number;
+    'firstName'?: string | null;
+    'lastName'?: string | null;
+    'insDate'?: string;
 }
 

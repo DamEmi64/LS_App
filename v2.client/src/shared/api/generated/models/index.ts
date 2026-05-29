@@ -2,6 +2,7 @@ export * from './additional-data';
 export * from './automat';
 export * from './automat-response-list';
 export * from './automation-dto';
+export * from './change-password-model';
 export * from './chapter';
 export * from './chapter-dto';
 export * from './chapter-response-list';

@@ -54,7 +54,8 @@
       "Executing": "In progress",
       "Success": "Completed",
       "Failed": "Failed",
-      "Paused": "Paused"
+      "Paused": "Paused",
+      "Cancelled": "cancelled"
     }
   },
   "jobs": {
@@ -335,7 +336,17 @@
       "rememberMe": "Remember me",
       "failed": "Invalid username or password",
       "error": "Something went wrong. Please try again later."
-    }
+    },
+    "forgotPassword": "I forgot my password",
+    "reset_password": "Password reset",
+    "new_password": "New password",
+    "forgot_info": "We sent a password reset code to the email address associated with your account.",
+    "reset_password_code": "Reset code",
+    ",reset_password_failed": "Password reset failed",
+    "forgot_info_initial": "To reset your password, you need a password reset code",
+    "forgot_password_send_code": "Send password reset code",
+    "forgot_password_wait": "Wait {seconds} before resending the code",
+    "reset_password_success": "Password has been reset"
   },
   "automations": {
     "jobs": {
@@ -387,6 +398,10 @@
       "id": "ID",
       "login": "Participant",
       "email": "Email"
-    }
-  }
+    },
+    "setReminder": "Set reminder",
+    "sendInvitation": "Send invitation",
+    "removeReminder": "Remove reminder"
+  },
+  "auth_forgot_password_sent_failed": "Failed to send the password reset code"
 }

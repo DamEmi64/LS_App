@@ -25,25 +25,21 @@ import type { Place } from './place';
 // May contain unused imports in some cases
 // @ts-ignore
 import type { Session } from './session';
-// May contain unused imports in some cases
-// @ts-ignore
-import type { Story } from './story';
 
 export interface Chapter {
-    'title'?: string | null;
-    'description'?: string | null;
-    'order'?: number;
-    'heroes'?: Array<Hero> | null;
-    'places'?: Array<Place> | null;
-    'story'?: Story;
-    'sessions'?: Array<Session> | null;
-    'links'?: Array<Link> | null;
-    'draft'?: boolean;
-    'flowJson'?: string | null;
     'id'?: string;
     'insDate'?: string;
     'updDate'?: string;
     'insBy'?: string | null;
     'updBy'?: string | null;
+    'title'?: string | null;
+    'description'?: string | null;
+    'order'?: number;
+    'heroes'?: Array<Hero> | null;
+    'places'?: Array<Place> | null;
+    'sessions'?: Array<Session> | null;
+    'links'?: Array<Link> | null;
+    'draft'?: boolean;
+    'flowJson'?: string | null;
 }
 

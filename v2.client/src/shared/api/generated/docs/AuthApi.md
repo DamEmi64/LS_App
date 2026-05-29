@@ -8,6 +8,8 @@ All URIs are relative to *http://localhost*
 |[**createLogin**](#createlogin) | **POST** /api/Auth/login | |
 |[**createLogout**](#createlogout) | **POST** /api/Auth/logout | |
 |[**createRegister**](#createregister) | **POST** /api/Auth/register | |
+|[**createResetPassword**](#createresetpassword) | **POST** /api/Auth/resetPassword | |
+|[**getForgotPassword**](#getforgotpassword) | **GET** /api/Auth/forgotPassword | |
 |[**getMe**](#getme) | **GET** /api/Auth/me | |
 |[**getUser**](#getuser) | **GET** /api/Auth/user | |
 |[**update**](#update) | **PUT** /api/Auth | |
@@ -201,6 +203,107 @@ No authorization required
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
+# **createResetPassword**
+> createResetPassword()
+
+
+### Example
+
+```typescript
+import {
+    AuthApi,
+    Configuration,
+    ResetPasswordModel
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new AuthApi(configuration);
+
+let resetPasswordModel: ResetPasswordModel; // (optional)
+
+const { status, data } = await apiInstance.createResetPassword(
+    resetPasswordModel
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **resetPasswordModel** | **ResetPasswordModel**|  | |
+
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: application/json-patch+json, application/json, text/json, application/*+json
+ - **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getForgotPassword**
+> getForgotPassword()
+
+
+### Example
+
+```typescript
+import {
+    AuthApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new AuthApi(configuration);
+
+let username: string; // (optional) (default to undefined)
+
+const { status, data } = await apiInstance.getForgotPassword(
+    username
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **username** | [**string**] |  | (optional) defaults to undefined|
+
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
 # **getMe**
 > UserData getMe()
 
@@ -348,16 +451,16 @@ No authorization required
 import {
     AuthApi,
     Configuration,
-    ResetPasswordModel
+    ChangePasswordModel
 } from './api';
 
 const configuration = new Configuration();
 const apiInstance = new AuthApi(configuration);
 
-let resetPasswordModel: ResetPasswordModel; // (optional)
+let changePasswordModel: ChangePasswordModel; // (optional)
 
 const { status, data } = await apiInstance.updateChangePassword(
-    resetPasswordModel
+    changePasswordModel
 );
 ```
 
@@ -365,7 +468,7 @@ const { status, data } = await apiInstance.updateChangePassword(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
-| **resetPasswordModel** | **ResetPasswordModel**|  | |
+| **changePasswordModel** | **ChangePasswordModel**|  | |
 
 
 ### Return type

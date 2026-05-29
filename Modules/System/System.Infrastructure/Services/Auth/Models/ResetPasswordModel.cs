@@ -2,8 +2,8 @@
 {
     public class ResetPasswordModel
     {
-        public string? UserId { get; set; }
-        public required string OldPassword { get; set; }
-        public required string NewPassword { get; set; }
+        public required string Login { get; set; }
+        public required string Code { get; set; }
+        public required string Password { get; set; }
     }
 }

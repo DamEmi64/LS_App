@@ -15,12 +15,12 @@
 
 
 export interface Trigger {
-    'eventId'?: number;
-    'cron'?: string | null;
     'id'?: string;
     'insDate'?: string;
     'updDate'?: string;
     'insBy'?: string | null;
     'updBy'?: string | null;
+    'eventId'?: number;
+    'cron'?: string | null;
 }
 

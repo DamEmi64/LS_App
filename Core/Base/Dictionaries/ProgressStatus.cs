@@ -20,6 +20,9 @@ namespace Base
         Failed,
 
         [Display(Name = "Paused")]
-        Paused
+        Paused,
+
+        [Display(Name = "Cancelled")]
+        Cancelled
     }
 }

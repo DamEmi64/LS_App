@@ -11,14 +11,16 @@ import {
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { LoginFormProps, LoginData } from '@/features/auth';
-import {notify} from "@/shared";
+import {notify, useModal} from "@/shared";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import ResetPasswordForm from './resetPasswordForm';
 
 
 const LoginForm: React.FC<LoginFormProps> = ({ auth, onClose }) => {
   const { t } = useTranslation();
   const { mode } = useColorScheme();
+  const modal = useModal();
 
   const labelColor = mode === 'dark' ? '#fff' : '#000';
 
@@ -59,6 +61,18 @@ const LoginForm: React.FC<LoginFormProps> = ({ auth, onClose }) => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleForgotPassword = () => {
+    if (!username) return;
+
+    modal.showSubModal(
+      <ResetPasswordForm
+        auth={auth}
+        login={username}
+        onClose={modal.hideSubModal}
+      />
+    );
   };
 
   return (
@@ -110,6 +124,15 @@ const LoginForm: React.FC<LoginFormProps> = ({ auth, onClose }) => {
           label={t('auth.login.rememberMe')}
           sx={{ color: labelColor }}
         />
+
+        <Button
+          onClick={handleForgotPassword}
+          variant="text"
+          disabled={!username}
+          sx={{ alignSelf: 'flex-start' }}
+        >
+          {t('auth.forgotPassword', 'Forgot password?')}
+        </Button>
 
         <Box sx={{ display: 'flex', gap: 2, mt: 3 }}>
           <Button

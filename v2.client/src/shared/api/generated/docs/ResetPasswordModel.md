@@ -5,9 +5,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**userId** | **string** |  | [optional] [default to undefined]
-**oldPassword** | **string** |  | [default to undefined]
-**newPassword** | **string** |  | [default to undefined]
+**login** | **string** |  | [default to undefined]
+**code** | **string** |  | [default to undefined]
+**password** | **string** |  | [default to undefined]
 
 ## Example
 
@@ -15,9 +15,9 @@ Name | Type | Description | Notes
 import { ResetPasswordModel } from './api';
 
 const instance: ResetPasswordModel = {
-    userId,
-    oldPassword,
-    newPassword,
+    login,
+    code,
+    password,
 };
 ```
 

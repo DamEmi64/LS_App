@@ -11,12 +11,12 @@ namespace Events.Infrastructure.Services.AutomationResolver
     public class EventAutomationResolver : IAutomationResolver
     {
         private readonly IEventRepository _eventRepository;
-        private readonly IUserService _userService;
+        private readonly IConnect _connectClient;
 
-        public EventAutomationResolver(IEventRepository eventRepository, IUserService userService)
+        public EventAutomationResolver(IEventRepository eventRepository, IConnect connectClient)
         {
             _eventRepository = eventRepository;
-            _userService = userService;
+            _connectClient = connectClient;
         }
 
         public int? ConvertToEventId(int notifyTypeId)
@@ -62,7 +62,12 @@ namespace Events.Infrastructure.Services.AutomationResolver
                     if (lastAddedEvent is null || lastAddedEvent.EventDate is null)
                         continue;
 
-                    foreach (var user in _userService.Users)
+                    var usersResult = _connectClient.Send<GetUsers,List<UserData>>(new GetUsers()).Result;
+
+                    if (usersResult.IsFailed)
+                        continue;
+
+                    foreach (var user in usersResult.Value)
                     {
                         var job = new SendInvitationJob
                         {

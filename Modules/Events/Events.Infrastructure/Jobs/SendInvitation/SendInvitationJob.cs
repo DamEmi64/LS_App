@@ -1,0 +1,23 @@
+﻿using Base;
+using Events.Domain.Dictionaries;
+using Events.Domain.Entities;
+
+namespace Events.Infrastructure.Jobs
+{
+    public class SendInvitationJob : IJob
+    {
+       public int OperationId => Operations.SendInvitation;
+
+        public Guid Id { get; set; }
+
+        public List<IJob> Children => new List<IJob>();
+
+        public DateTimeOffset RequestDate { get; set; } = DateTimeOffset.Now;
+
+        public string Name => $"Send invitation about {Event?.Title} {RequestDate}";
+
+        public required Event Event { get; set; }
+
+        public required UserData Receiver { get; set; }
+    }
+}

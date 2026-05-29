@@ -8,9 +8,11 @@ Name | Type | Description | Notes
 **id** | **string** |  | [optional] [default to undefined]
 **title** | **string** |  | [optional] [default to undefined]
 **description** | **string** |  | [optional] [default to undefined]
-**categoryId** | **number** |  | [optional] [default to undefined]
+**category** | **number** |  | [optional] [default to undefined]
 **eventDate** | **string** |  | [optional] [default to undefined]
 **participates** | [**Array&lt;UserDto&gt;**](UserDto.md) |  | [optional] [default to undefined]
+**image** | **string** |  | [optional] [default to undefined]
+**imageContent** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -21,9 +23,11 @@ const instance: EventDto = {
     id,
     title,
     description,
-    categoryId,
+    category,
     eventDate,
     participates,
+    image,
+    imageContent,
 };
 ```
 
