@@ -129,9 +129,17 @@ namespace System.Infrastructure.Services.Auth
             return result;
         }
 
-        public Task Logout()
+        public async Task Logout(HttpContext context)
         {
-            return Task.CompletedTask;
+            var user = await _userManager.GetUserAsync(context.User);
+
+            if (user is null)
+            {
+                return;
+            }
+
+            await _userManager.RemoveAuthenticationTokenAsync(user, TokenProvider, RefreshTokenName);
+            await _userManager.RemoveAuthenticationTokenAsync(user, TokenProvider, RefreshTokenExpiresAtName);
         }
 
         public async Task<IdentityResult> ResetPassword(ResetPasswordModel model)

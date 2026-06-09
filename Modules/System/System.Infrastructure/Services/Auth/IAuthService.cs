@@ -17,7 +17,7 @@ namespace System.Infrastructure.Services.Auth
 
         Task<Result<Token>> RefreshToken(RefreshTokenModel model);
 
-        Task Logout();
+        Task Logout(HttpContext context);
 
         Task<IdentityResult> Register(RegisterModel register);
 

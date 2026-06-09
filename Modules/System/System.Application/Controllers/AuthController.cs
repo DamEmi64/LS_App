@@ -78,7 +78,7 @@ namespace System.Application.Controllers
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {
-            await _authService.Logout();
+            await _authService.Logout(HttpContext);
             return Ok();
         }
 
@@ -124,7 +124,7 @@ namespace System.Application.Controllers
         [HttpPost("delete")]
         public async Task<IActionResult> Delete()
         {
-            await _authService.Logout();
+            await _authService.Logout(HttpContext);
             return Ok();
         }
 
