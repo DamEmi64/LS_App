@@ -6,6 +6,7 @@ import {
 } from "@microsoft/signalr";
 import { notify } from "../components/NotificationListener";
 import { useConfiguration } from "../context/configuration";
+import { getAuthToken } from "../components/apiClient";
 
 const hubs = [
   { name: "notify", url: "notify" },
@@ -34,7 +35,7 @@ export const useSignalR = (hubName: string, onConnected?: () => void) => {
   useEffect(() => {
     const connection = new HubConnectionBuilder()
       .withUrl(hubUrl, {
-        withCredentials: true
+        accessTokenFactory: () => getAuthToken() ?? ''
       })
       .withAutomaticReconnect()
       .configureLogging(LogLevel.Information)

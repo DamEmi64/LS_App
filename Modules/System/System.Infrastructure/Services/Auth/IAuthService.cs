@@ -1,4 +1,5 @@
 ﻿using Base;
+using FluentResults;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System.Domain.Entities;
@@ -12,7 +13,7 @@ namespace System.Infrastructure.Services.Auth
 
         Task<IdentityResult> ChangePassword(ChangePasswordModel model, HttpContext context);
 
-        Task<SignInResult> Login(LoginModel model);
+        Task<Result<Token>> Login(LoginModel model);
 
         Task Logout();
 

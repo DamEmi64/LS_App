@@ -39,10 +39,9 @@ namespace System.Application.Controllers
 
             if (result.Succeeded)
             {
-                await _authService.Logout();
-                await _authService.Login(new LoginModel { Login = dto.Login, Password = dto.Password });
+                var login = await _authService.Login(new LoginModel { Login = dto.Login, Password = dto.Password });
 
-                return Ok(result);
+                return login.IsSuccess ? Ok(login.Value) : BadRequest(SystemNotifyTypes.LoginFailed);
             }
 
             return BadRequest(GetNotifications(result.Errors).Select(x => x.ToString()).ToList());
@@ -53,12 +52,15 @@ namespace System.Application.Controllers
         {
             var result = await _authService.Login(dto);
 
-            return result switch
+            if (result.IsSuccess)
             {
-                _ when result.Succeeded => Ok(),
-                _ when result.IsLockedOut => BadRequest(SystemNotifyTypes.LockedOut),
-                _ when result.IsNotAllowed => BadRequest(SystemNotifyTypes.LoginFailed),
-                _ when result.RequiresTwoFactor => BadRequest(SystemNotifyTypes.TwoFactorFailed),
+                return Ok(result.Value);
+            }
+
+            return result.Errors.FirstOrDefault()?.Message switch
+            {
+                "LockedOut" => BadRequest(SystemNotifyTypes.LockedOut),
+                "TwoFactorFailed" => BadRequest(SystemNotifyTypes.TwoFactorFailed),
                 _ => BadRequest(SystemNotifyTypes.LoginFailed)
             };
         }

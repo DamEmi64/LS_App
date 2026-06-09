@@ -2,7 +2,12 @@ import React, { createContext, useContext, useEffect, useState, ReactNode } from
 import { LoginData, RegisterData, User, UserData, PasswordChangeData, ResetPasswordData } from "@/features/auth";
 import { notify } from "@/shared/components/NotificationListener";
 import { getNotify } from "@/lib/notifyProvider";
-import {call} from '@/shared';
+import {call, setAuthToken} from '@/shared';
+
+type AuthToken = {
+  value?: string;
+  expiresAt?: string;
+};
 
 export interface AuthContextType {
   user: UserData | null;
@@ -32,6 +37,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(data?.userId ? data : null);
     } catch (err: any) {
       if (err.response?.status === 401) {
+        setAuthToken(null);
         setUser(null); // only logout on unauthorized
       }
     } finally {
@@ -51,7 +57,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = async (data: LoginData): Promise<boolean> => {
     try {
-      await call(api => api.authApi.createLogin,{loginModel:data});
+      const token = await call<AuthToken>(api => api.authApi.createLogin,{loginModel:data});
+      setAuthToken(token?.value ?? null);
       await refreshUser();
       return true;
     } catch (error) {
@@ -61,7 +68,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const register = async (data: RegisterData): Promise<boolean> => {
     try {
-      await call(api => api.authApi.createRegister,{registerModel: data});
+      const token = await call<AuthToken>(api => api.authApi.createRegister,{registerModel: data});
+      setAuthToken(token?.value ?? null);
       await refreshUser();
       return true;
     } catch (error) {
@@ -74,6 +82,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       await call(api =>api.authApi.createLogout,{});
     } finally {
+      setAuthToken(null);
       setUser(null);
     }
   };

@@ -19,15 +19,24 @@ import { get } from '@/lib/utils';
 import { MapRule } from '../types';
 import { map } from '../api/extension';
 
+const authTokenKey = 'authToken';
+
+export const getAuthToken = () => localStorage.getItem(authTokenKey);
+
+export const setAuthToken = (token: string | null) => {
+    if (token) {
+        localStorage.setItem(authTokenKey, token);
+    } else {
+        localStorage.removeItem(authTokenKey);
+    }
+};
 
 type ApiError = {
     message?: string;
     title?: string;
 };
 
-const axiosInstance = axios.create({
-    withCredentials: true
-});
+const axiosInstance = axios.create();
 
 axiosInstance.interceptors.request.use((config) => {
     const baseURL = get('apiEndpoint');
@@ -38,6 +47,11 @@ axiosInstance.interceptors.request.use((config) => {
 
     if (!config.url || config.url === 'null') {
         config.url = '';
+    }
+
+    const token = getAuthToken();
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
     }
 
     return config;

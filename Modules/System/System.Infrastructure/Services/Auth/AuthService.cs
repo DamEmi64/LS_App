@@ -1,9 +1,15 @@
 ﻿using Base;
+using FluentResults;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using System.Domain.Entities;
 using System.Infrastructure.Services.Auth.Models;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace System.Infrastructure.Services.Auth
 {
@@ -15,13 +21,15 @@ namespace System.Infrastructure.Services.Auth
         private readonly ILogger<AuthService> _logger;
         private readonly IUserStore<User> _userStore;
         private readonly IConnect _connect;
+        private readonly IConfiguration _configuration;
 
         public AuthService(SignInManager<User> signInManager,
             UserManager<User> userManager,
             ILogger<AuthService> logger,
             IUserStore<User> userStore,
             RoleManager<IdentityRole> roleManager,
-            IConnect connect)
+            IConnect connect,
+            IConfiguration configuration)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -29,15 +37,40 @@ namespace System.Infrastructure.Services.Auth
             _userStore = userStore;
             _roleManager = roleManager;
             _connect = connect;
+            _configuration = configuration;
         }
 
-        public async Task<SignInResult> Login(LoginModel model)
+        public async Task<Result<Token>> Login(LoginModel model)
         {
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-            _ = await _userManager.FindByNameAsync(model.Login);
+            var user = await _userManager.FindByNameAsync(model.Login);
 
-            return await _signInManager.PasswordSignInAsync(model.Login, model.Password, model.RememberMe, lockoutOnFailure: false);
+            if (user is null)
+            {
+                return Result.Fail<Token>("LoginFailed");
+            }
+
+            var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, lockoutOnFailure: false);
+
+            if (result.IsLockedOut)
+            {
+                return Result.Fail<Token>("LockedOut");
+            }
+
+            if (result.IsNotAllowed)
+            {
+                return Result.Fail<Token>("LoginFailed");
+            }
+
+            if (result.RequiresTwoFactor)
+            {
+                return Result.Fail<Token>("TwoFactorFailed");
+            }
+
+            return result.Succeeded
+                ? Result.Ok(await CreateToken(user))
+                : Result.Fail<Token>("LoginFailed");
         }
 
         public async Task<IdentityResult> Register(RegisterModel register)
@@ -57,8 +90,6 @@ namespace System.Infrastructure.Services.Auth
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 var result2 = await _userManager.ConfirmEmailAsync(user, code);
 
-                await _signInManager.SignInAsync(user, isPersistent: false);
-
                 if (!await _roleManager.RoleExistsAsync(register.Role))
                 {
                     await _roleManager.CreateAsync(new IdentityRole(register.Role));
@@ -72,7 +103,7 @@ namespace System.Infrastructure.Services.Auth
 
         public Task Logout()
         {
-            return _signInManager.SignOutAsync();
+            return Task.CompletedTask;
         }
 
         public async Task<IdentityResult> ResetPassword(ResetPasswordModel model)
@@ -147,7 +178,6 @@ namespace System.Infrastructure.Services.Auth
                 }
 
                 await _userManager.UpdateAsync(user);
-                await _signInManager.RefreshSignInAsync(user);
             }
         }
 
@@ -165,6 +195,54 @@ namespace System.Infrastructure.Services.Auth
             var html = $"To reset your password use this code: {code}";
 
             await _connect.Send(new SendEmail(user.Email, "Reset password", html));
+        }
+
+        private async Task<Token> CreateToken(User user)
+        {
+            var jwtSection = _configuration.GetSection("config").GetSection("Jwt");
+            var key = jwtSection.GetValue<string>("Key") ?? throw new InvalidOperationException("Jwt:Key is not configured.");
+            var issuer = jwtSection.GetValue<string>("Issuer");
+            var audience = jwtSection.GetValue<string>("Audience");
+            var expiresAt = DateTimeOffset.UtcNow.AddMinutes(jwtSection.GetValue("ExpiresMinutes", 60));
+            var roles = await _userManager.GetRolesAsync(user);
+
+            var claims = new List<Claim>
+            {
+                new(ClaimTypes.NameIdentifier, user.Id),
+                new(ClaimTypes.Name, user.UserName ?? string.Empty),
+                new(JwtRegisteredClaimNames.Sub, user.Id),
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
+            foreach (var roleName in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, roleName));
+
+                var role = await _roleManager.FindByNameAsync(roleName);
+                if (role is null)
+                {
+                    continue;
+                }
+
+                claims.AddRange(await _roleManager.GetClaimsAsync(role));
+            }
+
+            var credentials = new SigningCredentials(
+                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
+                SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                issuer: issuer,
+                audience: audience,
+                claims: claims,
+                expires: expiresAt.UtcDateTime,
+                signingCredentials: credentials);
+
+            return new Token
+            {
+                Value = new JwtSecurityTokenHandler().WriteToken(token),
+                ExpiresAt = expiresAt
+            };
         }
     }
 }
