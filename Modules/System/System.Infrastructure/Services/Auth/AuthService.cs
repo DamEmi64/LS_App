@@ -9,12 +9,17 @@ using System.Domain.Entities;
 using System.Infrastructure.Services.Auth.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace System.Infrastructure.Services.Auth
 {
     public class AuthService : IAuthService
     {
+        private const string TokenProvider = "Jwt";
+        private const string RefreshTokenName = "RefreshToken";
+        private const string RefreshTokenExpiresAtName = "RefreshTokenExpiresAt";
+
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -71,6 +76,29 @@ namespace System.Infrastructure.Services.Auth
             return result.Succeeded
                 ? Result.Ok(await CreateToken(user))
                 : Result.Fail<Token>("LoginFailed");
+        }
+
+        public async Task<Result<Token>> RefreshToken(RefreshTokenModel model)
+        {
+            var user = await _userManager.FindByIdAsync(model.UserId);
+
+            if (user is null)
+            {
+                return Result.Fail<Token>("InvalidRefreshToken");
+            }
+
+            var savedRefreshToken = await _userManager.GetAuthenticationTokenAsync(user, TokenProvider, RefreshTokenName);
+            var expiresAtValue = await _userManager.GetAuthenticationTokenAsync(user, TokenProvider, RefreshTokenExpiresAtName);
+
+            if (string.IsNullOrWhiteSpace(savedRefreshToken) ||
+                savedRefreshToken != model.RefreshToken ||
+                !DateTimeOffset.TryParse(expiresAtValue, out var expiresAt) ||
+                expiresAt <= DateTimeOffset.UtcNow)
+            {
+                return Result.Fail<Token>("InvalidRefreshToken");
+            }
+
+            return Result.Ok(await CreateToken(user));
         }
 
         public async Task<IdentityResult> Register(RegisterModel register)
@@ -204,6 +232,8 @@ namespace System.Infrastructure.Services.Auth
             var issuer = jwtSection.GetValue<string>("Issuer");
             var audience = jwtSection.GetValue<string>("Audience");
             var expiresAt = DateTimeOffset.UtcNow.AddMinutes(jwtSection.GetValue("ExpiresMinutes", 60));
+            var refreshTokenExpiresAt = DateTimeOffset.UtcNow.AddDays(jwtSection.GetValue("RefreshExpiresDays", 14));
+            var refreshToken = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
             var roles = await _userManager.GetRolesAsync(user);
 
             var claims = new List<Claim>
@@ -238,10 +268,16 @@ namespace System.Infrastructure.Services.Auth
                 expires: expiresAt.UtcDateTime,
                 signingCredentials: credentials);
 
+            await _userManager.SetAuthenticationTokenAsync(user, TokenProvider, RefreshTokenName, refreshToken);
+            await _userManager.SetAuthenticationTokenAsync(user, TokenProvider, RefreshTokenExpiresAtName, refreshTokenExpiresAt.ToString("O"));
+
             return new Token
             {
-                Value = new JwtSecurityTokenHandler().WriteToken(token),
-                ExpiresAt = expiresAt
+                AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
+                RefreshToken = refreshToken,
+                UserId = user.Id,
+                ExpiresAt = expiresAt,
+                RefreshTokenExpiresAt = refreshTokenExpiresAt
             };
         }
     }

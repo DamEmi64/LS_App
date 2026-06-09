@@ -65,6 +65,16 @@ namespace System.Application.Controllers
             };
         }
 
+        [HttpPost("refresh")]
+        public async Task<IActionResult> Refresh([FromBody] RefreshTokenModel dto)
+        {
+            var result = await _authService.RefreshToken(dto);
+
+            return result.IsSuccess
+                ? Ok(result.Value)
+                : Unauthorized();
+        }
+
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {
