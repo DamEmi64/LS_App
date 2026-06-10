@@ -1,4 +1,5 @@
 ﻿using Base;
+using Communication.Application.Dtos;
 using Communication.Application.Filters;
 using Communication.Domain.Entities;
 using Communication.Domain.Repositories;
@@ -53,6 +54,7 @@ namespace Communication.Application.Controllers
             return Ok();
         }
 
+
         [HttpPut("{id}")]
         public async Task<IActionResult> Edit(Guid id, [FromBody] Email emailData)
         {
@@ -67,6 +69,22 @@ namespace Communication.Application.Controllers
             email.Recipient = emailData.Recipient;
 
             await _emailRepository.Update(email);
+
+            return Ok();
+        }
+
+        [HttpPost("webhook")]
+        public async Task<IActionResult> WebhookHandle([FromBody] WebhookDto dto)
+        {
+            if (Guid.TryParse(dto.CustomId, out var customId))
+            {
+                var email = await _emailRepository.Get(customId);
+
+                if (email is not null)
+                {
+                    email.Status = ConvertWebhookStatus(dto.Event ?? string.Empty); 
+                }
+            }
 
             return Ok();
         }
@@ -115,5 +133,14 @@ namespace Communication.Application.Controllers
 
             return Ok();
         }
+
+        private int ConvertWebhookStatus(string status)
+            => status switch
+            {
+                "open" => Domain.Dictionaries.EmailStatus.Open,
+                "sent" => Domain.Dictionaries.EmailStatus.SentConfirmed,
+                "rejected" => Domain.Dictionaries.EmailStatus.Rejected,
+                _ => Domain.Dictionaries.EmailStatus.Created
+            };
     }
 }

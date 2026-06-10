@@ -47,7 +47,6 @@ const Emails: React.FC = () => {
 
     const [filterValues, setFilterValues] = useState<FilterValue[]>([]);
 
-    // 🔄 ADD EMAIL
     const addEmail = () => {
         const email: Email = {
             sender: auth.user?.email || ""
@@ -111,7 +110,6 @@ const Emails: React.FC = () => {
         refresh();
     };
 
-    // 🔄 REFRESH WRAPPER
     const refresh = () => {
         modal.hideModal();
 
@@ -124,7 +122,6 @@ const Emails: React.FC = () => {
         });
     };
 
-    // 📡 TABLE DATA
     const updateData = async (
         paramsObj: onChangeParams
     ): Promise<TableData<Email>> => {

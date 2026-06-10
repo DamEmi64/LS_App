@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="EntityFramework" Version="6.5.2" />
     <PackageReference Include="FluentResults" Version="4.0.0" />
+    <PackageReference Include="Mailjet.Api" Version="4.0.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.8" />
   </ItemGroup>
 

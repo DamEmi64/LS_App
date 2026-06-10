@@ -14,5 +14,6 @@ public record SendEmail (
     string To,
     string Subject,
     string Body,
-    string? From = null
+    string? From = null,
+    string? MessageId = null
 ) : IRequest<Result>;

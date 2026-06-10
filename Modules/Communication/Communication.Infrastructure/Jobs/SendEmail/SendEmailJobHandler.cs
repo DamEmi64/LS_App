@@ -1,4 +1,5 @@
 ﻿using Base;
+using Communication.Domain.Dictionaries;
 using Communication.Domain.Repositories;
 using CommunicationBase;
 
@@ -34,6 +35,7 @@ namespace Communication.Infrastructure.Jobs.SendEmail
             ArgumentNullException.ThrowIfNull(email, $"Email with ID {request.Email.Id} not found in repository.");
 
             email.SentDate = DateTimeOffset.Now;
+            email.Status = EmailStatus.Sent;
             await _emailRepository.Update(email);
         }
     }
