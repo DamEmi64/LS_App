@@ -1,27 +1,40 @@
 ﻿using Base;
+using FluentResults;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using System.Domain.Entities;
 using System.Infrastructure.Services.Auth.Models;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace System.Infrastructure.Services.Auth
 {
     public class AuthService : IAuthService
     {
+        private const string TokenProvider = "Jwt";
+        private const string RefreshTokenName = "RefreshToken";
+        private const string RefreshTokenExpiresAtName = "RefreshTokenExpiresAt";
+
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ILogger<AuthService> _logger;
         private readonly IUserStore<User> _userStore;
         private readonly IConnect _connect;
+        private readonly IConfiguration _configuration;
 
         public AuthService(SignInManager<User> signInManager,
             UserManager<User> userManager,
             ILogger<AuthService> logger,
             IUserStore<User> userStore,
             RoleManager<IdentityRole> roleManager,
-            IConnect connect)
+            IConnect connect,
+            IConfiguration configuration)
         {
             _signInManager = signInManager;
             _userManager = userManager;
@@ -29,15 +42,63 @@ namespace System.Infrastructure.Services.Auth
             _userStore = userStore;
             _roleManager = roleManager;
             _connect = connect;
+            _configuration = configuration;
         }
 
-        public async Task<SignInResult> Login(LoginModel model)
+        public async Task<Result<Token>> Login(LoginModel model)
         {
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-            _ = await _userManager.FindByNameAsync(model.Login);
+            var user = await _userManager.FindByNameAsync(model.Login);
 
-            return await _signInManager.PasswordSignInAsync(model.Login, model.Password, model.RememberMe, lockoutOnFailure: false);
+            if (user is null)
+            {
+                return Result.Fail<Token>("LoginFailed");
+            }
+
+            var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, lockoutOnFailure: false);
+
+            if (result.IsLockedOut)
+            {
+                return Result.Fail<Token>("LockedOut");
+            }
+
+            if (result.IsNotAllowed)
+            {
+                return Result.Fail<Token>("LoginFailed");
+            }
+
+            if (result.RequiresTwoFactor)
+            {
+                return Result.Fail<Token>("TwoFactorFailed");
+            }
+
+            return result.Succeeded
+                ? Result.Ok(await CreateToken(user))
+                : Result.Fail<Token>("LoginFailed");
+        }
+
+        public async Task<Result<Token>> RefreshToken(RefreshTokenModel model)
+        {
+            var user = await _userManager.FindByIdAsync(model.UserId);
+
+            if (user is null)
+            {
+                return Result.Fail<Token>("InvalidRefreshToken");
+            }
+
+            var savedRefreshToken = await _userManager.GetAuthenticationTokenAsync(user, TokenProvider, RefreshTokenName);
+            var expiresAtValue = await _userManager.GetAuthenticationTokenAsync(user, TokenProvider, RefreshTokenExpiresAtName);
+
+            if (string.IsNullOrWhiteSpace(savedRefreshToken) ||
+                savedRefreshToken != model.RefreshToken ||
+                !DateTimeOffset.TryParse(expiresAtValue, out var expiresAt) ||
+                expiresAt <= DateTimeOffset.UtcNow)
+            {
+                return Result.Fail<Token>("InvalidRefreshToken");
+            }
+
+            return Result.Ok(await CreateToken(user));
         }
 
         public async Task<IdentityResult> Register(RegisterModel register)
@@ -57,8 +118,6 @@ namespace System.Infrastructure.Services.Auth
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 var result2 = await _userManager.ConfirmEmailAsync(user, code);
 
-                await _signInManager.SignInAsync(user, isPersistent: false);
-
                 if (!await _roleManager.RoleExistsAsync(register.Role))
                 {
                     await _roleManager.CreateAsync(new IdentityRole(register.Role));
@@ -70,9 +129,17 @@ namespace System.Infrastructure.Services.Auth
             return result;
         }
 
-        public Task Logout()
+        public async Task Logout(HttpContext context)
         {
-            return _signInManager.SignOutAsync();
+            var user = await _userManager.GetUserAsync(context.User);
+
+            if (user is null)
+            {
+                return;
+            }
+
+            await _userManager.RemoveAuthenticationTokenAsync(user, TokenProvider, RefreshTokenName);
+            await _userManager.RemoveAuthenticationTokenAsync(user, TokenProvider, RefreshTokenExpiresAtName);
         }
 
         public async Task<IdentityResult> ResetPassword(ResetPasswordModel model)
@@ -147,7 +214,6 @@ namespace System.Infrastructure.Services.Auth
                 }
 
                 await _userManager.UpdateAsync(user);
-                await _signInManager.RefreshSignInAsync(user);
             }
         }
 
@@ -165,6 +231,62 @@ namespace System.Infrastructure.Services.Auth
             var html = $"To reset your password use this code: {code}";
 
             await _connect.Send(new SendEmail(user.Email, "Reset password", html));
+        }
+
+        private async Task<Token> CreateToken(User user)
+        {
+            var jwtSection = _configuration.GetSection("config").GetSection("Jwt");
+            var key = jwtSection.GetValue<string>("Key") ?? throw new InvalidOperationException("Jwt:Key is not configured.");
+            var issuer = jwtSection.GetValue<string>("Issuer");
+            var audience = jwtSection.GetValue<string>("Audience");
+            var expiresAt = DateTimeOffset.UtcNow.AddMinutes(jwtSection.GetValue("ExpiresMinutes", 60));
+            var refreshTokenExpiresAt = DateTimeOffset.UtcNow.AddDays(jwtSection.GetValue("RefreshExpiresDays", 14));
+            var refreshToken = Convert.ToBase64String(RandomNumberGenerator.GetBytes(64));
+            var roles = await _userManager.GetRolesAsync(user);
+
+            var claims = new List<Claim>
+            {
+                new(ClaimTypes.NameIdentifier, user.Id),
+                new(ClaimTypes.Name, user.UserName ?? string.Empty),
+                new(JwtRegisteredClaimNames.Sub, user.Id),
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
+            foreach (var roleName in roles)
+            {
+                claims.Add(new Claim(ClaimTypes.Role, roleName));
+
+                var role = await _roleManager.FindByNameAsync(roleName);
+                if (role is null)
+                {
+                    continue;
+                }
+
+                claims.AddRange(await _roleManager.GetClaimsAsync(role));
+            }
+
+            var credentials = new SigningCredentials(
+                new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key)),
+                SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                issuer: issuer,
+                audience: audience,
+                claims: claims,
+                expires: expiresAt.UtcDateTime,
+                signingCredentials: credentials);
+
+            await _userManager.SetAuthenticationTokenAsync(user, TokenProvider, RefreshTokenName, refreshToken);
+            await _userManager.SetAuthenticationTokenAsync(user, TokenProvider, RefreshTokenExpiresAtName, refreshTokenExpiresAt.ToString("O"));
+
+            return new Token
+            {
+                AccessToken = new JwtSecurityTokenHandler().WriteToken(token),
+                RefreshToken = refreshToken,
+                UserId = user.Id,
+                ExpiresAt = expiresAt,
+                RefreshTokenExpiresAt = refreshTokenExpiresAt
+            };
         }
     }
 }

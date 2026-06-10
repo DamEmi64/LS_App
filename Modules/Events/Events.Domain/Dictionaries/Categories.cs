@@ -9,5 +9,6 @@ namespace Events.Domain.Dictionaries
         public static DictionaryItem Concert => EntityDictionary.Item(422, "Concert");
         public static DictionaryItem Vacation => EntityDictionary.Item(423, "Vacation");
         public static DictionaryItem Meeting => EntityDictionary.Item(424, "Meeting");
+        public static DictionaryItem Games => EntityDictionary.Item(425, "Games");
     }
 }

@@ -90,6 +90,20 @@ namespace Base
                         Version = "v1"
                     });
 
+                    opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                    {
+                        Name = "Authorization",
+                        Description = "JWT Authorization header using the Bearer scheme.",
+                        In = ParameterLocation.Header,
+                        Type = SecuritySchemeType.Http,
+                        Scheme = "bearer",
+                        BearerFormat = "JWT"
+                    });
+                    opt.AddSecurityRequirement(document => new OpenApiSecurityRequirement
+                    {
+                        [new OpenApiSecuritySchemeReference("Bearer", document, null)] = new List<string>()
+                    });
+
                     opt.CustomOperationIds(apiDesc =>
                     {
                         var path = apiDesc.RelativePath ?? "endpoint";

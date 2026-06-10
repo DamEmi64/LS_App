@@ -1,11 +1,13 @@
 ﻿using Base;
 using Hangfire;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using System.Domain.Entities;
 using System.Domain.Repositories;
 using System.Infrastructure.Db;
@@ -22,6 +24,7 @@ using System.Infrastructure.Services.EntityContext;
 using System.Infrastructure.Services.Media;
 using System.Infrastructure.Services.NotifyService;
 using System.Infrastructure.Workers;
+using System.Text;
 
 namespace System.Infrastructure
 {
@@ -62,6 +65,47 @@ namespace System.Infrastructure
             })
             .AddEntityFrameworkStores<SystemContext>()
             .AddDefaultTokenProviders();
+
+            var jwtSection = configuration.GetSection("config").GetSection("Jwt");
+            var jwtKey = jwtSection.GetValue<string>("Key") ?? throw new InvalidOperationException("Jwt:Key is not configured.");
+            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = signingKey,
+                    ValidateIssuer = !string.IsNullOrWhiteSpace(jwtSection.GetValue<string>("Issuer")),
+                    ValidIssuer = jwtSection.GetValue<string>("Issuer"),
+                    ValidateAudience = !string.IsNullOrWhiteSpace(jwtSection.GetValue<string>("Audience")),
+                    ValidAudience = jwtSection.GetValue<string>("Audience"),
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.FromMinutes(1)
+                };
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"];
+                        var path = context.HttpContext.Request.Path;
+
+                        if (!string.IsNullOrEmpty(accessToken) &&
+                            (path.StartsWithSegments("/notify") || path.StartsWithSegments("/rpghub")))
+                        {
+                            context.Token = accessToken;
+                        }
+
+                        return Task.CompletedTask;
+                    }
+                };
+            });
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -105,6 +149,7 @@ namespace System.Infrastructure
                     return Task.CompletedTask;
                 };
             });
+            services.AddHttpContextAccessor();
 
             services.AddCors(options =>
               options.AddDefaultPolicy(

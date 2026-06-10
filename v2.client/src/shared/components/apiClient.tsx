@@ -19,15 +19,49 @@ import { get } from '@/lib/utils';
 import { MapRule } from '../types';
 import { map } from '../api/extension';
 
+const authTokenKey = 'authToken';
+const refreshTokenKey = 'refreshToken';
+const authUserIdKey = 'authUserId';
+
+export type AuthToken = {
+    accessToken?: string;
+    refreshToken?: string;
+    userId?: string;
+    expiresAt?: string;
+    refreshTokenExpiresAt?: string;
+};
+
+export const getAuthToken = () => localStorage.getItem(authTokenKey);
+export const getRefreshToken = () => localStorage.getItem(refreshTokenKey);
+export const getAuthUserId = () => localStorage.getItem(authUserIdKey);
+
+export const setAuthToken = (token: string | null) => {
+    if (token) {
+        localStorage.setItem(authTokenKey, token);
+    } else {
+        localStorage.removeItem(authTokenKey);
+        localStorage.removeItem(refreshTokenKey);
+        localStorage.removeItem(authUserIdKey);
+    }
+};
+
+export const setAuthTokens = (token: AuthToken | null) => {
+    if (!token?.accessToken || !token.refreshToken || !token.userId) {
+        setAuthToken(null);
+        return;
+    }
+
+    localStorage.setItem(authTokenKey, token.accessToken);
+    localStorage.setItem(refreshTokenKey, token.refreshToken);
+    localStorage.setItem(authUserIdKey, token.userId);
+};
 
 type ApiError = {
     message?: string;
     title?: string;
 };
 
-const axiosInstance = axios.create({
-    withCredentials: true
-});
+const axiosInstance = axios.create();
 
 axiosInstance.interceptors.request.use((config) => {
     const baseURL = get('apiEndpoint');
@@ -40,12 +74,50 @@ axiosInstance.interceptors.request.use((config) => {
         config.url = '';
     }
 
+    const token = getAuthToken();
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+
     return config;
 });
 
 axiosInstance.interceptors.response.use(
     res => res,
-    (error: AxiosError<ApiError>) => {
+    async (error: AxiosError<ApiError>) => {
+        const originalRequest = error.config as any;
+        const refreshToken = getRefreshToken();
+        const userId = getAuthUserId();
+
+        if (
+            error.response?.status === 401 &&
+            originalRequest &&
+            !originalRequest._retry &&
+            refreshToken &&
+            userId &&
+            !originalRequest.url?.includes('/api/Auth/refresh')
+        ) {
+            originalRequest._retry = true;
+
+            try {
+                const baseURL = get('apiEndpoint');
+                const normalizedBaseUrl = baseURL.endsWith('/')
+                    ? baseURL.slice(0, -1)
+                    : baseURL;
+                const refreshResponse = await axios.post<AuthToken>(`${normalizedBaseUrl}/api/Auth/refresh`, {
+                    userId,
+                    refreshToken
+                });
+
+                setAuthTokens(refreshResponse.data);
+                originalRequest.headers.Authorization = `Bearer ${refreshResponse.data.accessToken}`;
+
+                return axiosInstance(originalRequest);
+            } catch {
+                setAuthToken(null);
+            }
+        }
+
         if (
             error.message &&
             !error.message.startsWith('Request failed with status')

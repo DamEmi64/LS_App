@@ -216,7 +216,7 @@ export const Filter: React.FC<FilterProps> = ({ filters, onChange }) => {
                                             )
                                         }
                                     >
-                                        <MenuItem value="">---</MenuItem>
+                                        <MenuItem value="0">---</MenuItem>
                                         {dictionary?.map((opt) => (
                                             <MenuItem
                                                 key={opt.key}
