@@ -27,8 +27,8 @@ namespace RPG.Application
 
         public IEnumerable<PermissionInfo> Permissions => [
             PermissionInfo.Create("rpg","Read RPG sessions",true),
-            PermissionInfo.Create("rpg_write","Manage RPG sessions",false),
-            PermissionInfo.Create("rpg_draft","Manage drafts of RPG sessions",false)];
+            PermissionInfo.Create("rpg-write","Manage RPG sessions",false),
+            PermissionInfo.Create("rpg-draft","Manage drafts of RPG sessions",false)];
 
         public IServiceCollection Configure(IServiceCollection services)
         {

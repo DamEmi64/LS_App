@@ -17,7 +17,7 @@ namespace Communication.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "10.0.5")
+                .HasAnnotation("ProductVersion", "10.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -53,6 +53,49 @@ namespace Communication.Infrastructure.Migrations
                     b.ToTable("EmailUsers");
                 });
 
+            modelBuilder.Entity("Communication.Domain.Entities.CommunicationRegistry", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("CorrelationId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("From")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InsBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("InsDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("To")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpdBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("UpdDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CommunicationRegistry");
+                });
+
             modelBuilder.Entity("Communication.Domain.Entities.Email", b =>
                 {
                     b.Property<Guid>("Id")
@@ -63,12 +106,15 @@ namespace Communication.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("InsDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetimeoffset");
+                    b.Property<string>("ExternalId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("InsBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("InsDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Recipient")
                         .IsRequired()
@@ -81,15 +127,18 @@ namespace Communication.Infrastructure.Migrations
                     b.Property<DateTimeOffset?>("SentDate")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.Property<string>("Subject")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("UpdDate")
-                        .HasColumnType("datetimeoffset");
-
                     b.Property<string>("UpdBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("UpdDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
 
@@ -106,22 +155,22 @@ namespace Communication.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("InsBy")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTimeOffset>("InsDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("InsBy")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Subject")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTimeOffset>("UpdDate")
-                        .HasColumnType("datetimeoffset");
-
                     b.Property<string>("UpdBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("UpdDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.HasKey("Id");
 

@@ -11,22 +11,25 @@ namespace Communication.Infrastructure.Connect.SendEmail
     {
         private readonly EmailOptions _options;
         private readonly ICommunicationHistoryRepository _mailHistoryRepository;
+        private readonly IEmailRepository _emailRepository;
         private readonly List<ISendStrategy> _sendStrategies;
 
         public EmailSender(IOptions<EmailOptions> options,
             ICommunicationHistoryRepository mailHistoryRepository,
-            List<ISendStrategy> sendStrategies)
+            IEnumerable<ISendStrategy> sendStrategies,
+            IEmailRepository emailRepository)
         {
             _options = options.Value;
             _mailHistoryRepository = mailHistoryRepository;
-            _sendStrategies = sendStrategies;
+            _sendStrategies = sendStrategies.ToList();
+            _emailRepository = emailRepository;
         }
 
 
         public override Task<Result> HandleAsync(Base.SendEmail request)
-            => SendEmailAsync(request.To, request.Subject, request.Body, request.From, request.MessageId);
+            => SendEmailAsync(request);
 
-        private async Task<Result> SendEmailAsync(string to, string subject, string body, string? from = null, string? messageId = null)
+        private async Task<Result> SendEmailAsync(Base.SendEmail request)
         {
             try
             {
@@ -34,16 +37,34 @@ namespace Communication.Infrastructure.Connect.SendEmail
 
                 ArgumentNullException.ThrowIfNull(strategy);
 
-                var result = await strategy.Send(to, subject, body, from, messageId);
+                var result = await strategy.Send(request.To, request.Subject, request.Body, request.From, request.MessageId);
 
                 if (result.IsSuccess)
                 {
-                    await _mailHistoryRepository.Add(new Domain.Entities.CommunicationHistory
+                    var messageId = request.MessageId;
+
+                    if (string.IsNullOrEmpty(messageId) && request.Register)
                     {
-                        Body = body,
-                        Subject = subject,
-                        Recipient = to,
-                        Date = DateTime.Now
+                        var email = new Domain.Entities.Email
+                        {
+                            Body = request.Body,
+                            Subject = request.Subject,
+                            Sender = request.From ?? _options.ApiEmail,
+                            Recipient = request.To,
+                        };
+
+                        await _emailRepository.Add(email);
+
+                        messageId = email.Id.ToString();
+                    }
+
+                    await _mailHistoryRepository.Add(new Domain.Entities.CommunicationRegistry
+                    {
+                        Message = request.Body,
+                        Title = request.Subject,
+                        From = request.From ?? _options.ApiEmail,
+                        To = request.To,
+                        CorrelationId = messageId
                     });
                 }
 

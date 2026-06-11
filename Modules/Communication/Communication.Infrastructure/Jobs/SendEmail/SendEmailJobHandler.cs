@@ -23,7 +23,7 @@ namespace Communication.Infrastructure.Jobs.SendEmail
         {
             ArgumentNullException.ThrowIfNull(request.Email);
 
-            var result = await _connect.SendEmailAsync(request.Email.Recipient, request.Email.Subject, request.Email.Body, request.Email.Sender);
+            var result = await _connect.SendEmailAsync(request.Email.Recipient, request.Email.Subject, request.Email.Body, request.Email.Sender, request.Email.Id.ToString());
 
             if (result.IsFailed)
             {

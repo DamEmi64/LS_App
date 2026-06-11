@@ -53,7 +53,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpGet("{id}/draft")]
-        [AuthPermission("rpg_draft")]
+        [AuthPermission("rpg-draft")]
         [ProducesResponseType(typeof(Story), StatusCodes.Status200OK)]
         public async Task<IActionResult> DetailsDraft(Guid id)
         {
@@ -76,7 +76,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpGet("draft")]
-        [AuthPermission("rpg_draft")]
+        [AuthPermission("rpg-draft")]
         [ProducesResponseType(typeof(ResponseList<Story>), StatusCodes.Status200OK)]
         public async Task<IActionResult> ListDrafts([FromQuery] StoryFilter filter)
         {
@@ -85,7 +85,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpPost("")]
-        [AuthPermission("rpg_write")]
+        [AuthPermission("rpg-write")]
         public async Task<IActionResult> Create([FromBody] StoryDto dto)
         {
             var entity = _mapper.Map<Story>(dto);
@@ -98,7 +98,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpPost("import")]
-        [AuthPermission("rpg_write")]
+        [AuthPermission("rpg-write")]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> Import([FromForm] ImportDto dto)
         {
@@ -128,7 +128,7 @@ namespace RPG.Application.Controllers
 
 
         [HttpPut("{id}")]
-        [AuthPermission("rpg_write")]
+        [AuthPermission("rpg-write")]
         public async Task<IActionResult> Edit(Guid id, [FromBody] StoryDto dto)
         {
             var place = await _storyRepository.Get(id);
@@ -146,7 +146,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpDelete("{id}")]
-        [AuthPermission("rpg_write")]
+        [AuthPermission("rpg-write")]
         public async Task<IActionResult> Delete(Guid id)
         {
             await _storyRepository.Remove(id);

@@ -210,16 +210,16 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
 
     const operations: Operations<Story>[] = [
         { name: 'opt.details', method: (o) => details(o) },
-        { name: 'opt.edit', method: (o) => editSession(o), hidden: (o) => !checkPermission(['rpg_write']) },
-        { name: 'rpg.chapter.add', method: (o) => addChapter(o), hidden: (o) => !checkPermission(['rpg_write']) || draft },
-        { name: 'rpg.chapter.addDraft', method: (o) => addDraftChapter(o), hidden: (o) => !checkPermission(['rpg_write']) || !draft },
+        { name: 'opt.edit', method: (o) => editSession(o), hidden: (o) => !checkPermission(['rpg-write']) },
+        { name: 'rpg.chapter.add', method: (o) => addChapter(o), hidden: (o) => !checkPermission(['rpg-write']) || draft },
+        { name: 'rpg.chapter.addDraft', method: (o) => addDraftChapter(o), hidden: (o) => !checkPermission(['rpg-write']) || !draft },
         { name: 'rpg.story.start', method: (o) => startStory(o) },
         { name: 'rpg.story.end', method: (o) => endStory(o) },
         { name: 'opt.export', method: (o) => exportData(o) },
         { name: 'rpg.story.gen_summary', method: (o) => generateSummary(o) },
         { name: 'rpg.story.download_summary', method: (o) => downloadSummary(o) },
         { name: 'rpg.story.send_firebase', method: (o) => sendToFirebase(o) },
-        { name: 'opt.delete', method: (o) => del(o), hidden: (o) => !checkPermission(['rpg_write']) },
+        { name: 'opt.delete', method: (o) => del(o), hidden: (o) => !checkPermission(['rpg-write']) },
     ]
 
     return (
@@ -231,7 +231,7 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
                 </InputLabel>
 
 
-                {checkPermission(['rpg_write']) && (<>
+                {checkPermission(['rpg-write']) && (<>
                     <Button onClick={handleMenuClick} variant="outlined" sx={{ mt: 1 }}>
                         {t('opt.add')}
                     </Button>

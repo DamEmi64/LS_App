@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Communication.Application.Controllers
 {
+    [AuthPermission("communication")]
+    [AuthPermission("communication-registry")]
     public class CommunicationHistoryController : BaseController
     {
         private readonly ICommunicationHistoryRepository _communicationHistoryRepository;
@@ -17,7 +19,7 @@ namespace Communication.Application.Controllers
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(CommunicationHistory), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(CommunicationRegistry), StatusCodes.Status200OK)]
         public async Task<IActionResult> Details(Guid id)
         {
             var result = await _communicationHistoryRepository.Get(id);
@@ -31,7 +33,7 @@ namespace Communication.Application.Controllers
         }
 
         [HttpGet("")]
-        [ProducesResponseType(typeof(IEnumerable<CommunicationHistory>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<CommunicationRegistry>), StatusCodes.Status200OK)]
         public IActionResult ListData([FromQuery] HistoryFilter filter)
         {
             return Json(filter.Filter(_communicationHistoryRepository.GetAll(), out var count), count);

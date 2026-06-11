@@ -1,5 +1,6 @@
 ﻿using Communication.Domain;
 using FluentResults;
+using Microsoft.Extensions.Options;
 using System.Net;
 using System.Net.Mail;
 
@@ -9,9 +10,9 @@ namespace Communication.Infrastructure.Connect.SendEmail.Strategies
     {
         private readonly EmailOptions _options;
 
-        public SendViaSMTPStrategy(EmailOptions options)
+        public SendViaSMTPStrategy(IOptions<EmailOptions> options)
         {
-            _options = options;
+            _options = options.Value;
         }
 
         public string Mode => "smtp";

@@ -4,6 +4,7 @@ api.ts
 api/auth-api.ts
 api/automations-api.ts
 api/chapters-api.ts
+api/communication-history-api.ts
 api/emails-api.ts
 api/events-api.ts
 api/files-api.ts
@@ -27,6 +28,8 @@ docs/Chapter.md
 docs/ChapterDto.md
 docs/ChapterResponseList.md
 docs/ChaptersApi.md
+docs/CommunicationHistoryApi.md
+docs/CommunicationRegistry.md
 docs/Email.md
 docs/EmailGenerationDto.md
 docs/EmailsApi.md
@@ -61,6 +64,7 @@ docs/ProcessDtoResponseList.md
 docs/ProcessErrorDto.md
 docs/ProgressStatus.md
 docs/RPGFile.md
+docs/RefreshTokenModel.md
 docs/RegisterModel.md
 docs/ReminderDto.md
 docs/ResetPasswordModel.md
@@ -87,6 +91,7 @@ docs/TriggerDto.md
 docs/User.md
 docs/UserData.md
 docs/UserDto.md
+docs/WebhookDto.md
 git_push.sh
 index.ts
 models/additional-data.ts
@@ -97,6 +102,7 @@ models/change-password-model.ts
 models/chapter-dto.ts
 models/chapter-response-list.ts
 models/chapter.ts
+models/communication-registry.ts
 models/email-generation-dto.ts
 models/email.ts
 models/event-dto-response-list.ts
@@ -124,6 +130,7 @@ models/process-dto-response-list.ts
 models/process-dto.ts
 models/process-error-dto.ts
 models/progress-status.ts
+models/refresh-token-model.ts
 models/register-model.ts
 models/reminder-dto.ts
 models/reset-password-model.ts
@@ -149,3 +156,4 @@ models/trigger.ts
 models/user-data.ts
 models/user-dto.ts
 models/user.ts
+models/webhook-dto.ts

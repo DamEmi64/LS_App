@@ -6,6 +6,7 @@ export interface Email {
     sender: string;
     recipient: string;
     sentDate?: Date;
+    status: number;
 }
 
 export interface Template {
@@ -25,4 +26,13 @@ export interface CommunicationRule {
     title: string;
     description?: string;
     invoker: string;
+}
+
+export interface  Registry {
+    id: string;
+    insDate: Date;
+    message: string;
+    title: string;
+    from: string;
+    to: string;
 }

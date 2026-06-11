@@ -25,6 +25,28 @@
       "description": ""
     }
   },
+  "Email_statuses": {
+    "351": {
+      "title": "Utworzono",
+      "description": ""
+    },
+    "352": {
+      "title": "Wysłano",
+      "description": ""
+    },
+    "353": {
+      "title": "Dostarczono",
+      "description": ""
+    },
+    "354": {
+      "title": "Odczytano",
+      "description": ""
+    },
+    "355": {
+      "title": "Odrzucono",
+      "description": ""
+    }
+  },
   "Event_categories": {
     "421": {
       "title": "Film",
@@ -40,6 +62,10 @@
     },
     "424": {
       "title": "Spotkanie",
+      "description": ""
+    },
+    "425": {
+      "title": "Gry",
       "description": ""
     }
   },

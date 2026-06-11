@@ -21,7 +21,8 @@ namespace Communication.Application
 
         public string Version => "v0.2";
 
-        public IEnumerable<PermissionInfo> Permissions => [PermissionInfo.Create("communication", "Manage and send Emails", true)];
+        public IEnumerable<PermissionInfo> Permissions => [PermissionInfo.Create("communication", "Manage and send Emails", true),
+                                                            PermissionInfo.Create("communication-registry", "See communication registry", false)];
 
         public IServiceCollection Configure(IServiceCollection services)
         {

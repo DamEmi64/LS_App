@@ -159,10 +159,15 @@
         "title": "Odbiorca",
         "email": "Adres email",
         "name": "Imię i nazwisko"
-      }
+      },
+      "status": "Status"
     },
     "editor": {
       "title": "Edytor wiadomości"
+    },
+    "registry": {
+      "title": "Historia komunikacji",
+      "description": "Przegląd wszystkich wiadomości, powiadomień i działań komunikacyjnych."
     }
   },
   "rpg": {
@@ -277,7 +282,8 @@
     "draft": "Szkice RPG",
     "events": "Wydarzenia",
     "allEvents": "Wszystkie wydarzenia",
-    "myEvents": "Moje wydarzenia"
+    "myEvents": "Moje wydarzenia",
+    "communicationRegistry": "Historia komunikacji"
   },
   "server": {
     "info": "Stan aplikacji",

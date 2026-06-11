@@ -11,8 +11,7 @@ namespace Communication.Application.Filters
         public string? Subject { get; set; }
         public string? Sender { get; set; }
         public string? Receiver { get; set; }
-
-        public DateRange? SentDate { get; set; }
+        public int Status { get; set; }
 
         public IEnumerable<Email> Filter(IEnumerable<Email> data, out int? count)
         {
@@ -29,16 +28,9 @@ namespace Communication.Application.Filters
                 data = data.Where(x => x.Recipient.Contains(Receiver));
             }
 
-            if (SentDate is not null)
+            if (Status > 0)
             {
-                if (SentDate.From is not null)
-                {
-                    data = data.Where(x => x.SentDate >= SentDate.From);
-                }
-                if (SentDate.To is not null)
-                {
-                    data = data.Where(x => x.SentDate <= SentDate.To);
-                }
+                data = data.Where(x => x.Status == Status);
             }
 
             count = data.Count();

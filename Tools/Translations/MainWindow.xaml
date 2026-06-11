@@ -12,10 +12,22 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="300*"/>
-            <RowDefinition Height="40*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="18*"/>
         </Grid.RowDefinitions>
-        <TabControl Grid.ColumnSpan="2">
+        <Menu Grid.ColumnSpan="2" Grid.Row="0">
+            <MenuItem Header="Load">
+                <MenuItem Header="Load translation from file" Command="{Binding Load}"/>
+                <MenuItem Header="Multi Add Translation">
+                    <MenuItem Header="Translations" Command="{Binding MultiAdd}"/>
+                    <MenuItem Header="Dictionaries" Command="{Binding MultiAddDict}"/>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="Generate">
+                <MenuItem Header="Generate translation files" Command="{Binding Generate}"/>
+            </MenuItem>
+        </Menu>
+        <TabControl Grid.ColumnSpan="2" Grid.Row="1">
             <TabItem Header="Dictionaries">
                 <DataGrid ItemsSource="{Binding Dictionaries}" />
             </TabItem>
@@ -23,8 +35,5 @@
                 <DataGrid ItemsSource="{Binding Translations}" />
             </TabItem>
         </TabControl>
-        <Button Content="Load" Grid.Row="1" Command="{Binding Load}"/>
-        <Button Content="Generate" Grid.Row="1" Grid.Column="1" Command="{Binding Generate}"/>
-        
     </Grid>
 </Window>

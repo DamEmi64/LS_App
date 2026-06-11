@@ -25,6 +25,28 @@
       "description": ""
     }
   },
+  "Email_statuses": {
+    "351": {
+      "title": "Créé",
+      "description": ""
+    },
+    "352": {
+      "title": "Envoyé",
+      "description": ""
+    },
+    "353": {
+      "title": "Distribué",
+      "description": ""
+    },
+    "354": {
+      "title": "Lu",
+      "description": ""
+    },
+    "355": {
+      "title": "Rejeté",
+      "description": ""
+    }
+  },
   "Event_categories": {
     "421": {
       "title": "Film",
@@ -40,6 +62,10 @@
     },
     "424": {
       "title": "Réunion",
+      "description": ""
+    },
+    "425": {
+      "title": "Jeux",
       "description": ""
     }
   },

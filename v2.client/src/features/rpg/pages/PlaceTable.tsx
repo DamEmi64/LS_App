@@ -48,20 +48,20 @@ export const PlaceTable: React.FC<PlaceTableProps> = ({
             name: "opt.edit",
             method: (o) => editPlace(o),
             hidden: () =>
-                !checkPermission(["rpg_write"])
+                !checkPermission(["rpg-write"])
         },
         {
             name: "opt.copy",
             method: (o) =>
                 copyPlace(o as unknown as SessionDto),
             hidden: () =>
-                !checkPermission(["rpg_write"])
+                !checkPermission(["rpg-write"])
         },
         {
             name: "opt.delete",
             method: (o) => del(o),
             hidden: () =>
-                !checkPermission(["rpg_write"])
+                !checkPermission(["rpg-write"])
         }
     ];
 
@@ -70,7 +70,7 @@ export const PlaceTable: React.FC<PlaceTableProps> = ({
         const data =
             o as unknown as SessionDto;
 
-        if (checkPermission(["rpg_write"])) {
+        if (checkPermission(["rpg-write"])) {
 
             modal.showModal(
                 <PlaceForm

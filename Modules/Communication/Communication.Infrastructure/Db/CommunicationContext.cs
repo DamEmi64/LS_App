@@ -22,5 +22,6 @@ namespace Communication.Infrastructure.Db
         public DbSet<UserData> EmailUsers { get; set; } = default!;
         public DbSet<Email> Emails { get; set; } = default!;
         public DbSet<Template> Templates { get; set; } = default!;
+        public DbSet<CommunicationRegistry> CommunicationRegistry { get; set; } = default!;
     }
 }

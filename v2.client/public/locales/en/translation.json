@@ -159,10 +159,15 @@
         "title": "Recipient",
         "email": "Email",
         "name": "Name"
-      }
+      },
+      "status": "Status"
     },
     "editor": {
       "title": "Message editor"
+    },
+    "registry": {
+      "title": "Communication History",
+      "description": "View all messages, notifications, and communication activities."
     }
   },
   "rpg": {
@@ -277,7 +282,8 @@
     "draft": "Drafts",
     "events": "Events",
     "allEvents": "All events",
-    "myEvents": "My events"
+    "myEvents": "My events",
+    "communicationRegistry": "Communication History"
   },
   "server": {
     "info": "System status",

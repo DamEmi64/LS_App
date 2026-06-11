@@ -25,6 +25,28 @@
       "description": ""
     }
   },
+  "Email_statuses": {
+    "351": {
+      "title": "Created",
+      "description": ""
+    },
+    "352": {
+      "title": "Sent",
+      "description": ""
+    },
+    "353": {
+      "title": "Delivered",
+      "description": ""
+    },
+    "354": {
+      "title": "Read",
+      "description": ""
+    },
+    "355": {
+      "title": "Rejected",
+      "description": ""
+    }
+  },
   "Event_categories": {
     "421": {
       "title": "Movie",
@@ -40,6 +62,10 @@
     },
     "424": {
       "title": "Meeting",
+      "description": ""
+    },
+    "425": {
+      "title": "Games",
       "description": ""
     }
   },

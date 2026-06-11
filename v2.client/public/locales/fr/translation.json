@@ -159,10 +159,15 @@
         "title": "Destinataire",
         "email": "E-mail",
         "name": "Nom"
-      }
+      },
+      "status": "Statut"
     },
     "editor": {
       "title": "Éditeur de message"
+    },
+    "registry": {
+      "title": "Historique des communications",
+      "description": "Consultez tous les messages, notifications et activités de communication."
     }
   },
   "rpg": {
@@ -277,7 +282,8 @@
     "draft": "Brouillons",
     "events": "Evenements",
     "allEvents": "Tous les evenements",
-    "myEvents": "Mes evenements"
+    "myEvents": "Mes evenements",
+    "communicationRegistry": "Historique des communications"
   },
   "server": {
     "info": "État du système",

@@ -1,6 +1,7 @@
 ﻿using Base;
 using Communication.Application.Dtos;
 using Communication.Application.Filters;
+using Communication.Domain.Dictionaries;
 using Communication.Domain.Entities;
 using Communication.Domain.Repositories;
 using Communication.Infrastructure.Services.SendService;
@@ -49,6 +50,7 @@ namespace Communication.Application.Controllers
         [HttpPost("")]
         public async Task<IActionResult> Create([FromBody] Email email)
         {
+            email.Status = EmailStatus.Created;
             await _emailRepository.Add(email);
 
             return Ok();
@@ -100,7 +102,7 @@ namespace Communication.Application.Controllers
             }
 
             var process = await _sendService.SendMail(email.ToSingleItemList(), CurrentUser ?? new UserData() { Id = 0, UserId = Guid.Empty.ToString() });
-            await Notifier.Success(NotifyTypes.ProcessQueued, process);
+            await Notifier.Success(Base.NotifyTypes.ProcessQueued, process);
 
             return Ok();
         }
@@ -121,7 +123,7 @@ namespace Communication.Application.Controllers
             await _emailRepository.Add(email);
 
             var process = await _sendService.SendMail(email.ToSingleItemList(), CurrentUser ?? new UserData() { Id = 0, UserId = Guid.Empty.ToString() });
-            await Notifier.Success(NotifyTypes.ProcessQueued, process);
+            await Notifier.Success(Base.NotifyTypes.ProcessQueued, process);
 
             return Ok();
         }

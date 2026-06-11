@@ -46,9 +46,9 @@ namespace CommunicationBase
             return services;
         }
 
-        public static Task<FluentResults.Result> SendEmailAsync(this IConnect connect, string to,string subject,string body,string? from = null)
+        public static Task<FluentResults.Result> SendEmailAsync(this IConnect connect, string to,string subject,string body,string? from = null, string? correlationId = null)
         {
-            var cmd = new SendEmail(to,subject,body,from);
+            var cmd = new SendEmail(to,subject,body,from, correlationId);
 
             return connect.Send(cmd);
         } 

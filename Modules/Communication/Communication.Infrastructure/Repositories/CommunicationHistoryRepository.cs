@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Communication.Infrastructure.Repositories
 {
-    public class CommunicationHistoryRepository : EntityRepository<CommunicationContext, CommunicationHistory>, ICommunicationHistoryRepository
+    public class CommunicationHistoryRepository : EntityRepository<CommunicationContext, CommunicationRegistry>, ICommunicationHistoryRepository
     {
         public CommunicationHistoryRepository(CommunicationContext dbContext) : base(dbContext)
         {

@@ -31,8 +31,8 @@ export interface ProcessDto {
     'queue'?: string | null;
     'jobs'?: Array<JobDto> | null;
     'errors'?: Array<ProcessErrorDto> | null;
+    'requestDate'?: string | null;
     'startDate'?: string | null;
-    "requestDate"?: string | null;
     'endDate'?: string | null;
     'percentage'?: number;
     'status'?: ProgressStatus;

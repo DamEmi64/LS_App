@@ -4,35 +4,41 @@ using Communication.Domain.Entities;
 
 namespace Communication.Application.Filters
 {
-    public class HistoryFilter : IEntityFilter<CommunicationHistory>
+    public class HistoryFilter : IEntityFilter<CommunicationRegistry>
     {
         public int PageSize { get; set; }
         public int Page { get; set; }
-        public string? Subject { get; set; }
-        public string? Receiver { get; set; }
+        public string? Title { get; set; }
+        public string? From { get; set; }
+        public string? To { get; set; }
         public DateRange? SentDate { get; set; }
 
-        public IEnumerable<CommunicationHistory> Filter(IEnumerable<CommunicationHistory> data, out int? count)
+        public IEnumerable<CommunicationRegistry> Filter(IEnumerable<CommunicationRegistry> data, out int? count)
         {
-            if (!string.IsNullOrEmpty(Subject))
+            if (!string.IsNullOrEmpty(Title))
             {
-                data = data.Where(x => x.Subject.Contains(Subject));
+                data = data.Where(x => x.Title.Contains(Title));
             }
 
-            if (!string.IsNullOrEmpty(Receiver))
+            if (!string.IsNullOrEmpty(From))
             {
-                data = data.Where(x => x.Recipient.Contains(Receiver));
+                data = data.Where(x => x.From.Contains(From));
+            }
+
+            if (!string.IsNullOrEmpty(To))
+            {
+                data = data.Where(x => x.To.Contains(To));
             }
 
             if (SentDate is not null)
             {
                 if (SentDate.From is not null)
                 {
-                    data = data.Where(x => x.Date >= SentDate.From);
+                    data = data.Where(x => x.InsDate >= SentDate.From);
                 }
                 if (SentDate.To is not null)
                 {
-                    data = data.Where(x => x.Date <= SentDate.To);
+                    data = data.Where(x => x.InsDate <= SentDate.To);
                 }
             }
 
