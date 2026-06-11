@@ -40,7 +40,7 @@ namespace CommunicationBase
 
                 var fluidContext = new FluidContext
                 (
-                    Model: modelObj,
+                    Model: fluidProperties,
                     Context: context
                 );
 
