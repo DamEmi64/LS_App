@@ -96,19 +96,19 @@
   "Fluid_functions": {
     "601": {
       "title": "Nombre aléatoire",
-      "description": ""
+      "description": " {{ randomNumber(0,20)}}"
     },
     "602": {
       "title": "Aléatoire",
-      "description": ""
+      "description": " {{ random('', 'a', 'b', 'c')}}"
     },
     "603": {
       "title": "Aléatoire unique",
-      "description": ""
+      "description": " {{ randomUnique( test@test.com='d;e;f', 'a', 'b', 'c')}}"
     },
     "604": {
       "title": "Incrémenter",
-      "description": ""
+      "description": "increment"
     }
   },
   "Fluid_variables": {
@@ -118,19 +118,19 @@
     },
     "606": {
       "title": "Expéditeur",
-      "description": ""
+      "description": "sender"
     },
     "607": {
       "title": "Destinataire",
-      "description": ""
+      "description": "recipient"
     },
     "608": {
       "title": "Destinataires",
-      "description": ""
+      "description": "recipients"
     },
     "609": {
       "title": "Date",
-      "description": ""
+      "description": "counter"
     }
   },
   "Game_genres": {

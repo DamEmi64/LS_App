@@ -96,19 +96,19 @@
   "Fluid_functions": {
     "601": {
       "title": "Zufallszahl",
-      "description": ""
+      "description": " {{ randomNumber(0,20)}}"
     },
     "602": {
       "title": "Zufällig",
-      "description": ""
+      "description": " {{ random('', 'a', 'b', 'c')}}"
     },
     "603": {
       "title": "Zufällig eindeutig",
-      "description": ""
+      "description": " {{ randomUnique( test@test.com='d;e;f', 'a', 'b', 'c')}}"
     },
     "604": {
       "title": "Inkrementieren",
-      "description": ""
+      "description": "increment"
     }
   },
   "Fluid_variables": {
@@ -118,19 +118,19 @@
     },
     "606": {
       "title": "Absender",
-      "description": ""
+      "description": "sender"
     },
     "607": {
       "title": "Empfänger",
-      "description": ""
+      "description": "recipient"
     },
     "608": {
       "title": "Empfänger",
-      "description": ""
+      "description": "recipients"
     },
     "609": {
       "title": "Datum",
-      "description": ""
+      "description": "counter"
     }
   },
   "Game_genres": {

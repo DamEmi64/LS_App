@@ -114,7 +114,7 @@ const Templates: React.FC = () => {
     };
 
     const genConfirm = async (data: TemplateGenData) => {
-        await call(api => api.templatesApi.updateByIdGenerate,{id:data.template,body:data});
+        await call(api => api.templatesApi.updateByIdGenerate,{id:data.template,emailGenerationDto:data});
 
         modal.hideModal();
         refresh();
