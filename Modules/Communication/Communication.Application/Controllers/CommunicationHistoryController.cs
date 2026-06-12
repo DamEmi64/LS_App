@@ -33,7 +33,7 @@ namespace Communication.Application.Controllers
         }
 
         [HttpGet("")]
-        [ProducesResponseType(typeof(IEnumerable<CommunicationRegistry>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ResponseList<CommunicationRegistry>), StatusCodes.Status200OK)]
         public IActionResult ListData([FromQuery] HistoryFilter filter)
         {
             return Json(filter.Filter(_communicationHistoryRepository.GetAll(), out var count), count);

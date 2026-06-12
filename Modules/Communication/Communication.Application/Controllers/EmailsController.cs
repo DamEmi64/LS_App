@@ -5,6 +5,7 @@ using Communication.Domain.Dictionaries;
 using Communication.Domain.Entities;
 using Communication.Domain.Repositories;
 using Communication.Infrastructure.Services.SendService;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -75,6 +76,7 @@ namespace Communication.Application.Controllers
             return Ok();
         }
 
+        [AllowAnonymous]
         [HttpPost("webhook")]
         public async Task<IActionResult> WebhookHandle([FromBody] WebhookDto dto)
         {

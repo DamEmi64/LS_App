@@ -8,7 +8,7 @@ All URIs are relative to *http://localhost*
 |[**getById**](#getbyid) | **GET** /api/CommunicationHistory/{id} | |
 
 # **get**
-> Array<CommunicationRegistry> get()
+> CommunicationRegistryResponseList get()
 
 
 ### Example
@@ -56,7 +56,7 @@ const { status, data } = await apiInstance.get(
 
 ### Return type
 
-**Array<CommunicationRegistry>**
+**CommunicationRegistryResponseList**
 
 ### Authorization
 

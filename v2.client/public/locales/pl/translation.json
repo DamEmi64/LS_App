@@ -417,7 +417,8 @@
     },
     "setReminder": "Ustaw przypomnienie",
     "sendInvitation": "Wyślij zaproszenie",
-    "removeReminder": "Usuń przypomnienie"
+    "removeReminder": "Usuń przypomnienie",
+    "present": "Obecność"
   },
   "auth_forgot_password_sent_failed": "Wysłanie kodu do resetu hasła nie powiodło się"
 }

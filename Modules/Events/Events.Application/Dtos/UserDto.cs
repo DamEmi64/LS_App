@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Events.Application.Dtos
+﻿namespace Events.Application.Dtos
 {
     public class UserDto
     {
@@ -13,5 +9,7 @@ namespace Events.Application.Dtos
         public string? Login { get; set; }
 
         public string? Email { get; set; }
+
+        public bool Present { get; set; }
     }
 }

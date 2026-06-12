@@ -13,12 +13,12 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import type { CommunicationRegistry } from './communication-registry';
 
-export interface UserDto {
-    'id'?: string;
-    'userId'?: string | null;
-    'login'?: string | null;
-    'email'?: string | null;
-    'present'?: boolean;
+export interface CommunicationRegistryResponseList {
+    'total'?: number;
+    'data'?: Array<CommunicationRegistry> | null;
 }
 

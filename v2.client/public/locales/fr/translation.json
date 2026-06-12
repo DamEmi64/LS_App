@@ -417,7 +417,8 @@
     },
     "setReminder": "Définir un rappel",
     "sendInvitation": "Envoyer une invitation",
-    "removeReminder": "Supprimer le rappel"
+    "removeReminder": "Supprimer le rappel",
+    "present": "Présence"
   },
   "auth_forgot_password_sent_failed": "L’envoi du code de réinitialisation du mot de passe a échoué"
 }

@@ -417,7 +417,8 @@
     },
     "setReminder": "Set reminder",
     "sendInvitation": "Send invitation",
-    "removeReminder": "Remove reminder"
+    "removeReminder": "Remove reminder",
+    "present": "Attendance"
   },
   "auth_forgot_password_sent_failed": "Failed to send the password reset code"
 }

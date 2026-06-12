@@ -19,6 +19,7 @@ import YesNoWindow from "@/shared/components/YesNoWindow";
 import { call, ColumnType, ExpandableTable, FilterItem, FilterType, FilterValue, onChangeParams, Operations, TableColumn } from "@/shared";
 import { EventDto } from "@/shared/api/generated";
 import { ResponseList } from "@/shared/api/extension";
+import PresentList from "../components/presentList";
 
 const toEventBody = (event: EventDto): EventBody => ({
     title: event.title || "",
@@ -31,6 +32,8 @@ const toEventBody = (event: EventDto): EventBody => ({
         id: participant.id || participant.userId || "",
         login: participant.login || participant.email || "",
         email: participant.email || "",
+        userId: participant.userId || "",
+        present: participant.present || false
     }))
 });
 
@@ -226,6 +229,38 @@ const EventsPage: React.FC = () => {
         });
     };
 
+    const setPresent = (event: EventDto) => {
+       call<EventDto>(api => api.eventClient.getById, { id: event.id })
+            .then(freshEvent => modal.showModal(
+                <PresentList
+                    participants={freshEvent.participates.map(p => (p as EventParticipant)) || []}
+                    onSubmit={(participants) => savePresentList(freshEvent, participants)}
+                />
+            ));
+    }
+
+    const savePresentList = (event: EventDto, participants: EventParticipant[]) => {
+        if (!event.id) return;
+        event.participates = participants.map(participant => ({
+            id: participant.id,
+            login: participant.login,
+            userId: participant.userId,
+            email: participant.email,
+            present:participant.present
+        }));
+
+        call(api => api.eventClient.updateById, {
+            id: event.id,
+            eventDto: {
+                ...event,
+                participates: event.participates
+            }
+        }).then(() => {
+            refresh();
+            reloadExpanded(event);
+        });
+    };
+
     const columns: TableColumn<EventDto>[] = [
         { field: "title", header: "events.title", type: ColumnType.String, sortable: true },
         { field: "eventDate", header: "events.eventDate", type: ColumnType.Date, sortable: true },
@@ -246,6 +281,7 @@ const EventsPage: React.FC = () => {
         { name: "events.sendInvitation", method: sendInvitation },
         { name: "events.setReminder", method: setReminder },
         { name: "events.removeReminder", method: removeReminder },
+        { name: "events.present", method: setPresent }
     ];
 
     useEffect(() => {

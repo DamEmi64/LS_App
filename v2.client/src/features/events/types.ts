@@ -1,6 +1,9 @@
 export interface EventParticipant {
   id: string;
   login: string;
+  email: string;
+  userId: string;
+  present: boolean;
 }
 
 export interface EventBody {

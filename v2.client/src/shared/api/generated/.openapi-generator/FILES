@@ -30,6 +30,7 @@ docs/ChapterResponseList.md
 docs/ChaptersApi.md
 docs/CommunicationHistoryApi.md
 docs/CommunicationRegistry.md
+docs/CommunicationRegistryResponseList.md
 docs/Email.md
 docs/EmailGenerationDto.md
 docs/EmailsApi.md
@@ -102,6 +103,7 @@ models/change-password-model.ts
 models/chapter-dto.ts
 models/chapter-response-list.ts
 models/chapter.ts
+models/communication-registry-response-list.ts
 models/communication-registry.ts
 models/email-generation-dto.ts
 models/email.ts

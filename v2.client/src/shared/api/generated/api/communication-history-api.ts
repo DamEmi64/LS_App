@@ -23,6 +23,8 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
 import type { CommunicationRegistry } from '../models';
+// @ts-ignore
+import type { CommunicationRegistryResponseList } from '../models';
 /**
  * CommunicationHistoryApi - axios parameter creator
  */
@@ -158,7 +160,7 @@ export const CommunicationHistoryApiFp = function(configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async get(pageSize?: number, page?: number, title?: string, from?: string, to?: string, sentDateFrom?: string, sentDateTo?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<CommunicationRegistry>>> {
+        async get(pageSize?: number, page?: number, title?: string, from?: string, to?: string, sentDateFrom?: string, sentDateTo?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<CommunicationRegistryResponseList>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.get(pageSize, page, title, from, to, sentDateFrom, sentDateTo, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['CommunicationHistoryApi.get']?.[localVarOperationServerIndex]?.url;
@@ -191,7 +193,7 @@ export const CommunicationHistoryApiFactory = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        get(requestParameters: CommunicationHistoryApiGetRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<CommunicationRegistry>> {
+        get(requestParameters: CommunicationHistoryApiGetRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<CommunicationRegistryResponseList> {
             return localVarFp.get(requestParameters.pageSize, requestParameters.page, requestParameters.title, requestParameters.from, requestParameters.to, requestParameters.sentDateFrom, requestParameters.sentDateTo, options).then((request) => request(axios, basePath));
         },
         /**

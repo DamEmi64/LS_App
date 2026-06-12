@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **userId** | **string** |  | [optional] [default to undefined]
 **login** | **string** |  | [optional] [default to undefined]
 **email** | **string** |  | [optional] [default to undefined]
+**present** | **boolean** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -20,6 +21,7 @@ const instance: UserDto = {
     userId,
     login,
     email,
+    present,
 };
 ```
 

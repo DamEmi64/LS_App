@@ -141,6 +141,7 @@ export interface GridTableProps<T> {
     pageSizeOptionArray?: number[],
     setData?: (data: TableData<T>) => void,
     canDelete?: boolean;
+    canAdd?: boolean;
     readonly?: boolean;
 }
 

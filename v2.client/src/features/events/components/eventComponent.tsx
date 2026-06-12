@@ -63,6 +63,11 @@ export const EventComponent: React.FC<EventComponentProps> = ({
       header: "events.participants.email",
       type: ColumnType.String,
     },
+    {
+      field: "present",
+      header: "events.present",
+      type: ColumnType.Boolean,
+    }
   ];
 
   useEffect(() => {
