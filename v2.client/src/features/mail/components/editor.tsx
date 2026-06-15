@@ -13,7 +13,7 @@ const Editor = ({ initData, onChange, readonly }) => {
     const cacheRef = useRef(null);
 
     const loadSuggestions = async () => {
-        const res = await call<CommunicationRules>(api =>api.templatesApi.getRule,{})
+        const res = await call<CommunicationRules>(api =>api.templatesApi.getRules,{})
         const data = res;
 
         // 👇 capture values NOW (not during async execution later)

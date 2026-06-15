@@ -62,7 +62,7 @@ namespace Communication.Application.Controllers
                 {
                     Id = int.TryParse(x.Key, out var id) ? id : Random.Shared.Next(),
                     Invoker = x.Key,
-                    Title = x.Key
+                    Title = x.Key,
                 }).ToList()
             });
         }

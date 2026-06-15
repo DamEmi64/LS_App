@@ -100,6 +100,17 @@ namespace Events.Application.Controllers
             entity.EventDate = dto.EventDate;
             entity.CategoryId = dto.Category;
 
+            foreach (var participate in dto.Participates)
+            {
+                var existParticipate = entity.Participates.FirstOrDefault(x => x.UserId == participate.UserId);
+                if (existParticipate is null)
+                    continue;
+
+                existParticipate.Email = participate.Email;
+                existParticipate.Login = participate.Login;
+                existParticipate.Present = participate.Present;
+            }
+
             await _eventRepository.Update(entity);
             await Notifier.Success(EventNotifyTypes.EventUpdated, dto.Title);
 

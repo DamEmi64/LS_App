@@ -93,15 +93,15 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
 
     const operations: Operations<Chapter>[] = [
         { name: 'opt.details', method: (o) => details(o) },
-        { name: 'opt.edit', method: (o) => edit(o), hidden: (o) => !checkPermission(['rpg_write']) },
-        { name: 'opt.publish', method: (o) => publishChapter(o), hidden: (o) => !checkPermission(['rpg_write']) || !o.draft },
+        { name: 'opt.edit', method: (o) => edit(o), hidden: (o) => !checkPermission(['rpg-write']) },
+        { name: 'opt.publish', method: (o) => publishChapter(o), hidden: (o) => !checkPermission(['rpg-write']) || !o.draft },
         { name: 'rpg.chapter.start', method: (o) => startChapter(o) },
         { name: 'rpg.chapter.end', method: (o) => endChapter(o) },
         { name: "rpg.chapter.dmPage", method: (o) => dmPage(o) },
         { name: 'rpg.flow.flow_title', method: (o) => flow(o)},
-        { name: 'rpg.hero.add', method: (o) => addHero(o), hidden: (o) => !checkPermission(['rpg_write']) },
-        { name: 'rpg.place.add', method: (o) => addPlace(o), hidden: (o) => !checkPermission(['rpg_write']) },
-        { name: 'opt.delete', method: (o) => del(o), hidden: (o) => !checkPermission(['rpg_write']) },
+        { name: 'rpg.hero.add', method: (o) => addHero(o), hidden: (o) => !checkPermission(['rpg-write']) },
+        { name: 'rpg.place.add', method: (o) => addPlace(o), hidden: (o) => !checkPermission(['rpg-write']) },
+        { name: 'opt.delete', method: (o) => del(o), hidden: (o) => !checkPermission(['rpg-write']) },
     ];
 
     const details = (o: Chapter) => {
@@ -145,7 +145,7 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
         }
 
         modal.showModal(<ProgressFlow initialEdges={o.flow.edges}
-            readonly={!checkPermission(['rpg_write'])}
+            readonly={!checkPermission(['rpg-write'])}
             initialNodes={o.flow.nodes}
             onSave={({ nodes, edges }) => saveFlow(o, nodes, edges)} />)
     }

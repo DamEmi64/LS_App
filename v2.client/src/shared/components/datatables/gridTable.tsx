@@ -21,6 +21,7 @@ export const GridTable = <T,>({
     data,
     setData,
     canDelete = true,
+    canAdd = true,
     readonly = false
 }: GridTableProps<T>) => {
 
@@ -160,7 +161,7 @@ export const GridTable = <T,>({
 
     return (
         <Paper sx={{ overflow: 'hidden', margin: 'auto', padding: 2 }}>
-            {!readonly && (
+            {!readonly && canAdd && (
                 <Stack direction="row" spacing={1} sx={{ mb: 1 }}>
                     <IconButton size="small" color='success' onClick={handleAddRow}>
                         <GridAddIcon />

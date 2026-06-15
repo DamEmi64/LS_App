@@ -1,8 +1,4 @@
-﻿using Base;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Newtonsoft.Json;
 
 namespace Events.Domain.Entities
 {
@@ -17,6 +13,7 @@ namespace Events.Domain.Entities
         public string? Email { get; set; }
 
         public bool Invited { get; set;  }
+        public bool Present { get; set; }
 
         [JsonIgnore]
         public required Event Event { get; set; }

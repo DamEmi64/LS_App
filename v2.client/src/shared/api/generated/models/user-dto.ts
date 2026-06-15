@@ -19,5 +19,6 @@ export interface UserDto {
     'userId'?: string | null;
     'login'?: string | null;
     'email'?: string | null;
+    'present'?: boolean;
 }
 

@@ -25,5 +25,7 @@ export interface Email {
     'sender': string | null;
     'recipient': string | null;
     'sentDate'?: string | null;
+    'status'?: number;
+    'externalId'?: string | null;
 }
 

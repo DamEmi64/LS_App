@@ -10,7 +10,7 @@ export const TemplateRules = () => {
     const getDictionaryTranslation = useDictionaryTranslation();
     const [rules, setRules] = useState<CommunicationRules | null>(null);
 
-    call<CommunicationRules>(api => api.templatesApi.get,{}).then(res => {
+    call<CommunicationRules>(api => api.templatesApi.getRules,{}).then(res => {
         const data = res;
         setRules(data);   
         });

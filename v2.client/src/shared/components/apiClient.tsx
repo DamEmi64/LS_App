@@ -11,7 +11,8 @@ import {
     FilesApi,
     AutomationsApi,
     HomeApi,
-    EventsApi
+    EventsApi,
+    CommunicationHistoryApi
 } from '@/shared/api/generated';
 
 import { notify } from '../components/NotificationListener';
@@ -160,6 +161,7 @@ export const API = {
     automationApi: bindApi(new AutomationsApi(null, '', axiosInstance)),
     homeApi: bindApi(new HomeApi(null, '', axiosInstance)),
     eventClient: bindApi(new EventsApi(null, '', axiosInstance)),
+    communicationHistoryClient: bindApi(new CommunicationHistoryApi(null, '', axiosInstance))
 };
 
 

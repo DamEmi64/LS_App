@@ -17,6 +17,9 @@ import TemplateImg from "@/assets/template.jpg";
 import Emails from "@/features/mail/pages/emails";
 import EmailImg from "@/assets/emails.png";
 
+import CommunicationHistory from "@/features/mail/pages/CommunicationRegistry";
+import CommunicationHistoryImg from "@/assets/emails.png";
+
 import EventsPage from "@/features/events/pages/allPage";
 import MyEventsPage from "@/features/events/pages/myPage";
 import EventsImg from "@/assets/events.png";
@@ -44,6 +47,7 @@ import { NavbarItemProps } from "@/shared";
 import PlayerViewPage from "@/features/rpg/pages/PlayerViewPage";
 import { Configuration } from "@/shared/api/generated";
 import { ConfigurationProvider } from "@/shared/context/configuration";
+import CommunicationRegistry from "@/features/mail/pages/CommunicationRegistry";
 
 const queryClient = new QueryClient();
 
@@ -67,6 +71,11 @@ const menu: NavbarItemProps[] = [
             {
                 label: 'templates', href: '/Templates',
                 submenu: []
+            },
+            {
+                label: 'communicationRegistry', href: '/communicationHistory',
+                submenu: [],
+                permissions: ['communication-registry']
             },
         ], permissions: ['communication']
     },
@@ -95,7 +104,7 @@ const menu: NavbarItemProps[] = [
             {
                 label: 'draft', href: '/rpg/drafts',
                 submenu: [],
-                permissions: ['rpg_draft']
+                permissions: ['rpg-draft']
             },
         ], permissions: ['rpg']
     },
@@ -116,6 +125,7 @@ const App = () => (
                                         <Route path="/processes" element={<Layout content={Processes} image={ProcessesImg} title={'menu.processes'} permissions={['processes']} menu={menu} />} />
                                         <Route path="/files" element={<Layout content={Files} image={FilesImg} title={'menu.files'} permissions={['files']} menu={menu} />} />
                                         <Route path="/emails" element={<Layout content={Emails} image={EmailImg} title={'menu.emails'} permissions={['communication']} menu={menu} />} />
+                                        <Route path="/communicationHistory" element={<Layout content={CommunicationRegistry} image={EmailImg} title={'menu.communicationRegistry'} permissions={['communication-registry']} menu={menu} />} />
                                         <Route path="/events" element={<Layout content={EventsPage} image={EventsImg} title={'menu.events'} permissions={['events']} menu={menu} />} />
                                         <Route path="/events/me" element={<Layout content={MyEventsPage} image={EventsImg} title={'menu.myEvents'} permissions={['events']}  menu={menu} />} />
                                         <Route path="/templates" element={<Layout content={Templates} image={TemplateImg} title={'menu.templates'} permissions={['communication']} menu={menu} />} />

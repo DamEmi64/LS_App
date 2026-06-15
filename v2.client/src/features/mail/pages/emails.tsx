@@ -36,7 +36,6 @@ const Emails: React.FC = () => {
     const modal = useModal();
     const auth = useAuth();
 
-    // 📱 RESPONSIVE
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -47,7 +46,6 @@ const Emails: React.FC = () => {
 
     const [filterValues, setFilterValues] = useState<FilterValue[]>([]);
 
-    // 🔄 ADD EMAIL
     const addEmail = () => {
         const email: Email = {
             sender: auth.user?.email || ""
@@ -58,16 +56,14 @@ const Emails: React.FC = () => {
         );
     };
 
-    // ✏️ EDIT EMAIL
     const edit = (email: Email) => {
         modal.showModal(
             <EmailEdit email={email} onSave={editData} />
         );
     };
 
-    // 👁 DETAILS
     const details = async (email: Email) => {
-        call<Email>(api => api.emailsApi.get, { id: email.id })
+        call<Email>(api => api.emailsApi.getById, { id: email.id })
             .then(res => modal.showModal(
                 <EmailEdit
                     email={res}
@@ -111,7 +107,6 @@ const Emails: React.FC = () => {
         refresh();
     };
 
-    // 🔄 REFRESH WRAPPER
     const refresh = () => {
         modal.hideModal();
 
@@ -124,7 +119,6 @@ const Emails: React.FC = () => {
         });
     };
 
-    // 📡 TABLE DATA
     const updateData = async (
         paramsObj: onChangeParams
     ): Promise<TableData<Email>> => {
@@ -153,23 +147,21 @@ const Emails: React.FC = () => {
         return tableData;
     };
 
-    // 📊 COLUMNS
     const columns: TableColumn<Email>[] = [
         { field: "subject", header: "communication.email.subject", type: ColumnType.String },
         { field: "sender", header: "communication.email.sender.title", type: ColumnType.String },
         { field: "recipient", header: "communication.email.recipient.title", type: ColumnType.String },
-        { field: "sentDate", header: "communication.email.sendDate", type: ColumnType.Date }
+        { field: "sentDate", header: "communication.email.sendDate", type: ColumnType.Date },
+        { field: "status", header: "communication.email.status", type: ColumnType.Dictionary, dictionary: "Email statuses" }
     ];
 
-    // 🔍 FILTERS
     const filters: FilterItem[] = [
         { field: "subject", name: "communication.email.subject", type: FilterType.String },
         { field: "sender", name: "communication.email.sender.title", type: FilterType.String },
         { field: "recipient", name: "communication.email.recipient.title", type: FilterType.String },
-        { field: "sentDate", name: "communication.email.sendDate", type: FilterType.Date }
+        {field: "status", name: "communication.email.status", type: FilterType.Dictionary, dictionary: "Email statuses"}
     ];
 
-    // ⚙️ OPERATIONS
     const operations: Operations<Email>[] = [
         { name: "opt.details", method: details },
         { name: "opt.edit", method: edit },

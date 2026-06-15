@@ -15,6 +15,8 @@ Name | Type | Description | Notes
 **sender** | **string** |  | [default to undefined]
 **recipient** | **string** |  | [default to undefined]
 **sentDate** | **string** |  | [optional] [default to undefined]
+**status** | **number** |  | [optional] [default to undefined]
+**externalId** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -32,6 +34,8 @@ const instance: Email = {
     sender,
     recipient,
     sentDate,
+    status,
+    externalId,
 };
 ```
 

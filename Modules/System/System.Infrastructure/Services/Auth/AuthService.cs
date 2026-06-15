@@ -230,7 +230,7 @@ namespace System.Infrastructure.Services.Auth
 
             var html = $"To reset your password use this code: {code}";
 
-            await _connect.Send(new SendEmail(user.Email, "Reset password", html));
+            await _connect.Send(new SendEmail(user.Email, "Reset password", html, Register: false));
         }
 
         private async Task<Token> CreateToken(User user)

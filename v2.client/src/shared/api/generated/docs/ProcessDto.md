@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **queue** | **string** |  | [optional] [default to undefined]
 **jobs** | [**Array&lt;JobDto&gt;**](JobDto.md) |  | [optional] [default to undefined]
 **errors** | [**Array&lt;ProcessErrorDto&gt;**](ProcessErrorDto.md) |  | [optional] [default to undefined]
+**requestDate** | **string** |  | [optional] [default to undefined]
 **startDate** | **string** |  | [optional] [default to undefined]
 **endDate** | **string** |  | [optional] [default to undefined]
 **percentage** | **number** |  | [optional] [default to undefined]
@@ -28,6 +29,7 @@ const instance: ProcessDto = {
     queue,
     jobs,
     errors,
+    requestDate,
     startDate,
     endDate,
     percentage,

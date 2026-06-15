@@ -17,6 +17,7 @@
 export * from './api/auth-api';
 export * from './api/automations-api';
 export * from './api/chapters-api';
+export * from './api/communication-history-api';
 export * from './api/emails-api';
 export * from './api/events-api';
 export * from './api/files-api';

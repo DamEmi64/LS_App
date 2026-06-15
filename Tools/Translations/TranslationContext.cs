@@ -7,6 +7,7 @@ using Newtonsoft.Json.Linq;
 using System.Collections.ObjectModel;
 using System.Data;
 using System.IO;
+using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using Translations.Dtos;
@@ -37,6 +38,8 @@ namespace Translations
 
         public ICommand Generate => new RelayCommand(GenerateData);
         public ICommand Load => new RelayCommand(LoadTranslationsFromFile);
+        public ICommand MultiAdd => new RelayCommand(MultiAddTranslation);
+        public ICommand MultiAddDict => new RelayCommand(MultiAddTranslationDict);
 
         public void GenerateData()
         {
@@ -66,31 +69,107 @@ namespace Translations
 
         public void LoadTranslationsFromFile()
         {
-            var dialog = new LoadFromFile();
-            dialog.ShowDialog();
-
-            if (!string.IsNullOrEmpty(dialog.ENPath))
+            var dialog = new OpenFileDialog
             {
-                LoadDataToTranslation(dialog.ENPath, EN);
-            }
+                Title = "Select files",
+                Multiselect = true,
+                Filter = "All files (*.*)|*.*"
+            };
 
-            if (!string.IsNullOrEmpty(dialog.PLPath))
-            {
-                LoadDataToTranslation(dialog.PLPath, PL);
-            }
+            var result = dialog.ShowDialog();
 
-            if (!string.IsNullOrEmpty(dialog.FRPath))
+            var langLoaded = new StringBuilder();
+            if (result == true)
             {
-                LoadDataToTranslation(dialog.FRPath, FR);
-            }
+                string[] selectedFiles = dialog.FileNames;
 
-            if (!string.IsNullOrEmpty(dialog.DEPath))
-            {
-                LoadDataToTranslation(dialog.DEPath, DE);
+                foreach (var file in selectedFiles)
+                {
+                    if (file.EndsWith("pl.json"))
+                    {
+                        LoadDataToTranslation(file, PL);
+                        langLoaded.Append(PL);
+                    }
+
+                    if (file.EndsWith("en.json"))
+                    {
+                        LoadDataToTranslation(file, EN);
+                        langLoaded.Append(PL);
+                    }
+
+                    if (file.EndsWith("de.json"))
+                    {
+                        LoadDataToTranslation(file, DE);
+                        langLoaded.Append(PL);
+                    }
+
+                    if (file.EndsWith("fr.json"))
+                    {
+                        LoadDataToTranslation(file, FR);
+                        langLoaded.Append(PL);
+                    }
+                }
             }
 
             MessageBox.Show("Loaded");
         }
+
+        private void MultiAddTranslation()
+        {
+            var multiAddWindow = new MultiAddTranslationWindow();
+
+            multiAddWindow.ShowDialog();
+
+            if (multiAddWindow.TranslateStr is null)
+                return;
+
+            var translations = multiAddWindow.TranslateStr.Split("\n");
+
+            foreach (var translationStr in translations)
+            {
+                var translateArray = translationStr.Split(";");
+                Translations.Add(new TranslationDto
+                {
+                    Key = translateArray[0],
+                    PL = translateArray[1],
+                    EN = translateArray[2],
+                    FR = translateArray[3],
+                    DE = translateArray[4]
+                });
+            }
+
+            MessageBox.Show("Loaded");
+        }
+
+        private void MultiAddTranslationDict()
+        {
+            var multiAddWindow = new MultiAddTranslationWindow();
+
+            multiAddWindow.ShowDialog();
+
+            if (multiAddWindow.TranslateStr is null)
+                return;
+
+            var translations = multiAddWindow.TranslateStr.Split("\n");
+
+            foreach (var translationStr in translations)
+            {
+                var translateArray = translationStr.Split(";");
+
+                var dict = Dictionaries.FirstOrDefault(x => x.Key.ToString() == translateArray[0]);
+
+                if (dict is not null)
+                {
+                    dict.TitlePL = translateArray[1];
+                    dict.TitleEN = translateArray[2];
+                    dict.TitleFR = translateArray[3];
+                    dict.TitleDE = translateArray[4];
+                }
+            }
+
+            MessageBox.Show("Loaded");
+        }
+
 
         private void LoadDataToTranslation(string filePath, string lang)
         {

@@ -1,4 +1,42 @@
 {
+  "Game_genres": {
+    "200": "Platformer",
+    "201": "Shooter",
+    "202": "First Person Shooter",
+    "203": "Third Person Shooter",
+    "204": "Beat 'Em Up",
+    "205": "Stealth",
+    "206": "Survival",
+    "210": "Action Adventure",
+    "211": "Narrative Adventure",
+    "212": "Point and Click",
+    "220": "Action RPG",
+    "221": "Turn-Based RPG",
+    "222": "Tactical RPG",
+    "223": "MMORPG",
+    "224": "Open World RPG",
+    "230": "Life Simulation",
+    "231": "Farming Simulation",
+    "232": "Vehicle Simulation",
+    "233": "City Building",
+    "240": "Real-Time Strategy",
+    "241": "Turn-Based Strategy",
+    "242": "Tower Defense",
+    "243": "4X Strategy",
+    "250": "Classic Puzzle",
+    "251": "Physics Puzzle",
+    "252": "Match 3",
+    "260": "Traditional Sports",
+    "261": "Extreme Sports",
+    "262": "Racing",
+    "270": "Traditional Fighting",
+    "271": "Platform Fighting",
+    "280": "Survival Horror",
+    "281": "Psychological Horror",
+    "290": "Party Game",
+    "291": "Rhythm Game",
+    "299": "Other"
+  },
   "Notify_types": {
     "1000": "Log",
     "1001": "Internal Process Error",
@@ -54,56 +92,14 @@
     "1054": "Event user Sign Out",
     "1055": "Send Invitation",
     "1056": "Set reminder",
-    "1057": "Remove reminder"
+    "1057": "Remove reminder",
+    "1058": "Process was cancelled"
   },
-  "RPG_file_types": {
-    "501": "Json",
-    "502": "Old json (NOT SUPPORTED)",
-    "503": "Firebase data"
-  },
-  "Game_genres": {
-    "200": "Platformer",
-    "201": "Shooter",
-    "202": "First Person Shooter",
-    "203": "Third Person Shooter",
-    "204": "Beat 'Em Up",
-    "205": "Stealth",
-    "206": "Survival",
-    "210": "Action Adventure",
-    "211": "Narrative Adventure",
-    "212": "Point and Click",
-    "220": "Action RPG",
-    "221": "Turn-Based RPG",
-    "222": "Tactical RPG",
-    "223": "MMORPG",
-    "224": "Open World RPG",
-    "230": "Life Simulation",
-    "231": "Farming Simulation",
-    "232": "Vehicle Simulation",
-    "233": "City Building",
-    "240": "Real-Time Strategy",
-    "241": "Turn-Based Strategy",
-    "242": "Tower Defense",
-    "243": "4X Strategy",
-    "250": "Classic Puzzle",
-    "251": "Physics Puzzle",
-    "252": "Match 3",
-    "260": "Traditional Sports",
-    "261": "Extreme Sports",
-    "262": "Racing",
-    "270": "Traditional Fighting",
-    "271": "Platform Fighting",
-    "280": "Survival Horror",
-    "281": "Psychological Horror",
-    "290": "Party Game",
-    "291": "Rhythm Game",
-    "299": "Other"
-  },
-  "Fluid_functions": {
-    "601": "Random number",
-    "602": "Random",
-    "603": "Random Unique",
-    "604": "Increment"
+  "Skill_category": {
+    "401": "Strength",
+    "402": "Dexterity",
+    "403": "Intelligence",
+    "404": "Communication"
   },
   "Operations": {
     "11": "Import file",
@@ -122,9 +118,46 @@
     "51": "Send reminder about event",
     "52": "Send invitation to event"
   },
+  "Event_categories": {
+    "421": "Movies",
+    "422": "Concert",
+    "423": "Vacation",
+    "424": "Meeting",
+    "425": "Games"
+  },
+  "Fluid_variables": {
+    "605": "User",
+    "606": "Sender",
+    "607": "To",
+    "608": "Recipients",
+    "609": "Counter"
+  },
+  "Fluid_functions": {
+    "601": "Random number",
+    "602": "Random",
+    "603": "Random Unique",
+    "604": "Increment"
+  },
   "File_source_type": {
     "300": "Local",
     "301": "FuckingFast website"
+  },
+  "RPG_file_types": {
+    "501": "Json",
+    "502": "Old json (NOT SUPPORTED)",
+    "503": "Firebase data"
+  },
+  "Email_statuses": {
+    "351": "Created",
+    "352": "Sent",
+    "353": "Sent Confirmed",
+    "354": "Open",
+    "355": "Rejected"
+  },
+  "File_types": {
+    "101": "Games",
+    "102": "Documents",
+    "103": "Study Files"
   },
   "Automation_events": {
     "110": "Cron",
@@ -133,29 +166,5 @@
     "113": "User sign in to event",
     "114": "RPG Edited",
     "115": "File saved"
-  },
-  "File_types": {
-    "101": "Games",
-    "102": "Documents",
-    "103": "Study Files"
-  },
-  "Skill_category": {
-    "401": "Strength",
-    "402": "Dexterity",
-    "403": "Intelligence",
-    "404": "Communication"
-  },
-  "Fluid_variables": {
-    "605": "User",
-    "606": "Sender",
-    "607": "Recipient",
-    "608": "Recipients",
-    "609": "Counter"
-  },
-  "Event_categories": {
-    "421": "Movies",
-    "422": "Concert",
-    "423": "Vacation",
-    "424": "Meeting"
   }
 }

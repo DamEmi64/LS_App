@@ -25,6 +25,28 @@
       "description": ""
     }
   },
+  "Email_statuses": {
+    "351": {
+      "title": "Utworzono",
+      "description": ""
+    },
+    "352": {
+      "title": "Wysłano",
+      "description": ""
+    },
+    "353": {
+      "title": "Dostarczono",
+      "description": ""
+    },
+    "354": {
+      "title": "Odczytano",
+      "description": ""
+    },
+    "355": {
+      "title": "Odrzucono",
+      "description": ""
+    }
+  },
   "Event_categories": {
     "421": {
       "title": "Film",
@@ -40,6 +62,10 @@
     },
     "424": {
       "title": "Spotkanie",
+      "description": ""
+    },
+    "425": {
+      "title": "Gry",
       "description": ""
     }
   },
@@ -70,19 +96,19 @@
   "Fluid_functions": {
     "601": {
       "title": "Losowanie liczby",
-      "description": ""
+      "description": " {{ randomNumber(0,20)}}"
     },
     "602": {
       "title": "Losowanie",
-      "description": ""
+      "description": " {{ random('', 'a', 'b', 'c')}}"
     },
     "603": {
       "title": "Uniikalne losowanie",
-      "description": ""
+      "description": " {{ randomUnique( test@test.com='d;e;f', 'a', 'b', 'c')}}"
     },
     "604": {
       "title": "Zwiększenie",
-      "description": ""
+      "description": "increment"
     }
   },
   "Fluid_variables": {
@@ -92,19 +118,19 @@
     },
     "606": {
       "title": "Nadawca",
-      "description": ""
+      "description": "sender"
     },
     "607": {
       "title": "Odbiorca",
-      "description": ""
+      "description": "recipient"
     },
     "608": {
       "title": "Odbiorcy",
-      "description": ""
+      "description": "recipients"
     },
     "609": {
       "title": "Licznik",
-      "description": ""
+      "description": "counter"
     }
   },
   "Game_genres": {
