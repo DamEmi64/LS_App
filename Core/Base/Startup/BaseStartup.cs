@@ -54,7 +54,29 @@ public abstract class BaseStartup
     {
         services.AddMediatR(cfg =>
         {
-            cfg.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies());
+            cfg.RegisterServicesFromAssemblies(GetAssemblies());
         });
+    }
+
+    private IEnumerable<Assembly> GetAssemblies()
+    {
+        var loaded = new HashSet<Assembly>();
+        var queue = new Queue<Assembly>(
+            Modules.Select(m => m.Module.GetType().Assembly));
+
+        while (queue.Count > 0)
+        {
+            var assembly = queue.Dequeue();
+
+            if (!loaded.Add(assembly))
+                continue;
+
+            foreach (var reference in assembly.GetReferencedAssemblies())
+            {
+                queue.Enqueue(Assembly.Load(reference));
+            }
+        }
+
+        return loaded.ToArray();
     }
 }
