@@ -3,6 +3,9 @@ using MediatR;
 
 namespace Base;
 
+/// <summary>
+///     Base MediatR handler for module requests that return typed data.
+/// </summary>
 public abstract class ConnectInstance<TRequest, TResponse>
     : IRequestHandler<TRequest, Result<TResponse>>
     where TRequest : IRequest<Result<TResponse>>
@@ -16,6 +19,9 @@ public abstract class ConnectInstance<TRequest, TResponse>
 }
 
 
+/// <summary>
+///     Base MediatR handler for module requests that return only a success or failure result.
+/// </summary>
 public abstract class ConnectInstance<TRequest>
     : IRequestHandler<TRequest, Result>
     where TRequest : IRequest<Result>

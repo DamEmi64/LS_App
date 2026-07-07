@@ -3,9 +3,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json.Converters;
+using System.Reflection;
 
 namespace Base;
 
+/// <summary>
+///     Base application startup pipeline for shared service registration and application building.
+/// </summary>
 public abstract class BaseStartup
 {
     protected readonly IHostApplicationBuilder _builder;
@@ -54,7 +58,7 @@ public abstract class BaseStartup
     {
         services.AddMediatR(cfg =>
         {
-            cfg.RegisterServicesFromAssemblies(GetAssemblies());
+            cfg.RegisterServicesFromAssemblies(GetAssemblies().ToArray());
         });
     }
 
@@ -77,6 +81,6 @@ public abstract class BaseStartup
             }
         }
 
-        return loaded.ToArray();
+        return loaded.Distinct();
     }
 }

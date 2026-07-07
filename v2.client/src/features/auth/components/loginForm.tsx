@@ -6,7 +6,7 @@ import {
   Box,
   Typography,
   Button,
-  useColorScheme,
+  useTheme,
   Grid
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
@@ -19,10 +19,10 @@ import ResetPasswordForm from './resetPasswordForm';
 
 const LoginForm: React.FC<LoginFormProps> = ({ auth, onClose }) => {
   const { t } = useTranslation();
-  const { mode } = useColorScheme();
+  const theme = useTheme();
   const modal = useModal();
 
-  const labelColor = mode === 'dark' ? '#fff' : '#000';
+  const labelColor = theme.palette.text.primary;
 
   const [username, setUsername] = useState(localStorage.getItem('rememberedUsername') || '');
   const [password, setPassword] = useState(localStorage.getItem('rememberedPassword') || '');

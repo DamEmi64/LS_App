@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { TextField, FormControlLabel, Switch, Select, MenuItem, InputLabel, FormControl, Box, Typography, useColorScheme, IconButton, Grid, Button } from '@mui/material';
 import { changeLanguage } from 'i18next';
 import { useTranslation } from 'react-i18next';
-import ServerInfo, { ServerInfoProps } from './serverInfo';
+import ServerInfo, { ServerInfoProps } from '../serverInfo';
 import useLocalStorage from 'react-use-localstorage';
 import { call } from '@/shared';
 import { useConfiguration } from '@/shared/context/configuration';
@@ -72,7 +72,7 @@ const AppSettings: React.FC = () => {
     return (
         <>
             <Typography variant="h6" gutterBottom sx={{ color: labelColor }}>
-                {t('settings')}
+                {t('settings.title')}
             </Typography>
             <Box display="flex" flexDirection="column" gap={2}>
                 <Grid display="flex" flexDirection="row" gap={1}>

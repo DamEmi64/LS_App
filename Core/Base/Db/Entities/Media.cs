@@ -1,5 +1,8 @@
 ﻿namespace Base
 {
+    /// <summary>
+    ///     Stored media payload with binary or string content and file extension metadata.
+    /// </summary>
     public class Media : Entity
     {
         /// <summary>

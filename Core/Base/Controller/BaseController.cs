@@ -2,6 +2,9 @@
 
 namespace Base
 {
+    /// <summary>
+    ///     Base API controller exposing shared user, notification, and list-response helpers.
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class BaseController : Controller

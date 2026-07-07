@@ -297,7 +297,22 @@
   "EndpointNotFound": "Point de terminaison introuvable",
   "filter_reset": "Réinitialiser les filtres",
   "language": "Langue",
-  "settings": "Paramètres",
+  "settings": {
+    "title": "Paramètres",
+    "general": "Général",
+    "server": "Serveur",
+    "notifications": "Notifications",
+    "appearance": "Apparence",
+    "theme": "Thème",
+    "language": "Langue",
+    "themes": {
+      "light": "Clair",
+      "dark": "Sombre",
+      "ocean": "Océan",
+      "forest": "Forêt",
+      "rose": "Rose"
+    }
+  },
   "login": "Se connecter",
   "register": "S’inscrire",
   "apiEndpoint": "Point d’accès API",
