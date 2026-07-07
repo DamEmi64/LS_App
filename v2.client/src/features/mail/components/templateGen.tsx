@@ -45,11 +45,11 @@ export const TemplateGen: React.FC<TemplateGenProps> = ({ initialData, onSubmit 
 
     return (
         <Box component="form" onSubmit={handleSubmit} sx={{ maxWidth: 600, mx: 'auto', mt: 4 }}>
-            <Typography variant="h5" gutterBottom>Sender</Typography>
+            <Typography variant="h5" gutterBottom>{t('communication.email.sender.title')}</Typography>
             <Grid container spacing={2}>
                 <Grid>
                     <TextField
-                        label="Login"
+                        label={t('communication.email.sender.title')}
                         fullWidth
                         value={sender.login}
                         InputProps={{ style: { color: textColor } }}
@@ -68,13 +68,15 @@ export const TemplateGen: React.FC<TemplateGenProps> = ({ initialData, onSubmit 
                 </Grid>
             </Grid>
 
-            <Typography variant="h5" gutterBottom sx={{ mt: 4 }}>Recipients</Typography>
+            <Typography variant="h5" gutterBottom sx={{ mt: 4 }}>
+                {t('communication.email.recipient.title')}
+            </Typography>
 
             {recipients.map((recipient, index) => (
                 <Grid container spacing={2} key={index} alignItems="center" sx={{ mb: 1 }}>
                     <Grid size={{ xs: 12, md: 4 }}>
                         <TextField
-                            label="Login"
+                            label={t('communication.email.recipient.title')}
                             fullWidth
                             value={recipient.login}
                             InputProps={{ style: { color: textColor } }}

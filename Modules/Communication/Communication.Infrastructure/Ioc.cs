@@ -26,7 +26,6 @@ namespace Communication.Infrastructure
                 .AddScoped<ISendStrategy, SendViaSMTPStrategy>();
 
             services.Configure<EmailOptions>(AppConfiguration.Get<EmailOptions>());
-            var emailFluidParser = new EmailFluidParser();
             return services.AddScoped<ISendService, SendService>()
                 .AddScoped<IFluidService, FluidService>()
                 .AddFluidParser<EmailFluidParser>(nameof(EmailFluidParser));

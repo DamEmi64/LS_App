@@ -11,16 +11,16 @@ namespace Communication.Infrastructure.Jobs.GenEmail
 {
     public class GenEmailJobHandler : JobHandler<GenEmailJob>
     {
-        private readonly IFluidParser _fluidParser;
+        private readonly List<IFluidParser> _fluidParsers;
         private readonly IEmailRepository _emailRepository;
 
         public GenEmailJobHandler(IJobContext jobContext,
-            [FromKeyedServices(nameof(EmailFluidParser))] IFluidParser fluidParser,
-            IEmailRepository emailRepository) 
+            IEmailRepository emailRepository,
+            IEnumerable<IFluidParser> fluidParsers)
             : base(jobContext)
         {
-            _fluidParser = fluidParser;
             _emailRepository = emailRepository;
+            _fluidParsers = fluidParsers.ToList();
         }
 
         public override async Task Execute(GenEmailJob request)
@@ -30,32 +30,35 @@ namespace Communication.Infrastructure.Jobs.GenEmail
             if (request.Model.Template is null || request.Model.Sender is null)
                 return;
 
-
-            if (_fluidParser is EmailFluidParser emailParser)
+            var emailParser = new EmailFluidParser
             {
-                emailParser.Sender = request.Model.Sender;
-                emailParser.Receivers = request.Model.Recipients.ToList();
+                Sender = request.Model.Sender,
+                Receivers = request.Model.Recipients.ToList()
+            };
 
-                foreach (var receiver in emailParser.Receivers)
+            var parsers = _fluidParsers.Where(x => x is not EmailFluidParser).ToList();
+            parsers.Add(emailParser);
+
+            foreach (var receiver in emailParser.Receivers)
+            {
+                emailParser.Receiver = receiver;
+                var a = emailParser.Functions;
+                var decoded = WebUtility.HtmlDecode(request.Model.Template.Body);
+                var body = await FluidGenerator.GenerateAsync(decoded, FluidGenerator.GenerateContext(parsers));
+
+                ArgumentNullException.ThrowIfNull(body);
+
+                var email = new Email
                 {
-                    emailParser.Receiver = receiver;
+                    Sender = request.Model.Sender.Email ?? string.Empty,
+                    Recipient = receiver.Email ?? string.Empty,
+                    Subject = request.Model.Template.Subject,
+                    Body = body
+                };
 
-                    var decoded = WebUtility.HtmlDecode(request.Model.Template.Body);
-                    var body = await FluidGenerator.GenerateAsync(decoded, FluidGenerator.GenerateContext());
-
-                    ArgumentNullException.ThrowIfNull(body);
-
-                    var email = new Email
-                    {
-                        Sender = request.Model.Sender.Email ?? string.Empty,
-                        Recipient = receiver.Email ?? string.Empty,
-                        Subject = request.Model.Template.Subject,
-                        Body = body
-                    };
-
-                    await _emailRepository.Add(email);
-                }
+                await _emailRepository.Add(email);
             }
+
         }
     }
 }

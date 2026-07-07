@@ -1,4 +1,5 @@
-﻿using CommunicationBase;
+﻿using Base;
+using CommunicationBase;
 using CommunicationBase.Dtos;
 using CommunicationBase.Interfaces;
 using Fluid;
@@ -15,12 +16,9 @@ namespace Communication.Infrastructure.EmailGenerator.Strategies
         public string Invoker => "randomNumber";
 
         public Func<FunctionArguments, FluidContext, FluidValue> Method =>
-                (args, ctx) => Handle(args,
-                            ctx.GetProperty<List<string>>("receivers"),
-                            ctx.GetProperty<string>("receiver"),
-                            ctx.GetProperty<string>("sender"));
+                (args, ctx) => Handle(args);
 
-        private FluidValue Handle(FunctionArguments arguments, List<string> receivers, string receiver, string sender)
+        private FluidValue Handle(FunctionArguments arguments)
         {
             var minVal = arguments.At(0).ToNumberValue();
             var maxVal = arguments.At(1).ToNumberValue();

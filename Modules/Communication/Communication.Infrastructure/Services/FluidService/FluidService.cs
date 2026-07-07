@@ -12,6 +12,11 @@ namespace Communication.Infrastructure.Services
         }
 
         public List<IFluidFunction> GetFunctions() => _parsers.SelectMany(x => x.Functions).ToList();
-        public Dictionary<string, object> GetVariables() => _parsers.SelectMany(x => x.Variables).ToDictionary(v => v.Key, v => v.Value);
+        public List<FluidVariableModel> GetVariables() => _parsers.SelectMany(x => x.Variables.Select(y => new FluidVariableModel
+        {
+            Data = y.Value,
+            Invoker = y.Key,
+            Translation = x.GetTranslationKey(y.Key)
+        })).ToList();
     }
 }

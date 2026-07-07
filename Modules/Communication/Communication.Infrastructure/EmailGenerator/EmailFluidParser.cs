@@ -24,32 +24,42 @@ namespace Communication.Infrastructure.EmailGenerator
             _randomUniqueStrategy = new RandomUniqueStrategy();
         }
 
-        [FluidVariable("605")]
+        [FluidVariable]
         public UserData? UserData { get; set; }
 
-        [FluidVariable("606")]
+        [FluidVariable]
         public UserData? Sender { get; set; }
 
-        [FluidVariable("607")]
+        [FluidVariable]
         public UserData? Receiver { get; set; }
 
-        [FluidVariable("608")]
+        [FluidVariable]
         public List<UserData> Receivers { get; set; } = new List<UserData>();
 
-        [FluidVariable("609")]
+        [FluidVariable]
         public int SEQ { get; set; } = 0;
 
-        [FluidFunction(title: "601")]
-        public FluidValue RandomNumber(FunctionArguments arguments, FluidContext context) => _randomNumberStrategy.Method.Invoke(arguments, context);
+        [FluidFunction]
+        public RandomNumberStrategy RandomNumber => _randomNumberStrategy;
 
-        [FluidFunction(title: "602")]
-        public FluidValue Random(FunctionArguments arguments, FluidContext context) => _randomStrategy.Method.Invoke(arguments, context);
+        [FluidFunction]
+        public RandomStrategy Random => _randomStrategy;
 
-        [FluidFunction(title: "603")]
-        public FluidValue RandomUnique(FunctionArguments arguments, FluidContext context) => _randomUniqueStrategy.Method.Invoke(arguments, context);
+        [FluidFunction]
+        public RandomUniqueStrategy RandomUnique => _randomUniqueStrategy;
 
-        [FluidFunction(title: "604")]
-        public FluidValue Increment(FunctionArguments arguments, FluidContext context) => _incrementStrategy.Method.Invoke(arguments, context);
+        [FluidFunction]
+        public IncrementStrategy Increment => _incrementStrategy;
 
+        public override int GetTranslationKey(string invoker)
+         => invoker switch
+         {
+             nameof(UserData) => 605,
+             nameof(Sender) => 606,
+             nameof(Receiver) => 607,
+             nameof(Receivers) => 608,
+             nameof(SEQ) => 609,
+             _ => throw new NotImplementedException()
+         };
     }
 }

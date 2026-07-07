@@ -1,4 +1,5 @@
-﻿using CommunicationBase;
+﻿using Base;
+using CommunicationBase;
 using CommunicationBase.Dtos;
 using CommunicationBase.Interfaces;
 using Fluid;
@@ -16,17 +17,17 @@ namespace Communication.Infrastructure.EmailGenerator.Strategies
 
         public Func<FunctionArguments, FluidContext, FluidValue> Method =>
                 (args, ctx) => Handle(args,
-                            ctx.GetProperty<List<string>>("receivers"),
-                            ctx.GetProperty<string>("receiver"),
-                            ctx.GetProperty<string>("sender"));
+                            ctx.GetProperty<List<UserData>>("receivers"),
+                            ctx.GetProperty<UserData>("receiver"),
+                            ctx.GetProperty<UserData>("sender"));
 
-        private FluidValue Handle(FunctionArguments arguments, List<string> receivers, string receiver, string sender)
+        private FluidValue Handle(FunctionArguments arguments, List<UserData> receivers, UserData receiver, UserData sender)
         {
             var rand = Random.Shared;
 
-            if (arguments.HasNamed(receiver))
+            if (arguments.HasNamed(receiver.Login))
             {
-                var perReceiver = arguments[receiver];
+                var perReceiver = arguments[receiver.Login];
                 var valuesPerReceiver = perReceiver.ToStringValue()
                                                    .Split(";", StringSplitOptions.RemoveEmptyEntries);
                 if (valuesPerReceiver.Length == 0)

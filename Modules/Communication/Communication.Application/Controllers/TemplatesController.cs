@@ -60,9 +60,9 @@ namespace Communication.Application.Controllers
                 Functions = functions.Select(x => _mapper.Map<FluidDto>(x)).ToList(),
                 Variables = variables.Select(x => new FluidDto
                 {
-                    Id = int.TryParse(x.Key, out var id) ? id : Random.Shared.Next(),
-                    Invoker = x.Key,
-                    Title = x.Key,
+                    Id = int.TryParse(x.Translation.ToString(), out var id) ? id : Random.Shared.Next(),
+                    Invoker = x.Invoker,
+                    Title = x.Translation.ToString(),
                 }).ToList()
             });
         }
