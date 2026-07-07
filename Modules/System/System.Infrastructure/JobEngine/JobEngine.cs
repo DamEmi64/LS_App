@@ -53,7 +53,7 @@ namespace System.Infrastructure.JobEngine
                 VerifyJobIds = x.jobs.Select(j => j.Id).ToList(),
             }));
 
-            _backgroundJobClient.Reschedule(root, DateTimeOffset.Now.AddSeconds(1));
+            _backgroundJobClient.Reschedule(root, schemaObject.RequestDate);
 
             return schemaObject.Process.Id;
         }
