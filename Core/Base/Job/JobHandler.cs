@@ -3,6 +3,9 @@ using MediatR;
 
 namespace Base;
 
+/// <summary>
+///     Base MediatR handler for jobs that manages job lifecycle callbacks and logging helpers.
+/// </summary>
 public abstract class JobHandler<T> : IRequestHandler<T, Result> where T : IJob
 {
     private readonly IJobContext _jobContext;

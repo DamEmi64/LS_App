@@ -3,6 +3,9 @@ using MediatR;
 
 namespace Base
 {
+    /// <summary>
+    ///     MediatR-backed implementation of the module communication client.
+    /// </summary>
     public class ConnectClient : IConnect
     {
         private readonly IMediator _mediator;

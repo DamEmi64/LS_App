@@ -20,9 +20,7 @@ const formatDate = (date: string | Date) => {
 
 export const StoryInfo: React.FC<SessionInfoProps> = ({ story, edit, del }) => {
     const theme = useTheme();
-    const textColor = theme.palette.mode === 'dark'
-        ? theme.palette.text.primary
-        : theme.palette.text.secondary;
+    const textColor = theme.palette.text.primary;
 
     return (
         <Grid container spacing={2} alignItems="flex-start">

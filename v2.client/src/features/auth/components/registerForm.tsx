@@ -19,10 +19,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ auth, onClose }) => {
   const theme = useTheme();
   const [showPassword, setShowPassword] = useState(false);
   
-  const textColor =
-    theme.palette.mode === 'dark'
-      ? theme.palette.text.primary
-      : theme.palette.text.secondary;
+  const textColor = theme.palette.text.primary;
 
   const {
     control,

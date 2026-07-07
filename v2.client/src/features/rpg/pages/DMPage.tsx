@@ -35,10 +35,7 @@ const DMPage: React.FC<{ chapter: Chapter }> = ({ chapter }) => {
     // 📱 RESPONSIVE
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-    const textColor =
-        theme.palette.mode === 'dark'
-        ? theme.palette.text.primary
-        : theme.palette.text.secondary;
+    const textColor = theme.palette.text.primary;
     const [hero, setHero] = useState<Hero | null>(null);
     const [withSummary, setWithSummary] = useState(false);
     const [query, setQuery] = useState<{ heroId: any; chapterId?: any }>();

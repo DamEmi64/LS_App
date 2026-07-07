@@ -1,5 +1,8 @@
 ﻿namespace Base
 {
+    /// <summary>
+    ///     Runtime context for a job execution, including logging, errors, and shared job data.
+    /// </summary>
     public interface IJobContext
     {
         /// <summary>

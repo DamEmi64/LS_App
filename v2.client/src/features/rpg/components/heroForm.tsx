@@ -25,7 +25,7 @@ type HeroViewEditProps = {
 
 export const HeroForm: React.FC<HeroViewEditProps> = ({ hero, onSave, onDelete, onCopy, isEdit }) => {
     const theme = useTheme();
-    const textColor = theme.palette.mode === 'dark' ? theme.palette.text.primary : theme.palette.text.secondary;
+    const textColor = theme.palette.text.primary;
 
     const [isEditing, setIsEditing] = useState(isEdit || false);
     const [image, setImage] = useState<string>(hero.image || noImage);

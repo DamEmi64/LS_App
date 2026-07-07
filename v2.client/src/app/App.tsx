@@ -38,7 +38,6 @@ import SlideRoutes from 'react-slide-routes';
 import "@/shared/localization/i18n"; // Ensure i18n is initialized
 import { AuthProvider } from "@/features/auth/context/authProvider";
 import { ModalProvider } from "@/shared/context/modal";
-import { ThemeProvider, alpha, createTheme } from '@mui/material/styles';
 import { ErrorHandlerProvider } from "@/shared/context/errorHandler";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -48,16 +47,9 @@ import PlayerViewPage from "@/features/rpg/pages/PlayerViewPage";
 import { Configuration } from "@/shared/api/generated";
 import { ConfigurationProvider } from "@/shared/context/configuration";
 import CommunicationRegistry from "@/features/mail/pages/CommunicationRegistry";
+import { AppThemeProvider } from "@/shared/context/theme";
 
 const queryClient = new QueryClient();
-
-const theme = createTheme({
-    colorSchemes: {
-        dark: true,
-    },
-});
-
-(theme as typeof theme & { alpha: typeof alpha }).alpha = alpha;
 
 const menu: NavbarItemProps[] = [
     { label: 'home', href: '/', submenu: [] },
@@ -114,7 +106,7 @@ const menu: NavbarItemProps[] = [
 const App = () => (
     <ConfigurationProvider>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <ThemeProvider theme={theme}>
+            <AppThemeProvider>
                 <ErrorHandlerProvider>
                     <ModalProvider>
                         <QueryClientProvider client={queryClient}>
@@ -143,7 +135,7 @@ const App = () => (
                         </QueryClientProvider>
                     </ModalProvider>
                 </ErrorHandlerProvider>
-            </ThemeProvider>
+            </AppThemeProvider>
         </LocalizationProvider>
     </ConfigurationProvider>
 

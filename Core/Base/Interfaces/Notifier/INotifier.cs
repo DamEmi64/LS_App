@@ -1,5 +1,8 @@
 ﻿namespace Base
 {
+    /// <summary>
+    ///     Sends user-facing and process notifications by message identifier.
+    /// </summary>
     public interface INotifier
     {
         /// <summary>

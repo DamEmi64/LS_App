@@ -297,7 +297,22 @@
   "EndpointNotFound": "Nie znaleziono adresu URL",
   "filter_reset": "Usuń filtry",
   "language": "Język",
-  "settings": " Ustawienia",
+  "settings": {
+    "title": "Ustawienia",
+    "general": "Ogólne",
+    "server": "Serwer",
+    "notifications": "Powiadomienia",
+    "appearance": "Wygląd",
+    "theme": "Motyw",
+    "language": "Język",
+    "themes": {
+      "light": "Jasny",
+      "dark": "Ciemny",
+      "ocean": "Ocean",
+      "forest": "Las",
+      "rose": "Różany"
+    }
+  },
   "login": "Zaloguj się",
   "register": "Zarejestruj się",
   "apiEndpoint": "Link do serwera",

@@ -24,9 +24,7 @@ export const FilesInfo: React.FC<FilesInfoProps> = ({ file, edit, del }) => {
 
     const getDictionaryTranslation = useDictionaryTranslation();
     const theme = useTheme();
-    const textColor = theme.palette.mode === 'dark'
-        ? theme.palette.text.primary
-        : theme.palette.text.secondary;
+    const textColor = theme.palette.text.primary;
 
     const showGameGenre = file.fileType === FILE_TYPE_GAME;
     const showStudyFields = file.fileType === FILE_TYPE_STUDY;

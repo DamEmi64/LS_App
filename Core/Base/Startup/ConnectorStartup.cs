@@ -10,6 +10,9 @@ using System.Reflection;
 
 namespace Base
 {
+    /// <summary>
+    ///     Startup base for API connectors that load modules, configure shared middleware, and run module initialization.
+    /// </summary>
     public abstract class ConnectorStartup : BaseStartup, IConnector
     {
         private const string AutoMigrate = "autoMigrate";

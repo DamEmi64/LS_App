@@ -297,7 +297,22 @@
   "EndpointNotFound": "Endpunkt nicht gefunden",
   "filter_reset": "Filter zurücksetzen",
   "language": "Sprache",
-  "settings": "Einstellungen",
+  "settings": {
+    "title": "Einstellungen",
+    "general": "Allgemein",
+    "server": "Server",
+    "notifications": "Benachrichtigungen",
+    "appearance": "Darstellung",
+    "theme": "Theme",
+    "language": "Sprache",
+    "themes": {
+      "light": "Hell",
+      "dark": "Dunkel",
+      "ocean": "Ozean",
+      "forest": "Wald",
+      "rose": "Rose"
+    }
+  },
   "login": "Anmelden",
   "register": "Registrieren",
   "apiEndpoint": "API-Endpunkt",

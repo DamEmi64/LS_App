@@ -19,7 +19,7 @@ interface TemplateGenProps {
 export const TemplateGen: React.FC<TemplateGenProps> = ({ initialData, onSubmit }) => {
     const { t } = useTranslation();
     const theme = useTheme();
-    const textColor = theme.palette.mode === 'dark' ? theme.palette.text.primary : theme.palette.text.secondary;
+    const textColor = theme.palette.text.primary;
     const [sender, setSender] = useState<UserData>(initialData?.sender || {} as UserData);
     const [recipients, setRecipients] = useState<UserData[]>(initialData?.recipients || []);
 

@@ -45,10 +45,7 @@ export const AutomatForm = ({ initialData, onSubmit }) => {
     const translateDictionary = useDictionaryTranslation();
     const { t } = useTranslation();
     const theme = useTheme();
-    const textColor =
-        theme.palette.mode === "dark"
-            ? theme.palette.text.primary
-            : theme.palette.text.secondary;
+    const textColor = theme.palette.text.primary;
 
     const { control, handleSubmit, formState: { errors } } = useForm<Automat>({ defaultValues: initialData });
     const [tasks, setTasks] = useState(initialData.tasks || []);

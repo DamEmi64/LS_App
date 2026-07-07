@@ -12,7 +12,7 @@ type PlayerWindowProps = {
 
 export const PlayerWindow: React.FC<PlayerWindowProps> = ({ hero, toSave }) => {
     const theme = useTheme();
-    const textColor = theme.palette.mode === 'dark' ? theme.palette.text.primary : theme.palette.text.secondary;
+    const textColor = theme.palette.text.primary;
 
     const skillCol: TableColumn<Skill>[] = [
         { field: 'title', header: 'rpg.hero.skill.title', type: ColumnType.String },

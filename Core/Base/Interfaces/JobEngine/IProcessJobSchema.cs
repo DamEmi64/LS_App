@@ -1,5 +1,8 @@
 ﻿namespace Base
 {
+    /// <summary>
+    ///     Process schema node that represents a job and supports child jobs in the same branch.
+    /// </summary>
     public interface IProcessJobSchema : IProcessSchema
     {
         /// <summary>

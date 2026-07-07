@@ -1,5 +1,8 @@
 ﻿namespace Base
 {
+    /// <summary>
+    ///     Built-in notification dictionary values
+    /// </summary>
     [Dictionary("Notify types")]
     public class NotifyTypes
     {

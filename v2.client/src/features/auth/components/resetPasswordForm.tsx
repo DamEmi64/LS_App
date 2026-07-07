@@ -15,10 +15,7 @@ const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({ auth, login, onCl
   const { t } = useTranslation();
   const theme = useTheme();
 
-  const labelColor =
-    theme.palette.mode === 'dark'
-      ? theme.palette.text.primary
-      : theme.palette.text.secondary;
+  const labelColor = theme.palette.text.primary;
 
   const [code, setCode] = useState('');
   const [password, setPassword] = useState('');
