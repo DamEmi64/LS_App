@@ -45,9 +45,7 @@ export default function FileManager({ files, editMode, add, remove }: Props) {
 
   const theme = useTheme();
 
-    const textColor = theme.palette.mode === 'dark'
-        ? theme.palette.text.primary
-        : theme.palette.text.secondary;
+    const textColor = theme.palette.text.primary;
 
   const downloadFile = async (file: FileItem) => {
     download(file.content, file.title);

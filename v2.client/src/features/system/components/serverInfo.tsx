@@ -23,10 +23,7 @@ const ServerInfo: React.FC<ServerInfoProps> = ({
 }) => {
     const { t } = useTranslation();
     const theme = useTheme();
-    const textColor =
-        theme.palette.mode === "dark"
-            ? theme.palette.text.primary
-            : theme.palette.text.secondary;
+    const textColor = theme.palette.text.primary;
 
     const moduleRows = modules.map((module, index) => ({
         id: index,

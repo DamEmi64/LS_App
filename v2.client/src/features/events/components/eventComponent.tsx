@@ -30,10 +30,7 @@ export const EventComponent: React.FC<EventComponentProps> = ({
 }) => {
   const { t } = useTranslation();
   const theme = useTheme();
-  const textColor =
-    theme.palette.mode === "dark"
-      ? theme.palette.text.primary
-      : theme.palette.text.secondary;
+  const textColor = theme.palette.text.primary;
 
   const initialData = { ...emptyEvent, ...event };
   const [isEditing, setIsEditing] = useState(isNew || isEdit);

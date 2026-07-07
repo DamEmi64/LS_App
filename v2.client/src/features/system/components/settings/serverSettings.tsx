@@ -1,5 +1,5 @@
 import { useConfiguration } from "@/shared/context/configuration";
-import { Box, Grid, TextField, Button } from "@mui/material";
+import { Box, Grid, TextField, Button, useTheme } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import ServerInfo, { ServerInfoProps } from "../serverInfo";
@@ -11,7 +11,8 @@ const ServerSettings: React.FC = () => {
     const [frontendVersion] = useVariable('version');
     const { t } = useTranslation();
     const [endpoint, setEndpoint] = useVariable('apiEndpoint');
-    const [labelColor] = useVariable('labelColor');
+    const theme = useTheme();
+    const labelColor = theme.palette.text.primary;
     const [serverData, setServerData] = useState<ServerInfoProps>({ frontendVersion: 'unknown', version: 'unknown', modules: [] });
 
     // Always use updateData for initial load

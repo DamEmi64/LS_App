@@ -1,11 +1,10 @@
 import React from 'react';
-import { Select, MenuItem, InputLabel, FormControl, Box } from '@mui/material';
+import { Select, MenuItem, InputLabel, FormControl, Box, useTheme } from '@mui/material';
 import { changeLanguage } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import useLocalStorage from 'react-use-localstorage';
-import { useConfiguration } from '@/shared/context/configuration';
 import { useAppTheme } from '@/shared/context/theme';
-import { AppThemeName, getAppTheme } from '@/app/themes';
+import { AppThemeName } from '@/app/themes';
 
 const languages = [
     { code: 'en', label: 'English' },
@@ -16,11 +15,11 @@ const languages = [
 ];
 
 const GeneralSettings: React.FC = () => {
-    const { useVariable } = useConfiguration();
     const { t, i18n } = useTranslation();
     const [language, setLanguage] = useLocalStorage('lang', i18n.language || 'en');
-    const [labelColor, setLabelColor] = useVariable('labelColor');
     const { themeName, setThemeName, themes } = useAppTheme();
+    const theme = useTheme();
+    const labelColor = theme.palette.text.primary;
 
     const setTranslation = (lang: string) => {
         changeLanguage(lang);
@@ -28,10 +27,7 @@ const GeneralSettings: React.FC = () => {
     };
 
     const setTheme = (nextThemeName: AppThemeName) => {
-        const nextTheme = getAppTheme(nextThemeName);
-
-        setThemeName(nextTheme.name);
-        setLabelColor(nextTheme.labelColor);
+        setThemeName(nextThemeName);
     }
 
     return (

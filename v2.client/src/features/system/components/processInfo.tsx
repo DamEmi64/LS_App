@@ -26,7 +26,7 @@ type ProcessInfoProps = {
 const ProcessInfo: React.FC<ProcessInfoProps> = ({ process }) => {
     const theme = useTheme();
     const translate = useDictionaryTranslation();
-    const textColor = theme.palette.mode === 'dark' ? theme.palette.grey[100] : theme.palette.text.primary;
+    const textColor = theme.palette.primary.main;
 
     const convertJobStatus = (id: string) => {
         return t('processes.processStatus.' + id);

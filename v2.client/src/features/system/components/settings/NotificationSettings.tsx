@@ -1,12 +1,13 @@
 import React from 'react';
-import { TextField, FormControlLabel, Switch, Select, MenuItem, InputLabel, FormControl, Box, Typography } from '@mui/material';
+import { TextField, FormControlLabel, Switch, Select, MenuItem, InputLabel, FormControl, Box, Typography, useTheme } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useConfiguration } from '@/shared/context/configuration';
 
 const NotificationSettings: React.FC = () => {
     const { useVariable } = useConfiguration();
     const { t } = useTranslation();
-    const [labelColor] = useVariable('labelColor');
+    const theme = useTheme();
+    const labelColor = theme.palette.text.primary;
     const [position, setPosition] = useVariable('toastPosition');
     const [autoClose, setAutoCLose] = useVariable('toastAutoClose');
     const [active, setActive] = useVariable('toastActive');

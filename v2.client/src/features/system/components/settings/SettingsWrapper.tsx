@@ -1,5 +1,4 @@
-import { useConfiguration } from "@/shared/context/configuration";
-import { Box, Tab, Tabs, Typography } from "@mui/material";
+import { Box, Tab, Tabs, Typography, useTheme } from "@mui/material";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import ServerSettings from "./serverSettings";
@@ -7,9 +6,9 @@ import GeneralSettings from "./generalSettings";
 import NotificationSettings from "./NotificationSettings";
 
 const SettingsWrapper: React.FC = () => {
-    const { useVariable } = useConfiguration();
     const { t } = useTranslation();
-    const [labelColor] = useVariable('labelColor');
+    const theme = useTheme();
+    const labelColor = theme.palette.text.primary;
     const tabs: { label: string, content: React.ReactNode }[] = [
         {
             label: t('settings.general'),

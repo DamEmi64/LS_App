@@ -23,9 +23,7 @@ type SummaryGenProps = {
 
 const SummaryGen: React.FC<SummaryGenProps> = ({ story, onProcess, forFirebase }: SummaryGenProps) => {
     const theme = useTheme();
-    const textColor = theme.palette.mode === 'dark'
-        ? theme.palette.text.primary
-        : theme.palette.text.secondary;
+    const textColor = theme.palette.text.primary;
     const chapters = story.chapters || [];
     const { t } = useTranslation();
     const [selected, setSelected] = useState<string[]>([]);

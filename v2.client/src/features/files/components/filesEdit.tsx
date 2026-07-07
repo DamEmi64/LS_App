@@ -26,10 +26,7 @@ import { getDictionary, useDictionaryTranslation } from '@/lib/utils';
 
 export const FilesEdit: React.FC<FilesEditProps> = ({ file, toSave }) => {
   const theme = useTheme();
-  const textColor =
-    theme.palette.mode === 'dark'
-      ? theme.palette.text.primary
-      : theme.palette.text.secondary;
+  const textColor = theme.palette.text.primary;
 
   const getDictionaryTranslation = useDictionaryTranslation();
 

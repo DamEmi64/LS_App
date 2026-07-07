@@ -1,6 +1,6 @@
 {
   "apiEndpoint": "https://localhost:5144",
-  "labelColor": "#fff",
+  "labelColor": "#111827",
   "toastPosition": "bottom-right",
   "toastAutoClose": "3000",
   "toastActive": "true",

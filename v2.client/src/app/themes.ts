@@ -5,7 +5,6 @@ export type AppThemeName = 'light' | 'dark' | 'ocean' | 'forest' | 'rose';
 export type AppThemeDefinition = {
     name: AppThemeName;
     labelKey: string;
-    labelColor: string;
     options: ThemeOptions;
 };
 
@@ -15,7 +14,6 @@ export const appThemes: AppThemeDefinition[] = [
     {
         name: 'light',
         labelKey: 'settings.themes.light',
-        labelColor: '#111827',
         options: {
             palette: {
                 mode: 'light',
@@ -29,7 +27,6 @@ export const appThemes: AppThemeDefinition[] = [
     {
         name: 'dark',
         labelKey: 'settings.themes.dark',
-        labelColor: '#f8fafc',
         options: {
             palette: {
                 mode: 'dark',
@@ -43,21 +40,19 @@ export const appThemes: AppThemeDefinition[] = [
     {
         name: 'ocean',
         labelKey: 'settings.themes.ocean',
-        labelColor: '#e0f2fe',
         options: {
             palette: {
                 mode: 'dark',
                 primary: { main: '#38bdf8' },
                 secondary: { main: '#2dd4bf' },
                 background: { default: '#082f49', paper: '#0c4a6e' },
-                text: { primary: '#e0f2fe', secondary: '#bae6fd' },
+                text: { primary: '#fcfee0', secondary: '#bae6fd' },
             },
         },
     },
     {
         name: 'forest',
         labelKey: 'settings.themes.forest',
-        labelColor: '#ecfdf5',
         options: {
             palette: {
                 mode: 'dark',
@@ -71,7 +66,6 @@ export const appThemes: AppThemeDefinition[] = [
     {
         name: 'rose',
         labelKey: 'settings.themes.rose',
-        labelColor: '#fff1f2',
         options: {
             palette: {
                 mode: 'dark',

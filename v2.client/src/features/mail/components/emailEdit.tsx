@@ -22,10 +22,7 @@ interface EmailEditProps {
 export const EmailEdit: React.FC<EmailEditProps> = ({ email, onSave, readonly }) => {
     const { t } = useTranslation();
     const theme = useTheme();
-    const textColor =
-        theme.palette.mode === "dark"
-            ? theme.palette.text.primary
-            : theme.palette.text.secondary;
+    const textColor = theme.palette.text.primary;
 
     const {
         control,
