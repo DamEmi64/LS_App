@@ -22,22 +22,26 @@ namespace Communication.Application
         public string Version => "v0.2";
 
         public IEnumerable<PermissionInfo> Permissions => [PermissionInfo.Create("communication", "Manage and send Emails", true),
-                                                            PermissionInfo.Create("communication-registry", "See communication registry", false)];
+                                                            PermissionInfo.Create("communication-registry", "See communication registry", false),
+                                                            PermissionInfo.Create("communication-discord", "Manage and send Discord commands", true)];
 
         public IServiceCollection Configure(IServiceCollection services)
         {
             services.AddAutoMapper(opt => opt.AddMaps(typeof(CommunicationModule).Assembly));
 
+            services.Configure<DiscordOptions>(AppConfiguration.Get<DiscordOptions>());
+
             return services
                 .AddDatabase<CommunicationContext>(AppConfiguration.DefaultConnectionString)
                 .AddRepos()
                 .Configure<EmailOptions>(AppConfiguration.Get<EmailOptions>())
-                .AddServices();
+                .AddServices()
+                .AddDiscord();
         }
 
         public IApplicationBuilder OnStartup(IApplicationBuilder app)
         {
-            FluidGenerator.Initialize(app.ApplicationServices.GetServices<IFluidParser>());
+            app.InitializeDiscordBot();
             return app;
         }
     }

@@ -38,5 +38,15 @@ namespace Events.Infrastructure.Repositories
         {
             return GetAll().OrderByDescending(x => x.InsDate).FirstOrDefault();
         }
+
+        public Task<Event?> GetByName(string title)
+        {
+            return DbContext.Set<Event>().Include(x => x.Participates).FirstOrDefaultAsync(x => x.Title == title);
+        }
+
+        public Task<Event?> GetClosestEvent()
+        {
+            return DbContext.Set<Event>().Include(x => x.Participates).Where(x => x.EventDate >= DateTime.Today).OrderBy(x => x.EventDate).FirstOrDefaultAsync();
+        }
     }
 }
