@@ -84,7 +84,8 @@ namespace Base
 
         protected void ConfigureSwagger(IServiceCollection services)
         {
-            services.AddEndpointsApiExplorer()
+            services
+                .AddEndpointsApiExplorer()
                 .AddSwaggerGen(opt =>
                 {
                     opt.SwaggerDoc("v1", new OpenApiInfo
