@@ -12,7 +12,8 @@ import {
     AutomationsApi,
     HomeApi,
     EventsApi,
-    CommunicationHistoryApi
+    CommunicationHistoryApi,
+    DiscordApi
 } from '@/shared/api/generated';
 
 import { notify } from '../components/NotificationListener';
@@ -161,11 +162,9 @@ export const API = {
     automationApi: bindApi(new AutomationsApi(null, '', axiosInstance)),
     homeApi: bindApi(new HomeApi(null, '', axiosInstance)),
     eventClient: bindApi(new EventsApi(null, '', axiosInstance)),
-    communicationHistoryClient: bindApi(new CommunicationHistoryApi(null, '', axiosInstance))
+    communicationHistoryClient: bindApi(new CommunicationHistoryApi(null, '', axiosInstance)),
+    discordClient: bindApi(new DiscordApi(null, '', axiosInstance))
 };
-
-
-
 
 export const call = async <TRes = unknown,TReq = unknown>(
     selector: (api: typeof API) => (req:TReq) => Promise<any>,

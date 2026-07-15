@@ -1,7 +1,9 @@
-import { Box, Button, Grid, Stack, TextField, Typography } from '@mui/material';
-import { type FormEvent, useMemo, useState } from 'react';
+import { Box, Button, Grid, Stack, TextField, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { type FormEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ExpandableTable, Operations, ColumnType, TableColumn, useModal } from '@/shared';
+import { ExpandableTable, Operations, ColumnType, TableColumn, useModal, call } from '@/shared';
+import { DiscordCmd } from '@/shared/api/generated';
+import { ResponseList } from '@/shared/api/extension';
 
 type DiscordCommandRow = {
     id: string;
@@ -9,12 +11,6 @@ type DiscordCommandRow = {
     response: string;
     active: boolean;
 };
-
-const initialRows: DiscordCommandRow[] = [
-    { id: '1', command: '!help', response: 'List of available commands', active: true },
-    { id: '2', command: '!status', response: 'Server is running normally', active: false },
-    { id: '3', command: '!ping', response: 'Pong!', active: true },
-];
 
 type EditResponseModalProps = {
     row: DiscordCommandRow;
@@ -56,15 +52,34 @@ const EditResponseModal = ({ row, onSave, onClose }: EditResponseModalProps) => 
 const DiscordPage = () => {
     const { t } = useTranslation();
     const modal = useModal();
-    const [rows, setRows] = useState<DiscordCommandRow[]>(initialRows);
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const [rows, setRows] = useState<DiscordCommandRow[]>([]);
 
-    const handleToggle = (row: DiscordCommandRow) => {
-        setRows((currentRows) =>
-            currentRows.map((item) =>
-                item.id === row.id ? { ...item, active: !item.active } : item
-            )
-        );
-        // TODO: send the updated active state to the server.
+    const loadCommands = async () => {
+        const data = await call<ResponseList<DiscordCmd>>(api => api.discordClient.get, {});
+        setRows((data.data || []).map((item) => ({
+            id: item.id || '',
+            command: item.cmd || '',
+            response: item.response || '',
+            active: item.active || false,
+        })));
+    };
+
+    const saveCommand = async (row: DiscordCommandRow, updates: Partial<DiscordCommandRow>) => {
+        const payload: DiscordCmd = {
+            id: row.id,
+            cmd: row.command,
+            response: updates.response ?? row.response,
+            active: updates.active ?? row.active,
+        };
+
+        await call(api => api.discordClient.updateById, { id: row.id, discordCmd: payload });
+        await loadCommands();
+    };
+
+    const handleToggle = async (row: DiscordCommandRow) => {
+        await saveCommand(row, { active: !row.active });
     };
 
     const openEditModal = (row: DiscordCommandRow) => {
@@ -72,20 +87,15 @@ const DiscordPage = () => {
             <EditResponseModal
                 row={row}
                 onClose={modal.hideModal}
-                onSave={(value) => {
-                    setRows((currentRows) =>
-                        currentRows.map((item) =>
-                            item.id === row.id ? { ...item, response: value } : item
-                        )
-                    );
-                    // TODO: send the updated response to the server.
+                onSave={async (value) => {
+                    await saveCommand(row, { response: value });
                     modal.hideModal();
                 }}
             />
         );
     };
 
-    const operations = useMemo<Operations<DiscordCommandRow>[]>(() => [
+    const operations: Operations<DiscordCommandRow>[] = [
         {
             name: 'discord.enable',
             method: handleToggle,
@@ -100,21 +110,32 @@ const DiscordPage = () => {
             name: 'discord.editResponse',
             method: openEditModal,
         },
-    ], [modal]);
+    ];
 
     const columns: TableColumn<DiscordCommandRow>[] = [
-        { field: 'command', header: 'discord.command', type: ColumnType.String, sortable: true },
-        { field: 'response', header: 'discord.response', type: ColumnType.String, sortable: true },
-        { field: 'active', header: 'discord.active', type: ColumnType.Boolean, sortable: true },
+        { field: 'command', header: 'discord.command', type: ColumnType.String, sortable: false },
+        { field: 'response', header: 'discord.response', type: ColumnType.String, sortable: false },
+        { field: 'active', header: 'discord.active', type: ColumnType.Boolean, sortable: false },
     ];
+
+    useEffect(() => {
+        void loadCommands();
+    }, []);
 
     return (
         <Grid container sx={{ width: '100%', p: { xs: 1, md: 3 } }}>
-            <Grid size={{ xs: 12 }} sx={{ mb: 2 }}>
-                <Typography variant="h4" sx={{ mb: 1 }}>
+            <Grid size={{ xs: 12 }} sx={{ mb: 2, display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+                <Typography
+                    sx={{
+                        mb: 1,
+                        color: theme.palette.primary.main,
+                        fontSize: isMobile ? '1.8rem' : '2.5rem',
+                        fontWeight: 'bold',
+                    }}
+                >
                     {t('discord.title')}
                 </Typography>
-                <Typography color="text.secondary">
+                <Typography sx={{ color: theme.palette.text.secondary }}>
                     {t('discord.description')}
                 </Typography>
             </Grid>

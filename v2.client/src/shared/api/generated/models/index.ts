@@ -8,6 +8,7 @@ export * from './chapter-dto';
 export * from './chapter-response-list';
 export * from './communication-registry';
 export * from './communication-registry-response-list';
+export * from './discord-cmd';
 export * from './email';
 export * from './email-generation-dto';
 export * from './event-dto';
