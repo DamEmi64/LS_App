@@ -19,7 +19,7 @@ namespace Communication.Infrastructure.External.Discord
             _resolver = resolver;
         }
 
-        public async Task<string?> DispatchAsync(
+        public async Task<DiscordResponse?> DispatchAsync(
             string command,
             DiscordCommandContext context,
             CancellationToken cancellationToken = default)
@@ -36,15 +36,15 @@ namespace Communication.Infrastructure.External.Discord
                 command);
 
                 if (discordCmd is null || !discordCmd.Active)
-                    return "This command is disabled.";
+                    return new DiscordResponse { Text = "This command is disabled." };
                     
-                context.Configuration = discordCmd.Configuration;
+                context.Configuration = discordCmd.Response;
 
                 var instance = ActivatorUtilities.CreateInstance(
                     _services,
                     descriptor.CommandClass);
 
-                var task = (Task<string>)descriptor.Method.Invoke(instance, [context])!;
+                var task = (Task<DiscordResponse>)descriptor.Method.Invoke(instance, [context])!;
 
                 return await task;
             }

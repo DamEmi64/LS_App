@@ -1,8 +1,10 @@
 ﻿using Communication.Domain;
+using Communication.Domain.Repositories;
 using CommunicationBase.Dtos;
 using CommunicationBase.Interfaces;
 using Discord;
 using Discord.WebSocket;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 
 namespace Communication.Infrastructure.External.Discord
@@ -12,15 +14,18 @@ namespace Communication.Infrastructure.External.Discord
         private readonly DiscordSocketClient _client;
         private readonly DiscordOptions _options;
         private readonly IDiscordCommandDispatcher _discordCommandDispatcher;
+        private readonly IServiceProvider _services;
 
         public DiscordBot(
             DiscordSocketClient client,
             IOptions<DiscordOptions> options,
-            IDiscordCommandDispatcher discordCommandDispatcher)
+            IDiscordCommandDispatcher discordCommandDispatcher,
+            IServiceProvider services)
         {
             _client = client;
             _options = options.Value;
             _discordCommandDispatcher = discordCommandDispatcher;
+            _services = services;
         }
 
         public async Task StartAsync(
@@ -40,10 +45,10 @@ namespace Communication.Infrastructure.External.Discord
             if (message.Author.IsBot)
                 return;
 
-            if (!message.Content.StartsWith("/"))
+            if (!message.Content.StartsWith("@LS-API "))
                 return;
 
-            var parts = message.Content[1..].Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            var parts = message.Content["@LS-API ".Length..].Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
             var command = parts[0];
 
@@ -57,8 +62,26 @@ namespace Communication.Infrastructure.External.Discord
 
             var response = await _discordCommandDispatcher.DispatchAsync(command, context);
 
-            if (!string.IsNullOrWhiteSpace(response))
-                await message.Channel.SendMessageAsync(response);
+            if (response != null)
+            {
+                if (!string.IsNullOrWhiteSpace(response.Text))
+                    await message.Channel.SendMessageAsync(response.Text);
+
+                if (response.File.Length > 0)
+                    await message.Channel.SendFileAsync(new MemoryStream(response.File), "file");
+            }
+
+            using (var scope = _services.CreateScope())
+            {
+                var registryRepo = scope.ServiceProvider.GetRequiredService<ICommunicationHistoryRepository>();
+                await registryRepo.Add(new Domain.Entities.CommunicationRegistry
+                {
+                    From = message.Author.Username,
+                    To = "Discord Bot",
+                    Message = message.Content,
+                    Title = $"Discord Command Received {command}",
+                });
+            }
         }
     }
 }

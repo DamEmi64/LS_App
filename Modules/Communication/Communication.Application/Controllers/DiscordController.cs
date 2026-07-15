@@ -48,7 +48,7 @@ namespace Communication.Application.Controllers
 
             ArgumentNullException.ThrowIfNull(discordCmd, nameof(discordCmd));
 
-            discordCmd.Configuration = discordData.Configuration;
+            discordCmd.Response = discordData.Response;
             discordCmd.Active = discordData.Active;
 
             await _discordRepository.Update(discordCmd);

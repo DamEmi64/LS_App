@@ -49,9 +49,9 @@ namespace Communication.Infrastructure.External.Discord
                         if (attribute == null)
                             continue;
 
-                        if (method.ReturnType != typeof(Task<string>))
+                        if (method.ReturnType != typeof(Task<DiscordResponse>))
                             throw new InvalidOperationException(
-                                $"{type.Name}.{method.Name} must return Task<string>.");
+                                $"{type.Name}.{method.Name} must return Task<DiscordResponse>.");
 
                         var parameters = method.GetParameters();
 

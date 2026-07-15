@@ -14,30 +14,35 @@ namespace Events.Infrastructure.External.Discord
             _eventRepository = eventRepository;
         }
 
-        [DiscordCommand("event", "Event details for {0}: {1}")]
-        public async Task<string> GetEvent(DiscordCommandContext ctx)
+        [DiscordCommand("event", "Event details for {Title}: {Description}")]
+        public async Task<DiscordResponse> GetEvent(DiscordCommandContext ctx)
         {
             var title = ctx.Arguments.Length > 0 ? ctx.Arguments[0] : null;
 
             if (title is null)
-                return "Please provide an event title.";
+                return new DiscordResponse { Text = "Please provide an event title." };
 
             var eventEntity = await _eventRepository.GetByName(title);
 
             if (eventEntity is null)
-                return "Event with this title not found.";
+                return new DiscordResponse { Text = "Event with this title not found." };
 
-            return string.Format(ctx.Configuration ?? "Event details for {0}: {1}", eventEntity.Title, eventEntity.Description);
+            return new DiscordResponse
+            {
+                Text = string.Format(ctx.Configuration ?? "Event details for {Title}: {Description}", new { eventEntity.Title, eventEntity.Description })
+            };
         }
 
-        [DiscordCommand("closest-event", "Event details for {0}: {1}")]
-        public async Task<string> GetClosestEvent(DiscordCommandContext ctx)
+        [DiscordCommand("closest-event", "Event details for {Title}: {Description}")]
+        public async Task<DiscordResponse> GetClosestEvent(DiscordCommandContext ctx)
         {
             var closestEvent = await _eventRepository.GetClosestEvent();
             if (closestEvent is null)
-                return "No upcoming events found.";
-
-            return string.Format(ctx.Configuration ?? "Event details for {0}: {1}", closestEvent.Title, closestEvent.Description);
+                return new DiscordResponse { Text = "No upcoming events found." };
+            return new DiscordResponse
+            {
+                Text = string.Format(ctx.Configuration ?? "Event details for {Title}: {Description}", new {closestEvent.Title, closestEvent.Description})
+            };
         }
     }
 }

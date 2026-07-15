@@ -109,15 +109,15 @@ namespace Communication.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Configuration")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("InsBy")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset>("InsDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Response")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UpdBy")
                         .HasColumnType("nvarchar(max)");

@@ -6,7 +6,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Communication.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class Discord : Migration
+#pragma warning disable CS8981 // The type name only contains lower-cased ascii characters. Such names may become reserved for the language.
+    public partial class discord : Migration
+#pragma warning restore CS8981 // The type name only contains lower-cased ascii characters. Such names may become reserved for the language.
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,7 +19,7 @@ namespace Communication.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Cmd = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Configuration = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Response = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Active = table.Column<bool>(type: "bit", nullable: false),
                     InsDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     UpdDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),

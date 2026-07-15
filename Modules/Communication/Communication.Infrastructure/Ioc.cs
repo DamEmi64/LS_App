@@ -85,7 +85,7 @@ namespace Communication.Infrastructure
                     {
                         Cmd = cmd.Key,
                         Active = true,
-                        Configuration = cmd.Value.DefaultConfiguration
+                        Response = cmd.Value.DefaultConfiguration
                     });
                 }
             }
