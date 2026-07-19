@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Base
 {
@@ -71,6 +73,17 @@ namespace Base
         public static IServiceCollection AddNotifier<T>(this IServiceCollection services)
             where T : class, INotifierInstance
             => services.AddScoped<INotifierInstance, T>();
+
+        /// <summary>
+        ///     Registers a media provider implementation in the dependency injection container with a specified provider name.
+        /// </summary>
+        /// <typeparam name="T">The type of the media provider instance.</typeparam>
+        /// <param name="services">The service collection.</param>
+        /// <param name="providerName">The name of the media provider.</param>
+        /// <returns>The updated service collection.</returns>
+        public static IServiceCollection AddMediaProvider<T>(this IServiceCollection services, string providerName)
+            where T : class, IMediaProvider
+            => services.AddKeyedScoped<IMediaProvider, T>(providerName);
 
         /// <summary>
         /// Converts a file extension into its corresponding MIME content type.
@@ -191,6 +204,105 @@ namespace Base
             }
 
             return true;
+        }
+
+        private static (byte[] Key, byte[] IV) GetEncryption()
+        {
+            var encryption = AppConfiguration.GetValue<IEncryption>("Encryption");
+
+            if (encryption == null)
+                throw new InvalidOperationException("Encryption is not configured.");
+
+            return (
+                Convert.FromBase64String(encryption.Key),
+                Convert.FromBase64String(encryption.IV)
+            );
+        }
+
+        /// <summary>
+        ///     Encrypts the provided byte array using AES encryption with a key and IV from the application configuration.
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static byte[] Encrypt(this byte[] data)
+        {
+            ArgumentNullException.ThrowIfNull(data);
+
+            var (key, iv) = GetEncryption();
+
+            using var aes = Aes.Create();
+            aes.Key = key;
+            aes.IV = iv;
+
+            using var encryptor = aes.CreateEncryptor();
+
+            using var ms = new MemoryStream();
+            using (var crypto = new CryptoStream(ms, encryptor, CryptoStreamMode.Write))
+            {
+                crypto.Write(data);
+                crypto.FlushFinalBlock();
+            }
+
+            return ms.ToArray();
+        }
+
+
+        /// <summary>
+        ///    Decrypts the provided byte array using AES decryption with a key and IV from the application configuration.
+        /// </summary>
+        /// <param name="encryptedData"></param>
+        /// <returns></returns>
+        public static byte[] Decrypt(this byte[] encryptedData)
+        {
+            ArgumentNullException.ThrowIfNull(encryptedData);
+
+            var (key, iv) = GetEncryption();
+
+            using var aes = Aes.Create();
+            aes.Key = key;
+            aes.IV = iv;
+
+            using var decryptor = aes.CreateDecryptor();
+
+            using var input = new MemoryStream(encryptedData);
+            using var crypto = new CryptoStream(input, decryptor, CryptoStreamMode.Read);
+            using var output = new MemoryStream();
+
+            crypto.CopyTo(output);
+
+            return output.ToArray();
+        }
+
+
+        /// <summary>
+        ///     Encrypts the provided string using AES encryption and returns a Base64-encoded string.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static string Encrypt(this string text)
+        {
+            ArgumentNullException.ThrowIfNull(text);
+
+            var bytes = Encoding.UTF8.GetBytes(text);
+            var encrypted = bytes.Encrypt();
+
+            return Convert.ToBase64String(encrypted);
+        }
+
+
+        /// <summary>
+        ///     Decrypts the provided Base64-encoded string using AES decryption and returns the original string.
+        /// </summary>
+        /// <param name="encryptedText"></param>
+        /// <returns></returns>
+        public static string Decrypt(this string encryptedText)
+        {
+            ArgumentNullException.ThrowIfNull(encryptedText);
+
+            var encrypted = Convert.FromBase64String(encryptedText);
+            var decrypted = encrypted.Decrypt();
+
+            return Encoding.UTF8.GetString(decrypted);
         }
     }
 }

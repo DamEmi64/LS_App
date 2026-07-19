@@ -13,9 +13,9 @@ namespace RPG.Infrastructure.External.FileConverters
     {
         private readonly IMediaProvider _mediaProvider;
 
-        public OldJsonConverter(IMediaProvider mediaProvider)
+        public OldJsonConverter(IMediaProviderFactory mediaProviderFactory)
         {
-            _mediaProvider = mediaProvider;
+            _mediaProvider = mediaProviderFactory.Create();
         }
 
         public int Type => RPGFileTypes.OldJson;

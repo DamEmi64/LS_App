@@ -23,13 +23,13 @@ namespace Files.Application.Controllers
             IFileRepository fileRepository,
             IImportService importService,
             IManagmentService managmentService,
-            IMediaProvider mediaProvider)
+            IMediaProviderFactory mediaProviderFactory)
             : base(controllerService)
         {
             _fileRepository = fileRepository;
             _importService = importService;
             _managmentService = managmentService;
-            _mediaProvider = mediaProvider;
+            _mediaProvider = mediaProviderFactory.Create();
         }
 
         [HttpGet("{id}")]
