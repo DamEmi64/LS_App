@@ -16,20 +16,10 @@ namespace Events.Infrastructure.Services.ReminderService
         public async Task AddReminder(DateTimeOffset remindAt, Event eventData, UserData currentUser)
         {
             var schema = _jobEngine.Create($"Sending reminder for {eventData.Title}");
-            foreach (var user in eventData.Participates)
+            schema.AddJob(new SendReminderJob
             {
-                schema.AddJob(new SendReminderJob
-                {
-                    Event = eventData,
-                    Receiver = new UserData
-                    {
-                        UserId = user.UserId,
-                        Email = user.Email,
-                        Login = user.Login
-                    }
-                });
-            }
-
+                Event = eventData
+            });
             eventData.ReminderProcess = await _jobEngine.Execute(schema, currentUser);
         }
 

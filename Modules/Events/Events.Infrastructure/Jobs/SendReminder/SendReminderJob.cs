@@ -8,9 +8,6 @@ namespace Events.Infrastructure.Jobs
 {
     public class SendReminderJob : IJob
     {
-        private const string TemplatePath = "/Views/EventReminder.cshtml";
-        private const string LinkToEvent = "https://lsfamilia-app.web.app/events#{0}";
-
         public int OperationId => Operations.SendReminder;
 
         public Guid Id { get; set; }
@@ -20,6 +17,5 @@ namespace Events.Infrastructure.Jobs
         public string Name => $"Send reminder about {Event?.Title}";
 
         public required Event Event { get; set; }
-        public required UserData Receiver { get; set; }
     }
 }
