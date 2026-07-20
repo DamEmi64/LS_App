@@ -3,8 +3,12 @@
     /// <summary>
     ///     Stored media payload with binary or string content and file extension metadata.
     /// </summary>
-    public class Media : Entity
+    public class Media
     {
+        /// <summary>
+        ///     Metadata id
+        /// </summary>
+        public Guid Id { get; set; }
         /// <summary>
         ///     Content string (js)
         /// </summary>

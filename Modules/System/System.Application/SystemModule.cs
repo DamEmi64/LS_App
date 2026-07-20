@@ -28,6 +28,7 @@ namespace System.Application
             return services
                 .AddDb(AppConfiguration.Root)
                 .AddErrorDb(AppConfiguration.Root)
+                .AddDriveDb(AppConfiguration.Root)
                 .AddRepos(AppConfiguration.Root)
                 .AddBackgroundService(AppConfiguration.Root)
                 .AddServices(AppConfiguration.Root)

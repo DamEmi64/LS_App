@@ -20,12 +20,12 @@ namespace RPG.Application.Controllers
             IControllerService controllerService,
             IPlaceRepository placeRepository,
             IChapterRepository chapterRepository,
-            IMediaProvider mediaProvider)
+            IMediaProviderFactory mediaProviderFactory)
             : base(controllerService)
         {
             _placeRepository = placeRepository;
             _chapterRepository = chapterRepository;
-            _mediaProvider = mediaProvider;
+            _mediaProvider = mediaProviderFactory.Create();
         }
 
         [HttpGet("{id}")]

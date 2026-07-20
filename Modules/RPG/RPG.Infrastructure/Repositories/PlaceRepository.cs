@@ -9,9 +9,9 @@ namespace RPG.Infrastructure.Repositories
     public class PlaceRepository : EntityRepository<RPGContext, Place>, IPlaceRepository
     {
         private readonly IMediaProvider _mediaProvider;
-        public PlaceRepository(RPGContext dbContext, IMediaProvider mediaProvider) : base(dbContext)
+        public PlaceRepository(RPGContext dbContext, IMediaProviderFactory mediaProviderFactory) : base(dbContext)
         {
-            _mediaProvider = mediaProvider;
+            _mediaProvider = mediaProviderFactory.Create();
         }
 
         public override async Task<Place?> Get(Guid id)

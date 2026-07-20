@@ -1,5 +1,15 @@
 ﻿namespace Base
 {
+    public interface IMediaProviderFactory
+    {
+        /// <summary>
+        ///     Create media provider
+        /// </summary>
+        /// <param name="providerName"></param>
+        /// <returns></returns>
+        IMediaProvider Create(string? providerName = null);
+    }
+
     /// <summary>
     ///     Media provider
     /// </summary>

@@ -18,12 +18,12 @@ namespace Events.Infrastructure.Jobs.SendReminder
         private readonly string _linkToEventTemplate;
 
         public SendReminderJobHandler(IJobContext jobContext,
-            IMediaProvider mediaProvider,
+            IMediaProviderFactory mediaProviderFactory,
             IOptions<EventOptions> options,
             IConnect connectClient)
             : base(jobContext)
         {
-            _mediaProvider = mediaProvider;
+            _mediaProvider = mediaProviderFactory.Create();
             _connectClient = connectClient;
             _linkToEventTemplate = options.Value.EventLinkTemplate;
         }

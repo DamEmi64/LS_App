@@ -27,7 +27,6 @@ namespace System.Infrastructure.Db
         public DbSet<Process> Processes { get; set; } = default!;
         public DbSet<ProcessError> ProcessErrors { get; set; } = default!;
         public DbSet<Job> Jobs { get; set; } = default!;
-        public DbSet<Base.Media> Media { get; set; } = default!;
         public DbSet<ProcessMilestone> Milestones { get; set; } = default!;
 
         public override int SaveChanges()
