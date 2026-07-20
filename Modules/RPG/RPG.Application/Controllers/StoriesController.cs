@@ -26,14 +26,14 @@ namespace RPG.Application.Controllers
             IControllerService controllerService,
             IStoryRepository storyRepository,
             ISummaryService summaryService,
-            IMediaProvider mediaProvider,
+            IMediaProviderFactory mediaProviderFactory,
             IMapper mapper,
             IImportService importService)
             : base(controllerService)
         {
             _storyRepository = storyRepository;
             _summaryService = summaryService;
-            _mediaProvider = mediaProvider;
+            _mediaProvider = mediaProviderFactory.Create();
             _mapper = mapper;
             _importService = importService;
         }
@@ -53,7 +53,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpGet("{id}/draft")]
-        [AuthPermission("rpg_draft")]
+        [AuthPermission("rpg-draft")]
         [ProducesResponseType(typeof(Story), StatusCodes.Status200OK)]
         public async Task<IActionResult> DetailsDraft(Guid id)
         {
@@ -76,7 +76,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpGet("draft")]
-        [AuthPermission("rpg_draft")]
+        [AuthPermission("rpg-draft")]
         [ProducesResponseType(typeof(ResponseList<Story>), StatusCodes.Status200OK)]
         public async Task<IActionResult> ListDrafts([FromQuery] StoryFilter filter)
         {
@@ -85,7 +85,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpPost("")]
-        [AuthPermission("rpg_write")]
+        [AuthPermission("rpg-write")]
         public async Task<IActionResult> Create([FromBody] StoryDto dto)
         {
             var entity = _mapper.Map<Story>(dto);
@@ -98,7 +98,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpPost("import")]
-        [AuthPermission("rpg_write")]
+        [AuthPermission("rpg-write")]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> Import([FromForm] ImportDto dto)
         {
@@ -108,7 +108,7 @@ namespace RPG.Application.Controllers
                 fileName = dto.File.FileName;
             }
 
-            var job = await _importService.ImportFromFile(dto.File ?? null, dto.ConverterType, dto.ExternalUrl, await GetCurrentUser() ?? new UserData { UserId = Guid.Empty.ToString() });
+            var job = await _importService.ImportFromFile(dto.File ?? null, dto.ConverterType, dto.ExternalUrl, CurrentUser ?? new UserData { UserId = Guid.Empty.ToString() });
 
             await Notifier.Success(NotifyTypes.ProcessQueued, job);
 
@@ -128,7 +128,7 @@ namespace RPG.Application.Controllers
 
 
         [HttpPut("{id}")]
-        [AuthPermission("rpg_write")]
+        [AuthPermission("rpg-write")]
         public async Task<IActionResult> Edit(Guid id, [FromBody] StoryDto dto)
         {
             var place = await _storyRepository.Get(id);
@@ -146,7 +146,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpDelete("{id}")]
-        [AuthPermission("rpg_write")]
+        [AuthPermission("rpg-write")]
         public async Task<IActionResult> Delete(Guid id)
         {
             await _storyRepository.Remove(id);
@@ -184,7 +184,7 @@ namespace RPG.Application.Controllers
         [HttpPut("{id}/summary")]
         public async Task<IActionResult> GenerateSummary(Guid id, [FromBody] SummaryModel dto)
         {
-            var title = await _summaryService.QueueGenerateSummaryJob(id, dto, await GetCurrentUser() ?? new UserData() { Id = 0, UserId = Guid.Empty.ToString() }, dto.IsPdf);
+            var title = await _summaryService.QueueGenerateSummaryJob(id, dto, CurrentUser ?? new UserData() { Id = 0, UserId = Guid.Empty.ToString() }, dto.IsPdf);
             await Notifier.Success(NotifyTypes.ProcessQueued, title);
             return Ok();
         }
@@ -192,7 +192,7 @@ namespace RPG.Application.Controllers
         [HttpPut("{id}/firebase")]
         public async Task<IActionResult> SendToFirebase(Guid id, [FromBody] SummaryModel dto)
         {
-            var title = await _summaryService.QueueSendToFirebaseJob(id, dto, await GetCurrentUser() ?? new UserData() { Id = 0, UserId = Guid.Empty.ToString() });
+            var title = await _summaryService.QueueSendToFirebaseJob(id, dto, CurrentUser ?? new UserData() { Id = 0, UserId = Guid.Empty.ToString() });
             await Notifier.Success(NotifyTypes.ProcessQueued, title);
             return Ok();
         }

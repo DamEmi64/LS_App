@@ -8,9 +8,9 @@ namespace Connector
     /// </summary>
     public static class Main
     {
-        public static IConnectorResolver InitializeConnector(this IHostApplicationBuilder builder)
+        public static BaseStartup InitializeConnector(this IHostApplicationBuilder builder)
         {
-            return new Connector().ToResolver();
+            return new Connector(builder);
         }
     }
 }

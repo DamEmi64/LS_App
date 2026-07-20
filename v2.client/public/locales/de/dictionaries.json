@@ -1,258 +1,602 @@
 {
-    "Fluid_functions": {
-        "601": {
-            "title": "Zufallszahl",
-            "description": ""
-        },
-        "602": {
-            "title": "Zufall",
-            "description": ""
-        },
-        "603": {
-            "title": "Zufällig eindeutig",
-            "description": ""
-        },
-        "604": {
-            "title": "Inkrementieren",
-            "description": ""
-        }
+  "Automation_events": {
+    "110": {
+      "title": "Ausführungsintervall (Minuten)",
+      "description": ""
     },
-    "Fluid_variables": {
-        "605": {
-            "title": "Benutzerdaten",
-            "description": ""
-        },
-        "606": {
-            "title": "Absender",
-            "description": ""
-        },
-        "607": {
-            "title": "Empfänger",
-            "description": ""
-        },
-        "608": {
-            "title": "Empfänger (mehrere)",
-            "description": ""
-        },
-        "609": {
-            "title": null,
-            "description": null
-        }
+    "111": {
+      "title": "Beim Herunterladen einer Datei",
+      "description": ""
     },
-    "Notify_types": {
-        "1000": {
-            "title": "Protokoll",
-            "description": ""
-        },
-        "1001": {
-            "title": "Interner Prozessfehler {0}",
-            "description": ""
-        },
-        "1002": {
-            "title": "Prozess {0} gestartet",
-            "description": ""
-        },
-        "1003": {
-            "title": "Prozess {0} abgeschlossen",
-            "description": ""
-        },
-        "1004": {
-            "title": "Prozess {0} mit Fehler beendet",
-            "description": ""
-        },
-        "1005": {
-            "title": "Prozess {0} zur Warteschlange hinzugefügt",
-            "description": ""
-        },
-        "1012": {
-            "title": "Sitzung {0} gespeichert",
-            "description": ""
-        },
-        "1013": {
-            "title": "Sitzung {0} gelöscht",
-            "description": ""
-        },
-        "1014": {
-            "title": "Sitzung {0} aktualisiert",
-            "description": ""
-        },
-        "1015": {
-            "title": "Sitzung {0} nicht gefunden",
-            "description": ""
-        },
-        "1016": {
-            "title": "Kapitel {0} gespeichert",
-            "description": ""
-        },
-        "1017": {
-            "title": "Kapitel {0} gelöscht",
-            "description": ""
-        },
-        "1018": {
-            "title": "Kapitel {0} aktualisiert",
-            "description": ""
-        },
-        "1019": {
-            "title": "Kapitel {0} nicht gefunden",
-            "description": ""
-        },
-        "1020": {
-            "title": "Held {0} gespeichert",
-            "description": ""
-        },
-        "1021": {
-            "title": "Held {0} gelöscht",
-            "description": ""
-        },
-        "1022": {
-            "title": "Held {0} aktualisiert",
-            "description": ""
-        },
-        "1023": {
-            "title": "Held {0} nicht gefunden",
-            "description": ""
-        },
-        "1024": {
-            "title": "Ort {0} gespeichert",
-            "description": ""
-        },
-        "1025": {
-            "title": "Ort {0} gelöscht",
-            "description": ""
-        },
-        "1026": {
-            "title": "Ort {0} aktualisiert",
-            "description": ""
-        },
-        "1027": {
-            "title": "Ort {0} nicht gefunden",
-            "description": ""
-        },
-        "1030": {
-            "title": "Anmeldung erfolgreich",
-            "description": ""
-        },
-        "1031": {
-            "title": "Anmeldung fehlgeschlagen",
-            "description": ""
-        },
-        "1032": {
-            "title": "Ungültiges Passwort",
-            "description": ""
-        },
-        "1033": {
-            "title": "Konto gesperrt",
-            "description": ""
-        },
-        "1034": {
-            "title": "Zwei-Faktor-Authentifizierung fehlgeschlagen",
-            "description": ""
-        },
-        "1035": {
-            "title": "Registrierung erfolgreich",
-            "description": ""
-        },
-        "1036": {
-            "title": "Registrierung fehlgeschlagen",
-            "description": ""
-        },
-        "1037": {
-            "title": "E-Mail erfolgreich gesendet",
-            "description": ""
-        },
-        "1038": {
-            "title": "E-Mail erfolgreich generiert",
-            "description": ""
-        },
-        "1039": {
-            "title": "Passwort zu kurz",
-            "description": ""
-        },
-        "1040": {
-            "title": "Passwort benötigt ein Sonderzeichen",
-            "description": ""
-        },
-        "1041": {
-            "title": "Passwort benötigt eine Ziffer",
-            "description": ""
-        },
-        "1042": {
-            "title": "Passwort benötigt einen Kleinbuchstaben",
-            "description": ""
-        },
-        "1043": {
-            "title": "Passwort benötigt einen Großbuchstaben",
-            "description": ""
-        }
+    "112": {
+      "title": "Beim Erstellen eines Ereignisses",
+      "description": ""
     },
-    "Operations": {
-        "21": {
-            "title": "E-Mail senden",
-            "description": ""
-        },
-        "22": {
-            "title": "Aus Vorlage generieren",
-            "description": ""
-        },
-        "31": {
-            "title": "RPG-Sitzungszusammenfassung generieren",
-            "description": ""
-        },
-        "32": {
-            "title": "RPG-Daten an Firebase-App senden",
-            "description": ""
-        },
-        "33": {
-            "title": "Letzte RPG-Daten abrufen",
-            "description": ""
-        },
-        "34": {
-            "title": "Geschichte aus Zusammenfassung generieren",
-            "description": ""
-        },
-        "35": {
-            "title": "RPG aus Datei importieren",
-            "description": ""
-        },
-        "40": {
-            "title": "Automatik starten",
-            "description": ""
-        },
-        "41": {
-            "title": "Daten archivieren",
-            "description": ""
-        }
+    "113": {
+      "title": "Bei der Anmeldung zu einem Ereignis",
+      "description": ""
     },
-    "RPG_file_types": {
-        "501": {
-            "title": "JSON",
-            "description": ""
-        },
-        "502": {
-            "title": "Altes JSON (NICHT UNTERSTÜTZT)",
-            "description": ""
-        },
-        "503": {
-            "title": "Firebase-Daten",
-            "description": ""
-        }
+    "114": {
+      "title": "Beim Bearbeiten einer RPG-Sitzung",
+      "description": ""
     },
-    "Skill_category": {
-        "401": {
-            "title": "Stärke",
-            "description": ""
-        },
-        "402": {
-            "title": "Geschicklichkeit",
-            "description": ""
-        },
-        "403": {
-            "title": "Intelligenz",
-            "description": ""
-        },
-        "404": {
-            "title": "Kommunikation",
-            "description": ""
-        }
+    "115": {
+      "title": "Beim Speichern einer Datei",
+      "description": ""
     }
+  },
+  "Email_statuses": {
+    "351": {
+      "title": "Erstellt",
+      "description": ""
+    },
+    "352": {
+      "title": "Gesendet",
+      "description": ""
+    },
+    "353": {
+      "title": "Zugestellt",
+      "description": ""
+    },
+    "354": {
+      "title": "Gelesen",
+      "description": ""
+    },
+    "355": {
+      "title": "Abgelehnt",
+      "description": ""
+    }
+  },
+  "Event_categories": {
+    "421": {
+      "title": "Film",
+      "description": ""
+    },
+    "422": {
+      "title": "Konzert",
+      "description": ""
+    },
+    "423": {
+      "title": "Urlaub/Ferien",
+      "description": ""
+    },
+    "424": {
+      "title": "Treffen",
+      "description": ""
+    },
+    "425": {
+      "title": "Spiele",
+      "description": ""
+    }
+  },
+  "File_source_type": {
+    "300": {
+      "title": "Lokal",
+      "description": ""
+    },
+    "301": {
+      "title": "vom Dienst FuckingFast",
+      "description": ""
+    }
+  },
+  "File_types": {
+    "101": {
+      "title": "Spiele",
+      "description": ""
+    },
+    "102": {
+      "title": "Dokumente",
+      "description": ""
+    },
+    "103": {
+      "title": "Studienunterlagen",
+      "description": ""
+    }
+  },
+  "Fluid_functions": {
+    "601": {
+      "title": "Zufallszahl",
+      "description": " {{ randomNumber(0,20)}}"
+    },
+    "602": {
+      "title": "Zufällig",
+      "description": " {{ random('', 'a', 'b', 'c')}}"
+    },
+    "603": {
+      "title": "Zufällig eindeutig",
+      "description": " {{ randomUnique( test@test.com='d;e;f', 'a', 'b', 'c')}}"
+    },
+    "604": {
+      "title": "Inkrementieren",
+      "description": "increment"
+    }
+  },
+  "Fluid_variables": {
+    "605": {
+      "title": "Benutzer",
+      "description": ""
+    },
+    "606": {
+      "title": "Absender",
+      "description": "sender"
+    },
+    "607": {
+      "title": "Empfänger",
+      "description": "recipient"
+    },
+    "608": {
+      "title": "Empfänger",
+      "description": "recipients"
+    },
+    "609": {
+      "title": "Datum",
+      "description": "counter"
+    }
+  },
+  "Game_genres": {
+    "200": {
+      "title": "Plattformspiel",
+      "description": ""
+    },
+    "201": {
+      "title": "Shooter",
+      "description": ""
+    },
+    "202": {
+      "title": "Ego-Shooter",
+      "description": ""
+    },
+    "203": {
+      "title": "Third-Person-Shooter",
+      "description": ""
+    },
+    "204": {
+      "title": "Beat ’em Up",
+      "description": ""
+    },
+    "205": {
+      "title": "Stealth",
+      "description": ""
+    },
+    "206": {
+      "title": "Survival",
+      "description": ""
+    },
+    "210": {
+      "title": "Action-Adventure",
+      "description": ""
+    },
+    "211": {
+      "title": "Narratives Abenteuer",
+      "description": ""
+    },
+    "212": {
+      "title": "Point-and-Click",
+      "description": ""
+    },
+    "220": {
+      "title": "Action-RPG",
+      "description": ""
+    },
+    "221": {
+      "title": "Rundenbasiertes RPG",
+      "description": ""
+    },
+    "222": {
+      "title": "Taktisches RPG",
+      "description": ""
+    },
+    "223": {
+      "title": "MMORPG",
+      "description": ""
+    },
+    "224": {
+      "title": "Open-World-RPG",
+      "description": ""
+    },
+    "230": {
+      "title": "Lebenssimulation",
+      "description": ""
+    },
+    "231": {
+      "title": "Landwirtschaftssimulation",
+      "description": ""
+    },
+    "232": {
+      "title": "Fahrzeugsimulation",
+      "description": ""
+    },
+    "233": {
+      "title": "Städtebau",
+      "description": ""
+    },
+    "240": {
+      "title": "Echtzeitstrategie",
+      "description": ""
+    },
+    "241": {
+      "title": "Rundenstrategie",
+      "description": ""
+    },
+    "242": {
+      "title": "Tower Defense",
+      "description": ""
+    },
+    "243": {
+      "title": "4X-Strategie",
+      "description": ""
+    },
+    "250": {
+      "title": "Klassisches Puzzlespiel",
+      "description": ""
+    },
+    "251": {
+      "title": "Physik-Puzzle",
+      "description": ""
+    },
+    "252": {
+      "title": "Match-3",
+      "description": ""
+    },
+    "260": {
+      "title": "Traditioneller Sport",
+      "description": ""
+    },
+    "261": {
+      "title": "Extremsport",
+      "description": ""
+    },
+    "262": {
+      "title": "Rennspiel",
+      "description": ""
+    },
+    "270": {
+      "title": "Klassisches Kampfspiel",
+      "description": ""
+    },
+    "271": {
+      "title": "Plattform-Kampfspiel",
+      "description": ""
+    },
+    "280": {
+      "title": "Survival Horror",
+      "description": ""
+    },
+    "281": {
+      "title": "Psychologischer Horror",
+      "description": ""
+    },
+    "290": {
+      "title": "Partyspiel",
+      "description": ""
+    },
+    "291": {
+      "title": "Rhythmusspiel",
+      "description": ""
+    },
+    "299": {
+      "title": "Andere",
+      "description": ""
+    }
+  },
+  "Notify_types": {
+    "1000": {
+      "title": "Protokoll",
+      "description": ""
+    },
+    "1001": {
+      "title": "Interner Systemfehler",
+      "description": ""
+    },
+    "1002": {
+      "title": "Prozess {0} gestartet",
+      "description": ""
+    },
+    "1003": {
+      "title": "Prozess {0} abgeschlossen",
+      "description": ""
+    },
+    "1004": {
+      "title": "Prozess {0} mit Fehler beendet",
+      "description": ""
+    },
+    "1005": {
+      "title": "Prozess {0} zur Warteschlange hinzugefügt",
+      "description": ""
+    },
+    "1006": {
+      "title": "Datei {0} gespeichert",
+      "description": ""
+    },
+    "1007": {
+      "title": "Datei {0} gelöscht",
+      "description": ""
+    },
+    "1008": {
+      "title": "Datei {0} aktualisiert",
+      "description": ""
+    },
+    "1009": {
+      "title": "Datei nicht gefunden",
+      "description": ""
+    },
+    "1010": {
+      "title": "Datei {0} existiert bereits",
+      "description": ""
+    },
+    "1011": {
+      "title": "Speichern der Datei {0} fehlgeschlagen",
+      "description": ""
+    },
+    "1012": {
+      "title": "Sitzung {0} gespeichert",
+      "description": ""
+    },
+    "1013": {
+      "title": "Sitzung {0} gelöscht",
+      "description": ""
+    },
+    "1014": {
+      "title": "Sitzung {0} aktualisiert",
+      "description": ""
+    },
+    "1015": {
+      "title": "Sitzung {0} nicht gefunden",
+      "description": ""
+    },
+    "1016": {
+      "title": "Kapitel {0} gespeichert",
+      "description": ""
+    },
+    "1017": {
+      "title": "Kapitel {0} gelöscht",
+      "description": ""
+    },
+    "1018": {
+      "title": "Kapitel {0} aktualisiert",
+      "description": ""
+    },
+    "1019": {
+      "title": "Kapitel {0} nicht gefunden",
+      "description": ""
+    },
+    "1020": {
+      "title": "Held {0} gespeichert",
+      "description": ""
+    },
+    "1021": {
+      "title": "Held {0} gelöscht",
+      "description": ""
+    },
+    "1022": {
+      "title": "Held {0} aktualisiert",
+      "description": ""
+    },
+    "1023": {
+      "title": "Held {0} nicht gefunden",
+      "description": ""
+    },
+    "1024": {
+      "title": "Ort {0} gespeichert",
+      "description": ""
+    },
+    "1025": {
+      "title": "Ort {0} gelöscht",
+      "description": ""
+    },
+    "1026": {
+      "title": "Ort {0} aktualisiert",
+      "description": ""
+    },
+    "1027": {
+      "title": "Ort {0} nicht gefunden",
+      "description": ""
+    },
+    "1030": {
+      "title": "Anmeldung erfolgreich",
+      "description": ""
+    },
+    "1031": {
+      "title": "Anmeldung fehlgeschlagen",
+      "description": ""
+    },
+    "1032": {
+      "title": "Ungültiges Passwort",
+      "description": ""
+    },
+    "1033": {
+      "title": "Konto gesperrt",
+      "description": ""
+    },
+    "1034": {
+      "title": "Zwei-Faktor-Authentifizierung fehlgeschlagen",
+      "description": ""
+    },
+    "1035": {
+      "title": "Registrierung erfolgreich",
+      "description": ""
+    },
+    "1036": {
+      "title": "Registrierung fehlgeschlagen",
+      "description": ""
+    },
+    "1037": {
+      "title": "E-Mail erfolgreich gesendet",
+      "description": ""
+    },
+    "1038": {
+      "title": "E-Mail erfolgreich generiert",
+      "description": ""
+    },
+    "1039": {
+      "title": "Passwort zu kurz",
+      "description": ""
+    },
+    "1040": {
+      "title": "Passwort benötigt ein Sonderzeichen",
+      "description": ""
+    },
+    "1041": {
+      "title": "Passwort benötigt eine Ziffer",
+      "description": ""
+    },
+    "1042": {
+      "title": "Passwort benötigt einen Kleinbuchstaben",
+      "description": ""
+    },
+    "1043": {
+      "title": "Passwort benötigt einen Großbuchstaben",
+      "description": ""
+    },
+    "1044": {
+      "title": "Automat erstellt",
+      "description": "Automatisierung wurde erstellt"
+    },
+    "1045": {
+      "title": "Automat aktualisiert",
+      "description": "Automatisierung wurde aktualisiert"
+    },
+    "1046": {
+      "title": "Automat gelöscht",
+      "description": "Automatisierung wurde gelöscht"
+    },
+    "1047": {
+      "title": "Automat ausgeschaltet",
+      "description": "Automatisierung wurde ausgeschaltet"
+    },
+    "1048": {
+      "title": "Automat eingeschaltet",
+      "description": "Automatisierung wurde eingeschaltet"
+    },
+    "1050": {
+      "title": "Ereignis erstellt",
+      "description": "Ereignis wurde erstellt"
+    },
+    "1051": {
+      "title": "Ereignis aktualisiert",
+      "description": "Ereignis wurde aktualisiert"
+    },
+    "1052": {
+      "title": "Ereignis gelöscht",
+      "description": "Ereignis wurde gelöscht"
+    },
+    "1053": {
+      "title": "Benutzer für Ereignis angemeldet",
+      "description": "Benutzer wurde für das Ereignis angemeldet"
+    },
+    "1054": {
+      "title": "Benutzer von Ereignis abgemeldet",
+      "description": "Benutzer wurde vom Ereignis abgemeldet"
+    },
+    "1055": {
+      "title": "Einladung gesendet",
+      "description": "Ereigniseinladung wurde gesendet"
+    },
+    "1056": {
+      "title": "Erinnerung gesetzt",
+      "description": "Ereigniserinnerung wurde gesetzt"
+    },
+    "1057": {
+      "title": "Erinnerung entfernt",
+      "description": "Ereigniserinnerung wurde entfernt"
+    },
+    "1058": {
+      "title": "Vorgang {0} wurde abgebrochen",
+      "description": ""
+    }
+  },
+  "Operations": {
+    "11": {
+      "title": "Datei importieren",
+      "description": ""
+    },
+    "12": {
+      "title": "Datei verschieben",
+      "description": ""
+    },
+    "13": {
+      "title": "Datei kopieren",
+      "description": ""
+    },
+    "14": {
+      "title": "Datei löschen",
+      "description": ""
+    },
+    "21": {
+      "title": "E-Mail senden",
+      "description": ""
+    },
+    "22": {
+      "title": "Aus Vorlage generieren",
+      "description": ""
+    },
+    "31": {
+      "title": "RPG-Sitzungszusammenfassung generieren",
+      "description": ""
+    },
+    "32": {
+      "title": "RPG-Daten an Firebase-App senden",
+      "description": ""
+    },
+    "33": {
+      "title": "Letzte RPG-Daten abrufen",
+      "description": ""
+    },
+    "34": {
+      "title": "Geschichte aus Zusammenfassung generieren",
+      "description": ""
+    },
+    "35": {
+      "title": "RPG aus Datei importieren",
+      "description": ""
+    },
+    "40": {
+      "title": "Automatik starten",
+      "description": ""
+    },
+    "41": {
+      "title": "Daten archivieren",
+      "description": ""
+    },
+    "51": {
+      "title": "Eine Erinnerung senden",
+      "description": ""
+    },
+    "52": {
+      "title": "Einladungsversand",
+      "description": ""
+    }
+  },
+  "RPG_file_types": {
+    "501": {
+      "title": "JSON",
+      "description": ""
+    },
+    "502": {
+      "title": "Altes JSON (NICHT UNTERSTÜTZT)",
+      "description": ""
+    },
+    "503": {
+      "title": "Firebase-Daten",
+      "description": ""
+    }
+  },
+  "Skill_category": {
+    "401": {
+      "title": "Stärke",
+      "description": ""
+    },
+    "402": {
+      "title": "Geschicklichkeit",
+      "description": ""
+    },
+    "403": {
+      "title": "Intelligenz",
+      "description": ""
+    },
+    "404": {
+      "title": "Kommunikation",
+      "description": ""
+    }
+  }
 }

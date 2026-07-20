@@ -5,6 +5,7 @@ All URIs are relative to *http://localhost*
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
 |[**create**](#create) | **POST** /api/Emails | |
+|[**createWebhook**](#createwebhook) | **POST** /api/Emails/webhook | |
 |[**deleteById**](#deletebyid) | **DELETE** /api/Emails/{id} | |
 |[**get**](#get) | **GET** /api/Emails | |
 |[**getById**](#getbyid) | **GET** /api/Emails/{id} | |
@@ -48,7 +49,58 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json-patch+json, application/json, text/json, application/*+json
+ - **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **createWebhook**
+> createWebhook()
+
+
+### Example
+
+```typescript
+import {
+    EmailsApi,
+    Configuration,
+    WebhookDto
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new EmailsApi(configuration);
+
+let webhookDto: WebhookDto; // (optional)
+
+const { status, data } = await apiInstance.createWebhook(
+    webhookDto
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **webhookDto** | **WebhookDto**|  | |
+
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -98,7 +150,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -133,8 +185,7 @@ let page: number; // (optional) (default to undefined)
 let subject: string; // (optional) (default to undefined)
 let sender: string; // (optional) (default to undefined)
 let receiver: string; // (optional) (default to undefined)
-let sentDateFrom: string; // (optional) (default to undefined)
-let sentDateTo: string; // (optional) (default to undefined)
+let status: number; // (optional) (default to undefined)
 
 const { status, data } = await apiInstance.get(
     pageSize,
@@ -142,8 +193,7 @@ const { status, data } = await apiInstance.get(
     subject,
     sender,
     receiver,
-    sentDateFrom,
-    sentDateTo
+    status
 );
 ```
 
@@ -156,8 +206,7 @@ const { status, data } = await apiInstance.get(
 | **subject** | [**string**] |  | (optional) defaults to undefined|
 | **sender** | [**string**] |  | (optional) defaults to undefined|
 | **receiver** | [**string**] |  | (optional) defaults to undefined|
-| **sentDateFrom** | [**string**] |  | (optional) defaults to undefined|
-| **sentDateTo** | [**string**] |  | (optional) defaults to undefined|
+| **status** | [**number**] |  | (optional) defaults to undefined|
 
 
 ### Return type
@@ -166,7 +215,7 @@ const { status, data } = await apiInstance.get(
 
 ### Authorization
 
-No authorization required
+[Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -216,7 +265,7 @@ const { status, data } = await apiInstance.getById(
 
 ### Authorization
 
-No authorization required
+[Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -270,7 +319,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -320,7 +369,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 
@@ -382,7 +431,7 @@ void (empty response body)
 
 ### Authorization
 
-No authorization required
+[Bearer](../README.md#Bearer)
 
 ### HTTP request headers
 

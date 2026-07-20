@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { Box, Paper, Typography, Grid } from "@mui/material";
 import * as signalR from "@microsoft/signalr";
 import { battleNpc } from "@/features/rpg";
-import { GridTable } from "@/shared/components/gridTable";
-import { ColumnDef, ColumnType, TableData } from "@/shared";
+import { GridTable } from "@/shared/components/datatables/gridTable";
+import { ColumnType, TableColumn, TableData } from "@/shared";
 import DiceBox from "../components/dice/dice";
 import { useSignalR } from "@/shared/hooks/use-signalR";
 
@@ -27,7 +27,7 @@ const BattlePage: React.FC<{
     }, [players, background]);
 
 
-    const tableColumns: ColumnDef[] = [
+    const tableColumns: TableColumn<battleNpc>[] = [
       { field: "title", header: "rpg.hero.firstName", type: ColumnType.String },
       { field: "health", header: "rpg.hero.health", type: ColumnType.Number },
       { field: "row", header: "rpg.hero.pos", type: ColumnType.Number },

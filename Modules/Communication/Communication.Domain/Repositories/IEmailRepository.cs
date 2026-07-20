@@ -1,7 +1,7 @@
 ﻿using Base;
 using Communication.Domain.Entities;
 
-namespace Files.Domain.Repositories
+namespace Communication.Domain.Repositories
 {
     public interface IEmailRepository : IEntityRepository<Email>
     {

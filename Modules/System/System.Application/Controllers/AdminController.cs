@@ -21,18 +21,16 @@ namespace System.Application.Controllers
         private readonly IAdminService _adminService;
         private readonly IAuthService _authService;
         private readonly ILogger<AdminController> _logger;
-        private readonly IConnectorResolver _connector;
 
         public AdminController(IControllerService controllerService,
             IAdminService adminService,
             IAuthService authService,
-            ILogger<AdminController> logger,
-            IConnectorResolver connector) : base(controllerService)
+            ILogger<AdminController> logger) 
+            : base(controllerService)
         {
             _adminService = adminService;
             _authService = authService;
             _logger = logger;
-            _connector = connector;
         }
 
         [TypeFilter(typeof(AdminPanelFilter))]
@@ -243,7 +241,7 @@ namespace System.Application.Controllers
             {
                 role.Id,
                 role.Name,
-                claims = _connector.Permissions.Where(c => claims.Select(x => x.Value).Contains(c.Key)).Select(c => new { c.Key, c.Description })
+                claims = AppConfiguration.Permissions.Where(c => claims.Select(x => x.Value).Contains(c.Key)).Select(c => new { c.Key, c.Description })
             });
         }
 

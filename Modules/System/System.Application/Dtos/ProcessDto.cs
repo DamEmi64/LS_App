@@ -8,6 +8,7 @@ namespace System.Application.Dtos
         public string Queue { get; set; } = "default";
         public List<JobDto> Jobs { get; set; } = new List<JobDto>();
         public List<ProcessErrorDto> Errors { get; set; } = new List<ProcessErrorDto>();
+        public DateTimeOffset? RequestDate { get; set; }
         public DateTimeOffset? StartDate { get; set; }
         public DateTimeOffset? EndDate { get; set; }
         public double Percentage { get; set; }

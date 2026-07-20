@@ -10,6 +10,8 @@
     <ProjectReference Include="..\..\Core\Base\Base.csproj" />
     <ProjectReference Include="..\Automation\Atomation.Application\Automation.Application.csproj" />
     <ProjectReference Include="..\Communication\Communication.Application\Communication.Application.csproj" />
+    <ProjectReference Include="..\Events\Events.Application\Events.Application.csproj" />
+    <ProjectReference Include="..\Files\Files.Application\Files.Application.csproj" />
     <ProjectReference Include="..\RPG\RPG.Application\RPG.Application.csproj" />
     <ProjectReference Include="..\System\System.Application\System.Application.csproj" />
   </ItemGroup>

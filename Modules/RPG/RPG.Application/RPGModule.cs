@@ -23,7 +23,12 @@ namespace RPG.Application
 
         public string Name => "RPG sessions";
 
-        public string Version => "v0.8";
+        public string Version => "v1.0";
+
+        public IEnumerable<PermissionInfo> Permissions => [
+            PermissionInfo.Create("rpg","Read RPG sessions",true),
+            PermissionInfo.Create("rpg-write","Manage RPG sessions",false),
+            PermissionInfo.Create("rpg-draft","Manage drafts of RPG sessions",false)];
 
         public IServiceCollection Configure(IServiceCollection services)
         {

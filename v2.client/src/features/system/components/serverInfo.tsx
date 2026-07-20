@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 export type ServerInfoProps = {
     version: string;
     frontendVersion: string;
-    modules: { name: string; version: string }[];
+    modules: { key: string; value: string }[];
 };
 
 const ServerInfo: React.FC<ServerInfoProps> = ({
@@ -23,15 +23,12 @@ const ServerInfo: React.FC<ServerInfoProps> = ({
 }) => {
     const { t } = useTranslation();
     const theme = useTheme();
-    const textColor =
-        theme.palette.mode === "dark"
-            ? theme.palette.text.primary
-            : theme.palette.text.secondary;
+    const textColor = theme.palette.text.primary;
 
     const moduleRows = modules.map((module, index) => ({
         id: index,
-        name: module.name,
-        version: module.version // Assuming you want to display a version, replace with actual data if available
+        name: module.key,
+        version: module.value // Assuming you want to display a version, replace with actual data if available
     }));
 
     const columns: GridColDef[] = [

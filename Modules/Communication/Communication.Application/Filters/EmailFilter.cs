@@ -1,4 +1,5 @@
-﻿using Base.Helpers;
+﻿using Base;
+using Base.Helpers;
 using Communication.Domain.Entities;
 
 namespace Communication.Application.Filters
@@ -10,8 +11,7 @@ namespace Communication.Application.Filters
         public string? Subject { get; set; }
         public string? Sender { get; set; }
         public string? Receiver { get; set; }
-        public DateTimeOffset? SentDateFrom { get; set; }
-        public DateTimeOffset? SentDateTo { get; set; }
+        public int Status { get; set; }
 
         public IEnumerable<Email> Filter(IEnumerable<Email> data, out int? count)
         {
@@ -27,16 +27,15 @@ namespace Communication.Application.Filters
             {
                 data = data.Where(x => x.Recipient.Contains(Receiver));
             }
-            if (SentDateFrom is not null)
+
+            if (Status > 0)
             {
-                data = data.Where(x => x.SentDate > SentDateFrom);
-            }
-            if (SentDateTo is not null)
-            {
-                data = data.Where(x => x.SentDate < SentDateTo);
+                data = data.Where(x => x.Status == Status);
             }
 
             count = data.Count();
+
+            data = data.Skip(PageSize * (Page - 1)).Take(PageSize);
 
             return data;
         }

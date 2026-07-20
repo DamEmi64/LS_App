@@ -5,14 +5,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**operationId** | **number** |  | [optional] [default to undefined]
-**order** | **number** |  | [optional] [default to undefined]
-**data** | **string** |  | [optional] [default to undefined]
 **id** | **string** |  | [optional] [default to undefined]
 **insDate** | **string** |  | [optional] [default to undefined]
 **updDate** | **string** |  | [optional] [default to undefined]
 **insBy** | **string** |  | [optional] [default to undefined]
 **updBy** | **string** |  | [optional] [default to undefined]
+**operationId** | **number** |  | [optional] [default to undefined]
+**order** | **number** |  | [optional] [default to undefined]
+**data** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -20,14 +20,14 @@ Name | Type | Description | Notes
 import { Task } from './api';
 
 const instance: Task = {
-    operationId,
-    order,
-    data,
     id,
     insDate,
     updDate,
     insBy,
     updBy,
+    operationId,
+    order,
+    data,
 };
 ```
 

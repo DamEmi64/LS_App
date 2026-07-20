@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Automation.Domain.Entities;
+using Newtonsoft.Json;
 
 namespace Automation.Application.Dtos
 {
@@ -18,6 +19,7 @@ namespace Automation.Application.Dtos
             CreateMap<TaskDto, Automation.Domain.Entities.Task>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(_ => Guid.NewGuid()))
                 .ForMember(dest => dest.InsDate, opt => opt.MapFrom(_ => DateTimeOffset.UtcNow))
+                .ForMember(dest => dest.Data, opt => opt.MapFrom(o => JsonConvert.SerializeObject(o.Data)))
                 .ForMember(dest => dest.UpdDate, opt => opt.MapFrom(_ => DateTimeOffset.UtcNow));
 
             CreateMap<TriggerDto, Trigger>()

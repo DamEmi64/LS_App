@@ -10,9 +10,8 @@ export interface Automat {
 
 export interface Trigger {
     id: string;
-    type: number;
+    eventId: number;
     cron?: string;
-    eventId: number[];
 }
 
 export interface AutomatTask {

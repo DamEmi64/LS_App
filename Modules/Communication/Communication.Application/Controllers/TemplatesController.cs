@@ -3,10 +3,10 @@ using Base;
 using Communication.Application.Dtos;
 using Communication.Application.Filters;
 using Communication.Domain.Entities;
+using Communication.Domain.Repositories;
 using Communication.Infrastructure.Services;
 using Communication.Infrastructure.Services.SendService;
 using Communication.Infrastructure.Services.SendService.Models;
-using Files.Domain.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -60,9 +60,9 @@ namespace Communication.Application.Controllers
                 Functions = functions.Select(x => _mapper.Map<FluidDto>(x)).ToList(),
                 Variables = variables.Select(x => new FluidDto
                 {
-                    Id = int.TryParse(x.Key, out var id) ? id : Random.Shared.Next(),
-                    Invoker = x.Key,
-                    Title = x.Key
+                    Id = int.TryParse(x.Translation.ToString(), out var id) ? id : Random.Shared.Next(),
+                    Invoker = x.Invoker,
+                    Title = x.Translation.ToString(),
                 }).ToList()
             });
         }
@@ -115,7 +115,7 @@ namespace Communication.Application.Controllers
                 Recipients = dto.Recipients
             };
 
-            var processTitle = await _sendService.GenerateFromTemplate(model, await GetCurrentUser() ?? new UserData() { Id = 0, UserId = Guid.Empty.ToString() });
+            var processTitle = await _sendService.GenerateFromTemplate(model, CurrentUser ?? new UserData() { Id = 0, UserId = Guid.Empty.ToString() });
             await Notifier.Success(NotifyTypes.ProcessQueued, processTitle);
             return Ok();
         }

@@ -15,12 +15,12 @@
 
 
 export interface Session {
-    'start'?: string;
-    'end'?: string | null;
     'id'?: string;
     'insDate'?: string;
     'updDate'?: string;
     'insBy'?: string | null;
     'updBy'?: string | null;
+    'start'?: string;
+    'end'?: string | null;
 }
 

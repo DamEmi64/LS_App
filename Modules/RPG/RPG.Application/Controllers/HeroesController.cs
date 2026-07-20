@@ -21,13 +21,13 @@ namespace RPG.Application.Controllers
         public HeroesController(IControllerService controllerService,
             IHeroRepository heroRepository,
             IChapterRepository chapterRepository,
-            IMediaProvider mediaProvider,
+            IMediaProviderFactory mediaProviderFactory,
             IMapper mapper)
             : base(controllerService)
         {
             _heroRepository = heroRepository;
             _chapterRepository = chapterRepository;
-            _mediaProvider = mediaProvider;
+            _mediaProvider = mediaProviderFactory.Create();
             _mapper = mapper;
         }
 

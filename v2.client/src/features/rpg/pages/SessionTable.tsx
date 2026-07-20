@@ -11,14 +11,14 @@ import { SessionDto, Story } from "@/features/rpg";
 import { useModal } from "@/shared/context/modal";
 import StoryEdit from "@/features/rpg/components/StoryEdit";
 import SessionInfo from "@/features/rpg/components/StoryInfo";
-import { call, raw } from "@/shared";
+import { call, ExpandableTable, raw } from "@/shared";
 import React from "react";
 import { ChapterTable } from "./ChapterTable";
 import { useTranslation } from "react-i18next";
 import SummaryGen from "@/features/rpg/components/summaryGen";
-import { convertToDateStr, download } from "@/lib/utils";
+import { download } from "@/lib/utils";
 import { saveAs } from 'file-saver';
-import { onChangeParams, ColumnDef, ColumnType, Operations, FilterItem, FilterType, FilterValue } from "@/shared";
+import { onChangeParams, TableColumn, ColumnType, Operations, FilterItem, FilterType, FilterValue } from "@/shared";
 import YesNoWindow from "@/shared/components/YesNoWindow";
 import SessionForm from "../components/sessionForm";
 import ImportStory from "../components/importStory";
@@ -92,7 +92,7 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     }
 
     const saveNew = (data: Story) => {
-        call(api => api.storiesApi.create,{storyDto: {storyDto:data}}).then(() => refresh());
+        call(api => api.storiesApi.create, { storyDto: { storyDto: data } }).then(() => refresh());
     }
 
     // NEW: import modal
@@ -102,24 +102,24 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
 
     const handleImport = (data: any) => {
 
-        call(api => api.storiesApi.createImport,{file:data.file, converterType:data.converterType,externalUrl:data.externalUrl}).then(() => {
+        call(api => api.storiesApi.createImport, { file: data.file, converterType: data.converterType, externalUrl: data.externalUrl }).then(() => {
             modal.hideModal();
             refresh();
         });
     }
 
     const details = (data: any) => {
-        call<Story>(api => draft ? api.storiesApi.getByIdDraft : api.storiesApi.getById, {id: data.id})
+        call<Story>(api => draft ? api.storiesApi.getByIdDraft : api.storiesApi.getById, { id: data.id })
             .then(story => modal.showModal(<SessionInfo story={story} edit={editSession} del={del}></SessionInfo>))
     }
 
     const editSession = (data: any) => {
-        call<Story>(api => draft ? api.storiesApi.getByIdDraft : api.storiesApi.getById, {id: data.id})
-            .then(story =>  modal.showModal(<StoryEdit story={story} toSave={(o) => saveEdit(o, data.id)} edit/>))
+        call<Story>(api => draft ? api.storiesApi.getByIdDraft : api.storiesApi.getById, { id: data.id })
+            .then(story => modal.showModal(<StoryEdit story={story} toSave={(o) => saveEdit(o, data.id)} edit />))
     }
 
     const saveEdit = (data: Story, id: string) => {
-        call(api => api.storiesApi.updateById,{id:data.id,storyDto:data}).then(() => refresh());
+        call(api => api.storiesApi.updateById, { id: data.id, storyDto: data }).then(() => refresh());
     }
 
     const addChapter = (data: Story) => {
@@ -136,7 +136,7 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     }
 
     const saveChapter = (data: SessionDto) => {
-        call(api => api.chaptersApi.create,{chapterDto:data}).then(() => {
+        call(api => api.chaptersApi.create, { chapterDto: data }).then(() => {
             modal.hideModal();
             refresh();
         });
@@ -147,15 +147,15 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     }
 
     const delConfirm = (data: any) => {
-        call(api => api.storiesApi.deleteById,{id:data.id}).then(() => refresh());
+        call(api => api.storiesApi.deleteById, { id: data.id }).then(() => refresh());
     }
 
     const startStory = (data: any) => {
-        call(api => api.storiesApi.updateByIdStart,{id:data.id}).then(() => refresh());
+        call(api => api.storiesApi.updateByIdStart, { id: data.id }).then(() => refresh());
     }
 
     const endStory = (data: any) => {
-        call(api => api.storiesApi.updateByIdEnd,{id:data.id}).then(() => refresh());
+        call(api => api.storiesApi.updateByIdEnd, { id: data.id }).then(() => refresh());
     }
 
     const generateSummary = (data: any) => {
@@ -163,7 +163,7 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     }
 
     const generateSummaryConfirm = (data: Story, isPdf: boolean) => {
-        call(api => api.storiesApi.updateByIdSummary, {id:data.id, summaryModel:{id: data.id, title: data.title, description: data.description, chapters: data.chapters.map((x) => x.id), isPdf}})
+        call(api => api.storiesApi.updateByIdSummary, { id: data.id, summaryModel: { id: data.id, title: data.title, description: data.description, chapters: data.chapters.map((x) => x.id), isPdf } })
             .then(() => modal.hideModal());
     }
 
@@ -172,12 +172,12 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
     }
 
     const sendToFirebaseConfirm = (data: Story) => {
-        call(api => api.storiesApi.updateByIdFirebase,{id:data.id, summaryModel:{id: data.id, title: data.title, description: data.description, chapters: data.chapters.map((x) => x.id) }})
+        call(api => api.storiesApi.updateByIdFirebase, { id: data.id, summaryModel: { id: data.id, title: data.title, description: data.description, chapters: data.chapters.map((x) => x.id) } })
             .then(() => modal.hideModal());
     }
 
     const exportData = (data: any) => {
-        raw(api => api.storiesApi.getByIdExport,{id:data.id})
+        raw(api => api.storiesApi.getByIdExport, { id: data.id })
             .then((response) => {
                 const contentType = response.headers['content-type'] || 'application/octet-stream';
                 const disposition = response.headers['content-disposition'];
@@ -194,12 +194,12 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
             .catch((error) => console.error('Download failed:', error));
     }
 
-    const downloadSummary = (data: Story) => download(data.summary,data.title);
+    const downloadSummary = (data: Story) => download(data.summary, data.title);
 
-    const columns: ColumnDef[] = [
-        { field: 'title', header: 'rpg.story.title', type: ColumnType.String },
-        { field: 'startDate', header: 'rpg.story.startDate', type: ColumnType.Date },
-        { field: 'endDate', header: 'rpg.story.endDate', type: ColumnType.Date },
+    const columns: TableColumn<Story>[] = [
+        { field: 'title', header: 'rpg.story.title', type: ColumnType.String, sortable: true },
+        { field: 'startDate', header: 'rpg.story.startDate', type: ColumnType.Date, sortable: true },
+        { field: 'endDate', header: 'rpg.story.endDate', type: ColumnType.Date, sortable: true },
     ];
 
     const filters: FilterItem[] = [
@@ -210,16 +210,16 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
 
     const operations: Operations<Story>[] = [
         { name: 'opt.details', method: (o) => details(o) },
-        { name: 'opt.edit', method: (o) => editSession(o), hidden: (o) => !checkPermission(['rpg_write']) },
-        { name: 'rpg.chapter.add', method: (o) => addChapter(o), hidden: (o) => !checkPermission(['rpg_write']) || draft },
-        { name: 'rpg.chapter.addDraft', method: (o) => addDraftChapter(o), hidden: (o) => !checkPermission(['rpg_write']) || !draft },
+        { name: 'opt.edit', method: (o) => editSession(o), hidden: (o) => !checkPermission(['rpg-write']) },
+        { name: 'rpg.chapter.add', method: (o) => addChapter(o), hidden: (o) => !checkPermission(['rpg-write']) || draft },
+        { name: 'rpg.chapter.addDraft', method: (o) => addDraftChapter(o), hidden: (o) => !checkPermission(['rpg-write']) || !draft },
         { name: 'rpg.story.start', method: (o) => startStory(o) },
         { name: 'rpg.story.end', method: (o) => endStory(o) },
         { name: 'opt.export', method: (o) => exportData(o) },
         { name: 'rpg.story.gen_summary', method: (o) => generateSummary(o) },
         { name: 'rpg.story.download_summary', method: (o) => downloadSummary(o) },
         { name: 'rpg.story.send_firebase', method: (o) => sendToFirebase(o) },
-        { name: 'opt.delete', method: (o) => del(o), hidden: (o) => !checkPermission(['rpg_write']) },
+        { name: 'opt.delete', method: (o) => del(o), hidden: (o) => !checkPermission(['rpg-write']) },
     ]
 
     return (
@@ -231,7 +231,7 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
                 </InputLabel>
 
 
-                {checkPermission(['rpg_write']) && (<>
+                {checkPermission(['rpg-write']) && (<>
                     <Button onClick={handleMenuClick} variant="outlined" sx={{ mt: 1 }}>
                         {t('opt.add')}
                     </Button>
@@ -255,100 +255,44 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
                 p: isMobile ? 1 : 2,
                 borderRadius: 2
             }}>
-                <Filter filters={filters} onChange={handleFilterChange} />
+                <ExpandableTable
+                    rows={data}
+                    columns={columns}
+                    operations={operations}
+                    getRowId={(x) => x.id}
+                    order={order}
+                    orderBy={orderBy}
+                    onSort={handleSort}
+                    filters={filters}
+                    onFilterChange={handleFilterChange}
+                    renderExpanded={(row) => (
+                        <>
+                            <Typography
+                                variant="body2"
+                                sx={{ mb: 1 }}
+                            >
+                                {row.description}
+                            </Typography>
 
-            <TableContainer sx={{
-                width: "100%",
-                overflowX: "auto",
-                size: isMobile ? 'small' : 'medium',
-                WebkitOverflowScrolling: "touch"
-            }}>
-                    <Table
-                        stickyHeader
-                        sx={{
-                            maxWidth:'100%',
-                            WebkitOverflowScrolling: "touch"
-                        }}
-                    >
-                        <TableHead>
-                            <TableRow key={'0'}>
-                                <TableCell />
+                            <Accordion>
+                                <AccordionSummary
+                                    expandIcon={
+                                        <ArrowDownwardIcon />
+                                    }
+                                >
+                                    <Typography>
+                                        {t('rpg.story.chapters')}
+                                    </Typography>
+                                </AccordionSummary>
 
-                                {columns.map(col => (
-                                    <TableCell key={String(col.field)}>
-                                        <TableSortLabel
-                                            active={orderBy === col.field}
-                                            direction={orderBy === col.field ? order : "asc"}
-                                            onClick={() => handleSort(col.field)}
-                                        >
-                                            {t(col.header)}
-                                        </TableSortLabel>
-                                    </TableCell>
-                                ))}
-
-                                <TableCell />
-                            </TableRow>
-                        </TableHead>
-
-                        <TableBody>
-                            {data?.map(row => {
-                                const isOpen = !!openRows[row.id];
-
-                                return (
-                                    <React.Fragment key={row.id}>
-                                        <TableRow>
-                                            <TableCell>
-                                                <IconButton onClick={() => toggleRow(row.id)}>
-                                                    {isOpen ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                                                </IconButton>
-                                            </TableCell>
-
-                                            {columns.map(col => (
-                                                <TableCell key={String(col.field)}>
-                                                    {col.type === "date"
-                                                        ? convertToDateStr(row[col.field])
-                                                        : String(row[col.field] ?? "")}
-                                                </TableCell>
-                                            ))}
-
-                                            <OperationCell operations={operations} data={row} />
-                                        </TableRow>
-
-                                        <TableRow>
-                                            <TableCell colSpan={10} sx={{ p: 0 }}>
-                                                <Collapse in={isOpen} timeout="auto" unmountOnExit>
-                                                    <Box sx={{ p: isMobile ? 1 : 2 }}>
-                                                        <Typography variant="body2" sx={{ mb: 1 }}>
-                                                            {row.description}
-                                                        </Typography>
-
-                                                        <Accordion>
-                                                            <AccordionSummary expandIcon={<ArrowDownwardIcon />}>
-                                                                <Typography>{t('rpg.story.chapters')}</Typography>
-                                                            </AccordionSummary>
-                                                            <AccordionDetails>
-                                                                <ChapterTable chapters={row.chapters} />
-                                                            </AccordionDetails>
-                                                        </Accordion>
-                                                    </Box>
-                                                </Collapse>
-                                            </TableCell>
-                                        </TableRow>
-                                    </React.Fragment>
-                                );
-                            })}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-
-                <TablePagination
-                    component="div"
-                    count={rowCount}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    rowsPerPage={pageSize}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                    rowsPerPageOptions={[5, 10, 25, 50]}
+                                <AccordionDetails>
+                                    <ChapterTable
+                                        chapters={row.chapters}
+                                    />
+                                </AccordionDetails>
+                            </Accordion>
+                        </>
+                    )}
                 />
             </Paper>
         </Grid>

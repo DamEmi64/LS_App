@@ -5,33 +5,35 @@ using Microsoft.AspNetCore.Identity;
 using System.ComponentModel;
 using System.Domain.Entities;
 using System.Domain.Repositories;
+using System.Infrastructure.Services.ConnectorResolver;
 
 namespace System.Infrastructure.JobEngine
 {
     public class JobEngine : IJobEngine
     {
         private readonly IProcessRepository _processRepository;
-        private readonly UserManager<User> _userStore;
         private readonly IBackgroundJobClient _backgroundJobClient;
-        private readonly IJobExecutor _jobExecutor;
-        private readonly IConnectorResolver _connector;
+        private readonly IConnectorService _connectorService;
+        private readonly IJobContext _jobContext;
+        private readonly IConnect _connect;
 
-        public JobEngine(UserManager<User> userStore,
+        public JobEngine(
             IProcessRepository processRepository,
             IBackgroundJobClient backgroundJobClient,
-            IJobExecutor jobExecutor,
-            IConnectorResolver connector)
+            IConnect connect,
+            IConnectorService connectorService,
+            IJobContext jobContext)
         {
-            _userStore = userStore;
             _processRepository = processRepository;
             _backgroundJobClient = backgroundJobClient;
-            _jobExecutor = jobExecutor;
-            _connector = connector;
+            _connect = connect;
+            _connectorService = connectorService;
+            _jobContext = jobContext;
         }
 
-        public IProcessSchema Create(string title) => new ProcessSchema(title);
+        public IProcessSchema Create(string title,DateTimeOffset? requestDate = null) => new ProcessSchema(title, requestDate ?? DateTimeOffset.Now);
 
-        public async Task Execute(IProcessSchema schema, UserData userData)
+        public async Task<Guid> Execute(IProcessSchema schema, UserData userData)
         {
             Validate(schema, userData);
 
@@ -51,7 +53,9 @@ namespace System.Infrastructure.JobEngine
                 VerifyJobIds = x.jobs.Select(j => j.Id).ToList(),
             }));
 
-            _backgroundJobClient.Reschedule(root, DateTimeOffset.Now.AddSeconds(1));
+            _backgroundJobClient.Reschedule(root, schemaObject.RequestDate);
+
+            return schemaObject.Process.Id;
         }
 
         private void Validate(IProcessSchema schema, UserData userData)
@@ -69,10 +73,9 @@ namespace System.Infrastructure.JobEngine
             var root = _backgroundJobClient.Schedule(() => ProcessStart(process.Title), DateTimeOffset.MaxValue);
             foreach (var job in jobs)
             {
-                var operation = _connector.GetOperation(job.OperationId);
+                var operation = _connectorService.GetOperation(job.OperationId);
                 ArgumentNullException.ThrowIfNull(operation, $"Operation {job.OperationId} not found");
                 var taskname = $"[{process.Id}:{process.Title}] {job.Name}";
-
                 var jobId = _backgroundJobClient.ContinueJobWith(root, operation.Queue, () => ExecuteJob(taskname, job, process.Id, null));
                 SetJobId(process, job, jobId);
                 stack.Push((job.Children, jobId));
@@ -83,7 +86,7 @@ namespace System.Infrastructure.JobEngine
                 var current = stack.Pop();
                 foreach (var child in current.Item1)
                 {
-                    var operation = _connector.GetOperation(child.OperationId);
+                    var operation = _connectorService.GetOperation(child.OperationId);
                     ArgumentNullException.ThrowIfNull(operation, $"Operation {child.OperationId} not found");
                     var taskname = $"({process.Title}) {child.Name}";
 
@@ -99,7 +102,21 @@ namespace System.Infrastructure.JobEngine
         [DisplayName("{0}")]
         public void ExecuteJob(string title, IJob job, Guid processId, PerformContext? performContext)
         {
-            _jobExecutor.Execute(title, job, processId, performContext);
+            ArgumentNullException.ThrowIfNull(performContext);
+            ExecuteAsync(job, processId, performContext).Wait();
+        }
+
+        private async Task ExecuteAsync(IJob job, Guid processId, PerformContext performContext)
+        {
+            if (_jobContext is JobContext jobContext)
+            {
+                jobContext.Setup(job.Id, processId, performContext.BackgroundJob.Id);
+                _ = await _connect.Send(job);
+            }
+            else
+            {
+                throw new InvalidCastException("Invalid job context");
+            }
         }
 
         private void SetJobId(Process process, IJob job, string jobId)
@@ -114,6 +131,21 @@ namespace System.Infrastructure.JobEngine
         [DisplayName("[PROCESS START] {0}")]
         public void ProcessStart(string title)
         {
+        }
+
+        public async Task Cancel(Guid processId)
+        {
+            var process = await _processRepository.Get(processId);
+            ArgumentNullException.ThrowIfNull(process);
+            foreach (var job in process.Jobs)
+            {
+                if (_backgroundJobClient.Delete(job.JobId))
+                {
+                    job.Status = ProgressStatus.Cancelled;
+                }
+            }
+            process.Status = ProgressStatus.Cancelled;
+            await _processRepository.Update(process);
         }
     }
 }

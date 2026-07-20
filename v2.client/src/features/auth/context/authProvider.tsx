@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
-import { LoginData, RegisterData, User, UserData, PasswordChangeData } from "@/features/auth";
+import { LoginData, RegisterData, User, UserData, PasswordChangeData, ResetPasswordData } from "@/features/auth";
 import { notify } from "@/shared/components/NotificationListener";
 import { getNotify } from "@/lib/notifyProvider";
-import {call} from '@/shared';
+import {call, setAuthToken, setAuthTokens, type AuthToken} from '@/shared';
 
 export interface AuthContextType {
   user: UserData | null;
@@ -14,6 +14,8 @@ export interface AuthContextType {
   getData: () => Promise<User | null>;
   update: (data: User) => Promise<boolean>;
   changePassword: (data: PasswordChangeData) => Promise<boolean>;
+  forgotPassword: (login: string) => Promise<boolean>;
+  resetPassword: (data: ResetPasswordData) => Promise<boolean>;
   checkPermission: (permissions: string[]) => boolean;
 }
 
@@ -30,6 +32,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setUser(data?.userId ? data : null);
     } catch (err: any) {
       if (err.response?.status === 401) {
+        setAuthToken(null);
         setUser(null); // only logout on unauthorized
       }
     } finally {
@@ -49,7 +52,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = async (data: LoginData): Promise<boolean> => {
     try {
-      await call(api => api.authApi.createLogin,{loginModel:data});
+      const token = await call<AuthToken>(api => api.authApi.createLogin,{loginModel:data});
+      setAuthTokens(token);
       await refreshUser();
       return true;
     } catch (error) {
@@ -59,7 +63,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const register = async (data: RegisterData): Promise<boolean> => {
     try {
-      await call(api => api.authApi.createRegister,{registerModel: data});
+      const token = await call<AuthToken>(api => api.authApi.createRegister,{registerModel: data});
+      setAuthTokens(token);
       await refreshUser();
       return true;
     } catch (error) {
@@ -72,6 +77,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       await call(api =>api.authApi.createLogout,{});
     } finally {
+      setAuthToken(null);
       setUser(null);
     }
   };
@@ -92,6 +98,26 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       return true;
     } catch (err) {
       console.error("Password change failed:", err);
+      return false;
+    }
+  };
+
+  const forgotPassword = async (login: string): Promise<boolean> => {
+    try {
+      await call(api => api.authApi.getForgotPassword,{username: login});
+      return true;
+    } catch (err) {
+      console.error("Forgot password request failed:", err);
+      return false;
+    }
+  };
+
+  const resetPassword = async (data: ResetPasswordData): Promise<boolean> => {
+    try {
+      await call(api => api.authApi.createResetPassword,{resetPasswordModel: data});
+      return true;
+    } catch (err) {
+      console.error("Password reset failed:", err);
       return false;
     }
   };
@@ -124,6 +150,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         getData,
         update,
         changePassword,
+        forgotPassword,
+        resetPassword,
         checkPermission,
       }}
     >

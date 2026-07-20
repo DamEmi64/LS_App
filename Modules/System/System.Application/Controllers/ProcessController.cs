@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Application.Dtos;
 using System.Application.Filters;
+using System.Domain.Dictionaries;
 using System.Domain.Repositories;
 
 namespace System.Application.Controllers
@@ -43,6 +44,14 @@ namespace System.Application.Controllers
         public IActionResult ListData([FromQuery] ProcessFilter filter)
         {
             return Json(filter.Filter(_processRepository.GetAllReadData(), out var count).Select(_mapper.Map<ProcessDto>), count);
+        }
+
+        [HttpPut("{id}/cancel")]
+        public async Task<IActionResult> Cancel(Guid id)
+        {
+            await _jobEngine.Cancel(id);
+            await Notifier.Info(SystemNotifyTypes.ProcessCancelled, id);
+            return Ok();
         }
     }
 }

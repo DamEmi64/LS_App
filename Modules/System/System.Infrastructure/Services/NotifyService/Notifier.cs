@@ -8,7 +8,7 @@ namespace System.Infrastructure.Services.NotifyService
 
         public Notifier(IEnumerable<INotifierInstance> notifiers)
         {
-            _notifiers = notifiers;
+            _notifiers = notifiers.ToList();
         }
 
         public async Task Error(int messageId, params object[] args)

@@ -1,4 +1,5 @@
-﻿using CommunicationBase;
+﻿using Base;
+using CommunicationBase;
 using CommunicationBase.Dtos;
 using CommunicationBase.Interfaces;
 using Fluid;
@@ -8,6 +9,8 @@ namespace Communication.Infrastructure.EmailGenerator.Strategies
 {
     public class RandomUniqueStrategy : IFluidFunction
     {
+        private readonly List<string> _used = [];
+
         public string TitleKey => "communication.templates.strategies.randomUnique.title";
 
         public string? DescriptionKey => "communication.templates.strategies.randomUnique.description";
@@ -16,12 +19,11 @@ namespace Communication.Infrastructure.EmailGenerator.Strategies
 
         public Func<FunctionArguments, FluidContext, FluidValue> Method =>
                 (args, ctx) => Handle(args,
-                            ctx.GetProperty<List<string>>("receivers"),
-                            ctx.GetProperty<string>("receiver"),
-                            ctx.GetProperty<string>("sender"),
-                            ctx.GetProperty<List<string>>("used"));
+                            ctx.GetProperty<List<UserData>>("receivers"),
+                            ctx.GetProperty<UserData>("receiver"),
+                            ctx.GetProperty<UserData>("sender"));
 
-        private FluidValue Handle(FunctionArguments arguments, List<string> receivers, string receiver, string sender, List<string> used)
+        private FluidValue Handle(FunctionArguments arguments, List<UserData> receivers, UserData receiver, UserData sender)
         {
             int maxIterator = arguments.Count * 3, i = 0;
 
@@ -33,21 +35,21 @@ namespace Communication.Infrastructure.EmailGenerator.Strategies
             {
                 item = GetRandom(arguments, receivers, receiver);
 
-                alreadyUsed = used.Contains(item);
+                alreadyUsed = _used.Contains(item);
                 i++;
             }
 
-            used.Add(item);
+            _used.Add(item);
             return new StringValue(item);
         }
 
-        private string GetRandom(FunctionArguments arguments, List<string> receivers, string receiver)
+        private string GetRandom(FunctionArguments arguments, List<UserData> receivers, UserData receiver)
         {
             var rand = Random.Shared;
 
-            if (arguments.HasNamed(receiver))
+            if (arguments.HasNamed(receiver.Login))
             {
-                var perReceiver = arguments[receiver];
+                var perReceiver = arguments[receiver.Login];
                 var valuesPerReceiver = perReceiver.ToStringValue()
                                                    .Split(";", StringSplitOptions.RemoveEmptyEntries);
                 if (valuesPerReceiver.Length == 0)

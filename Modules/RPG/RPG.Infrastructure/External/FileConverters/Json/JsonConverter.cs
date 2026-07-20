@@ -15,10 +15,10 @@ namespace RPG.Infrastructure.External.FileConverters.Json
         private readonly IMapper _mapper;
         private readonly IMediaProvider _mediaProvider;
 
-        public JsonConverter(IMapper mapper, IMediaProvider mediaProvider)
+        public JsonConverter(IMapper mapper, IMediaProviderFactory mediaProviderFactory)
         {
             _mapper = mapper;
-            _mediaProvider = mediaProvider;
+            _mediaProvider = mediaProviderFactory.Create();
         }
 
         public int Type => RPGFileTypes.Json;

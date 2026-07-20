@@ -15,12 +15,12 @@
 
 
 export interface Template {
-    'subject': string | null;
-    'body': string | null;
     'id'?: string;
     'insDate'?: string;
     'updDate'?: string;
     'insBy'?: string | null;
     'updBy'?: string | null;
+    'subject': string | null;
+    'body': string | null;
 }
 

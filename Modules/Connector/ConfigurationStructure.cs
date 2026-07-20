@@ -1,32 +1,43 @@
-﻿using Communication.Domain;
+using Communication.Domain;
+using Events.Domain;
 using RPG.Infrastructure.External.Firebase;
 
 namespace Connector
 {
     /// <summary>
-    /// Configuration structure.
-    /// WARNING: Class is not primary used, only for structure summary/info 
+    /// Represents the shape of the application-specific "config" section.
+    /// This class is informational only and is not used for runtime binding.
     /// </summary>
     public class ConfigStructure
     {
         /// <summary>
-        /// Indicates whether automatic database migration is enabled.
+        /// Indicates whether module database migrations should run automatically on startup.
         /// </summary>
         public bool AutoMigrate { get; set; }
 
         /// <summary>
-        /// Determines if PostgreSQL should be used as the database provider.
+        /// Determines whether PostgreSQL should be used instead of the default database provider.
         /// </summary>
         public bool UsePostgresql { get; set; }
 
         /// <summary>
-        /// Firebase-related configuration options.
+        /// Frontend origins allowed to access the backend from a browser.
+        /// </summary>
+        public string[] FrontendUrl { get; set; } = [];
+
+        /// <summary>
+        /// Firebase configuration used by RPG synchronization features.
         /// </summary>
         public FirebaseOptions? FirebaseOptions { get; set; }
 
         /// <summary>
-        /// Email service configuration options.
+        /// Email provider configuration used by the Communication module.
         /// </summary>
         public EmailOptions? EmailOptions { get; set; }
+
+        /// <summary>
+        /// Event configuration used to generate external event links.
+        /// </summary>
+        public EventOptions? EventOptions { get; set; }
     }
 }

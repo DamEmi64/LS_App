@@ -6,6 +6,9 @@ using System.Text;
 
 namespace Base
 {
+    /// <summary>
+    ///     SQL Server migration history repository that records the owning module and insertion date.
+    /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "EF1001:Internal EF Core API usage.", Justification = "<Pending>")]
     public class MigrationHistoryRepository : SqlServerHistoryRepository
     {

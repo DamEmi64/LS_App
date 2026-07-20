@@ -7,5 +7,6 @@
         public required string PublicKey { get; set; }
         public required string PrivateKey { get; set; }
         public required string ApiEmail { get; set; }
+        public string Mode { get; set; } = "smtp";
     }
 }

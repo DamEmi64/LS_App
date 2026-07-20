@@ -27,7 +27,7 @@ export const ImageProvider: React.FC<ImageProviderProps> = ({ readonly = false, 
         hideAddBtn: true,
         objectFit: 'fill',
         compressInitial: null,
-        darkMode: theme.palette.mode !== 'dark',
+        darkMode: theme.palette.mode === 'dark',
         rtl: false
     };
 

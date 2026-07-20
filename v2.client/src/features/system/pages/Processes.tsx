@@ -1,12 +1,12 @@
-import { call, FilterItem, FilterProps, FilterType } from '@/shared';
-import { DataTable } from "@/shared/components/datatable";
+import { call, FilterItem, FilterProps, FilterType, TableColumn} from '@/shared';
+import { DataTable } from "@/shared/components/datatables/datatable";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { useModal } from "@/shared/context/modal";
 import ProcessInfo from "@/features/system/components/processInfo";
 import { FormLabel, Grid } from "@mui/material";
 import { Process } from "@/features/auth";
-import { ColumnDef, ColumnType, onChangeParams, Operations, TableData } from "@/shared";
+import { ColumnType, onChangeParams, Operations, TableData } from "@/shared";
 import { ResponseList } from '@/shared/api/extension';
 
 const Processes = () => {
@@ -18,6 +18,16 @@ const Processes = () => {
             .then(process => {
                 modal.showModal(<ProcessInfo process={process}></ProcessInfo>);
             });
+    }
+
+    const cancel = (data: Process) => {
+        call<Process>(api =>api.processApi.updateByIdCancel, { id: data.id })
+            .then(() => {
+                updateData({ page: 0, pageSize: 10, orderBy: '', order: 'asc', filters: [] })
+                    .then(result => {
+                        setData(result);
+                    });
+        });
     }
 
     const updateData = (paramsObj: onChangeParams) => {
@@ -42,18 +52,20 @@ const Processes = () => {
         if (id == 'Success') return t('processes.processStatus.Success');
         if (id == 'Failed') return t('processes.processStatus.Failed');
         if (id == 'Paused') return t('processes.processStatus.Paused');
+        if (id == 'Cancelled') return t('processes.processStatus.Cancelled');
         return id;
     };
 
-    const columns: ColumnDef[] = [
+    const columns: TableColumn<Process>[] = [
         { field: 'title', header: 'processes.name', type: ColumnType.String },
         { field: 'percentage', header: 'processes.percentage', type: ColumnType.Progress },
+         { field: 'requestDate', header: 'jobs.requestData', type: ColumnType.Date },
         { field: 'startDate', header: 'processes.startingDate', type: ColumnType.Date },
-        { field: 'status', header: 'processes.status', type: ColumnType.Enum, toShow: convertProcessStatus }
+        { field: 'status', header: 'processes.status', type: ColumnType.Enum, render: (r) => convertProcessStatus(r.status) }
     ];
 
     const filters: FilterItem[] = [
-        { field: 'name', name: 'processes.name', type: FilterType.String },
+        { field: 'title', name: 'processes.name', type: FilterType.String },
         { field: 'from', name: 'processes.startingDateFrom', type: FilterType.Date },
         { field: 'to', name: 'processes.startingDateTo', type: FilterType.Date },
         {
@@ -62,13 +74,15 @@ const Processes = () => {
                 { label: 'processes.processStatus.Executing', value: 'Executing' },
                 { label: 'processes.processStatus.Success', value: 'Success' },
                 { label: 'processes.processStatus.Failed', value: 'Failed' },
-                { label: 'processes.processStatus.Paused', value: 'Paused' }
+                { label: 'processes.processStatus.Paused', value: 'Paused' },
+                { label: 'processes.processStatus.Cancelled', value: 'Cancelled' },
             ]
         }
     ];
 
     const operations: Operations<Process>[] = [
-        { name: 'opt.details', method: (o) => details(o) }
+        { name: 'opt.details', method: (o) => details(o) },
+        { name: 'opt.cancel', method: (o) => cancel(o) }
     ]
 
     const [data, setData] = useState<TableData<Process>>({ data: [], total: 0 });

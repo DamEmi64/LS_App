@@ -10,13 +10,13 @@ import { useAuth } from '@/features/auth/context/authProvider';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useModal } from '@/shared/context/modal';
-import AppSettings from "@/features/system/components/appSettings";
 import ChangePasswordForm from '@/features/auth/components/changePasswordForm';
 import LoginForm from '@/features/auth/components/loginForm';
 import RegisterForm from '@/features/auth/components/registerForm';
 import UserEdit from '@/features/auth/components/userEdit';
 import UserProfile from '@/features/auth/components/userProfile';
 import HouseIcon from '@mui/icons-material/House';
+import SettingsWrapper from './settings/SettingsWrapper';
 
 export default function navMenu() {
     const modal = useModal();
@@ -45,7 +45,7 @@ export default function navMenu() {
     }
 
     const onSettings = () => {
-        modal.showModal(<AppSettings/>);
+        modal.showModal(<SettingsWrapper/>);
     }
 
     const onLogin = () => {
