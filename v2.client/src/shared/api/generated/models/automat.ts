@@ -21,16 +21,16 @@ import type { Task } from './task';
 import type { Trigger } from './trigger';
 
 export interface Automat {
+    'id'?: string;
+    'insDate'?: string;
+    'updDate'?: string;
+    'insBy'?: string | null;
+    'updBy'?: string | null;
     'title': string | null;
     'description'?: string | null;
     'tasks'?: Array<Task> | null;
     'triggers'?: Array<Trigger> | null;
     'lastRun'?: string | null;
     'active'?: boolean;
-    'id'?: string;
-    'insDate'?: string;
-    'updDate'?: string;
-    'insBy'?: string | null;
-    'updBy'?: string | null;
 }
 

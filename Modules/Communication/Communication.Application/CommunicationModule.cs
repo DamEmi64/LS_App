@@ -1,9 +1,7 @@
 ﻿using Base;
-using Base.Interfaces;
 using Communication.Domain;
 using Communication.Infrastructure;
 using Communication.Infrastructure.Db;
-using Communication.Infrastructure.Services.EmailSender;
 using CommunicationBase;
 using CommunicationBase.Interfaces;
 using Microsoft.AspNetCore.Builder;
@@ -21,7 +19,10 @@ namespace Communication.Application
 
         public string Name => "Communication";
 
-        public string Version => "v0.2";
+        public string Version => "v0.7";
+
+        public IEnumerable<PermissionInfo> Permissions => [PermissionInfo.Create("communication", "Manage and send Emails", true),
+                                                            PermissionInfo.Create("communication-registry", "See communication registry", false)];
 
         public IServiceCollection Configure(IServiceCollection services)
         {
@@ -31,7 +32,6 @@ namespace Communication.Application
                 .AddDatabase<CommunicationContext>(AppConfiguration.DefaultConnectionString)
                 .AddRepos()
                 .Configure<EmailOptions>(AppConfiguration.Get<EmailOptions>())
-                .AddScoped<IEmailSender, EmailSender>()
                 .AddServices();
         }
 

@@ -39,5 +39,10 @@ namespace Base
         ///     Module version
         /// </summary>
         string Version { get; }
+
+        /// <summary>
+        ///     Permissions for module
+        /// </summary>
+        IEnumerable<PermissionInfo> Permissions { get; }
     }
 }

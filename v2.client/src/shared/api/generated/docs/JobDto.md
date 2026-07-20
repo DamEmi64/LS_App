@@ -8,7 +8,6 @@ Name | Type | Description | Notes
 **name** | **string** |  | [default to undefined]
 **jobId** | **string** |  | [optional] [default to undefined]
 **status** | [**ProgressStatus**](ProgressStatus.md) |  | [optional] [default to undefined]
-**requestDate** | **string** |  | [optional] [default to undefined]
 **startDate** | **string** |  | [optional] [default to undefined]
 **endDate** | **string** |  | [optional] [default to undefined]
 **process** | **string** |  | [optional] [default to undefined]
@@ -26,7 +25,6 @@ const instance: JobDto = {
     name,
     jobId,
     status,
-    requestDate,
     startDate,
     endDate,
     process,

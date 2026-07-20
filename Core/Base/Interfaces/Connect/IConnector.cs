@@ -1,7 +1,7 @@
 ﻿namespace Base
 {
     /// <summary>
-    ///     Connector
+    ///     Connector Startup
     /// </summary>
     public interface IConnector
     {

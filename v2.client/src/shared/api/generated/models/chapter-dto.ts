@@ -18,20 +18,12 @@
 import type { FlowDto } from './flow-dto';
 // May contain unused imports in some cases
 // @ts-ignore
-import type { HeroDto } from './hero-dto';
-// May contain unused imports in some cases
-// @ts-ignore
 import type { LinkDto } from './link-dto';
-// May contain unused imports in some cases
-// @ts-ignore
-import type { PlaceDto } from './place-dto';
 // May contain unused imports in some cases
 // @ts-ignore
 import type { SessionDto } from './session-dto';
 
 export interface ChapterDto {
-    'heroes'?: Array<HeroDto> | null;
-    'places'?: Array<PlaceDto> | null;
     'id'?: string | null;
     'title': string | null;
     'description': string | null;

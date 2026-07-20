@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Base
 {
@@ -18,6 +19,12 @@ namespace Base
         public DbContextBase(DbContextOptions<T> options, IEntityContext entityContext) : base(options)
         {
             _entityContext = entityContext;
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(Process).Assembly);
         }
 
         public abstract string ContextName { get; }

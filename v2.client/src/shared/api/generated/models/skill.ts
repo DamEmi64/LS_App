@@ -15,13 +15,13 @@
 
 
 export interface Skill {
-    'title': string | null;
-    'categoryId'?: number;
-    'value'?: number;
     'id'?: string;
     'insDate'?: string;
     'updDate'?: string;
     'insBy'?: string | null;
     'updBy'?: string | null;
+    'title': string | null;
+    'categoryId'?: number;
+    'value'?: number;
 }
 

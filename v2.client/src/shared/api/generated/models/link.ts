@@ -15,12 +15,12 @@
 
 
 export interface Link {
-    'title': string | null;
-    'url': string | null;
     'id'?: string;
     'insDate'?: string;
     'updDate'?: string;
     'insBy'?: string | null;
     'updBy'?: string | null;
+    'title': string | null;
+    'url': string | null;
 }
 

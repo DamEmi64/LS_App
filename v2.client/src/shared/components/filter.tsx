@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import {
     Box,
     Button,
+    Checkbox,
     FormControl,
+    FormControlLabel,
     Grid,
     InputLabel,
     MenuItem,
@@ -16,9 +18,12 @@ import dayjs, { Dayjs } from "dayjs";
 
 import { FilterProps, FilterValue } from "../types";
 import { randomUUID } from "crypto";
+import { getDictionary, useDictionaryTranslation } from "@/lib/utils";
 
 export const Filter: React.FC<FilterProps> = ({ filters, onChange }) => {
     const [values, setValues] = useState<FilterValue[]>([]);
+
+    const translateDictionary = useDictionaryTranslation();
 
     const getValue = (field: string) =>
         values.find(v => v.field === field)?.value ?? null;
@@ -58,7 +63,6 @@ export const Filter: React.FC<FilterProps> = ({ filters, onChange }) => {
         <Grid container spacing={2} p={2}>
             {filters.map((filter) => {
                 switch (filter.type) {
-
                     case "date":
                         return (
                             <Grid key={filter.field + '_filter'}>
@@ -174,11 +178,61 @@ export const Filter: React.FC<FilterProps> = ({ filters, onChange }) => {
                                 />
                             </Grid>
                         );
+                    case "boolean":
+                        return (
+                            <Grid key={filter.field + '_filter'}>
+                                <FormControlLabel
+                                    key={filter.field + '_filter_boolean'}
+                                    control={
+                                        <Checkbox
+                                            checked={getValue(filter.field) === true}
+                                            onChange={(e) =>
+                                                handleFilterChange(
+                                                    filter.field,
+                                                    e.target.checked
+                                                )
+                                            }
+                                        />
+                                    }
+                                    label={t(filter.name)}
+                                />
+                            </Grid>
+                        );
+                    case "dictionary":
 
+                        var dictionary = getDictionary(filter.dictionary);
+                        
+                        return (
+                            <Grid key={filter.field + '_filter'} minWidth={200}>
+                                <FormControl fullWidth>
+                                    <InputLabel>{t(filter.name)}</InputLabel>
+                                    <Select
+                                        value={getValue(filter.field) ?? ""}
+                                        label={t(filter.name)}
+                                        onChange={(e) =>
+                                            handleFilterChange(
+                                                filter.field,
+                                                e.target.value
+                                            )
+                                        }
+                                    >
+                                        <MenuItem value="0">---</MenuItem>
+                                        {dictionary?.map((opt) => (
+                                            <MenuItem
+                                                key={opt.key}
+                                                value={opt.key}
+                                            >
+                                                {translateDictionary(filter.dictionary, opt.key).title}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+                        );
                     default:
                         return null;
-                }
-            })}
+                
+            }})}
 
             <Grid>
                 <Button onClick={resetFilter}>

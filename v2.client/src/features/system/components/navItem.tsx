@@ -16,10 +16,7 @@ const NavItem = (props: NavbarItemProps) => {
     const handleClick = (event: any) => setAnchorEl(event.currentTarget);
     const handleClose = () => setAnchorEl(null);
 
-    const textColor =
-        theme.palette.mode === 'dark'
-            ? theme.palette.text.primary
-            : theme.palette.text.secondary;
+    const textColor = theme.palette.text.primary;
 
     const availableMenu = props.submenu.filter(
         x => !x.permissions || checkPermission(x.permissions)

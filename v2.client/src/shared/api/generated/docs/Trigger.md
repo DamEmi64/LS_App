@@ -5,14 +5,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**type** | [**TriggerType**](TriggerType.md) |  | [optional] [default to undefined]
-**cron** | **string** |  | [default to undefined]
-**eventId** | **Array&lt;number&gt;** |  | [optional] [default to undefined]
 **id** | **string** |  | [optional] [default to undefined]
 **insDate** | **string** |  | [optional] [default to undefined]
 **updDate** | **string** |  | [optional] [default to undefined]
 **insBy** | **string** |  | [optional] [default to undefined]
 **updBy** | **string** |  | [optional] [default to undefined]
+**eventId** | **number** |  | [optional] [default to undefined]
+**cron** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -20,14 +19,13 @@ Name | Type | Description | Notes
 import { Trigger } from './api';
 
 const instance: Trigger = {
-    type,
-    cron,
-    eventId,
     id,
     insDate,
     updDate,
     insBy,
     updBy,
+    eventId,
+    cron,
 };
 ```
 

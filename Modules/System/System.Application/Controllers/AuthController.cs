@@ -39,10 +39,9 @@ namespace System.Application.Controllers
 
             if (result.Succeeded)
             {
-                await _authService.Logout();
-                await _authService.Login(new LoginModel { Login = dto.Login, Password = dto.Password });
+                var login = await _authService.Login(new LoginModel { Login = dto.Login, Password = dto.Password });
 
-                return Ok(result);
+                return login.IsSuccess ? Ok(login.Value) : BadRequest(SystemNotifyTypes.LoginFailed);
             }
 
             return BadRequest(GetNotifications(result.Errors).Select(x => x.ToString()).ToList());
@@ -53,27 +52,52 @@ namespace System.Application.Controllers
         {
             var result = await _authService.Login(dto);
 
-            return result switch
+            if (result.IsSuccess)
             {
-                _ when result.Succeeded => Ok(),
-                _ when result.IsLockedOut => BadRequest(SystemNotifyTypes.LockedOut),
-                _ when result.IsNotAllowed => BadRequest(SystemNotifyTypes.LoginFailed),
-                _ when result.RequiresTwoFactor => BadRequest(SystemNotifyTypes.TwoFactorFailed),
+                return Ok(result.Value);
+            }
+
+            return result.Errors.FirstOrDefault()?.Message switch
+            {
+                "LockedOut" => BadRequest(SystemNotifyTypes.LockedOut),
+                "TwoFactorFailed" => BadRequest(SystemNotifyTypes.TwoFactorFailed),
                 _ => BadRequest(SystemNotifyTypes.LoginFailed)
             };
+        }
+
+        [HttpPost("refresh")]
+        public async Task<IActionResult> Refresh([FromBody] RefreshTokenModel dto)
+        {
+            var result = await _authService.RefreshToken(dto);
+
+            return result.IsSuccess
+                ? Ok(result.Value)
+                : Unauthorized();
         }
 
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
         {
-            await _authService.Logout();
+            await _authService.Logout(HttpContext);
             return Ok();
         }
 
         [HttpPut("changePassword")]
-        public async Task<IActionResult> ChangePassword(ResetPasswordModel dto)
+        public async Task<IActionResult> ChangePassword(ChangePasswordModel dto)
         {
             var result = await _authService.ChangePassword(dto, HttpContext);
+
+            return result switch
+            {
+                _ when result.Succeeded => Ok(),
+                _ => BadRequest(string.Join("\n", result.Errors.Select(e => e.Description)))
+            };
+        }
+
+        [HttpPost("resetPassword")]
+        public async Task<IActionResult> ResetPassword(ResetPasswordModel dto)
+        {
+            var result = await _authService.ResetPassword(dto);
 
             return result switch
             {
@@ -90,10 +114,17 @@ namespace System.Application.Controllers
             return Ok();
         }
 
+        [HttpGet("forgotPassword")]
+        public async Task<IActionResult> ChangePassword([FromQuery] string username)
+        {
+            await _authService.ForgotPassword(username);
+            return Ok();
+        }
+
         [HttpPost("delete")]
         public async Task<IActionResult> Delete()
         {
-            await _authService.Logout();
+            await _authService.Logout(HttpContext);
             return Ok();
         }
 

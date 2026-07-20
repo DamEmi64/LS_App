@@ -1,36 +1,44 @@
 ﻿using Automation.Application;
 using Base;
 using Communication.Application;
+using Events.Application;
 using Files.Application;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using RPG.Application;
 using System.Application;
+using System.Infrastructure.Services.ConnectorResolver;
 
 namespace Connector
 {
-    public class Connector : IConnector
+    public class Connector : ConnectorStartup
     {
-        public IReadOnlyCollection<ModuleInfo> Modules => new List<ModuleInfo>
+        public Connector(IHostApplicationBuilder builder) : base(builder)
+        {
+        }
+
+        public override IReadOnlyCollection<ModuleInfo> Modules => new List<ModuleInfo>
         {
             new SystemModule().Info(),
             new FilesModule().Info(),
             new RPGModule().Info(),
             new CommunicationModule().Info(),
-            new AutomationModule().Info()
+            new AutomationModule().Info(),
+            new EventModule().Info(),
         };
 
-        public string Version => AppConfiguration.Version;
+        public override string Version => AppConfiguration.Version;
 
-        public IEnumerable<DictionaryItem> DictionaryItems { get; set; } = new List<DictionaryItem>();
-
-        public IReadOnlyCollection<PermissionInfo> Permissions => new List<PermissionInfo>
+        public override void OnConnectorConfigure(IServiceCollection services)
         {
-            PermissionInfo.Create("rpg","Read RPG sessions",true),
-            PermissionInfo.Create("rpg_write","Manage RPG sessions",false),
-            PermissionInfo.Create("rpg_draft","Manage drafts of RPG sessions",false),
-            PermissionInfo.Create("files","Manage files",true),
-            PermissionInfo.Create("communication","Manage and send Emails",true),
-            PermissionInfo.Create("process","Manage background processes",false),
-            PermissionInfo.Create("automation","Manage automation tasks",false),
-        };
+            services.AddScoped<IConnectorService, ConnectorService>(provider => new ConnectorService(this));
+        }
+
+        public override void OnConnectorStartup(WebApplication app)
+        {
+            app.UseMiddleware<SerilogMiddleware>();
+            app.UseMiddleware<ErrorMiddleware>();        
+        }
     }
 }

@@ -51,25 +51,64 @@ namespace RPG.Infrastructure.Repositories
 
         public async Task<Story?> GetLastEdited()
         {
+            var latestStory = await DbContext.Stories
+                .Select(x => new
+                {
+                    Story = x,
+                    x.UpdDate
+                })
+                .OrderByDescending(x => x.UpdDate)
+                .FirstOrDefaultAsync();
+
+            var latestChapter = await DbContext.Chapters
+                .Include(x => x.Story)
+                .Select(x => new
+                {
+                    x.Story,
+                    x.UpdDate
+                })
+                .OrderByDescending(x => x.UpdDate)
+                .FirstOrDefaultAsync();
+
+            var latestHero = await DbContext.Heroes
+                .Include(x=>x.Chapter)
+                .ThenInclude(x=>x.Story)
+                .Select(x => new
+                {
+                    x.Chapter.Story,
+                    x.UpdDate
+                })
+                .OrderByDescending(x => x.UpdDate)
+                .FirstOrDefaultAsync();
+
+            var latestPlace = await DbContext.Places
+                .Include(x => x.Chapter)
+                .ThenInclude(x => x.Story)
+                .Select(x => new
+                {
+                    x.Chapter.Story,
+                    x.UpdDate
+                })
+                .OrderByDescending(x => x.UpdDate)
+                .FirstOrDefaultAsync();
+
+            var candidates = new[]
+            {
+                latestStory,
+                latestChapter,
+                latestHero,
+                latestPlace
+            }
+            .Where(x => x != null)
+            .OrderByDescending(x => x!.UpdDate)
+            .First();
+
             return await DbContext.Stories
                 .Include(x => x.Chapters)
-                .ThenInclude(x => x.Heroes)
+                    .ThenInclude(x => x.Heroes)
                 .Include(x => x.Chapters)
-                .ThenInclude(x => x.Places)
-                .Select(story => new
-                {
-                    Story = story,
-                    LastEdit = new[]
-                    {
-                        story.UpdDate,
-                        story.Chapters.Select(c => c.UpdDate).DefaultIfEmpty(DateTime.MinValue).Max(),
-                        story.Chapters.SelectMany(c => c.Heroes).Select(h => h.UpdDate).DefaultIfEmpty(DateTime.MinValue).Max(),
-                        story.Chapters.SelectMany(c => c.Places).Select(p => p.UpdDate).DefaultIfEmpty(DateTime.MinValue).Max()
-                    }.Max()
-                })
-                .OrderByDescending(x => x.LastEdit)
-                .Select(x => x.Story)
-                .FirstOrDefaultAsync();
+                    .ThenInclude(x => x.Places)
+                .FirstOrDefaultAsync(x => x.Id == candidates!.Story.Id);
         }
 
         public Task<string?> GetStoryTitle(Guid id)

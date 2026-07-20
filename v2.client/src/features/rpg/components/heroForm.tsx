@@ -12,8 +12,8 @@ import { HeroDto } from '@/features/rpg';
 import { ImageProvider } from '@/shared/components/imageProvider';
 import { useForm, Controller } from 'react-hook-form';
 import noImage from '@/assets/no-image.png';
-import { GridTable } from '@/shared/components/gridTable';
-import { ColumnDef, ColumnType } from '@/shared';
+import { GridTable } from '@/shared/components/datatables/gridTable';
+import { TableColumn, ColumnType } from '@/shared';
 
 type HeroViewEditProps = {
     hero: HeroDto;
@@ -25,7 +25,7 @@ type HeroViewEditProps = {
 
 export const HeroForm: React.FC<HeroViewEditProps> = ({ hero, onSave, onDelete, onCopy, isEdit }) => {
     const theme = useTheme();
-    const textColor = theme.palette.mode === 'dark' ? theme.palette.text.primary : theme.palette.text.secondary;
+    const textColor = theme.palette.text.primary;
 
     const [isEditing, setIsEditing] = useState(isEdit || false);
     const [image, setImage] = useState<string>(hero.image || noImage);
@@ -34,7 +34,7 @@ export const HeroForm: React.FC<HeroViewEditProps> = ({ hero, onSave, onDelete, 
         defaultValues: { ...hero, image: hero.image || noImage },
     });
     
-    const skillCol: ColumnDef[] = [
+    const skillCol: TableColumn<HeroDto>[] = [
         { field: 'title', header: 'rpg.hero.skill.title', type: ColumnType.String },
         { field: 'value', header: 'rpg.hero.skill.value', type: ColumnType.String },
     ];
@@ -203,7 +203,7 @@ export const HeroForm: React.FC<HeroViewEditProps> = ({ hero, onSave, onDelete, 
                             </Typography>
                             <GridTable
                                 columns={skillCol}
-                                data={{ data: hero.skills, total: hero.skills.length }}
+                                data={{ data: hero.skills as any, total: hero.skills.length }}
                             />
                             </>
 

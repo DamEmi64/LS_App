@@ -22,7 +22,11 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
+import type { ChangePasswordModel } from '../models';
+// @ts-ignore
 import type { LoginModel } from '../models';
+// @ts-ignore
+import type { RefreshTokenModel } from '../models';
 // @ts-ignore
 import type { RegisterModel } from '../models';
 // @ts-ignore
@@ -54,6 +58,10 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -82,6 +90,10 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
 
@@ -113,10 +125,49 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {RefreshTokenModel} [refreshTokenModel] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createRefresh: async (refreshTokenModel?: RefreshTokenModel, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/Auth/refresh`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(refreshTokenModel, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -142,12 +193,88 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(registerModel, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {ResetPasswordModel} [resetPasswordModel] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createResetPassword: async (resetPasswordModel?: ResetPasswordModel, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/Auth/resetPassword`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(resetPasswordModel, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} [username] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getForgotPassword: async (username?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/Auth/forgotPassword`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            if (username !== undefined) {
+                localVarQueryParameter['username'] = username;
+            }
+
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -171,6 +298,10 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
 
@@ -200,6 +331,10 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
 
@@ -231,6 +366,10 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
@@ -245,11 +384,11 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
         },
         /**
          * 
-         * @param {ResetPasswordModel} [resetPasswordModel] 
+         * @param {ChangePasswordModel} [changePasswordModel] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateChangePassword: async (resetPasswordModel?: ResetPasswordModel, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateChangePassword: async (changePasswordModel?: ChangePasswordModel, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/Auth/changePassword`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -262,12 +401,16 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(resetPasswordModel, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(changePasswordModel, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -319,6 +462,18 @@ export const AuthApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @param {RefreshTokenModel} [refreshTokenModel] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createRefresh(refreshTokenModel?: RefreshTokenModel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createRefresh(refreshTokenModel, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AuthApi.createRefresh']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
          * @param {RegisterModel} [registerModel] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -327,6 +482,30 @@ export const AuthApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.createRegister(registerModel, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AuthApi.createRegister']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {ResetPasswordModel} [resetPasswordModel] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createResetPassword(resetPasswordModel?: ResetPasswordModel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createResetPassword(resetPasswordModel, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AuthApi.createResetPassword']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} [username] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getForgotPassword(username?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getForgotPassword(username, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['AuthApi.getForgotPassword']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -365,12 +544,12 @@ export const AuthApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {ResetPasswordModel} [resetPasswordModel] 
+         * @param {ChangePasswordModel} [changePasswordModel] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateChangePassword(resetPasswordModel?: ResetPasswordModel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateChangePassword(resetPasswordModel, options);
+        async updateChangePassword(changePasswordModel?: ChangePasswordModel, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateChangePassword(changePasswordModel, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AuthApi.updateChangePassword']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -411,12 +590,39 @@ export const AuthApiFactory = function (configuration?: Configuration, basePath?
         },
         /**
          * 
+         * @param {AuthApiCreateRefreshRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createRefresh(requestParameters: AuthApiCreateRefreshRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.createRefresh(requestParameters.refreshTokenModel, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {AuthApiCreateRegisterRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         createRegister(requestParameters: AuthApiCreateRegisterRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.createRegister(requestParameters.registerModel, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {AuthApiCreateResetPasswordRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createResetPassword(requestParameters: AuthApiCreateResetPasswordRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.createResetPassword(requestParameters.resetPasswordModel, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {AuthApiGetForgotPasswordRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getForgotPassword(requestParameters: AuthApiGetForgotPasswordRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.getForgotPassword(requestParameters.username, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -450,7 +656,7 @@ export const AuthApiFactory = function (configuration?: Configuration, basePath?
          * @throws {RequiredError}
          */
         updateChangePassword(requestParameters: AuthApiUpdateChangePasswordRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.updateChangePassword(requestParameters.resetPasswordModel, options).then((request) => request(axios, basePath));
+            return localVarFp.updateChangePassword(requestParameters.changePasswordModel, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -463,10 +669,31 @@ export interface AuthApiCreateLoginRequest {
 }
 
 /**
+ * Request parameters for createRefresh operation in AuthApi.
+ */
+export interface AuthApiCreateRefreshRequest {
+    readonly refreshTokenModel?: RefreshTokenModel
+}
+
+/**
  * Request parameters for createRegister operation in AuthApi.
  */
 export interface AuthApiCreateRegisterRequest {
     readonly registerModel?: RegisterModel
+}
+
+/**
+ * Request parameters for createResetPassword operation in AuthApi.
+ */
+export interface AuthApiCreateResetPasswordRequest {
+    readonly resetPasswordModel?: ResetPasswordModel
+}
+
+/**
+ * Request parameters for getForgotPassword operation in AuthApi.
+ */
+export interface AuthApiGetForgotPasswordRequest {
+    readonly username?: string
 }
 
 /**
@@ -480,7 +707,7 @@ export interface AuthApiUpdateRequest {
  * Request parameters for updateChangePassword operation in AuthApi.
  */
 export interface AuthApiUpdateChangePasswordRequest {
-    readonly resetPasswordModel?: ResetPasswordModel
+    readonly changePasswordModel?: ChangePasswordModel
 }
 
 /**
@@ -517,12 +744,42 @@ export class AuthApi extends BaseAPI {
 
     /**
      * 
+     * @param {AuthApiCreateRefreshRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public createRefresh(requestParameters: AuthApiCreateRefreshRequest = {}, options?: RawAxiosRequestConfig) {
+        return AuthApiFp(this.configuration).createRefresh(requestParameters.refreshTokenModel, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @param {AuthApiCreateRegisterRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     public createRegister(requestParameters: AuthApiCreateRegisterRequest = {}, options?: RawAxiosRequestConfig) {
         return AuthApiFp(this.configuration).createRegister(requestParameters.registerModel, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {AuthApiCreateResetPasswordRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public createResetPassword(requestParameters: AuthApiCreateResetPasswordRequest = {}, options?: RawAxiosRequestConfig) {
+        return AuthApiFp(this.configuration).createResetPassword(requestParameters.resetPasswordModel, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {AuthApiGetForgotPasswordRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public getForgotPassword(requestParameters: AuthApiGetForgotPasswordRequest = {}, options?: RawAxiosRequestConfig) {
+        return AuthApiFp(this.configuration).getForgotPassword(requestParameters.username, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -560,7 +817,7 @@ export class AuthApi extends BaseAPI {
      * @throws {RequiredError}
      */
     public updateChangePassword(requestParameters: AuthApiUpdateChangePasswordRequest = {}, options?: RawAxiosRequestConfig) {
-        return AuthApiFp(this.configuration).updateChangePassword(requestParameters.resetPasswordModel, options).then((request) => request(this.axios, this.basePath));
+        return AuthApiFp(this.configuration).updateChangePassword(requestParameters.changePasswordModel, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

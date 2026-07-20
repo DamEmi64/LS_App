@@ -15,9 +15,9 @@ namespace RPG.Infrastructure.External.FileConverters.Firebase
         private readonly IMediaProvider _mediaProvider;
         private readonly FirebaseOptions _options;
 
-        public FirebaseConverter(IMediaProvider mediaProvider, IOptions<FirebaseOptions> options)
+        public FirebaseConverter(IMediaProviderFactory mediaProviderFactory, IOptions<FirebaseOptions> options)
         {
-            _mediaProvider = mediaProvider;
+            _mediaProvider = mediaProviderFactory.Create();
             _options = options.Value;
         }
 

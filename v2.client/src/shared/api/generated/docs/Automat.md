@@ -5,17 +5,17 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**id** | **string** |  | [optional] [default to undefined]
+**insDate** | **string** |  | [optional] [default to undefined]
+**updDate** | **string** |  | [optional] [default to undefined]
+**insBy** | **string** |  | [optional] [default to undefined]
+**updBy** | **string** |  | [optional] [default to undefined]
 **title** | **string** |  | [default to undefined]
 **description** | **string** |  | [optional] [default to undefined]
 **tasks** | [**Array&lt;Task&gt;**](Task.md) |  | [optional] [default to undefined]
 **triggers** | [**Array&lt;Trigger&gt;**](Trigger.md) |  | [optional] [default to undefined]
 **lastRun** | **string** |  | [optional] [default to undefined]
 **active** | **boolean** |  | [optional] [default to undefined]
-**id** | **string** |  | [optional] [default to undefined]
-**insDate** | **string** |  | [optional] [default to undefined]
-**updDate** | **string** |  | [optional] [default to undefined]
-**insBy** | **string** |  | [optional] [default to undefined]
-**updBy** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -23,17 +23,17 @@ Name | Type | Description | Notes
 import { Automat } from './api';
 
 const instance: Automat = {
+    id,
+    insDate,
+    updDate,
+    insBy,
+    updBy,
     title,
     description,
     tasks,
     triggers,
     lastRun,
     active,
-    id,
-    insDate,
-    updDate,
-    insBy,
-    updBy,
 };
 ```
 

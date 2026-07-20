@@ -12,10 +12,10 @@ import { useTranslation } from "react-i18next";
 import { useModal } from "@/shared/context/modal";
 import { useAuth } from "@/features/auth/context/authProvider";
 
-import { DataTable } from "@/shared/components/datatable";
+import { DataTable } from "@/shared/components/datatables/datatable";
 
 import {
-    ColumnDef,
+    TableColumn,
     ColumnType,
     FilterItem,
     FilterType,
@@ -114,7 +114,7 @@ const Templates: React.FC = () => {
     };
 
     const genConfirm = async (data: TemplateGenData) => {
-        await call(api => api.templatesApi.updateByIdGenerate,{id:data.template,body:data});
+        await call(api => api.templatesApi.updateByIdGenerate,{id:data.template,emailGenerationDto:data});
 
         modal.hideModal();
         refresh();
@@ -184,7 +184,7 @@ const Templates: React.FC = () => {
     };
 
     // 📊 TABLE CONFIG
-    const columns: ColumnDef[] = [
+    const columns: TableColumn<Template>[] = [
         {
             field: "subject",
             header: "communication.template.subject",

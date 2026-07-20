@@ -21,6 +21,11 @@ import type { AdditionalData } from './additional-data';
 import type { SourceLink } from './source-link';
 
 export interface ModelFile {
+    'id'?: string;
+    'insDate'?: string;
+    'updDate'?: string;
+    'insBy'?: string | null;
+    'updBy'?: string | null;
     'title': string | null;
     'image'?: string | null;
     'locaction'?: string | null;
@@ -28,10 +33,5 @@ export interface ModelFile {
     'fileType'?: number;
     'additionalData'?: AdditionalData;
     'sources': Array<SourceLink> | null;
-    'id'?: string;
-    'insDate'?: string;
-    'updDate'?: string;
-    'insBy'?: string | null;
-    'updBy'?: string | null;
 }
 

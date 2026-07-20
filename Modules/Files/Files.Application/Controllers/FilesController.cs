@@ -23,13 +23,13 @@ namespace Files.Application.Controllers
             IFileRepository fileRepository,
             IImportService importService,
             IManagmentService managmentService,
-            IMediaProvider mediaProvider)
+            IMediaProviderFactory mediaProviderFactory)
             : base(controllerService)
         {
             _fileRepository = fileRepository;
             _importService = importService;
             _managmentService = managmentService;
-            _mediaProvider = mediaProvider;
+            _mediaProvider = mediaProviderFactory.Create();
         }
 
         [HttpGet("{id}")]
@@ -106,7 +106,7 @@ namespace Files.Application.Controllers
             var file = await _fileRepository.Get(id);
             ArgumentNullException.ThrowIfNull(file);
 
-            var title = await _importService.ImportFile(file, await GetCurrentUser() ?? new UserData() { Id = 0, UserId = Guid.Empty.ToString() });
+            var title = await _importService.ImportFile(file, CurrentUser ?? new UserData() { Id = 0, UserId = Guid.Empty.ToString() });
 
             await Notifier.Info(NotifyTypes.ProcessQueued, title);
 
@@ -132,7 +132,7 @@ namespace Files.Application.Controllers
                 return NotFound();
             }
 
-            return File(media.Content, media.Extension.ToContentType(), file.Title + "." + media.Extension);
+            return File(media.Content ?? Array.Empty<byte>(), media.Extension.ToContentType(), file.Title + "." + media.Extension);
         }
 
         [HttpPut("{id}/copy")]
@@ -145,7 +145,7 @@ namespace Files.Application.Controllers
                 return NotFound();
             }
 
-            var title = await _managmentService.CopyFile(file, newLocaction, await GetCurrentUser() ?? new UserData() { Id = 0, UserId = Guid.Empty.ToString() });
+            var title = await _managmentService.CopyFile(file, newLocaction, CurrentUser ?? new UserData() { Id = 0, UserId = Guid.Empty.ToString() });
 
             await Notifier.Info(NotifyTypes.ProcessQueued, title);
 
@@ -162,7 +162,7 @@ namespace Files.Application.Controllers
                 return NotFound();
             }
 
-            var title = await _managmentService.MoveFile(file, newLocaction, await GetCurrentUser() ?? new UserData() { Id = 0, UserId = Guid.Empty.ToString() });
+            var title = await _managmentService.MoveFile(file, newLocaction, CurrentUser ?? new UserData() { Id = 0, UserId = Guid.Empty.ToString() });
 
             await Notifier.Info(NotifyTypes.ProcessQueued, title);
             return Ok();
@@ -178,7 +178,7 @@ namespace Files.Application.Controllers
 
             if (entity.Locaction != dto.Locaction && entity.Locaction is not null && dto.Locaction is not null)
             {
-                await _managmentService.MoveFile(entity, dto.Locaction, await GetCurrentUser() ?? new UserData() { Id = 0, UserId = Guid.Empty.ToString() });
+                await _managmentService.MoveFile(entity, dto.Locaction, CurrentUser ?? new UserData() { Id = 0, UserId = Guid.Empty.ToString() });
             }
 
             entity.Locaction = dto.Locaction;
@@ -216,7 +216,7 @@ namespace Files.Application.Controllers
 
                 if (file is not null)
                 {
-                    await _managmentService.DeleteFile(file, await GetCurrentUser() ?? new UserData() { Id = 0, UserId = Guid.Empty.ToString() });
+                    await _managmentService.DeleteFile(file, CurrentUser ?? new UserData() { Id = 0, UserId = Guid.Empty.ToString() });
                 }
             }
 

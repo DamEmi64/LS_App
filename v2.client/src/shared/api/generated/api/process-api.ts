@@ -60,6 +60,10 @@ export const ProcessApiAxiosParamCreator = function (configuration?: Configurati
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
             if (page !== undefined) {
                 localVarQueryParameter['Page'] = page;
             }
@@ -129,7 +133,47 @@ export const ProcessApiAxiosParamCreator = function (configuration?: Configurati
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
             localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateByIdCancel: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('updateByIdCancel', 'id', id)
+            const localVarPath = `/api/Process/{id}/cancel`
+                .replace('{id}', encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -180,6 +224,18 @@ export const ProcessApiFp = function(configuration?: Configuration) {
             const localVarOperationServerBasePath = operationServerMap['ProcessApi.getById']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async updateByIdCancel(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateByIdCancel(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['ProcessApi.updateByIdCancel']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
     }
 };
 
@@ -206,6 +262,15 @@ export const ProcessApiFactory = function (configuration?: Configuration, basePa
          */
         getById(requestParameters: ProcessApiGetByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<ProcessDto> {
             return localVarFp.getById(requestParameters.id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {ProcessApiUpdateByIdCancelRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        updateByIdCancel(requestParameters: ProcessApiUpdateByIdCancelRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.updateByIdCancel(requestParameters.id, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -239,6 +304,13 @@ export interface ProcessApiGetByIdRequest {
 }
 
 /**
+ * Request parameters for updateByIdCancel operation in ProcessApi.
+ */
+export interface ProcessApiUpdateByIdCancelRequest {
+    readonly id: string
+}
+
+/**
  * ProcessApi - object-oriented interface
  */
 export class ProcessApi extends BaseAPI {
@@ -260,6 +332,16 @@ export class ProcessApi extends BaseAPI {
      */
     public getById(requestParameters: ProcessApiGetByIdRequest, options?: RawAxiosRequestConfig) {
         return ProcessApiFp(this.configuration).getById(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {ProcessApiUpdateByIdCancelRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public updateByIdCancel(requestParameters: ProcessApiUpdateByIdCancelRequest, options?: RawAxiosRequestConfig) {
+        return ProcessApiFp(this.configuration).updateByIdCancel(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

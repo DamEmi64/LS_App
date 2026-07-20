@@ -5,18 +5,17 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**title** | **string** |  | [optional] [default to undefined]
-**description** | **string** |  | [optional] [default to undefined]
-**startDate** | **string** |  | [optional] [default to undefined]
-**endDate** | **string** |  | [optional] [default to undefined]
-**chapters** | [**Array&lt;Chapter&gt;**](Chapter.md) |  | [optional] [default to undefined]
-**summary** | **string** |  | [optional] [default to undefined]
-**files** | [**Array&lt;RPGFile&gt;**](RPGFile.md) |  | [optional] [default to undefined]
 **id** | **string** |  | [optional] [default to undefined]
 **insDate** | **string** |  | [optional] [default to undefined]
 **updDate** | **string** |  | [optional] [default to undefined]
 **insBy** | **string** |  | [optional] [default to undefined]
 **updBy** | **string** |  | [optional] [default to undefined]
+**title** | **string** |  | [optional] [default to undefined]
+**description** | **string** |  | [optional] [default to undefined]
+**startDate** | **string** |  | [optional] [default to undefined]
+**endDate** | **string** |  | [optional] [default to undefined]
+**summary** | **string** |  | [optional] [default to undefined]
+**files** | [**Array&lt;RPGFile&gt;**](RPGFile.md) |  | [optional] [default to undefined]
 
 ## Example
 
@@ -24,18 +23,17 @@ Name | Type | Description | Notes
 import { Story } from './api';
 
 const instance: Story = {
-    title,
-    description,
-    startDate,
-    endDate,
-    chapters,
-    summary,
-    files,
     id,
     insDate,
     updDate,
     insBy,
     updBy,
+    title,
+    description,
+    startDate,
+    endDate,
+    summary,
+    files,
 };
 ```
 

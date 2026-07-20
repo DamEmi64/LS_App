@@ -1,18 +1,23 @@
 ﻿using Automation.Domain.Repositories;
 using Automation.Infrastructure.Services.AutomationService;
+using Automation.Infrastructure.Services.NotifyListener.Command;
 using Base;
+using Base.Automation;
+using MediatR;
 
 namespace Automation.Infrastructure.Services.NotifyListener
 {
     public class NotifyListener : INotifierInstance
     {
-        private readonly IAutomationService _automationService;
         private readonly IAutomatRepository _automatRepository;
+        private readonly List<IAutomationResolver> _resolvers;
+        private readonly IMediator _mediator;
 
-        public NotifyListener(IAutomatRepository automatRepository, IAutomationService automationService)
+        public NotifyListener(IAutomatRepository automatRepository, IEnumerable<IAutomationResolver> resolvers, IMediator mediator)
         {
             _automatRepository = automatRepository;
-            _automationService = automationService;
+            _resolvers = resolvers.ToList();
+            _mediator = mediator;
         }
 
         public Task Error(int messageId, params object[] args)
@@ -47,11 +52,15 @@ namespace Automation.Infrastructure.Services.NotifyListener
 
         private async Task CheckAutomats(int messageId)
         {
-            var automats = _automatRepository.TriggeredByEvent(messageId);
+            var eventIds = _resolvers.Select(r => r.ConvertToEventId(messageId))
+                                        .Where(id => id.HasValue)
+                                        .Select(id => id!.Value).ToArray();
+
+            var automats = _automatRepository.TriggeredByEvent(eventIds);
 
             foreach (var automat in automats)
             {
-                await _automationService.ExecuteAutomatAsync(automat);
+                await _mediator.Send(new AutomationExecuter { Automat = automat });
                 automat.LastRun = DateTimeOffset.UtcNow;
                 await _automatRepository.Update(automat);
             }

@@ -8,6 +8,7 @@ using Automation.Infrastructure.Services.AutomationService;
 using Base;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Automation.Application.Controllers
 {
@@ -132,13 +133,15 @@ namespace Automation.Application.Controllers
                 if (existingTask != null)
                 {
                     existingTask.OperationId = task.OperationId;
+                    existingTask.Data = JsonConvert.SerializeObject(task.Data);
                 }
                 else
                 {
                     automat.Tasks.Add(new Domain.Entities.Task
                     {
                         OperationId = task.OperationId,
-                        Order = task.Order
+                        Order = task.Order,
+                        Data = JsonConvert.SerializeObject(task.Data)
                     });
                 }
             }

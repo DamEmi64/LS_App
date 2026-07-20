@@ -1,5 +1,8 @@
 ﻿namespace Base
 {
+    /// <summary>
+    ///     Indicates that a required service was not registered in dependency injection.
+    /// </summary>
     public class ServiceNotRegistredException<T> : Exception
     {
         public ServiceNotRegistredException()
@@ -9,8 +12,14 @@
         }
     }
 
+    /// <summary>
+    ///     Contains exceptions used while validating required module availability and versions.
+    /// </summary>
     public class ModuleInfoEx
     {
+        /// <summary>
+        ///     Indicates that a required module is missing from the running connector.
+        /// </summary>
         public class NeccessaryModuleNeededException : Exception
         {
             public NeccessaryModuleNeededException(string module)
@@ -20,6 +29,9 @@
             }
         }
 
+        /// <summary>
+        ///     Indicates that a loaded module does not satisfy the required version.
+        /// </summary>
         public class ModuleVersionInvalidException : Exception
         {
             public ModuleVersionInvalidException(string module, string currentVersion, string moduleVersion)

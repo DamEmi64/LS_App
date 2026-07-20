@@ -15,6 +15,50 @@ namespace CommunicationBase
             _parsers = parsers;
         }
 
+        public static FluidContext GenerateContext(IEnumerable<IFluidParser> parsers, Dictionary<string, object>? properties = null)
+        {
+            var model = new ExpandoObject();
+
+            if (model is IDictionary<string, object> modelObj)
+            {
+                var variables = parsers.SelectMany(x => x.Variables);
+                var functions = parsers.SelectMany(x => x.Functions);
+
+                foreach (var prop in properties ?? new Dictionary<string, object>())
+                {
+                    modelObj.Add(prop.Key, prop.Value);
+                }
+
+                foreach (var variable in variables)
+                {
+                    modelObj.Add(variable.Key, variable.Value ?? new object());
+                }
+
+                var fluidProperties = modelObj.ToDictionary(StringComparer.OrdinalIgnoreCase);
+
+                var context = new TemplateContext(model);
+
+                var fluidContext = new FluidContext
+                (
+                    Model: fluidProperties,
+                    Context: context
+                );
+
+                foreach (var function in functions)
+                {
+                    context.SetValue(function.Invoker, new FunctionValue((args, ctx) =>
+                    {
+                        return function.Method.Invoke(args, fluidContext);
+                    }));
+                }
+
+                return fluidContext;
+            }
+
+            throw new InvalidCastException("Failed to create context model.");
+        }
+
+
         public static FluidContext GenerateContext(Dictionary<string, object>? properties = null)
         {
             var model = new ExpandoObject();
@@ -31,7 +75,7 @@ namespace CommunicationBase
 
                 foreach (var variable in variables)
                 {
-                    modelObj.Add(variable.Key, variable.Value);
+                    modelObj.Add(variable.Key, variable.Value ?? new object());
                 }
 
                 var fluidProperties = modelObj.ToDictionary(StringComparer.OrdinalIgnoreCase);
@@ -40,7 +84,7 @@ namespace CommunicationBase
 
                 var fluidContext = new FluidContext
                 (
-                    Model: modelObj,
+                    Model: fluidProperties,
                     Context: context
                 );
 

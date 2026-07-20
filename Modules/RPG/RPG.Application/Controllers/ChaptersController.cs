@@ -78,7 +78,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpPut("{id}/publish")]
-        [AuthPermission("rpg_write")]
+        [AuthPermission("rpg-write")]
         public async Task<IActionResult> Publish(Guid id)
         {
             var entity = await _chapterRepository.Get(id);
@@ -99,7 +99,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpPut("{id}/flow")]
-        [AuthPermission("rpg_write")]
+        [AuthPermission("rpg-write")]
         public async Task<IActionResult> Flow(Guid id, [FromBody] FlowDto flow)
         {
             var entity = await _chapterRepository.Get(id);
@@ -119,7 +119,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpPut("{id}")]
-        [AuthPermission("rpg_write")]
+        [AuthPermission("rpg-write")]
         public async Task<IActionResult> Edit(Guid id, [FromBody] ChapterDto chapter)
         {
             var entity = await _chapterRepository.Get(id);

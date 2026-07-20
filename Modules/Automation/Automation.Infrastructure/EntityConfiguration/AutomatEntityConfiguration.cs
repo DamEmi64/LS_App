@@ -9,6 +9,7 @@ namespace RPG.Infrastructure.EntityConfiguration
         public void Configure(EntityTypeBuilder<Automat> builder)
         {
             builder.HasMany(x => x.Tasks).WithOne().OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(x => x.Triggers).WithOne().OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

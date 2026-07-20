@@ -21,10 +21,7 @@ type SessionInfoProps = {
 
 export const StoryEdit: React.FC<SessionInfoProps> = ({ story, toSave, edit }) => {
     const theme = useTheme();
-    const textColor =
-        theme.palette.mode === 'dark'
-            ? theme.palette.text.primary
-            : theme.palette.text.secondary;
+    const textColor = theme.palette.text.primary;
 
     const {
         control,

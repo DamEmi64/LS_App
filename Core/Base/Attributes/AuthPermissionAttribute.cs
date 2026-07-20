@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace Base
@@ -18,6 +19,15 @@ namespace Base
 
         public void OnAuthorization(AuthorizationFilterContext context)
         {
+            var allowAnonymous = context.ActionDescriptor.EndpointMetadata
+                .OfType<IAllowAnonymous>()
+                .Any();
+
+            if (allowAnonymous)
+            {
+                return;
+            }
+
             var user = context.HttpContext.User;
 
             if (!user.Identity?.IsAuthenticated ?? true)

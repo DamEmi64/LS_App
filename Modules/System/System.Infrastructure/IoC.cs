@@ -1,11 +1,13 @@
 ﻿using Base;
 using Hangfire;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using System.Domain.Entities;
 using System.Domain.Repositories;
 using System.Infrastructure.Db;
@@ -16,11 +18,13 @@ using System.Infrastructure.JobEngine.Milestones;
 using System.Infrastructure.Repositories;
 using System.Infrastructure.Services.Admin;
 using System.Infrastructure.Services.Auth;
+using System.Infrastructure.Services.ConnectorResolver;
 using System.Infrastructure.Services.Controller;
 using System.Infrastructure.Services.EntityContext;
 using System.Infrastructure.Services.Media;
 using System.Infrastructure.Services.NotifyService;
 using System.Infrastructure.Workers;
+using System.Text;
 
 namespace System.Infrastructure
 {
@@ -30,7 +34,7 @@ namespace System.Infrastructure
         {
             return services.AddScoped<IProcessRepository, ProcessRepository>()
                 .AddScoped<IJobRepository, JobRepository>()
-                .AddScoped<IDictionaryRepository, DictionaryRepository>()
+                .AddScoped<IDictionaryProvider, DictionaryRepository>()
                 .AddScoped<ILogRepository, LogRepository>();
         }
 
@@ -39,7 +43,8 @@ namespace System.Infrastructure
             return serviceDescriptors.AddScoped<IControllerService, ControllerService>()
                 .AddScoped<INotifier, Notifier>()
                 .AddScoped<IEntityContext, EntityContext>()
-                .AddScoped<IMediaProvider, CachedMediaService>();
+                .AddScoped<IMediaProviderFactory,MediaProviderFactory>()
+                .AddKeyedScoped<IMediaProvider, DatabaseMediaProvider>("db");
         }
 
         public static IServiceCollection AddCache(this IServiceCollection serviceDescriptors, IConfiguration configuration)
@@ -52,6 +57,8 @@ namespace System.Infrastructure
 
         public static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration configuration)
         {
+            var frontendUrl = AppConfiguration.GetValue<string[]>("FrontendUrl") ?? Array.Empty<string>();
+
             services.AddIdentity<User, IdentityRole>(options =>
             {
                 options.SignIn.RequireConfirmedAccount = false;
@@ -59,6 +66,47 @@ namespace System.Infrastructure
             })
             .AddEntityFrameworkStores<SystemContext>()
             .AddDefaultTokenProviders();
+
+            var jwtSection = configuration.GetSection("config").GetSection("Jwt");
+            var jwtKey = jwtSection.GetValue<string>("Key") ?? throw new InvalidOperationException("Jwt:Key is not configured.");
+            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey));
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = signingKey,
+                    ValidateIssuer = !string.IsNullOrWhiteSpace(jwtSection.GetValue<string>("Issuer")),
+                    ValidIssuer = jwtSection.GetValue<string>("Issuer"),
+                    ValidateAudience = !string.IsNullOrWhiteSpace(jwtSection.GetValue<string>("Audience")),
+                    ValidAudience = jwtSection.GetValue<string>("Audience"),
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.FromMinutes(1)
+                };
+
+                options.Events = new JwtBearerEvents
+                {
+                    OnMessageReceived = context =>
+                    {
+                        var accessToken = context.Request.Query["access_token"];
+                        var path = context.HttpContext.Request.Path;
+
+                        if (!string.IsNullOrEmpty(accessToken) &&
+                            (path.StartsWithSegments("/notify") || path.StartsWithSegments("/rpghub")))
+                        {
+                            context.Token = accessToken;
+                        }
+
+                        return Task.CompletedTask;
+                    }
+                };
+            });
 
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -102,6 +150,7 @@ namespace System.Infrastructure
                     return Task.CompletedTask;
                 };
             });
+            services.AddHttpContextAccessor();
 
             services.AddCors(options =>
               options.AddDefaultPolicy(
@@ -110,7 +159,7 @@ namespace System.Infrastructure
                   policy.AllowAnyHeader();
                   policy.AllowAnyMethod();
                   policy.AllowCredentials()
-                        .SetIsOriginAllowed(origin => true);
+                        .SetIsOriginAllowed(origin => frontendUrl.Length == 0 || frontendUrl.Contains(origin));
               }));
             services.AddScoped<IAuthService, AuthService>();
 
@@ -143,6 +192,12 @@ namespace System.Infrastructure
                 o.UseSqlServer(configuration.GetConnectionString("LogContext") ?? AppConfiguration.DefaultConnectionString);
             });
 
+        public static IServiceCollection AddDriveDb(this IServiceCollection services, IConfiguration configuration)
+            => services.AddDbContext<DriveContext>(o =>
+            {
+                o.UseSqlServer(configuration.GetConnectionString("DriveContext") ?? AppConfiguration.DefaultConnectionString);
+            });
+
         public static IServiceCollection AddBackgroundService(this IServiceCollection services, IConfiguration configuration)
         {
             var connectionString = AppConfiguration.DefaultConnectionString;
@@ -150,7 +205,7 @@ namespace System.Infrastructure
             return services.AddScoped<IJobEngine, JobEngine.JobEngine>()
                 .AddScoped<IMilestoneWorker, MilestoneWorker>()
                 .AddScoped<ArchiveLogsWorker>()
-                .AddScoped<IJobExecutor, JobExecutor>()
+                .AddScoped<IJobContext,JobContext>()
                 .AddHangfire(options =>
                 {
                     options.UseSqlServerStorage(connectionString);

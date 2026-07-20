@@ -13,10 +13,7 @@ const ChangePasswordForm: React.FC<ChangePasswordFormProps> = ({ auth, onClose }
   const { t } = useTranslation();
   const theme = useTheme();
 
-  const labelColor =
-    theme.palette.mode === 'dark'
-      ? theme.palette.text.primary
-      : theme.palette.text.secondary;
+  const labelColor = theme.palette.text.primary;
 
   const [oldPassword, setOldPassword] = useState<string>('');
   const [password, setPassword] = useState<string>('');

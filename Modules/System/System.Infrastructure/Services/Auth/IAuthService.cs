@@ -1,4 +1,5 @@
 ﻿using Base;
+using FluentResults;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using System.Domain.Entities;
@@ -10,11 +11,13 @@ namespace System.Infrastructure.Services.Auth
     {
         Task<IdentityResult> ResetPassword(ResetPasswordModel model);
 
-        Task<IdentityResult> ChangePassword(ResetPasswordModel model, HttpContext context);
+        Task<IdentityResult> ChangePassword(ChangePasswordModel model, HttpContext context);
 
-        Task<SignInResult> Login(LoginModel model);
+        Task<Result<Token>> Login(LoginModel model);
 
-        Task Logout();
+        Task<Result<Token>> RefreshToken(RefreshTokenModel model);
+
+        Task Logout(HttpContext context);
 
         Task<IdentityResult> Register(RegisterModel register);
 
@@ -23,5 +26,7 @@ namespace System.Infrastructure.Services.Auth
         Task<User?> GetUser(HttpContext context);
 
         Task Update(User data, HttpContext context);
+
+        Task ForgotPassword(string login);
     }
 }

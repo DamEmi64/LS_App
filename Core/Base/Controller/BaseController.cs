@@ -2,6 +2,9 @@
 
 namespace Base
 {
+    /// <summary>
+    ///     Base API controller exposing shared user, notification, and list-response helpers.
+    /// </summary>
     [ApiController]
     [Route("api/[controller]")]
     public class BaseController : Controller
@@ -14,10 +17,9 @@ namespace Base
             _controllerService = controllerService;
         }
 
-        protected Task<UserData?> GetCurrentUser()
-        {
-            return _controllerService.GetUser(HttpContext);
-        }
+        protected UserData? CurrentUser => _controllerService.CurrentUser;
+
+        protected IEnumerable<UserData> Users => _controllerService.Users;
 
         protected IActionResult Json<T>(IEnumerable<T> data, int? count = null)
             => Json(new ResponseList<T>

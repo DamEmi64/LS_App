@@ -5,8 +5,6 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**heroes** | [**Array&lt;HeroDto&gt;**](HeroDto.md) |  | [optional] [default to undefined]
-**places** | [**Array&lt;PlaceDto&gt;**](PlaceDto.md) |  | [optional] [default to undefined]
 **id** | **string** |  | [optional] [default to undefined]
 **title** | **string** |  | [default to undefined]
 **description** | **string** |  | [default to undefined]
@@ -25,8 +23,6 @@ Name | Type | Description | Notes
 import { ChapterDto } from './api';
 
 const instance: ChapterDto = {
-    heroes,
-    places,
     id,
     title,
     description,

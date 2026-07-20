@@ -7,11 +7,8 @@
         ///    Attrbute for variable used in FluidGenerator
         /// </summary>
         /// <param name="name">Name of the variable.</param>
-        public FluidVariableAttribute(string? name = null)
+        public FluidVariableAttribute()
         {
-            Name = name;
         }
-
-        public string? Name { get; set; }
     }
 }

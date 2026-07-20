@@ -24,10 +24,7 @@ const UserEdit: React.FC<UserEditProps> = ({ auth, onClose }) => {
   const { t } = useTranslation();
   const theme = useTheme();
 
-  const textColor =
-    theme.palette.mode === "dark"
-      ? theme.palette.text.primary
-      : theme.palette.text.secondary;
+  const textColor = theme.palette.text.primary;
 
   useEffect(() => {
     auth.getData().then((data) => setUser(data));

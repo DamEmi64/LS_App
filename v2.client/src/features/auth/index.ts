@@ -28,6 +28,12 @@ export interface PasswordChangeData {
     newPassword: string;
 }
 
+export interface ResetPasswordData {
+    login: string;
+    code: string;
+    password: string;
+}
+
 export enum ProgressStatus {
     New = 'New',
     Executing = 'Executing',
@@ -43,6 +49,7 @@ export interface Process {
     errors: ProcessError[];
     endDate?: Date;
     startDate?: Date;
+    requestDate?: Date;
     percentage: number;
     status: ProgressStatus;
     user?: UserData;
