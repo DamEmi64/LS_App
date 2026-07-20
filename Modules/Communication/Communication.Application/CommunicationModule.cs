@@ -19,7 +19,7 @@ namespace Communication.Application
 
         public string Name => "Communication";
 
-        public string Version => "v0.2";
+        public string Version => "v0.7";
 
         public IEnumerable<PermissionInfo> Permissions => [PermissionInfo.Create("communication", "Manage and send Emails", true),
                                                             PermissionInfo.Create("communication-registry", "See communication registry", false)];

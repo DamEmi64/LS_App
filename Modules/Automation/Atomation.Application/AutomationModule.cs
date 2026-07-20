@@ -15,7 +15,7 @@ namespace Automation.Application
 
         public string Name => "Automation";
 
-        public string Version => "v0.3 Alpha";
+        public string Version => "v1.0";
 
         public IEnumerable<PermissionInfo> Permissions => [PermissionInfo.Create("automation", "Manage automation tasks", false)];
 
