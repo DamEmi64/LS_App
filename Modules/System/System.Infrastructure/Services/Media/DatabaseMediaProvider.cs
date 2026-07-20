@@ -118,7 +118,9 @@ namespace System.Infrastructure.Services.Media
             }
             else
             {
-                media = await _context.Metadata.FirstOrDefaultAsync(x => x.Id == id)
+                media = await _context.Metadata
+                        .Include(x => x.Blob)
+                        .FirstOrDefaultAsync(x => x.Id == id)
                          ?? new Metadata { Id = id.Value, Blob = new Blob() };
 
                 media.Blob.ContentStr = content.Encrypt();
@@ -154,7 +156,9 @@ namespace System.Infrastructure.Services.Media
             }
             else
             {
-                media = await _context.Metadata.FirstOrDefaultAsync(x => x.Id == id)
+                media = await _context.Metadata
+                        .Include(x => x.Blob)
+                        .FirstOrDefaultAsync(x => x.Id == id)
                          ?? new Metadata { Id = id.Value, Blob = new Blob() };
 
                 media.Blob.Content = content.Encrypt();
