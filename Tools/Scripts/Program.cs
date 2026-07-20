@@ -20,75 +20,46 @@ await destination.OpenAsync();
 
 await using var transaction = await destination.BeginTransactionAsync();
 
-try
-{
-    const string selectSql = @"
+const string selectSql = @"
 SELECT
-    m.Id,
-    m.Extension,
-    m.Size,
-    m.JsFormat,
-    b.Id AS BlobId,
-    b.Content,
-    b.ContentStr
-FROM Metadata m
-INNER JOIN Blob b ON b.Id = m.BlobId
-ORDER BY m.Id;";
+    Id,
+    Content,
+    ContentStr,
+    Extension,
+    InsDate,
+    UpdDate,
+    InsBy,
+    UpdBy
+FROM Media_old
+ORDER BY Id;";
 
-    await using var selectCommand = new SqlCommand(selectSql, source);
-    await using var reader = await selectCommand.ExecuteReaderAsync();
+await using var selectCommand = new SqlCommand(selectSql, source);
 
-    while (await reader.ReadAsync())
-    {
-        var metadataId = reader.GetGuid(0);
-        var extension = reader.IsDBNull(1) ? null : reader.GetString(1);
-        var size = reader.GetInt32(2);
-        var jsFormat = reader.GetBoolean(3);
+await using var reader = await selectCommand.ExecuteReaderAsync();
 
-        var blobId = reader.GetGuid(4);
-
-        byte[]? content = reader.IsDBNull(5)
-            ? null
-            : (byte[])reader["Content"];
-
-        string? contentStr = reader.IsDBNull(6)
-            ? null
-            : reader.GetString(6);
-
-        if (content != null)
-            content = Encrypt(content);
-
-        if (contentStr != null)
-            contentStr = EncryptStr(contentStr);
-
-        const string insertBlobSql = @"
-INSERT INTO Blob
+const string insertContainerSql = @"
+INSERT INTO Container
 (
     Id,
     Content,
-    ContentStr
+    ContentStr,
+    InsDate,
+    UpdDate,
+    InsBy,
+    UpdBy
 )
 VALUES
 (
     @Id,
     @Content,
-    @ContentStr
+    @ContentStr,
+    @InsDate,
+    @UpdDate,
+    @InsBy,
+    @UpdBy
 );";
 
-        await using (var blobCommand = new SqlCommand(insertBlobSql, destination, (SqlTransaction)transaction))
-        {
-            blobCommand.Parameters.Add("@Id", SqlDbType.UniqueIdentifier).Value = blobId;
-
-            blobCommand.Parameters.Add("@Content", SqlDbType.VarBinary, -1)
-                .Value = (object?)content ?? DBNull.Value;
-
-            blobCommand.Parameters.Add("@ContentStr", SqlDbType.NVarChar, -1)
-                .Value = (object?)contentStr ?? DBNull.Value;
-
-            await blobCommand.ExecuteNonQueryAsync();
-        }
-
-        const string insertMetadataSql = @"
+const string insertMetadataSql = @"
 INSERT INTO Metadata
 (
     Id,
@@ -96,7 +67,10 @@ INSERT INTO Metadata
     Size,
     JsFormat,
     BlobId,
-    Encrypted
+    InsDate,
+    UpdDate,
+    InsBy,
+    UpdBy
 )
 VALUES
 (
@@ -105,40 +79,108 @@ VALUES
     @Size,
     @JsFormat,
     @BlobId,
-    1
+    @InsDate,
+    @UpdDate,
+    @InsBy,
+    @UpdBy
 );";
 
-        await using (var metadataCommand = new SqlCommand(insertMetadataSql, destination, (SqlTransaction)transaction))
-        {
-            metadataCommand.Parameters.Add("@Id", SqlDbType.UniqueIdentifier).Value = metadataId;
+await using var insertContainer = new SqlCommand(insertContainerSql, destination, (SqlTransaction)transaction);
+await using var insertMetadata = new SqlCommand(insertMetadataSql, destination, (SqlTransaction)transaction);
 
-            metadataCommand.Parameters.Add("@Extension", SqlDbType.NVarChar, 50)
-                .Value = (object?)extension ?? DBNull.Value;
+#region Container parameters
 
-            metadataCommand.Parameters.Add("@Size", SqlDbType.Int).Value = size;
-            metadataCommand.Parameters.Add("@JsFormat", SqlDbType.Bit).Value = jsFormat;
-            metadataCommand.Parameters.Add("@BlobId", SqlDbType.UniqueIdentifier).Value = blobId;
+insertContainer.Parameters.Add("@Id", SqlDbType.UniqueIdentifier);
+insertContainer.Parameters.Add("@Content", SqlDbType.VarBinary, -1);
+insertContainer.Parameters.Add("@ContentStr", SqlDbType.NVarChar, -1);
+insertContainer.Parameters.Add("@InsDate", SqlDbType.DateTimeOffset);
+insertContainer.Parameters.Add("@UpdDate", SqlDbType.DateTimeOffset);
+insertContainer.Parameters.Add("@InsBy", SqlDbType.NVarChar, -1);
+insertContainer.Parameters.Add("@UpdBy", SqlDbType.NVarChar, -1);
 
-            await metadataCommand.ExecuteNonQueryAsync();
-        }
+#endregion
 
-        Console.WriteLine($"Migrated: {metadataId}");
+#region Metadata parameters
+
+insertMetadata.Parameters.Add("@Id", SqlDbType.UniqueIdentifier);
+insertMetadata.Parameters.Add("@Extension", SqlDbType.NVarChar, -1);
+insertMetadata.Parameters.Add("@Size", SqlDbType.Int);
+insertMetadata.Parameters.Add("@JsFormat", SqlDbType.Bit);
+insertMetadata.Parameters.Add("@BlobId", SqlDbType.UniqueIdentifier);
+insertMetadata.Parameters.Add("@InsDate", SqlDbType.DateTimeOffset);
+insertMetadata.Parameters.Add("@UpdDate", SqlDbType.DateTimeOffset);
+insertMetadata.Parameters.Add("@InsBy", SqlDbType.NVarChar, -1);
+insertMetadata.Parameters.Add("@UpdBy", SqlDbType.NVarChar, -1);
+
+#endregion
+
+try
+{
+    while (await reader.ReadAsync())
+    {
+        var id = reader.GetGuid(0);
+
+        byte[]? content = reader.IsDBNull(1)
+            ? null
+            : (byte[])reader["Content"];
+
+        string? contentStr = reader.IsDBNull(2)
+            ? null
+            : reader.GetString(2);
+
+        var extension = reader.GetString(3);
+
+        var insDate = reader.GetFieldValue<DateTimeOffset>(4);
+        var updDate = reader.GetFieldValue<DateTimeOffset>(5);
+
+        string? insBy = reader.IsDBNull(6) ? null : reader.GetString(6);
+        string? updBy = reader.IsDBNull(7) ? null : reader.GetString(7);
+
+        var originalSize = content?.Length ?? 0;
+
+        content = content?.Let(EncryptBytes);
+        contentStr = contentStr?.Let(EncryptString);
+
+        // Container
+
+        insertContainer.Parameters["@Id"].Value = id;
+        insertContainer.Parameters["@Content"].Value = (object?)content ?? DBNull.Value;
+        insertContainer.Parameters["@ContentStr"].Value = (object?)contentStr ?? DBNull.Value;
+        insertContainer.Parameters["@InsDate"].Value = insDate;
+        insertContainer.Parameters["@UpdDate"].Value = updDate;
+        insertContainer.Parameters["@InsBy"].Value = (object?)insBy ?? DBNull.Value;
+        insertContainer.Parameters["@UpdBy"].Value = (object?)updBy ?? DBNull.Value;
+
+        await insertContainer.ExecuteNonQueryAsync();
+
+        // Metadata
+
+        insertMetadata.Parameters["@Id"].Value = id;
+        insertMetadata.Parameters["@Extension"].Value = extension;
+        insertMetadata.Parameters["@Size"].Value = originalSize;
+        insertMetadata.Parameters["@JsFormat"].Value = false;
+        insertMetadata.Parameters["@BlobId"].Value = id;
+        insertMetadata.Parameters["@InsDate"].Value = insDate;
+        insertMetadata.Parameters["@UpdDate"].Value = updDate;
+        insertMetadata.Parameters["@InsBy"].Value = (object?)insBy ?? DBNull.Value;
+        insertMetadata.Parameters["@UpdBy"].Value = (object?)updBy ?? DBNull.Value;
+
+        await insertMetadata.ExecuteNonQueryAsync();
+
+        Console.WriteLine(id);
     }
 
     await transaction.CommitAsync();
 
-    Console.WriteLine("Migration completed successfully.");
+    Console.WriteLine("Migration completed.");
 }
-catch (Exception ex)
+catch
 {
     await transaction.RollbackAsync();
-
-    Console.WriteLine(ex);
-
     throw;
 }
 
-byte[] Encrypt(byte[] data)
+byte[] EncryptBytes(byte[] data)
 {
     using var aes = Aes.Create();
 
@@ -153,15 +195,21 @@ byte[] Encrypt(byte[] data)
 
     using (var crypto = new CryptoStream(output, encryptor, CryptoStreamMode.Write))
     {
-        crypto.Write(data, 0, data.Length);
+        crypto.Write(data);
         crypto.FlushFinalBlock();
     }
 
     return output.ToArray();
 }
 
-string EncryptStr(string text)
+string EncryptString(string text)
 {
-    var bytes = Encoding.UTF8.GetBytes(text);
-    return Convert.ToBase64String(Encrypt(bytes));
+    return Convert.ToBase64String(
+        EncryptBytes(Encoding.UTF8.GetBytes(text)));
+}
+
+static class Extensions
+{
+    public static TResult Let<T, TResult>(this T value, Func<T, TResult> func)
+        => func(value);
 }

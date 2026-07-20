@@ -208,7 +208,7 @@ namespace Base
 
         private static (byte[] Key, byte[] IV) GetEncryption()
         {
-            var encryption = AppConfiguration.GetValue<IEncryption>("Encryption");
+            var encryption = AppConfiguration.GetValue<Encryption>("Encryption");
 
             if (encryption == null)
                 throw new InvalidOperationException("Encryption is not configured.");
