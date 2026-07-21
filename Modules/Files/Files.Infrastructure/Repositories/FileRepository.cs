@@ -10,7 +10,7 @@ namespace Files.Infrastructure.Repositories
         private readonly IMediaProvider _mediaProvider;
         public FileRepository(FilesContext dbContext, IMediaProviderFactory mediaProviderFactory) : base(dbContext)
         {
-            _mediaProvider = mediaProviderFactory.Create();
+            _mediaProvider = mediaProviderFactory.Create(AppConfiguration.GetValue<string>("DefaultStorage"));
         }
 
         public async Task ClearLinkCheck(Guid fileId)

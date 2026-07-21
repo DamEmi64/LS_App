@@ -21,7 +21,7 @@ namespace Events.Infrastructure.Jobs.SendInvitation
             IConnect connectClient)
             : base(jobContext)
         {
-            _mediaProvider = mediaProviderFactory.Create();
+            _mediaProvider = mediaProviderFactory.Create(AppConfiguration.GetValue<string>("DefaultStorage"));
             _connectClient = connectClient;
             _linkToEventTemplate = options.Value.EventLinkTemplate;
         }

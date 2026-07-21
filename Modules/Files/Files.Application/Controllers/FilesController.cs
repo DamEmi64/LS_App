@@ -29,7 +29,7 @@ namespace Files.Application.Controllers
             _fileRepository = fileRepository;
             _importService = importService;
             _managmentService = managmentService;
-            _mediaProvider = mediaProviderFactory.Create();
+            _mediaProvider = mediaProviderFactory.Create(AppConfiguration.GetValue<string>("DefaultStorage"));
         }
 
         [HttpGet("{id}")]

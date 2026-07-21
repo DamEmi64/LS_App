@@ -210,7 +210,7 @@ namespace Base
         {
             var encryption = AppConfiguration.GetValue<Encryption>("Encryption");
 
-            if (encryption == null)
+             if (encryption == null)
                 throw new InvalidOperationException("Encryption is not configured.");
 
             return (

@@ -15,7 +15,7 @@ namespace RPG.Infrastructure.External.FileConverters
 
         public OldJsonConverter(IMediaProviderFactory mediaProviderFactory)
         {
-            _mediaProvider = mediaProviderFactory.Create();
+            _mediaProvider = mediaProviderFactory.Create(AppConfiguration.GetValue<string>("DefaultStorage"));
         }
 
         public int Type => RPGFileTypes.OldJson;
