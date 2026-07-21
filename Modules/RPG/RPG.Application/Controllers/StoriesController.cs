@@ -26,14 +26,14 @@ namespace RPG.Application.Controllers
             IControllerService controllerService,
             IStoryRepository storyRepository,
             ISummaryService summaryService,
-            IMediaProvider mediaProvider,
+            IMediaProviderFactory mediaProviderFactory,
             IMapper mapper,
             IImportService importService)
             : base(controllerService)
         {
             _storyRepository = storyRepository;
             _summaryService = summaryService;
-            _mediaProvider = mediaProvider;
+            _mediaProvider = mediaProviderFactory.Create(AppConfiguration.GetValue<string>("DefaultStorage"));
             _mapper = mapper;
             _importService = importService;
         }

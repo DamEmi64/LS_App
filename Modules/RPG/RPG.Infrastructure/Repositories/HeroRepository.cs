@@ -9,9 +9,9 @@ namespace RPG.Infrastructure.Repositories
     public class HeroRepository : EntityRepository<RPGContext, Hero>, IHeroRepository
     {
         private readonly IMediaProvider _mediaProvider;
-        public HeroRepository(RPGContext dbContext, IMediaProvider mediaProvider) : base(dbContext)
+        public HeroRepository(RPGContext dbContext, IMediaProviderFactory mediaProviderFactory) : base(dbContext)
         {
-            _mediaProvider = mediaProvider;
+            _mediaProvider = mediaProviderFactory.Create(AppConfiguration.GetValue<string>("DefaultStorage"));
         }
 
         public override IEnumerable<Hero> GetAll()

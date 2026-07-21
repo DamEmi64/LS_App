@@ -8,9 +8,9 @@ namespace Files.Infrastructure.Repositories
     public class FileRepository : EntityRepository<FilesContext, Domain.Entities.File>, IFileRepository
     {
         private readonly IMediaProvider _mediaProvider;
-        public FileRepository(FilesContext dbContext, IMediaProvider mediaProvider) : base(dbContext)
+        public FileRepository(FilesContext dbContext, IMediaProviderFactory mediaProviderFactory) : base(dbContext)
         {
-            _mediaProvider = mediaProvider;
+            _mediaProvider = mediaProviderFactory.Create(AppConfiguration.GetValue<string>("DefaultStorage"));
         }
 
         public async Task ClearLinkCheck(Guid fileId)

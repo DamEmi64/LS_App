@@ -1,4 +1,5 @@
 using Communication.Domain;
+using Drive.API.External.Cloudflare;
 using Events.Domain;
 using RPG.Infrastructure.External.Firebase;
 
@@ -39,5 +40,15 @@ namespace Connector
         /// Event configuration used to generate external event links.
         /// </summary>
         public EventOptions? EventOptions { get; set; }
+
+        /// <summary>
+        ///     Cloudflare configuration
+        /// </summary>
+        public CloudflareOptions? CloudflareOptions { get; set; }
+
+        /// <summary>
+        ///     Default storage for media
+        /// </summary>
+        public required string DefaultStorage { get; set; }
     }
 }

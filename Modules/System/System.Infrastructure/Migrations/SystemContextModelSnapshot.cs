@@ -47,40 +47,6 @@ namespace System.Infrastructure.Migrations
                     b.ToTable("Dictionaries");
                 });
 
-            modelBuilder.Entity("Base.Media", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<byte[]>("Content")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("ContentStr")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Extension")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("InsBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset>("InsDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("UpdBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTimeOffset>("UpdDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Media");
-                });
-
             modelBuilder.Entity("Base.UserData", b =>
                 {
                     b.Property<int>("Id")

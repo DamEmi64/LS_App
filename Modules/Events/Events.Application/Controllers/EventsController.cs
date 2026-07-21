@@ -27,14 +27,14 @@ namespace Events.Application.Controllers
             IMapper mapper,
             IInvitationService invitationService,
             IReminderService reminderService,
-            IMediaProvider mediaProvider)
+            IMediaProviderFactory mediaProviderFactory)
             : base(controllerService)
         {
             _eventRepository = eventRepository;
             _mapper = mapper;
             _invitationService = invitationService;
             _reminderService = reminderService;
-            _mediaProvider = mediaProvider;
+            _mediaProvider = mediaProviderFactory.Create(AppConfiguration.GetValue<string>("DefaultStorage"));
         }
 
         [HttpGet("{id}")]

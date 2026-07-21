@@ -19,12 +19,12 @@ namespace RPG.Infrastructure.Jobs
             IJobContext jobContext,
             IStoryRepository storyRepository,
             IRazorViewEngine razorViewEngine,
-            IMediaProvider mediaProvider)
+            IMediaProviderFactory mediaProviderFactory)
             : base(jobContext)
         {
             _storyRepository = storyRepository;
             _razorViewEngine = razorViewEngine;
-            _mediaProvider = mediaProvider;
+            _mediaProvider = mediaProviderFactory.Create(AppConfiguration.GetValue<string>("DefaultStorage"));
         }
 
         public override async Task Execute(GenerateSummaryJob request)

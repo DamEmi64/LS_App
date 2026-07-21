@@ -18,7 +18,7 @@ namespace Files.Application
 
         public string Name => "Files";
 
-        public string Version => "v0.2";
+        public string Version => "v0.2 (depricated)";
 
         public IEnumerable<PermissionInfo> Permissions => [PermissionInfo.Create("files", "Manage files", true)];
 

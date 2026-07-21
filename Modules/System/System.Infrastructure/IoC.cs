@@ -43,7 +43,8 @@ namespace System.Infrastructure
             return serviceDescriptors.AddScoped<IControllerService, ControllerService>()
                 .AddScoped<INotifier, Notifier>()
                 .AddScoped<IEntityContext, EntityContext>()
-                .AddScoped<IMediaProvider, CachedMediaService>();
+                .AddScoped<IMediaProviderFactory,MediaProviderFactory>()
+                .AddKeyedScoped<IMediaProvider, DatabaseMediaProvider>("db");
         }
 
         public static IServiceCollection AddCache(this IServiceCollection serviceDescriptors, IConfiguration configuration)
@@ -189,6 +190,12 @@ namespace System.Infrastructure
             => services.AddDbContext<ErrorContext>(o =>
             {
                 o.UseSqlServer(configuration.GetConnectionString("LogContext") ?? AppConfiguration.DefaultConnectionString);
+            });
+
+        public static IServiceCollection AddDriveDb(this IServiceCollection services, IConfiguration configuration)
+            => services.AddDbContext<DriveContext>(o =>
+            {
+                o.UseSqlServer(configuration.GetConnectionString("DriveContext") ?? AppConfiguration.DefaultConnectionString);
             });
 
         public static IServiceCollection AddBackgroundService(this IServiceCollection services, IConfiguration configuration)

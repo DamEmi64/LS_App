@@ -23,7 +23,7 @@ namespace RPG.Application
 
         public string Name => "RPG sessions";
 
-        public string Version => "v0.8";
+        public string Version => "v1.0";
 
         public IEnumerable<PermissionInfo> Permissions => [
             PermissionInfo.Create("rpg","Read RPG sessions",true),

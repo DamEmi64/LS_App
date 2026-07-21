@@ -19,10 +19,10 @@ namespace RPG.Infrastructure.Jobs
 
         public SendToFirebaseJobHandler(
             IJobContext jobContext,
-            IMediaProvider mediaProvider)
+            IMediaProviderFactory mediaProviderFactory)
             : base(jobContext)
         {
-            _mediaProvider = mediaProvider;
+            _mediaProvider = mediaProviderFactory.Create(AppConfiguration.GetValue<string>("DefaultStorage"));
         }
 
         public override async Task Execute(SendToFirebaseJob request)

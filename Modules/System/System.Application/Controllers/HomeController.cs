@@ -9,9 +9,9 @@ namespace System.Application.Controllers
     {
         private readonly IMediaProvider _mediaProvider;
 
-        public HomeController(IControllerService controllerService, IMediaProvider mediaProvider) : base(controllerService)
+        public HomeController(IControllerService controllerService, IMediaProviderFactory mediaProviderFactory) : base(controllerService)
         {
-            _mediaProvider = mediaProvider;
+            _mediaProvider = mediaProviderFactory.Create(AppConfiguration.GetValue<string>("DefaultStorage"));
         }
 
         [HttpGet]

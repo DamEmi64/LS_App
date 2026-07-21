@@ -17,7 +17,7 @@ namespace Events.Application
 
         public string Name => "Events";
 
-        public string Version => "v0.1";
+        public string Version => "v1.0";
 
         public IEnumerable<PermissionInfo> Permissions => [PermissionInfo.Create("events", "Manage events", true),];
 

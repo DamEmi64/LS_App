@@ -38,21 +38,12 @@ namespace Events.Infrastructure.Services.AutomationResolver
                     if (lastAddedEvent is null || lastAddedEvent.EventDate is null)
                         continue;
 
-                    foreach (var participate in lastAddedEvent.Participates)
+                    var job = new SendReminderJob
                     {
-                        var job = new SendReminderJob
-                        {
-                            Event = lastAddedEvent,
-                            Receiver = new UserData
-                            {
-                                UserId = participate.UserId,
-                                Email = participate.Email,
-                                Login = participate.Login
-                            }
-                        };
-                        schema.AddJob(job);
-                        schema.RequestDate = CalcDate(lastAddedEvent.EventDate ?? DateTime.Now, autoReminderSettings);
-                    }
+                        Event = lastAddedEvent
+                    };
+                    schema.AddJob(job);
+                    schema.RequestDate = CalcDate(lastAddedEvent.EventDate ?? DateTime.Now, autoReminderSettings);
 
                     task.Handled = true;
                 }

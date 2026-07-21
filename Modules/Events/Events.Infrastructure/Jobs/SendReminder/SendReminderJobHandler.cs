@@ -1,7 +1,9 @@
 ﻿using Base;
 using CommunicationBase;
 using Events.Domain;
+using Events.Domain.Entities;
 using Events.Extras.Resources;
+using MediatR;
 using Microsoft.Extensions.Options;
 using Razor.Templating.Core;
 
@@ -16,29 +18,44 @@ namespace Events.Infrastructure.Jobs.SendReminder
         private readonly string _linkToEventTemplate;
 
         public SendReminderJobHandler(IJobContext jobContext,
-            IMediaProvider mediaProvider,
+            IMediaProviderFactory mediaProviderFactory,
             IOptions<EventOptions> options,
             IConnect connectClient)
             : base(jobContext)
         {
-            _mediaProvider = mediaProvider;
+            _mediaProvider = mediaProviderFactory.Create(AppConfiguration.GetValue<string>("DefaultStorage"));
             _connectClient = connectClient;
             _linkToEventTemplate = options.Value.EventLinkTemplate;
         }
 
         public override async Task Execute(SendReminderJob request)
         {
-            if (string.IsNullOrEmpty(request.Receiver.Email))
+            foreach (var participant in request.Event.Participates)
             {
-                await LogError($"User {request.Receiver.Login} has no email");
+                await SendToUser(request, participant);
+            }
+        }
+
+        private async Task SendToUser(SendReminderJob request, EventUser user)
+        {
+            if (string.IsNullOrEmpty(user.Email))
+            {
+                await LogError($"User {user.Login} has no email");
                 return;
             }
 
+            var userData = new UserData
+            {
+                Email = user.Email,
+                Login = user.Login,
+                UserId = user.UserId
+            };
+
             var image = await _mediaProvider.Load(request.Event.Image);
 
-            var html = await RazorTemplateEngine.RenderAsync(TemplatePath, new EventSendingData(request.Event, request.Receiver, image?.ContentStr, string.Format(_linkToEventTemplate, request.Event.Id)));
+            var html = await RazorTemplateEngine.RenderAsync(TemplatePath, new EventSendingData(request.Event, userData, image?.ContentStr, string.Format(_linkToEventTemplate, request.Event.Id)));
 
-            var result = await _connectClient.SendEmailAsync(request.Receiver.Email, $"Reminder for event {request.Event.Title}", html);
+            var result = await _connectClient.SendEmailAsync(user.Email, $"Reminder for event {request.Event.Title}", html);
 
             if (result.IsFailed)
             {
