@@ -7,9 +7,13 @@ namespace Drive.API.Services;
 public class CloudflareMediaProvider : IMediaProvider
 {
     // Metadata keys stored as x-amz-meta-* headers on the R2 object.
-    private const string ExtensionMetaKey = "extension";
-    private const string OwnerMetaKey = "owner";
-    private const string JsFormatMetaKey = "jsformat";
+    private const string ExtensionMetaKey = "x-amz-meta-extension";
+    private const string OwnerMetaKey = "x-amz-meta-owner";
+    private const string JsFormatMetaKey = "x-amz-meta-jsformat";
+
+    private const string GetExtensionMetaKey = "x-amz-meta-extension";
+    private const string GetOwnerMetaKey = "x-amz-meta-owner";
+    private const string GetJsFormatMetaKey = "x-amz-meta-jsformat";
 
     private readonly CloudflareClient _client;
 
@@ -40,9 +44,9 @@ public class CloudflareMediaProvider : IMediaProvider
 
         using var obj = await _client.GetWithMetadataAsync(KeyFor(id));
 
-        obj.Metadata.TryGetValue(ExtensionMetaKey, out var extension);
-        obj.Metadata.TryGetValue(OwnerMetaKey, out var owner);
-        var isJsFormat = obj.Metadata.TryGetValue(JsFormatMetaKey, out var jsFormatRaw)
+        obj.Metadata.TryGetValue(GetExtensionMetaKey, out var extension);
+        obj.Metadata.TryGetValue(GetOwnerMetaKey, out var owner);
+        var isJsFormat = obj.Metadata.TryGetValue(GetJsFormatMetaKey, out var jsFormatRaw)
                          && bool.TryParse(jsFormatRaw, out var jsFormatParsed)
                          && jsFormatParsed;
 
@@ -91,8 +95,8 @@ public class CloudflareMediaProvider : IMediaProvider
             [OwnerMetaKey] = owner ?? string.Empty
         };
 
-        var bytes = Encoding.UTF8.GetBytes(content);
-        await _client.SaveAsync(KeyFor(mediaId), bytes.Encrypt(), "text/plain; charset=utf-8", metadata);
+        var bytes = Encoding.UTF8.GetBytes(content.Encrypt());
+        await _client.SaveAsync(KeyFor(mediaId), bytes, "text/plain; charset=utf-8", metadata);
 
         return mediaId;
     }

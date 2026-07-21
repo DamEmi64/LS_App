@@ -50,7 +50,7 @@ while (await reader.ReadAsync())
     var extension = reader.IsDBNull(reader.GetOrdinal("Extension"))
         ? null
         : reader.GetString(reader.GetOrdinal("Extension"));
-    var jsFormat = reader.GetBoolean(reader.GetOrdinal("JsFormat"));
+    var jsFormat = reader.GetBoolean(reader.GetOrdinal("JsFormat")) || extension == "jpg";
 
     byte[]? content = null;
     string? contentStr = null;
