@@ -1,7 +1,10 @@
 ﻿using Amazon;
+using Amazon.Runtime;
+using Amazon.Runtime.Internal;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Microsoft.Extensions.Options;
+using System.Text;
 
 namespace Drive.API.External.Cloudflare;
 
@@ -12,20 +15,29 @@ public class CloudflareClient : IDisposable
 
     public CloudflareClient(IOptions<CloudflareOptions> options)
     {
+        AWSConfigs.LoggingConfig.LogTo = LoggingOptions.Console;
+        AWSConfigs.LoggingConfig.LogResponses = ResponseLoggingOption.Always;
+        AWSConfigs.LoggingConfig.LogMetrics = true;
         AWSConfigsS3.DisableDefaultChecksumValidation = true;
+
         var settings = options.Value;
         _bucketName = settings.BucketName;
+
+        var config = new AmazonS3Config
+        {
+            ServiceURL = $"https://{settings.AccountId}.r2.cloudflarestorage.com",
+            ForcePathStyle = true,
+
+            AuthenticationRegion = "auto",
+
+            RequestChecksumCalculation = RequestChecksumCalculation.WHEN_REQUIRED,
+            ResponseChecksumValidation = ResponseChecksumValidation.WHEN_REQUIRED
+        };
 
         _client = new AmazonS3Client(
             settings.AccessKey,
             settings.SecretKey,
-            new AmazonS3Config
-            {
-                ServiceURL = $"https://{settings.AccountId}.r2.cloudflarestorage.com",
-                ForcePathStyle = true,
-                RequestChecksumCalculation = Amazon.Runtime.RequestChecksumCalculation.WHEN_REQUIRED,
-                ResponseChecksumValidation = Amazon.Runtime.ResponseChecksumValidation.WHEN_REQUIRED
-            });
+            config);
     }
 
     /// <summary>
@@ -129,7 +141,7 @@ public class CloudflareClient : IDisposable
             await _client.GetObjectMetadataAsync(_bucketName, key, cancellationToken);
             return true;
         }
-        catch (AmazonS3Exception ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+        catch (AmazonS3Exception)
         {
             return false;
         }

@@ -18,6 +18,7 @@ namespace Drive.API
 
         public IServiceCollection Configure(IServiceCollection services)
         {
+            services.Configure<CloudflareOptions>(AppConfiguration.Get<CloudflareOptions>());
             services.AddScoped<CloudflareClient>();
             services.AddMediaProvider<CloudflareMediaProvider>("cloudflare");
             return services;

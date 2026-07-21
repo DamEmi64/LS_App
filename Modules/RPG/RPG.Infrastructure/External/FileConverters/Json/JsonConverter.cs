@@ -18,7 +18,7 @@ namespace RPG.Infrastructure.External.FileConverters.Json
         public JsonConverter(IMapper mapper, IMediaProviderFactory mediaProviderFactory)
         {
             _mapper = mapper;
-            _mediaProvider = mediaProviderFactory.Create();
+            _mediaProvider = mediaProviderFactory.Create(AppConfiguration.GetValue<string>("DefaultStorage"));
         }
 
         public int Type => RPGFileTypes.Json;

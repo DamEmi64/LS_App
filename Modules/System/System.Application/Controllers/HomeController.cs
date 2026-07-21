@@ -11,7 +11,7 @@ namespace System.Application.Controllers
 
         public HomeController(IControllerService controllerService, IMediaProviderFactory mediaProviderFactory) : base(controllerService)
         {
-            _mediaProvider = mediaProviderFactory.Create();
+            _mediaProvider = mediaProviderFactory.Create(AppConfiguration.GetValue<string>("DefaultStorage"));
         }
 
         [HttpGet]
