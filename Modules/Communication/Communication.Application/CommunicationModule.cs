@@ -41,7 +41,7 @@ namespace Communication.Application
 
         public IApplicationBuilder OnStartup(IApplicationBuilder app)
         {
-            app.InitializeDiscordBot();
+            app.InitializeDiscordBot().Wait();
             return app;
         }
     }

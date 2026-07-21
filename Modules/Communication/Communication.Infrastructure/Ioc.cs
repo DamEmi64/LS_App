@@ -62,7 +62,7 @@ namespace Communication.Infrastructure
             return services;
         }
 
-        public static void InitializeDiscordBot(this IApplicationBuilder app)
+        public static async Task InitializeDiscordBot(this IApplicationBuilder app)
         {
             var commandResolver = app.ApplicationServices.GetRequiredService<DiscordCommandResolver>();
             var cmds = commandResolver.DiscoverCommands();
@@ -71,17 +71,17 @@ namespace Communication.Infrastructure
             {
                 var repo = scope.ServiceProvider.GetRequiredService<IDiscordRepository>();
 
-                repo.DisableAllCommands();
+                await repo.DisableAllCommands();
 
                 foreach (var cmd in cmds)
                 {
                     if (repo.Exist(cmd.Key))
                     {
-                        repo.Enable(cmd.Key);
+                        await repo.Enable(cmd.Key);
                         continue;
                     }
 
-                    repo.Add(new Domain.Entities.DiscordCmd
+                    await repo.Add(new Domain.Entities.DiscordCmd
                     {
                         Cmd = cmd.Key,
                         Active = true,
@@ -92,7 +92,7 @@ namespace Communication.Infrastructure
 
 
             var bot = app.ApplicationServices.GetRequiredService<IDiscordBot>();
-            bot.StartAsync();
+            await bot.StartAsync();
         }
     }
 }
