@@ -1,215 +1,140 @@
-﻿using Microsoft.Data.SqlClient;
-using System.Data;
-using System.Security.Cryptography;
-using System.Text;
+﻿using Drive.API.External.Cloudflare;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Options;
+using System.Diagnostics;
 
-const string sourceConnectionString = "...";
-const string destinationConnectionString = "...";
+// ---------------------------------------------------------------------------
+// Migration: copies every Metadata/Blob row from SQL Server into Cloudflare R2.
+// Assumes Metadata has a BlobId FK pointing at Blob.Id (adjust the JOIN below
+// if your schema links them differently, e.g. shared PK).
+// ---------------------------------------------------------------------------
 
-const string encryptionKey = "..."; // Base64 encoded 32-byte key
-const string encryptionIV = "...";  // Base64 encoded 16-byte IV
+string connectionString = "Server=(localdb)\\mssqllocaldb;Database=AppContext-drive;Trusted_Connection=True;MultipleActiveResultSets=true";
 
-var key = Convert.FromBase64String(encryptionKey);
-var iv = Convert.FromBase64String(encryptionIV);
-
-await using var source = new SqlConnection(sourceConnectionString);
-await using var destination = new SqlConnection(destinationConnectionString);
-
-await source.OpenAsync();
-await destination.OpenAsync();
-
-await using var transaction = await destination.BeginTransactionAsync();
-
-const string selectSql = @"
-SELECT
-    Id,
-    Content,
-    ContentStr,
-    Extension,
-    InsDate,
-    UpdDate,
-    InsBy,
-    UpdBy
-FROM Media_old
-ORDER BY Id;";
-
-await using var selectCommand = new SqlCommand(selectSql, source);
-
-await using var reader = await selectCommand.ExecuteReaderAsync();
-
-const string insertContainerSql = @"
-INSERT INTO Container
-(
-    Id,
-    Content,
-    ContentStr,
-    InsDate,
-    UpdDate,
-    InsBy,
-    UpdBy
-)
-VALUES
-(
-    @Id,
-    @Content,
-    @ContentStr,
-    @InsDate,
-    @UpdDate,
-    @InsBy,
-    @UpdBy
-);";
-
-const string insertMetadataSql = @"
-INSERT INTO Metadata
-(
-    Id,
-    Extension,
-    Size,
-    JsFormat,
-    BlobId,
-    InsDate,
-    UpdDate,
-    InsBy,
-    UpdBy
-)
-VALUES
-(
-    @Id,
-    @Extension,
-    @Size,
-    @JsFormat,
-    @BlobId,
-    @InsDate,
-    @UpdDate,
-    @InsBy,
-    @UpdBy
-);";
-
-await using var insertContainer = new SqlCommand(insertContainerSql, destination, (SqlTransaction)transaction);
-await using var insertMetadata = new SqlCommand(insertMetadataSql, destination, (SqlTransaction)transaction);
-
-#region Container parameters
-
-insertContainer.Parameters.Add("@Id", SqlDbType.UniqueIdentifier);
-insertContainer.Parameters.Add("@Content", SqlDbType.VarBinary, -1);
-insertContainer.Parameters.Add("@ContentStr", SqlDbType.NVarChar, -1);
-insertContainer.Parameters.Add("@InsDate", SqlDbType.DateTimeOffset);
-insertContainer.Parameters.Add("@UpdDate", SqlDbType.DateTimeOffset);
-insertContainer.Parameters.Add("@InsBy", SqlDbType.NVarChar, -1);
-insertContainer.Parameters.Add("@UpdBy", SqlDbType.NVarChar, -1);
-
-#endregion
-
-#region Metadata parameters
-
-insertMetadata.Parameters.Add("@Id", SqlDbType.UniqueIdentifier);
-insertMetadata.Parameters.Add("@Extension", SqlDbType.NVarChar, -1);
-insertMetadata.Parameters.Add("@Size", SqlDbType.Int);
-insertMetadata.Parameters.Add("@JsFormat", SqlDbType.Bit);
-insertMetadata.Parameters.Add("@BlobId", SqlDbType.UniqueIdentifier);
-insertMetadata.Parameters.Add("@InsDate", SqlDbType.DateTimeOffset);
-insertMetadata.Parameters.Add("@UpdDate", SqlDbType.DateTimeOffset);
-insertMetadata.Parameters.Add("@InsBy", SqlDbType.NVarChar, -1);
-insertMetadata.Parameters.Add("@UpdBy", SqlDbType.NVarChar, -1);
-
-#endregion
-
-try
+var cloudflareOptions = Options.Create(new CloudflareOptions
 {
-    while (await reader.ReadAsync())
+    AccountId = "",
+    AccessKey = "",
+    SecretKey = "",
+    BucketName = "ls-api"
+});
+
+using var r2 = new CloudflareClient(cloudflareOptions);
+
+const string query = """
+    SELECT m.Id, m.Extension, m.Size, m.JsFormat, b.Content, b.ContentStr
+    FROM Metadata m
+    JOIN Container b ON b.Id = m.BlobId
+    """;
+
+var stopwatch = Stopwatch.StartNew();
+int migrated = 0, skipped = 0, failed = 0;
+
+// Cap concurrent uploads so we don't hammer R2 or the SQL connection.
+using var throttle = new SemaphoreSlim(8);
+var inFlight = new List<Task>();
+
+await using var connection = new SqlConnection(connectionString);
+await connection.OpenAsync();
+
+await using var command = new SqlCommand(query, connection)
+{
+    CommandTimeout = 0 // long-running read; adjust if you prefer a timeout
+};
+
+await using var reader = await command.ExecuteReaderAsync();
+
+while (await reader.ReadAsync())
+{
+    var id = reader.GetGuid(reader.GetOrdinal("Id"));
+    var extension = reader.IsDBNull(reader.GetOrdinal("Extension"))
+        ? null
+        : reader.GetString(reader.GetOrdinal("Extension"));
+    var jsFormat = reader.GetBoolean(reader.GetOrdinal("JsFormat"));
+
+    byte[]? content = null;
+    string? contentStr = null;
+
+    var contentOrdinal = reader.GetOrdinal("Content");
+    var contentStrOrdinal = reader.GetOrdinal("ContentStr");
+
+    if (!reader.IsDBNull(contentOrdinal))
     {
-        var id = reader.GetGuid(0);
-
-        byte[]? content = reader.IsDBNull(1)
-            ? null
-            : (byte[])reader["Content"];
-
-        string? contentStr = reader.IsDBNull(2)
-            ? null
-            : reader.GetString(2);
-
-        var extension = reader.GetString(3);
-
-        var insDate = reader.GetFieldValue<DateTimeOffset>(4);
-        var updDate = reader.GetFieldValue<DateTimeOffset>(5);
-
-        string? insBy = reader.IsDBNull(6) ? null : reader.GetString(6);
-        string? updBy = reader.IsDBNull(7) ? null : reader.GetString(7);
-
-        var originalSize = content?.Length ?? 0;
-
-        content = content?.Let(EncryptBytes);
-        contentStr = contentStr?.Let(EncryptString);
-
-        // Container
-
-        insertContainer.Parameters["@Id"].Value = id;
-        insertContainer.Parameters["@Content"].Value = (object?)content ?? DBNull.Value;
-        insertContainer.Parameters["@ContentStr"].Value = (object?)contentStr ?? DBNull.Value;
-        insertContainer.Parameters["@InsDate"].Value = insDate;
-        insertContainer.Parameters["@UpdDate"].Value = updDate;
-        insertContainer.Parameters["@InsBy"].Value = (object?)insBy ?? DBNull.Value;
-        insertContainer.Parameters["@UpdBy"].Value = (object?)updBy ?? DBNull.Value;
-
-        await insertContainer.ExecuteNonQueryAsync();
-
-        // Metadata
-
-        insertMetadata.Parameters["@Id"].Value = id;
-        insertMetadata.Parameters["@Extension"].Value = extension;
-        insertMetadata.Parameters["@Size"].Value = originalSize;
-        insertMetadata.Parameters["@JsFormat"].Value = false;
-        insertMetadata.Parameters["@BlobId"].Value = id;
-        insertMetadata.Parameters["@InsDate"].Value = insDate;
-        insertMetadata.Parameters["@UpdDate"].Value = updDate;
-        insertMetadata.Parameters["@InsBy"].Value = (object?)insBy ?? DBNull.Value;
-        insertMetadata.Parameters["@UpdBy"].Value = (object?)updBy ?? DBNull.Value;
-
-        await insertMetadata.ExecuteNonQueryAsync();
-
-        Console.WriteLine(id);
+        content = (byte[])reader.GetValue(contentOrdinal);
     }
 
-    await transaction.CommitAsync();
-
-    Console.WriteLine("Migration completed.");
-}
-catch
-{
-    await transaction.RollbackAsync();
-    throw;
-}
-
-byte[] EncryptBytes(byte[] data)
-{
-    using var aes = Aes.Create();
-
-    aes.Key = key;
-    aes.IV = iv;
-    aes.Mode = CipherMode.CBC;
-    aes.Padding = PaddingMode.PKCS7;
-
-    using var encryptor = aes.CreateEncryptor();
-
-    using var output = new MemoryStream();
-
-    using (var crypto = new CryptoStream(output, encryptor, CryptoStreamMode.Write))
+    if (!reader.IsDBNull(contentStrOrdinal))
     {
-        crypto.Write(data);
-        crypto.FlushFinalBlock();
+        contentStr = reader.GetString(contentStrOrdinal);
     }
 
-    return output.ToArray();
+    await throttle.WaitAsync();
+
+    var task = UploadOneAsync(id, extension, jsFormat, content, contentStr)
+        .ContinueWith(t =>
+        {
+            throttle.Release();
+            if (t.IsFaulted)
+            {
+                Interlocked.Increment(ref failed);
+                Console.WriteLine($"[FAIL] {id}: {t.Exception?.GetBaseException().Message}");
+            }
+            else
+            {
+                Interlocked.Increment(ref migrated);
+            }
+        });
+
+    inFlight.Add(task);
+
+    // Periodically drain finished tasks so the list doesn't grow unbounded.
+    if (inFlight.Count >= 200)
+    {
+        await Task.WhenAll(inFlight);
+        inFlight.Clear();
+    }
 }
 
-string EncryptString(string text)
+await Task.WhenAll(inFlight);
+
+stopwatch.Stop();
+Console.WriteLine();
+Console.WriteLine($"Done in {stopwatch.Elapsed}. Migrated: {migrated}, Skipped: {skipped}, Failed: {failed}");
+
+async Task UploadOneAsync(Guid id, string? extension, bool jsFormat, byte[]? content, string? contentStr)
 {
-    return Convert.ToBase64String(
-        EncryptBytes(Encoding.UTF8.GetBytes(text)));
+    var key = id.ToString("N");
+
+    jsFormat = jsFormat || !string.IsNullOrEmpty(contentStr);
+
+    var metadata = new Dictionary<string, string>
+    {
+        ["jsformat"] = jsFormat ? "true" : "false",
+        ["extension"] = extension ?? "(unknown)"
+    };
+
+    if (jsFormat)
+    {
+        var bytes = System.Text.Encoding.UTF8.GetBytes(contentStr!);
+        await r2.SaveAsync(key, bytes, "text/plain; charset=utf-8", metadata);
+    }
+    else
+    {
+        var contentType = GetContentType(extension);
+        await r2.SaveAsync(key, content!, contentType, metadata);
+    }
+
+    Console.WriteLine($"[OK]   {id} ({(jsFormat ? "string" : "binary")}, ext={extension ?? "?"})");
 }
 
-static class Extensions
+static string GetContentType(string? extension) => extension?.TrimStart('.').ToLowerInvariant() switch
 {
-    public static TResult Let<T, TResult>(this T value, Func<T, TResult> func)
-        => func(value);
-}
+    "pdf" => "application/pdf",
+    "png" => "image/png",
+    "jpg" or "jpeg" => "image/jpeg",
+    "gif" => "image/gif",
+    "svg" => "image/svg+xml",
+    "json" => "application/json",
+    "txt" => "text/plain",
+    _ => "application/octet-stream"
+};

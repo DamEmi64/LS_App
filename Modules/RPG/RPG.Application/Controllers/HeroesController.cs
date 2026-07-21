@@ -27,7 +27,7 @@ namespace RPG.Application.Controllers
         {
             _heroRepository = heroRepository;
             _chapterRepository = chapterRepository;
-            _mediaProvider = mediaProviderFactory.Create();
+            _mediaProvider = mediaProviderFactory.Create(AppConfiguration.GetValue<string>("DefaultStorage"));
             _mapper = mapper;
         }
 

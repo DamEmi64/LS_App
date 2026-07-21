@@ -11,7 +11,7 @@ namespace RPG.Infrastructure.Repositories
         private readonly IMediaProvider _mediaProvider;
         public PlaceRepository(RPGContext dbContext, IMediaProviderFactory mediaProviderFactory) : base(dbContext)
         {
-            _mediaProvider = mediaProviderFactory.Create();
+            _mediaProvider = mediaProviderFactory.Create(AppConfiguration.GetValue<string>("DefaultStorage"));
         }
 
         public override async Task<Place?> Get(Guid id)
