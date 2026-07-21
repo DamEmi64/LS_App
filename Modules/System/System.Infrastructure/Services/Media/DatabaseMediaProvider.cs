@@ -96,7 +96,7 @@ namespace System.Infrastructure.Services.Media
             }
         }
 
-        public async Task<Guid> Save(string content, Guid? id, string? extension = null)
+        public async Task<Guid> Save(string content, Guid? id, string? extension = null, string? owner = null)
         {
             var ext = extension ?? GetFileExtension(content) ?? "(unknown)";
             Metadata media;
@@ -134,7 +134,7 @@ namespace System.Infrastructure.Services.Media
             return media.Id;
         }
 
-        public async Task<Guid> Save(byte[] content, Guid? id, string extension = "pdf")
+        public async Task<Guid> Save(byte[] content, Guid? id, string extension = "pdf", string? owner = null)
         {
             Metadata media;
 

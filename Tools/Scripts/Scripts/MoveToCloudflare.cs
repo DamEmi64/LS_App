@@ -1,4 +1,4 @@
-﻿using Drive.API.External.Cloudflare;
+﻿/*using Drive.API.External.Cloudflare;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Options;
 using System.Diagnostics;
@@ -9,14 +9,14 @@ using System.Diagnostics;
 // if your schema links them differently, e.g. shared PK).
 // ---------------------------------------------------------------------------
 
-string connectionString = "Server=(localdb)\\mssqllocaldb;Database=AppContext-drive;Trusted_Connection=True;MultipleActiveResultSets=true";
+string connectionString = "<YOUR_SQL_CONNECTION_STRING>";
 
 var cloudflareOptions = Options.Create(new CloudflareOptions
 {
-    AccountId = "",
-    AccessKey = "",
-    SecretKey = "",
-    BucketName = "ls-api"
+    AccountId = "<ACCOUNT_ID>",
+    AccessKey = "<ACCESS_KEY>",
+    SecretKey = "<SECRET_KEY>",
+    BucketName = "<BUCKET_NAME>"
 });
 
 using var r2 = new CloudflareClient(cloudflareOptions);
@@ -24,7 +24,7 @@ using var r2 = new CloudflareClient(cloudflareOptions);
 const string query = """
     SELECT m.Id, m.Extension, m.Size, m.JsFormat, b.Content, b.ContentStr
     FROM Metadata m
-    JOIN Container b ON b.Id = m.BlobId
+    JOIN Blob b ON b.Id = m.BlobId
     """;
 
 var stopwatch = Stopwatch.StartNew();
@@ -68,6 +68,20 @@ while (await reader.ReadAsync())
         contentStr = reader.GetString(contentStrOrdinal);
     }
 
+    if (jsFormat && contentStr is null)
+    {
+        Console.WriteLine($"[SKIP] {id}: JsFormat=true but ContentStr is null");
+        skipped++;
+        continue;
+    }
+
+    if (!jsFormat && content is null)
+    {
+        Console.WriteLine($"[SKIP] {id}: JsFormat=false but Content is null");
+        skipped++;
+        continue;
+    }
+
     await throttle.WaitAsync();
 
     var task = UploadOneAsync(id, extension, jsFormat, content, contentStr)
@@ -105,8 +119,6 @@ async Task UploadOneAsync(Guid id, string? extension, bool jsFormat, byte[]? con
 {
     var key = id.ToString("N");
 
-    jsFormat = jsFormat || !string.IsNullOrEmpty(contentStr);
-
     var metadata = new Dictionary<string, string>
     {
         ["jsformat"] = jsFormat ? "true" : "false",
@@ -137,4 +149,4 @@ static string GetContentType(string? extension) => extension?.TrimStart('.').ToL
     "json" => "application/json",
     "txt" => "text/plain",
     _ => "application/octet-stream"
-};
+};*/

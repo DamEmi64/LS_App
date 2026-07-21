@@ -23,5 +23,11 @@
         ///     Extension
         /// </summary>
         public string Extension { get; set; } = "(unknown)";
+
+        /// <summary>
+        ///     Media owner (user id)
+        ///     If null, media is public and can be accessed by anyone with the link.
+        /// </summary>
+        public string? Owner { get; set; }
     }
 }
