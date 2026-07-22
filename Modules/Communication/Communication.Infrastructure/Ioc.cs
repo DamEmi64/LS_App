@@ -14,6 +14,11 @@ using Discord.WebSocket;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using System.Net.Http.Headers;
+using System.Text;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Communication.Infrastructure
 {
@@ -47,6 +52,7 @@ namespace Communication.Infrastructure
             {
                 var config = new DiscordSocketConfig
                 {
+                    LogLevel = LogSeverity.Debug,
                     GatewayIntents =
                         GatewayIntents.Guilds |
                         GatewayIntents.GuildMessages |
@@ -57,19 +63,20 @@ namespace Communication.Infrastructure
             });
 
             services.AddSingleton<IDiscordCommandDispatcher, DiscordCommandDispatcher>();
-            services.AddSingleton<IDiscordBot, DiscordBot>();
 
             return services;
         }
 
-        public static async Task InitializeDiscordBot(this IApplicationBuilder app)
+        public static async Task RegisterDiscordCommands(this IApplicationBuilder app)
         {
             var commandResolver = app.ApplicationServices.GetRequiredService<DiscordCommandResolver>();
             var cmds = commandResolver.DiscoverCommands();
+            DiscordOptions options;
 
             using (var scope = app.ApplicationServices.CreateScope())
             {
                 var repo = scope.ServiceProvider.GetRequiredService<IDiscordRepository>();
+                options = scope.ServiceProvider.GetRequiredService<IOptions<DiscordOptions>>().Value;
 
                 await repo.DisableAllCommands();
 
@@ -90,9 +97,24 @@ namespace Communication.Infrastructure
                 }
             }
 
+            using (var client = new HttpClient() { BaseAddress = new Uri("https://discord.com/api/v10/")})
+            {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bot", options.Token);
+                string url = $"applications/{options.ApplicationId}/commands";
 
-            var bot = app.ApplicationServices.GetRequiredService<IDiscordBot>();
-            await bot.StartAsync();
+                foreach (var cmd in cmds)
+                {
+                    string json = JsonConvert.SerializeObject(new
+                    {
+                        name = cmd.Key,
+                        description = cmd.Value.Command,
+                        type = 1 // CHAT_INPUT (slash command)
+                    });
+
+                    using var content = new StringContent(json, Encoding.UTF8, "application/json");
+                    _ = await client.PostAsync(url, content);
+                }
+            }
         }
     }
 }

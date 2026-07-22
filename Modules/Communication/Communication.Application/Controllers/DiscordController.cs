@@ -1,6 +1,11 @@
 ﻿using Base;
+using Communication.Application.Dtos;
 using Communication.Domain.Entities;
 using Communication.Domain.Repositories;
+using CommunicationBase.Dtos;
+using CommunicationBase.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +16,12 @@ namespace Communication.Application.Controllers
     public class DiscordController : BaseController
     {
         private readonly IDiscordRepository _discordRepository;
+        private readonly IDiscordCommandDispatcher _discordCommandDispatcher;
 
-        public DiscordController(IControllerService controllerService, IDiscordRepository discordRepository) : base(controllerService)
+        public DiscordController(IControllerService controllerService, IDiscordRepository discordRepository, IDiscordCommandDispatcher discordCommandDispatcher) : base(controllerService)
         {
             _discordRepository = discordRepository;
+            _discordCommandDispatcher = discordCommandDispatcher;
         }
 
         [HttpGet("{id}")]

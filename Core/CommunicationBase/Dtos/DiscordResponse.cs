@@ -3,6 +3,14 @@
     public class DiscordResponse
     {
         public string Text { get; set; } = string.Empty;
-        public byte[] File { get; set; } = Array.Empty<byte>();
+        public List<DiscordResponseFile>? Files { get; set; }
+
+        public class DiscordResponseFile
+        {
+            public required string Title { get; set; }
+            public required byte[] Content { get; set; }
+            public required string Extension { get; set; }
+            public string Filename => $"{Title}.{Extension}";
+        }
     }
 }

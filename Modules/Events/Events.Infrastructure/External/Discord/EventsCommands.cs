@@ -1,4 +1,5 @@
-﻿using CommunicationBase.Attributes;
+﻿using Base;
+using CommunicationBase.Attributes;
 using CommunicationBase.Dtos;
 using CommunicationBase.Interfaces;
 using Events.Domain.Repositories;
@@ -17,7 +18,7 @@ namespace Events.Infrastructure.External.Discord
         [DiscordCommand("event", "Event details for {Title}: {Description}")]
         public async Task<DiscordResponse> GetEvent(DiscordCommandContext ctx)
         {
-            var title = ctx.Arguments.Length > 0 ? ctx.Arguments[0] : null;
+            var title = ctx.GetArgument(0);
 
             if (title is null)
                 return new DiscordResponse { Text = "Please provide an event title." };
@@ -29,7 +30,7 @@ namespace Events.Infrastructure.External.Discord
 
             return new DiscordResponse
             {
-                Text = string.Format(ctx.Configuration ?? "Event details for {Title}: {Description}", new { eventEntity.Title, eventEntity.Description })
+                Text = TemplateFormatter.Format(ctx.Configuration ?? "Event details for {Title}: {Description}", new { eventEntity.Title, eventEntity.Description })
             };
         }
 
@@ -41,7 +42,7 @@ namespace Events.Infrastructure.External.Discord
                 return new DiscordResponse { Text = "No upcoming events found." };
             return new DiscordResponse
             {
-                Text = string.Format(ctx.Configuration ?? "Event details for {Title}: {Description}", new {closestEvent.Title, closestEvent.Description})
+                Text = TemplateFormatter.Format(ctx.Configuration ?? "Event details for {Title}: {Description}", new {closestEvent.Title, closestEvent.Description})
             };
         }
     }

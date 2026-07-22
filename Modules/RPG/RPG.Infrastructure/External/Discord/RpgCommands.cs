@@ -15,11 +15,11 @@ namespace RPG.Infrastructure.External.Discord
         private readonly ISummaryService _summaryService;
         private readonly IMediaProvider _mediaProvider;
 
-        public RpgCommands(IStoryRepository storyRepository, ISummaryService summaryService, IMediaProvider mediaProvider)
+        public RpgCommands(IStoryRepository storyRepository, ISummaryService summaryService, IMediaProviderFactory mediaProviderFactory)
         {
             _storyRepository = storyRepository;
             _summaryService = summaryService;
-            _mediaProvider = mediaProvider;
+            _mediaProvider = mediaProviderFactory.Create(AppConfiguration.GetValue<string>("DefaultStorage"));
         }
 
         [DiscordCommand("last-rpg", "Last RPG session was {Title}.")]
@@ -32,7 +32,7 @@ namespace RPG.Infrastructure.External.Discord
 
             return new DiscordResponse
             {
-                Text = string.Format(ctx.Configuration ?? "Last RPG Session is {Title}.", new { story.Title, story.Description })
+                Text = TemplateFormatter.Format(ctx.Configuration ?? "Last RPG Session is {Title}.", new { story.Title, story.Description })
             };
         }
 
@@ -44,6 +44,8 @@ namespace RPG.Infrastructure.External.Discord
             if (story is null)
                 return new DiscordResponse { Text = "No RPG story found." };
 
+            var isPdf = ctx.GetArgument(0) != "html";
+
             if (story.Summary is null)
             {
                 var dto = new SummaryModel
@@ -51,7 +53,7 @@ namespace RPG.Infrastructure.External.Discord
                     Chapters = story.Chapters.Select(c => c.Id).ToList(),
                     Description = story.Description,
                     Title = story.Title,
-                    IsPdf = ctx.Arguments[0] != "html"
+                    IsPdf = isPdf
                 };
                 var job = await _summaryService.QueueGenerateSummaryJob(story.Id, dto, UserData.System, dto.IsPdf);
                 return new DiscordResponse { Text = "No RPG summary found. Requesting for summary generation, wait few minutes and ask again..." };
@@ -61,8 +63,13 @@ namespace RPG.Infrastructure.External.Discord
 
             return new DiscordResponse
             {
-                Text = string.Format(ctx.Configuration ?? "Last RPG Session is {Title}.", new { story.Title, story.Description }),
-                File = media?.Content ?? Array.Empty<byte>()
+                Text = TemplateFormatter.Format(ctx.Configuration ?? "Last RPG Session is {Title}.", new { story.Title, story.Description }),
+                Files = media?.Content is null ? null : new() { new()
+                {
+                    Content = media.Content,
+                    Title = story.Title,
+                    Extension = isPdf ? "pdf" : "html"
+                } }
             };
         }
     }

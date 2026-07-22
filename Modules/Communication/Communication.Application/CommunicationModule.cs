@@ -35,13 +35,14 @@ namespace Communication.Application
                 .AddDatabase<CommunicationContext>(AppConfiguration.DefaultConnectionString)
                 .AddRepos()
                 .Configure<EmailOptions>(AppConfiguration.Get<EmailOptions>())
+                .Configure<DiscordOptions>(AppConfiguration.Get<DiscordOptions>())
                 .AddServices()
                 .AddDiscord();
         }
 
         public IApplicationBuilder OnStartup(IApplicationBuilder app)
         {
-            app.InitializeDiscordBot().Wait();
+            app.RegisterDiscordCommands().Wait();
             return app;
         }
     }

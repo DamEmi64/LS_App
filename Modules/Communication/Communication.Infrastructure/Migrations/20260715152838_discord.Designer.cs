@@ -13,7 +13,9 @@ namespace Communication.Infrastructure.Migrations
 {
     [DbContext(typeof(CommunicationContext))]
     [Migration("20260715152838_discord")]
+#pragma warning disable CS8981 // The type name only contains lower-cased ascii characters. Such names may become reserved for the language.
     partial class discord
+#pragma warning restore CS8981 // The type name only contains lower-cased ascii characters. Such names may become reserved for the language.
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

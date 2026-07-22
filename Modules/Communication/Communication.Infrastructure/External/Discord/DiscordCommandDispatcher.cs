@@ -41,7 +41,7 @@ namespace Communication.Infrastructure.External.Discord
                 context.Configuration = discordCmd.Response;
 
                 var instance = ActivatorUtilities.CreateInstance(
-                    _services,
+                    scope.ServiceProvider,
                     descriptor.CommandClass);
 
                 var task = (Task<DiscordResponse>)descriptor.Method.Invoke(instance, [context])!;
