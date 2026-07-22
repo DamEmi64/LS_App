@@ -21,6 +21,8 @@ namespace Base
 
         protected IEnumerable<UserData> Users => _controllerService.Users;
 
+        protected IConnect Connect => _controllerService.Connect;
+
         protected IActionResult Json<T>(IEnumerable<T> data, int? count = null)
             => Json(new ResponseList<T>
             {
