@@ -68,7 +68,8 @@ namespace Communication.Infrastructure.External.Discord
                                     attribute.Command,
                                     type,
                                     method,
-                                    attribute.Configuration ?? "{}")))
+                                    attribute.Configuration ?? "{}",
+                                    attribute.Arguments ?? new Dictionary<string, bool>())))
                         {
                             throw new InvalidOperationException(
                                 $"Duplicate Discord command '{attribute.Command}'.");

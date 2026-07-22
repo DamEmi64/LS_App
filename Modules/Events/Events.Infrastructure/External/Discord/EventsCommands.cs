@@ -15,7 +15,7 @@ namespace Events.Infrastructure.External.Discord
             _eventRepository = eventRepository;
         }
 
-        [DiscordCommand("event", "Event details for {Title}: {Description}")]
+        [DiscordCommand("event", "Event details for {Title}: {Description}", "title:required")]
         public async Task<DiscordResponse> GetEvent(DiscordCommandContext ctx)
         {
             var title = ctx.GetArgument(0);
@@ -30,7 +30,7 @@ namespace Events.Infrastructure.External.Discord
 
             return new DiscordResponse
             {
-                Text = TemplateFormatter.Format(ctx.Configuration ?? "Event details for {Title}: {Description}", new { eventEntity.Title, eventEntity.Description })
+                Text = TemplateFormatter.Format(ctx.Configuration ?? "Event details for {Title}: {Description}", new { eventEntity.Title, eventEntity.Description, Participates = string.Join(",", eventEntity.Participates.Select(x => x.Login)) })
             };
         }
 
@@ -42,7 +42,7 @@ namespace Events.Infrastructure.External.Discord
                 return new DiscordResponse { Text = "No upcoming events found." };
             return new DiscordResponse
             {
-                Text = TemplateFormatter.Format(ctx.Configuration ?? "Event details for {Title}: {Description}", new {closestEvent.Title, closestEvent.Description})
+                Text = TemplateFormatter.Format(ctx.Configuration ?? "Event details for {Title}: {Description}", new { closestEvent.Title, closestEvent.Description, Participates = string.Join(",", closestEvent.Participates.Select(x => x.Login)) })
             };
         }
     }

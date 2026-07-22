@@ -11,17 +11,20 @@ namespace Communication.Infrastructure.External.Discord
         public MethodInfo Method { get; }
 
         public string DefaultConfiguration { get; }
+        public Dictionary<string,bool> Arguments { get; }
 
         public DiscordCommandDescriptor(
             string command,
             Type commandClass,
             MethodInfo method,
-            string defaultConfiguration)
+            string defaultConfiguration,
+            Dictionary<string, bool> arguments)
         {
             Command = command;
             CommandClass = commandClass;
             Method = method;
             DefaultConfiguration = defaultConfiguration;
+            Arguments = arguments;
         }
     }
 }

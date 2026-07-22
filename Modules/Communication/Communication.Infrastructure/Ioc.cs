@@ -104,12 +104,35 @@ namespace Communication.Infrastructure
 
                 foreach (var cmd in cmds)
                 {
-                    string json = JsonConvert.SerializeObject(new
+                    var json = string.Empty;
+
+                    if (cmd.Value.Arguments.Count > 0)
                     {
-                        name = cmd.Key,
-                        description = cmd.Value.Command,
-                        type = 1 // CHAT_INPUT (slash command)
-                    });
+                        var cmdOptions = cmd.Value.Arguments.Select(x => new
+                        {
+                            name = x.Key,
+                            description = x.Key,
+                            type = 3,
+                            required = x.Value
+                        });
+
+                        json = JsonConvert.SerializeObject(new
+                        {
+                            name = cmd.Key,
+                            description = cmd.Value.Command,
+                            type = 1,
+                            options = cmdOptions
+                        });
+                    }
+                    else
+                    {
+                        json = JsonConvert.SerializeObject(new
+                        {
+                            name = cmd.Key,
+                            description = cmd.Value.Command,
+                            type = 1
+                        });
+                    }
 
                     using var content = new StringContent(json, Encoding.UTF8, "application/json");
                     _ = await client.PostAsync(url, content);

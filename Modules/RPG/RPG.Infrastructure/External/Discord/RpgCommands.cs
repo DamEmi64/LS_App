@@ -32,11 +32,16 @@ namespace RPG.Infrastructure.External.Discord
 
             return new DiscordResponse
             {
-                Text = TemplateFormatter.Format(ctx.Configuration ?? "Last RPG Session is {Title}.", new { story.Title, story.Description })
+                Text = TemplateFormatter.Format(ctx.Configuration ?? "Last RPG Session is {Title}.", new
+                {
+                    story.Title,
+                    story.Description,
+                    ChapterList = string.Join(", ", story.Chapters.Select(c => c.Title))
+                })
             };
         }
 
-        [DiscordCommand("summary", "Last RPG session was {Title}.")]
+        [DiscordCommand("summary", "Last RPG session was {Title}.","title:optional")]
         public async Task<DiscordResponse> Summary(DiscordCommandContext ctx)
         {
             var story = await _storyRepository.GetLastEdited();
@@ -63,7 +68,12 @@ namespace RPG.Infrastructure.External.Discord
 
             return new DiscordResponse
             {
-                Text = TemplateFormatter.Format(ctx.Configuration ?? "Last RPG Session is {Title}.", new { story.Title, story.Description }),
+                Text = TemplateFormatter.Format(ctx.Configuration ?? "Last RPG Session is {Title}.", new
+                {
+                    story.Title,
+                    story.Description,
+                    ChapterList = string.Join(", ", story.Chapters.Select(c => c.Title))
+                }),
                 Files = media?.Content is null ? null : new() { new()
                 {
                     Content = media.Content,

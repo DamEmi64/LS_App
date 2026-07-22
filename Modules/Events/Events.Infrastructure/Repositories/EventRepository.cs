@@ -41,7 +41,7 @@ namespace Events.Infrastructure.Repositories
 
         public Task<Event?> GetByName(string title)
         {
-            return DbContext.Set<Event>().Include(x => x.Participates).FirstOrDefaultAsync(x => x.Title == title);
+            return DbContext.Set<Event>().Include(x => x.Participates).FirstOrDefaultAsync(x => x.Title.Contains(title));
         }
 
         public Task<Event?> GetClosestEvent()
