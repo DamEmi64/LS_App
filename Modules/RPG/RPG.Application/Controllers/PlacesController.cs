@@ -25,7 +25,7 @@ namespace RPG.Application.Controllers
         {
             _placeRepository = placeRepository;
             _chapterRepository = chapterRepository;
-            _mediaProvider = mediaProviderFactory.Create();
+            _mediaProvider = mediaProviderFactory.Create(AppConfiguration.GetValue<string>("DefaultStorage"));
         }
 
         [HttpGet("{id}")]

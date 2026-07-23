@@ -24,7 +24,7 @@ namespace RPG.Infrastructure.Jobs
         {
             _storyRepository = storyRepository;
             _razorViewEngine = razorViewEngine;
-            _mediaProvider = mediaProviderFactory.Create();
+            _mediaProvider = mediaProviderFactory.Create(AppConfiguration.GetValue<string>("DefaultStorage"));
         }
 
         public override async Task Execute(GenerateSummaryJob request)

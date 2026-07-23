@@ -283,7 +283,21 @@
     "events": "Wydarzenia",
     "allEvents": "Wszystkie wydarzenia",
     "myEvents": "Moje wydarzenia",
-    "communicationRegistry": "Historia komunikacji"
+    "communicationRegistry": "Historia komunikacji",
+    "discord": "Discord"
+  },
+  "discord": {
+    "title": "Komendy Discord",
+    "description": "Zarządzaj komendami i odpowiedziami bota",
+    "command": "Komenda",
+    "response": "Odpowiedź",
+    "active": "Aktywny",
+    "enable": "Włącz",
+    "disable": "Wyłącz",
+    "editResponse": "Edytuj odpowiedź",
+    "editResponseModal": {
+      "title": "Edytuj odpowiedź dla {{command}}"
+    }
   },
   "server": {
     "info": "Stan aplikacji",

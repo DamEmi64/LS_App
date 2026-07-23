@@ -23,5 +23,6 @@ namespace Communication.Infrastructure.Db
         public DbSet<Email> Emails { get; set; } = default!;
         public DbSet<Template> Templates { get; set; } = default!;
         public DbSet<CommunicationRegistry> CommunicationRegistry { get; set; } = default!;
+        public DbSet<DiscordCmd> DiscordCommands { get; set; } = default!;
     }
 }

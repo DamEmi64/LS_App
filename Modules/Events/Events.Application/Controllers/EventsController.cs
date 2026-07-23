@@ -34,7 +34,7 @@ namespace Events.Application.Controllers
             _mapper = mapper;
             _invitationService = invitationService;
             _reminderService = reminderService;
-            _mediaProvider = mediaProviderFactory.Create();
+            _mediaProvider = mediaProviderFactory.Create(AppConfiguration.GetValue<string>("DefaultStorage"));
         }
 
         [HttpGet("{id}")]

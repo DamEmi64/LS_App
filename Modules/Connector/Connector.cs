@@ -1,6 +1,7 @@
 ﻿using Automation.Application;
 using Base;
 using Communication.Application;
+using Drive.API;
 using Events.Application;
 using Files.Application;
 using Microsoft.AspNetCore.Builder;
@@ -20,6 +21,7 @@ namespace Connector
 
         public override IReadOnlyCollection<ModuleInfo> Modules => new List<ModuleInfo>
         {
+            new DriveModule().Info(),
             new SystemModule().Info(),
             new FilesModule().Info(),
             new RPGModule().Info(),

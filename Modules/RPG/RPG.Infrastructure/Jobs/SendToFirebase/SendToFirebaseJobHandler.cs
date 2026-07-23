@@ -22,7 +22,7 @@ namespace RPG.Infrastructure.Jobs
             IMediaProviderFactory mediaProviderFactory)
             : base(jobContext)
         {
-            _mediaProvider = mediaProviderFactory.Create();
+            _mediaProvider = mediaProviderFactory.Create(AppConfiguration.GetValue<string>("DefaultStorage"));
         }
 
         public override async Task Execute(SendToFirebaseJob request)
