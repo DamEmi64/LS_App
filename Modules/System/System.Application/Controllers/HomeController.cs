@@ -33,7 +33,7 @@ namespace System.Application.Controllers
         {
             var media = await _mediaProvider.Load(id);
 
-            if (media is null)
+            if (media is null || !string.IsNullOrEmpty(media.Owner))
             {
                 return Json(new Base.Media());
             }

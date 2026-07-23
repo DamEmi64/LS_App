@@ -12,6 +12,7 @@
     <ProjectReference Include="..\Communication\Communication.Application\Communication.Application.csproj" />
     <ProjectReference Include="..\Drive\Drive.API\Drive.API.csproj" />
     <ProjectReference Include="..\Events\Events.Application\Events.Application.csproj" />
+    <ProjectReference Include="..\FilesV2\FilesV2.Application\FilesV2.Application.csproj" />
     <ProjectReference Include="..\Files\Files.Application\Files.Application.csproj" />
     <ProjectReference Include="..\RPG\RPG.Application\RPG.Application.csproj" />
     <ProjectReference Include="..\System\System.Application\System.Application.csproj" />

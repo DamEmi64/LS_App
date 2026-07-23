@@ -23,7 +23,7 @@ namespace System.Infrastructure.Services.Media
 
             if (mediaProvider is null)
             {
-                mediaProvider = _services.GetRequiredKeyedService<IMediaProvider>("db");
+                mediaProvider = _services.GetRequiredKeyedService<IMediaProvider>(AppConfiguration.GetValue<string>("DefaultStorage"));
             }
 
             return mediaProvider;
