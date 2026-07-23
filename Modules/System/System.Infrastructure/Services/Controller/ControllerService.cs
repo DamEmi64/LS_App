@@ -11,11 +11,12 @@ namespace System.Infrastructure.Services.Controller
         private readonly UserManager<User> _userManager;
         private readonly IHttpContextAccessor _contextAccessor;
 
-        public ControllerService(UserManager<User> userManager, INotifier notifier, IHttpContextAccessor contextAccessor)
+        public ControllerService(UserManager<User> userManager, INotifier notifier, IHttpContextAccessor contextAccessor, IConnect connect)
         {
             _userManager = userManager;
             _notifier = notifier;
             _contextAccessor = contextAccessor;
+            Connect = connect;
         }
 
         public INotifier Notifier => _notifier;
@@ -29,6 +30,8 @@ namespace System.Infrastructure.Services.Controller
             Id = 0,
             Login = u.UserName
         });
+
+        public IConnect Connect { get; }
 
         public async Task<UserData?> GetUser(HttpContext context)
         {

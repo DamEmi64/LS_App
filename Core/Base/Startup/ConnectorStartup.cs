@@ -84,7 +84,8 @@ namespace Base
 
         protected void ConfigureSwagger(IServiceCollection services)
         {
-            services.AddEndpointsApiExplorer()
+            services
+                .AddEndpointsApiExplorer()
                 .AddSwaggerGen(opt =>
                 {
                     opt.SwaggerDoc("v1", new OpenApiInfo
@@ -175,6 +176,11 @@ namespace Base
 
         public override void OnStartup(WebApplication app)
         {
+            if (AppConfiguration.GetValue(AutoMigrate, true))
+            {
+                UpdateDatabases(app);
+            }
+
             UseModules(app);
 
             app.UseSwagger(o => o.OpenApiVersion = OpenApiSpecVersion.OpenApi3_0);
@@ -191,11 +197,6 @@ namespace Base
             pattern: "api/{controller=Home}/{action=Index}/{id?}");
             app.MapFallbackToFile("/index.html");
             app.UseSerilogRequestLogging();
-
-            if (AppConfiguration.GetValue(AutoMigrate, true))
-            {
-                UpdateDatabases(app);
-            }
 
             UpdateDictionaries(app);
 

@@ -45,5 +45,14 @@
                 Role = Role,
                 Permissions = Permissions.ToArray()
             };
+
+        public static UserData System =>
+            new()
+            {
+                Id = 0,
+                UserId = Guid.Empty.ToString(),
+                Login = "System",
+                Email = "system@example.com"
+            };
     }
 }

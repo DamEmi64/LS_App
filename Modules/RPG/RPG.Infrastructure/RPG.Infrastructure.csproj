@@ -32,6 +32,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Core\AutomationBase\AutomationBase.csproj" />
+    <ProjectReference Include="..\..\..\Core\CommunicationBase\CommunicationBase.csproj" />
     <ProjectReference Include="..\RPG.Domain\RPG.Domain.csproj" />
   </ItemGroup>
 
