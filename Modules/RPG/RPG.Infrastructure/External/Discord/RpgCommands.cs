@@ -31,7 +31,7 @@ namespace RPG.Infrastructure.External.Discord
             {
                 Text = TemplateFormatter.Format(ctx.Configuration ?? "List of stories is: {stories:joinByLine}", new
                 {
-                    stories
+                    stories = stories.Select(x=>x.Title).ToList()
                 })
             };
         }

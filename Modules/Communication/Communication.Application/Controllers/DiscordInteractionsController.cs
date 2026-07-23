@@ -45,6 +45,8 @@ namespace DiscordBot.Controllers
                 rawBody = await reader.ReadToEndAsync();
             }
 
+            _logger.Error("Body:" +  rawBody);
+
             if (!VerifySignature(rawBody))
             {
                 return Unauthorized();
@@ -52,12 +54,12 @@ namespace DiscordBot.Controllers
 
             using var doc = JsonDocument.Parse(rawBody);
             var root = doc.RootElement;
-            int type = root.GetProperty("type").GetInt32();
+            int type = root.GetProperty("data").GetProperty("type").GetInt32();
 
             switch (type)
             {
                 case Constants.TYPE_PING:
-                    return Ok(new { type = Constants.RESPONSE_PONG });
+                    return await HandleApplicationCommand(root);
 
                 case Constants.TYPE_APPLICATION_COMMAND:
                     return await HandleApplicationCommand(root);
@@ -80,6 +82,18 @@ namespace DiscordBot.Controllers
         private async Task<IActionResult> HandleApplicationCommand(JsonElement root)
         {
             string commandName = GetCommandPath(root);
+
+            var cmd = await _discordRepository.GetCmd(commandName);
+
+            if (cmd is null || !cmd.Active)
+                return Ok(new
+                {
+                    type = Constants.RESPONSE_CHANNEL_MESSAGE_WITH_SOURCE,
+                    data = new
+                    {
+                        content = "This command is not available right now."
+                    }
+                });
 
             var result = await Connect.ExecuteDiscordCmdAsync(commandName, root.ToCommandContext());
 
@@ -122,9 +136,12 @@ namespace DiscordBot.Controllers
 
         private string GetCommandPath(JsonElement data)
         {
-            string path = data.GetProperty("name").GetString()!;
+            string path = data.GetProperty("data").GetProperty("name").GetString()!;
 
-            JsonElement current = data;
+            if (path.ToLowerInvariant() == "Ping".ToLowerInvariant())
+                return string.Empty;
+
+            JsonElement current = data.GetProperty("data");
 
             while (current.TryGetProperty("options", out var options) &&
                    options.ValueKind == JsonValueKind.Array &&
