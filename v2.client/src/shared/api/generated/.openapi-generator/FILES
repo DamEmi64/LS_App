@@ -5,6 +5,7 @@ api/auth-api.ts
 api/automations-api.ts
 api/chapters-api.ts
 api/communication-history-api.ts
+api/discord-api.ts
 api/emails-api.ts
 api/events-api.ts
 api/files-api.ts
@@ -31,6 +32,8 @@ docs/ChaptersApi.md
 docs/CommunicationHistoryApi.md
 docs/CommunicationRegistry.md
 docs/CommunicationRegistryResponseList.md
+docs/DiscordApi.md
+docs/DiscordCmd.md
 docs/Email.md
 docs/EmailGenerationDto.md
 docs/EmailsApi.md
@@ -105,6 +108,7 @@ models/chapter-response-list.ts
 models/chapter.ts
 models/communication-registry-response-list.ts
 models/communication-registry.ts
+models/discord-cmd.ts
 models/email-generation-dto.ts
 models/email.ts
 models/event-dto-response-list.ts

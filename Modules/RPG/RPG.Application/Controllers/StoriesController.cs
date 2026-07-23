@@ -33,7 +33,7 @@ namespace RPG.Application.Controllers
         {
             _storyRepository = storyRepository;
             _summaryService = summaryService;
-            _mediaProvider = mediaProviderFactory.Create();
+            _mediaProvider = mediaProviderFactory.Create(AppConfiguration.GetValue<string>("DefaultStorage"));
             _mapper = mapper;
             _importService = importService;
         }

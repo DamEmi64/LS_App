@@ -283,7 +283,21 @@
     "events": "Events",
     "allEvents": "Alle Events",
     "myEvents": "Meine Events",
-    "communicationRegistry": "Kommunikationshistorie"
+    "communicationRegistry": "Kommunikationshistorie",
+    "discord": "Discord"
+  },
+  "discord": {
+    "title": "Discord-Befehle",
+    "description": "Bot-Befehle und Antworten verwalten",
+    "command": "Befehl",
+    "response": "Antwort",
+    "active": "Aktiv",
+    "enable": "Aktivieren",
+    "disable": "Deaktivieren",
+    "editResponse": "Antwort bearbeiten",
+    "editResponseModal": {
+      "title": "Antwort für {{command}} bearbeiten"
+    }
   },
   "server": {
     "info": "Systemstatus",

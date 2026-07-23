@@ -14,6 +14,12 @@ namespace Base
         UserData? CurrentUser { get; }
 
         /// <summary>
+        ///    Get connect Client instance
+        /// </summary>
+        /// <returns></returns>
+        IConnect Connect { get; }
+
+        /// <summary>
         ///    Get user data from http context
         /// </summary>
         /// <param name="context"></param>

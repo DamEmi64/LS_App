@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\Base\Base.csproj" />
+    <ProjectReference Include="..\..\Modules\Drive\Drive.API\Drive.API.csproj" />
   </ItemGroup>
 
 </Project>
