@@ -16,6 +16,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Net.Http.Headers;
 using System.Text;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
@@ -97,46 +98,60 @@ namespace Communication.Infrastructure
                 }
             }
 
-            using (var client = new HttpClient() { BaseAddress = new Uri("https://discord.com/api/v10/")})
+            using (var client = new HttpClient() { BaseAddress = new Uri("https://discord.com/api/v10/") })
             {
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bot", options.Token);
                 string url = $"applications/{options.ApplicationId}/commands";
 
+                _ = await client.PutAsync(url, new StringContent("[]", Encoding.UTF8, "application/json"));
+
+                var roots = new Dictionary<string, JObject>();
+
                 foreach (var cmd in cmds)
                 {
-                    var json = string.Empty;
+                    var parts = cmd.Key.Split('/');
 
-                    if (cmd.Value.Arguments.Count > 0)
+                    if (!roots.TryGetValue(parts[0], out var root))
                     {
-                        var cmdOptions = cmd.Value.Arguments.Select(x => new
+                        root = new JObject
                         {
-                            name = x.Key,
-                            description = x.Key,
-                            type = 3,
-                            required = x.Value
-                        });
+                            ["name"] = parts[0],
+                            ["description"] = parts[0],
+                            ["options"] = new JArray()
+                        };
 
-                        json = JsonConvert.SerializeObject(new
-                        {
-                            name = cmd.Key,
-                            description = cmd.Value.Command,
-                            type = 1,
-                            options = cmdOptions
-                        });
-                    }
-                    else
-                    {
-                        json = JsonConvert.SerializeObject(new
-                        {
-                            name = cmd.Key,
-                            description = cmd.Value.Command,
-                            type = 1
-                        });
+                        roots[parts[0]] = root;
                     }
 
-                    using var content = new StringContent(json, Encoding.UTF8, "application/json");
-                    _ = await client.PostAsync(url, content);
+                    JArray cmdOptions = (JArray)root["options"]!;
+                    JObject? current = null;
+
+                    for (int i = 1; i < parts.Length; i++)
+                    {
+                        var existing = cmdOptions
+                            .Children<JObject>()
+                            .FirstOrDefault(x => (string?)x["name"] == parts[i]);
+
+                        if (existing == null)
+                        {
+                            existing = new JObject
+                            {
+                                ["type"] = 1,
+                                ["name"] = parts[i],
+                                ["description"] = parts[i],
+                                ["options"] = new JArray()
+                            };
+
+                            cmdOptions.Add(existing);
+                        }
+
+                        current = existing;
+                        cmdOptions = (JArray)existing["options"]!;
+                    }
                 }
+                var requestData = roots.Select(x => x.Value);
+                using var content = new StringContent(JsonConvert.SerializeObject(requestData.ToList()), Encoding.UTF8, "application/json");
+                _ = await client.PutAsync(url, content);
             }
         }
     }

@@ -79,10 +79,7 @@ namespace DiscordBot.Controllers
 
         private async Task<IActionResult> HandleApplicationCommand(JsonElement root)
         {
-            string commandName = root
-                .GetProperty("data")
-                .GetProperty("name")
-                .GetString() ?? string.Empty;
+            string commandName = GetCommandPath(root);
 
             var result = await Connect.ExecuteDiscordCmdAsync(commandName, root.ToCommandContext());
 
@@ -123,12 +120,34 @@ namespace DiscordBot.Controllers
             return BuildMultipartInteractionResponse(payload, response.Files);
         }
 
-        /// <summary>
-        /// Builds a multipart/form-data HTTP response for an interaction that includes file attachments.
-        /// Discord requires this format instead of plain JSON whenever "attachments" are present:
-        /// - part named "payload_json" containing the normal interaction response body
-        /// - one part per file named "files[0]", "files[1]", etc.
-        /// </summary>
+        private string GetCommandPath(JsonElement data)
+        {
+            string path = data.GetProperty("name").GetString()!;
+
+            JsonElement current = data;
+
+            while (current.TryGetProperty("options", out var options) &&
+                   options.ValueKind == JsonValueKind.Array &&
+                   options.GetArrayLength() > 0)
+            {
+                var option = options[0];
+
+                // Discord:
+                // 1 = Subcommand
+                // 2 = Subcommand Group
+                int type = option.GetProperty("type").GetInt32();
+
+                if (type != 1 && type != 2)
+                    break;
+
+                path += "/" + option.GetProperty("name").GetString();
+
+                current = option;
+            }
+
+            return path;
+        }
+
         private IActionResult BuildMultipartInteractionResponse(object payload, IReadOnlyList<DiscordResponse.DiscordResponseFile> files)
         {
             string boundary = $"----DiscordBoundary{Guid.NewGuid():N}";

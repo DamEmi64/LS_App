@@ -22,7 +22,21 @@ namespace RPG.Infrastructure.External.Discord
             _mediaProvider = mediaProviderFactory.Create(AppConfiguration.GetValue<string>("DefaultStorage"));
         }
 
-        [DiscordCommand("last-rpg", "Last RPG session was {Title}.")]
+        [DiscordCommand("rpg/list", "List of stories is: {stories:joinByLine}")]
+        public async Task<DiscordResponse> ListRPG(DiscordCommandContext ctx)
+        {
+            var stories = _storyRepository.GetAll().ToList();
+
+            return new DiscordResponse
+            {
+                Text = TemplateFormatter.Format(ctx.Configuration ?? "List of stories is: {stories:joinByLine}", new
+                {
+                    stories
+                })
+            };
+        }
+
+        [DiscordCommand("rpg/last", "Last RPG session was {Title}.")]
         public async Task<DiscordResponse> LastRpg(DiscordCommandContext ctx)
         {
             var story = await _storyRepository.GetLastEdited();
@@ -41,7 +55,7 @@ namespace RPG.Infrastructure.External.Discord
             };
         }
 
-        [DiscordCommand("summary", "Last RPG session was {Title}.","title:optional")]
+        [DiscordCommand("rpg/summary", "Last RPG session was {Title}.","title:optional")]
         public async Task<DiscordResponse> Summary(DiscordCommandContext ctx)
         {
             var story = await _storyRepository.GetLastEdited();

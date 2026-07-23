@@ -15,7 +15,21 @@ namespace Events.Infrastructure.External.Discord
             _eventRepository = eventRepository;
         }
 
-        [DiscordCommand("event", "Event details for {Title}: {Description}", "title:required")]
+        [DiscordCommand("event/list", "List of events is: {events:joinByLine}")]
+        public async Task<DiscordResponse> ListRPG(DiscordCommandContext ctx)
+        {
+            var events = _eventRepository.GetAll().ToList();
+
+            return new DiscordResponse
+            {
+                Text = TemplateFormatter.Format(ctx.Configuration ?? "List of events is: {events:joinByLine}", new
+                {
+                    events
+                })
+            };
+        }
+
+        [DiscordCommand("event/details", "Event details for {Title}: {Description}", "title:required")]
         public async Task<DiscordResponse> GetEvent(DiscordCommandContext ctx)
         {
             var title = ctx.GetArgument(0);
@@ -34,7 +48,7 @@ namespace Events.Infrastructure.External.Discord
             };
         }
 
-        [DiscordCommand("closest-event", "Event details for {Title}: {Description}")]
+        [DiscordCommand("event/closest", "Event details for {Title}: {Description}")]
         public async Task<DiscordResponse> GetClosestEvent(DiscordCommandContext ctx)
         {
             var closestEvent = await _eventRepository.GetClosestEvent();
