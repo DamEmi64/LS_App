@@ -27,7 +27,7 @@ namespace FilesV2.Infrastructure.Repositories
                 .Include(x => x.Folder)
                 .Include(x => x.Users)
                 .Include(x => x.Owner)
-                .Where(x => HasReadAccess(x,userId))
+                .Where(x => x.Public || x.Owner.UserId.ToString() == userId || x.Users.Any(u => u.UserId.ToString() == userId))
                 .ToListAsync();
         }
 

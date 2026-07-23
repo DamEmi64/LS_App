@@ -9,6 +9,7 @@ namespace FilesV2.Infrastructure.EntityConfiguration
         {
             builder.HasMany(x => x.Files).WithOne(x => x.Folder).OnDelete(DeleteBehavior.Cascade);
             builder.HasMany(x => x.Children).WithOne(x => x.Parent).OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(x => x.Parent).WithMany(x => x.Children).OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

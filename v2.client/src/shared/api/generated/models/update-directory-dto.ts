@@ -14,11 +14,8 @@
 
 
 
-export interface Media {
-    'id'?: string;
-    'contentStr'?: string | null;
-    'content'?: string | null;
-    'extension'?: string | null;
-    'owner'?: string | null;
+export interface UpdateDirectoryDto {
+    'title'?: string | null;
+    'parentId'?: string | null;
 }
 

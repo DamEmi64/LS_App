@@ -14,11 +14,14 @@
 
 
 
-export interface Media {
-    'id'?: string;
-    'contentStr'?: string | null;
-    'content'?: string | null;
-    'extension'?: string | null;
-    'owner'?: string | null;
-}
+
+export const Privilage = {
+    NUMBER_0: 0,
+    NUMBER_1: 1,
+    NUMBER_2: 2,
+} as const;
+
+export type Privilage = typeof Privilage[keyof typeof Privilage];
+
+
 

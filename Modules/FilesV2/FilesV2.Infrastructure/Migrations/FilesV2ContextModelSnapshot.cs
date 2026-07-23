@@ -147,7 +147,7 @@ namespace FilesV2.Infrastructure.Migrations
                     b.HasOne("FilesV2.Domain.Entities.Directory", "Parent")
                         .WithMany("Children")
                         .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Parent");
                 });

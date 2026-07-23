@@ -13,12 +13,15 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import type { Privilage } from './privilage';
 
-export interface Media {
-    'id'?: string;
-    'contentStr'?: string | null;
-    'content'?: string | null;
-    'extension'?: string | null;
-    'owner'?: string | null;
+export interface GrantAccessDto {
+    'userId': string | null;
+    'login': string | null;
+    'privilage'?: Privilage;
 }
+
+
 

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FilesV2.Infrastructure.Migrations
 {
     [DbContext(typeof(FilesV2Context))]
-    [Migration("20260723201949__init")]
+    [Migration("20260723214848__init")]
     partial class _init
     {
         /// <inheritdoc />
@@ -150,7 +150,7 @@ namespace FilesV2.Infrastructure.Migrations
                     b.HasOne("FilesV2.Domain.Entities.Directory", "Parent")
                         .WithMany("Children")
                         .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Parent");
                 });

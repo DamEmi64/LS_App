@@ -30,8 +30,7 @@ namespace FilesV2.Infrastructure.Migrations
                         name: "FK_Directories_Directories_ParentId",
                         column: x => x.ParentId,
                         principalTable: "Directories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(

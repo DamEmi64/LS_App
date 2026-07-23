@@ -14,11 +14,10 @@
 
 
 
-export interface Media {
-    'id'?: string;
-    'contentStr'?: string | null;
-    'content'?: string | null;
-    'extension'?: string | null;
-    'owner'?: string | null;
+export interface UpdateFileDto {
+    'title'?: string | null;
+    'description'?: string | null;
+    'directoryId'?: string | null;
+    'public'?: boolean | null;
 }
 

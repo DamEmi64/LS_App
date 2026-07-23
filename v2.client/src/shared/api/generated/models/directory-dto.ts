@@ -14,11 +14,11 @@
 
 
 
-export interface Media {
+export interface DirectoryDto {
     'id'?: string;
-    'contentStr'?: string | null;
-    'content'?: string | null;
-    'extension'?: string | null;
-    'owner'?: string | null;
+    'title'?: string | null;
+    'parentId'?: string | null;
+    'childDirectoryCount'?: number;
+    'fileCount'?: number;
 }
 

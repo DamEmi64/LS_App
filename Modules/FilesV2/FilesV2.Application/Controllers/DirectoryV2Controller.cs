@@ -6,13 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace FilesV2.Application.Controllers
 {
     [ApiController]
-    [Route("api/v2/directories")]
     [AuthPermission("directoriesV2")]
-    public class DirectoriesV2Controllers : BaseController
+    public class DirectoriesController : BaseController
     {
         private IFolderRepository _directoryRepository;
 
-        public DirectoriesV2Controllers(IControllerService controllerService, IFolderRepository directoryRepository)
+        public DirectoriesController(IControllerService controllerService, IFolderRepository directoryRepository)
             : base(controllerService)
         {
             _directoryRepository = directoryRepository;
@@ -48,7 +47,6 @@ namespace FilesV2.Application.Controllers
             if (request.ParentId is not null)
             {
                 parent = await _directoryRepository.Get(request.ParentId.Value);
-                if (parent is null) return BadRequest("Parent directory not found.");
             }
 
             var directory = new Domain.Entities.Directory
@@ -107,5 +105,4 @@ namespace FilesV2.Application.Controllers
             FileCount = directory.Files.Count
         };
     }
-
 }

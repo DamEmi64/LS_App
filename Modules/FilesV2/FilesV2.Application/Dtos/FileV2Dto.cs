@@ -1,6 +1,6 @@
 ﻿namespace FilesV2.Application.Dtos
 {
-    public class FileDto
+    public class FileV2Dto
     {
         public Guid Id { get; set; }
         public string Title { get; set; } = string.Empty;

@@ -9,15 +9,14 @@ using Microsoft.AspNetCore.Mvc;
 namespace FilesV2.Application.Controllers
 {
     [ApiController]
-    [Route("api/v2/files")]
     [AuthPermission("filesV2")]
-    public class FilesV2Controllers : BaseController
+    public class FilesV2Controller : BaseController
     {
         private readonly IFileRepository _fileRepository;
         private readonly IFolderRepository _directoryRepository;
         private readonly IMediaProvider _mediaProvider;
 
-        public FilesV2Controllers(IControllerService controllerService,
+        public FilesV2Controller(IControllerService controllerService,
             IFileRepository fileRepository,
             IFolderRepository directoryRepository,
             IMediaProviderFactory mediaProviderFactory)
@@ -34,12 +33,12 @@ namespace FilesV2.Application.Controllers
         // navigation properties configured as always-loaded) for this filtering to work.
         // If not, this is the first place a dedicated query method will be needed.
         [HttpGet]
-        public async Task<ActionResult<List<FileDto>>> ListFiles(
+        public async Task<ActionResult<List<FileV2Dto>>> ListFiles(
             [FromQuery] Guid? directoryId,
             [FromQuery] string? search) //TODO Convert to filter
         {
             var data = await _fileRepository.GetFilesByUser(CurrentUser?.UserId ?? string.Empty);
-
+            data = data.Where(x => x.Folder?.Id == directoryId).ToList();
             var dto = data.Select(ToDto).ToList();
 
             return Ok(dto);
@@ -47,7 +46,7 @@ namespace FilesV2.Application.Controllers
 
         // GET /api/v2/files/{id}
         [HttpGet("{id:guid}")]
-        public async Task<ActionResult<FileDto>> GetFile(Guid id)
+        public async Task<ActionResult<FileV2Dto>> GetFile(Guid id)
         {
             if (CurrentUser is null)
                 return Unauthorized();
@@ -62,7 +61,7 @@ namespace FilesV2.Application.Controllers
         // POST /api/v2/files
         // Creates the File record once content has been uploaded.
         [HttpPost]
-        public async Task<ActionResult<FileDto>> CreateFile([FromForm] CreateFileDto request)
+        public async Task<ActionResult<FileV2Dto>> CreateFile([FromForm] CreateFileDto request)
         {
             if (CurrentUser == null)
                 return BadRequest();
@@ -119,7 +118,7 @@ namespace FilesV2.Application.Controllers
         // PUT /api/v2/files/{id}
         // Rename, move to another directory, edit description, toggle public.
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult<FileDto>> UpdateFile(Guid id, [FromBody] UpdateFileDto request)
+        public async Task<ActionResult<FileV2Dto>> UpdateFile(Guid id, [FromBody] UpdateFileDto request)
         {
             var file = await _fileRepository.Get(id);
             if (file is null) return NotFound();
@@ -214,7 +213,7 @@ namespace FilesV2.Application.Controllers
             return NoContent();
         }
 
-        private static FileDto ToDto(Domain.Entities.File file) => new()
+        private static FileV2Dto ToDto(Domain.Entities.File file) => new()
         {
             Id = file.Id,
             Title = file.Title,

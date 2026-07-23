@@ -14,11 +14,13 @@
 
 
 
-export interface Media {
+export interface FileV2Dto {
     'id'?: string;
-    'contentStr'?: string | null;
-    'content'?: string | null;
-    'extension'?: string | null;
-    'owner'?: string | null;
+    'title'?: string | null;
+    'description'?: string | null;
+    'ownerLogin'?: string | null;
+    'public'?: boolean;
+    'directoryId'?: string | null;
+    'path'?: string | null;
 }
 
