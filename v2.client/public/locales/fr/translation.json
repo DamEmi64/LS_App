@@ -96,7 +96,14 @@
     "useFileUpload": "Stocker le fichier en base de données",
     "single": "fichier",
     "multiple": "fichies",
-    "empty": "aucun fichier"
+    "empty": "aucun fichier",
+    "share": {
+      "user": "Partager avec un utilisateur",
+      "read": "Lecture",
+      "write": "Écriture",
+      "owner": "Propriétaire",
+      "public": "Fichier public"
+    }
   },
   "communication": {
     "title": "Communication",
@@ -338,8 +345,7 @@
     "edit": "Modifier",
     "details": "Détails",
     "operations": "Actions",
-    "save": "Enregistrer",
-    "change_pass": "Changer le mot de passe",
+    "save": "Enregistrer",    "close": "Fermer",    "change_pass": "Changer le mot de passe",
     "login": "Se connecter",
     "register": "S’inscrire",
     "cancel": "Annuler",

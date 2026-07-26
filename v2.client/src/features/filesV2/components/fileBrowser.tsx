@@ -3,6 +3,7 @@ import { Paper, Stack, Grid, Box } from "@mui/material";
 
 import FolderOpenIcon from "@mui/icons-material/FolderOpen";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
+import { saveAs } from 'file-saver';
 
 import FileCard from "./fileCard";
 import FolderCard from "./folderCard";
@@ -12,13 +13,20 @@ import NewFolderDialog from "./newFolderDialog";
 
 import { DirectoryDto, FileV2Dto } from "@/shared/api/generated";
 import { FileItem } from "../types";
-import { call } from "@/shared/components/apiClient";
+import { call, raw } from "@/shared/components/apiClient";
+import FileDialog from "./fileDialog";
+import { getMimeFromExtension } from "@/lib/utils";
+import YesNoWindow from "@/shared/components/YesNoWindow";
+import { useModal } from "@/shared";
+import { t } from "i18next";
 
 export default function FileBrowser() {
   const [directoryId, setDirectoryId] = useState<string | null>(null);
   const [path, setPath] = useState<BreadcrumbItem[]>([
     { id: null, title: "All files" },
   ]);
+
+  const modal = useModal();
 
   const [directories, setDirectories] = useState<DirectoryDto[]>([]);
   const [files, setFiles] = useState<FileV2Dto[]>([]);
@@ -115,7 +123,28 @@ export default function FileBrowser() {
   };
 
   const handleDownload = async (file: FileV2Dto) => {
-    // TODO
+    raw(api => api.homeApi.getMedia, { id:file.id })
+        .then((response) => {
+            let filename = file.title + response.data.extension;
+
+            const mime = getMimeFromExtension(response.data.extension);
+
+            const byteCharacters = atob(response.data.content);
+
+            // convert to byte array
+            const byteNumbers = new Array(byteCharacters.length);
+
+            for (let i = 0; i < byteCharacters.length; i++) {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+
+            const byteArray = new Uint8Array(byteNumbers);
+
+            // create blob
+            const blob = new Blob([byteArray], { type: mime });
+            saveAs(blob, filename);
+        })
+        .catch((error) => console.error('Download failed:', error));
   };
 
   const handleRename = async (file: FileV2Dto) => {
@@ -131,15 +160,21 @@ export default function FileBrowser() {
     refresh();
   };
 
-  const handleDelete = async (file: FileV2Dto) => {
-    if (!window.confirm(`Delete "${file.title}"?`)) return;
+    const del = (file: FileV2Dto) => {
+        modal.showModal(
+            <YesNoWindow
+                message={t("entity.del_info")}
+                yesMethod={() => delConfirm(file)}
+                noMethod={modal.hideModal}
+                open
+                onClose={modal.hideModal}
+            />
+        );
+    };
 
-    await call(api => api.filesV2Api.deleteById, {
-      id: file.id,
-    });
-
-    refresh();
-  };
+    const delConfirm = async (file: FileV2Dto) => {
+        call(api => api.filesV2Api.deleteById,{id:file.id}).then(refresh);
+    };
 
   const items = useMemo<FileItem[]>(
       () => [
@@ -160,7 +195,7 @@ export default function FileBrowser() {
           void handleDownload(file);
         },
         onDelete: () => {
-          void handleDelete(file);
+          void del(file);
         },
         onDetails: () => setShareTarget(file),
         onEdit: () => {
@@ -235,10 +270,10 @@ export default function FileBrowser() {
         onChange={handleFileSelected}
       />
 
-      <ShareDialog
+      <FileDialog
         file={shareTarget}
         onClose={() => setShareTarget(null)}
-        onFileUpdated={updated =>
+        onSubmit={updated =>
           setFiles(prev =>
             prev.map(file => (file.id === updated.id ? updated : file))
           )

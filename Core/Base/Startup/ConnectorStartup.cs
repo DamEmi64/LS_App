@@ -224,7 +224,7 @@ namespace Base
             using (var scope = app.Services.CreateScope())
             {
                 var connectClient = scope.ServiceProvider.GetRequiredService<IConnect>();
-                connectClient.Send(new ProvideBasicRoles(Permissions.ToList())).Wait();
+                connectClient.ProvideBasicRoles(Permissions.ToList()).Wait();
 
             }
         }

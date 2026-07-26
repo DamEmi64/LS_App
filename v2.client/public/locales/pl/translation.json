@@ -96,7 +96,14 @@
     "useFileUpload": "Zapisz plik w bazie danych",
     "single": "plik",
     "multiple": "pliki",
-    "empty": "brak plików"
+    "empty": "brak plików",
+    "share": {
+      "user": "Udostępnij użytkownikowi",
+      "read": "Czytanie",
+      "write": "Pisanie",
+      "owner": "Właściciel",
+      "public": "Plik publiczny"
+    }
   },
   "communication": {
     "title": "Komunikacja",
@@ -339,6 +346,7 @@
     "details": "Informacje",
     "operations": "Operacje",
     "save": "Zapisz",
+    "close": "Zamknij",
     "change_pass": "Zmień hasło",
     "login": "Zaloguj się",
     "register": "Zarejestruj się",

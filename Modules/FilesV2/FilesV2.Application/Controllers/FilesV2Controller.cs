@@ -101,19 +101,19 @@ namespace FilesV2.Application.Controllers
             return CreatedAtAction(nameof(GetFile), new { id = file.Id }, ToDto(file));
         }
 
-        /*        // GET /api/v2/files/{id}/download-url
-                [HttpGet("{id:guid}/download-url")]
-                public async Task<ActionResult<DownloadUrlDto>> GetDownloadUrl(Guid id)
-                {
-                    var currentUser = ControllerService.CurrentUser;
+        // GET /api/v2/files/{id}/download-url
+        [HttpGet("{id:guid}/download")]
+        public async Task<IActionResult> DownloadFile(Guid id)
+        {
+            var file = await _fileRepository.Get(id);
+            if (file is null || CurrentUser is null) return NotFound();
+            if (!FileRepository.HasReadAccess(file, CurrentUser.UserId)) return Forbid();
 
-                    var file = await FileRepository.Get(id);
-                    if (file is null) return NotFound();
-                    if (!HasReadAccess(file, currentUser.Id)) return Forbid();
+            var media = await _mediaProvider.Load(file.Content);
+            if (media is null) return NotFound();
 
-                    var result = ControllerService.Blobs.CreateDownloadUrl(file.Content);
-                    return Ok(result);
-                }*/
+            return File(media.Content ?? Array.Empty<byte>(), media.Extension.ToContentType());
+        }
 
         // PUT /api/v2/files/{id}
         // Rename, move to another directory, edit description, toggle public.
@@ -184,9 +184,13 @@ namespace FilesV2.Application.Controllers
             }
             else
             {
+                var user = await Connect.GetUserIdByLogin(request.Login);
+
+                if (user.IsFailed || user.Value is null) return NotFound();
+
                 file.Users.Add(new FileUser
                 {
-                    UserId = request.UserId,
+                    UserId = user.Value.UserId,
                     Login = request.Login,
                     Privilage = request.Privilage
                 });
@@ -198,14 +202,14 @@ namespace FilesV2.Application.Controllers
         }
 
         // DELETE /api/v2/files/{id}/users/{userId}
-        [HttpDelete("{id:guid}/users/{userId}")]
-        public async Task<IActionResult> RevokeAccess(Guid id, string userId)
+        [HttpDelete("{id:guid}/users/{Login}")]
+        public async Task<IActionResult> RevokeAccess(Guid id, string login)
         {
             var file = await _fileRepository.Get(id);
             if (file is null) return NotFound();
             if (CurrentUser is null || file.Owner.UserId != CurrentUser.UserId) return Forbid();
 
-            var target = file.Users.FirstOrDefault(u => u.UserId == userId);
+            var target = file.Users.FirstOrDefault(u => u.Login == login);
             if (target is null) return NotFound();
 
             file.Users.Remove(target);

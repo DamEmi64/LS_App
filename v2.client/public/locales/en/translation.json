@@ -96,7 +96,14 @@
     "useFileUpload": "Store file in database",
     "single": "file",
     "multiple": "files",
-    "empty": "no files"
+    "empty": "no files",
+    "share": {
+      "user": "Share with user",
+      "read": "Read",
+      "write": "Write",
+      "owner": "Owner",
+      "public": "Public file"
+    }
   },
   "communication": {
     "title": "Communication",
@@ -339,6 +346,7 @@
     "details": "Details",
     "operations": "Actions",
     "save": "Save",
+    "close": "Close",
     "change_pass": "Change password",
     "login": "Sign in",
     "register": "Sign up",
