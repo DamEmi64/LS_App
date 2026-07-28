@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Card, CardActionArea, CardContent, CardActions, Typography, IconButton, Menu, MenuItem, Box } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { t } from 'i18next';
-import { FileItem } from '../types'
+import { FileItem, Privilage } from '../types'
 
 
-const FileCard: React.FC<FileItem> = ({ name, icon, onClick, onDetails, onEdit, onDelete }) => {
+const FileCard: React.FC<FileItem> = ({ name, icon, onClick, onDetails, onEdit, onDelete, privilage }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -44,7 +44,7 @@ const FileCard: React.FC<FileItem> = ({ name, icon, onClick, onDetails, onEdit, 
               gap: 2,
               flex: 1,
               minWidth: 0,
-              direction:"row"
+              direction: "row"
             }}
           >
             {icon}
@@ -77,12 +77,15 @@ const FileCard: React.FC<FileItem> = ({ name, icon, onClick, onDetails, onEdit, 
             <MenuItem onClick={handleMenuItemClick(onDetails)}>
               {t("opt.details")}
             </MenuItem>
-            <MenuItem onClick={handleMenuItemClick(onEdit)}>
-              {t("opt.edit")}
-            </MenuItem>
-            <MenuItem onClick={handleMenuItemClick(onDelete)}>
-              {t("opt.delete")}
-            </MenuItem>
+            {(privilage == Privilage.OWNER || privilage == Privilage.WRITE) && (<>
+              <MenuItem onClick={handleMenuItemClick(onEdit)}>
+                {t("opt.edit")}
+              </MenuItem>
+              {privilage == Privilage.OWNER && (
+                <MenuItem onClick={handleMenuItemClick(onDelete)}>
+                  {t("opt.delete")}
+                </MenuItem>)}
+            </>)}
           </Menu>
         </CardContent>
       </CardActionArea>

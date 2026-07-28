@@ -340,7 +340,8 @@
   "darkTheme": "Ciemny motyw",
   "error": "Błąd",
   "opt": {
-    "add": "Nowy",
+    "add": "Dodaj",
+    "new": "Nowy",
     "delete": "Usuń",
     "edit": "Edytuj",
     "details": "Informacje",
@@ -358,7 +359,13 @@
     "publish": "Publikuj",
     "select": "Wybierz",
     "from": "Od",
-    "to": "Do"
+    "to": "Do",
+    "file": {
+      "select":"Wybierz plik",
+      "drop": "Przenieś i upuść plik",
+      "drop_active": "Upuść plik",
+      "drop_replace":"Upuść plik, by zastąpić poprzedni"
+    }
   },
   "auth": {
     "welcome": "Witamy w aplikacji",

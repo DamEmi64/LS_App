@@ -89,7 +89,7 @@ namespace FilesV2.Application.Controllers
             var directory = await _directoryRepository.Get(id);
             if (directory is null) return NotFound();
 
-            if (directory.Children.Count > 0 || directory.Files.Count > 0)
+            if (!_directoryRepository.IsEmpty(id))
                 return BadRequest("Directory is not empty.");
 
             await _directoryRepository.Remove(id);

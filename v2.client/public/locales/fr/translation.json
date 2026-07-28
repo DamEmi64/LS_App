@@ -341,11 +341,14 @@
   "error": "Erreur",
   "opt": {
     "add": "Ajouter",
+    "new": "Nouveau",
     "delete": "Supprimer",
     "edit": "Modifier",
     "details": "Détails",
     "operations": "Actions",
-    "save": "Enregistrer",    "close": "Fermer",    "change_pass": "Changer le mot de passe",
+    "save": "Enregistrer",
+    "close": "Fermer",
+    "change_pass": "Changer le mot de passe",
     "login": "Se connecter",
     "register": "S’inscrire",
     "cancel": "Annuler",
@@ -355,6 +358,12 @@
     "copy": "Copier",
     "publish": "Publier",
     "select": "Sélectionner",
+    "file": {
+      "select": "Sélectionner un fichier",
+      "drop": "Glissez-déposez le fichier",
+      "drop_active": "Déposez le fichier",
+      "drop_replace": "Déposez le fichier pour remplacer l’existant"
+    },
     "from": "De",
     "to": "à"
   },

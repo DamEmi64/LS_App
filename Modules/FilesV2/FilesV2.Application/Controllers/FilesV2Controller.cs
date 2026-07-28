@@ -4,6 +4,7 @@ using FilesV2.Domain.Entities;
 using FilesV2.Domain.Enums;
 using FilesV2.Domain.Repositories;
 using FilesV2.Infrastructure.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FilesV2.Application.Controllers
@@ -27,18 +28,13 @@ namespace FilesV2.Application.Controllers
             _mediaProvider = mediaProviderFactory.Create();
         }
 
-        // GET /api/v2/files?directoryId=&search=
-        // Note: GetAll() returns entities without includes, so Owner/Users/Folder must
-        // already be loaded some other way (e.g. the repository's Entity is tracked with
-        // navigation properties configured as always-loaded) for this filtering to work.
-        // If not, this is the first place a dedicated query method will be needed.
         [HttpGet]
         public async Task<ActionResult<List<FileV2Dto>>> ListFiles(
-            [FromQuery] Guid? directoryId,
-            [FromQuery] string? search) //TODO Convert to filter
+            [FromQuery] Guid? directoryId) //TODO Convert to filter
         {
             var data = await _fileRepository.GetFilesByUser(CurrentUser?.UserId ?? string.Empty);
             data = data.Where(x => x.Folder?.Id == directoryId).ToList();
+            
             var dto = data.Select(ToDto).ToList();
 
             return Ok(dto);
@@ -84,7 +80,7 @@ namespace FilesV2.Application.Controllers
 
             var file = new Domain.Entities.File
             {
-                Title = Path.GetFileNameWithoutExtension(request.File.FileName),
+                Title = request.Title,
                 Description = request.Description,
                 Content = contentId,
                 Public = request.Public,
@@ -103,6 +99,7 @@ namespace FilesV2.Application.Controllers
 
         // GET /api/v2/files/{id}/download-url
         [HttpGet("{id:guid}/download")]
+        [ProducesResponseType(typeof(Media), StatusCodes.Status200OK)]
         public async Task<IActionResult> DownloadFile(Guid id)
         {
             var file = await _fileRepository.Get(id);
@@ -112,13 +109,13 @@ namespace FilesV2.Application.Controllers
             var media = await _mediaProvider.Load(file.Content);
             if (media is null) return NotFound();
 
-            return File(media.Content ?? Array.Empty<byte>(), media.Extension.ToContentType());
+            return Json(media);
         }
 
         // PUT /api/v2/files/{id}
         // Rename, move to another directory, edit description, toggle public.
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult<FileV2Dto>> UpdateFile(Guid id, [FromBody] UpdateFileDto request)
+        public async Task<ActionResult<FileV2Dto>> UpdateFile(Guid id, [FromForm] UpdateFileDto request)
         {
             var file = await _fileRepository.Get(id);
             if (file is null) return NotFound();
@@ -127,6 +124,15 @@ namespace FilesV2.Application.Controllers
             if (request.Title is not null) file.Title = request.Title;
             if (request.Description is not null) file.Description = request.Description;
             if (request.Public is not null) file.Public = request.Public.Value;
+            if (request.File is not null)
+            {
+                using (var stream = new MemoryStream())
+                {
+                    await request.File.CopyToAsync(stream);
+                    stream.Position = 0;
+                    file.Content = await _mediaProvider.Save(stream.ToArray(), file.Content, Path.GetExtension(request.File.FileName), owner: CurrentUser.UserId);
+                }
+            }
 
             if (request.DirectoryId is not null)
             {
@@ -184,32 +190,28 @@ namespace FilesV2.Application.Controllers
             }
             else
             {
-                var user = await Connect.GetUserIdByLogin(request.Login);
-
-                if (user.IsFailed || user.Value is null) return NotFound();
-
                 file.Users.Add(new FileUser
                 {
-                    UserId = user.Value.UserId,
+                    UserId = request.UserId,
                     Login = request.Login,
                     Privilage = request.Privilage
                 });
             }
 
             await _fileRepository.Update(file);
-            var updated = file.Users.First(u => u.Login == request.Login);
+            var updated = file.Users.First(u => u.UserId == request.UserId);
             return Ok(new FileUserDto { UserId = updated.UserId, Login = updated.Login, Privilage = updated.Privilage });
         }
 
         // DELETE /api/v2/files/{id}/users/{userId}
-        [HttpDelete("{id:guid}/users/{Login}")]
-        public async Task<IActionResult> RevokeAccess(Guid id, string login)
+        [HttpDelete("{id:guid}/users/{userId}")]
+        public async Task<IActionResult> RevokeAccess(Guid id, string userId)
         {
             var file = await _fileRepository.Get(id);
             if (file is null) return NotFound();
             if (CurrentUser is null || file.Owner.UserId != CurrentUser.UserId) return Forbid();
 
-            var target = file.Users.FirstOrDefault(u => u.Login == login);
+            var target = file.Users.FirstOrDefault(u => u.UserId == userId);
             if (target is null) return NotFound();
 
             file.Users.Remove(target);
@@ -222,10 +224,16 @@ namespace FilesV2.Application.Controllers
             Id = file.Id,
             Title = file.Title,
             Description = file.Description,
-            OwnerLogin = file.Owner.Login,
+            Owner = file.Owner.UserId,
             Public = file.Public,
             DirectoryId = file.Folder?.Id,
-            Path = file.Path
+            Path = file.Path,
+            FileUsers = file.Users.Select(x=> new FileUserDto
+            {
+                UserId = x.UserId,
+                Login = x.Login,
+                Privilage = x.Privilage
+            }).ToList()
         };
     }
 }

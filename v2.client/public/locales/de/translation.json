@@ -341,6 +341,7 @@
   "error": "Fehler",
   "opt": {
     "add": "Hinzufügen",
+    "new": "Neu",
     "delete": "Löschen",
     "edit": "Bearbeiten",
     "details": "Details",
@@ -357,6 +358,12 @@
     "copy": "Kopieren",
     "publish": "Veröffentlichen",
     "select": "Auswählen",
+    "file": {
+      "select": "Datei auswählen",
+      "drop": "Ziehen Sie eine Datei hierher",
+      "drop_active": "Datei loslassen",
+      "drop_replace": "Datei loslassen, um die vorhandene zu ersetzen"
+    },
     "from": "Von",
     "to": "bis"
   },

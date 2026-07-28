@@ -13,14 +13,18 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import type { FileUserDto } from './file-user-dto';
 
 export interface FileV2Dto {
     'id'?: string;
     'title'?: string | null;
     'description'?: string | null;
-    'ownerLogin'?: string | null;
+    'owner'?: string | null;
     'public'?: boolean;
     'directoryId'?: string | null;
     'path'?: string | null;
+    'fileUsers'?: Array<FileUserDto> | null;
 }
 

@@ -26,6 +26,7 @@ namespace System.Application.Controllers
         [HttpGet("health")]
         public IActionResult HealthCheck() => Ok();
 
+
         [HttpGet("media")]
         [Authorize]
         [ProducesResponseType(typeof(Base.Media), StatusCodes.Status200OK)]
@@ -33,12 +34,30 @@ namespace System.Application.Controllers
         {
             var media = await _mediaProvider.Load(id);
 
-            if (media is null || !string.IsNullOrEmpty(media.Owner))
+            if (media is null)
             {
                 return Json(new Base.Media());
             }
 
+            if (!string.IsNullOrEmpty(media.Owner))
+            {
+                return Unauthorized();
+            }
+
             return Json(media);
+        }
+
+        [HttpGet("Users")]
+        [Authorize]
+        [ProducesResponseType(typeof(ResponseList<UserData>), StatusCodes.Status200OK)]
+        public async Task<IActionResult?> GetListOfUsers()
+        {
+            var usersResult = await Connect.GetUsers();
+
+            if (usersResult.IsFailed)
+                return BadRequest();
+
+            return Json(usersResult.Value);
         }
     }
 }

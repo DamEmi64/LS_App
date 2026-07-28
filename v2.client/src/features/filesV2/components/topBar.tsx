@@ -2,8 +2,6 @@ import { Box, Breadcrumbs, Button, IconButton, InputAdornment, Link, TextField, 
 import SearchRounded from "@mui/icons-material/SearchRounded";
 import UploadRounded from "@mui/icons-material/UploadRounded";
 import CreateNewFolderRounded from "@mui/icons-material/CreateNewFolderRounded";
-import ViewListRounded from "@mui/icons-material/ViewListRounded";
-import GridViewRounded from "@mui/icons-material/GridViewRounded";
 import { t } from "i18next";
 
 export interface BreadcrumbItem {

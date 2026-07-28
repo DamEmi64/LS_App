@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
-import { Card, CardActionArea, CardContent, CardActions, Typography, IconButton, Menu, MenuItem, Box } from '@mui/material';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import {t} from 'i18next';
+import React from 'react';
+import { Card, CardActionArea, CardContent, Typography, Box } from '@mui/material';
 import { FileItem } from '../types'
 import { GridDeleteIcon } from '@mui/x-data-grid';
 

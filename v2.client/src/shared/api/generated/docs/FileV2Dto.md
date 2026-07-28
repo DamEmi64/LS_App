@@ -8,10 +8,11 @@ Name | Type | Description | Notes
 **id** | **string** |  | [optional] [default to undefined]
 **title** | **string** |  | [optional] [default to undefined]
 **description** | **string** |  | [optional] [default to undefined]
-**ownerLogin** | **string** |  | [optional] [default to undefined]
+**owner** | **string** |  | [optional] [default to undefined]
 **_public** | **boolean** |  | [optional] [default to undefined]
 **directoryId** | **string** |  | [optional] [default to undefined]
 **path** | **string** |  | [optional] [default to undefined]
+**fileUsers** | [**Array&lt;FileUserDto&gt;**](FileUserDto.md) |  | [optional] [default to undefined]
 
 ## Example
 
@@ -22,10 +23,11 @@ const instance: FileV2Dto = {
     id,
     title,
     description,
-    ownerLogin,
+    owner,
     _public,
     directoryId,
     path,
+    fileUsers,
 };
 ```
 

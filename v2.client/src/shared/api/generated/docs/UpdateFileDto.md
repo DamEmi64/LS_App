@@ -5,6 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**file** | **File** |  | [optional] [default to undefined]
 **title** | **string** |  | [optional] [default to undefined]
 **description** | **string** |  | [optional] [default to undefined]
 **directoryId** | **string** |  | [optional] [default to undefined]
@@ -16,6 +17,7 @@ Name | Type | Description | Notes
 import { UpdateFileDto } from './api';
 
 const instance: UpdateFileDto = {
+    file,
     title,
     description,
     directoryId,

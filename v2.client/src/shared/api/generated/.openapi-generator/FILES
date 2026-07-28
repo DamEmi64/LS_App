@@ -105,9 +105,9 @@ docs/TemplatesApi.md
 docs/Trigger.md
 docs/TriggerDto.md
 docs/UpdateDirectoryDto.md
-docs/UpdateFileDto.md
 docs/User.md
 docs/UserData.md
+docs/UserDataResponseList.md
 docs/UserDto.md
 docs/WebhookDto.md
 git_push.sh
@@ -180,7 +180,7 @@ models/template.ts
 models/trigger-dto.ts
 models/trigger.ts
 models/update-directory-dto.ts
-models/update-file-dto.ts
+models/user-data-response-list.ts
 models/user-data.ts
 models/user-dto.ts
 models/user.ts

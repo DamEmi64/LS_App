@@ -8,43 +8,40 @@ import { saveAs } from 'file-saver';
 import FileCard from "./fileCard";
 import FolderCard from "./folderCard";
 import TopBar, { BreadcrumbItem } from "./topBar";
-import ShareDialog from "./sharedDialog";
 import NewFolderDialog from "./newFolderDialog";
 
-import { DirectoryDto, FileV2Dto } from "@/shared/api/generated";
-import { FileItem } from "../types";
+import { Directory, FileEditFormData, FileItem, FileV2, Privilage } from "../types";
 import { call, raw } from "@/shared/components/apiClient";
 import FileDialog from "./fileDialog";
 import { getMimeFromExtension } from "@/lib/utils";
 import YesNoWindow from "@/shared/components/YesNoWindow";
 import { useModal } from "@/shared";
 import { t } from "i18next";
+import FileWrapper from "./fileWrapper";
+import { useAuth } from "@/features/auth/context/authProvider";
+import { fi } from "date-fns/locale";
 
 export default function FileBrowser() {
   const [directoryId, setDirectoryId] = useState<string | null>(null);
   const [path, setPath] = useState<BreadcrumbItem[]>([
     { id: null, title: "All files" },
   ]);
-
+  const { user } = useAuth();
   const modal = useModal();
 
-  const [directories, setDirectories] = useState<DirectoryDto[]>([]);
-  const [files, setFiles] = useState<FileV2Dto[]>([]);
+  const [directories, setDirectories] = useState<Directory[]>([]);
+  const [files, setFiles] = useState<FileV2[]>([]);
   const [search, setSearch] = useState("");
   const [viewMode, setViewMode] = useState<"list" | "grid">("grid");
-  const [shareTarget, setShareTarget] = useState<FileV2Dto | null>(null);
   const [newFolderOpen, setNewFolderOpen] = useState(false);
-
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const refresh = useCallback(async () => {
     const [dirs, fileList] = await Promise.all([
-      call<DirectoryDto[]>(api => api.directoriesApi.get, {
+      call<Directory[]>(api => api.directoriesApi.get, {
         parentId: directoryId ?? undefined,
       }),
-      call<FileV2Dto[]>(api => api.filesV2Api.get, {
-        directoryId: directoryId ?? undefined,
-        search,
+      call<FileV2[]>(api => api.filesV2Api.get, {
+        directoryId: directoryId ?? undefined
       }),
     ]);
 
@@ -53,12 +50,25 @@ export default function FileBrowser() {
   }, [directoryId, search]);
 
   useEffect(() => {
-  refresh();
+    refresh();
   }, [directoryId, search]);
 
 
-  const deleteDirectory = async(id:string) => {
-    await call<any>(api => api.directoriesApi.deleteById, {id}).then(refresh)
+  const deleteDirectory = async (id: string) => {
+    await call<any>(api => api.directoriesApi.deleteById, { id }).then(refresh)
+  }
+
+  const getFilePrivilage = (file: FileV2): Privilage => {
+
+    if (!user) return Privilage.NONE;
+
+    if (user.userId == file.owner) return Privilage.OWNER;
+
+    if (!file.fileUsers) return Privilage.NONE;
+
+    var fileUser = file.fileUsers.find(x => x.userId == user.userId);
+
+    return fileUser.privilage as Privilage;
   }
 
   const handleSelectDirectory = async (id: string | null) => {
@@ -71,7 +81,7 @@ export default function FileBrowser() {
 
     const trail: BreadcrumbItem[] = [];
 
-    let current = await call<DirectoryDto>(
+    let current = await call<Directory>(
       api => api.directoriesApi.getById,
       { id }
     );
@@ -83,30 +93,31 @@ export default function FileBrowser() {
       });
 
       current = current.parentId
-        ? await call<DirectoryDto>(
-            api => api.directoriesApi.getById,
-            { id: current.parentId }
-          )
+        ? await call<Directory>(
+          api => api.directoriesApi.getById,
+          { id: current.parentId }
+        )
         : null;
     }
 
     setPath([{ id: null, title: "All files" }, ...trail]);
   };
 
-  const handleUploadClick = () => fileInputRef.current?.click();
+  const handleUploadClick = () => {
 
-  const handleFileSelected = async (e: ChangeEvent<HTMLInputElement>) => {
-    const selected = e.target.files?.[0];
-    e.target.value = "";
+    modal.showModal(<FileWrapper file={{} as FileV2} onSubmit={handleCreate} />);
+  }
 
-    if (!selected) return;
+  const handleCreate = async (file: FileEditFormData) => {
 
     await call(api => api.filesV2Api.create, {
-      file: selected,
-      description: "",
+      file: file.File,
+      description: file.description,
       directoryId: directoryId ?? undefined,
+      title:file.title
     });
 
+    modal.hideModal();
     refresh();
   };
 
@@ -122,62 +133,76 @@ export default function FileBrowser() {
     refresh();
   };
 
-  const handleDownload = async (file: FileV2Dto) => {
-    raw(api => api.homeApi.getMedia, { id:file.id })
-        .then((response) => {
-            let filename = file.title + response.data.extension;
+  const handleDownload = async (file: FileV2) => {
+    raw(api => api.filesV2Api.getByIdDownload, { id: file.id })
+      .then((response) => {
+        let filename = file.title + response.data.extension;
 
-            const mime = getMimeFromExtension(response.data.extension);
+        const mime = getMimeFromExtension(response.data.extension);
 
-            const byteCharacters = atob(response.data.content);
+        const byteCharacters = atob(response.data.content);
 
-            // convert to byte array
-            const byteNumbers = new Array(byteCharacters.length);
+        // convert to byte array
+        const byteNumbers = new Array(byteCharacters.length);
 
-            for (let i = 0; i < byteCharacters.length; i++) {
-                byteNumbers[i] = byteCharacters.charCodeAt(i);
-            }
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
 
-            const byteArray = new Uint8Array(byteNumbers);
+        const byteArray = new Uint8Array(byteNumbers);
 
-            // create blob
-            const blob = new Blob([byteArray], { type: mime });
-            saveAs(blob, filename);
-        })
-        .catch((error) => console.error('Download failed:', error));
+        // create blob
+        const blob = new Blob([byteArray], { type: mime });
+        saveAs(blob, filename);
+      })
+      .catch((error) => console.error('Download failed:', error));
   };
 
-  const handleRename = async (file: FileV2Dto) => {
-    const title = window.prompt("Rename file", file.title);
+  const handleDetails = async (file: FileV2) => {
+    modal.showModal(<FileWrapper
+      file={file}
+      onSubmit={() => { }}
+      readonly
+    />)
+  }
 
-    if (!title || title === file.title) return;
+  const handleEdit = (file: FileV2) => {
 
-    await call(api => api.filesV2Api.updateById, {
-      id: file.id,
-      updateFileDto: { title },
-    });
-
-    refresh();
+    modal.showModal(<FileDialog
+      file={file}
+      onSubmit={(f) => saveEdit(file.id,f)}
+      onClose={() => modal.hideModal}
+    />)
   };
 
-    const del = (file: FileV2Dto) => {
-        modal.showModal(
-            <YesNoWindow
-                message={t("entity.del_info")}
-                yesMethod={() => delConfirm(file)}
-                noMethod={modal.hideModal}
-                open
-                onClose={modal.hideModal}
-            />
-        );
-    };
+  const saveEdit = (id:string, form: FileEditFormData) => {
+      call(api => api.filesV2Api.updateById, {
+        id: id,
+        title: form.title,
+        description: form.description,
+        file: form.File
 
-    const delConfirm = async (file: FileV2Dto) => {
-        call(api => api.filesV2Api.deleteById,{id:file.id}).then(refresh);
-    };
+      }).then(refresh);
+  }
+
+  const del = (file: FileV2) => {
+    modal.showModal(
+      <YesNoWindow
+        message={t("entity.del_info")}
+        yesMethod={() => delConfirm(file)}
+        noMethod={modal.hideModal}
+        open
+        onClose={modal.hideModal}
+      />
+    );
+  };
+
+  const delConfirm = async (file: FileV2) => {
+    call(api => api.filesV2Api.deleteById, { id: file.id }).then(refresh);
+  };
 
   const items = useMemo<FileItem[]>(
-      () => [
+    () => [
       ...directories.map(directory => ({
         id: directory.id,
         name: directory.title,
@@ -186,6 +211,7 @@ export default function FileBrowser() {
           void handleSelectDirectory(directory.id);
         },
         type: "folder" as const,
+        privilage: Privilage.READ
       })),
       ...files.map(file => ({
         id: file.id,
@@ -197,11 +223,12 @@ export default function FileBrowser() {
         onDelete: () => {
           void del(file);
         },
-        onDetails: () => setShareTarget(file),
+        onDetails: () => handleDetails(file),
         onEdit: () => {
-          void handleRename(file);
+          void handleEdit(file);
         },
         type: "file" as const,
+        privilage: getFilePrivilage(file)
       })),
     ],
     [directories, files]
@@ -214,6 +241,9 @@ export default function FileBrowser() {
         sx={{
           p: 3,
           borderRadius: 3,
+          width: '75%',
+          margin: 'auto',
+          padding: 2
         }}
       >
         <Stack spacing={3}>
@@ -231,7 +261,7 @@ export default function FileBrowser() {
           </Box>
 
           <Grid container spacing={2}>
-            {items.map(item => (
+            {items.map(item => item.name.includes(search)  && (
               <Grid
                 key={item.id}
                 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
@@ -244,6 +274,7 @@ export default function FileBrowser() {
                     onClick={item.onClick}
                     onDelete={() => deleteDirectory(item.id)}
                     type="folder"
+                    privilage={item.privilage}
                   />
                 ) : (
                   <FileCard
@@ -255,6 +286,7 @@ export default function FileBrowser() {
                     onDetails={item.onDetails}
                     onEdit={item.onEdit}
                     type="file"
+                    privilage={item.privilage}
                   />
                 )}
               </Grid>
@@ -262,23 +294,6 @@ export default function FileBrowser() {
           </Grid>
         </Stack>
       </Paper>
-
-      <input
-        ref={fileInputRef}
-        type="file"
-        hidden
-        onChange={handleFileSelected}
-      />
-
-      <FileDialog
-        file={shareTarget}
-        onClose={() => setShareTarget(null)}
-        onSubmit={updated =>
-          setFiles(prev =>
-            prev.map(file => (file.id === updated.id ? updated : file))
-          )
-        }
-      />
 
       <NewFolderDialog
         open={newFolderOpen}

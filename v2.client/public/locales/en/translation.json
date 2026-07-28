@@ -341,6 +341,7 @@
   "error": "Error",
   "opt": {
     "add": "Add",
+    "new": "New",
     "delete": "Delete",
     "edit": "Edit",
     "details": "Details",
@@ -357,6 +358,12 @@
     "copy": "Copy",
     "publish": "Publish",
     "select": "Select",
+    "file": {
+      "select": "Select file",
+      "drop": "Drag and drop file",
+      "drop_active": "Drop file",
+      "drop_replace": "Drop file to replace existing"
+    },
     "from": "From",
     "to": "To"
   },

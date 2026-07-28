@@ -13,12 +13,12 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import type { UserData } from './user-data';
 
-export interface UpdateFileDto {
-    'file'?: File | null;
-    'title'?: string | null;
-    'description'?: string | null;
-    'directoryId'?: string | null;
-    'public'?: boolean | null;
+export interface UserDataResponseList {
+    'total'?: number;
+    'data'?: Array<UserData> | null;
 }
 

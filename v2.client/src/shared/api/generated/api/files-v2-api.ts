@@ -28,7 +28,7 @@ import type { FileV2Dto } from '../models';
 // @ts-ignore
 import type { GrantAccessDto } from '../models';
 // @ts-ignore
-import type { UpdateFileDto } from '../models';
+import type { Media } from '../models';
 /**
  * FilesV2Api - axios parameter creator
  */
@@ -37,15 +37,18 @@ export const FilesV2ApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * 
          * @param {File} file 
+         * @param {string} title 
          * @param {string} [description] 
          * @param {string} [directoryId] 
          * @param {boolean} [_public] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        create: async (file: File, description?: string, directoryId?: string, _public?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        create: async (file: File, title: string, description?: string, directoryId?: string, _public?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'file' is not null or undefined
             assertParamExists('create', 'file', file)
+            // verify required parameter 'title' is not null or undefined
+            assertParamExists('create', 'title', title)
             const localVarPath = `/api/FilesV2`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -70,6 +73,10 @@ export const FilesV2ApiAxiosParamCreator = function (configuration?: Configurati
 
             if (description !== undefined) { 
                 localVarFormParams.append('Description', description as any);
+            }
+
+            if (title !== undefined) { 
+                localVarFormParams.append('Title', title as any);
             }
 
             if (directoryId !== undefined) { 
@@ -294,6 +301,43 @@ export const FilesV2ApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        getByIdDownload: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getByIdDownload', 'id', id)
+            const localVarPath = `/api/FilesV2/{id}/download`
+                .replace('{id}', encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         getByIdUsers: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getByIdUsers', 'id', id)
@@ -328,11 +372,15 @@ export const FilesV2ApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * 
          * @param {string} id 
-         * @param {UpdateFileDto} [updateFileDto] 
+         * @param {File} [file] 
+         * @param {string} [title] 
+         * @param {string} [description] 
+         * @param {string} [directoryId] 
+         * @param {boolean} [_public] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateById: async (id: string, updateFileDto?: UpdateFileDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateById: async (id: string, file?: File, title?: string, description?: string, directoryId?: string, _public?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateById', 'id', id)
             const localVarPath = `/api/FilesV2/{id}`
@@ -347,18 +395,39 @@ export const FilesV2ApiAxiosParamCreator = function (configuration?: Configurati
             const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+            const localVarFormParams = new ((configuration && configuration.formDataCtor) || FormData)();
 
             // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            if (file !== undefined) { 
+                localVarFormParams.append('File', file as any);
+            }
+
+            if (title !== undefined) { 
+                localVarFormParams.append('Title', title as any);
+            }
+
+            if (description !== undefined) { 
+                localVarFormParams.append('Description', description as any);
+            }
+
+            if (directoryId !== undefined) { 
+                localVarFormParams.append('DirectoryId', directoryId as any);
+            }
+
+            if (_public !== undefined) { 
+                localVarFormParams.append('Public', String(_public) as any);
+            }
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
             localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(updateFileDto, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = localVarFormParams;
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -377,14 +446,15 @@ export const FilesV2ApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {File} file 
+         * @param {string} title 
          * @param {string} [description] 
          * @param {string} [directoryId] 
          * @param {boolean} [_public] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async create(file: File, description?: string, directoryId?: string, _public?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FileV2Dto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.create(file, description, directoryId, _public, options);
+        async create(file: File, title: string, description?: string, directoryId?: string, _public?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FileV2Dto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.create(file, title, description, directoryId, _public, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['FilesV2Api.create']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -458,6 +528,18 @@ export const FilesV2ApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
+        async getByIdDownload(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Media>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getByIdDownload(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['FilesV2Api.getByIdDownload']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
         async getByIdUsers(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FileUserDto>>> {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getByIdUsers(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
@@ -467,12 +549,16 @@ export const FilesV2ApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {string} id 
-         * @param {UpdateFileDto} [updateFileDto] 
+         * @param {File} [file] 
+         * @param {string} [title] 
+         * @param {string} [description] 
+         * @param {string} [directoryId] 
+         * @param {boolean} [_public] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateById(id: string, updateFileDto?: UpdateFileDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FileV2Dto>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateById(id, updateFileDto, options);
+        async updateById(id: string, file?: File, title?: string, description?: string, directoryId?: string, _public?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FileV2Dto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateById(id, file, title, description, directoryId, _public, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['FilesV2Api.updateById']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -493,7 +579,7 @@ export const FilesV2ApiFactory = function (configuration?: Configuration, basePa
          * @throws {RequiredError}
          */
         create(requestParameters: FilesV2ApiCreateRequest, options?: RawAxiosRequestConfig): AxiosPromise<FileV2Dto> {
-            return localVarFp.create(requestParameters.file, requestParameters.description, requestParameters.directoryId, requestParameters._public, options).then((request) => request(axios, basePath));
+            return localVarFp.create(requestParameters.file, requestParameters.title, requestParameters.description, requestParameters.directoryId, requestParameters._public, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -542,6 +628,15 @@ export const FilesV2ApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
+         * @param {FilesV2ApiGetByIdDownloadRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getByIdDownload(requestParameters: FilesV2ApiGetByIdDownloadRequest, options?: RawAxiosRequestConfig): AxiosPromise<Media> {
+            return localVarFp.getByIdDownload(requestParameters.id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {FilesV2ApiGetByIdUsersRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -556,7 +651,7 @@ export const FilesV2ApiFactory = function (configuration?: Configuration, basePa
          * @throws {RequiredError}
          */
         updateById(requestParameters: FilesV2ApiUpdateByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<FileV2Dto> {
-            return localVarFp.updateById(requestParameters.id, requestParameters.updateFileDto, options).then((request) => request(axios, basePath));
+            return localVarFp.updateById(requestParameters.id, requestParameters.file, requestParameters.title, requestParameters.description, requestParameters.directoryId, requestParameters._public, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -566,6 +661,8 @@ export const FilesV2ApiFactory = function (configuration?: Configuration, basePa
  */
 export interface FilesV2ApiCreateRequest {
     readonly file: File
+
+    readonly title: string
 
     readonly description?: string
 
@@ -616,6 +713,13 @@ export interface FilesV2ApiGetByIdRequest {
 }
 
 /**
+ * Request parameters for getByIdDownload operation in FilesV2Api.
+ */
+export interface FilesV2ApiGetByIdDownloadRequest {
+    readonly id: string
+}
+
+/**
  * Request parameters for getByIdUsers operation in FilesV2Api.
  */
 export interface FilesV2ApiGetByIdUsersRequest {
@@ -628,7 +732,15 @@ export interface FilesV2ApiGetByIdUsersRequest {
 export interface FilesV2ApiUpdateByIdRequest {
     readonly id: string
 
-    readonly updateFileDto?: UpdateFileDto
+    readonly file?: File
+
+    readonly title?: string
+
+    readonly description?: string
+
+    readonly directoryId?: string
+
+    readonly _public?: boolean
 }
 
 /**
@@ -642,7 +754,7 @@ export class FilesV2Api extends BaseAPI {
      * @throws {RequiredError}
      */
     public create(requestParameters: FilesV2ApiCreateRequest, options?: RawAxiosRequestConfig) {
-        return FilesV2ApiFp(this.configuration).create(requestParameters.file, requestParameters.description, requestParameters.directoryId, requestParameters._public, options).then((request) => request(this.axios, this.basePath));
+        return FilesV2ApiFp(this.configuration).create(requestParameters.file, requestParameters.title, requestParameters.description, requestParameters.directoryId, requestParameters._public, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -697,6 +809,16 @@ export class FilesV2Api extends BaseAPI {
 
     /**
      * 
+     * @param {FilesV2ApiGetByIdDownloadRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public getByIdDownload(requestParameters: FilesV2ApiGetByIdDownloadRequest, options?: RawAxiosRequestConfig) {
+        return FilesV2ApiFp(this.configuration).getByIdDownload(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @param {FilesV2ApiGetByIdUsersRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -712,7 +834,7 @@ export class FilesV2Api extends BaseAPI {
      * @throws {RequiredError}
      */
     public updateById(requestParameters: FilesV2ApiUpdateByIdRequest, options?: RawAxiosRequestConfig) {
-        return FilesV2ApiFp(this.configuration).updateById(requestParameters.id, requestParameters.updateFileDto, options).then((request) => request(this.axios, this.basePath));
+        return FilesV2ApiFp(this.configuration).updateById(requestParameters.id, requestParameters.file, requestParameters.title, requestParameters.description, requestParameters.directoryId, requestParameters._public, options).then((request) => request(this.axios, this.basePath));
     }
 }
 

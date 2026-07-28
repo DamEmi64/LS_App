@@ -137,7 +137,7 @@ const App = () => (
                                         <Route path="/rpg/drafts" element={<Layout content={o => <RPG draft={true} />} image={RPGImg} title={'menu.rpg_sessions'} permissions={['rpg']} menu={menu} />} />
                                         <Route path="/automations" element={<Layout content={Automations} image={AutomationsImg} title={'menu.automations'} permissions={['automation']} menu={menu} />} />
                                         <Route path="/discord" element={<Layout content={DiscordPage} image={DiscordImg} title={'menu.discord'} permissions={['communication']} menu={menu} />} />
-                                        <Route path="/filesV2" element={<Layout content={FilesV2Page} image={DiscordImg} title={'menu.files'} menu={menu} />} />
+                                        <Route path="/filesV2" element={<Layout content={FilesV2Page} image={DiscordImg} title={'menu.files'} menu={menu}/>} />
                                         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                                         <Route path="*" element={<Layout content={NotFound} image={IndexImg} title={'404'} menu={menu} />} />
                                     </SlideRoutes>
