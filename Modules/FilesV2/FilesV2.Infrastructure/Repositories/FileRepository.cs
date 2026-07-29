@@ -27,7 +27,7 @@ namespace FilesV2.Infrastructure.Repositories
                 .Include(x => x.Folder)
                 .Include(x => x.Users)
                 .Include(x => x.Owner)
-                .Where(x => x.Public || x.Owner.UserId.ToString() == userId || x.Users.Any(u => u.UserId.ToString() == userId))
+                .Where(x => x.Public || x.Owner.UserId.ToString() == userId || x.Users.Any(u => u.UserId == userId))
                 .ToListAsync();
         }
 
@@ -46,6 +46,6 @@ namespace FilesV2.Infrastructure.Repositories
 
         public static bool HasWriteAccess(Domain.Entities.File file, string userId) =>
             file.Owner.UserId.ToString() == userId ||
-            file.Users.Any(u => u.UserId.ToString() == userId && u.Privilage == Privilage.ReadWrite);
+            file.Users.Any(u => u.UserId.ToString() == userId && u.Privilage == Privilage.Write);
     }
 }

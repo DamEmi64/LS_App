@@ -4,6 +4,6 @@
     {
         Owner,
         Read,
-        ReadWrite
+        Write
     }
 }

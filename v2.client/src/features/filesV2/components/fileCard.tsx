@@ -27,13 +27,23 @@ const FileCard: React.FC<FileItem> = ({ name, icon, onClick, onDetails, onEdit, 
   };
 
   return (
-    <Card variant="outlined" sx={{ width: "100%" }}>
-      <CardActionArea onClick={onClick}>
+    <Card
+      variant="outlined"
+      sx={{
+        display: "flex",
+        alignItems: "center",
+      }}
+    >
+      <CardActionArea
+        onClick={onClick}
+        sx={{
+          flex: 1,
+        }}
+      >
         <CardContent
           sx={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between",
             py: 1.5,
           }}
         >
@@ -42,9 +52,7 @@ const FileCard: React.FC<FileItem> = ({ name, icon, onClick, onDetails, onEdit, 
               display: "flex",
               alignItems: "center",
               gap: 2,
-              flex: 1,
               minWidth: 0,
-              direction: "row"
             }}
           >
             {icon}
@@ -53,42 +61,38 @@ const FileCard: React.FC<FileItem> = ({ name, icon, onClick, onDetails, onEdit, 
               {name}
             </Typography>
           </Box>
-
-          <IconButton
-            size="small"
-            aria-label="more options"
-            aria-controls={open ? "file-item-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
-            onClick={handleMenuOpen}
-          >
-            <MoreVertIcon fontSize="small" />
-          </IconButton>
-
-          <Menu
-            id="file-item-menu"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleMenuClose}
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            transformOrigin={{ vertical: "top", horizontal: "right" }}
-            onClick={(event) => event.stopPropagation()}
-          >
-            <MenuItem onClick={handleMenuItemClick(onDetails)}>
-              {t("opt.details")}
-            </MenuItem>
-            {(privilage == Privilage.OWNER || privilage == Privilage.WRITE) && (<>
-              <MenuItem onClick={handleMenuItemClick(onEdit)}>
-                {t("opt.edit")}
-              </MenuItem>
-              {privilage == Privilage.OWNER && (
-                <MenuItem onClick={handleMenuItemClick(onDelete)}>
-                  {t("opt.delete")}
-                </MenuItem>)}
-            </>)}
-          </Menu>
         </CardContent>
       </CardActionArea>
+
+      <CardActions sx={{ p: 1 }}>
+        <IconButton
+          size="small"
+          onClick={handleMenuOpen}
+          onMouseDown={(e) => e.stopPropagation()}
+        >
+          <MoreVertIcon fontSize="small" />
+        </IconButton>
+      </CardActions>
+
+      <Menu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleMenuClose}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <MenuItem onClick={handleMenuItemClick(onDetails)}>
+          {t("opt.details")}
+        </MenuItem>
+        {(privilage == Privilage.OWNER || privilage == Privilage.WRITE) && (<>
+          <MenuItem onClick={handleMenuItemClick(onEdit)}>
+            {t("opt.edit")}
+          </MenuItem>
+          {privilage == Privilage.OWNER && (
+            <MenuItem onClick={handleMenuItemClick(onDelete)}>
+              {t("opt.delete")}
+            </MenuItem>)}
+        </>)}
+      </Menu>
     </Card>
   );
 };

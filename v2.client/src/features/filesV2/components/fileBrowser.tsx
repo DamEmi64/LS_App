@@ -36,14 +36,12 @@ export default function FileBrowser() {
   const [newFolderOpen, setNewFolderOpen] = useState(false);
 
   const refresh = useCallback(async () => {
-    const [dirs, fileList] = await Promise.all([
-      call<Directory[]>(api => api.directoriesApi.get, {
-        parentId: directoryId ?? undefined,
-      }),
-      call<FileV2[]>(api => api.filesV2Api.get, {
-        directoryId: directoryId ?? undefined
-      }),
-    ]);
+    const dirs = await call<Directory[]>(api => api.directoriesApi.get, {
+      parentId: directoryId ?? undefined,
+    });
+    const fileList = await call<FileV2[]>(api => api.filesV2Api.get, {
+      directoryId: directoryId ?? undefined
+    })
 
     setDirectories(dirs);
     setFiles(fileList);
@@ -114,7 +112,7 @@ export default function FileBrowser() {
       file: file.File,
       description: file.description,
       directoryId: directoryId ?? undefined,
-      title:file.title
+      title: file.title
     });
 
     modal.hideModal();
@@ -166,23 +164,24 @@ export default function FileBrowser() {
     />)
   }
 
-  const handleEdit = (file: FileV2) => {
+  const handleEdit = (file: FileV2, privilage: Privilage) => {
 
     modal.showModal(<FileDialog
       file={file}
-      onSubmit={(f) => saveEdit(file.id,f)}
+      onSubmit={(f) => saveEdit(file.id, f)}
       onClose={() => modal.hideModal}
+      privilage={privilage}
     />)
   };
 
-  const saveEdit = (id:string, form: FileEditFormData) => {
-      call(api => api.filesV2Api.updateById, {
-        id: id,
-        title: form.title,
-        description: form.description,
-        file: form.File
+  const saveEdit = (id: string, form: FileEditFormData) => {
+    call(api => api.filesV2Api.updateById, {
+      id: id,
+      title: form.title,
+      description: form.description,
+      file: form.File
 
-      }).then(refresh);
+    }).then(refresh);
   }
 
   const del = (file: FileV2) => {
@@ -213,23 +212,27 @@ export default function FileBrowser() {
         type: "folder" as const,
         privilage: Privilage.READ
       })),
-      ...files.map(file => ({
-        id: file.id,
-        name: file.title,
-        icon: <InsertDriveFileIcon />,
-        onClick: () => {
-          void handleDownload(file);
-        },
-        onDelete: () => {
-          void del(file);
-        },
-        onDetails: () => handleDetails(file),
-        onEdit: () => {
-          void handleEdit(file);
-        },
-        type: "file" as const,
-        privilage: getFilePrivilage(file)
-      })),
+      ...files.map(file => {
+        let privilage = getFilePrivilage(file);
+
+        return {
+          id: file.id,
+          name: file.title,
+          icon: <InsertDriveFileIcon />,
+          onClick: () => {
+            void handleDownload(file);
+          },
+          onDelete: () => {
+            void del(file);
+          },
+          onDetails: () => handleDetails(file),
+          onEdit: () => {
+            void handleEdit(file, privilage);
+          },
+          type: "file" as const,
+          privilage: privilage
+      } as FileItem
+      }),
     ],
     [directories, files]
   );
@@ -261,7 +264,7 @@ export default function FileBrowser() {
           </Box>
 
           <Grid container spacing={2}>
-            {items.map(item => item.name.includes(search)  && (
+            {items.map(item => item.name.includes(search) && (
               <Grid
                 key={item.id}
                 size={{ xs: 12, sm: 6, md: 4, lg: 3 }}

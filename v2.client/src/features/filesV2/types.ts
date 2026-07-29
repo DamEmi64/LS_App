@@ -13,6 +13,13 @@ export interface FileItem {
 }
 
 export enum Privilage {
+    OWNER = 'Owner',
+    READ = 'Read',
+    WRITE = 'Write',
+    NONE = 'None'
+}
+
+export enum PrivilageToSend {
     OWNER = 0,
     READ = 1,
     WRITE = 2,

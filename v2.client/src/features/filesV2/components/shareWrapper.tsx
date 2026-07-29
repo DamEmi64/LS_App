@@ -19,7 +19,7 @@ import {
 import DeleteOutlineRounded from "@mui/icons-material/DeleteOutlineRounded";
 import { call } from "@/shared";
 import { t } from "i18next";
-import { ShareFormData, Privilage, FileUser, FileV2 } from "../types";
+import { ShareFormData, Privilage, FileUser, FileV2, PrivilageToSend } from "../types";
 import { UserData } from "@/features/system";
 import { ResponseList } from "@/shared/api/extension";
 
@@ -55,7 +55,7 @@ export default function ShareWrapper({ file, onSubmit }: ShareWrapperProps) {
 
     setIsPublic(file.public);
     call<FileUser[]>(api => api.filesV2Api.getByIdUsers, { id: file.id }).then(setUsers);
-    call<ResponseList<UserData>>(api => api.homeApi.getUsers, {}).then(f =>  setServerUsers(f.data));
+    call<ResponseList<UserData>>(api => api.homeApi.getUsers, {}).then(f => setServerUsers(f.data));
   }, [file, reset]);
 
   if (!file) return null;
@@ -71,7 +71,7 @@ export default function ShareWrapper({ file, onSubmit }: ShareWrapperProps) {
         grantAccessDto: {
           login: formData.user.login,
           userId: formData.user.userId,
-          privilage: privilage,
+          privilage: mapToPrivilageToSend(privilage),
         },
       });
 
@@ -82,13 +82,24 @@ export default function ShareWrapper({ file, onSubmit }: ShareWrapperProps) {
       );
       setUsers(updatedUsers);
       reset(); // Clear form
-      setPrivilage(Privilage.READ); // Reset privilege to default
+      setPrivilage(Privilage.NONE); // Reset privilege to default
     } catch (error) {
       console.error("Failed to add user privilege:", error);
     } finally {
       setIsSaving(false);
     }
   };
+
+  const mapToPrivilageToSend = (privilage: Privilage) => {
+    if (privilage == Privilage.OWNER)
+      return PrivilageToSend.OWNER;
+    if (privilage == Privilage.READ)
+      return PrivilageToSend.READ;
+    if (privilage == Privilage.WRITE)
+      return PrivilageToSend.WRITE;
+
+    return PrivilageToSend.NONE;
+  }
 
   const handleRemovePrivilage = async (userId: string) => {
     if (!file) return;
@@ -141,9 +152,9 @@ export default function ShareWrapper({ file, onSubmit }: ShareWrapperProps) {
             rules={{ required: t("validation.required") as string }}
             render={({ field }) => (
               <Autocomplete
-                sx={{width:'200px'}}
+                sx={{ width: '200px' }}
                 options={serverUsers}
-                value={serverUsers.find(x=> x.userId == field?.value?.userId) || null}
+                value={serverUsers.find(x => x.userId == field?.value?.userId) || null}
                 onChange={(_, value) => field.onChange(value)}
                 getOptionLabel={(option) => option.login}
                 isOptionEqualToValue={(option, value) => option.userId === value.userId}
@@ -197,9 +208,9 @@ export default function ShareWrapper({ file, onSubmit }: ShareWrapperProps) {
             <ListItemText
               primary={u.login}
               secondary={
-                u.privilage === Privilage.OWNER
+                u.privilage == Privilage.OWNER
                   ? t('files.share.owner')
-                  : u.privilage === Privilage.READ
+                  : u.privilage == Privilage.READ
                     ? t('files.share.read')
                     : t('files.share.write')
               }

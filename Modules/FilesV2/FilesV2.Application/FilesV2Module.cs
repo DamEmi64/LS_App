@@ -18,7 +18,7 @@ namespace FilesV2.Application
         public string Version => "v0.0.1";
 
         public IEnumerable<PermissionInfo> Permissions => [PermissionInfo.Create("filesV2","manages files"),
-                                                         PermissionInfo.Create("directoryV2","manage directories")];
+                                                         PermissionInfo.Create("directoriesV2","manage directories")];
 
         public IServiceCollection Configure(IServiceCollection services)
         {
