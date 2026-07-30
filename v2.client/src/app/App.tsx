@@ -110,7 +110,7 @@ const menu: NavbarItemProps[] = [
         ], permissions: ['rpg']
     },
     { label: 'automations', href: '/automations', submenu: [], permissions: ['automation'] },
-    { label: 'files', href: '/filesV2', submenu: [] },
+    { label: 'files', href: '/filesV2', submenu: [], permissions:["filesV2"] },
 ];
 
 const App = () => (

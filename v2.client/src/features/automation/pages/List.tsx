@@ -4,8 +4,16 @@ import { useTranslation } from "react-i18next";
 import { useModal } from "@/shared/context/modal";
 import YesNoWindow from "@/shared/components/YesNoWindow";
 import { DataTable } from "@/shared/components/datatables/datatable";
-import {call} from "@/shared";
 import { AutomatForm } from "@/features/automation/components/AutomatForm";
+import {
+  createAutomation,
+  deleteAutomation,
+  getAutomationById,
+  loadAutomations,
+  turnOffAutomation,
+  turnOnAutomation,
+  updateAutomation,
+} from "../services/automationService";
 
 import {
   TableColumn,
@@ -18,7 +26,6 @@ import {
   TableData
 } from "@/shared";
 import { Automat, AutomatTask } from "../types";
-import { ResponseList } from "@/shared/api/extension";
 
 
 const List: React.FC = () => {
@@ -47,7 +54,7 @@ const List: React.FC = () => {
       query[filter.field] = filter.value.toLocaleString();
     });
 
-    const result = await call<ResponseList<Automat>>(api=>api.automationApi.get, query);
+    const result = await loadAutomations(query);
     setData({ data: result.data, total: result.total });
 
     return { data: result.data, total: result.total };
@@ -67,8 +74,9 @@ const List: React.FC = () => {
     modal.showModal(<AutomatForm initialData={{} as Automat} onSubmit={saveNew} />);
   };
 
-  const saveNew = (automat: Automat) => {
-    call(api=>api.automationApi.create,{automationDto:automat}).then(refresh);
+  const saveNew = async (automat: Automat) => {
+    await createAutomation(automat);
+    refresh();
   };
 
   const editAutomat = (automat: Automat) => {
@@ -77,26 +85,30 @@ const List: React.FC = () => {
     );
   };
 
-  const saveEdit = (automat: Automat, id: string) => {
-    call(api=>api.automationApi.updateById,{ id, automationDto: automat }).then(refresh);
+  const saveEdit = async (automat: Automat, id: string) => {
+    await updateAutomation(id, automat);
+    refresh();
   };
 
-  const turnOnOff = (automat: Automat) => {
-
+  const turnOnOff = async (automat: Automat) => {
     const id = automat.id;
     if (automat.active) {
-          call(api=>api.automationApi.updateByIdTurnoff,{ id }).then(refresh);
+      await turnOffAutomation(id);
     }
     else {
-          call(api=>api.automationApi.updateByIdTurnon,{ id }).then(refresh);
+      await turnOnAutomation(id);
     }
+
+    refresh();
   };
 
-  const editTask = (automat: Automat, taskId: string, task: AutomatTask) => {
+  const editTask = async (automat: Automat, taskId: string, task: AutomatTask) => {
     const index = automat.tasks.findIndex(t => t.id === taskId);
     if (index >= 0) automat.tasks[index] = task;
     else automat.tasks.push(task);
-      call(api=>api.automationApi.getById,{ id:automat.id }).then(refresh);
+
+    await getAutomationById(automat.id);
+    refresh();
   };
 
   const del = (automat: Automat) => {
@@ -111,8 +123,9 @@ const List: React.FC = () => {
     );
   };
 
-  const delConfirm = (automat: Automat) => {
-      call(api=>api.automationApi.deleteById,{ id:automat.id }).then(refresh);
+  const delConfirm = async (automat: Automat) => {
+      await deleteAutomation(automat.id);
+      refresh();
   };
 
   // Columns, filters, operations

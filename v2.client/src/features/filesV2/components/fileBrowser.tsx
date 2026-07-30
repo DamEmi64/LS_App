@@ -1,25 +1,36 @@
-import { useState, useRef, useCallback, useEffect, useMemo, ChangeEvent } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
 import { Paper, Stack, Grid, Box } from "@mui/material";
 
 import FolderOpenIcon from "@mui/icons-material/FolderOpen";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
-import { saveAs } from 'file-saver';
 
 import FileCard from "./fileCard";
 import FolderCard from "./folderCard";
-import TopBar, { BreadcrumbItem } from "./topBar";
+import TopBar from "./topBar";
 import NewFolderDialog from "./newFolderDialog";
 
 import { Directory, FileEditFormData, FileItem, FileV2, Privilage } from "../types";
-import { call, raw } from "@/shared/components/apiClient";
 import FileDialog from "./fileDialog";
-import { getMimeFromExtension } from "@/lib/utils";
 import YesNoWindow from "@/shared/components/YesNoWindow";
 import { useModal } from "@/shared";
 import { t } from "i18next";
 import FileWrapper from "./fileWrapper";
 import { useAuth } from "@/features/auth/context/authProvider";
-import { fi } from "date-fns/locale";
+import {
+  createFileEntry,
+  deleteFileEntry,
+  downloadFile,
+  getFilePrivilage,
+  loadFiles,
+  updateFileEntry,
+} from "../services/fileService";
+import {
+  createDirectoryEntry,
+  deleteDirectoryEntry,
+  getDirectoryPath,
+  loadDirectories,
+  type BreadcrumbItem,
+} from "../services/directoryService";
 
 export default function FileBrowser() {
   const [directoryId, setDirectoryId] = useState<string | null>(null);
@@ -36,16 +47,14 @@ export default function FileBrowser() {
   const [newFolderOpen, setNewFolderOpen] = useState(false);
 
   const refresh = useCallback(async () => {
-    const dirs = await call<Directory[]>(api => api.directoriesApi.get, {
-      parentId: directoryId ?? undefined,
-    });
-    const fileList = await call<FileV2[]>(api => api.filesV2Api.get, {
-      directoryId: directoryId ?? undefined
-    })
+    const [dirs, fileList] = await Promise.all([
+      loadDirectories(directoryId),
+      loadFiles(directoryId),
+    ]);
 
     setDirectories(dirs);
     setFiles(fileList);
-  }, [directoryId, search]);
+  }, [directoryId]);
 
   useEffect(() => {
     refresh();
@@ -53,52 +62,13 @@ export default function FileBrowser() {
 
 
   const deleteDirectory = async (id: string) => {
-    await call<any>(api => api.directoriesApi.deleteById, { id }).then(refresh)
-  }
-
-  const getFilePrivilage = (file: FileV2): Privilage => {
-
-    if (!user) return Privilage.NONE;
-
-    if (user.userId == file.owner) return Privilage.OWNER;
-
-    if (!file.fileUsers) return Privilage.NONE;
-
-    var fileUser = file.fileUsers.find(x => x.userId == user.userId);
-
-    return fileUser.privilage as Privilage;
-  }
+    await deleteDirectoryEntry(id);
+    await refresh();
+  };
 
   const handleSelectDirectory = async (id: string | null) => {
     setDirectoryId(id);
-
-    if (id === null) {
-      setPath([{ id: null, title: "All files" }]);
-      return;
-    }
-
-    const trail: BreadcrumbItem[] = [];
-
-    let current = await call<Directory>(
-      api => api.directoriesApi.getById,
-      { id }
-    );
-
-    while (current) {
-      trail.unshift({
-        id: current.id,
-        title: current.title,
-      });
-
-      current = current.parentId
-        ? await call<Directory>(
-          api => api.directoriesApi.getById,
-          { id: current.parentId }
-        )
-        : null;
-    }
-
-    setPath([{ id: null, title: "All files" }, ...trail]);
+    setPath(await getDirectoryPath(id));
   };
 
   const handleUploadClick = () => {
@@ -107,53 +77,25 @@ export default function FileBrowser() {
   }
 
   const handleCreate = async (file: FileEditFormData) => {
-
-    await call(api => api.filesV2Api.create, {
-      file: file.File,
-      description: file.description,
-      directoryId: directoryId ?? undefined,
-      title: file.title
-    });
+    await createFileEntry(file, directoryId);
 
     modal.hideModal();
-    refresh();
+    await refresh();
   };
 
   const handleCreateFolder = async (title: string) => {
-    await call(api => api.directoriesApi.create, {
-      createDirectoryDto: {
-        title,
-        parentId: directoryId ?? undefined,
-      },
-    });
+    await createDirectoryEntry(title, directoryId);
 
     setNewFolderOpen(false);
-    refresh();
+    await refresh();
   };
 
   const handleDownload = async (file: FileV2) => {
-    raw(api => api.filesV2Api.getByIdDownload, { id: file.id })
-      .then((response) => {
-        let filename = file.title + response.data.extension;
-
-        const mime = getMimeFromExtension(response.data.extension);
-
-        const byteCharacters = atob(response.data.content);
-
-        // convert to byte array
-        const byteNumbers = new Array(byteCharacters.length);
-
-        for (let i = 0; i < byteCharacters.length; i++) {
-          byteNumbers[i] = byteCharacters.charCodeAt(i);
-        }
-
-        const byteArray = new Uint8Array(byteNumbers);
-
-        // create blob
-        const blob = new Blob([byteArray], { type: mime });
-        saveAs(blob, filename);
-      })
-      .catch((error) => console.error('Download failed:', error));
+    try {
+      await downloadFile(file);
+    } catch (error) {
+      console.error("Download failed:", error);
+    }
   };
 
   const handleDetails = async (file: FileV2) => {
@@ -174,15 +116,10 @@ export default function FileBrowser() {
     />)
   };
 
-  const saveEdit = (id: string, form: FileEditFormData) => {
-    call(api => api.filesV2Api.updateById, {
-      id: id,
-      title: form.title,
-      description: form.description,
-      file: form.File
-
-    }).then(refresh);
-  }
+  const saveEdit = async (id: string, form: FileEditFormData) => {
+    await updateFileEntry(id, form);
+    await refresh();
+  };
 
   const del = (file: FileV2) => {
     modal.showModal(
@@ -197,7 +134,8 @@ export default function FileBrowser() {
   };
 
   const delConfirm = async (file: FileV2) => {
-    call(api => api.filesV2Api.deleteById, { id: file.id }).then(refresh);
+    await deleteFileEntry(file.id!);
+    await refresh();
   };
 
   const items = useMemo<FileItem[]>(
@@ -213,7 +151,7 @@ export default function FileBrowser() {
         privilage: Privilage.READ
       })),
       ...files.map(file => {
-        let privilage = getFilePrivilage(file);
+        const privilage = getFilePrivilage(file, user);
 
         return {
           id: file.id,
