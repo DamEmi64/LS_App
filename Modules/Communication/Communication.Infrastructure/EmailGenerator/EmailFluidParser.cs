@@ -25,16 +25,16 @@ namespace Communication.Infrastructure.EmailGenerator
         }
 
         [FluidVariable]
-        public UserData? UserData { get; set; }
+        public EmailUserData? UserData { get; set; }
 
         [FluidVariable]
-        public UserData? Sender { get; set; }
+        public EmailUserData? Sender { get; set; }
 
         [FluidVariable]
-        public UserData? Receiver { get; set; }
+        public EmailUserData? Receiver { get; set; }
 
         [FluidVariable]
-        public List<UserData> Receivers { get; set; } = new List<UserData>();
+        public List<EmailUserData> Receivers { get; set; } = new List<EmailUserData>();
 
         [FluidVariable]
         public int SEQ { get; set; } = 0;
@@ -61,5 +61,23 @@ namespace Communication.Infrastructure.EmailGenerator
              nameof(SEQ) => 609,
              _ => throw new NotImplementedException()
          };
+    }
+
+    public class EmailUserData : UserData
+    {
+        public override string ToString()
+        {
+            return Login ?? string.Empty;
+        }
+
+        public static EmailUserData Parse(UserData userData)
+        {
+            return new EmailUserData
+            {
+                UserId = userData.UserId,
+                Email = userData.Email,
+                Login = userData.Login
+            };
+        }
     }
 }
