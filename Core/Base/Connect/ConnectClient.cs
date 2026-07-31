@@ -20,7 +20,7 @@ namespace Base
             return await _mediator.Send(data);
         }
 
-        public async Task<Result<T2>> Send<T1, T2>(T1 data) where T1 : IRequest<Result<T2>> where T2 : class
+        public async Task<Result<T2>> Send<T1, T2>(T1 data) where T1 : IRequest<Result<T2>>
         {
             return await _mediator.Send(data);
         }

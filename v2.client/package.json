@@ -75,6 +75,7 @@
     "react-dice": "^1.0.1",
     "react-dice-roll": "^1.2.2",
     "react-dom": "^18.3.1",
+    "react-dropzone": "^19.1.1",
     "react-form-hook": "^0.0.1",
     "react-hook-form": "^7.62.0",
     "react-i18next": "^15.5.3",

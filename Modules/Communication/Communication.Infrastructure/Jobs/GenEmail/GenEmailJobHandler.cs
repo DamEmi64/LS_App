@@ -32,8 +32,8 @@ namespace Communication.Infrastructure.Jobs.GenEmail
 
             var emailParser = new EmailFluidParser
             {
-                Sender = request.Model.Sender,
-                Receivers = request.Model.Recipients.ToList()
+                Sender = EmailUserData.Parse(request.Model.Sender),
+                Receivers = request.Model.Recipients.Select(EmailUserData.Parse).ToList()
             };
 
             var parsers = _fluidParsers.Where(x => x is not EmailFluidParser).ToList();

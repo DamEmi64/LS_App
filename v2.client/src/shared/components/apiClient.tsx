@@ -13,7 +13,9 @@ import {
     HomeApi,
     EventsApi,
     CommunicationHistoryApi,
-    DiscordApi
+    DiscordApi,
+    FilesV2Api,
+    DirectoriesApi
 } from '@/shared/api/generated';
 
 import { notify } from '../components/NotificationListener';
@@ -163,7 +165,9 @@ export const API = {
     homeApi: bindApi(new HomeApi(null, '', axiosInstance)),
     eventClient: bindApi(new EventsApi(null, '', axiosInstance)),
     communicationHistoryClient: bindApi(new CommunicationHistoryApi(null, '', axiosInstance)),
-    discordClient: bindApi(new DiscordApi(null, '', axiosInstance))
+    discordClient: bindApi(new DiscordApi(null, '', axiosInstance)),
+    filesV2Api: bindApi(new FilesV2Api(null,'',axiosInstance)),
+    directoriesApi: bindApi(new DirectoriesApi(null,'',axiosInstance)) 
 };
 
 export const call = async <TRes = unknown,TReq = unknown>(

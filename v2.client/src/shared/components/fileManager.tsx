@@ -22,10 +22,10 @@ type Props = {
   editMode: boolean;
   remove: (id: string) => Promise<void>;
   add: (file: File) => Promise<void>;
-
+  numberOfFiles?: number
 };
 
-export default function FileManager({ files, editMode, add, remove }: Props) {
+export default function FileManager({ files, editMode, add, remove, numberOfFiles }: Props) {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const { t } = useTranslation();
 
@@ -43,9 +43,16 @@ export default function FileManager({ files, editMode, add, remove }: Props) {
     e.target.value = "";
   };
 
+  const isNewFileAllowed = () => {
+    if (!numberOfFiles)
+      return true;
+
+    return numberOfFiles > files.length;
+  }
+
   const theme = useTheme();
 
-    const textColor = theme.palette.text.primary;
+  const textColor = theme.palette.text.primary;
 
   const downloadFile = async (file: FileItem) => {
     download(file.content, file.title);
@@ -139,7 +146,7 @@ export default function FileManager({ files, editMode, add, remove }: Props) {
                     </IconButton>
                   )}
 
-                  {editMode && (
+                  {editMode && isNewFileAllowed() && (
                     <IconButton
                       edge="end"
                       color="error"

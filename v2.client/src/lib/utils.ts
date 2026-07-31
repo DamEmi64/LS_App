@@ -44,7 +44,7 @@ export const download = (id: string, title: string) => {
         .catch((error) => console.error('Download failed:', error));
 }
 
-const getMimeFromExtension = (extension) => {
+export const getMimeFromExtension = (extension) => {
     switch (extension.toLowerCase()) {
         case "docx":
             return "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
