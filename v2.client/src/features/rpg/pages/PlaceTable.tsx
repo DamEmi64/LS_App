@@ -1,7 +1,7 @@
 import { format } from "react-string-format";
 import { useTranslation } from "react-i18next";
 
-import { useModal, call, Operations } from "@/shared";
+import { useModal, call, Operations, ColumnType } from "@/shared";
 
 import YesNoWindow from "@/shared/components/YesNoWindow";
 
@@ -202,12 +202,13 @@ export const PlaceTable: React.FC<PlaceTableProps> = ({
             columns={[
                 {
                     field: "title",
-                    header: t("rpg.other.title")
+                    header: t("rpg.other.title"),
+                    type: ColumnType.String
                 },
                 {
                     field: "description",
                     header: t("rpg.other.description"),
-
+                    type: ColumnType.String,
                     render: (place) =>
                         place.description
                             ? place.description.length > 30

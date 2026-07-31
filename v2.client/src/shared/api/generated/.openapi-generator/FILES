@@ -5,10 +5,13 @@ api/auth-api.ts
 api/automations-api.ts
 api/chapters-api.ts
 api/communication-history-api.ts
+api/directories-api.ts
 api/discord-api.ts
+api/discord-interactions-api.ts
 api/emails-api.ts
 api/events-api.ts
 api/files-api.ts
+api/files-v2-api.ts
 api/heroes-api.ts
 api/home-api.ts
 api/places-api.ts
@@ -32,8 +35,12 @@ docs/ChaptersApi.md
 docs/CommunicationHistoryApi.md
 docs/CommunicationRegistry.md
 docs/CommunicationRegistryResponseList.md
+docs/CreateDirectoryDto.md
+docs/DirectoriesApi.md
+docs/DirectoryDto.md
 docs/DiscordApi.md
 docs/DiscordCmd.md
+docs/DiscordInteractionsApi.md
 docs/Email.md
 docs/EmailGenerationDto.md
 docs/EmailsApi.md
@@ -43,9 +50,13 @@ docs/EventsApi.md
 docs/File.md
 docs/FileDto.md
 docs/FileResponseList.md
+docs/FileUserDto.md
+docs/FileV2Dto.md
 docs/FilesApi.md
+docs/FilesV2Api.md
 docs/FlowDto.md
 docs/FluidDto.md
+docs/GrantAccessDto.md
 docs/Hero.md
 docs/HeroDto.md
 docs/HeroResponseList.md
@@ -62,6 +73,7 @@ docs/PlaceResponseList.md
 docs/PlacesApi.md
 docs/PlayerData.md
 docs/PlayerDataDto.md
+docs/Privilage.md
 docs/ProcessApi.md
 docs/ProcessDto.md
 docs/ProcessDtoResponseList.md
@@ -92,8 +104,10 @@ docs/TemplateResponseList.md
 docs/TemplatesApi.md
 docs/Trigger.md
 docs/TriggerDto.md
+docs/UpdateDirectoryDto.md
 docs/User.md
 docs/UserData.md
+docs/UserDataResponseList.md
 docs/UserDto.md
 docs/WebhookDto.md
 git_push.sh
@@ -108,6 +122,8 @@ models/chapter-response-list.ts
 models/chapter.ts
 models/communication-registry-response-list.ts
 models/communication-registry.ts
+models/create-directory-dto.ts
+models/directory-dto.ts
 models/discord-cmd.ts
 models/email-generation-dto.ts
 models/email.ts
@@ -115,8 +131,11 @@ models/event-dto-response-list.ts
 models/event-dto.ts
 models/file-dto.ts
 models/file-response-list.ts
+models/file-user-dto.ts
+models/file-v2-dto.ts
 models/flow-dto.ts
 models/fluid-dto.ts
+models/grant-access-dto.ts
 models/hero-dto.ts
 models/hero-response-list.ts
 models/hero.ts
@@ -132,6 +151,7 @@ models/place-response-list.ts
 models/place.ts
 models/player-data-dto.ts
 models/player-data.ts
+models/privilage.ts
 models/process-dto-response-list.ts
 models/process-dto.ts
 models/process-error-dto.ts
@@ -159,6 +179,8 @@ models/template-response-list.ts
 models/template.ts
 models/trigger-dto.ts
 models/trigger.ts
+models/update-directory-dto.ts
+models/user-data-response-list.ts
 models/user-data.ts
 models/user-dto.ts
 models/user.ts

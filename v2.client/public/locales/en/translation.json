@@ -96,7 +96,14 @@
     "useFileUpload": "Store file in database",
     "single": "file",
     "multiple": "files",
-    "empty": "no files"
+    "empty": "no files",
+    "share": {
+      "user": "Share with user",
+      "read": "Read",
+      "write": "Write",
+      "owner": "Owner",
+      "public": "Public file"
+    }
   },
   "communication": {
     "title": "Communication",
@@ -334,11 +341,13 @@
   "error": "Error",
   "opt": {
     "add": "Add",
+    "new": "New",
     "delete": "Delete",
     "edit": "Edit",
     "details": "Details",
     "operations": "Actions",
     "save": "Save",
+    "close": "Close",
     "change_pass": "Change password",
     "login": "Sign in",
     "register": "Sign up",
@@ -349,6 +358,12 @@
     "copy": "Copy",
     "publish": "Publish",
     "select": "Select",
+    "file": {
+      "select": "Select file",
+      "drop": "Drag and drop file",
+      "drop_active": "Drop file",
+      "drop_replace": "Drop file to replace existing"
+    },
     "from": "From",
     "to": "To"
   },

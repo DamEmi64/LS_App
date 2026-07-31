@@ -24,7 +24,7 @@ namespace Events.Infrastructure.External.Discord
             {
                 Text = TemplateFormatter.Format(ctx.Configuration ?? "List of events is: {events:joinByLine}", new
                 {
-                    events
+                    events = events.Select(x=>x.Title).ToList()
                 })
             };
         }

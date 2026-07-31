@@ -7,6 +7,7 @@ All URIs are relative to *http://localhost*
 |[**get**](#get) | **GET** /api/Home | |
 |[**getHealth**](#gethealth) | **GET** /api/Home/health | |
 |[**getMedia**](#getmedia) | **GET** /api/Home/media | |
+|[**getUsers**](#getusers) | **GET** /api/Home/Users | |
 
 # **get**
 > get()
@@ -126,6 +127,49 @@ const { status, data } = await apiInstance.getMedia(
 ### Return type
 
 **Media**
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: text/plain, application/json, text/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getUsers**
+> UserDataResponseList getUsers()
+
+
+### Example
+
+```typescript
+import {
+    HomeApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new HomeApi(configuration);
+
+const { status, data } = await apiInstance.getUsers();
+```
+
+### Parameters
+This endpoint does not have any parameters.
+
+
+### Return type
+
+**UserDataResponseList**
 
 ### Authorization
 
