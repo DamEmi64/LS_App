@@ -32,45 +32,80 @@ const FileCard: React.FC<FileItem> = ({ name, icon, onClick, onDetails, onEdit, 
       sx={{
         display: "flex",
         alignItems: "center",
+        width: "100%",
       }}
     >
       <CardActionArea
         onClick={onClick}
         sx={{
           flex: 1,
+          minWidth: 0,
         }}
       >
         <CardContent
           sx={{
             display: "flex",
             alignItems: "center",
-            py: 1.5,
+            py: { xs: 1.25, sm: 1.5 },
+            px: { xs: 1.5, sm: 2 },
           }}
         >
           <Box
             sx={{
               display: "flex",
               alignItems: "center",
-              gap: 2,
+              gap: { xs: 1.5, sm: 2 },
+              width: "100%",
               minWidth: 0,
             }}
           >
-            {icon}
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                flexShrink: 0,
+              }}
+            >
+              {icon}
+            </Box>
 
-            <Typography noWrap variant="subtitle1">
+            <Typography
+              variant="subtitle1"
+              sx={{
+                flex: 1,
+                minWidth: 0,
+                fontSize: {
+                  xs: "0.95rem",
+                  sm: "1rem",
+                },
+                overflow: "hidden",
+                display: "-webkit-box",
+                WebkitBoxOrient: "vertical",
+                WebkitLineClamp: 2,
+                wordBreak: "break-word",
+              }}
+            >
               {name}
             </Typography>
           </Box>
         </CardContent>
       </CardActionArea>
 
-      <CardActions sx={{ p: 1 }}>
+      <CardActions
+        sx={{
+          p: 0.5,
+          flexShrink: 0,
+        }}
+      >
         <IconButton
-          size="small"
           onClick={handleMenuOpen}
           onMouseDown={(e) => e.stopPropagation()}
+          sx={{
+            width: 44,
+            height: 44,
+          }}
         >
-          <MoreVertIcon fontSize="small" />
+          <MoreVertIcon />
         </IconButton>
       </CardActions>
 
@@ -83,15 +118,20 @@ const FileCard: React.FC<FileItem> = ({ name, icon, onClick, onDetails, onEdit, 
         <MenuItem onClick={handleMenuItemClick(onDetails)}>
           {t("opt.details")}
         </MenuItem>
-        {(privilage == Privilage.OWNER || privilage == Privilage.WRITE) && (<>
-          <MenuItem onClick={handleMenuItemClick(onEdit)}>
-            {t("opt.edit")}
-          </MenuItem>
-          {privilage == Privilage.OWNER && (
-            <MenuItem onClick={handleMenuItemClick(onDelete)}>
-              {t("opt.delete")}
-            </MenuItem>)}
-        </>)}
+
+        {(privilage === Privilage.OWNER || privilage === Privilage.WRITE) && (
+          <>
+            <MenuItem onClick={handleMenuItemClick(onEdit)}>
+              {t("opt.edit")}
+            </MenuItem>
+
+            {privilage === Privilage.OWNER && (
+              <MenuItem onClick={handleMenuItemClick(onDelete)}>
+                {t("opt.delete")}
+              </MenuItem>
+            )}
+          </>
+        )}
       </Menu>
     </Card>
   );
