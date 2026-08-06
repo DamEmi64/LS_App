@@ -1,7 +1,5 @@
 ﻿using Base;
 using Files.Domain.Entities;
-using Files.Domain.Repositories;
-using System.Text.RegularExpressions;
 
 namespace Files.Infrastructure.Jobs
 {

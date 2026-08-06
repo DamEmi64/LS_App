@@ -1,7 +1,6 @@
 ﻿using Base;
 using Hangfire;
 using Hangfire.Server;
-using Microsoft.AspNetCore.Identity;
 using System.ComponentModel;
 using System.Domain.Entities;
 using System.Domain.Repositories;
@@ -31,7 +30,7 @@ namespace System.Infrastructure.JobEngine
             _jobContext = jobContext;
         }
 
-        public IProcessSchema Create(string title,DateTimeOffset? requestDate = null) => new ProcessSchema(title, requestDate ?? DateTimeOffset.Now);
+        public IProcessSchema Create(string title, DateTimeOffset? requestDate = null) => new ProcessSchema(title, requestDate ?? DateTimeOffset.Now);
 
         public async Task<Guid> Execute(IProcessSchema schema, UserData userData)
         {

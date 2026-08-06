@@ -45,7 +45,7 @@ namespace DiscordBot.Controllers
                 rawBody = await reader.ReadToEndAsync();
             }
 
-            _logger.Error("Body:" +  rawBody);
+            _logger.Error("Body:" + rawBody);
 
             if (!VerifySignature(rawBody))
             {

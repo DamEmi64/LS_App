@@ -36,7 +36,7 @@ namespace System.Infrastructure.Services.Media
         public async Task<Base.Media?> Load(Guid id, bool removeWebsiteExtras = false)
         {
             var metadata = await _context.Metadata
-                    .Include(x=>x.Blob)
+                    .Include(x => x.Blob)
                     .AsNoTracking()
                     .FirstOrDefaultAsync(x => x.Id == id);
 

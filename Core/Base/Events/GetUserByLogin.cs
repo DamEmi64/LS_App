@@ -1,6 +1,4 @@
 ﻿using Base.Connect;
-using FluentResults;
-using MediatR;
 
 namespace Base
 {

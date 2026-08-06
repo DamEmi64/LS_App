@@ -53,7 +53,7 @@ namespace Events.Infrastructure.Services.AutomationResolver
                     if (lastAddedEvent is null || lastAddedEvent.EventDate is null)
                         continue;
 
-                    var usersResult = _connectClient.Send<GetUsers,List<UserData>>(new GetUsers()).Result;
+                    var usersResult = _connectClient.Send<GetUsers, List<UserData>>(new GetUsers()).Result;
 
                     if (usersResult.IsFailed)
                         continue;

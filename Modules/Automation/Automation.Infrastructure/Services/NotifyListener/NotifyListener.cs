@@ -1,5 +1,4 @@
 ﻿using Automation.Domain.Repositories;
-using Automation.Infrastructure.Services.AutomationService;
 using Automation.Infrastructure.Services.NotifyListener.Command;
 using Base;
 using Base.Automation;

@@ -2,8 +2,6 @@
 using Communication.Domain;
 using Communication.Infrastructure;
 using Communication.Infrastructure.Db;
-using CommunicationBase;
-using CommunicationBase.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 

@@ -3,9 +3,6 @@ using FilesV2.Infrastructure;
 using FilesV2.Infrastructure.Db;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace FilesV2.Application
 {

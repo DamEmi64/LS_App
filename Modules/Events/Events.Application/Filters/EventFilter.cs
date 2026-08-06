@@ -1,9 +1,6 @@
 ﻿using Base;
 using Base.Helpers;
 using Events.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Events.Application.Filters
 {
@@ -24,7 +21,7 @@ namespace Events.Application.Filters
 
             if (Category != 0)
             {
-                data = data.Where(x=>x.CategoryId == Category);
+                data = data.Where(x => x.CategoryId == Category);
             }
 
             if (Date is not null)

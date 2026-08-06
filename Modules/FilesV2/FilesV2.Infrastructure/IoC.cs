@@ -9,7 +9,7 @@ namespace FilesV2.Infrastructure
         public static IServiceCollection AddRepos(this IServiceCollection services)
         {
             return services
-                .AddScoped<IFileRepository,FileRepository>()
+                .AddScoped<IFileRepository, FileRepository>()
                 .AddScoped<IFolderRepository, FolderRepository>();
         }
     }

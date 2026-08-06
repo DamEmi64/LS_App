@@ -2,9 +2,6 @@
 using Communication.Infrastructure.EmailGenerator.Strategies;
 using CommunicationBase;
 using CommunicationBase.Attributes;
-using CommunicationBase.Dtos;
-using Fluid;
-using Fluid.Values;
 
 namespace Communication.Infrastructure.EmailGenerator
 {

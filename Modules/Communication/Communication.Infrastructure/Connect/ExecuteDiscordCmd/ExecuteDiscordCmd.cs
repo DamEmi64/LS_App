@@ -1,5 +1,4 @@
-﻿using Base;
-using CommunicationBase.Dtos;
+﻿using CommunicationBase.Dtos;
 using CommunicationBase.Events;
 using CommunicationBase.Interfaces;
 

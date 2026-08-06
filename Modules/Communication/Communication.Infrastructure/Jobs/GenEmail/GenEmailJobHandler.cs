@@ -4,7 +4,6 @@ using Communication.Domain.Repositories;
 using Communication.Infrastructure.EmailGenerator;
 using CommunicationBase;
 using CommunicationBase.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
 using System.Net;
 
 namespace Communication.Infrastructure.Jobs.GenEmail

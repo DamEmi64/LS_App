@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Serilog;
-using Serilog.Context;
 
 public class ErrorMiddleware
 {

@@ -1,5 +1,4 @@
-﻿using Base;
-using Communication.Domain;
+﻿using Communication.Domain;
 using Communication.Domain.Repositories;
 using Communication.Infrastructure.Connect.SendEmail.Strategies;
 using FluentResults;

@@ -2,7 +2,6 @@
 using RPG.Domain.Dictionaries;
 using RPG.Domain.Repositories;
 using RPG.Infrastructure.External.FileConverters;
-using RPG.Infrastructure.Models;
 
 namespace RPG.Infrastructure.Jobs
 {
@@ -23,7 +22,7 @@ namespace RPG.Infrastructure.Jobs
 
         public override async Task Execute(ImportRPGFromFileJob request)
         {
-            var converter = _rpgDataConverters.FirstOrDefault(x=>x.Type == request?.Model?.Type);
+            var converter = _rpgDataConverters.FirstOrDefault(x => x.Type == request?.Model?.Type);
 
             if (request.Model?.Type == RPGFileTypes.Firebase && request.Model is not null)
             {

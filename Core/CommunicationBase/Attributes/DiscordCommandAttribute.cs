@@ -13,7 +13,7 @@
         {
             Command = command;
             Configuration = configuration;
-            Arguments = arguments.Select(x=> x.Split(':')).ToDictionary(x => x[0], x => x[1] == "required");
+            Arguments = arguments.Select(x => x.Split(':')).ToDictionary(x => x[0], x => x[1] == "required");
         }
 
         /// <summary>
