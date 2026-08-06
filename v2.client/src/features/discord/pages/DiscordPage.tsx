@@ -1,16 +1,8 @@
 import { Box, Button, Grid, Stack, TextField, Typography, useMediaQuery, useTheme } from '@mui/material';
 import { type FormEvent, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ExpandableTable, Operations, ColumnType, TableColumn, useModal, call } from '@/shared';
-import { DiscordCmd } from '@/shared/api/generated';
-import { ResponseList } from '@/shared/api/extension';
-
-type DiscordCommandRow = {
-    id: string;
-    command: string;
-    response: string;
-    active: boolean;
-};
+import { ExpandableTable, Operations, ColumnType, TableColumn, useModal } from '@/shared';
+import { loadDiscordCommands, saveDiscordCommand, type DiscordCommandRow } from '../services/discordService';
 
 type EditResponseModalProps = {
     row: DiscordCommandRow;
@@ -57,24 +49,12 @@ const DiscordPage = () => {
     const [rows, setRows] = useState<DiscordCommandRow[]>([]);
 
     const loadCommands = async () => {
-        const data = await call<ResponseList<DiscordCmd>>(api => api.discordClient.get, {});
-        setRows((data.data || []).map((item) => ({
-            id: item.id || '',
-            command: item.cmd || '',
-            response: item.response || '',
-            active: item.active || false,
-        })));
+        const data = await loadDiscordCommands();
+        setRows(data);
     };
 
     const saveCommand = async (row: DiscordCommandRow, updates: Partial<DiscordCommandRow>) => {
-        const payload: DiscordCmd = {
-            id: row.id,
-            cmd: row.command,
-            response: updates.response ?? row.response,
-            active: updates.active ?? row.active,
-        };
-
-        await call(api => api.discordClient.updateById, { id: row.id, discordCmd: payload });
+        await saveDiscordCommand(row, updates);
         await loadCommands();
     };
 

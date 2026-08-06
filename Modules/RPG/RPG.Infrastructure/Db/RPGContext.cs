@@ -1,7 +1,6 @@
 ﻿using Base;
 using Microsoft.EntityFrameworkCore;
 using RPG.Domain.Entities;
-using System.Diagnostics;
 
 namespace System.Infrastructure.Db
 {

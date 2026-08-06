@@ -1,5 +1,4 @@
-﻿using Base;
-using Base.Helpers;
+﻿using Base.Helpers;
 using Communication.Domain.Entities;
 
 namespace Communication.Application.Filters

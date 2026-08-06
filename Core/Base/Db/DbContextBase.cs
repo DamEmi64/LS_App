@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
 
 namespace Base
 {
@@ -24,7 +23,7 @@ namespace Base
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(Process).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(T).Assembly);
         }
 
         public abstract string ContextName { get; }

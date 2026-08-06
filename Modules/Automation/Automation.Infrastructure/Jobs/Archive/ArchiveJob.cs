@@ -1,5 +1,4 @@
 ﻿using Base;
-using System.IO.Compression;
 
 namespace Automation.Infrastructure.Jobs
 {

@@ -8,7 +8,7 @@
         /// <summary>
         ///     Request date
         /// </summary>
-        DateTimeOffset RequestDate { get; set;  }
+        DateTimeOffset RequestDate { get; set; }
         /// <summary>
         ///     Add job to current level
         /// </summary>

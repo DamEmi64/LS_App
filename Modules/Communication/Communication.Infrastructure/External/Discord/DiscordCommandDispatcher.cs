@@ -2,7 +2,6 @@
 using CommunicationBase.Dtos;
 using CommunicationBase.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
-using System.Text.Json;
 
 namespace Communication.Infrastructure.External.Discord
 {
@@ -37,7 +36,7 @@ namespace Communication.Infrastructure.External.Discord
 
                 if (discordCmd is null || !discordCmd.Active)
                     return new DiscordResponse { Text = "This command is disabled." };
-                    
+
                 context.Configuration = discordCmd.Response;
 
                 var instance = ActivatorUtilities.CreateInstance(

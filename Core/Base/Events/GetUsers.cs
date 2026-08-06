@@ -1,9 +1,8 @@
-﻿using FluentResults;
-using MediatR;
+﻿using Base.Connect;
 
 namespace Base;
 
 /// <summary>
 ///     Get list of all register users
 /// </summary>
-public record GetUsers() : IRequest<Result<List<UserData>>>;
+public record GetUsers() : IEvent<List<UserData>>;

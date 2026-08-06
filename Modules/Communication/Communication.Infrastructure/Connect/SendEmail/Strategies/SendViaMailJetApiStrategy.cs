@@ -22,7 +22,7 @@ namespace Communication.Infrastructure.Connect.SendEmail.Strategies
         {
             try
             {
-                MailjetClient client = new MailjetClient(_options.PublicKey, _options.PrivateKey);
+                MailjetClient client = new(_options.PublicKey, _options.PrivateKey);
                 var request = new MailjetRequest
                 {
                     Resource = SendV31.Resource

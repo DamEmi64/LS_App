@@ -11,7 +11,7 @@ namespace Communication.Infrastructure.External.Discord
         public MethodInfo Method { get; }
 
         public string DefaultConfiguration { get; }
-        public Dictionary<string,bool> Arguments { get; }
+        public Dictionary<string, bool> Arguments { get; }
 
         public DiscordCommandDescriptor(
             string command,

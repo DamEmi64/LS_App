@@ -1,11 +1,7 @@
 ﻿using Base;
-using Communication.Application.Dtos;
 using Communication.Domain.Entities;
 using Communication.Domain.Repositories;
-using CommunicationBase.Dtos;
 using CommunicationBase.Interfaces;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

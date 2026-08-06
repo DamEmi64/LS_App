@@ -10,8 +10,15 @@ import {
 
 import { useTranslation } from "react-i18next";
 import { useModal } from "@/shared/context/modal";
-import { call } from "@/shared";
 import { useAuth } from "@/features/auth/context/authProvider";
+import {
+    createEmail,
+    deleteEmail,
+    getEmailById,
+    loadEmails,
+    sendEmail,
+    updateEmail,
+} from "../services/emailService";
 
 import { DataTable } from "@/shared/components/datatables/datatable";
 
@@ -29,7 +36,6 @@ import {
 import { EmailEdit } from "@/features/mail/components/emailEdit";
 import YesNoWindow from "@/shared/components/YesNoWindow";
 import { Email } from "@/features/mail";
-import { ResponseList } from "@/shared/api/extension";
 
 const Emails: React.FC = () => {
     const { t } = useTranslation();
@@ -63,19 +69,18 @@ const Emails: React.FC = () => {
     };
 
     const details = async (email: Email) => {
-        call<Email>(api => api.emailsApi.getById, { id: email.id })
-            .then(res => modal.showModal(
-                <EmailEdit
-                    email={res}
-                    onSave={editData}
-                    readonly
-                />
-            ))
+        const res = await getEmailById(email.id);
+        modal.showModal(
+            <EmailEdit
+                email={res}
+                onSave={editData}
+                readonly
+            />
+        );
     };
 
     const send = async (email: Email) => {
-        call(api => api.emailsApi.updateByIdSend,{id:email.id});
-
+        await sendEmail(email.id);
     };
 
     const del = (email: Email) => {
@@ -91,17 +96,18 @@ const Emails: React.FC = () => {
     };
 
     const delConfirm = async (email: Email) => {
-        call(api => api.emailsApi.deleteById,{id:email.id}).then(refresh);
+        await deleteEmail(email.id);
+        refresh();
     };
 
     const addData = async (email: Email) => {
-        await call(api => api.emailsApi.create,{email});
+        await createEmail(email);
         modal.hideModal();
         refresh();
     };
 
     const editData = async (email: Email) => {
-        await call(api => api.emailsApi.updateById,{id:email.id, email});
+        await updateEmail(email.id, email);
 
         modal.hideModal();
         refresh();
@@ -133,8 +139,7 @@ const Emails: React.FC = () => {
         query[filter.field] = filter.value.toLocaleString();
         });
 
-        const result = await call<ResponseList<Email>>(api => api.emailsApi.get,query);
-
+        const result = await loadEmails(query);
 
         const tableData: TableData<Email> = {
             data: result.data,

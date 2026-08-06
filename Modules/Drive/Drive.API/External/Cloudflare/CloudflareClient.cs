@@ -1,10 +1,8 @@
 ﻿using Amazon;
 using Amazon.Runtime;
-using Amazon.Runtime.Internal;
 using Amazon.S3;
 using Amazon.S3.Model;
 using Microsoft.Extensions.Options;
-using System.Text;
 
 namespace Drive.API.External.Cloudflare;
 

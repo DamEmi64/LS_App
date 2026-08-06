@@ -16,12 +16,9 @@
 
 export interface Media {
     'id'?: string;
-    'insDate'?: string;
-    'updDate'?: string;
-    'insBy'?: string | null;
-    'updBy'?: string | null;
     'contentStr'?: string | null;
     'content'?: string | null;
     'extension'?: string | null;
+    'owner'?: string | null;
 }
 

@@ -1,4 +1,4 @@
-import { useModal, call, Operations, ExpandableTable } from "@/shared";
+import { useModal, call, Operations, ExpandableTable, ColumnType } from "@/shared";
 import YesNoWindow from "@/shared/components/YesNoWindow";
 
 import {
@@ -139,15 +139,18 @@ export const HeroTable: React.FC<HeroTableProps> = ({
             columns={[
                 {
                     field: "firstName",
-                    header: t('rpg.hero.firstName')
+                    header: t('rpg.hero.firstName'),
+                    type:ColumnType.String
                 },
                 {
                     field: "lastName",
-                    header: t('rpg.hero.lastName')
+                    header: t('rpg.hero.lastName'),
+                    type:ColumnType.String
                 },
                 {
                     field: "player",
-                    header: t('rpg.hero.player')
+                    header: t('rpg.hero.player'),
+                    type:ColumnType.String
                 }
             ]}
         />

@@ -3,7 +3,6 @@ using Newtonsoft.Json;
 using System.Domain.Entities;
 using System.Domain.Repositories;
 using System.Infrastructure.Services.EntityContext;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace System.Infrastructure.JobEngine
 {

@@ -140,6 +140,9 @@ namespace Base
         public static Task ProvideBasicRoles(this IConnect connectClient, List<PermissionInfo> permissions)
             => connectClient.Send(new ProvideBasicRoles(permissions));
 
+        public static Task<Result<UserData?>> GetUserIdByLogin(this IConnect connectClient, string Login)
+                => connectClient.Send<GetUserByLogin, UserData?>(new GetUserByLogin(Login));
+
         /// <summary>
         /// Validates required modules against the connector.
         /// Ensures that each module exists and meets the minimum version requirement.

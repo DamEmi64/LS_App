@@ -71,8 +71,8 @@ namespace RPG.Infrastructure.Repositories
                 .FirstOrDefaultAsync();
 
             var latestHero = await DbContext.Heroes
-                .Include(x=>x.Chapter)
-                .ThenInclude(x=>x.Story)
+                .Include(x => x.Chapter)
+                .ThenInclude(x => x.Story)
                 .Select(x => new
                 {
                     x.Chapter.Story,

@@ -3,7 +3,6 @@ using CommunicationBase;
 using Events.Domain;
 using Events.Domain.Entities;
 using Events.Extras.Resources;
-using MediatR;
 using Microsoft.Extensions.Options;
 using Razor.Templating.Core;
 
