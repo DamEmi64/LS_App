@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -13,7 +12,7 @@ namespace System.Infrastructure.Migrations
         {
             migrationBuilder.RenameTable(
                 name: "Media",
-                newName:"Media_old");
+                newName: "Media_old");
         }
 
         /// <inheritdoc />

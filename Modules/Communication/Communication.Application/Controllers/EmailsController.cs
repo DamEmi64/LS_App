@@ -86,7 +86,7 @@ namespace Communication.Application.Controllers
 
                 if (email is not null)
                 {
-                    email.Status = ConvertWebhookStatus(dto.Event ?? string.Empty); 
+                    email.Status = ConvertWebhookStatus(dto.Event ?? string.Empty);
                 }
             }
 

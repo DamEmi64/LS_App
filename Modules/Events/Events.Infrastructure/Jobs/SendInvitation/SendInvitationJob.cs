@@ -6,11 +6,11 @@ namespace Events.Infrastructure.Jobs
 {
     public class SendInvitationJob : IJob
     {
-       public int OperationId => Operations.SendInvitation;
+        public int OperationId => Operations.SendInvitation;
 
         public Guid Id { get; set; }
 
-        public List<IJob> Children => new List<IJob>();
+        public List<IJob> Children => new();
 
         public string Name => $"Send invitation about {Event?.Title}";
 

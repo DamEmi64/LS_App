@@ -96,7 +96,14 @@
     "useFileUpload": "Datei in Datenbank speichern",
     "single": "datei",
     "multiple": "dataien",
-    "empty": "keine dateien"
+    "empty": "keine dateien",
+    "share": {
+      "user": "Mit Benutzer teilen",
+      "read": "Lesen",
+      "write": "Schreiben",
+      "owner": "Besitzer",
+      "public": "Öffentliche Datei"
+    }
   },
   "communication": {
     "title": "Kommunikation",
@@ -334,11 +341,13 @@
   "error": "Fehler",
   "opt": {
     "add": "Hinzufügen",
+    "new": "Neu",
     "delete": "Löschen",
     "edit": "Bearbeiten",
     "details": "Details",
     "operations": "Aktionen",
     "save": "Speichern",
+    "close": "Schließen",
     "change_pass": "Passwort ändern",
     "login": "Anmelden",
     "register": "Registrieren",
@@ -349,6 +358,12 @@
     "copy": "Kopieren",
     "publish": "Veröffentlichen",
     "select": "Auswählen",
+    "file": {
+      "select": "Datei auswählen",
+      "drop": "Ziehen Sie eine Datei hierher",
+      "drop_active": "Datei loslassen",
+      "drop_replace": "Datei loslassen, um die vorhandene zu ersetzen"
+    },
     "from": "Von",
     "to": "bis"
   },

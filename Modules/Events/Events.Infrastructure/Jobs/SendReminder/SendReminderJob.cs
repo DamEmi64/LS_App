@@ -1,8 +1,6 @@
 ﻿using Base;
 using Events.Domain.Dictionaries;
 using Events.Domain.Entities;
-using Events.Extras.Resources;
-using Razor.Templating.Core;
 
 namespace Events.Infrastructure.Jobs
 {
@@ -12,7 +10,7 @@ namespace Events.Infrastructure.Jobs
 
         public Guid Id { get; set; }
 
-        public List<IJob> Children => new List<IJob>();
+        public List<IJob> Children => new();
 
         public string Name => $"Send reminder about {Event?.Title}";
 

@@ -96,7 +96,14 @@
     "useFileUpload": "Stocker le fichier en base de données",
     "single": "fichier",
     "multiple": "fichies",
-    "empty": "aucun fichier"
+    "empty": "aucun fichier",
+    "share": {
+      "user": "Partager avec un utilisateur",
+      "read": "Lecture",
+      "write": "Écriture",
+      "owner": "Propriétaire",
+      "public": "Fichier public"
+    }
   },
   "communication": {
     "title": "Communication",
@@ -334,11 +341,13 @@
   "error": "Erreur",
   "opt": {
     "add": "Ajouter",
+    "new": "Nouveau",
     "delete": "Supprimer",
     "edit": "Modifier",
     "details": "Détails",
     "operations": "Actions",
     "save": "Enregistrer",
+    "close": "Fermer",
     "change_pass": "Changer le mot de passe",
     "login": "Se connecter",
     "register": "S’inscrire",
@@ -349,6 +358,12 @@
     "copy": "Copier",
     "publish": "Publier",
     "select": "Sélectionner",
+    "file": {
+      "select": "Sélectionner un fichier",
+      "drop": "Glissez-déposez le fichier",
+      "drop_active": "Déposez le fichier",
+      "drop_replace": "Déposez le fichier pour remplacer l’existant"
+    },
     "from": "De",
     "to": "à"
   },

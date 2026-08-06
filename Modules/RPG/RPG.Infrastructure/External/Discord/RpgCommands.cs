@@ -31,7 +31,7 @@ namespace RPG.Infrastructure.External.Discord
             {
                 Text = TemplateFormatter.Format(ctx.Configuration ?? "List of stories is: {stories:joinByLine}", new
                 {
-                    stories = stories.Select(x=>x.Title).ToList()
+                    stories = stories.Select(x => x.Title).ToList()
                 })
             };
         }
@@ -55,7 +55,7 @@ namespace RPG.Infrastructure.External.Discord
             };
         }
 
-        [DiscordCommand("rpg/summary", "Last RPG session was {Title}.","title:optional")]
+        [DiscordCommand("rpg/summary", "Last RPG session was {Title}.", "title:optional")]
         public async Task<DiscordResponse> Summary(DiscordCommandContext ctx)
         {
             var story = await _storyRepository.GetLastEdited();

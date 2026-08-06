@@ -16,9 +16,9 @@ namespace Events.Infrastructure
         {
             services.Configure<EventOptions>(AppConfiguration.Get<EventOptions>());
             return services
-                .AddScoped<IReminderService,ReminderService>()
+                .AddScoped<IReminderService, ReminderService>()
                 .AddScoped<IInvitationService, InvitationService>()
-                .AddScoped<IAutomationResolver,EventAutomationResolver>();
+                .AddScoped<IAutomationResolver, EventAutomationResolver>();
         }
 
         public static IServiceCollection AddRepositories(this IServiceCollection services)

@@ -1,7 +1,4 @@
-﻿using CommunicationBase.Dtos;
-using System.Text.Json;
-
-namespace CommunicationBase.Dtos
+﻿namespace CommunicationBase.Dtos
 {
     public class DiscordCommandContext
     {

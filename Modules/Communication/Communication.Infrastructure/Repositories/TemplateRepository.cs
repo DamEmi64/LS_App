@@ -1,7 +1,7 @@
 ﻿using Base;
 using Communication.Domain.Entities;
-using Communication.Infrastructure.Db;
 using Communication.Domain.Repositories;
+using Communication.Infrastructure.Db;
 
 namespace Communication.Infrastructure.Repositories
 {

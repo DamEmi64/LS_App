@@ -1,7 +1,6 @@
 ﻿using Automation.Domain.Entities;
 using Base;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
 
 namespace Automation.Infrastructure.Context
 {

@@ -1,8 +1,18 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { LoginData, RegisterData, User, UserData, PasswordChangeData, ResetPasswordData } from "@/features/auth";
-import { notify } from "@/shared/components/NotificationListener";
-import { getNotify } from "@/lib/notifyProvider";
-import {call, setAuthToken, setAuthTokens, type AuthToken} from '@/shared';
+import {
+  changePasswordUser,
+  forgotPasswordUser,
+  getUserData,
+  loadCurrentUser,
+  loginUser,
+  logoutUser,
+  notifyRegisterErrors,
+  registerUser,
+  resetPasswordUser,
+  updateUser,
+} from "../services/authService";
+import { setAuthToken } from "@/shared";
 
 export interface AuthContextType {
   user: UserData | null;
@@ -28,12 +38,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const refreshUser = async () => {
     try {
-      const data = await call<UserData>(api => api.authApi.getMe,{});
-      setUser(data?.userId ? data : null);
+      const data = await loadCurrentUser();
+      setUser(data);
     } catch (err: any) {
       if (err.response?.status === 401) {
         setAuthToken(null);
-        setUser(null); // only logout on unauthorized
+        setUser(null);
       }
     } finally {
       setLoading(false);
@@ -42,8 +52,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const getData = async (): Promise<User | null> => {
     try {
-      const data  = await call<User>(api => api.authApi.getUser,{}); 
-      return data;
+      return await getUserData();
     } catch (err) {
       console.error("Failed to fetch user data:", err);
       return null;
@@ -52,8 +61,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const login = async (data: LoginData): Promise<boolean> => {
     try {
-      const token = await call<AuthToken>(api => api.authApi.createLogin,{loginModel:data});
-      setAuthTokens(token);
+      await loginUser(data);
       await refreshUser();
       return true;
     } catch (error) {
@@ -63,28 +71,26 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const register = async (data: RegisterData): Promise<boolean> => {
     try {
-      const token = await call<AuthToken>(api => api.authApi.createRegister,{registerModel: data});
-      setAuthTokens(token);
+      await registerUser(data);
       await refreshUser();
       return true;
     } catch (error) {
-      error.response.data.map((err: string) => notify('error', getNotify(err)));
+      notifyRegisterErrors(error);
       return false;
     }
   };
 
   const logout = async () => {
     try {
-      await call(api =>api.authApi.createLogout,{});
+      await logoutUser();
     } finally {
-      setAuthToken(null);
       setUser(null);
     }
   };
 
   const update = async (data: User): Promise<boolean> => {
     try {
-      await call(api => api.authApi.update,{user:data});
+      await updateUser(data);
       return true;
     } catch (err) {
       console.error("Update failed:", err);
@@ -94,7 +100,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const changePassword = async (data: PasswordChangeData): Promise<boolean> => {
     try {
-      await call(api => api.authApi.update,{user:data});
+      await changePasswordUser(data);
       return true;
     } catch (err) {
       console.error("Password change failed:", err);
@@ -104,7 +110,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const forgotPassword = async (login: string): Promise<boolean> => {
     try {
-      await call(api => api.authApi.getForgotPassword,{username: login});
+      await forgotPasswordUser(login);
       return true;
     } catch (err) {
       console.error("Forgot password request failed:", err);
@@ -114,7 +120,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const resetPassword = async (data: ResetPasswordData): Promise<boolean> => {
     try {
-      await call(api => api.authApi.createResetPassword,{resetPasswordModel: data});
+      await resetPasswordUser(data);
       return true;
     } catch (err) {
       console.error("Password reset failed:", err);

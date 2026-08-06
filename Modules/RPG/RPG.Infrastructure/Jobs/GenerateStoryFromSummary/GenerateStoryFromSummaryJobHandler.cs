@@ -2,10 +2,6 @@
 using RPG.Domain.Entities;
 using RPG.Domain.Repositories;
 using RPG.Infrastructure.Models;
-using RPG.Infrastructure.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace RPG.Infrastructure.Jobs.GenerateSummaryFromSummary
 {

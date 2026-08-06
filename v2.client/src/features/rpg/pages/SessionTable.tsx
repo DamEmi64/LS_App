@@ -11,18 +11,30 @@ import { SessionDto, Story } from "@/features/rpg";
 import { useModal } from "@/shared/context/modal";
 import StoryEdit from "@/features/rpg/components/StoryEdit";
 import SessionInfo from "@/features/rpg/components/StoryInfo";
-import { call, ExpandableTable, raw } from "@/shared";
+import { ExpandableTable } from "@/shared";
 import React from "react";
 import { ChapterTable } from "./ChapterTable";
 import { useTranslation } from "react-i18next";
 import SummaryGen from "@/features/rpg/components/summaryGen";
-import { download } from "@/lib/utils";
-import { saveAs } from 'file-saver';
 import { onChangeParams, TableColumn, ColumnType, Operations, FilterItem, FilterType, FilterValue } from "@/shared";
 import YesNoWindow from "@/shared/components/YesNoWindow";
 import SessionForm from "../components/sessionForm";
 import ImportStory from "../components/importStory";
 import { useAuth } from "@/features/auth/context/authProvider";
+import {
+    createChapter,
+    createStory,
+    deleteStory,
+    endStory,
+    exportStory,
+    generateStorySummary,
+    getStoryById,
+    importStory,
+    sendStoryToFirebase,
+    startStory,
+    updateStory,
+    downloadStorySummary,
+} from "../services/storyService";
 
 export type SessionTableProps = {
     updateData: (paramsObj: onChangeParams) => void;
@@ -91,8 +103,9 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
         modal.showModal(<StoryEdit story={{} as Story} toSave={saveNew} />)
     }
 
-    const saveNew = (data: Story) => {
-        call(api => api.storiesApi.create, { storyDto: { storyDto: data } }).then(() => refresh());
+    const saveNew = async (data: Story) => {
+        await createStory(data);
+        refresh();
     }
 
     // NEW: import modal
@@ -100,26 +113,25 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
         modal.showModal(<ImportStory onSubmit={handleImport} />);
     }
 
-    const handleImport = (data: any) => {
-
-        call(api => api.storiesApi.createImport, { file: data.file, converterType: data.converterType, externalUrl: data.externalUrl }).then(() => {
-            modal.hideModal();
-            refresh();
-        });
+    const handleImport = async (data: any) => {
+        await importStory(data.file, data.converterType, data.externalUrl);
+        modal.hideModal();
+        refresh();
     }
 
-    const details = (data: any) => {
-        call<Story>(api => draft ? api.storiesApi.getByIdDraft : api.storiesApi.getById, { id: data.id })
-            .then(story => modal.showModal(<SessionInfo story={story} edit={editSession} del={del}></SessionInfo>))
+    const details = async (data: any) => {
+        const story = await getStoryById(data.id, draft);
+        modal.showModal(<SessionInfo story={story} edit={editSession} del={del}></SessionInfo>);
     }
 
-    const editSession = (data: any) => {
-        call<Story>(api => draft ? api.storiesApi.getByIdDraft : api.storiesApi.getById, { id: data.id })
-            .then(story => modal.showModal(<StoryEdit story={story} toSave={(o) => saveEdit(o, data.id)} edit />))
+    const editSession = async (data: any) => {
+        const story = await getStoryById(data.id, draft);
+        modal.showModal(<StoryEdit story={story} toSave={(o) => saveEdit(o, data.id)} edit />);
     }
 
-    const saveEdit = (data: Story, id: string) => {
-        call(api => api.storiesApi.updateById, { id: data.id, storyDto: data }).then(() => refresh());
+    const saveEdit = async (data: Story, id: string) => {
+        await updateStory(data);
+        refresh();
     }
 
     const addChapter = (data: Story) => {
@@ -135,66 +147,58 @@ export const SessionTable: React.FC<SessionTableProps> = ({ updateData, data, ro
         modal.showModal(<SessionForm data={chapter} onSave={(o) => saveChapter(o)} isChapter={true} isNew={true} />)
     }
 
-    const saveChapter = (data: SessionDto) => {
-        call(api => api.chaptersApi.create, { chapterDto: data }).then(() => {
-            modal.hideModal();
-            refresh();
-        });
+    const saveChapter = async (data: SessionDto) => {
+        await createChapter(data);
+        modal.hideModal();
+        refresh();
     }
 
     const del = (data: any) => {
         modal.showModal(<YesNoWindow message={t('entity.del_info')} yesMethod={() => delConfirm(data)} open={true} onClose={modal.hideModal} noMethod={modal.hideModal} />);
     }
 
-    const delConfirm = (data: any) => {
-        call(api => api.storiesApi.deleteById, { id: data.id }).then(() => refresh());
+    const delConfirm = async (data: any) => {
+        await deleteStory(data.id);
+        refresh();
     }
 
-    const startStory = (data: any) => {
-        call(api => api.storiesApi.updateByIdStart, { id: data.id }).then(() => refresh());
+    const startStory = async (data: any) => {
+        await startStory(data.id);
+        refresh();
     }
 
-    const endStory = (data: any) => {
-        call(api => api.storiesApi.updateByIdEnd, { id: data.id }).then(() => refresh());
+    const endStory = async (data: any) => {
+        await endStory(data.id);
+        refresh();
     }
 
     const generateSummary = (data: any) => {
         modal.showModal(<SummaryGen story={data} onProcess={generateSummaryConfirm} />);
     }
 
-    const generateSummaryConfirm = (data: Story, isPdf: boolean) => {
-        call(api => api.storiesApi.updateByIdSummary, { id: data.id, summaryModel: { id: data.id, title: data.title, description: data.description, chapters: data.chapters.map((x) => x.id), isPdf } })
-            .then(() => modal.hideModal());
+    const generateSummaryConfirm = async (data: Story, isPdf: boolean) => {
+        await generateStorySummary(data, isPdf);
+        modal.hideModal();
     }
 
     const sendToFirebase = (data: any) => {
         modal.showModal(<SummaryGen story={data} onProcess={sendToFirebaseConfirm} forFirebase />);
     }
 
-    const sendToFirebaseConfirm = (data: Story) => {
-        call(api => api.storiesApi.updateByIdFirebase, { id: data.id, summaryModel: { id: data.id, title: data.title, description: data.description, chapters: data.chapters.map((x) => x.id) } })
-            .then(() => modal.hideModal());
+    const sendToFirebaseConfirm = async (data: Story) => {
+        await sendStoryToFirebase(data);
+        modal.hideModal();
     }
 
-    const exportData = (data: any) => {
-        raw(api => api.storiesApi.getByIdExport, { id: data.id })
-            .then((response) => {
-                const contentType = response.headers['content-type'] || 'application/octet-stream';
-                const disposition = response.headers['content-disposition'];
-                let filename = data.title + '.json';
-
-                if (disposition) {
-                    const match = disposition.match(/filename\*?=(?:UTF-8'')?([^;]+)/);
-                    if (match?.[1]) filename = decodeURIComponent(match[1].replace(/"/g, ''));
-                }
-
-                const blob = new Blob([response.data], { type: contentType.toLocaleString() });
-                saveAs(blob, filename);
-            })
-            .catch((error) => console.error('Download failed:', error));
+    const exportData = async (data: any) => {
+        try {
+            await exportStory(data);
+        } catch (error) {
+            console.error('Download failed:', error);
+        }
     }
 
-    const downloadSummary = (data: Story) => download(data.summary, data.title);
+    const downloadSummary = (data: Story) => downloadStorySummary(data);
 
     const columns: TableColumn<Story>[] = [
         { field: 'title', header: 'rpg.story.title', type: ColumnType.String, sortable: true },

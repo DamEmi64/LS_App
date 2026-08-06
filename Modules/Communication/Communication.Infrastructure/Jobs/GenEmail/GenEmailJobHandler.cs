@@ -4,7 +4,6 @@ using Communication.Domain.Repositories;
 using Communication.Infrastructure.EmailGenerator;
 using CommunicationBase;
 using CommunicationBase.Interfaces;
-using Microsoft.Extensions.DependencyInjection;
 using System.Net;
 
 namespace Communication.Infrastructure.Jobs.GenEmail
@@ -32,8 +31,8 @@ namespace Communication.Infrastructure.Jobs.GenEmail
 
             var emailParser = new EmailFluidParser
             {
-                Sender = request.Model.Sender,
-                Receivers = request.Model.Recipients.ToList()
+                Sender = EmailUserData.Parse(request.Model.Sender),
+                Receivers = request.Model.Recipients.Select(EmailUserData.Parse).ToList()
             };
 
             var parsers = _fluidParsers.Where(x => x is not EmailFluidParser).ToList();

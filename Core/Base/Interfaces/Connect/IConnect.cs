@@ -15,7 +15,7 @@ public interface IConnect
     /// <typeparam name="T2">The type of the response expected</typeparam>
     /// <param name="data">The data to be sent</param>
     /// <returns>The response from the receiving module</returns>
-    Task<Result<T2>> Send<T1,T2>(T1 data) where T1 : IRequest<Result<T2>> where T2 : class;
+    Task<Result<T2>> Send<T1, T2>(T1 data) where T1 : IRequest<Result<T2>>;
 
     /// <summary>
     ///     Sending data between modules
