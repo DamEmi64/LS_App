@@ -57,7 +57,7 @@ const queryClient = new QueryClient();
 
 const menu: NavbarItemProps[] = [
     { label: 'home', href: '/', submenu: [] },
-    { label: 'files', href: '/Files', submenu: [], permissions: ['files'] },
+    { label: 'files', href: '/filesV2', submenu: [], permissions:["filesV2"] },
     {
         label: 'communication', href: '', submenu: [
             {
@@ -109,8 +109,7 @@ const menu: NavbarItemProps[] = [
             },
         ], permissions: ['rpg']
     },
-    { label: 'automations', href: '/automations', submenu: [], permissions: ['automation'] },
-    { label: 'files', href: '/filesV2', submenu: [], permissions:["filesV2"] },
+    { label: 'automations', href: '/automations', submenu: [], permissions: ['automation'] }
 ];
 
 const App = () => (

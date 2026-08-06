@@ -5,7 +5,7 @@ using System.Domain.Entities;
 
 namespace System.Infrastructure.Connect.GetUsers
 {
-    public class GetUsers : ConnectInstance<Base.GetUsers,List<UserData>>
+    public class GetUsers : Base.EventHandler<Base.GetUsers, List<UserData>>
     {
         private readonly UserManager<User> _userManager;
 
@@ -14,7 +14,7 @@ namespace System.Infrastructure.Connect.GetUsers
             _userManager = userManager;
         }
 
-        public override Task<List<UserData>> HandleAsync(Base.GetUsers request)
+        public override Task<List<UserData>> HandleAsync(Base.GetUsers request, CancellationToken cancellationToken)
         {
             return _userManager.Users.Select(x => new UserData
             {

@@ -1,4 +1,5 @@
-﻿using FluentResults;
+﻿using Base.Connect;
+using FluentResults;
 using MediatR;
 
 namespace Base;
@@ -12,11 +13,11 @@ namespace Base;
 /// <param name="From">Sender</param>
 /// <param name="MessageId">Custom message Id for correlation</param>
 /// <param name="Register">Indicates whether to register the email in database</param>
-public record SendEmail (
+public record SendEmail(
     string To,
     string Subject,
     string Body,
     string? From = null,
     string? MessageId = null,
     bool Register = true
-) : IRequest<Result>;
+) : IEvent;

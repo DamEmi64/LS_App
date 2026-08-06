@@ -9,7 +9,13 @@ import FolderCard from "./folderCard";
 import TopBar from "./topBar";
 import NewFolderDialog from "./newFolderDialog";
 
-import { Directory, FileEditFormData, FileItem, FileV2, Privilage } from "../types";
+import {
+  Directory,
+  FileEditFormData,
+  FileItem,
+  FileV2,
+  Privilage,
+} from "../types";
 import FileDialog from "./fileDialog";
 import YesNoWindow from "@/shared/components/YesNoWindow";
 import { useModal } from "@/shared";
@@ -37,6 +43,7 @@ export default function FileBrowser() {
   const [path, setPath] = useState<BreadcrumbItem[]>([
     { id: null, title: "All files" },
   ]);
+
   const { user } = useAuth();
   const modal = useModal();
 
@@ -57,9 +64,8 @@ export default function FileBrowser() {
   }, [directoryId]);
 
   useEffect(() => {
-    refresh();
-  }, [directoryId, search]);
-
+    void refresh();
+  }, [refresh]);
 
   const deleteDirectory = async (id: string) => {
     await deleteDirectoryEntry(id);
@@ -72,20 +78,19 @@ export default function FileBrowser() {
   };
 
   const handleUploadClick = () => {
-
-    modal.showModal(<FileWrapper file={{} as FileV2} onSubmit={handleCreate} />);
-  }
+    modal.showModal(
+      <FileWrapper file={{} as FileV2} onSubmit={handleCreate} />
+    );
+  };
 
   const handleCreate = async (file: FileEditFormData) => {
     await createFileEntry(file, directoryId);
-
     modal.hideModal();
     await refresh();
   };
 
   const handleCreateFolder = async (title: string) => {
     await createDirectoryEntry(title, directoryId);
-
     setNewFolderOpen(false);
     await refresh();
   };
@@ -98,22 +103,25 @@ export default function FileBrowser() {
     }
   };
 
-  const handleDetails = async (file: FileV2) => {
-    modal.showModal(<FileWrapper
-      file={file}
-      onSubmit={() => { }}
-      readonly
-    />)
-  }
+  const handleDetails = (file: FileV2) => {
+    modal.showModal(
+      <FileWrapper
+        file={file}
+        onSubmit={() => {}}
+        readonly
+      />
+    );
+  };
 
   const handleEdit = (file: FileV2, privilage: Privilage) => {
-
-    modal.showModal(<FileDialog
-      file={file}
-      onSubmit={(f) => saveEdit(file.id, f)}
-      onClose={() => modal.hideModal}
-      privilage={privilage}
-    />)
+    modal.showModal(
+      <FileDialog
+        file={file}
+        onSubmit={(f) => saveEdit(file.id, f)}
+        onClose={() => modal.hideModal()}
+        privilage={privilage}
+      />
+    );
   };
 
   const saveEdit = async (id: string, form: FileEditFormData) => {
@@ -135,60 +143,72 @@ export default function FileBrowser() {
 
   const delConfirm = async (file: FileV2) => {
     await deleteFileEntry(file.id!);
+    modal.hideModal();
     await refresh();
   };
 
   const items = useMemo<FileItem[]>(
     () => [
-      ...directories.map(directory => ({
+      ...directories.map((directory) => ({
         id: directory.id,
         name: directory.title,
         icon: <FolderOpenIcon />,
-        onClick: () => {
-          void handleSelectDirectory(directory.id);
-        },
+        onClick: () => void handleSelectDirectory(directory.id),
         type: "folder" as const,
-        privilage: Privilage.READ
+        privilage: Privilage.READ,
       })),
-      ...files.map(file => {
+      ...files.map((file) => {
         const privilage = getFilePrivilage(file, user);
 
         return {
           id: file.id,
           name: file.title,
           icon: <InsertDriveFileIcon />,
-          onClick: () => {
-            void handleDownload(file);
-          },
-          onDelete: () => {
-            void del(file);
-          },
+          onClick: () => void handleDownload(file),
+          onDelete: () => void del(file),
           onDetails: () => handleDetails(file),
-          onEdit: () => {
-            void handleEdit(file, privilage);
-          },
+          onEdit: () => void handleEdit(file, privilage),
           type: "file" as const,
-          privilage: privilage
-      } as FileItem
+          privilage,
+        } as FileItem;
       }),
     ],
-    [directories, files]
+    [directories, files, user]
   );
 
   return (
     <>
-      <Paper
-        variant="outlined"
+      <Box
         sx={{
-          p: 3,
-          borderRadius: 3,
-          width: '75%',
-          margin: 'auto',
-          padding: 2
+          width: "100%",
+          px: { xs: 1, sm: 2, md: 3 },
+          py: { xs: 1, sm: 2 },
         }}
       >
-        <Stack spacing={3}>
-          <Box>
+        <Paper
+          variant="outlined"
+          sx={{
+            width: {
+              xs: "100%",
+              sm: "95%",
+              md: "90%",
+              lg: "75%",
+            },
+            maxWidth: 1400,
+            mx: "auto",
+            p: {
+              xs: 1,
+              sm: 2,
+              md: 3,
+            },
+            borderRadius: {
+              xs: 1,
+              sm: 2,
+              md: 3,
+            },
+          }}
+        >
+          <Stack spacing={3}>
             <TopBar
               path={path}
               onNavigate={handleSelectDirectory}
@@ -199,42 +219,48 @@ export default function FileBrowser() {
               onUploadClick={handleUploadClick}
               onNewFolderClick={() => setNewFolderOpen(true)}
             />
-          </Box>
 
-          <Grid container spacing={2}>
-            {items.map(item => item.name.includes(search) && (
-              <Grid
-                key={item.id}
-                size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
-              >
-                {item.type === "folder" ? (
-                  <FolderCard
-                    id={item.id}
-                    name={item.name}
-                    icon={item.icon}
-                    onClick={item.onClick}
-                    onDelete={() => deleteDirectory(item.id)}
-                    type="folder"
-                    privilage={item.privilage}
-                  />
-                ) : (
-                  <FileCard
-                    id={item.id}
-                    name={item.name}
-                    icon={item.icon}
-                    onClick={item.onClick}
-                    onDelete={item.onDelete}
-                    onDetails={item.onDetails}
-                    onEdit={item.onEdit}
-                    type="file"
-                    privilage={item.privilage}
-                  />
-                )}
-              </Grid>
-            ))}
-          </Grid>
-        </Stack>
-      </Paper>
+            <Grid container spacing={2}>
+              {items
+                .filter((item) =>
+                  item.name
+                    .toLowerCase()
+                    .includes(search.toLowerCase())
+                )
+                .map((item) => (
+                  <Grid
+                    key={item.id}
+                    size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
+                  >
+                    {item.type === "folder" ? (
+                      <FolderCard
+                        id={item.id}
+                        name={item.name}
+                        icon={item.icon}
+                        onClick={item.onClick}
+                        onDelete={() => deleteDirectory(item.id)}
+                        type="folder"
+                        privilage={item.privilage}
+                      />
+                    ) : (
+                      <FileCard
+                        id={item.id}
+                        name={item.name}
+                        icon={item.icon}
+                        onClick={item.onClick}
+                        onDelete={item.onDelete}
+                        onDetails={item.onDetails}
+                        onEdit={item.onEdit}
+                        type="file"
+                        privilage={item.privilage}
+                      />
+                    )}
+                  </Grid>
+                ))}
+            </Grid>
+          </Stack>
+        </Paper>
+      </Box>
 
       <NewFolderDialog
         open={newFolderOpen}

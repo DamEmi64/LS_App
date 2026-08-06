@@ -5,7 +5,7 @@ using System.Domain.Entities;
 
 namespace System.Infrastructure.Connect.GetUserById
 {
-    public class GetUserByLogin : ConnectInstance<Base.GetUserByLogin, UserData?>
+    public class GetUserByLogin : Base.EventHandler<Base.GetUserByLogin, UserData?>
     {
         private readonly UserManager<User> _userManager;
 
@@ -14,7 +14,7 @@ namespace System.Infrastructure.Connect.GetUserById
             _userManager = userManager;
         }
 
-        public override Task<UserData?> HandleAsync(Base.GetUserByLogin request)
+        public override Task<UserData?> HandleAsync(Base.GetUserByLogin request, CancellationToken cancellationToken)
         {
             return _userManager.Users
                     .Where(x => x.UserName == request.login)
