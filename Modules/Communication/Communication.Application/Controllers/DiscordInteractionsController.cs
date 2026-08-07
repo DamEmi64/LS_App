@@ -165,39 +165,53 @@ namespace DiscordBot.Controllers
             return path;
         }
 
-        private IActionResult BuildMultipartInteractionResponse(object payload, IReadOnlyList<DiscordResponse.DiscordResponseFile> files)
+        private IActionResult BuildMultipartInteractionResponse(
+    object payload,
+    IReadOnlyList<DiscordResponse.DiscordResponseFile> files)
         {
-            string boundary = $"----DiscordBoundary{Guid.NewGuid():N}";
+            var boundary = $"----DiscordBoundary{Guid.NewGuid():N}";
+
             using var stream = new MemoryStream();
 
-            void WriteLine(string text)
+            void WriteString(string text)
             {
-                var bytes = Encoding.UTF8.GetBytes(text + "\r\n");
+                var bytes = Encoding.UTF8.GetBytes(text);
                 stream.Write(bytes, 0, bytes.Length);
+
+                var newline = Encoding.UTF8.GetBytes("\r\n");
+                stream.Write(newline, 0, newline.Length);
             }
 
-            // payload_json part
-            WriteLine($"--{boundary}");
-            WriteLine("Content-Disposition: form-data; name=\"payload_json\"");
-            WriteLine("Content-Type: application/json");
-            WriteLine("");
-            WriteLine(JsonSerializer.Serialize(payload));
+            // JSON payload
+            WriteString($"--{boundary}");
+            WriteString("Content-Disposition: form-data; name=\"payload_json\"");
+            WriteString("Content-Type: application/json");
+            WriteString("");
 
-            // file parts
-            for (int i = 0; i < files.Count; i++)
+            var json = JsonSerializer.Serialize(payload);
+            WriteString(json);
+
+            // Files
+            for (var i = 0; i < files.Count; i++)
             {
                 var file = files[i];
-                WriteLine($"--{boundary}");
-                WriteLine($"Content-Disposition: form-data; name=\"files[{i}]\"; filename=\"{file.Filename}\"");
-                WriteLine($"Content-Type: {file.Extension.ToContentType()}");
-                WriteLine("");
+
+                WriteString($"--{boundary}");
+                WriteString(
+                    $"Content-Disposition: form-data; name=\"files[{i}]\"; filename=\"{file.Filename}\"");
+                WriteString($"Content-Type: {file.Extension.ToContentType()}");
+                WriteString("");
+
                 stream.Write(file.Content, 0, file.Content.Length);
-                WriteLine("");
+
+                WriteString("");
             }
 
-            WriteLine($"--{boundary}--");
+            WriteString($"--{boundary}--");
 
-            return File(stream.ToArray(), $"multipart/form-data; boundary={boundary}");
+            return File(
+                stream.ToArray(),
+                $"multipart/form-data; boundary={boundary}");
         }
 
         private IActionResult HandleMessageComponent(JsonElement root)
