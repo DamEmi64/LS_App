@@ -20,6 +20,8 @@ export default function FileWrapper({ file, onSubmit, readonly }: FileWrapperPro
         control: editControl,
         handleSubmit: handleEditSubmit,
         reset: resetEdit,
+        getValues: getEditValues,
+        setValue: setEditValue,
         formState: { errors: editErrors },
     } = useForm<FileEditFormData>({
         defaultValues: {
@@ -27,6 +29,15 @@ export default function FileWrapper({ file, onSubmit, readonly }: FileWrapperPro
             description: "",
         },
     });
+
+    const onUpload = (file: File) => {
+
+        if (getEditValues("title") === "") {
+            setEditValue("title", file.name);
+        }
+
+        setContent(file);
+    }
 
     useEffect(() => {
         if (!file) {
@@ -93,7 +104,7 @@ export default function FileWrapper({ file, onSubmit, readonly }: FileWrapperPro
 
                 {!readonly && (
                     <>
-                        <FileUploader onUpload={f => setContent(f)} />
+                        <FileUploader onUpload={onUpload} />
                         <Box sx={{ display: "flex", gap: 2, mt: 2 }}>
                             <Button
                                 type="submit"

@@ -1,9 +1,8 @@
-﻿using Base;
-using System.Infrastructure.Services.Admin;
+﻿using System.Infrastructure.Services.Admin;
 
 namespace System.Infrastructure.Connect.ProvideBasicRoles
 {
-    public class ProvideBasicRoles : ConnectInstance<Base.ProvideBasicRoles>
+    public class ProvideBasicRoles : Base.EventHandler<Base.ProvideBasicRoles>
     {
         private readonly IAdminService _adminService;
 
@@ -12,7 +11,7 @@ namespace System.Infrastructure.Connect.ProvideBasicRoles
             _adminService = adminService;
         }
 
-        public override async Task HandleAsync(Base.ProvideBasicRoles request)
+        public override async Task HandleAsync(Base.ProvideBasicRoles request, CancellationToken cancellationToken)
         {
             var roles = _adminService.GetRoles();
             if (!roles.Select(x => x.Name).Contains("admin"))

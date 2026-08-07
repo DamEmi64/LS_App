@@ -59,7 +59,7 @@ namespace CommunicationBase
         {
             var cmdEvent = new ExecuteDiscordCmdEvent(cmd, commandContext);
 
-            return connect.Send<ExecuteDiscordCmdEvent,DiscordResponse>(cmdEvent);
+            return connect.Send<ExecuteDiscordCmdEvent, DiscordResponse>(cmdEvent);
         }
 
         public static DiscordCommandContext ToCommandContext(this JsonElement root)

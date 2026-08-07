@@ -18,7 +18,6 @@ using System.Infrastructure.JobEngine.Milestones;
 using System.Infrastructure.Repositories;
 using System.Infrastructure.Services.Admin;
 using System.Infrastructure.Services.Auth;
-using System.Infrastructure.Services.ConnectorResolver;
 using System.Infrastructure.Services.Controller;
 using System.Infrastructure.Services.EntityContext;
 using System.Infrastructure.Services.Media;
@@ -43,7 +42,7 @@ namespace System.Infrastructure
             return serviceDescriptors.AddScoped<IControllerService, ControllerService>()
                 .AddScoped<INotifier, Notifier>()
                 .AddScoped<IEntityContext, EntityContext>()
-                .AddScoped<IMediaProviderFactory,MediaProviderFactory>()
+                .AddScoped<IMediaProviderFactory, MediaProviderFactory>()
                 .AddKeyedScoped<IMediaProvider, DatabaseMediaProvider>("db");
         }
 
@@ -205,7 +204,7 @@ namespace System.Infrastructure
             return services.AddScoped<IJobEngine, JobEngine.JobEngine>()
                 .AddScoped<IMilestoneWorker, MilestoneWorker>()
                 .AddScoped<ArchiveLogsWorker>()
-                .AddScoped<IJobContext,JobContext>()
+                .AddScoped<IJobContext, JobContext>()
                 .AddHangfire(options =>
                 {
                     options.UseSqlServerStorage(connectionString);

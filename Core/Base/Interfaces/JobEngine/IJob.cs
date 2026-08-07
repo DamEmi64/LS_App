@@ -6,7 +6,7 @@ namespace Base;
 /// <summary>
 ///     Job
 /// </summary>
-public interface IJob :IRequest<Result>
+public interface IJob : IRequest<Result>
 {
     /// <summary>
     ///     Operation Type

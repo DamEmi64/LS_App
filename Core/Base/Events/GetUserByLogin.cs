@@ -1,7 +1,6 @@
-﻿using FluentResults;
-using MediatR;
+﻿using Base.Connect;
 
 namespace Base
 {
-    public record GetUserByLogin(string login) : IRequest<Result<UserData?>>;
+    public record GetUserByLogin(string login) : IEvent<UserData?>;
 }

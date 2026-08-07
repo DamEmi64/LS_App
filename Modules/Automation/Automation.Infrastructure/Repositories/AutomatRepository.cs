@@ -26,7 +26,7 @@ namespace Automation.Infrastructure.Repositories
         {
             return DbContext.Set<Automat>()
                 .Include(x => x.Triggers)
-                .Include(x=>x.Tasks)
+                .Include(x => x.Tasks)
                 .Where(x => x.Active && x.Triggers.Any(y => eventIds.Contains(y.EventId)));
         }
     }

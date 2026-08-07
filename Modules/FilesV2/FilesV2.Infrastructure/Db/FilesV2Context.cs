@@ -5,7 +5,7 @@ namespace FilesV2.Infrastructure.Db
 {
     public class FilesV2Context : DbContextBase<FilesV2Context>
     {
-        public FilesV2Context(DbContextOptions<FilesV2Context> options, IEntityContext entityContext) 
+        public FilesV2Context(DbContextOptions<FilesV2Context> options, IEntityContext entityContext)
             : base(options, entityContext)
         {
         }

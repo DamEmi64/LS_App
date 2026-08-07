@@ -25,7 +25,7 @@ namespace System.Application.Controllers
         public AdminController(IControllerService controllerService,
             IAdminService adminService,
             IAuthService authService,
-            ILogger<AdminController> logger) 
+            ILogger<AdminController> logger)
             : base(controllerService)
         {
             _adminService = adminService;

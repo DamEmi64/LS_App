@@ -2,7 +2,6 @@
 using Events.Infrastructure;
 using Events.Infrastructure.Db;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Mvc.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Events.Application

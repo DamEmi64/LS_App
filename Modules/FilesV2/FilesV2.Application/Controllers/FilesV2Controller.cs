@@ -34,7 +34,7 @@ namespace FilesV2.Application.Controllers
         {
             var data = await _fileRepository.GetFilesByUser(CurrentUser?.UserId ?? string.Empty);
             data = data.Where(x => x.Folder?.Id == directoryId).ToList();
-            
+
             var dto = data.Select(ToDto).ToList();
 
             return Ok(dto);
@@ -228,7 +228,7 @@ namespace FilesV2.Application.Controllers
             Public = file.Public,
             DirectoryId = file.Folder?.Id,
             Path = file.Path,
-            FileUsers = file.Users.Select(x=> new FileUserDto
+            FileUsers = file.Users.Select(x => new FileUserDto
             {
                 UserId = x.UserId,
                 Login = x.Login,

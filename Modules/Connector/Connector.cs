@@ -42,7 +42,7 @@ namespace Connector
         public override void OnConnectorStartup(WebApplication app)
         {
             app.UseMiddleware<SerilogMiddleware>();
-            app.UseMiddleware<ErrorMiddleware>();        
+            app.UseMiddleware<ErrorMiddleware>();
         }
     }
 }

@@ -4,7 +4,7 @@ namespace Events.Domain.Entities
 {
     public class Event : Entity
     {
-        public required string Title { get; set;  }
+        public required string Title { get; set; }
 
         public string? Description { get; set; }
 

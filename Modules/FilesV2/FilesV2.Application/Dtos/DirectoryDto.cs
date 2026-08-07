@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FilesV2.Application.Dtos
+﻿namespace FilesV2.Application.Dtos
 {
     public class DirectoryDto
     {

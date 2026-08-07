@@ -12,7 +12,7 @@ namespace Events.Domain.Entities
 
         public string? Email { get; set; }
 
-        public bool Invited { get; set;  }
+        public bool Invited { get; set; }
         public bool Present { get; set; }
 
         [JsonIgnore]
