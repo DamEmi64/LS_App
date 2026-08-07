@@ -36,6 +36,56 @@ namespace DiscordBot.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet("test-command")]
+        public async Task<IActionResult> TestCommand(string command)
+        {
+            var result = await Connect.ExecuteDiscordCmdAsync(command, new DiscordCommandContext()
+            {
+                UserId = "1234567890",
+                Username = "TestUser",
+                Message = command,
+                Arguments = Array.Empty<string>()
+            });
+
+            if (result.IsFailed)
+            {
+                _logger.Error(string.Join(", ", result.Errors.Select(x => x.Message)));
+                return BadRequest();
+            }
+
+            var response = result.Value;
+            // Plain text-only response — normal JSON body, no attachments.
+            if (response.Files is null || response.Files.Count == 0)
+            {
+                return Ok(new
+                {
+                    type = Constants.RESPONSE_CHANNEL_MESSAGE_WITH_SOURCE,
+                    data = new
+                    {
+                        content = response.Text
+                    }
+                });
+            }
+            var i = 0;
+            var payload = new
+            {
+                type = Constants.RESPONSE_CHANNEL_MESSAGE_WITH_SOURCE,
+                data = new
+                {
+                    content = response.Text,
+                    attachments = response.Files.Select(x => new
+                    {
+                        id = i++,
+                        filename = x.Filename
+                    })
+                }
+            };
+
+            return BuildMultipartInteractionResponse(payload, response.Files);
+        }
+
+
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Post()
         {
@@ -116,18 +166,22 @@ namespace DiscordBot.Controllers
                     }
                 });
             }
-            var i = 0;
+
+            var attachments = response.Files
+                .Select((file, index) => new
+                {
+                    id = index,
+                    filename = file.Filename
+                })
+                .ToList();
+
             var payload = new
             {
                 type = Constants.RESPONSE_CHANNEL_MESSAGE_WITH_SOURCE,
                 data = new
                 {
                     content = response.Text,
-                    attachments = response.Files.Select(x => new
-                    {
-                        id = i++,
-                        filename = x.Filename
-                    })
+                    attachments
                 }
             };
 
@@ -165,39 +219,48 @@ namespace DiscordBot.Controllers
             return path;
         }
 
-        private IActionResult BuildMultipartInteractionResponse(object payload, IReadOnlyList<DiscordResponse.DiscordResponseFile> files)
+        private IActionResult BuildMultipartInteractionResponse(
+            object payload,
+            IReadOnlyList<DiscordResponse.DiscordResponseFile> files)
         {
-            string boundary = $"----DiscordBoundary{Guid.NewGuid():N}";
-            using var stream = new MemoryStream();
+            var boundary = $"----DiscordBoundary{Guid.NewGuid():N}";
 
-            void WriteLine(string text)
-            {
-                var bytes = Encoding.UTF8.GetBytes(text + "\r\n");
-                stream.Write(bytes, 0, bytes.Length);
-            }
+            using var multipart = new MultipartFormDataContent(boundary);
 
-            // payload_json part
-            WriteLine($"--{boundary}");
-            WriteLine("Content-Disposition: form-data; name=\"payload_json\"");
-            WriteLine("Content-Type: application/json");
-            WriteLine("");
-            WriteLine(JsonSerializer.Serialize(payload));
+            // payload_json
+            var json = JsonSerializer.Serialize(payload);
 
-            // file parts
-            for (int i = 0; i < files.Count; i++)
+            var payloadContent = new StringContent(
+                json,
+                Encoding.UTF8,
+                "application/json");
+
+            multipart.Add(payloadContent, "payload_json");
+
+            // files
+            for (var i = 0; i < files.Count; i++)
             {
                 var file = files[i];
-                WriteLine($"--{boundary}");
-                WriteLine($"Content-Disposition: form-data; name=\"files[{i}]\"; filename=\"{file.Filename}\"");
-                WriteLine($"Content-Type: {file.Extension.ToContentType()}");
-                WriteLine("");
-                stream.Write(file.Content, 0, file.Content.Length);
-                WriteLine("");
+
+                var fileContent = new ByteArrayContent(file.Content);
+
+                fileContent.Headers.ContentType =
+                    new System.Net.Http.Headers.MediaTypeHeaderValue(
+                        file.Extension.ToContentType());
+
+                multipart.Add(
+                    fileContent,
+                    $"files[{i}]",
+                    file.Filename);
             }
 
-            WriteLine($"--{boundary}--");
+            var body = multipart.ReadAsByteArrayAsync()
+                                .GetAwaiter()
+                                .GetResult();
 
-            return File(stream.ToArray(), $"multipart/form-data; boundary={boundary}");
+            return File(
+                body,
+                $"multipart/form-data; boundary={boundary}");
         }
 
         private IActionResult HandleMessageComponent(JsonElement root)
