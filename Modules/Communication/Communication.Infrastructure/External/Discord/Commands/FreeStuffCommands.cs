@@ -11,7 +11,7 @@ namespace Communication.Infrastructure.External.Discord.Commands
         private readonly string _freeGamesUrl =
             "https://www.gamerpower.com/api/giveaways";
 
-        [DiscordCommand("free-giveaway ", "Should generate list of free games (default config : No needed)")]
+        [DiscordCommand("free-giveaway", "Should generate list of free games (default config : No needed)")]
         public async Task<DiscordResponse> FreeGames(DiscordCommandContext ctx)
         {
             using var httpClient = new HttpClient();
@@ -48,7 +48,6 @@ namespace Communication.Infrastructure.External.Discord.Commands
                 return new DiscordResponse
                 {
                     Text = TemplateFormatter.Format(
-                        ctx.Configuration ??
                         "List of free games is:\n{games:joinByLine}",
                         new
                         {
@@ -81,12 +80,12 @@ namespace Communication.Infrastructure.External.Discord.Commands
 
         public class GamerPowerGame
         {
-            public string Title { get; set; }
-            public string Platforms { get; set; }
+            public string? Title { get; set; }
+            public string? Platforms { get; set; }
 
             [JsonProperty("open_giveaway")]
-            public string OpenGiveawayUrl { get; set; }
-            public string Type { get; set; }
+            public string? OpenGiveawayUrl { get; set; }
+            public string? Type { get; set; }
 
             public override string ToString()
             {
