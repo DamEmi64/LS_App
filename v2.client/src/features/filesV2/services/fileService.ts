@@ -4,7 +4,7 @@ import { getMimeFromExtension } from "@/lib/utils";
 import { call, raw } from "@/shared/components/apiClient";
 import { UserData } from "@/features/auth";
 
-import { FileEditFormData, FileV2, Privilage } from "../types";
+import { FileEditFormData, FileUser, FileV2, Privilage, PrivilageToSend } from "../types";
 
 export async function loadFiles(directoryId: string | null) {
   return call<FileV2[]>(api => api.filesV2Api.get, {
@@ -32,6 +32,29 @@ export async function updateFileEntry(id: string, form: FileEditFormData) {
     description: form.description,
     file: form.File,
   });
+}
+
+export function loadFileUsers(id: string) {
+  return call<FileUser[]>(api => api.filesV2Api.getByIdUsers, { id });
+}
+
+export function loadShareableUsers() {
+  return call<{ data: UserData[] }>(api => api.homeApi.getUsers, {});
+}
+
+export function grantFileAccess(id: string, login: string, userId: string, privilage: PrivilageToSend) {
+  return call(api => api.filesV2Api.createByIdUsers, {
+    id,
+    grantAccessDto: { login, userId, privilage },
+  });
+}
+
+export function revokeFileAccess(id: string, userId: string) {
+  return call(api => api.filesV2Api.deleteByIdUsersByUserId, { id, userId });
+}
+
+export function setFilePublicStatus(id: string, isPublic: boolean) {
+  return call<FileV2>(api => api.filesV2Api.updateById, { id, _public: isPublic });
 }
 
 export function getFilePrivilage(file: FileV2, user?: UserData | null): Privilage {

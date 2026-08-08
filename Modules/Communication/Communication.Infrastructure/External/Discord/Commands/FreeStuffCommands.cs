@@ -31,6 +31,7 @@ namespace Communication.Infrastructure.External.Discord.Commands
                     .Where(x =>
                         !string.IsNullOrWhiteSpace(x.Type) &&
                         x.Type.Equals("Game", StringComparison.OrdinalIgnoreCase))
+                    .Take(10)
                     .ToList();
 
                 if (games.Count == 0)

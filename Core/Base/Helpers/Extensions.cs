@@ -101,7 +101,7 @@ namespace Base
                 "txt" => "text/plain",
                 "doc" or "docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
                 "xls" or "xlsx" => "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                "html" or "htm" => "application/html",
+                "html" or "htm" => "text/html",
                 _ => "application/octet-stream",
             };
 

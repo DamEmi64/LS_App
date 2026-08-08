@@ -6,7 +6,7 @@ import Index from "@/features/system/pages/Index";
 import IndexImg from "@/assets/index.jpg";
 
 import Files from "@/features/files/pages/Files";
-import FilesImg from "@/assets/files.jpg";
+import FilesImg from "@/assets/files.png";
 
 import Processes from "@/features/system/pages/Processes";
 import ProcessesImg from "@/assets/processes.png";

@@ -35,7 +35,7 @@ namespace DiscordBot.Controllers
             _logger = logger;
         }
 
-        [AllowAnonymous]
+        /*[AllowAnonymous]
         [HttpGet("test-command")]
         public async Task<IActionResult> TestCommand(string command)
         {
@@ -67,22 +67,26 @@ namespace DiscordBot.Controllers
                 });
             }
             var i = 0;
+            var attachments = response.Files
+                .Select((file, index) => new
+                {
+                    id = index,
+                    filename = file.Filename
+                })
+                .ToArray();
+
             var payload = new
             {
                 type = Constants.RESPONSE_CHANNEL_MESSAGE_WITH_SOURCE,
                 data = new
                 {
                     content = response.Text,
-                    attachments = response.Files.Select(x => new
-                    {
-                        id = i++,
-                        filename = x.Filename
-                    })
+                    attachments
                 }
             };
 
             return BuildMultipartInteractionResponse(payload, response.Files);
-        }
+        }*/
 
 
         [AllowAnonymous]
@@ -168,12 +172,12 @@ namespace DiscordBot.Controllers
             }
 
             var attachments = response.Files
-                .Select((file, index) => new
-                {
-                    id = index,
-                    filename = file.Filename
-                })
-                .ToList();
+            .Select((file, index) => new
+            {
+                id = index,
+                filename = file.Filename
+            })
+            .ToArray();
 
             var payload = new
             {
@@ -181,7 +185,7 @@ namespace DiscordBot.Controllers
                 data = new
                 {
                     content = response.Text,
-                    attachments
+                    attachments = attachments
                 }
             };
 
@@ -225,42 +229,47 @@ namespace DiscordBot.Controllers
         {
             var boundary = $"----DiscordBoundary{Guid.NewGuid():N}";
 
-            using var multipart = new MultipartFormDataContent(boundary);
+            using var stream = new MemoryStream();
+
+            void WriteLine(string text)
+            {
+                var bytes = Encoding.UTF8.GetBytes(text + "\r\n");
+                stream.Write(bytes, 0, bytes.Length);
+            }
 
             // payload_json
+            WriteLine($"--{boundary}");
+            WriteLine("Content-Disposition: form-data; name=\"payload_json\"");
+            WriteLine("Content-Type: application/json");
+            WriteLine("");
+
             var json = JsonSerializer.Serialize(payload);
-
-            var payloadContent = new StringContent(
-                json,
-                Encoding.UTF8,
-                "application/json");
-
-            multipart.Add(payloadContent, "payload_json");
+            WriteLine(json);
 
             // files
             for (var i = 0; i < files.Count; i++)
             {
                 var file = files[i];
 
-                var fileContent = new ByteArrayContent(file.Content);
+                WriteLine($"--{boundary}");
+                WriteLine(
+                    $"Content-Disposition: form-data; name=\"files[{i}]\"; filename=\"{file.Filename}\"");
+                WriteLine($"Content-Type: {file.Extension.ToContentType()}");
+                WriteLine("");
 
-                fileContent.Headers.ContentType =
-                    new System.Net.Http.Headers.MediaTypeHeaderValue(
-                        file.Extension.ToContentType());
+                stream.Write(file.Content, 0, file.Content.Length);
 
-                multipart.Add(
-                    fileContent,
-                    $"files[{i}]",
-                    file.Filename);
+                WriteLine("");
             }
 
-            var body = multipart.ReadAsByteArrayAsync()
-                                .GetAwaiter()
-                                .GetResult();
+            WriteLine($"--{boundary}--");
 
-            return File(
-                body,
-                $"multipart/form-data; boundary={boundary}");
+            var bytes = stream.ToArray();
+
+            Response.ContentType = $"multipart/form-data; boundary={boundary}";
+            Response.ContentLength = bytes.Length;
+
+            return File(bytes, Response.ContentType);
         }
 
         private IActionResult HandleMessageComponent(JsonElement root)

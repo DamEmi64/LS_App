@@ -16,10 +16,10 @@ import ReminderSetup from "@/features/events/components/reminderSetup";
 import { EventBody, EventParticipant } from "@/features/events/types";
 import { useModal } from "@/shared/context/modal";
 import YesNoWindow from "@/shared/components/YesNoWindow";
-import { call, ColumnType, ExpandableTable, FilterItem, FilterType, FilterValue, onChangeParams, Operations, TableColumn } from "@/shared";
+import { ColumnType, ExpandableTable, FilterItem, FilterType, FilterValue, onChangeParams, Operations, TableColumn } from "@/shared";
 import { EventDto } from "@/shared/api/generated";
-import { ResponseList } from "@/shared/api/extension";
 import PresentList from "../components/presentList";
+import { createEvent, createEventReminder, deleteEvent, deleteEventReminder, getEvent, loadEvents, sendEventInvitation, signInToEvent, signOutOfEvent, updateEvent, updateEventParticipants } from "../services/eventService";
 
 const toEventBody = (event: EventDto): EventBody => ({
     title: event.title || "",
@@ -65,9 +65,7 @@ const EventsPage: React.FC = () => {
             query[filter.field] = filter.value?.toLocaleString?.() ?? filter.value;
         });
 
-        const result = await call<ResponseList<EventDto>>(api => api.eventClient.get, query);
-
-        setData(result.data || []);
+        setData(await loadEvents(query));
         setFilterValues(paramsObj.filters ?? []);
     };
 
@@ -80,7 +78,7 @@ const EventsPage: React.FC = () => {
         if (!event.id) return;
 
         setLoadingRow(event.id);
-        const freshEvent = await call<EventDto>(api => api.eventClient.getById, { id: event.id });
+        const freshEvent = await getEvent(event.id);
 
         setExpandedData(prev => ({
             ...prev,
@@ -117,13 +115,13 @@ const EventsPage: React.FC = () => {
     };
 
     const saveNew = (event: EventBody) => {
-        call(api => api.eventClient.create, { eventDto: event }).then(refresh);
+        createEvent(event).then(refresh);
     };
 
     const edit = (event: EventDto) => {
         if (!event.id) return;
 
-        call<EventDto>(api => api.eventClient.getById, { id: event.id })
+        getEvent(event.id)
             .then(freshEvent => modal.showModal(
                 <EventComponent
                     event={toEventBody(freshEvent)}
@@ -136,18 +134,7 @@ const EventsPage: React.FC = () => {
     const saveEdit = (event: EventDto, updatedEvent: EventBody) => {
         if (!event.id) return;
 
-        call(api => api.eventClient.updateById, {
-            id: event.id,
-            eventDto: {
-                ...event,
-                title: updatedEvent.title,
-                description: updatedEvent.description,
-                eventDate: updatedEvent.eventDate,
-                image: updatedEvent.image,
-                imageContent: updatedEvent.imageContent,
-                category: updatedEvent.category
-            }
-        }).then(refresh);
+        updateEvent(event, updatedEvent).then(refresh);
     };
 
     const del = (event: EventDto) => {
@@ -165,13 +152,13 @@ const EventsPage: React.FC = () => {
     const delConfirm = (event: EventDto) => {
         if (!event.id) return;
 
-        call(api => api.eventClient.deleteById, { id: event.id }).then(refresh);
+        deleteEvent(event.id).then(refresh);
     };
 
     const signIn = (event: EventDto) => {
         if (!event.id) return;
 
-        call(api => api.eventClient.updateByIdSignIn, { id: event.id }).then(() => {
+        signInToEvent(event.id).then(() => {
             refresh();
             reloadExpanded(event);
         });
@@ -180,7 +167,7 @@ const EventsPage: React.FC = () => {
     const signOut = (event: EventDto) => {
         if (!event.id) return;
 
-        call(api => api.eventClient.updateByIdSignOut, { id: event.id }).then(() => {
+        signOutOfEvent(event.id).then(() => {
             refresh();
             reloadExpanded(event);
         });
@@ -189,7 +176,7 @@ const EventsPage: React.FC = () => {
     const sendInvitation = (event: EventDto) => {
         if (!event.id) return;
 
-        call(api => api.eventClient.createByIdInvitation, { id: event.id }).then(() => {
+        sendEventInvitation(event.id).then(() => {
             refresh();
             reloadExpanded(event);
         });
@@ -209,12 +196,7 @@ const EventsPage: React.FC = () => {
     const saveReminder = (event: EventDto, reminderDate: Date | null) => {
         if (!event.id || !reminderDate) return;
 
-        call(api => api.eventClient.createByIdReminder, {
-            id: event.id,
-            reminderDto: {
-                reminderDate: reminderDate.toISOString()
-            }
-        }).then(() => {
+        createEventReminder(event.id, reminderDate).then(() => {
             refresh();
             reloadExpanded(event);
         });
@@ -223,14 +205,14 @@ const EventsPage: React.FC = () => {
     const removeReminder = (event: EventDto) => {
         if (!event.id) return;
 
-        call(api => api.eventClient.deleteByIdReminder, { id: event.id }).then(() => {
+        deleteEventReminder(event.id).then(() => {
             refresh();
             reloadExpanded(event);
         });
     };
 
     const setPresent = (event: EventDto) => {
-       call<EventDto>(api => api.eventClient.getById, { id: event.id })
+       getEvent(event.id!)
             .then(freshEvent => modal.showModal(
                 <PresentList
                     participants={freshEvent.participates.map(p => (p as EventParticipant)) || []}
@@ -241,21 +223,7 @@ const EventsPage: React.FC = () => {
 
     const savePresentList = (event: EventDto, participants: EventParticipant[]) => {
         if (!event.id) return;
-        event.participates = participants.map(participant => ({
-            id: participant.id,
-            login: participant.login,
-            userId: participant.userId,
-            email: participant.email,
-            present:participant.present
-        }));
-
-        call(api => api.eventClient.updateById, {
-            id: event.id,
-            eventDto: {
-                ...event,
-                participates: event.participates
-            }
-        }).then(() => {
+        updateEventParticipants(event, participants).then(() => {
             refresh();
             reloadExpanded(event);
         });
