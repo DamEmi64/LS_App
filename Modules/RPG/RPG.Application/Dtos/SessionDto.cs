@@ -5,5 +5,6 @@
         public Guid Id { get; set; } = Guid.NewGuid();
         public DateTimeOffset Start { get; set; }
         public DateTimeOffset? End { get; set; }
+        public string? Summary { get; set; }
     }
 }

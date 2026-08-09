@@ -1,8 +1,10 @@
-﻿namespace RPG.Application.Dtos
+﻿using AutoMapper;
+using Newtonsoft.Json;
+using RPG.Domain.Entities;
+
+namespace RPG.Application.Dtos
 {
-    using AutoMapper;
-    using Domain.Entities;
-    using Newtonsoft.Json;
+
 
     public class Mapper : Profile
     {

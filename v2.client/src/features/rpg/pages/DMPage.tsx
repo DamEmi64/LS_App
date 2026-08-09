@@ -21,6 +21,7 @@ import PlayerWindow from "@/features/rpg/components/PlayerWindow";
 import { ChapterSummary } from "@/features/rpg/components/chapterSummary";
 import LinkGen from "@/features/rpg/components/linkGen";
 import DiceBox from "@/features/rpg/components/dice/dice";
+import EndMeetingDialog from "@/features/rpg/components/EndMeetingDialog";
 
 import BattlePage from "./BattlePage";
 import { battleNpc, Chapter, Hero, HeroDto } from "@/features/rpg";
@@ -41,6 +42,7 @@ const DMPage: React.FC<{ chapter: Chapter }> = ({ chapter }) => {
     const [query, setQuery] = useState<{ heroId: any; chapterId?: any }>();
     const [url, setUrl] = useState("");
     const [battleBg, setBattleBg] = useState("");
+    const [isEndMeetingDialogOpen, setIsEndMeetingDialogOpen] = useState(false);
 
     const playerHeroes = chapter?.heroes?.filter(x => x.player) || [];
 
@@ -86,7 +88,8 @@ const DMPage: React.FC<{ chapter: Chapter }> = ({ chapter }) => {
     };
 
     const startChapter = () => call<Chapter>(api =>api.chaptersApi.updateByIdStart,{id:chapter.id});
-    const endChapter = () => call<Chapter>(api => api.chaptersApi.updateByIdEnd,{id:chapter.id});
+    const endChapter = (summary: string) =>
+        call<void>(api => api.chaptersApi.updateByIdEnd, { id: chapter.id, summary });
 
     const openPlayerView = () => {
         window.open('/rpg/playerView', '_blank');
@@ -119,13 +122,19 @@ const DMPage: React.FC<{ chapter: Chapter }> = ({ chapter }) => {
                 <Button variant="contained" onClick={startChapter}>
                     {t('rpg.chapter.start')}
                 </Button>
-                <Button variant="contained" onClick={endChapter}>
+                <Button variant="contained" onClick={() => setIsEndMeetingDialogOpen(true)}>
                     {t('rpg.chapter.end')}
                 </Button>
                 <Button variant="contained" onClick={openPlayerView}>
                     {t('rpg.other.output_player_view')}
                 </Button>
             </Grid>
+
+            <EndMeetingDialog
+                open={isEndMeetingDialogOpen}
+                onClose={() => setIsEndMeetingDialogOpen(false)}
+                onConfirm={endChapter}
+            />
 
             <Grid size={{ xs: 12 }}>
                 {chapter && <ChapterSummary chapter={chapter} />}

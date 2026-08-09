@@ -84,6 +84,7 @@ export interface SessionDto {
     links?: Link[];
     sessions?: Session[],
     draft?: boolean;
+    summary?: string;
 }
 
 export interface PlayerData {
@@ -108,6 +109,7 @@ export interface Session {
     id: string;
     start: Date;
     end: Date;
+    summary?: string;
 }
 
 export interface battleNpc {
