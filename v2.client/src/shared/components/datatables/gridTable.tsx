@@ -55,14 +55,24 @@ export const GridTable = <T,>({
     };
 
     const toColumnGridDef = (data: TableColumn<T>[]) => {
-        const cols = data.map((val) => ({
-            field: val.field,
-            headerName: t(val.header),
-            editable: !readonly,
-            type: getColumntType(val.type),
-            valueOptions: val.options,
-            flex: 1
-        })) as GridColDef[];
+        const cols = data.map((val) => {
+
+            const def = ({
+                field: val.field,
+                headerName: t(val.header),
+                editable: !readonly,
+                type: getColumntType(val.type),
+                valueOptions: val.options,
+                flex: 1
+            });
+
+            if (val.render) {
+                (def as any).renderCell = (params) => val.render ? val.render(params.row) : null;
+            }
+
+            return def;
+
+        }) as GridColDef[];
 
         if (!canDelete) return cols;
 

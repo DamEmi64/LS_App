@@ -37,6 +37,7 @@ import HeroForm from '../components/heroForm';
 import PlaceForm from "@/features/rpg/components/PlaceForm";
 import { useAuth } from '@/features/auth/context/authProvider';
 import { ProgressFlow } from '../components/flow/ProgressFlow';
+import EndMeetingDialog from '../components/EndMeetingDialog';
 
 export type ChapterTableProps = {
     chapters: Chapter[]
@@ -47,13 +48,13 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
     const modal = useModal();
     const { checkPermission } = useAuth();
 
-    // 📱 RESPONSIVE
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-    // ✅ FIX: per-row state (instead of global open)
+
     const [openRows, setOpenRows] = useState<Record<string, boolean>>({});
     const [loadingRow, setLoadingRow] = useState<string | null>(null);
+    const [isEndMeetingDialogOpen, setIsEndMeetingDialogOpen] = useState(false);
 
     const [data, setData] = useState<Chapter[]>(chapters);
 
@@ -67,7 +68,7 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
 
         setLoadingRow(chapter.id);
 
-        call<Chapter>(api => api.chaptersApi.getById,{id:chapter.id})
+        call<Chapter>(api => api.chaptersApi.getById, { id: chapter.id })
             .then((res) => {
                 setLoadingRow(null);
 
@@ -83,7 +84,7 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
     };
 
     const refresh = (chapter: Chapter) => {
-        call<Chapter>(api => api.chaptersApi.getById,{id:chapter.id})
+        call<Chapter>(api => api.chaptersApi.getById, { id: chapter.id })
             .then((res) => {
                 setData(prev =>
                     prev.map(c => c.id === chapter.id ? res : c)
@@ -96,16 +97,16 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
         { name: 'opt.edit', method: (o) => edit(o), hidden: (o) => !checkPermission(['rpg-write']) },
         { name: 'opt.publish', method: (o) => publishChapter(o), hidden: (o) => !checkPermission(['rpg-write']) || !o.draft },
         { name: 'rpg.chapter.start', method: (o) => startChapter(o) },
-        { name: 'rpg.chapter.end', method: (o) => endChapter(o) },
+        { name: 'rpg.chapter.end', method: (o) => setIsEndMeetingDialogOpen(true) },
         { name: "rpg.chapter.dmPage", method: (o) => dmPage(o) },
-        { name: 'rpg.flow.flow_title', method: (o) => flow(o)},
+        { name: 'rpg.flow.flow_title', method: (o) => flow(o) },
         { name: 'rpg.hero.add', method: (o) => addHero(o), hidden: (o) => !checkPermission(['rpg-write']) },
         { name: 'rpg.place.add', method: (o) => addPlace(o), hidden: (o) => !checkPermission(['rpg-write']) },
         { name: 'opt.delete', method: (o) => del(o), hidden: (o) => !checkPermission(['rpg-write']) },
     ];
 
     const details = (o: Chapter) => {
-        call<Chapter>(api => api.chaptersApi.getById,{id:o.id})
+        call<Chapter>(api => api.chaptersApi.getById, { id: o.id })
             .then((res) => {
                 modal.showModal(
                     <SessionView
@@ -120,7 +121,7 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
     };
 
     const edit = (o: Chapter) => {
-        call<Chapter>(api => api.chaptersApi.getById,{id:o.id})
+        call<Chapter>(api => api.chaptersApi.getById, { id: o.id })
             .then((res) => {
                 modal.showModal(
                     <SessionView
@@ -135,7 +136,7 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
     };
 
     const publishChapter = (o: Chapter) => {
-                call<Chapter>(api => api.chaptersApi.updateByIdPublish,{id:o.id})
+        call<Chapter>(api => api.chaptersApi.updateByIdPublish, { id: o.id })
     };
 
     const flow = (o: Chapter) => {
@@ -152,12 +153,12 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
 
     const saveFlow = (chapter: Chapter, nodes, edges) => {
         chapter.flow = { nodes, edges };
-        call(api => api.chaptersApi.updateByIdFlow,{id:chapter.id, flowDto:{ nodes, edges }})
+        call(api => api.chaptersApi.updateByIdFlow, { id: chapter.id, flowDto: { nodes, edges } })
             .then(() => refresh(chapter));
     }
 
     const saveEdit = (data: SessionDto, chapter: Chapter) => {
-        call(api => api.chaptersApi.updateById,{id:chapter.id, chapterDto:data})
+        call(api => api.chaptersApi.updateById, { id: chapter.id, chapterDto: data })
             .then(() => refresh(chapter));
     };
 
@@ -169,11 +170,11 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
     };
 
     const saveHero = (data: HeroDto, chapter: Chapter) => {
-        call(api => api.heroesApi.create,{heroDto:data})
-        .then(() => {
-            modal.hideModal();
-            refresh(chapter);
-        });
+        call(api => api.heroesApi.create, { heroDto: data })
+            .then(() => {
+                modal.hideModal();
+                refresh(chapter);
+            });
     };
 
     const addPlace = (chapter: Chapter) => {
@@ -184,14 +185,14 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
     };
 
     const savePlace = (data: SessionDto, chapter: Chapter) => {
-        call(api => api.placesApi.create,{placeDto:data}).then(() => {
+        call(api => api.placesApi.create, { placeDto: data }).then(() => {
             modal.hideModal();
             refresh(chapter);
         });
     };
 
     const dmPage = (chapter: Chapter) => {
-        call<Chapter>(api => api.chaptersApi.getById,{id:chapter.id})
+        call<Chapter>(api => api.chaptersApi.getById, { id: chapter.id })
             .then((res) => {
                 setData(prev =>
                     prev.map(c => c.id === chapter.id ? res : c)
@@ -214,14 +215,14 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
     };
 
     const delConfirm = (chapter: Chapter) => {
-        call<Chapter>(api => api.chaptersApi.deleteById,{id:chapter.id}).then(() => {
+        call<Chapter>(api => api.chaptersApi.deleteById, { id: chapter.id }).then(() => {
             modal.hideModal();
             setData(prev => prev.filter(c => c.id !== chapter.id));
         });
     };
 
-    const startChapter = (c: Chapter) => call<Chapter>(api => api.chaptersApi.updateByIdStart,{id:c.id}).then(() => refresh(c));
-    const endChapter = (c: Chapter) => call<Chapter>(api => api.chaptersApi.updateByIdEnd,{id:c.id}).then(() => refresh(c));
+    const startChapter = (c: Chapter) => call<Chapter>(api => api.chaptersApi.updateByIdStart, { id: c.id }).then(() => refresh(c));
+    const endChapter = (c: Chapter, summary: string) => call<Chapter>(api => api.chaptersApi.updateByIdEnd, { id: c.id, summary }).then(() => refresh(c));
 
     return (
         <Box sx={{ width: "100%", overflowX: "auto" }}>
@@ -263,7 +264,7 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
                                         <OperationCell operations={operations} data={chapter} />
                                     </TableRow>
 
-                                    <TableRow  key={chapter.id + '_1'}>
+                                    <TableRow key={chapter.id + '_1'}>
                                         <TableCell colSpan={6} sx={{ p: 0 }}>
                                             <Collapse in={isOpen} timeout="auto" unmountOnExit>
                                                 <Box sx={{ p: isMobile ? 1 : 2 }}>
@@ -300,6 +301,11 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
                                             </Collapse>
                                         </TableCell>
                                     </TableRow>
+                                    <EndMeetingDialog
+                                        open={isEndMeetingDialogOpen}
+                                        onClose={() => setIsEndMeetingDialogOpen(false)}
+                                        onConfirm={(summary) => endChapter(chapter, summary)}
+                                    />
                                 </>
                             );
                         })}
