@@ -1,8 +1,9 @@
 import { saveAs } from "file-saver";
 
-import { getMimeFromExtension } from "@/lib/utils";
+import { getMimeFromExtension, saveNativeFile } from "@/lib/utils";
 import { call, raw } from "@/shared/components/apiClient";
 import { UserData } from "@/features/auth";
+import { isNativeApp } from '@/shared/platform';
 
 import { FileEditFormData, FileUser, FileV2, Privilage, PrivilageToSend } from "../types";
 
@@ -79,6 +80,12 @@ export async function downloadFile(file: FileV2) {
   const response = await raw(api => api.filesV2Api.getByIdDownload, { id: file.id });
 
   const filename = `${file.title}${response.data.extension}`;
+
+  if (isNativeApp) {
+    await saveNativeFile(filename, response.data.content);
+    return;
+  }
+
   const mime = getMimeFromExtension(response.data.extension);
   const byteCharacters = atob(response.data.content);
   const byteNumbers = new Array(byteCharacters.length);

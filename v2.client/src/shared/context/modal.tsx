@@ -7,6 +7,7 @@ type ModalContextType = {
     hideModal: () => void;
     showSubModal: (content: ReactNode) => void;
     hideSubModal: () => void;
+    closeTopMostModal: () => boolean;
 };
 
 const ModalContext = createContext<ModalContextType | undefined>(undefined);
@@ -48,22 +49,40 @@ export const ModalProvider: React.FC<{ children: ReactNode }> = ({ children }) =
         setContentSub(null);
     };
 
+    const closeTopMostModal = () => {
+        if (openSub) {
+            hideSubModal();
+            return true;
+        }
+
+        if (open) {
+            hideModal();
+            return true;
+        }
+
+        return false;
+    };
+
     return (
-        <ModalContext.Provider value={{ showModal, hideModal, showSubModal, hideSubModal }}>
+        <ModalContext.Provider value={{ showModal, hideModal, showSubModal, hideSubModal, closeTopMostModal }}>
             {children}
             <Modal open={open} onClose={hideModal}>
                 <>
                     <Box
                         sx={{
-                            position: 'absolute',
-                            top: '50%',
-                            left: '50%',
-                            transform: 'translate(-50%, -50%)',
+                            position: { xs: 'fixed', sm: 'absolute' },
+                            top: { xs: 0, sm: '50%' },
+                            left: { xs: 0, sm: '50%' },
+                            transform: { xs: 'none', sm: 'translate(-50%, -50%)' },
                             bgcolor: 'background.paper',
                             boxShadow: 24,
-                            p: 4,
-                            borderRadius: 2,
-                            maxHeight: '90vh',
+                            boxSizing: 'border-box',
+                            width: { xs: '100vw', sm: 'calc(100vw - 32px)' },
+                            height: { xs: '100dvh', sm: 'auto' },
+                            maxWidth: { xs: 'none', sm: 720 },
+                            p: { xs: 2, sm: 4 },
+                            borderRadius: { xs: 0, sm: 2 },
+                            maxHeight: { xs: '100dvh', sm: '90vh' },
                             overflow: 'auto',
                         }}
                         style={{ backdropFilter: "blur(4px)" }}

@@ -52,6 +52,7 @@ import { Configuration } from "@/shared/api/generated";
 import { ConfigurationProvider } from "@/shared/context/configuration";
 import CommunicationRegistry from "@/features/mail/pages/CommunicationRegistry";
 import { AppThemeProvider } from "@/shared/context/theme";
+import { AndroidBackButtonHandler } from '@/shared/components/AndroidBackButtonHandler';
 
 const queryClient = new QueryClient();
 
@@ -117,10 +118,11 @@ const App = () => (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <AppThemeProvider>
                 <ErrorHandlerProvider>
-                    <ModalProvider>
-                        <QueryClientProvider client={queryClient}>
-                            <AuthProvider>
+                    <AuthProvider>
+                        <ModalProvider>
+                            <QueryClientProvider client={queryClient}>
                                 <BrowserRouter>
+                                    <AndroidBackButtonHandler />
                                     <SlideRoutes>
                                         <Route path="/" element={<Layout content={Index} image={IndexImg} title={'menu.home'} menu={menu} />} />
                                         <Route path="/processes" element={<Layout content={Processes} image={ProcessesImg} title={'menu.processes'} permissions={['processes']} menu={menu} />} />
@@ -142,9 +144,9 @@ const App = () => (
                                     </SlideRoutes>
                                 </BrowserRouter>
                                 <NotificationListener />
-                            </AuthProvider>
-                        </QueryClientProvider>
-                    </ModalProvider>
+                            </QueryClientProvider>
+                        </ModalProvider>
+                    </AuthProvider>
                 </ErrorHandlerProvider>
             </AppThemeProvider>
         </LocalizationProvider>

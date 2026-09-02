@@ -3,10 +3,10 @@ import { TextField, FormControlLabel, Switch, Select, MenuItem, InputLabel, Form
 import { changeLanguage } from 'i18next';
 import { useTranslation } from 'react-i18next';
 import ServerInfo, { ServerInfoProps } from '../serverInfo';
-import useLocalStorage from 'react-use-localstorage';
 import { call } from '@/shared';
 import { useConfiguration } from '@/shared/context/configuration';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import { useAppStorage } from '@/shared/storage/useAppStorage';
 
 const languages = [
     { code: 'en', label: 'English' },
@@ -21,7 +21,7 @@ const AppSettings: React.FC = () => {
     const [frontendVersion, setFrontendVersion] = useVariable('version');
     const { t, i18n } = useTranslation();
     const [endpoint, setEndpoint] = useVariable('apiEndpoint');
-    const [language, setLanguage] = useLocalStorage('lang', i18n.language || 'en');
+    const [language, setLanguage] = useAppStorage('lang', i18n.language || 'en');
     const [labelColor, setLabelColor] = useVariable('labelColor')
     const { mode, setMode } = useColorScheme();
     const [darkTheme, setDarkTheme] = useState(mode === 'dark');

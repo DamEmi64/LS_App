@@ -5,6 +5,10 @@ import dictionaries from '@/app/dictionaries.json';
 import configuration from '@/app/configuration.json';
 import { saveAs } from 'file-saver';
 import { raw } from "@/shared";
+import { appStorage } from '@/shared/storage/appStorage';
+import { Directory, Filesystem } from '@capacitor/filesystem';
+import { FileViewer } from '@capacitor/file-viewer';
+import { isNativeApp } from '@/shared/platform';
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -18,31 +22,53 @@ export function convertToDateStr(date: string): string {
     return typeof date === 'string' ? new Date(date).toLocaleString() : date;
 };
 
-export const download = (id: string, title: string) => {
-    raw(api => api.homeApi.getMedia, { id })
-        .then((response) => {
-            let filename = title + response.data.extension;
+export const download = async (id: string, title: string) => {
+    try {
+        const response = await raw(api => api.homeApi.getMedia, { id });
+        const filename = `${title}${response.data.extension}`.replace(/[\\/:*?"<>|]/g, '_');
 
-            const mime = getMimeFromExtension(response.data.extension);
+        if (isNativeApp) {
+            await saveNativeFile(filename, response.data.content);
+            return;
+        }
 
+        const mime = getMimeFromExtension(response.data.extension);
+        const byteCharacters = atob(response.data.content);
+        const byteNumbers = new Array(byteCharacters.length);
 
-            const byteCharacters = atob(response.data.content);
+        for (let i = 0; i < byteCharacters.length; i++) {
+            byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
 
-            // convert to byte array
-            const byteNumbers = new Array(byteCharacters.length);
-
-            for (let i = 0; i < byteCharacters.length; i++) {
-                byteNumbers[i] = byteCharacters.charCodeAt(i);
-            }
-
-            const byteArray = new Uint8Array(byteNumbers);
-
-            // create blob
-            const blob = new Blob([byteArray], { type: mime });
-            saveAs(blob, filename);
-        })
-        .catch((error) => console.error('Download failed:', error));
+        saveAs(new Blob([new Uint8Array(byteNumbers)], { type: mime }), filename);
+    } catch (error) {
+        console.error('Download failed:', error);
+    }
 }
+
+
+export async function saveNativeFile(
+    filename: string,
+    base64Content: string
+) {
+    const safeFilename = filename.replace(/[\\/:*?"<>|]/g, "_");
+
+    await Filesystem.writeFile({
+        path: safeFilename,
+        data: base64Content,
+        directory: Directory.Documents,
+    });
+
+    const { uri } = await Filesystem.getUri({
+        path: safeFilename,
+        directory: Directory.Documents,
+    });
+
+    await FileViewer.openDocumentFromLocalPath({
+        path: uri,
+    });
+}
+
 
 export const getMimeFromExtension = (extension) => {
     switch (extension.toLowerCase()) {
@@ -81,7 +107,7 @@ export const getMimeFromExtension = (extension) => {
 
 export const get = (key: keyof typeof configuration): string | undefined => {
     return (
-        localStorage.getItem(key) ??
+        appStorage.get(key) ??
         configuration[key] ??
         undefined
     );
