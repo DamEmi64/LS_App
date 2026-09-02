@@ -1,19 +1,23 @@
-import { getDictionary, useDictionaryTranslation } from "@/lib/utils";
 import { Accordion, AccordionDetails, AccordionSummary, Table, TableBody, TableCell, TableHead, TableRow, Typography } from "@mui/material"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CommunicationRules } from "../types";
 import {call} from "@/shared";
 
 export const TemplateRules = () => {
     const { t } = useTranslation();
-    const getDictionaryTranslation = useDictionaryTranslation();
     const [rules, setRules] = useState<CommunicationRules | null>(null);
 
-    call<CommunicationRules>(api => api.templatesApi.getRules,{}).then(res => {
-        const data = res;
-        setRules(data);   
-        });
+    useEffect(() => {
+        call<CommunicationRules>(api => api.templatesApi.getRules, {}).then(setRules);
+    }, []);
+
+    const getRuleTranslation = (key: string, field: 'title' | 'description') => {
+        const normalizedKey = key.replace('communication.templates.', 'communication.template.');
+        const fieldKey = normalizedKey.replace(/\.title$/, `.${field}`);
+
+        return t(fieldKey);
+    };
 
     return <Accordion>
         <AccordionSummary>
@@ -32,17 +36,17 @@ export const TemplateRules = () => {
                     {rules?.functions.map((strategy, index) => (
                         <TableRow key={index}>
                             <TableCell>
-                                <Typography variant="subtitle1">{getDictionaryTranslation('Fluid functions',strategy.title).title}</Typography>
+                                <Typography variant="subtitle1">{getRuleTranslation(strategy.title, 'title')}</Typography>
                             </TableCell>
-                            <TableCell>{getDictionaryTranslation('Fluid functions',strategy.title).description}</TableCell>
+                            <TableCell>{getRuleTranslation(strategy.title, 'description')}</TableCell>
                         </TableRow>
                     ))}
                     {rules?.variables.map((strategy, index) => (
                         <TableRow key={index}>
                             <TableCell>
-                                <Typography variant="subtitle1">{getDictionaryTranslation('Fluid functions',strategy.title).title}</Typography>
+                                <Typography variant="subtitle1">{getRuleTranslation(strategy.title, 'title')}</Typography>
                             </TableCell>
-                            <TableCell>{getDictionaryTranslation('Fluid functions',strategy.title).description}</TableCell>
+                            <TableCell>{getRuleTranslation(strategy.title, 'description')}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

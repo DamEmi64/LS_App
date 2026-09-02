@@ -1,6 +1,7 @@
 import { call, setAuthToken, setAuthTokens, type AuthToken } from "@/shared";
 import { notify } from "@/shared/components/NotificationListener";
 import { getNotify } from "@/lib/notifyProvider";
+import { appStorage } from '@/shared/storage/appStorage';
 
 import { LoginData, PasswordChangeData, RegisterData, ResetPasswordData, User, UserData } from "../index";
 
@@ -16,12 +17,14 @@ export async function getUserData() {
 export async function loginUser(data: LoginData) {
   const token = await call<AuthToken>(api => api.authApi.createLogin, { loginModel: data });
   setAuthTokens(token);
+  await appStorage.flush();
   return token;
 }
 
 export async function registerUser(data: RegisterData) {
   const token = await call<AuthToken>(api => api.authApi.createRegister, { registerModel: data });
   setAuthTokens(token);
+  await appStorage.flush();
   return token;
 }
 

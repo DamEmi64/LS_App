@@ -22,5 +22,5 @@ export interface Session {
     'updBy'?: string | null;
     'start'?: string;
     'end'?: string | null;
+    'summary'?: string | null;
 }
-

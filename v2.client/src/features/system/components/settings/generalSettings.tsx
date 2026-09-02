@@ -2,9 +2,9 @@ import React from 'react';
 import { Select, MenuItem, InputLabel, FormControl, Box, useTheme } from '@mui/material';
 import { changeLanguage } from 'i18next';
 import { useTranslation } from 'react-i18next';
-import useLocalStorage from 'react-use-localstorage';
 import { useAppTheme } from '@/shared/context/theme';
 import { AppThemeName } from '@/app/themes';
+import { useAppStorage } from '@/shared/storage/useAppStorage';
 
 const languages = [
     { code: 'en', label: 'English' },
@@ -16,7 +16,7 @@ const languages = [
 
 const GeneralSettings: React.FC = () => {
     const { t, i18n } = useTranslation();
-    const [language, setLanguage] = useLocalStorage('lang', i18n.language || 'en');
+    const [language, setLanguage] = useAppStorage('lang', i18n.language || 'en');
     const { themeName, setThemeName, themes } = useAppTheme();
     const theme = useTheme();
     const labelColor = theme.palette.text.primary;

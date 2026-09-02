@@ -6,7 +6,7 @@ import Index from "@/features/system/pages/Index";
 import IndexImg from "@/assets/index.jpg";
 
 import Files from "@/features/files/pages/Files";
-import FilesImg from "@/assets/files.jpg";
+import FilesImg from "@/assets/files.png";
 
 import Processes from "@/features/system/pages/Processes";
 import ProcessesImg from "@/assets/processes.png";
@@ -52,6 +52,7 @@ import { Configuration } from "@/shared/api/generated";
 import { ConfigurationProvider } from "@/shared/context/configuration";
 import CommunicationRegistry from "@/features/mail/pages/CommunicationRegistry";
 import { AppThemeProvider } from "@/shared/context/theme";
+import { AndroidBackButtonHandler } from '@/shared/components/AndroidBackButtonHandler';
 
 const queryClient = new QueryClient();
 
@@ -117,10 +118,11 @@ const App = () => (
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <AppThemeProvider>
                 <ErrorHandlerProvider>
-                    <ModalProvider>
-                        <QueryClientProvider client={queryClient}>
-                            <AuthProvider>
+                    <AuthProvider>
+                        <ModalProvider>
+                            <QueryClientProvider client={queryClient}>
                                 <BrowserRouter>
+                                    <AndroidBackButtonHandler />
                                     <SlideRoutes>
                                         <Route path="/" element={<Layout content={Index} image={IndexImg} title={'menu.home'} menu={menu} />} />
                                         <Route path="/processes" element={<Layout content={Processes} image={ProcessesImg} title={'menu.processes'} permissions={['processes']} menu={menu} />} />
@@ -136,15 +138,15 @@ const App = () => (
                                         <Route path="/rpg/drafts" element={<Layout content={o => <RPG draft={true} />} image={RPGImg} title={'menu.rpg_sessions'} permissions={['rpg']} menu={menu} />} />
                                         <Route path="/automations" element={<Layout content={Automations} image={AutomationsImg} title={'menu.automations'} permissions={['automation']} menu={menu} />} />
                                         <Route path="/discord" element={<Layout content={DiscordPage} image={DiscordImg} title={'menu.discord'} permissions={['communication']} menu={menu} />} />
-                                        <Route path="/filesV2" element={<Layout content={FilesV2Page} image={DiscordImg} title={'menu.files'} menu={menu}/>} />
+                                        <Route path="/filesV2" element={<Layout content={FilesV2Page} image={FilesImg} title={'menu.files'} menu={menu}/>} />
                                         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                                         <Route path="*" element={<Layout content={NotFound} image={IndexImg} title={'404'} menu={menu} />} />
                                     </SlideRoutes>
                                 </BrowserRouter>
                                 <NotificationListener />
-                            </AuthProvider>
-                        </QueryClientProvider>
-                    </ModalProvider>
+                            </QueryClientProvider>
+                        </ModalProvider>
+                    </AuthProvider>
                 </ErrorHandlerProvider>
             </AppThemeProvider>
         </LocalizationProvider>

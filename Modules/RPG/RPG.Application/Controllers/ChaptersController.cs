@@ -40,6 +40,8 @@ namespace RPG.Application.Controllers
                 return NotFound();
             }
 
+            var a = _mapper.Map<ChapterDto>(result);
+
             return Json(_mapper.Map<ChapterDto>(result));
         }
 
@@ -200,7 +202,7 @@ namespace RPG.Application.Controllers
         }
 
         [HttpPut("{id}/end")]
-        public async Task<IActionResult> EndStory(Guid id)
+        public async Task<IActionResult> EndStory(Guid id, [FromBody] string summary)
         {
             var chapter = await _chapterRepository.GetWithStoryAndSessions(id);
             var endDate = DateTimeOffset.Now;
@@ -211,6 +213,7 @@ namespace RPG.Application.Controllers
                 if (lastSession is not null)
                 {
                     lastSession.End = endDate;
+                    lastSession.Summary = summary;
                 }
 
                 if (chapter.Story.EndDate is null || chapter.Story.EndDate < endDate)

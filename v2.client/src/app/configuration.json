@@ -1,10 +1,10 @@
 {
-  "apiEndpoint": "https://lsfamilia.runasp.net",
+  "apiEndpoint": "https://lsfamilia.runasp.net/",
   "labelColor": "#111827",
   "toastPosition": "bottom-right",
   "toastAutoClose": "3000",
   "toastActive": "true",
   "toastProcess": "false",
   "toastProcessError": "false",
-  "version": "1.0"
+  "version": "1.1"
 }

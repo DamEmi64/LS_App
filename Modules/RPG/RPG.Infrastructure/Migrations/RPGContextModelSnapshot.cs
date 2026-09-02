@@ -65,7 +65,7 @@ namespace RPG.Infrastructure.Migrations
 
                     b.HasIndex("StoryId");
 
-                    b.ToTable("Chapters", (string)null);
+                    b.ToTable("Chapters");
                 });
 
             modelBuilder.Entity("RPG.Domain.Entities.Hero", b =>
@@ -117,7 +117,7 @@ namespace RPG.Infrastructure.Migrations
 
                     b.HasIndex("PlayerDataId");
 
-                    b.ToTable("Heroes", (string)null);
+                    b.ToTable("Heroes");
                 });
 
             modelBuilder.Entity("RPG.Domain.Entities.Link", b =>
@@ -154,7 +154,7 @@ namespace RPG.Infrastructure.Migrations
 
                     b.HasIndex("ChapterId");
 
-                    b.ToTable("Link", (string)null);
+                    b.ToTable("Link");
                 });
 
             modelBuilder.Entity("RPG.Domain.Entities.Place", b =>
@@ -194,7 +194,7 @@ namespace RPG.Infrastructure.Migrations
 
                     b.HasIndex("ChapterId");
 
-                    b.ToTable("Places", (string)null);
+                    b.ToTable("Places");
                 });
 
             modelBuilder.Entity("RPG.Domain.Entities.PlayerData", b =>
@@ -221,7 +221,7 @@ namespace RPG.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PlayerData", (string)null);
+                    b.ToTable("PlayerData");
                 });
 
             modelBuilder.Entity("RPG.Domain.Entities.RPGFile", b =>
@@ -257,7 +257,7 @@ namespace RPG.Infrastructure.Migrations
 
                     b.HasIndex("StoryId");
 
-                    b.ToTable("RPGFile", (string)null);
+                    b.ToTable("RPGFile");
                 });
 
             modelBuilder.Entity("RPG.Domain.Entities.Session", b =>
@@ -282,6 +282,9 @@ namespace RPG.Infrastructure.Migrations
                     b.Property<DateTimeOffset>("Start")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<string>("Summary")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("UpdBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -292,7 +295,7 @@ namespace RPG.Infrastructure.Migrations
 
                     b.HasIndex("ChapterId");
 
-                    b.ToTable("Session", (string)null);
+                    b.ToTable("Session");
                 });
 
             modelBuilder.Entity("RPG.Domain.Entities.Skill", b =>
@@ -331,7 +334,7 @@ namespace RPG.Infrastructure.Migrations
 
                     b.HasIndex("PlayerDataId");
 
-                    b.ToTable("Skill", (string)null);
+                    b.ToTable("Skill");
                 });
 
             modelBuilder.Entity("RPG.Domain.Entities.Story", b =>
@@ -372,7 +375,7 @@ namespace RPG.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Stories", (string)null);
+                    b.ToTable("Stories");
                 });
 
             modelBuilder.Entity("RPG.Domain.Entities.Chapter", b =>

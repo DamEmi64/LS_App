@@ -1,10 +1,11 @@
 import { saveAs } from "file-saver";
 
-import { getMimeFromExtension } from "@/lib/utils";
+import { getMimeFromExtension, saveNativeFile } from "@/lib/utils";
 import { call, raw } from "@/shared/components/apiClient";
 import { UserData } from "@/features/auth";
+import { isNativeApp } from '@/shared/platform';
 
-import { FileEditFormData, FileV2, Privilage } from "../types";
+import { FileEditFormData, FileUser, FileV2, Privilage, PrivilageToSend } from "../types";
 
 export async function loadFiles(directoryId: string | null) {
   return call<FileV2[]>(api => api.filesV2Api.get, {
@@ -34,6 +35,29 @@ export async function updateFileEntry(id: string, form: FileEditFormData) {
   });
 }
 
+export function loadFileUsers(id: string) {
+  return call<FileUser[]>(api => api.filesV2Api.getByIdUsers, { id });
+}
+
+export function loadShareableUsers() {
+  return call<{ data: UserData[] }>(api => api.homeApi.getUsers, {});
+}
+
+export function grantFileAccess(id: string, login: string, userId: string, privilage: PrivilageToSend) {
+  return call(api => api.filesV2Api.createByIdUsers, {
+    id,
+    grantAccessDto: { login, userId, privilage },
+  });
+}
+
+export function revokeFileAccess(id: string, userId: string) {
+  return call(api => api.filesV2Api.deleteByIdUsersByUserId, { id, userId });
+}
+
+export function setFilePublicStatus(id: string, isPublic: boolean) {
+  return call<FileV2>(api => api.filesV2Api.updateById, { id, _public: isPublic });
+}
+
 export function getFilePrivilage(file: FileV2, user?: UserData | null): Privilage {
   if (!user) {
     return Privilage.NONE;
@@ -56,6 +80,12 @@ export async function downloadFile(file: FileV2) {
   const response = await raw(api => api.filesV2Api.getByIdDownload, { id: file.id });
 
   const filename = `${file.title}${response.data.extension}`;
+
+  if (isNativeApp) {
+    await saveNativeFile(filename, response.data.content);
+    return;
+  }
+
   const mime = getMimeFromExtension(response.data.extension);
   const byteCharacters = atob(response.data.content);
   const byteNumbers = new Array(byteCharacters.length);

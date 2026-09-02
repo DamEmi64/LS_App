@@ -17,11 +17,10 @@ import {
   Typography,
 } from "@mui/material";
 import DeleteOutlineRounded from "@mui/icons-material/DeleteOutlineRounded";
-import { call } from "@/shared";
 import { t } from "i18next";
 import { ShareFormData, Privilage, FileUser, FileV2, PrivilageToSend } from "../types";
 import { UserData } from "@/features/system";
-import { ResponseList } from "@/shared/api/extension";
+import { grantFileAccess, loadFileUsers, loadShareableUsers, revokeFileAccess, setFilePublicStatus } from "../services/fileService";
 
 interface ShareWrapperProps {
   file: FileV2 | null;
@@ -54,8 +53,8 @@ export default function ShareWrapper({ file, onSubmit }: ShareWrapperProps) {
     }
 
     setIsPublic(file.public);
-    call<FileUser[]>(api => api.filesV2Api.getByIdUsers, { id: file.id }).then(setUsers);
-    call<ResponseList<UserData>>(api => api.homeApi.getUsers, {}).then(f => setServerUsers(f.data));
+    loadFileUsers(file.id).then(setUsers);
+    loadShareableUsers().then(response => setServerUsers(response.data));
   }, [file, reset]);
 
   if (!file) return null;
@@ -66,20 +65,10 @@ export default function ShareWrapper({ file, onSubmit }: ShareWrapperProps) {
     try {
       setIsSaving(true);
       // Add new user with privilege
-      await call(api => api.filesV2Api.createByIdUsers, {
-        id: file.id,
-        grantAccessDto: {
-          login: formData.user.login,
-          userId: formData.user.userId,
-          privilage: mapToPrivilageToSend(privilage),
-        },
-      });
+      await grantFileAccess(file.id, formData.user.login, formData.user.userId, mapToPrivilageToSend(privilage));
 
       // Refresh users list
-      const updatedUsers = await call<FileUser[]>(
-        api => api.filesV2Api.getByIdUsers,
-        { id: file.id }
-      );
+      const updatedUsers = await loadFileUsers(file.id);
       setUsers(updatedUsers);
       reset(); // Clear form
       setPrivilage(Privilage.NONE); // Reset privilege to default
@@ -106,16 +95,10 @@ export default function ShareWrapper({ file, onSubmit }: ShareWrapperProps) {
 
     try {
       setIsSaving(true);
-      await call(api => api.filesV2Api.deleteByIdUsersByUserId, {
-        id: file.id,
-        userId: userId,
-      });
+      await revokeFileAccess(file.id, userId);
 
       // Refresh users list
-      const updatedUsers = await call<FileUser[]>(
-        api => api.filesV2Api.getByIdUsers,
-        { id: file.id }
-      );
+      const updatedUsers = await loadFileUsers(file.id);
       setUsers(updatedUsers);
     } catch (error) {
       console.error("Failed to remove user privilege:", error);
@@ -128,10 +111,7 @@ export default function ShareWrapper({ file, onSubmit }: ShareWrapperProps) {
     try {
       setIsSaving(true);
       setIsPublic(checked);
-      const updated = await call<FileV2>(
-        api => api.filesV2Api.updateById,
-        { id: file.id, _public: checked }
-      );
+      const updated = await setFilePublicStatus(file.id, checked);
       onSubmit(updated);
     } catch (error) {
       console.error("Failed to update public status:", error);

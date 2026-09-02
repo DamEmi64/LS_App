@@ -16,14 +16,12 @@ import FilesEdit from "@/features/files/components/filesEdit";
 import FilesInfo from "@/features/files/components/filesInfo";
 import YesNoWindow from "@/shared/components/YesNoWindow";
 
-import { call, FilterItem, FilterType, onChangeParams, Operations, raw } from "@/shared";
-
-import { saveAs } from "file-saver";
+import { FilterItem, FilterType, onChangeParams, Operations } from "@/shared";
 
 import { EditFile, File } from "@/features/files";
 import { getDictionary, useDictionaryTranslation } from "@/lib/utils";
-import { ResponseList } from "@/shared/api/extension";
 import TileContainer from "@/shared/components/datatables/tileContainer";
+import { createFile, deleteFile, exportFile, getFile, loadFiles, updateFile } from "../services/fileService";
 
 const Files: React.FC = () => {
     const modal = useModal();
@@ -84,14 +82,14 @@ const Files: React.FC = () => {
     };
 
     const saveNew = (file: EditFile) => {
-        call(api => api.filesApi.create, {fileDto:file}).then(() => {
+        createFile(file).then(() => {
             modal.hideModal();
             refresh();
         });
     };
 
     const details = (file: File) => {
-        call<File>(api => api.filesApi.getById, { id: file.id }).then(res => {
+        getFile(file.id).then(res => {
             modal.showModal(
                 <FilesInfo file={res} edit={edit} del={del} />
             );
@@ -99,7 +97,7 @@ const Files: React.FC = () => {
     };
 
     const edit = (file: File) => {
-        call<File>(api => api.filesApi.getById, { id: file.id }).then(res => {
+        getFile(file.id).then(res => {
             modal.showModal(
                 <FilesEdit
                     file={toEditFile(res)}
@@ -110,7 +108,7 @@ const Files: React.FC = () => {
     };
 
     const saveEdit = (file: EditFile, id: string) => {
-        call(api => api.filesApi.updateById, { id, fileDto: file }).then(() => {
+        updateFile(id, file).then(() => {
             modal.hideModal();
             refresh();
         });
@@ -129,30 +127,17 @@ const Files: React.FC = () => {
     };
 
     const delConfirm = (file: File) => {
-        call(api => api.filesApi.deleteById, { id: file.id }).then(() => {
+        deleteFile(file.id).then(() => {
             modal.hideModal();
             refresh();
         });
-    };
-
-    const exportFile = (file: File) => {
-        raw(api => api.filesApi.getByIdExport, { id: file.id })
-            .then((response) => {
-                const contentType =
-                    response.headers["content-type"] || "application/octet-stream";
-
-                const blob = new Blob([response.data], { type: contentType.toLocaleString() });
-
-                saveAs(blob, file.title);
-            })
-            .catch(console.error);
     };
 
     const operations: Operations<File>[] = [
         { name: "opt.details", method: details },
         { name: "opt.edit", method: edit },
         { name: "opt.delete", method: del },
-        { name: "files.export", method: exportFile }
+        { name: "files.export", method: (file) => exportFile(file).catch(console.error) }
     ];
 
     const filters: FilterItem[] = [
@@ -174,7 +159,7 @@ const Files: React.FC = () => {
             query[filter.field] = filter.value.toLocaleString();
         });
 
-        call<ResponseList<File>>(api => api.filesApi.get, query).then(res => setData(res.data));
+        loadFiles(query).then(setData);
     };
 
     const refresh = () => updateData(changeParams);

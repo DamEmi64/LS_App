@@ -22,6 +22,7 @@ import { notify } from '../components/NotificationListener';
 import { get } from '@/lib/utils';
 import { MapRule } from '../types';
 import { map } from '../api/extension';
+import { appStorage } from '@/shared/storage/appStorage';
 
 const authTokenKey = 'authToken';
 const refreshTokenKey = 'refreshToken';
@@ -35,17 +36,17 @@ export type AuthToken = {
     refreshTokenExpiresAt?: string;
 };
 
-export const getAuthToken = () => localStorage.getItem(authTokenKey);
-export const getRefreshToken = () => localStorage.getItem(refreshTokenKey);
-export const getAuthUserId = () => localStorage.getItem(authUserIdKey);
+export const getAuthToken = () => appStorage.get(authTokenKey);
+export const getRefreshToken = () => appStorage.get(refreshTokenKey);
+export const getAuthUserId = () => appStorage.get(authUserIdKey);
 
 export const setAuthToken = (token: string | null) => {
     if (token) {
-        localStorage.setItem(authTokenKey, token);
+        appStorage.set(authTokenKey, token);
     } else {
-        localStorage.removeItem(authTokenKey);
-        localStorage.removeItem(refreshTokenKey);
-        localStorage.removeItem(authUserIdKey);
+        appStorage.remove(authTokenKey);
+        appStorage.remove(refreshTokenKey);
+        appStorage.remove(authUserIdKey);
     }
 };
 
@@ -55,9 +56,9 @@ export const setAuthTokens = (token: AuthToken | null) => {
         return;
     }
 
-    localStorage.setItem(authTokenKey, token.accessToken);
-    localStorage.setItem(refreshTokenKey, token.refreshToken);
-    localStorage.setItem(authUserIdKey, token.userId);
+    appStorage.set(authTokenKey, token.accessToken);
+    appStorage.set(refreshTokenKey, token.refreshToken);
+    appStorage.set(authUserIdKey, token.userId);
 };
 
 type ApiError = {
