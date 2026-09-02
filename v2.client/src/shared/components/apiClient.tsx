@@ -95,7 +95,7 @@ axiosInstance.interceptors.response.use(
         const userId = getAuthUserId();
 
         if (
-            error.response?.status === 401 &&
+            (error.response?.status === 401 || error.response?.status === 403) &&
             originalRequest &&
             !originalRequest._retry &&
             refreshToken &&
