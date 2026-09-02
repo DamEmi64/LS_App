@@ -15,6 +15,7 @@ import {notify, useModal} from "@/shared";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import ResetPasswordForm from './resetPasswordForm';
+import { appStorage } from '@/shared/storage/appStorage';
 
 
 const LoginForm: React.FC<LoginFormProps> = ({ auth, onClose }) => {
@@ -24,8 +25,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ auth, onClose }) => {
 
   const labelColor = theme.palette.text.primary;
 
-  const [username, setUsername] = useState(localStorage.getItem('rememberedUsername') || '');
-  const [password, setPassword] = useState(localStorage.getItem('rememberedPassword') || '');
+  const [username, setUsername] = useState(appStorage.get('rememberedUsername') || '');
+  const [password, setPassword] = useState(appStorage.get('rememberedPassword') || '');
   const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loginFailed, setLoginFailed] = useState(false);
@@ -47,8 +48,8 @@ const LoginForm: React.FC<LoginFormProps> = ({ auth, onClose }) => {
       if (success) {
 
         if (rememberMe) {
-          localStorage.setItem('rememberedUsername', username);
-          localStorage.setItem('rememberedPassword', password);
+          appStorage.set('rememberedUsername', username);
+          appStorage.set('rememberedPassword', password);
         }
 
         onClose();

@@ -6,6 +6,8 @@ import RegisterForm from "@/features/auth/components/registerForm";
 
 import { useModal } from "@/shared/context/modal";
 import { useAuth } from "@/features/auth/context/authProvider";
+import { isNativeApp } from '@/shared/platform';
+import SettingsWrapper from '@/features/system/components/settings/SettingsWrapper';
 
 const AuthPage = () => {
   const modal = useModal();
@@ -19,6 +21,16 @@ const AuthPage = () => {
   const showRegister = () => {
     modal.showModal(<RegisterForm onClose={modal.hideModal} auth={auth} />);
   };
+
+  if (isNativeApp) {
+    return (
+      <Box sx={{ width: "100%", minHeight: "100vh", display: "flex", justifyContent: "center", alignItems: "center", p: 3 }}>
+        <Button variant="contained" onClick={() => modal.showModal(<SettingsWrapper />)}>
+          {t('menu.settings')}
+        </Button>
+      </Box>
+    );
+  }
 
   return (
     <Box

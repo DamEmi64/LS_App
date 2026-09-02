@@ -44,7 +44,7 @@ namespace Communication.Application.Filters
 
             count = data.Count();
 
-            data = data.Skip(PageSize * (Page - 1)).Take(PageSize);
+            data = data.Skip(PageSize * Page).Take(PageSize);
 
             return data;
         }

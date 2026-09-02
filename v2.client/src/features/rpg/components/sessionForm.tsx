@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import {
     Box,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
     TextField,
     Typography,
     useTheme,
@@ -12,8 +16,10 @@ import { SessionDto, Link } from '../types';
 import { ImageProvider } from '@/shared/components/imageProvider';
 import { useForm, Controller, useWatch } from 'react-hook-form';
 import { GridTable } from '@/shared/components/datatables/gridTable';
-import { TableColumn, ColumnType } from '@/shared';
+import { TableColumn, ColumnType, useModal } from '@/shared';
 import noImage from '@/assets/no-image.png';
+import SummarizeIcon from '@mui/icons-material/Summarize';
+import MeetingSummary from './meetingSummary';
 
 type SessionViewProps = {
     data: SessionDto;
@@ -35,10 +41,13 @@ export const SessionView: React.FC<SessionViewProps> = ({
     onCopy
 }) => {
     const theme = useTheme();
+    const modal = useModal();
     const textColor = theme.palette.text.primary;
 
     const [editing, setEditing] = useState(isEdit || isNew);
     const [image, setImage] = useState<string>(data.image || noImage);
+    const [isSummaryDialogOpen, setIsSummaryDialogOpen] = useState(false);
+    const [meetingSummary, setMeetingSummary] = useState('');
 
     const { control, handleSubmit, formState: { errors }, watch, setValue } = useForm<SessionDto>({
         defaultValues: { ...data, image: data.image || noImage },
@@ -57,6 +66,16 @@ export const SessionView: React.FC<SessionViewProps> = ({
     const sessionsColumns: TableColumn<SessionDto>[] = [
         { field: 'start', header: 'rpg.chapter.startDate', type: ColumnType.Date },
         { field: 'end', header: 'rpg.chapter.endDate', type: ColumnType.Date },
+        { field: 'summary', header: 'rpg.story.summary', type: ColumnType.String,
+            render: (row) => (
+                <Button
+                    type="button"
+                    onClick={() => {modal.showModal(<MeetingSummary summary={row.summary || ''} />)}}
+                    variant="outlined"
+                >
+                    <SummarizeIcon />
+                </Button>)
+         }
     ];
 
     const onSubmit = (data: SessionDto) => {
@@ -228,6 +247,20 @@ export const SessionView: React.FC<SessionViewProps> = ({
                                 </Button>
                             )}
                         </Box>
+
+                        <Dialog open={isSummaryDialogOpen} onClose={() => setIsSummaryDialogOpen(false)} fullWidth maxWidth="sm">
+                            <DialogTitle>{t('rpg.story.summary')}</DialogTitle>
+                            <DialogContent>
+                                <Typography sx={{ whiteSpace: 'pre-wrap' }}>
+                                    {meetingSummary}
+                                </Typography>
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={() => setIsSummaryDialogOpen(false)}>
+                                    {t('opt.close')}
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
                     </>
                 )}
             </Grid>

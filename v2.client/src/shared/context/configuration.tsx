@@ -4,8 +4,8 @@ import {
   useContext,
 } from 'react';
 
-import useLocalStorage from 'react-use-localstorage';
 import configuration from '@/app/configuration.json';
+import { useAppStorage } from '@/shared/storage/useAppStorage';
 
 type ConfigKey = keyof typeof configuration;
 
@@ -23,7 +23,7 @@ export function ConfigurationProvider({ children }: { children: ReactNode }) {
   };
 
   const useVariable = (key: ConfigKey) => {
-    const [value, setValue] = useLocalStorage(
+    const [value, setValue] = useAppStorage(
       key,
       configuration[key] ?? ''
     );

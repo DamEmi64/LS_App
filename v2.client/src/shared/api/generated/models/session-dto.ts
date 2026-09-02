@@ -18,5 +18,5 @@ export interface SessionDto {
     'id'?: string;
     'start'?: string;
     'end'?: string | null;
+    'summary'?: string | null;
 }
-
