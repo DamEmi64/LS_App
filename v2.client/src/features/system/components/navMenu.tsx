@@ -17,6 +17,7 @@ import UserEdit from '@/features/auth/components/userEdit';
 import UserProfile from '@/features/auth/components/userProfile';
 import HouseIcon from '@mui/icons-material/House';
 import SettingsWrapper from './settings/SettingsWrapper';
+import { isNativeApp } from '@/shared/platform';
 
 export default function navMenu() {
     const modal = useModal();
@@ -116,7 +117,7 @@ export default function navMenu() {
                     <MenuItem onClick={onDetails}>
                         <Avatar /> {auth.user.login}
                     </MenuItem>)}
-                {auth.user == null && (
+                {auth.user == null && !isNativeApp && (
                     <>
                         <MenuItem onClick={onLogin}>
                             {t('menu.login')}

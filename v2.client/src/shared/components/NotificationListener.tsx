@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { toast, ToastContainer, ToastPosition } from 'react-toastify';
 import { getNotify } from '@/lib/notifyProvider';
 import { useSignalR } from '../hooks/use-signalR';
+import { appStorage } from '@/shared/storage/appStorage';
 
 export const NotificationListener = () => {
     const { on } = useSignalR('notify', () =>
@@ -22,11 +23,11 @@ export const NotificationListener = () => {
 };
 
 export const notify = (type, message) => {
-    const position = localStorage['toastPosition'] || "bottom-right";
-    const autoClose = localStorage['toastAutoClose'] || '3000';
-    const active = localStorage['toastActive'] || 'true';
-    const process = localStorage['toastProcess'] || 'false';
-    const processError = localStorage['toastProcessError'] || 'false';
+    const position = appStorage.get('toastPosition') || "bottom-right";
+    const autoClose = appStorage.get('toastAutoClose') || '3000';
+    const active = appStorage.get('toastActive') || 'true';
+    const process = appStorage.get('toastProcess') || 'false';
+    const processError = appStorage.get('toastProcessError') || 'false';
 
     if (active) {
         switch (type) {

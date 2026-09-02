@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import useLocalStorage from 'react-use-localstorage';
 import { appThemes, AppThemeName, defaultThemeName, getAppTheme, withThemeHelpers } from '@/app/themes';
+import { useAppStorage } from '@/shared/storage/useAppStorage';
 
 type AppThemeContextType = {
     themeName: AppThemeName;
@@ -11,7 +11,7 @@ type AppThemeContextType = {
 const AppThemeContext = createContext<AppThemeContextType | null>(null);
 
 export function AppThemeProvider({ children }: { children: ReactNode }) {
-    const [storedThemeName, setStoredThemeName] = useLocalStorage('theme', defaultThemeName);
+    const [storedThemeName, setStoredThemeName] = useAppStorage('theme', defaultThemeName);
     const [themeName, setThemeNameState] = useState<AppThemeName>(getAppTheme(storedThemeName).name);
 
     const selectedTheme = getAppTheme(themeName);

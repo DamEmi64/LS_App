@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useAuth } from "@/features/auth/context/authProvider";
 import AuthPage from "@/features/auth/pages/AuthPage";
@@ -26,6 +26,17 @@ const Layout = ({
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
     document.title = t(title);
+
+    useEffect(() => {
+        const closeDrawer = (event: Event) => {
+            if (!mobileMenuOpen) return;
+            setMobileMenuOpen(false);
+            event.preventDefault();
+        };
+
+        window.addEventListener('app-back', closeDrawer);
+        return () => window.removeEventListener('app-back', closeDrawer);
+    }, [mobileMenuOpen]);
 
     let toShow;
 
