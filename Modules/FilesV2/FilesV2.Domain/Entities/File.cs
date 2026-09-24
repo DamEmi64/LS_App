@@ -2,14 +2,11 @@
 
 namespace FilesV2.Domain.Entities
 {
-    public class File : Entity
+    public class File : PermittedEntity
     {
         public required string Title { get; set; }
         public string? Description { get; set; }
-        public required FileUser Owner { get; set; }
-        public bool Public { get; set; } = false;
         public Guid Content { get; set; }
-        public List<FileUser> Users { get; set; } = new();
 
         public Directory? Folder { get; set; }
 

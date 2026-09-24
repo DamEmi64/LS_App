@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 
 import {
     Box,
+    Button,
     CircularProgress,
     Grid,
     Paper,
@@ -17,6 +18,8 @@ import { useTranslation } from "react-i18next";
 import { EventDto } from "@/shared/api/generated";
 import { ResponseList } from "@/shared/api/extension";
 import { call } from "@/shared";
+import { isNativeApp } from "@/shared/platform";
+import * as service from "@/features/events/services/eventService";
 
 const toSchedulerEvent = (event: EventDto, index: number): SchedulerEvent | null => {
     if (!event.eventDate) return null;
@@ -92,6 +95,17 @@ const MyEventsPage: React.FC = () => {
                 >
                     {t("events.mySiteTitle")}
                 </Typography>
+
+                {isNativeApp && (
+                    <Button
+                        onClick={() => service.exportCalendarToICS(events)}
+                        variant="outlined"
+                        sx={{ mt: 1 }}
+                        fullWidth={isMobile}
+                    >
+                        {t("opt.export")}
+                    </Button>
+                )}
             </Grid>
 
             <Grid size={{ xs: 12 }}>
@@ -156,7 +170,7 @@ const MyEventsPage: React.FC = () => {
                     )}
                 </Paper>
             </Grid>
-        </Grid>
+        </Grid >
     );
 };
 

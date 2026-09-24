@@ -20,3 +20,4 @@ export interface SessionDto {
     'end'?: string | null;
     'summary'?: string | null;
 }
+

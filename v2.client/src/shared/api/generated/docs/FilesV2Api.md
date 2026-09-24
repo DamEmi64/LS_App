@@ -249,11 +249,9 @@ const configuration = new Configuration();
 const apiInstance = new FilesV2Api(configuration);
 
 let directoryId: string; // (optional) (default to undefined)
-let search: string; // (optional) (default to undefined)
 
 const { status, data } = await apiInstance.get(
-    directoryId,
-    search
+    directoryId
 );
 ```
 
@@ -262,7 +260,6 @@ const { status, data } = await apiInstance.get(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **directoryId** | [**string**] |  | (optional) defaults to undefined|
-| **search** | [**string**] |  | (optional) defaults to undefined|
 
 
 ### Return type

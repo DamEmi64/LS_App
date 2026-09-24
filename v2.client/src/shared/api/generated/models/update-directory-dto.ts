@@ -17,5 +17,6 @@
 export interface UpdateDirectoryDto {
     'title'?: string | null;
     'parentId'?: string | null;
+    'public'?: boolean | null;
 }
 

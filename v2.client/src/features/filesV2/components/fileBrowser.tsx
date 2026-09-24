@@ -5,7 +5,6 @@ import FolderOpenIcon from "@mui/icons-material/FolderOpen";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 
 import FileCard from "./fileCard";
-import FolderCard from "./folderCard";
 import TopBar from "./topBar";
 import NewFolderDialog from "./newFolderDialog";
 
@@ -34,9 +33,11 @@ import {
   createDirectoryEntry,
   deleteDirectoryEntry,
   getDirectoryPath,
+  getDirPrivilage,
   loadDirectories,
   type BreadcrumbItem,
 } from "../services/directoryService";
+import ShareFolderWrapper from "./ShareFolderWrapper";
 
 export default function FileBrowser() {
   const [directoryId, setDirectoryId] = useState<string | null>(null);
@@ -76,6 +77,12 @@ export default function FileBrowser() {
     setDirectoryId(id);
     setPath(await getDirectoryPath(id));
   };
+
+  const handleEditDirectory = async (directory: Directory) => {
+    modal.showModal(
+      <ShareFolderWrapper directory={directory} onSubmit={() => {}} />
+    );
+  }
 
   const handleUploadClick = () => {
     modal.showModal(
@@ -149,14 +156,21 @@ export default function FileBrowser() {
 
   const items = useMemo<FileItem[]>(
     () => [
-      ...directories.map((directory) => ({
+      ...directories.map((directory) => {
+        const privilage = getDirPrivilage(directory, user);
+
+        return {
         id: directory.id,
         name: directory.title,
         icon: <FolderOpenIcon />,
         onClick: () => void handleSelectDirectory(directory.id),
+        onDelete: () => void deleteDirectory(directory.id),
+        onDetails: () => {},
+        onEdit: () => {handleEditDirectory(directory)},
         type: "folder" as const,
-        privilage: Privilage.READ,
-      })),
+        privilage: privilage,
+      } as FileItem;
+      }),
       ...files.map((file) => {
         const privilage = getFilePrivilage(file, user);
 
@@ -232,18 +246,7 @@ export default function FileBrowser() {
                     key={item.id}
                     size={{ xs: 12, sm: 6, md: 4, lg: 3 }}
                   >
-                    {item.type === "folder" ? (
-                      <FolderCard
-                        id={item.id}
-                        name={item.name}
-                        icon={item.icon}
-                        onClick={item.onClick}
-                        onDelete={() => deleteDirectory(item.id)}
-                        type="folder"
-                        privilage={item.privilage}
-                      />
-                    ) : (
-                      <FileCard
+                    <FileCard
                         id={item.id}
                         name={item.name}
                         icon={item.icon}
@@ -251,10 +254,9 @@ export default function FileBrowser() {
                         onDelete={item.onDelete}
                         onDetails={item.onDetails}
                         onEdit={item.onEdit}
-                        type="file"
+                        type={item.type}
                         privilage={item.privilage}
                       />
-                    )}
                   </Grid>
                 ))}
             </Grid>

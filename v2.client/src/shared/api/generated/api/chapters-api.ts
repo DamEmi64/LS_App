@@ -260,10 +260,11 @@ export const ChaptersApiAxiosParamCreator = function (configuration?: Configurat
         /**
          * 
          * @param {string} id 
+         * @param {string} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateByIdEnd: async (id: string, summary?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateByIdEnd: async (id: string, body?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateByIdEnd', 'id', id)
             const localVarPath = `/api/Chapters/{id}/end`
@@ -288,7 +289,7 @@ export const ChaptersApiAxiosParamCreator = function (configuration?: Configurat
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            localVarRequestOptions.data = serializeDataIfNeeded(summary, localVarRequestOptions, configuration)
+            localVarRequestOptions.data = serializeDataIfNeeded(body, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -485,11 +486,12 @@ export const ChaptersApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {string} id 
+         * @param {string} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateByIdEnd(id: string, summary?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateByIdEnd(id, summary, options);
+        async updateByIdEnd(id: string, body?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateByIdEnd(id, body, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ChaptersApi.updateByIdEnd']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -592,7 +594,7 @@ export const ChaptersApiFactory = function (configuration?: Configuration, baseP
          * @throws {RequiredError}
          */
         updateByIdEnd(requestParameters: ChaptersApiUpdateByIdEndRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.updateByIdEnd(requestParameters.id, requestParameters.summary, options).then((request) => request(axios, basePath));
+            return localVarFp.updateByIdEnd(requestParameters.id, requestParameters.body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -679,7 +681,7 @@ export interface ChaptersApiUpdateByIdRequest {
 export interface ChaptersApiUpdateByIdEndRequest {
     readonly id: string
 
-    readonly summary?: string
+    readonly body?: string
 }
 
 /**
@@ -766,7 +768,7 @@ export class ChaptersApi extends BaseAPI {
      * @throws {RequiredError}
      */
     public updateByIdEnd(requestParameters: ChaptersApiUpdateByIdEndRequest, options?: RawAxiosRequestConfig) {
-        return ChaptersApiFp(this.configuration).updateByIdEnd(requestParameters.id, requestParameters.summary, options).then((request) => request(this.axios, this.basePath));
+        return ChaptersApiFp(this.configuration).updateByIdEnd(requestParameters.id, requestParameters.body, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -799,3 +801,4 @@ export class ChaptersApi extends BaseAPI {
         return ChaptersApiFp(this.configuration).updateByIdStart(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 }
+
