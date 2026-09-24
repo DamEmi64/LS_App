@@ -95,7 +95,7 @@ axiosInstance.interceptors.response.use(
         const userId = getAuthUserId();
 
         if (
-            error.response?.status === 401 &&
+            (error.response?.status === 401 || error.response?.status === 403) &&
             originalRequest &&
             !originalRequest._retry &&
             refreshToken &&
@@ -128,7 +128,10 @@ axiosInstance.interceptors.response.use(
             !error.message.startsWith('Request failed with status')
         ) {
             notify('error', error.message);
-        } else if (error.response?.data?.message) {
+        } else if (typeof error.response?.data === 'string') {
+            notify('error', error.response.data);
+        }
+        else if (error.response?.data?.message) {
             notify('error', error.response.data.message);
         }
 
@@ -167,12 +170,12 @@ export const API = {
     eventClient: bindApi(new EventsApi(null, '', axiosInstance)),
     communicationHistoryClient: bindApi(new CommunicationHistoryApi(null, '', axiosInstance)),
     discordClient: bindApi(new DiscordApi(null, '', axiosInstance)),
-    filesV2Api: bindApi(new FilesV2Api(null,'',axiosInstance)),
-    directoriesApi: bindApi(new DirectoriesApi(null,'',axiosInstance)) 
+    filesV2Api: bindApi(new FilesV2Api(null, '', axiosInstance)),
+    directoriesApi: bindApi(new DirectoriesApi(null, '', axiosInstance))
 };
 
-export const call = async <TRes = unknown,TReq = unknown>(
-    selector: (api: typeof API) => (req:TReq) => Promise<any>,
+export const call = async <TRes = unknown, TReq = unknown>(
+    selector: (api: typeof API) => (req: TReq) => Promise<any>,
     input: any,
     mapResponse?: (data: any) => TRes
 ): Promise<TRes> => {

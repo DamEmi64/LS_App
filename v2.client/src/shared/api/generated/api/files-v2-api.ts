@@ -218,11 +218,10 @@ export const FilesV2ApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * 
          * @param {string} [directoryId] 
-         * @param {string} [search] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        get: async (directoryId?: string, search?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        get: async (directoryId?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/FilesV2`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -241,10 +240,6 @@ export const FilesV2ApiAxiosParamCreator = function (configuration?: Configurati
 
             if (directoryId !== undefined) {
                 localVarQueryParameter['directoryId'] = directoryId;
-            }
-
-            if (search !== undefined) {
-                localVarQueryParameter['search'] = search;
             }
 
             localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
@@ -500,12 +495,11 @@ export const FilesV2ApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {string} [directoryId] 
-         * @param {string} [search] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async get(directoryId?: string, search?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FileV2Dto>>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.get(directoryId, search, options);
+        async get(directoryId?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FileV2Dto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.get(directoryId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['FilesV2Api.get']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -615,7 +609,7 @@ export const FilesV2ApiFactory = function (configuration?: Configuration, basePa
          * @throws {RequiredError}
          */
         get(requestParameters: FilesV2ApiGetRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<Array<FileV2Dto>> {
-            return localVarFp.get(requestParameters.directoryId, requestParameters.search, options).then((request) => request(axios, basePath));
+            return localVarFp.get(requestParameters.directoryId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -701,8 +695,6 @@ export interface FilesV2ApiDeleteByIdUsersByUserIdRequest {
  */
 export interface FilesV2ApiGetRequest {
     readonly directoryId?: string
-
-    readonly search?: string
 }
 
 /**
@@ -794,7 +786,7 @@ export class FilesV2Api extends BaseAPI {
      * @throws {RequiredError}
      */
     public get(requestParameters: FilesV2ApiGetRequest = {}, options?: RawAxiosRequestConfig) {
-        return FilesV2ApiFp(this.configuration).get(requestParameters.directoryId, requestParameters.search, options).then((request) => request(this.axios, this.basePath));
+        return FilesV2ApiFp(this.configuration).get(requestParameters.directoryId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

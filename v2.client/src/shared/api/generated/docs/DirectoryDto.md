@@ -10,6 +10,9 @@ Name | Type | Description | Notes
 **parentId** | **string** |  | [optional] [default to undefined]
 **childDirectoryCount** | **number** |  | [optional] [default to undefined]
 **fileCount** | **number** |  | [optional] [default to undefined]
+**owner** | **string** |  | [optional] [default to undefined]
+**_public** | **boolean** |  | [optional] [default to undefined]
+**fileUsers** | [**Array&lt;FileUserDto&gt;**](FileUserDto.md) |  | [optional] [default to undefined]
 
 ## Example
 
@@ -22,6 +25,9 @@ const instance: DirectoryDto = {
     parentId,
     childDirectoryCount,
     fileCount,
+    owner,
+    _public,
+    fileUsers,
 };
 ```
 

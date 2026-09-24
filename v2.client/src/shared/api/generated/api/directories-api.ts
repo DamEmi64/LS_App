@@ -26,6 +26,10 @@ import type { CreateDirectoryDto } from '../models';
 // @ts-ignore
 import type { DirectoryDto } from '../models';
 // @ts-ignore
+import type { FileUserDto } from '../models';
+// @ts-ignore
+import type { GrantAccessDto } from '../models';
+// @ts-ignore
 import type { UpdateDirectoryDto } from '../models';
 /**
  * DirectoriesApi - axios parameter creator
@@ -71,6 +75,46 @@ export const DirectoriesApiAxiosParamCreator = function (configuration?: Configu
         /**
          * 
          * @param {string} id 
+         * @param {GrantAccessDto} [grantAccessDto] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createByIdUsers: async (id: string, grantAccessDto?: GrantAccessDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('createByIdUsers', 'id', id)
+            const localVarPath = `/api/Directories/{id}/users`
+                .replace('{id}', encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(grantAccessDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -79,6 +123,46 @@ export const DirectoriesApiAxiosParamCreator = function (configuration?: Configu
             assertParamExists('deleteById', 'id', id)
             const localVarPath = `/api/Directories/{id}`
                 .replace('{id}', encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {string} userId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteByIdUsersByUserId: async (id: string, userId: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('deleteByIdUsersByUserId', 'id', id)
+            // verify required parameter 'userId' is not null or undefined
+            assertParamExists('deleteByIdUsersByUserId', 'userId', userId)
+            const localVarPath = `/api/Directories/{id}/users/{userId}`
+                .replace('{id}', encodeURIComponent(String(id)))
+                .replace('{userId}', encodeURIComponent(String(userId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
             let baseOptions;
@@ -182,6 +266,43 @@ export const DirectoriesApiAxiosParamCreator = function (configuration?: Configu
         /**
          * 
          * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getByIdUsers: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getByIdUsers', 'id', id)
+            const localVarPath = `/api/Directories/{id}/users`
+                .replace('{id}', encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
          * @param {UpdateDirectoryDto} [updateDirectoryDto] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -243,6 +364,19 @@ export const DirectoriesApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {string} id 
+         * @param {GrantAccessDto} [grantAccessDto] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createByIdUsers(id: string, grantAccessDto?: GrantAccessDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FileUserDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createByIdUsers(id, grantAccessDto, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DirectoriesApi.createByIdUsers']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -250,6 +384,19 @@ export const DirectoriesApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.deleteById(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DirectoriesApi.deleteById']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {string} userId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteByIdUsersByUserId(id: string, userId: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteByIdUsersByUserId(id, userId, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DirectoriesApi.deleteByIdUsersByUserId']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -274,6 +421,18 @@ export const DirectoriesApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getById(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['DirectoriesApi.getById']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getByIdUsers(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<FileUserDto>>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getByIdUsers(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['DirectoriesApi.getByIdUsers']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -309,12 +468,30 @@ export const DirectoriesApiFactory = function (configuration?: Configuration, ba
         },
         /**
          * 
+         * @param {DirectoriesApiCreateByIdUsersRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createByIdUsers(requestParameters: DirectoriesApiCreateByIdUsersRequest, options?: RawAxiosRequestConfig): AxiosPromise<FileUserDto> {
+            return localVarFp.createByIdUsers(requestParameters.id, requestParameters.grantAccessDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {DirectoriesApiDeleteByIdRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         deleteById(requestParameters: DirectoriesApiDeleteByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.deleteById(requestParameters.id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {DirectoriesApiDeleteByIdUsersByUserIdRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteByIdUsersByUserId(requestParameters: DirectoriesApiDeleteByIdUsersByUserIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.deleteByIdUsersByUserId(requestParameters.id, requestParameters.userId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -336,6 +513,15 @@ export const DirectoriesApiFactory = function (configuration?: Configuration, ba
         },
         /**
          * 
+         * @param {DirectoriesApiGetByIdUsersRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getByIdUsers(requestParameters: DirectoriesApiGetByIdUsersRequest, options?: RawAxiosRequestConfig): AxiosPromise<Array<FileUserDto>> {
+            return localVarFp.getByIdUsers(requestParameters.id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {DirectoriesApiUpdateByIdRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -354,10 +540,28 @@ export interface DirectoriesApiCreateRequest {
 }
 
 /**
+ * Request parameters for createByIdUsers operation in DirectoriesApi.
+ */
+export interface DirectoriesApiCreateByIdUsersRequest {
+    readonly id: string
+
+    readonly grantAccessDto?: GrantAccessDto
+}
+
+/**
  * Request parameters for deleteById operation in DirectoriesApi.
  */
 export interface DirectoriesApiDeleteByIdRequest {
     readonly id: string
+}
+
+/**
+ * Request parameters for deleteByIdUsersByUserId operation in DirectoriesApi.
+ */
+export interface DirectoriesApiDeleteByIdUsersByUserIdRequest {
+    readonly id: string
+
+    readonly userId: string
 }
 
 /**
@@ -371,6 +575,13 @@ export interface DirectoriesApiGetRequest {
  * Request parameters for getById operation in DirectoriesApi.
  */
 export interface DirectoriesApiGetByIdRequest {
+    readonly id: string
+}
+
+/**
+ * Request parameters for getByIdUsers operation in DirectoriesApi.
+ */
+export interface DirectoriesApiGetByIdUsersRequest {
     readonly id: string
 }
 
@@ -399,12 +610,32 @@ export class DirectoriesApi extends BaseAPI {
 
     /**
      * 
+     * @param {DirectoriesApiCreateByIdUsersRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public createByIdUsers(requestParameters: DirectoriesApiCreateByIdUsersRequest, options?: RawAxiosRequestConfig) {
+        return DirectoriesApiFp(this.configuration).createByIdUsers(requestParameters.id, requestParameters.grantAccessDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @param {DirectoriesApiDeleteByIdRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     public deleteById(requestParameters: DirectoriesApiDeleteByIdRequest, options?: RawAxiosRequestConfig) {
         return DirectoriesApiFp(this.configuration).deleteById(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {DirectoriesApiDeleteByIdUsersByUserIdRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public deleteByIdUsersByUserId(requestParameters: DirectoriesApiDeleteByIdUsersByUserIdRequest, options?: RawAxiosRequestConfig) {
+        return DirectoriesApiFp(this.configuration).deleteByIdUsersByUserId(requestParameters.id, requestParameters.userId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -425,6 +656,16 @@ export class DirectoriesApi extends BaseAPI {
      */
     public getById(requestParameters: DirectoriesApiGetByIdRequest, options?: RawAxiosRequestConfig) {
         return DirectoriesApiFp(this.configuration).getById(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {DirectoriesApiGetByIdUsersRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public getByIdUsers(requestParameters: DirectoriesApiGetByIdUsersRequest, options?: RawAxiosRequestConfig) {
+        return DirectoriesApiFp(this.configuration).getByIdUsers(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **title** | **string** |  | [optional] [default to undefined]
 **parentId** | **string** |  | [optional] [default to undefined]
+**_public** | **boolean** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -16,6 +17,7 @@ import { UpdateDirectoryDto } from './api';
 const instance: UpdateDirectoryDto = {
     title,
     parentId,
+    _public,
 };
 ```
 

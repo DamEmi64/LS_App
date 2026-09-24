@@ -5,7 +5,7 @@ import { t } from 'i18next';
 import { FileItem, Privilage } from '../types'
 
 
-const FileCard: React.FC<FileItem> = ({ name, icon, onClick, onDetails, onEdit, onDelete, privilage }) => {
+const FileCard: React.FC<FileItem> = ({ name, icon, onClick, onDetails, onEdit, onDelete, privilage, type }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -25,6 +25,12 @@ const FileCard: React.FC<FileItem> = ({ name, icon, onClick, onDetails, onEdit, 
       handleMenuClose();
     };
   };
+
+  const menuItems = [
+    { label: t("opt.details"), action: onDetails, show: type !== "folder" },
+    { label: t("opt.edit"), action: onEdit, show: privilage === Privilage.OWNER || privilage === Privilage.WRITE },
+    { label: t("opt.delete"), action: onDelete, show: privilage === Privilage.OWNER },
+  ].filter(item => item.show);
 
   return (
     <Card
@@ -91,48 +97,38 @@ const FileCard: React.FC<FileItem> = ({ name, icon, onClick, onDetails, onEdit, 
         </CardContent>
       </CardActionArea>
 
-      <CardActions
-        sx={{
-          p: 0.5,
-          flexShrink: 0,
-        }}
-      >
-        <IconButton
-          onClick={handleMenuOpen}
-          onMouseDown={(e) => e.stopPropagation()}
+      {menuItems.length > 0 && (<>
+        <CardActions
           sx={{
-            width: 44,
-            height: 44,
+            p: 0.5,
+            flexShrink: 0,
           }}
         >
-          <MoreVertIcon />
-        </IconButton>
-      </CardActions>
-
-      <Menu
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleMenuClose}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <MenuItem onClick={handleMenuItemClick(onDetails)}>
-          {t("opt.details")}
-        </MenuItem>
-
-        {(privilage === Privilage.OWNER || privilage === Privilage.WRITE) && (
-          <>
-            <MenuItem onClick={handleMenuItemClick(onEdit)}>
-              {t("opt.edit")}
+          <IconButton
+            onClick={handleMenuOpen}
+            onMouseDown={(e) => e.stopPropagation()}
+            sx={{
+              width: 44,
+              height: 44,
+            }}
+          >
+            <MoreVertIcon />
+          </IconButton>
+        </CardActions>
+        <Menu
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleMenuClose}
+          onClick={(e) => e.stopPropagation()}
+        >
+          {menuItems.map((item, index) => (
+            <MenuItem key={index} onClick={handleMenuItemClick(item.action)}>
+              {item.label}
             </MenuItem>
-
-            {privilage === Privilage.OWNER && (
-              <MenuItem onClick={handleMenuItemClick(onDelete)}>
-                {t("opt.delete")}
-              </MenuItem>
-            )}
-          </>
-        )}
-      </Menu>
+          ))}
+        </Menu>
+      </>
+      )}
     </Card>
   );
 };

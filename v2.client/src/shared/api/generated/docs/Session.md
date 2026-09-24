@@ -12,6 +12,7 @@ Name | Type | Description | Notes
 **updBy** | **string** |  | [optional] [default to undefined]
 **start** | **string** |  | [optional] [default to undefined]
 **end** | **string** |  | [optional] [default to undefined]
+**summary** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -26,6 +27,7 @@ const instance: Session = {
     updBy,
     start,
     end,
+    summary,
 };
 ```
 

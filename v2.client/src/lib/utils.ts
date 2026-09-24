@@ -141,6 +141,15 @@ export function getDictionary(dictionaryName: string): DictionaryItem[] {
     }));
 }
 
+export function uint8ArrayToBase64(bytes: Uint8Array): string {
+  let binary = "";
+  const chunkSize = 0x8000;
+  for (let i = 0; i < bytes.length; i += chunkSize) {
+    const chunk = bytes.subarray(i, Math.min(i + chunkSize, bytes.length));
+    binary += String.fromCharCode(...chunk);
+  } return btoa(binary);
+}
+
 export interface DictionaryItem {
     key: string;
     title: string;
