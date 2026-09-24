@@ -303,9 +303,11 @@ const configuration = new Configuration();
 const apiInstance = new ChaptersApi(configuration);
 
 let id: string; // (default to undefined)
+let body: string; // (optional)
 
 const { status, data } = await apiInstance.updateByIdEnd(
-    id
+    id,
+    body
 );
 ```
 
@@ -313,6 +315,7 @@ const { status, data } = await apiInstance.updateByIdEnd(
 
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
+| **body** | **string**|  | |
 | **id** | [**string**] |  | defaults to undefined|
 
 
@@ -326,7 +329,7 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json-patch+json, application/json, text/json, application/*+json
  - **Accept**: Not defined
 
 

@@ -4,5 +4,6 @@
     {
         public string? Title { get; set; }
         public Guid? ParentId { get; set; }
+        public bool? Public { get; set; }
     }
 }

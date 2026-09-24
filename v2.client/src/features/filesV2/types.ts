@@ -42,6 +42,9 @@ export interface Directory {
     'parentId'?: string | null;
     'childDirectoryCount'?: number;
     'fileCount'?: number;
+    'public'?: boolean;
+    'owner'?: string | null;
+    'fileUsers'?: Array<FileUser> | null;
 }
 
 export interface FileV2 {

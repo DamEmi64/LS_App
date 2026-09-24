@@ -13,6 +13,9 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import type { FileUserDto } from './file-user-dto';
 
 export interface DirectoryDto {
     'id'?: string;
@@ -20,5 +23,8 @@ export interface DirectoryDto {
     'parentId'?: string | null;
     'childDirectoryCount'?: number;
     'fileCount'?: number;
+    'owner'?: string | null;
+    'public'?: boolean;
+    'fileUsers'?: Array<FileUserDto> | null;
 }
 

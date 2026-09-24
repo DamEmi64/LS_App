@@ -14,9 +14,9 @@ using System.Infrastructure.Services.ConnectorResolver;
 
 namespace Connector
 {
-    public class Connector : ConnectorStartup
+    public class LocalConnector : ConnectorStartup
     {
-        public Connector(IHostApplicationBuilder builder) : base(builder)
+        public LocalConnector(IHostApplicationBuilder builder) : base(builder)
         {
         }
 
@@ -24,6 +24,7 @@ namespace Connector
         {
             new DriveModule().Info(),
             new SystemModule().Info(),
+            new FilesModule().Info(),
             new RPGModule().Info(),
             new CommunicationModule().Info(),
             new AutomationModule().Info(),
