@@ -2,7 +2,7 @@
 
 namespace FilesV2.Domain.Entities
 {
-    public class Directory : Entity
+    public class Directory : PermittedEntity
     {
         public required string Title { get; set; }
 

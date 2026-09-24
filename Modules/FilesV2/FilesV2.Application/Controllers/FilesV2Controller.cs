@@ -85,7 +85,7 @@ namespace FilesV2.Application.Controllers
                 Content = contentId,
                 Public = request.Public,
                 Folder = directory,
-                Owner = new FileUser
+                Owner = new CatalogUser
                 {
                     UserId = CurrentUser.UserId,
                     Login = CurrentUser.Login ?? string.Empty,
@@ -190,7 +190,7 @@ namespace FilesV2.Application.Controllers
             }
             else
             {
-                file.Users.Add(new FileUser
+                file.Users.Add(new CatalogUser
                 {
                     UserId = request.UserId,
                     Login = request.Login,

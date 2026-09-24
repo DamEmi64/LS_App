@@ -24,3 +24,4 @@ export interface Session {
     'end'?: string | null;
     'summary'?: string | null;
 }
+

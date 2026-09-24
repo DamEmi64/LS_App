@@ -145,7 +145,7 @@ namespace System.Infrastructure.Services.Admin
 
         public IEnumerable<Log> GetLogs()
         {
-            return _logRepository.GetAll();
+            return _logRepository.GetAll().Where(x=>!x.HttpUri?.ToLower().Contains("admin") ?? true);
         }
 
         public async Task<IList<Claim>> GetRolePermissions(IdentityRole role)
