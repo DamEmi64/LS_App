@@ -1,12 +1,8 @@
 import { call } from "@/shared";
 import { ResponseList } from "@/shared/api/extension";
 import { EventDto } from "@/shared/api/generated";
-import { createEvents, EventAttributes } from "ics";
-import { Filesystem, Directory } from "@capacitor/filesystem";
-import { Share } from "@capacitor/share";
 
 import { EventBody, EventParticipant } from "../types";
-import { uint8ArrayToBase64 } from "@/lib/utils";
 
 export async function loadEvents(query: Record<string, string>) {
   const result = await call<ResponseList<EventDto>>(api => api.eventClient.get, query);
@@ -78,84 +74,4 @@ export function createEventReminder(id: string, reminderDate: Date) {
 
 export function deleteEventReminder(id: string) {
   return call(api => api.eventClient.deleteByIdReminder, { id });
-}
-
-export async function exportCalendarToICS(
-  events: EventDto[]
-): Promise<string> {
-  const icsEvents: EventAttributes[] = [];
-
-  for (const event of events) {
-    if (!event.eventDate) {
-      continue;
-    }
-
-    const start = new Date(event.eventDate);
-
-    if (Number.isNaN(start.getTime())) {
-      console.warn(
-        `Skipping event ${event.id}: invalid eventDate`
-      );
-      continue;
-    }
-
-    const end = new Date(
-      start.getTime() + 60 * 60 * 1000
-    );
-
-    icsEvents.push({
-      uid: event.id ?? crypto.randomUUID(),
-      title: event.title ?? "Event",
-      description: event.description ?? "",
-      start: [
-        start.getFullYear(),
-        start.getMonth() + 1,
-        start.getDate(),
-        start.getHours(),
-        start.getMinutes(),
-      ],
-      end: [
-        end.getFullYear(),
-        end.getMonth() + 1,
-        end.getDate(),
-        end.getHours(),
-        end.getMinutes(),
-      ],
-    });
-  }
-
-  if (icsEvents.length === 0) {
-    throw new Error("No valid events to export");
-  }
-
-  // Generate the ICS calendar
-  const { error, value } = createEvents(icsEvents);
-
-  if (error || !value) {
-    throw error ?? new Error("Failed to generate ICS file");
-  }
-
-  // Convert UTF-8 string to Base64 safely
-  const base64 = uint8ArrayToBase64(
-    new TextEncoder().encode(value)
-  );
-
-  // Save ICS file into Capacitor cache
-  const fileName = `calendar-${Date.now()}.ics`;
-
-  const { uri } = await Filesystem.writeFile({
-    path: fileName,
-    data: base64,
-    directory: Directory.Cache,
-  });
-
-  // Open native share/open dialog
-  await Share.share({
-    title: "Calendar",
-    text: "Import calendar events",
-    url: uri,
-    dialogTitle: "Open calendar with...",
-  });
-
-  return uri;
 }

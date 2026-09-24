@@ -155,5 +155,3 @@ export interface DictionaryItem {
     title: string;
     description?: string;
 }
-
-

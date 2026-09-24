@@ -1,5 +1,5 @@
 {
-  "apiEndpoint": "https://localhost:5144",
+  "apiEndpoint": "https://lsfamilia.runasp.net/",
   "labelColor": "#111827",
   "toastPosition": "bottom-right",
   "toastAutoClose": "3000",
