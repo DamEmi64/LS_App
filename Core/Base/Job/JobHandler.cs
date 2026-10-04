@@ -23,15 +23,13 @@ public abstract class JobHandler<T> : IRequestHandler<T, Result> where T : IJob
         {
             await _jobContext.OnStart();
             await Execute(request);
+            await _jobContext.OnComplete(true);
         }
         catch (Exception ex)
         {
             await LogError(ex.Message);
+            await _jobContext.OnComplete(false);
             throw;
-        }
-        finally
-        {
-            await _jobContext.OnComplete();
         }
 
         return Result.Ok();
