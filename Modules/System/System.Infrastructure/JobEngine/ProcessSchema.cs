@@ -135,6 +135,8 @@ namespace System.Infrastructure.JobEngine
             Process.Jobs.Add(entity);
             ArgumentNullException.ThrowIfNull(Job);
             Job.Children.Add(job);
+            var processJob = Process.Jobs.First(x => x.Id == Job.Id);
+            processJob.Children.Add(entity);
 
             return new ProcessJobSchema(job, this, Process, Jobs, Milestones);
         }

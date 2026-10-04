@@ -201,6 +201,8 @@ namespace System.Infrastructure
         {
             var connectionString = AppConfiguration.DefaultConnectionString;
 
+            GlobalJobFilters.Filters.Add(new AutomaticRetryAttribute { Attempts = 3 });
+
             return services.AddScoped<IJobEngine, JobEngine.JobEngine>()
                 .AddScoped<IMilestoneWorker, MilestoneWorker>()
                 .AddScoped<ArchiveLogsWorker>()
