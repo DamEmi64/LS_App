@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 
 namespace Communication.Infrastructure.Connect.SendEmail
 {
-    public class EmailSender : Base.EventHandler<Base.SendEmail>
+    public class EmailSender : Base.ConnectMethod<Base.SendEmail>
     {
         private readonly EmailOptions _options;
         private readonly ICommunicationHistoryRepository _mailHistoryRepository;

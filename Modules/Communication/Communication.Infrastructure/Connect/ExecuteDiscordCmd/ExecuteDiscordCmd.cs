@@ -4,7 +4,7 @@ using CommunicationBase.Interfaces;
 
 namespace Communication.Infrastructure.Connect.ExecuteDiscordCmd
 {
-    public class ExecuteDiscordCmd : Base.EventHandler<ExecuteDiscordCmdEvent, DiscordResponse>
+    public class ExecuteDiscordCmd : Base.ConnectMethod<ExecuteDiscordCmdEvent, DiscordResponse>
     {
         private readonly IDiscordCommandDispatcher _discordCommandDispatcher;
 

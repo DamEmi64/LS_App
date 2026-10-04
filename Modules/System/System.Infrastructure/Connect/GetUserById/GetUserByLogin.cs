@@ -5,7 +5,7 @@ using System.Domain.Entities;
 
 namespace System.Infrastructure.Connect.GetUserById
 {
-    public class GetUserByLogin : Base.EventHandler<Base.GetUserByLogin, UserData?>
+    public class GetUserByLogin : Base.ConnectMethod<Base.GetUserByLogin, UserData?>
     {
         private readonly UserManager<User> _userManager;
 
