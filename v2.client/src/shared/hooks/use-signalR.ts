@@ -29,7 +29,7 @@ export const useSignalR = (hubName: string, onConnected?: () => void) => {
     notify('error', 'Hub ' + hubName + ' not found');
   }
 
-  const hubUrl = ednpoint + '/' + hub.url;
+  const hubUrl = `${ednpoint.replace(/\/+$/, '')}/${hub.url.replace(/^\/+/, '')}`;
 
   // 🚀 Start connection
   useEffect(() => {
@@ -61,7 +61,7 @@ export const useSignalR = (hubName: string, onConnected?: () => void) => {
     return () => {
       connection.stop();
     };
-  }, [hubName]);
+  }, [hubName, hubUrl]);
 
   // 📡 Subscribe
   const on = useCallback((event: string, handler: Handler) => {
