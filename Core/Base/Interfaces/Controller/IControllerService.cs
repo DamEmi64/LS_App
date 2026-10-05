@@ -29,7 +29,7 @@ namespace Base
         /// <summary>
         ///    Notifier instance
         /// </summary>
-        public INotifier Notifier { get; }
+        public ILogNotifier Notifier { get; }
 
         /// <summary>
         ///     List of all register users

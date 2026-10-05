@@ -46,74 +46,20 @@ import { ErrorHandlerProvider } from "@/shared/context/errorHandler";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { NotificationListener } from "@/shared/components/NotificationListener";
-import { NavbarItemProps } from "@/shared";
 import PlayerViewPage from "@/features/rpg/pages/PlayerViewPage";
-import { Configuration } from "@/shared/api/generated";
+import { getConfiguration } from '@/app/configurationData';
 import { ConfigurationProvider } from "@/shared/context/configuration";
 import CommunicationRegistry from "@/features/mail/pages/CommunicationRegistry";
 import { AppThemeProvider } from "@/shared/context/theme";
 import { AndroidBackButtonHandler } from '@/shared/components/AndroidBackButtonHandler';
+import AppUpdateSettings from '@/features/system/components/settings/AppUpdateSettings';
 
 const queryClient = new QueryClient();
 
-const menu: NavbarItemProps[] = [
-    { label: 'home', href: '/', submenu: [] },
-    { label: 'files', href: '/filesV2', submenu: [], permissions:["filesV2"] },
-    {
-        label: 'communication', href: '', submenu: [
-            {
-                label: 'emails', href: '/Emails',
-                submenu: []
-            },
-            {
-                label: 'templates', href: '/Templates',
-                submenu: []
-            },
-            {
-                label: 'discord', href: '/discord',
-                submenu: [],
-                permissions: ['communication']
-            },
-            {
-                label: 'communicationRegistry', href: '/communicationHistory',
-                submenu: [],
-                permissions: ['communication-registry']
-            },
-        ], permissions: ['communication']
-    },
-    {
-        label: 'events', href: '', submenu: [
-            {
-                label: 'allEvents', href: '/events',
-                submenu: [],
-                permissions: ['events']
-            },
-            {
-                label: 'myEvents', href: '/events/me',
-                submenu: [],
-                permissions: ['events']
-            },
-        ],
-        permissions: ['events']
-    },
-    {
-        label: 'rpg_sessions', href: '', submenu: [
-            {
-                label: 'rpg_sessions', href: '/rpg',
-                submenu: [],
-                permissions: ['rpg']
-            },
-            {
-                label: 'draft', href: '/rpg/drafts',
-                submenu: [],
-                permissions: ['rpg-draft']
-            },
-        ], permissions: ['rpg']
-    },
-    { label: 'automations', href: '/automations', submenu: [], permissions: ['automation'] }
-];
+const App = () => {
+    const menu = getConfiguration().menu;
 
-const App = () => (
+    return (
     <ConfigurationProvider>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <AppThemeProvider>
@@ -123,6 +69,7 @@ const App = () => (
                             <QueryClientProvider client={queryClient}>
                                 <BrowserRouter>
                                     <AndroidBackButtonHandler />
+                                    <AppUpdateSettings autoCheck showControls={false} />
                                     <SlideRoutes>
                                         <Route path="/" element={<Layout content={Index} image={IndexImg} title={'menu.home'} menu={menu} />} />
                                         <Route path="/processes" element={<Layout content={Processes} image={ProcessesImg} title={'menu.processes'} permissions={['processes']} menu={menu} />} />
@@ -153,6 +100,7 @@ const App = () => (
     </ConfigurationProvider>
 
 
-);
+    );
+};
 
 export default App;

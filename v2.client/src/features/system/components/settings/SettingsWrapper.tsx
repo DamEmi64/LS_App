@@ -6,6 +6,7 @@ import GeneralSettings from "./generalSettings";
 import NotificationSettings from "./NotificationSettings";
 import AccountSettings from './AccountSettings';
 import { isNativeApp } from '@/shared/platform';
+import AppUpdateSettings from './AppUpdateSettings';
 
 const SettingsWrapper: React.FC = () => {
     const { t } = useTranslation();
@@ -15,6 +16,10 @@ const SettingsWrapper: React.FC = () => {
         {
             label: t('settings.general'),
             content: (<GeneralSettings />)
+        },
+        {
+            label: t('settings.system'),
+            content: (<AppUpdateSettings />)
         },
         {
             label: t('settings.server'),

@@ -10,7 +10,7 @@ namespace Base
     public class BaseController : Controller
     {
         private readonly IControllerService _controllerService;
-        protected INotifier Notifier => _controllerService.Notifier;
+        protected ILogNotifier Notifier => _controllerService.Notifier;
 
         public BaseController(IControllerService controllerService)
         {

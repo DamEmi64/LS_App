@@ -9,6 +9,7 @@
   <ItemGroup>
 	<FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="FluentResults" Version="4.0.0" />
+    <PackageReference Include="FluentValidation" Version="12.1.1" />
     <PackageReference Include="MediatR" Version="12.5.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="10.0.8" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.0.1" />

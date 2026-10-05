@@ -106,9 +106,11 @@ namespace FilesV2.Application.Controllers
             if (file is null || CurrentUser is null) return NotFound();
             if (!FileRepository.HasReadAccess(file, CurrentUser.UserId)) return Forbid();
 
-            var media = await _mediaProvider.Load(file.Content);
+            var media = await _mediaProvider.Load(file.Content, true);
             if (media is null) return NotFound();
 
+            if (!string.IsNullOrEmpty(media.ContentStr) && media.Content is null)
+                media.Content = Convert.FromBase64String(media.ContentStr);
             return Json(media);
         }
 

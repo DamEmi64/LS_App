@@ -4,10 +4,8 @@ import {
   useContext,
 } from 'react';
 
-import configuration from '@/app/configuration.json';
+import { getConfiguration, type ConfigKey } from '@/app/configurationData';
 import { useAppStorage } from '@/shared/storage/useAppStorage';
-
-type ConfigKey = keyof typeof configuration;
 
 type ConfigContextType = {
   get: (key: ConfigKey) => string;
@@ -17,6 +15,7 @@ type ConfigContextType = {
 const ConfigurationContext = createContext<ConfigContextType | null>(null);
 
 export function ConfigurationProvider({ children }: { children: ReactNode }) {
+  const configuration = getConfiguration();
 
   const get = (key: ConfigKey) => {
     return configuration[key] ?? '';

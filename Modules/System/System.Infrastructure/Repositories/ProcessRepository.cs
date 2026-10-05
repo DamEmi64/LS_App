@@ -102,6 +102,9 @@ namespace System.Infrastructure.Repositories
                 .AsSplitQuery()
                 .Include(x => x.User)
                 .Include(x => x.Jobs)
+                .ThenInclude(x => x.Parent)
+                .Include(x => x.Jobs)
+                .ThenInclude(x => x.Children)
                 .Include(x => x.Errors)
                 .Where(x => x.Id == processId)
                 .Select(x => new ProcessRead
@@ -134,7 +137,8 @@ namespace System.Infrastructure.Repositories
                     Percentage = x.Percentage,
                     User = x.User,
                     RequestDate = x.RequestDate
-                });
+                })
+                .OrderByDescending(x=>x.StartDate);
         }
     }
 }
