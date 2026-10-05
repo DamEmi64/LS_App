@@ -1,11 +1,9 @@
 ﻿using Base;
-using FluentResults;
-using MediatR;
+using Base.Connect;
 
-namespace SharedEvents.Auth
-{
-    /// <summary>
-    ///     Get list of all register users
-    /// </summary>
-    public record GetUsers() : IRequest<Result<List<UserData>>>;
-}
+namespace SharedEvents;
+
+/// <summary>
+///     Get list of all register users
+/// </summary>
+public record GetUsers() : IEvent<List<UserData>>;

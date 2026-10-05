@@ -8,7 +8,17 @@ namespace RPG.Infrastructure.Services
 {
     public class RPGAutomationResolver : IAutomationResolver
     {
-        public int? ConvertToEventId(int notifyTypeId)
+        public int? ConvertToEventId<T>(T notifyEvent) where T : NotifyEvent
+        {
+            if (notifyEvent is LogEvent logEvent)
+            {
+                return ConvertToEventId(logEvent.LogId);
+            }
+
+            return null;
+        }
+
+        private int? ConvertToEventId(int notifyTypeId)
          => true switch
          {
              true when SessionNotifyTypes.SessionSaved is { Key: var k1 } && k1 == notifyTypeId => AutomationEvents.RPGEdited?.Key,

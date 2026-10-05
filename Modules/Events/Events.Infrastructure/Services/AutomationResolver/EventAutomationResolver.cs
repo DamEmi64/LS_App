@@ -19,7 +19,17 @@ namespace Events.Infrastructure.Services.AutomationResolver
             _connectClient = connectClient;
         }
 
-        public int? ConvertToEventId(int notifyTypeId)
+        public int? ConvertToEventId<T>(T notifyEvent) where T : NotifyEvent
+        {
+            if (notifyEvent is LogEvent logEvent)
+            {
+                return ConvertToEventId(logEvent.LogId);
+            }
+
+            return null;
+        }
+
+        private int? ConvertToEventId(int notifyTypeId)
          => true switch
          {
              true when EventNotifyTypes.EventCreated is { Key: var k1 } && k1 == notifyTypeId => AutomationEvents.EventCreated?.Key,
@@ -53,7 +63,7 @@ namespace Events.Infrastructure.Services.AutomationResolver
                     if (lastAddedEvent is null || lastAddedEvent.EventDate is null)
                         continue;
 
-                    var usersResult = _connectClient.Send<GetUsers, List<UserData>>(new GetUsers()).Result;
+                    var usersResult = _connectClient.Send<SharedEvents.GetUsers, List<UserData>>(new SharedEvents.GetUsers()).Result;
 
                     if (usersResult.IsFailed)
                         continue;

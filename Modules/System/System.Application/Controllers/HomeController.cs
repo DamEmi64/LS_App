@@ -1,4 +1,5 @@
 using Base;
+using SharedEvents;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

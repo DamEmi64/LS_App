@@ -6,7 +6,7 @@ using Microsoft.Extensions.Options;
 
 namespace Communication.Infrastructure.Connect.SendEmail
 {
-    public class EmailSender : Base.ConnectMethod<Base.SendEmail>
+    public class EmailSender : Base.ConnectMethod<SharedEvents.SendEmail>
     {
         private readonly EmailOptions _options;
         private readonly ICommunicationHistoryRepository _mailHistoryRepository;
@@ -25,10 +25,10 @@ namespace Communication.Infrastructure.Connect.SendEmail
         }
 
 
-        public override Task<Result> HandleAsync(Base.SendEmail request, CancellationToken cancellationToken)
+        public override Task<Result> HandleAsync(SharedEvents.SendEmail request, CancellationToken cancellationToken)
             => SendEmailAsync(request);
 
-        private async Task<Result> SendEmailAsync(Base.SendEmail request)
+        private async Task<Result> SendEmailAsync(SharedEvents.SendEmail request)
         {
             try
             {

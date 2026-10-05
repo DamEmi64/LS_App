@@ -8,12 +8,12 @@ namespace System.Infrastructure.JobEngine
 {
     public class JobContext : IJobContext
     {
-        private readonly INotifier _notifier;
+        private readonly ILogNotifier _notifier;
         private readonly IProcessRepository _processRepository;
         private readonly IJobRepository _jobRepository;
         private readonly EntityContext _entityContext;
 
-        public JobContext(INotifier notifier,
+        public JobContext(ILogNotifier notifier,
             IProcessRepository processRepository,
             IEntityContext entityContext,
             IJobRepository jobRepository)

@@ -7,11 +7,11 @@ namespace System.Infrastructure.Services.Controller
 {
     public class ControllerService : IControllerService
     {
-        private readonly INotifier _notifier;
+        private readonly ILogNotifier _notifier;
         private readonly UserManager<User> _userManager;
         private readonly IHttpContextAccessor _contextAccessor;
 
-        public ControllerService(UserManager<User> userManager, INotifier notifier, IHttpContextAccessor contextAccessor, IConnect connect)
+        public ControllerService(UserManager<User> userManager, ILogNotifier notifier, IHttpContextAccessor contextAccessor, IConnect connect)
         {
             _userManager = userManager;
             _notifier = notifier;
@@ -19,7 +19,7 @@ namespace System.Infrastructure.Services.Controller
             Connect = connect;
         }
 
-        public INotifier Notifier => _notifier;
+        public ILogNotifier Notifier => _notifier;
 
         public UserData? CurrentUser => _contextAccessor?.HttpContext != null ? GetUser(_contextAccessor.HttpContext).Result : null;
 

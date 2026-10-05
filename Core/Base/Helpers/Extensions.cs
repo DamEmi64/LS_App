@@ -70,9 +70,9 @@ namespace Base
         /// <typeparam name="T">The type of the notifier instance.</typeparam>
         /// <param name="services">The service collection.</param>
         /// <returns>The updated service collection.</returns>
-        public static IServiceCollection AddNotifier<T>(this IServiceCollection services)
-            where T : class, INotifierInstance
-            => services.AddScoped<INotifierInstance, T>();
+        public static IServiceCollection AddNotiyListener<T>(this IServiceCollection services)
+            where T : class, INotifyListener
+            => services.AddScoped<INotifyListener, T>();
 
         /// <summary>
         ///     Registers a media provider implementation in the dependency injection container with a specified provider name.
@@ -133,15 +133,6 @@ namespace Base
                 media.Extension.Equals("bmp", StringComparison.OrdinalIgnoreCase) ||
                 media.Extension.Equals("webp", StringComparison.OrdinalIgnoreCase)
             );
-
-        public static Task<Result<List<UserData>>> GetUsers(this IConnect connectClient)
-            => connectClient.Send<GetUsers, List<UserData>>(new GetUsers());
-
-        public static Task ProvideBasicRoles(this IConnect connectClient, List<PermissionInfo> permissions)
-            => connectClient.Send(new ProvideBasicRoles(permissions));
-
-        public static Task<Result<UserData?>> GetUserIdByLogin(this IConnect connectClient, string Login)
-                => connectClient.Send<GetUserByLogin, UserData?>(new GetUserByLogin(Login));
 
         /// <summary>
         /// Validates required modules against the connector.

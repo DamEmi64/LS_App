@@ -13,6 +13,17 @@ namespace FilesV2.Infrastructure.Repositories
         {
         }
 
+        public Task<Domain.Entities.Directory?> GetSystemFolder()
+        {
+            return DbContext.Set<Domain.Entities.Directory>()
+                .Include(x => x.Children)
+                .Include(x => x.Parent)
+                .Include(x => x.Users)
+                .Include(x => x.Owner)
+                .FirstOrDefaultAsync(x => x.Title == "SYSTEM" && x.Owner.UserId == Guid.Empty.ToString());
+
+        }
+
         public override Task<Domain.Entities.Directory?> Get(Guid id)
         {
             return DbContext.Set<Domain.Entities.Directory>()
@@ -36,7 +47,6 @@ namespace FilesV2.Infrastructure.Repositories
         {
             return DbContext.Set<Domain.Entities.Directory>()
                 .Include(x => x.Children)
-                .Include(x => x.Files)
                 .Include(x => x.Parent)
                 .Include(x => x.Users)
                 .Include(x => x.Owner)

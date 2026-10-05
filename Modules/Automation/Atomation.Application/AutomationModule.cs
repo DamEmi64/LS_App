@@ -22,7 +22,7 @@ namespace Automation.Application
         public IServiceCollection Configure(IServiceCollection services)
         {
             services.AddAutoMapper(opt => opt.AddMaps(typeof(AutomationModule).Assembly));
-            services.AddNotifier<NotifyListener>();
+            services.AddNotiyListener<NotifyListener>();
 
             services.AddDatabase<AutomationContext>(AppConfiguration.DefaultConnectionString)
                 .AddRepos()

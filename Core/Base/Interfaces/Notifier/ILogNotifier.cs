@@ -1,9 +1,9 @@
 ﻿namespace Base
 {
     /// <summary>
-    ///     Sends user-facing and process notifications by message identifier.
+    ///     Sends logs via notifier. This interface defines methods for logging messages of different severity levels, such as success, error, warning, info, process info, and process error. Each method takes a message ID and an array of arguments to format the message.
     /// </summary>
-    public interface INotifier
+    public interface ILogNotifier
     {
         /// <summary>
         /// Logs a success message identified by the specified message ID, formatted with the provided arguments.
