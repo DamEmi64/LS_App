@@ -1,4 +1,6 @@
-﻿namespace Base
+﻿using SharedEvents;
+
+namespace Base
 {
     public class MediaProviderWrapper : IMediaProviderWrapper
     {

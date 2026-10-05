@@ -1,5 +1,6 @@
 ﻿using Base;
 using Microsoft.AspNetCore.SignalR;
+using SharedEvents;
 using System.Infrastructure.Hubs;
 
 namespace System.Infrastructure.Services.NotifyService

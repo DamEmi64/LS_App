@@ -1,9 +1,6 @@
-﻿namespace Base;
+﻿using Base;
 
-/// <summary>
-///     Basic event for notification
-/// </summary>
-public record NotifyEvent;
+namespace SharedEvents;
 
 public record MediaSavedEvent(Guid Id, string extension = "pdf", string? Owner = null) : NotifyEvent;
 public record MediaDeletedEvent(Guid Id) : NotifyEvent;

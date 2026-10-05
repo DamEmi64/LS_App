@@ -1,6 +1,7 @@
 ﻿using Base;
 using Bogus;
 using FilesV2.Domain.Repositories;
+using SharedEvents;
 
 namespace FilesV2.Infrastructure.Services.NotifyListener
 {

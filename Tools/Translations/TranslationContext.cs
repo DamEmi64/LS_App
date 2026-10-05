@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Windows;
@@ -37,6 +38,8 @@ namespace Translations
 
 
         public ICommand Generate => new RelayCommand(GenerateData);
+        public ICommand SendToServer => new RelayCommand(SendDictionariesToServer);
+        public ICommand DownloadFromServer => new RelayCommand(DownloadTranslationsFromServer);
         public ICommand Load => new RelayCommand(LoadTranslationsFromFile);
         public ICommand MultiAdd => new RelayCommand(MultiAddTranslation);
         public ICommand MultiAddDict => new RelayCommand(MultiAddTranslationDict);
@@ -67,6 +70,109 @@ namespace Translations
             }
         }
 
+        private void SendDictionariesToServer()
+        {
+            try
+            {
+                var output = SelectOutputFolder();
+                if (output is null)
+                    return;
+
+                GenerateTranslations(output);
+                GenerateTranslations(output);
+                GenerateDictionaries(output);
+
+                var projectRoot = FindProjectRoot(AppContext.BaseDirectory);
+                var clientDirectory = Path.Combine(projectRoot, "v2.client");
+                var startInfo = new ProcessStartInfo("cmd.exe")
+                {
+                    WorkingDirectory = clientDirectory,
+                    UseShellExecute = false,
+                };
+                startInfo.ArgumentList.Add("/c");
+                startInfo.ArgumentList.Add("npm");
+                startInfo.ArgumentList.Add("run");
+                startInfo.ArgumentList.Add("firebase:sync-content");
+                startInfo.ArgumentList.Add("--");
+                startInfo.ArgumentList.Add("--dictionaries");
+                startInfo.ArgumentList.Add(output);
+
+                using var process = Process.Start(startInfo)
+                    ?? throw new InvalidOperationException("Failed to start the Firebase seeding script.");
+                process.WaitForExit();
+                if (process.ExitCode != 0)
+                    throw new InvalidOperationException($"Firebase seeding failed with exit code {process.ExitCode}.");
+
+                MessageBox.Show("Translations sent to server.");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void DownloadTranslationsFromServer()
+        {
+            try
+            {
+                var output = SelectOutputFolder();
+                if (output is null)
+                    return;
+
+                var projectRoot = FindProjectRoot(AppContext.BaseDirectory);
+                var clientDirectory = Path.Combine(projectRoot, "v2.client");
+                var startInfo = new ProcessStartInfo("cmd.exe")
+                {
+                    WorkingDirectory = clientDirectory,
+                    UseShellExecute = false,
+                };
+                startInfo.ArgumentList.Add("/c");
+                startInfo.ArgumentList.Add("npm");
+                startInfo.ArgumentList.Add("run");
+                startInfo.ArgumentList.Add("firebase:download-content");
+                startInfo.ArgumentList.Add("--");
+                startInfo.ArgumentList.Add("--output");
+                startInfo.ArgumentList.Add(output);
+
+                using var process = Process.Start(startInfo)
+                    ?? throw new InvalidOperationException("Failed to start the Firebase download script.");
+                process.WaitForExit();
+                if (process.ExitCode != 0)
+                    throw new InvalidOperationException($"Firebase download failed with exit code {process.ExitCode}.");
+
+                MessageBox.Show("Translations downloaded from server.");
+
+                LoadTranslationsFromFiles(Directory.GetFiles(output,"*",SearchOption.AllDirectories));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private static string? SelectOutputFolder()
+        {
+            var dialog = new OpenFileDialog
+            {
+                CheckFileExists = false,
+                CheckPathExists = true,
+                FileName = "Select folder",
+                Filter = "Folders|*.this.directory"
+            };
+
+            return dialog.ShowDialog() == true ? Path.GetDirectoryName(dialog.FileName) : null;
+        }
+
+        private static string FindProjectRoot(string startDirectory)
+        {
+            var directory = new DirectoryInfo(startDirectory);
+            while (directory is not null && !File.Exists(Path.Combine(directory.FullName, "V2.sln")))
+                directory = directory.Parent;
+
+            return directory?.FullName
+                ?? throw new DirectoryNotFoundException("Could not find the solution root (V2.sln).");
+        }
+
         public void LoadTranslationsFromFile()
         {
             var dialog = new OpenFileDialog
@@ -77,41 +183,112 @@ namespace Translations
             };
 
             var result = dialog.ShowDialog();
-
-            var langLoaded = new StringBuilder();
             if (result == true)
             {
-                string[] selectedFiles = dialog.FileNames;
-
-                foreach (var file in selectedFiles)
-                {
-                    if (file.EndsWith("pl.json"))
-                    {
-                        LoadDataToTranslation(file, PL);
-                        langLoaded.Append(PL);
-                    }
-
-                    if (file.EndsWith("en.json"))
-                    {
-                        LoadDataToTranslation(file, EN);
-                        langLoaded.Append(PL);
-                    }
-
-                    if (file.EndsWith("de.json"))
-                    {
-                        LoadDataToTranslation(file, DE);
-                        langLoaded.Append(PL);
-                    }
-
-                    if (file.EndsWith("fr.json"))
-                    {
-                        LoadDataToTranslation(file, FR);
-                        langLoaded.Append(PL);
-                    }
-                }
+                LoadTranslationsFromFiles(dialog.FileNames);
             }
 
             MessageBox.Show("Loaded");
+        }
+
+        private void LoadTranslationsFromFiles(string[] selectedFiles)
+        {
+            var dictionariesLoaded = false;
+            foreach (var file in selectedFiles)
+            {
+                if (Path.GetFileName(file).Equals("dictionaries.json", StringComparison.OrdinalIgnoreCase))
+                {
+                    var language = Path.GetFileName(Path.GetDirectoryName(file));
+                    LoadDictionaryData(file, language is PL or EN or FR or DE ? language : null);
+                    dictionariesLoaded = true;
+                    continue;
+                }
+
+                if (file.EndsWith("pl.json") || file.EndsWith("\\pl\\translation.json"))
+                {
+                    LoadDataToTranslation(file, PL);
+                }
+
+                if (file.EndsWith("en.json") || file.EndsWith("\\en\\translation.json"))
+                {
+                    LoadDataToTranslation(file, EN);
+                }
+
+                if (file.EndsWith("de.json") || file.EndsWith("\\de\\translation.json"))
+                {
+                    LoadDataToTranslation(file, DE);
+                }
+
+                if (file.EndsWith("fr.json") || file.EndsWith("\\fr\\translation.json"))
+                {
+                    LoadDataToTranslation(file, FR);
+                }
+            }
+
+            if (dictionariesLoaded)
+            {
+                var rows = Dictionaries.ToList();
+                Dictionaries.Clear();
+                foreach (var row in rows)
+                    Dictionaries.Add(row);
+            }
+        }
+
+        private void LoadDictionaryData(string filePath, string? language)
+        {
+            var data = JObject.Parse(File.ReadAllText(filePath));
+            foreach (var dictionary in data.Properties())
+            {
+                var dictionaryName = dictionary.Name.Replace('_', ' ');
+                if (dictionary.Value is not JObject items)
+                    continue;
+
+                foreach (var item in items.Properties())
+                {
+                    if (!int.TryParse(item.Name, out var key))
+                        continue;
+
+                    var row = Dictionaries.FirstOrDefault(x => x.Key == key &&
+                        string.Equals(x.Dictionary.Replace('_', ' '), dictionaryName, StringComparison.OrdinalIgnoreCase));
+                    if (row is null)
+                    {
+                        row = new DictionaryDto { Key = key, Dictionary = dictionaryName };
+                        Dictionaries.Add(row);
+                    }
+
+                    if (language is null && item.Value.Type == JTokenType.String)
+                    {
+                        row.Dictionary = dictionaryName;
+                        row.TitleEN ??= item.Value.Value<string>();
+                        continue;
+                    }
+
+                    if (language is null || item.Value is not JObject translatedItem)
+                        continue;
+
+                    var title = translatedItem.Value<string>("title");
+                    var description = translatedItem.Value<string>("description");
+                    switch (language)
+                    {
+                        case PL:
+                            row.TitlePL = title;
+                            row.DescriptionPL = description;
+                            break;
+                        case EN:
+                            row.TitleEN = title;
+                            row.DescriptionEN = description;
+                            break;
+                        case FR:
+                            row.TitleFR = title;
+                            row.DescriptionFR = description;
+                            break;
+                        case DE:
+                            row.TitleDE = title;
+                            row.DescriptionDE = description;
+                            break;
+                    }
+                }
+            }
         }
 
         private void MultiAddTranslation()

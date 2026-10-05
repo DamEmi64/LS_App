@@ -1,4 +1,5 @@
 ﻿using Base;
+using SharedEvents;
 
 namespace System.Infrastructure.Services.NotifyService
 {

@@ -3,6 +3,7 @@ using Base.Automation;
 using Newtonsoft.Json;
 using RPG.Domain.Dictionaries;
 using RPG.Infrastructure.Jobs;
+using SharedEvents;
 
 namespace RPG.Infrastructure.Services
 {

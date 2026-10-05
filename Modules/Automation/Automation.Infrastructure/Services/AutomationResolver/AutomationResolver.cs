@@ -3,6 +3,7 @@ using Automation.Infrastructure.Jobs;
 using Base;
 using Base.Automation;
 using Newtonsoft.Json;
+using SharedEvents;
 
 namespace Automation.Infrastructure.Services
 {

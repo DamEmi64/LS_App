@@ -19,3 +19,8 @@ public class Notifier
         }
     }
 }
+
+/// <summary>
+///     Basic event for notification
+/// </summary>
+public record NotifyEvent;

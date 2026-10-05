@@ -26,6 +26,8 @@
             <MenuItem Header="Generate">
                 <MenuItem Header="Generate translation files" Command="{Binding Generate}"/>
             </MenuItem>
+            <MenuItem Header="Send to server" Command="{Binding SendToServer}"/>
+            <MenuItem Header="Download from server" Command="{Binding DownloadFromServer}"/>
         </Menu>
         <TabControl Grid.ColumnSpan="2" Grid.Row="1">
             <TabItem Header="Dictionaries">

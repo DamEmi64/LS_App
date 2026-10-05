@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Core\SharedEvents\SharedEvents.csproj" />
     <ProjectReference Include="..\FilesV2.Domain\FilesV2.Domain.csproj" />
   </ItemGroup>
 

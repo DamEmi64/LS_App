@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Core\AutomationBase\AutomationBase.csproj" />
+    <ProjectReference Include="..\..\..\Core\SharedEvents\SharedEvents.csproj" />
     <ProjectReference Include="..\Automation.Domain\Automation.Domain.csproj" />
   </ItemGroup>
 
