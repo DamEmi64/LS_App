@@ -2,7 +2,7 @@
 
 namespace System.Infrastructure.Connect.ProvideBasicRoles
 {
-    public class ProvideBasicRoles : Base.EventHandler<Base.ProvideBasicRoles>
+    public class ProvideBasicRoles : Base.ConnectMethod<Base.ProvideBasicRoles>
     {
         private readonly IAdminService _adminService;
 

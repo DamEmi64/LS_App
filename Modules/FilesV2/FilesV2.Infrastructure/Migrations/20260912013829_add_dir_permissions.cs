@@ -34,7 +34,7 @@ namespace FilesV2.Infrastructure.Migrations
                 nullable: true);
 
             migrationBuilder.Sql($"""
-            INSERT INTO [CatalogUser]
+            INSERT INTO [AppContext].[dbo].[CatalogUser]
                 ([ID], [UserId], [Login], [Privilage], [InsBy], [UpdBy], [InsDate], [UpdDate])
             VALUES
                 ('{ownerId}',

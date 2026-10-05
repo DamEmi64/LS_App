@@ -6,5 +6,39 @@
   "toastActive": "true",
   "toastProcess": "false",
   "toastProcessError": "false",
-  "version":"1.1"
+  "version":"1.1",
+  "menu": [
+    { "label": "home", "href": "/", "submenu": [] },
+    { "label": "files", "href": "/filesV2", "submenu": [], "permissions": ["filesV2"] },
+    {
+      "label": "communication",
+      "href": "",
+      "submenu": [
+        { "label": "emails", "href": "/Emails", "submenu": [] },
+        { "label": "templates", "href": "/Templates", "submenu": [] },
+        { "label": "discord", "href": "/discord", "submenu": [], "permissions": ["communication"] },
+        { "label": "communicationRegistry", "href": "/communicationHistory", "submenu": [], "permissions": ["communication-registry"] }
+      ],
+      "permissions": ["communication"]
+    },
+    {
+      "label": "events",
+      "href": "",
+      "submenu": [
+        { "label": "allEvents", "href": "/events", "submenu": [], "permissions": ["events"] },
+        { "label": "myEvents", "href": "/events/me", "submenu": [], "permissions": ["events"] }
+      ],
+      "permissions": ["events"]
+    },
+    {
+      "label": "rpg_sessions",
+      "href": "",
+      "submenu": [
+        { "label": "rpg_sessions", "href": "/rpg", "submenu": [], "permissions": ["rpg"] },
+        { "label": "draft", "href": "/rpg/drafts", "submenu": [], "permissions": ["rpg-draft"] }
+      ],
+      "permissions": ["rpg"]
+    },
+    { "label": "automations", "href": "/automations", "submenu": [], "permissions": ["automation"] }
+  ]
 }

@@ -7,7 +7,7 @@
         /// </summary>
         /// <param name="providerName"></param>
         /// <returns></returns>
-        IMediaProvider Create(string? providerName = null);
+        IMediaProviderWrapper Create(string? providerName = null);
     }
 
     /// <summary>
@@ -58,4 +58,9 @@
         /// <returns></returns>
         Task Delete(Guid? id);
     }
+
+    /// <summary>
+    ///     Media provider wrapper
+    /// </summary>
+    public interface IMediaProviderWrapper : IMediaProvider;
 }

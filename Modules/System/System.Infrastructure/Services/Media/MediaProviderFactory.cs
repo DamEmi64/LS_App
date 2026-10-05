@@ -12,9 +12,10 @@ namespace System.Infrastructure.Services.Media
             _services = services;
         }
 
-        public IMediaProvider Create(string? providerName = null)
+        public IMediaProviderWrapper Create(string? providerName = null)
         {
             IMediaProvider? mediaProvider = null;
+            var notifier = _services.GetRequiredService<Notifier>();
 
             if (!string.IsNullOrEmpty(providerName))
             {
@@ -26,7 +27,7 @@ namespace System.Infrastructure.Services.Media
                 mediaProvider = _services.GetRequiredKeyedService<IMediaProvider>(AppConfiguration.GetValue<string>("DefaultStorage"));
             }
 
-            return mediaProvider;
+            return new MediaProviderWrapper(mediaProvider, notifier);
         }
     }
 }

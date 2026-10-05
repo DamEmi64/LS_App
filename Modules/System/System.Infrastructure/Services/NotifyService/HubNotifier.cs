@@ -1,10 +1,11 @@
 ﻿using Base;
 using Microsoft.AspNetCore.SignalR;
+using SharedEvents;
 using System.Infrastructure.Hubs;
 
 namespace System.Infrastructure.Services.NotifyService
 {
-    public class HubNotifier : INotifierInstance
+    public class HubNotifier : INotifyListener
     {
         private readonly IHubContext<NotifyHub> _hub;
 
@@ -13,34 +14,14 @@ namespace System.Infrastructure.Services.NotifyService
             _hub = hub;
         }
 
-        public Task Error(int messageId, params object[] args)
+        public Task Notify<T>(T @event) where T : NotifyEvent
         {
-            return _hub.Clients.All.SendAsync(NotifyHub.NotifyMethod, "error", messageId, args);
-        }
+            if (@event is LogEvent logEvent)
+            {
+                return _hub.Clients.All.SendAsync(NotifyHub.NotifyMethod, logEvent.Level.ToString().ToLower(), logEvent.LogId, logEvent.Args);
+            }
 
-        public Task Info(int messageId, params object[] args)
-        {
-            return _hub.Clients.All.SendAsync(NotifyHub.NotifyMethod, "info", messageId, args);
-        }
-
-        public Task Process(int messageId, params object[] args)
-        {
-            return _hub.Clients.All.SendAsync(NotifyHub.NotifyMethod, "process", messageId, args);
-        }
-
-        public Task ProcessError(int messageId, params object[] args)
-        {
-            return _hub.Clients.All.SendAsync(NotifyHub.NotifyMethod, "process-error", messageId, args);
-        }
-
-        public Task Success(int messageId, params object[] args)
-        {
-            return _hub.Clients.All.SendAsync(NotifyHub.NotifyMethod, "success", messageId, args);
-        }
-
-        public Task Warning(int messageId, params object[] args)
-        {
-            return _hub.Clients.All.SendAsync(NotifyHub.NotifyMethod, "warning", messageId, args);
+            return Task.CompletedTask;
         }
     }
 }

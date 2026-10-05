@@ -12,6 +12,15 @@ namespace FilesV2.Infrastructure.Repositories
         {
         }
 
+        public Task<Domain.Entities.File?> GetByMediaId(Guid id)
+        {
+            return DbContext.Set<Domain.Entities.File>()
+                    .Include(x => x.Folder)
+                    .Include(x => x.Users)
+                    .Include(x => x.Owner)
+                    .FirstOrDefaultAsync(x => x.Content == id);
+        }
+
         public override Task<Domain.Entities.File?> Get(Guid id)
         {
             return DbContext.Set<Domain.Entities.File>()

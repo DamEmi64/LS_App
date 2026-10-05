@@ -52,6 +52,6 @@
         ///     Method invoke after execution
         /// </summary>
         /// <returns></returns>
-        Task OnComplete();
+        Task OnComplete(bool isSuccess);
     }
 }

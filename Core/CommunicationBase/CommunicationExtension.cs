@@ -3,6 +3,7 @@ using CommunicationBase.Dtos;
 using CommunicationBase.Events;
 using CommunicationBase.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
+using SharedEvents;
 using System.Text.Json;
 
 namespace CommunicationBase
