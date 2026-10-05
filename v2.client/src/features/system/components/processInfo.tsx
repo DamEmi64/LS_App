@@ -18,8 +18,9 @@ import {
 import ReactFlow, { Background, Controls, Edge, Handle, Node, NodeProps, Position } from 'reactflow';
 import 'reactflow/dist/style.css';
 import { convertToDateStr, useDictionaryTranslation } from "@/lib/utils";
+import AccountTreeIcon from '@mui/icons-material/AccountTree';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 
-// Import types from models/system.ts
 import { Process, Job, ProcessError } from '@/features/system'
 import { t } from 'i18next';
 
@@ -198,8 +199,8 @@ const ProcessInfo: React.FC<ProcessInfoProps> = ({ process }) => {
                 {t('processes.jobs')}
             </Typography>
             <ToggleButtonGroup size="small" exclusive value={jobView} onChange={changeJobView} sx={{ mb: 1 }}>
-                <ToggleButton value="list">{t('processes.jobViewList', 'List')}</ToggleButton>
-                <ToggleButton value="tree">{t('processes.jobViewTree', 'Tree')}</ToggleButton>
+                <ToggleButton value="list"><FormatListBulletedIcon/></ToggleButton>
+                <ToggleButton value="tree"><AccountTreeIcon/></ToggleButton>
             </ToggleButtonGroup>
             {jobView === 'tree' ? (
                 <Box sx={{ height: { xs: '62vh', sm: '72vh' }, minHeight: { xs: 420, sm: 560 }, maxHeight: 800, width: '100%', border: 1, borderColor: 'divider', borderRadius: 1 }}>

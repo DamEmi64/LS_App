@@ -10,6 +10,7 @@
     "cap:ios": "npm run cap:sync && cap open ios",
     "cap:run:android": "npm run cap:sync && cap run android",
     "cap:run:ios": "npm run cap:sync && cap run ios",
+    "firebase:seed-content": "node scripts/seed-firestore.mjs",
     "test": "vitest --run",
     "format.fix": "prettier --write .",
     "cleanup": "eslint . --fix && prettier --write .",
