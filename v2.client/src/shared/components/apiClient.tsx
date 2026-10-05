@@ -27,6 +27,8 @@ import { appStorage } from '@/shared/storage/appStorage';
 const authTokenKey = 'authToken';
 const refreshTokenKey = 'refreshToken';
 const authUserIdKey = 'authUserId';
+const rememberedUsernameKey = 'rememberedUsername';
+const rememberedPasswordKey = 'rememberedPassword';
 
 export type AuthToken = {
     accessToken?: string;
@@ -68,6 +70,25 @@ type ApiError = {
 
 const axiosInstance = axios.create();
 
+const loginWithRememberedCredentials = async (baseUrl: string) => {
+    const login = appStorage.get(rememberedUsernameKey);
+    const password = appStorage.get(rememberedPasswordKey);
+    if (!login || !password) return null;
+
+    const response = await axios.post<AuthToken>(`${baseUrl}/api/Auth/login`, {
+        login,
+        password,
+        rememberMe: true,
+    }, {
+        headers: { 'Content-Type': 'application/json-patch+json' },
+    });
+    if (!response.data?.accessToken || !response.data.refreshToken || !response.data.userId) return null;
+
+    setAuthTokens(response.data);
+    await appStorage.flush();
+    return response.data.accessToken;
+};
+
 axiosInstance.interceptors.request.use((config) => {
     const baseURL = get('apiEndpoint');
 
@@ -97,30 +118,40 @@ axiosInstance.interceptors.response.use(
         if (
             (error.response?.status === 401 || error.response?.status === 403) &&
             originalRequest &&
-            !originalRequest._retry &&
-            refreshToken &&
-            userId &&
-            !originalRequest.url?.includes('/api/Auth/refresh')
+            !originalRequest._autoLoginAttempted &&
+            !originalRequest.url?.includes('/api/Auth/refresh') &&
+            !originalRequest.url?.includes('/api/Auth/login')
         ) {
-            originalRequest._retry = true;
+            const normalizedBaseUrl = get('apiEndpoint').replace(/\/$/, '');
 
-            try {
-                const baseURL = get('apiEndpoint');
-                const normalizedBaseUrl = baseURL.endsWith('/')
-                    ? baseURL.slice(0, -1)
-                    : baseURL;
-                const refreshResponse = await axios.post<AuthToken>(`${normalizedBaseUrl}/api/Auth/refresh`, {
-                    userId,
-                    refreshToken
-                });
-
-                setAuthTokens(refreshResponse.data);
-                originalRequest.headers.Authorization = `Bearer ${refreshResponse.data.accessToken}`;
-
-                return axiosInstance(originalRequest);
-            } catch {
-                setAuthToken(null);
+            if (!originalRequest._retry && refreshToken && userId) {
+                originalRequest._retry = true;
+                try {
+                    const refreshResponse = await axios.post<AuthToken>(`${normalizedBaseUrl}/api/Auth/refresh`, {
+                        userId,
+                        refreshToken
+                    });
+                    setAuthTokens(refreshResponse.data);
+                    await appStorage.flush();
+                    originalRequest.headers.Authorization = `Bearer ${refreshResponse.data.accessToken}`;
+                    return axiosInstance(originalRequest);
+                } catch {
+                    // Try the saved sign-in below when refresh credentials are rejected.
+                }
             }
+
+            originalRequest._autoLoginAttempted = true;
+            try {
+                const accessToken = await loginWithRememberedCredentials(normalizedBaseUrl);
+                if (accessToken) {
+                    originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+                    return axiosInstance(originalRequest);
+                }
+            } catch {
+                // Fall through to the original request error when saved credentials are stale.
+            }
+
+            setAuthToken(null);
         }
 
         if (

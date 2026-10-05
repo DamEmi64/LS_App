@@ -1,8 +1,8 @@
 import { clsx, type ClassValue } from "clsx";
 import { useTranslation } from "react-i18next";
 import { twMerge } from "tailwind-merge";
-import dictionaries from '@/app/dictionaries.json';
-import configuration from '@/app/configuration.json';
+import { getConfiguration, type ConfigKey } from '@/app/configurationData';
+import { getDictionaries } from '@/app/dictionaryData';
 import { saveAs } from 'file-saver';
 import { raw } from "@/shared";
 import { appStorage } from '@/shared/storage/appStorage';
@@ -105,10 +105,10 @@ export const getMimeFromExtension = (extension) => {
     }
 };
 
-export const get = (key: keyof typeof configuration): string | undefined => {
+export const get = (key: ConfigKey): string | undefined => {
     return (
         appStorage.get(key) ??
-        configuration[key] ??
+        getConfiguration()[key] ??
         undefined
     );
 };
@@ -130,7 +130,7 @@ export function useDictionaryTranslation() {
 export function getDictionary(dictionaryName: string): DictionaryItem[] {
     const dictKey = dictionaryName.replace(/\s+/g, '_');
 
-    const dict = dictionaries[dictKey];
+    const dict = getDictionaries()[dictKey] as Record<string, any> | undefined;
 
     if (!dict) return [];
 

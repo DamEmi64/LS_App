@@ -6,5 +6,6 @@ namespace FilesV2.Domain.Repositories
     {
         bool IsEmpty(Guid id);
         Task<List<Entities.Directory>> GetDirectoriesByUser(string userId);
+        Task<Domain.Entities.Directory?> GetSystemFolder();
     }
 }

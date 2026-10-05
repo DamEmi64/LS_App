@@ -3,12 +3,23 @@ using Automation.Infrastructure.Jobs;
 using Base;
 using Base.Automation;
 using Newtonsoft.Json;
+using SharedEvents;
 
 namespace Automation.Infrastructure.Services
 {
     public class AutomationResolver : IAutomationResolver
     {
-        public int? ConvertToEventId(int notifyTypeId)
+        public int? ConvertToEventId<T>(T notifyEvent) where T : NotifyEvent
+        {
+            if (notifyEvent is LogEvent logEvent)
+            {
+                return ConvertToEventId(logEvent.LogId);
+            }
+
+            return null;
+        }
+
+        private int? ConvertToEventId(int notifyTypeId)
            => notifyTypeId switch
            {
                _ => null

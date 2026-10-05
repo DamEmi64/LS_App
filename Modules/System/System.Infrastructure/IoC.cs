@@ -39,8 +39,10 @@ namespace System.Infrastructure
 
         public static IServiceCollection AddServices(this IServiceCollection serviceDescriptors, IConfiguration configuration)
         {
+            serviceDescriptors.AddScoped<Notifier>();
+
             return serviceDescriptors.AddScoped<IControllerService, ControllerService>()
-                .AddScoped<INotifier, Notifier>()
+                .AddScoped<ILogNotifier, LogNotifier>()
                 .AddScoped<IEntityContext, EntityContext>()
                 .AddScoped<IMediaProviderFactory, MediaProviderFactory>()
                 .AddKeyedScoped<IMediaProvider, DatabaseMediaProvider>("db");
@@ -179,7 +181,7 @@ namespace System.Infrastructure
                    options.MaximumReceiveMessageSize = 1024 * 1024 * 10; // 10 MB
                });
 
-            return services.AddNotifier<HubNotifier>();
+            return services.AddNotiyListener<HubNotifier>();
         }
 
         public static IServiceCollection AddDb(this IServiceCollection services, IConfiguration configuration)
@@ -200,6 +202,8 @@ namespace System.Infrastructure
         public static IServiceCollection AddBackgroundService(this IServiceCollection services, IConfiguration configuration)
         {
             var connectionString = AppConfiguration.DefaultConnectionString;
+
+            GlobalJobFilters.Filters.Add(new AutomaticRetryAttribute { Attempts = 3 });
 
             return services.AddScoped<IJobEngine, JobEngine.JobEngine>()
                 .AddScoped<IMilestoneWorker, MilestoneWorker>()

@@ -8,9 +8,9 @@
         /// <summary>
         ///     Convert to event id using notify id (from notifier)
         /// </summary>
-        /// <param name="notifyTypeId"></param>
+        /// <param name="notifyEvent">Notify event</param>
         /// <returns>Event Id, if null there is no corresponding event</returns>
-        public int? ConvertToEventId(int notifyTypeId);
+        public int? ConvertToEventId<T>(T notifyEvent) where T : NotifyEvent;
 
         /// <summary>
         ///     Resolve automation process

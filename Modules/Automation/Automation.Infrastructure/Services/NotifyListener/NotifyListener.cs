@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Automation.Infrastructure.Services.NotifyListener
 {
-    public class NotifyListener : INotifierInstance
+    public class NotifyListener : INotifyListener
     {
         private readonly IAutomatRepository _automatRepository;
         private readonly List<IAutomationResolver> _resolvers;
@@ -19,39 +19,11 @@ namespace Automation.Infrastructure.Services.NotifyListener
             _mediator = mediator;
         }
 
-        public Task Error(int messageId, params object[] args)
-        {
-            return CheckAutomats(messageId);
-        }
+        public Task Notify<T>(T @event) where T : NotifyEvent => CheckAutomats(@event);
 
-        public Task Info(int messageId, params object[] args)
+        private async Task CheckAutomats<T>(T @event) where T : NotifyEvent
         {
-            return CheckAutomats(messageId);
-        }
-
-        public Task Process(int messageId, params object[] args)
-        {
-            return CheckAutomats(messageId);
-        }
-
-        public Task ProcessError(int messageId, params object[] args)
-        {
-            return CheckAutomats(messageId);
-        }
-
-        public Task Success(int messageId, params object[] args)
-        {
-            return CheckAutomats(messageId);
-        }
-
-        public Task Warning(int messageId, params object[] args)
-        {
-            return CheckAutomats(messageId);
-        }
-
-        private async Task CheckAutomats(int messageId)
-        {
-            var eventIds = _resolvers.Select(r => r.ConvertToEventId(messageId))
+            var eventIds = _resolvers.Select(r => r.ConvertToEventId(@event))
                                         .Where(id => id.HasValue)
                                         .Select(id => id!.Value).ToArray();
 

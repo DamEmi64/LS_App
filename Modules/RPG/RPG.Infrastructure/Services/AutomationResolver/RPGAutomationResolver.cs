@@ -3,12 +3,23 @@ using Base.Automation;
 using Newtonsoft.Json;
 using RPG.Domain.Dictionaries;
 using RPG.Infrastructure.Jobs;
+using SharedEvents;
 
 namespace RPG.Infrastructure.Services
 {
     public class RPGAutomationResolver : IAutomationResolver
     {
-        public int? ConvertToEventId(int notifyTypeId)
+        public int? ConvertToEventId<T>(T notifyEvent) where T : NotifyEvent
+        {
+            if (notifyEvent is LogEvent logEvent)
+            {
+                return ConvertToEventId(logEvent.LogId);
+            }
+
+            return null;
+        }
+
+        private int? ConvertToEventId(int notifyTypeId)
          => true switch
          {
              true when SessionNotifyTypes.SessionSaved is { Key: var k1 } && k1 == notifyTypeId => AutomationEvents.RPGEdited?.Key,

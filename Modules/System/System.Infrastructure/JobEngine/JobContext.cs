@@ -8,12 +8,12 @@ namespace System.Infrastructure.JobEngine
 {
     public class JobContext : IJobContext
     {
-        private readonly INotifier _notifier;
+        private readonly ILogNotifier _notifier;
         private readonly IProcessRepository _processRepository;
         private readonly IJobRepository _jobRepository;
         private readonly EntityContext _entityContext;
 
-        public JobContext(INotifier notifier,
+        public JobContext(ILogNotifier notifier,
             IProcessRepository processRepository,
             IEntityContext entityContext,
             IJobRepository jobRepository)
@@ -97,7 +97,7 @@ namespace System.Infrastructure.JobEngine
             await _jobRepository.Update(dbJob);
         }
 
-        public async Task OnComplete()
+        public async Task OnComplete(bool isSuccess)
         {
             var dbJob = await _jobRepository.Get(Id);
             var process = await _processRepository.Get(ProcessId);
@@ -105,7 +105,7 @@ namespace System.Infrastructure.JobEngine
             ArgumentNullException.ThrowIfNull(process);
 
             dbJob.EndDate = DateTimeOffset.Now;
-            dbJob.Status = ProgressStatus.Success;
+            dbJob.Status = isSuccess ? ProgressStatus.Success : ProgressStatus.Failed;
             await _jobRepository.Update(dbJob);
             process.Percentage = (process.Jobs.Count(x => x.Status == ProgressStatus.Success) * 1.0 / process.Jobs.Count) * 100;
 
