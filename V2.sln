@@ -105,6 +105,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Invoices.Domain", "Modules\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Invoices.Infrastructure", "Modules\Invoices\Invoices.Infrastructure\Invoices.Infrastructure.csproj", "{FE0403F5-0F48-49F5-8A88-4ED6664C1F66}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Invoices.Extras", "Modules\Invoices\Invoices.Extras\Invoices.Extras.csproj", "{7447E987-1E3C-443E-8BB7-BFA9C36DE379}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -265,6 +267,10 @@ Global
 		{FE0403F5-0F48-49F5-8A88-4ED6664C1F66}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE0403F5-0F48-49F5-8A88-4ED6664C1F66}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE0403F5-0F48-49F5-8A88-4ED6664C1F66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7447E987-1E3C-443E-8BB7-BFA9C36DE379}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7447E987-1E3C-443E-8BB7-BFA9C36DE379}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7447E987-1E3C-443E-8BB7-BFA9C36DE379}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7447E987-1E3C-443E-8BB7-BFA9C36DE379}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -316,6 +322,7 @@ Global
 		{1EBFF1C8-AE96-477B-98C2-D1988893EE62} = {2D4AA233-8E7C-4C4C-A106-5A74DC6A8256}
 		{B5B68370-D336-4EBF-AE9A-918808400E8A} = {2D4AA233-8E7C-4C4C-A106-5A74DC6A8256}
 		{FE0403F5-0F48-49F5-8A88-4ED6664C1F66} = {2D4AA233-8E7C-4C4C-A106-5A74DC6A8256}
+		{7447E987-1E3C-443E-8BB7-BFA9C36DE379} = {2D4AA233-8E7C-4C4C-A106-5A74DC6A8256}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F657432B-47C1-402E-92C1-68D8E8D47B87}

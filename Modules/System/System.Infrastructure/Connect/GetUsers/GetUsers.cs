@@ -21,6 +21,7 @@ namespace System.Infrastructure.Connect.GetUsers
                 UserId = x.Id,
                 Email = x.Email,
                 Login = x.UserName,
+                Phone = x.PhoneNumber
             }).ToListAsync();
         }
     }

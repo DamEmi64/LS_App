@@ -1,73 +1,59 @@
-using Invoices.Domain.Entities;
-using Microsoft.Playwright;
-using Razor.Templating.Core;
+using Base;
+using Invoices.Domain.Repositories;
+using Invoices.Infrastructure.Jobs;
+using Invoices.Infrastructure.Models;
 
 namespace Invoices.Infrastructure.Services.InvoiceDocumentService
 {
-    public sealed class InvoiceDocumentService : IInvoiceDocumentService, IAsyncDisposable
+    public sealed class InvoiceDocumentService : IInvoiceDocumentService
     {
-        private const string TemplatePath = "/Views/InvoiceTemplate.cshtml";
-        private readonly SemaphoreSlim _browserLock = new(1, 1);
-        private IPlaywright? _playwright;
-        private IBrowser? _browser;
+        private readonly IInvoiceRepository _invoiceRepository;
+        private readonly IJobEngine _jobEngine;
 
-        public Task<string> GenerateHtml(Invoice invoice)
+        public InvoiceDocumentService(IInvoiceRepository invoiceRepository, IJobEngine jobEngine)
         {
+            _invoiceRepository = invoiceRepository;
+            _jobEngine = jobEngine;
+        }
+
+        public async Task GenerateAndSendInvoice(Guid invoiceId, InvoicePaymentMethod paymentMethod, UserData collector, string? accountNo = null)
+        {
+            var invoice = await _invoiceRepository.GetWithDetails(invoiceId);
             ArgumentNullException.ThrowIfNull(invoice);
-            return RazorTemplateEngine.RenderAsync(TemplatePath, invoice);
-        }
 
-        public async Task<byte[]> GeneratePdf(Invoice invoice)
-        {
-            var html = await GenerateHtml(invoice);
-            var browser = await GetBrowser();
-            var page = await browser.NewPageAsync();
-            try
+            var schema = _jobEngine.Create($"Generate invoice: {invoice.Title}");
+            schema.AddJob(new GenerateInvoiceDocument.Job
             {
-                await page.SetContentAsync(html);
-                return await page.PdfAsync(new PagePdfOptions
+                Model = new InvoiceDocumentModel
                 {
-                    Format = "A4",
-                    PrintBackground = true,
-                    PreferCSSPageSize = true
-                });
-            }
-            finally
-            {
-                await page.CloseAsync();
-            }
+                    Invoice = invoice,
+                    AccountNumber = accountNo,
+                    CollectorPhoneNumber = collector.Phone,
+                    PaymentMethod = paymentMethod
+                }
+            });
+
+            await _jobEngine.Execute(schema, collector);
         }
 
-        public async ValueTask DisposeAsync()
+        public async Task GenerateInvoice(Guid invoiceId, InvoicePaymentMethod paymentMethod, UserData collector, string? accountNo = null)
         {
-            if (_browser is not null)
-                await _browser.CloseAsync();
-            _playwright?.Dispose();
-            _browserLock.Dispose();
-        }
+            var invoice = await _invoiceRepository.GetWithDetails(invoiceId);
+            ArgumentNullException.ThrowIfNull(invoice);
 
-        private async Task<IBrowser> GetBrowser()
-        {
-            if (_browser is { IsConnected: true })
-                return _browser;
-
-            await _browserLock.WaitAsync();
-            try
+            var schema = _jobEngine.Create($"Generate invoice: {invoice.Title}");
+            schema.AddJob(new GenerateInvoiceDocument.Job
             {
-                if (_browser is { IsConnected: true })
-                    return _browser;
-
-                _playwright ??= await Playwright.CreateAsync();
-                _browser = await _playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
+                Model = new InvoiceDocumentModel
                 {
-                    Headless = true
-                });
-                return _browser;
-            }
-            finally
-            {
-                _browserLock.Release();
-            }
+                    Invoice = invoice,
+                    AccountNumber = accountNo,
+                    CollectorPhoneNumber = collector.Phone,
+                    PaymentMethod = paymentMethod
+                }
+            });
+
+            await _jobEngine.Execute(schema, collector);
         }
     }
 }

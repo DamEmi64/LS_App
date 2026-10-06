@@ -1,7 +1,6 @@
 ﻿using Base;
 using Invoices.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Serilog.Context;
 
 namespace Invoices.Infrastructure.Db
 {
@@ -15,6 +14,7 @@ namespace Invoices.Infrastructure.Db
         public DbSet<Invoice> Invoices { get; set; } = default!;
         public DbSet<InvoicePosition> InvoicePositions { get; set; } = default!;
         public DbSet<UserData> InvoiceUsers { get; set; } = default!;
+        public DbSet<InvoiceDocument> InvoiceDocuments { get; set; } = default!;
 
         public override string ContextName => "Invoices";
     }

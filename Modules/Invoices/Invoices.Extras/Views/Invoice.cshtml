@@ -1,55 +1,66 @@
 @using System.Globalization
-@using Invoices.Domain.Dictionaries
-@model Invoices.Domain.Entities.Invoice
+@using Invoices.Extras.Resources
+@model InvoiceDocument
+@{
+    var pl = CultureInfo.GetCultureInfo("pl-PL");
+    var total = Model.Items.Sum(position => position.Value);
+}
 <!doctype html>
-<html lang="en">
+<html lang="pl">
 <head>
     <meta charset="utf-8" />
-    <title>@Model.Title</title>
+    <title>Faktura - @Model.Title</title>
     <style>
-        @@page { size: A4; margin: 18mm; }
         * { box-sizing: border-box; }
         body { color: #172033; font: 14px/1.5 Arial, sans-serif; margin: 0; }
         header { border-bottom: 2px solid #243b64; margin-bottom: 28px; padding-bottom: 16px; }
         h1 { color: #243b64; font-size: 28px; margin: 0 0 6px; overflow-wrap: anywhere; }
+        h2 { color: #334155; font-size: 16px; margin: 0 0 8px; }
         .muted { color: #64748b; font-size: 12px; }
         .parties { display: flex; gap: 40px; margin-bottom: 28px; }
         .party { flex: 1; min-width: 0; }
-        .party h2 { color: #64748b; font-size: 11px; letter-spacing: .08em; margin: 0 0 5px; text-transform: uppercase; }
+        .party h2 { color: #64748b; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
         .party p { margin: 0; overflow-wrap: anywhere; }
         table { border-collapse: collapse; width: 100%; }
         thead { display: table-header-group; }
-        th { background: #f1f5f9; color: #334155; font-size: 11px; text-align: left; text-transform: uppercase; }
+        th { background: #f1f5f9; color: #334155; font-size: 11px; text-align: left; }
         th, td { border-bottom: 1px solid #dbe2ea; padding: 10px 8px; }
         tr { break-inside: avoid; }
         .amount { text-align: right; white-space: nowrap; }
         .status { color: #475569; white-space: nowrap; }
         tfoot td { border: 0; font-weight: bold; padding-top: 16px; }
         .total-label { text-align: right; }
+        .payment { margin-top: 28px; }
     </style>
 </head>
 <body>
     <header>
         <h1>@Model.Title</h1>
-        <div class="muted">Invoice @Model.Id.ToString("N")[..8].ToUpperInvariant() &middot; @Model.InsDate.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture)</div>
     </header>
     <section class="parties">
-        <div class="party"><h2>From</h2><p>@(Model.Collector.Login ?? Model.Collector.Email)</p></div>
-        <div class="party"><h2>Recipient</h2><p>@(Model.Recipient.Login ?? Model.Recipient.Email)</p></div>
+        <div class="party"><h2>Wystawca</h2><p>@(Model.Collector)</p></div>
+        <div class="party"><h2>Odbiorca</h2><p>@(Model.Recipient)</p></div>
     </section>
+    <h2>Pozycje faktury</h2>    
     <table>
-        <thead><tr><th>Position</th><th class="amount">Amount</th><th>Status</th></tr></thead>
+        <thead><tr><th>Lp.</th><th>Pozycja</th><th class="amount">Kwota</th><th>Status</th></tr></thead>
         <tbody>
-        @foreach (var position in Model.Positions)
+        @{ var index = 0; }
+        @foreach (var position in Model.Items)
         {
+            index++;
             <tr>
+                <td>@index</td>
                 <td>@position.Title</td>
-                <td class="amount">@position.Value.ToString("N2", CultureInfo.InvariantCulture)</td>
-                <td class="status">@(position.Status == InvoiceStatus.Paid.Key ? "Paid" : "Unpaid")</td>
+                <td class="amount">@position.Value.ToString("C", pl)</td>
             </tr>
         }
         </tbody>
-        <tfoot><tr><td colspan="2" class="total-label">Total</td><td class="amount">@Model.Positions.Sum(position => position.Value).ToString("N2", CultureInfo.InvariantCulture)</td></tr></tfoot>
+        <tfoot><tr><td colspan="2" class="total-label">Razem</td><td class="amount">@total.ToString("C", pl)</td><td></td></tr></tfoot>
     </table>
+    <section class="payment">
+        <h2>Sposób płatności</h2>
+        <p>@Model.PaymentInfo</p>
+    </section>
 </body>
 </html>

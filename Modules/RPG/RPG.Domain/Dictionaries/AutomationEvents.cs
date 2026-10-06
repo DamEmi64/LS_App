@@ -5,6 +5,6 @@ namespace RPG.Domain.Dictionaries
     [Dictionary("Automation events")]
     public class AutomationEvents
     {
-        public static DictionaryItem RPGEdited => EntityDictionary.Item(2005, "RPG Edited");
+        public static DictionaryItem RPGEdited => EntityDictionary.Item(30401, "RPG Edited");
     }
 }
