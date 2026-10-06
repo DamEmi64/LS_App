@@ -20,6 +20,7 @@ namespace Invoices.Infrastructure.Migrations
                     UserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Login = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Role = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Permissions = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
@@ -59,6 +60,30 @@ namespace Invoices.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "InvoiceDocuments",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    InvoiceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Html = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Pdf = table.Column<byte[]>(type: "varbinary(max)", nullable: false),
+                    InsDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    UpdDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    InsBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InvoiceDocuments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_InvoiceDocuments_Invoices_InvoiceId",
+                        column: x => x.InvoiceId,
+                        principalTable: "Invoices",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "InvoicePositions",
                 columns: table => new
                 {
@@ -83,6 +108,11 @@ namespace Invoices.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_InvoiceDocuments_InvoiceId",
+                table: "InvoiceDocuments",
+                column: "InvoiceId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_InvoicePositions_InvoiceId",
                 table: "InvoicePositions",
                 column: "InvoiceId");
@@ -101,6 +131,9 @@ namespace Invoices.Infrastructure.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "InvoiceDocuments");
+
             migrationBuilder.DropTable(
                 name: "InvoicePositions");
 

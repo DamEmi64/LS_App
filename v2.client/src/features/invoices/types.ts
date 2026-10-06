@@ -22,6 +22,7 @@ export interface InvoiceSaveDto {
 }
 
 export const INVOICE_STATUS = {
-    unpaid: 501,
-    paid: 503,
+    unpaid: 130801,
+    sent: 130802,
+    paid: 130803,
 } as const;

@@ -21,7 +21,7 @@ namespace Invoices.Infrastructure.Services.InvoiceDocumentService
             var invoice = await _invoiceRepository.GetWithDetails(invoiceId);
             ArgumentNullException.ThrowIfNull(invoice);
 
-            var schema = _jobEngine.Create($"Generate invoice: {invoice.Title}");
+            var schema = _jobEngine.Create($"Generate and send invoice: {invoice.Title}");
             schema.AddJob(new GenerateInvoiceDocument.Job
             {
                 Model = new InvoiceDocumentModel
@@ -31,6 +31,11 @@ namespace Invoices.Infrastructure.Services.InvoiceDocumentService
                     CollectorPhoneNumber = collector.Phone,
                     PaymentMethod = paymentMethod
                 }
+            }).AddChildJob(new SendInvoice.Job
+            {
+                InvoiceId = invoice.Id,
+                RecipientEmail = invoice.Recipient.Email ?? string.Empty,
+                Title = invoice.Title
             });
 
             await _jobEngine.Execute(schema, collector);

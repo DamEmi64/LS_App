@@ -11,9 +11,9 @@ import {
     TableHead,
     TableRow,
     Typography,
+    Dialog, DialogTitle, DialogContent, DialogActions, FormControl, InputLabel, MenuItem, Select, TextField,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import OperationCell from '@/shared/components/operationCell';
 import YesNoWindow from '@/shared/components/YesNoWindow';
 import {
     ColumnType,
@@ -26,7 +26,7 @@ import {
     useModal,
 } from '@/shared';
 import { notify } from '@/shared/components/NotificationListener';
-import { createInvoice, deleteInvoice, getInvoicesToPay, getMyInvoices, markInvoicePositionPaid, updateInvoice } from '../services/invoiceService';
+import { createInvoice, deleteInvoice, generateInvoiceDocument, getInvoicesToPay, getMyInvoices, markInvoicePositionPaid, updateInvoice } from '../services/invoiceService';
 import { INVOICE_STATUS, Invoice, InvoicePosition, InvoiceSaveDto } from '../types';
 import InvoiceForm from '../components/InvoiceForm';
 import CreditScoreIcon from '@mui/icons-material/CreditScore';
@@ -42,6 +42,10 @@ const InvoicesPage = ({ mode }: InvoicesPageProps) => {
     const [invoices, setInvoices] = useState<Invoice[]>([]);
     const [filters, setFilters] = useState<FilterValue[]>([]);
     const [loading, setLoading] = useState(true);
+    const [documentInvoice, setDocumentInvoice] = useState<InvoiceRow | null>(null);
+    const [paymentMethod, setPaymentMethod] = useState(1);
+    const [accountNumber, setAccountNumber] = useState('');
+    const [generating, setGenerating] = useState(false);
 
     const loadInvoices = useCallback(async () => {
         setLoading(true);
@@ -152,7 +156,21 @@ const InvoicesPage = ({ mode }: InvoicesPageProps) => {
         );
     };
 
+    const generateDocument = async () => {
+        if (!documentInvoice) return;
+        setGenerating(true);
+        try {
+            await generateInvoiceDocument(documentInvoice.id, paymentMethod, paymentMethod === 2 ? accountNumber : undefined);
+            setDocumentInvoice(null);
+        } catch {
+            notify('error', t('invoices.generateFailed'));
+        } finally {
+            setGenerating(false);
+        }
+    };
+
     const invoiceOperations: Operations<InvoiceRow>[] = mode === 'mine' ? [
+        { name: 'invoices.generateInvoice', method: invoice => { setPaymentMethod(1); setAccountNumber(''); setDocumentInvoice(invoice); } },
         { name: 'opt.edit', method: openEditInvoice },
         { name: 'opt.delete', method: confirmDeleteInvoice },
     ] : [];
@@ -212,6 +230,24 @@ const InvoicesPage = ({ mode }: InvoicesPageProps) => {
                     />
                 )}
             </Grid>
+            <Dialog open={documentInvoice !== null} onClose={() => !generating && setDocumentInvoice(null)} fullWidth maxWidth="xs">
+                <DialogTitle>{t('invoices.generateInvoice')}</DialogTitle>
+                <DialogContent sx={{ display: 'grid', gap: 2, pt: '12px !important' }}>
+                    <FormControl fullWidth>
+                        <InputLabel id="invoice-payment-label">{t('invoices.paymentMethod')}</InputLabel>
+                        <Select labelId="invoice-payment-label" label={t('invoices.paymentMethod')} value={paymentMethod} onChange={event => setPaymentMethod(Number(event.target.value))}>
+                            <MenuItem value={0}>--</MenuItem>
+                            <MenuItem value={1}>{t('invoices.paymentBlik')}</MenuItem>
+                            <MenuItem value={2}>{t('invoices.paymentAccount')}</MenuItem>
+                        </Select>
+                    </FormControl>
+                    {paymentMethod === 2 && <TextField label={t('invoices.accountNumber')} value={accountNumber} onChange={event => setAccountNumber(event.target.value)} required fullWidth />}
+                </DialogContent>
+                <DialogActions>
+                    <Button disabled={generating} onClick={() => setDocumentInvoice(null)}>{t('opt.cancel')}</Button>
+                    <Button disabled={generating || (paymentMethod === 2 && !accountNumber.trim())} onClick={() => void generateDocument()} variant="contained">{generating ? t('invoices.generating') : t('invoices.generateAndDownload')}</Button>
+                </DialogActions>
+            </Dialog>
         </Grid>
     );
 };

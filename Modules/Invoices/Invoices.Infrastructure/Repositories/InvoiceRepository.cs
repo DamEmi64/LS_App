@@ -19,6 +19,17 @@ namespace Invoices.Infrastructure.Repositories
 
         public Task<Invoice?> GetWithDetails(Guid id) => WithDetails().FirstOrDefaultAsync(x => x.Id == id);
 
+        public Task<InvoiceDocument?> GetDocument(Guid invoiceId) => _context.InvoiceDocuments
+            .AsNoTracking().FirstOrDefaultAsync(x => x.Invoice.Id == invoiceId);
+
+        public async Task SaveDocument(InvoiceDocument document)
+        {
+            var existing = await _context.InvoiceDocuments.FirstOrDefaultAsync(x => x.Invoice.Id == document.Invoice.Id);
+            if (existing is null) await _context.InvoiceDocuments.AddAsync(document);
+            else { existing.Html = document.Html; existing.Pdf = document.Pdf; }
+            await _context.SaveChangesAsync();
+        }
+
         public async Task Add(Invoice invoice)
         {
             await _context.Invoices.AddAsync(invoice);
@@ -30,10 +41,9 @@ namespace Invoices.Infrastructure.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task ReplacePositions(Invoice invoice, List<InvoicePosition> positions)
+        public async Task RemovePosition(InvoicePosition position)
         {
-            _context.InvoicePositions.RemoveRange(invoice.Positions);
-            invoice.Positions = positions;
+            _context.InvoicePositions.Remove(position);
             await _context.SaveChangesAsync();
         }
 

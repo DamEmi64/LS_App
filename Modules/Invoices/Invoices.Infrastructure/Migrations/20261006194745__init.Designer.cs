@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Invoices.Infrastructure.Migrations
 {
     [DbContext(typeof(InvoiceContext))]
-    [Migration("20261006162113__init")]
+    [Migration("20261006194745__init")]
     partial class _init
     {
         /// <inheritdoc />
@@ -41,6 +41,9 @@ namespace Invoices.Infrastructure.Migrations
 
                     b.PrimitiveCollection<string>("Permissions")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Role")
@@ -92,6 +95,42 @@ namespace Invoices.Infrastructure.Migrations
                     b.HasIndex("RecipientId");
 
                     b.ToTable("Invoices");
+                });
+
+            modelBuilder.Entity("Invoices.Domain.Entities.InvoiceDocument", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Html")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InsBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("InsDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("InvoiceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte[]>("Pdf")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("UpdBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("UpdDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceId");
+
+                    b.ToTable("InvoiceDocuments");
                 });
 
             modelBuilder.Entity("Invoices.Domain.Entities.InvoicePosition", b =>
@@ -150,6 +189,17 @@ namespace Invoices.Infrastructure.Migrations
                     b.Navigation("Collector");
 
                     b.Navigation("Recipient");
+                });
+
+            modelBuilder.Entity("Invoices.Domain.Entities.InvoiceDocument", b =>
+                {
+                    b.HasOne("Invoices.Domain.Entities.Invoice", "Invoice")
+                        .WithMany()
+                        .HasForeignKey("InvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Invoice");
                 });
 
             modelBuilder.Entity("Invoices.Domain.Entities.InvoicePosition", b =>

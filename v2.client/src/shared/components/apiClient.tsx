@@ -69,7 +69,7 @@ type ApiError = {
     title?: string;
 };
 
-const axiosInstance = axios.create();
+export const axiosInstance = axios.create();
 
 const loginWithRememberedCredentials = async (baseUrl: string) => {
     const login = appStorage.get(rememberedUsernameKey);

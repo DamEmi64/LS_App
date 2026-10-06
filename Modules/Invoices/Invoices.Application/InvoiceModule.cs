@@ -12,7 +12,7 @@ namespace Invoices.Application
     {
         public IEnumerable<Operation> Operations => new List<Operation>
         {
-
+            Extensions.Operation(Domain.Dictionaries.Operations.GenerateInvoice,"Generate invoice","gen_invoice"),
         };
 
         public string Name => "Invoices";
@@ -25,7 +25,7 @@ namespace Invoices.Application
         {
             services.AddDatabase<InvoiceContext>(AppConfiguration.DefaultConnectionString);
             services.AddScoped<IInvoiceRepository, InvoiceRepository>();
-            services.AddSingleton<IInvoiceDocumentService, InvoiceDocumentService>();
+            services.AddScoped<IInvoiceDocumentService, InvoiceDocumentService>();
             return services;
         }
 
