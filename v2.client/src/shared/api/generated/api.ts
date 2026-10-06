@@ -27,6 +27,7 @@ export * from './api/files-api';
 export * from './api/files-v2-api';
 export * from './api/heroes-api';
 export * from './api/home-api';
+export * from './api/invoices-api';
 export * from './api/places-api';
 export * from './api/process-api';
 export * from './api/stories-api';

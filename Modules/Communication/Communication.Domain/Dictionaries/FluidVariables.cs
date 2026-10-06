@@ -1,14 +1,14 @@
-﻿using Base;
+using Base;
 
 namespace Communication.Domain.Dictionaries
 {
     [Dictionary("Fluid variables")]
     public class FluidVariables
     {
-        public static DictionaryItem UserData => EntityDictionary.Item(605, "User", "User");
-        public static DictionaryItem Sender => EntityDictionary.Item(606, "Sender", "Sender");
-        public static DictionaryItem Recipient => EntityDictionary.Item(607, "To", "To");
-        public static DictionaryItem Recipients => EntityDictionary.Item(608, "Recipients", "Recipients");
-        public static DictionaryItem Counter => EntityDictionary.Item(609, "Counter", "Counter");
+        public static DictionaryItem UserData => EntityDictionary.Item(8001, "User", "User");
+        public static DictionaryItem Sender => EntityDictionary.Item(8002, "Sender", "Sender");
+        public static DictionaryItem Recipient => EntityDictionary.Item(8003, "To", "To");
+        public static DictionaryItem Recipients => EntityDictionary.Item(8004, "Recipients", "Recipients");
+        public static DictionaryItem Counter => EntityDictionary.Item(8005, "Counter", "Counter");
     }
 }

@@ -1,11 +1,11 @@
-﻿using Base;
+using Base;
 
 namespace Automation.Domain.Dictionaries
 {
     [Dictionary("Operations")]
     public class Operations
     {
-        public static DictionaryItem ExecuteAutomat => EntityDictionary.Item(40, "Execute Automaton");
-        public static DictionaryItem ArchiveData => EntityDictionary.Item(41, "Archive data");
+        public static DictionaryItem ExecuteAutomat => EntityDictionary.Item(12, "Execute Automaton");
+        public static DictionaryItem ArchiveData => EntityDictionary.Item(13, "Archive data");
     }
 }

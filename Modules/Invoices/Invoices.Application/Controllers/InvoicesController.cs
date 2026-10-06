@@ -1,0 +1,129 @@
+using Base;
+using Invoices.Application.Dtos;
+using Invoices.Domain.Dictionaries;
+using Invoices.Domain.Entities;
+using Invoices.Domain.Repositories;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Invoices.Application.Controllers
+{
+    [AuthPermission("invoices")]
+    public class InvoicesController : BaseController
+    {
+        private readonly IInvoiceRepository _invoiceRepository;
+
+        public InvoicesController(IControllerService controllerService, IInvoiceRepository invoiceRepository) : base(controllerService)
+        {
+            _invoiceRepository = invoiceRepository;
+        }
+
+        [HttpGet("collector")]
+        public async Task<IActionResult> CollectorInvoices()
+        {
+            if (CurrentUser is null) return Unauthorized();
+            var invoices = await _invoiceRepository.GetByCollector(CurrentUser.UserId);
+            return Ok(invoices.Select(ToDto));
+        }
+
+        [HttpGet("recipient")]
+        public async Task<IActionResult> RecipientInvoices()
+        {
+            if (CurrentUser is null) return Unauthorized();
+            var invoices = await _invoiceRepository.GetByRecipient(CurrentUser.UserId);
+            return Ok(invoices.Select(ToDto));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] SaveInvoiceDto dto)
+        {
+            if (CurrentUser is null) return Unauthorized();
+            var recipient = Users.FirstOrDefault(x => x.UserId == dto.RecipientId);
+            if (recipient is null) return BadRequest("Recipient was not found.");
+
+            var invoice = new Invoice
+            {
+                Title = dto.Title,
+                Collector = CurrentUser.Clone(),
+                Recipient = recipient.Clone(),
+                Positions = dto.Positions.Select(ToEntity).ToList()
+            };
+            await _invoiceRepository.Add(invoice);
+            return CreatedAtAction(nameof(Get), new { id = invoice.Id }, ToDto(invoice));
+        }
+
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            if (CurrentUser is null) return Unauthorized();
+            var invoice = await _invoiceRepository.GetWithDetails(id);
+            if (invoice is null) return NotFound();
+            if (!IsParticipant(invoice)) return Forbid();
+            return Ok(ToDto(invoice));
+        }
+
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> Edit(Guid id, [FromBody] SaveInvoiceDto dto)
+        {
+            if (CurrentUser is null) return Unauthorized();
+            var invoice = await _invoiceRepository.GetWithDetails(id);
+            if (invoice is null) return NotFound();
+            if (invoice.Collector.UserId != CurrentUser.UserId) return Forbid();
+            var recipient = Users.FirstOrDefault(x => x.UserId == dto.RecipientId);
+            if (recipient is null) return BadRequest("Recipient was not found.");
+
+            invoice.Title = dto.Title;
+            invoice.Recipient = recipient.Clone();
+            await _invoiceRepository.ReplacePositions(invoice, dto.Positions.Select(ToEntity).ToList());
+            return Ok(ToDto(invoice));
+        }
+
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            if (CurrentUser is null) return Unauthorized();
+            var invoice = await _invoiceRepository.GetWithDetails(id);
+            if (invoice is null) return NotFound();
+            if (invoice.Collector.UserId != CurrentUser.UserId) return Forbid();
+            await _invoiceRepository.Remove(invoice);
+            return NoContent();
+        }
+
+        [HttpPut("{id:guid}/positions/{positionId:guid}/paid")]
+        public async Task<IActionResult> MarkPositionPaid(Guid id, Guid positionId)
+        {
+            if (CurrentUser is null) return Unauthorized();
+            var invoice = await _invoiceRepository.GetWithDetails(id);
+            if (invoice is null) return NotFound();
+            if (invoice.Collector.UserId != CurrentUser.UserId) return Forbid();
+            if (!await _invoiceRepository.MarkPositionPaid(invoice, positionId, InvoiceStatus.Paid.Key)) return NotFound();
+            return Ok(ToDto(invoice));
+        }
+
+        private bool IsParticipant(Invoice invoice) =>
+            invoice.Collector.UserId == CurrentUser?.UserId || invoice.Recipient.UserId == CurrentUser?.UserId;
+
+        private static InvoicePosition ToEntity(SaveInvoicePositionDto dto) => new()
+        {
+            Title = dto.Title ?? string.Empty,
+            Value = dto.Value,
+            Status = InvoiceStatus.Unpaid.Key
+        };
+
+        private static InvoiceDto ToDto(Invoice invoice) => new()
+        {
+            Id = invoice.Id,
+            Title = invoice.Title,
+            CollectorId = invoice.Collector.UserId,
+            CollectorLogin = invoice.Collector.Login ?? string.Empty,
+            RecipientId = invoice.Recipient.UserId,
+            RecipientLogin = invoice.Recipient.Login ?? string.Empty,
+            Positions = invoice.Positions.Select(x => new InvoicePositionDto
+            {
+                Id = x.Id,
+                Title = x.Title,
+                Value = x.Value,
+                Status = x.Status
+            }).ToList()
+        };
+    }
+}

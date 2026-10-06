@@ -48,6 +48,8 @@ export * from './reminder-dto';
 export * from './reset-password-model';
 export * from './rpg-file-dto';
 export * from './rules-dto';
+export * from './save-invoice-dto';
+export * from './save-invoice-position-dto';
 export * from './session';
 export * from './session-dto';
 export * from './skill';

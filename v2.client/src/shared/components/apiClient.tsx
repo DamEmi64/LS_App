@@ -15,7 +15,8 @@ import {
     CommunicationHistoryApi,
     DiscordApi,
     FilesV2Api,
-    DirectoriesApi
+    DirectoriesApi,
+    InvoicesApi
 } from '@/shared/api/generated';
 
 import { notify } from '../components/NotificationListener';
@@ -202,7 +203,8 @@ export const API = {
     communicationHistoryClient: bindApi(new CommunicationHistoryApi(null, '', axiosInstance)),
     discordClient: bindApi(new DiscordApi(null, '', axiosInstance)),
     filesV2Api: bindApi(new FilesV2Api(null, '', axiosInstance)),
-    directoriesApi: bindApi(new DirectoriesApi(null, '', axiosInstance))
+    directoriesApi: bindApi(new DirectoriesApi(null, '', axiosInstance)),
+    invoiceApi: bindApi(new InvoicesApi(null,'',axiosInstance))
 };
 
 export const call = async <TRes = unknown, TReq = unknown>(
@@ -215,6 +217,7 @@ export const call = async <TRes = unknown, TReq = unknown>(
 
     return mapResponse ? mapResponse(res.data) : res.data;
 };
+
 
 export const raw = async <TRes, TReq>(
     selector: (api: typeof API) => (req: TReq) => Promise<TRes>,
