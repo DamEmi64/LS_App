@@ -89,25 +89,26 @@ const DMPage: React.FC<{ chapter: Chapter }> = ({ chapter }) => {
 
     const startChapter = () => call<Chapter>(api =>api.chaptersApi.updateByIdStart,{id:chapter.id});
     const endChapter = (summary: string) =>
-        call<void>(api => api.chaptersApi.updateByIdEnd, { id: chapter.id, summary });
+        call<void>(api => api.chaptersApi.updateByIdEnd, { id: chapter.id, body: summary });
 
     const openPlayerView = () => {
-        window.open('/rpg/playerView', '_blank');
-        send('ChangeVideo', url || '');
-        send('UpdateBattleState', playersToBattleNpcs(playerHeroes));
-        send("BackgroundChanged", battleBg);
+        window.open(`/rpg/playerView?chapterId=${chapter.id}`, '_blank');
+        const selectedLink = chapter.links?.find(link => link.url === url);
+        send('ChangeVideo', chapter.id, selectedLink || { title: '', url: url || '' });
+        send('UpdateBattleState', chapter.id, playersToBattleNpcs(playerHeroes));
+        send("ChangeBackground", chapter.id, battleBg);
     };
 
     const onBackgroundChange = (bg: string) => {
         setBattleBg(bg);
-        send("ChangeBackground", bg);
-        send('UpdateBattleState', playersToBattleNpcs(playerHeroes));
+        send("ChangeBackground", chapter.id, bg);
+        send('UpdateBattleState', chapter.id, playersToBattleNpcs(playerHeroes));
     };
 
     const handleVideoChange = (value: string) => {
         setUrl(value);
         const selected = chapter.links?.find(l => l.url === value);
-        send("ChangeVideo", selected || {});
+        send("ChangeVideo", chapter.id, selected || {});
     };
 
     return (
@@ -224,7 +225,7 @@ const DMPage: React.FC<{ chapter: Chapter }> = ({ chapter }) => {
                 </Select>
                 {combatMode && (<BattlePage
                     players={playersToBattleNpcs(playerHeroes)}
-                    onChange={(data) => send("UpdateBattleState", data)}
+                    onChange={(data) => send("UpdateBattleState", chapter.id, data)}
                     background={battleBg}
                 />)}
                 {!combatMode && (<ProgressFlow initialEdges={chapter.flow?.edges || []} initialNodes={chapter.flow?.nodes || []} onSave={ o => call(api => api.chaptersApi.updateByIdFlow,{id: chapter.id, flowDto:o})}/>)}
