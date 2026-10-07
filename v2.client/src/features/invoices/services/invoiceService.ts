@@ -64,6 +64,28 @@ export async function generateInvoiceDocument(id: string, paymentMethod: number,
     throw new Error('Invoice generation timed out.');
 }
 
+export async function downloadInvoiceDocument(id: string, title: string) {
+    const pdf = await call<Blob, { id: string }>(
+        api => request => api.invoiceApi.getByIdDocument(request, { responseType: 'blob' }),
+        { id },
+        data => data as Blob,
+    );
+    const url = URL.createObjectURL(pdf);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${title.replace(/[<>:"/\\|?*]/g, '_') || 'invoice'}.pdf`;
+    link.click();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+export function getInvoiceHtml(id: string) {
+    return call<string, { id: string }>(
+        api => request => api.invoiceApi.getByIdHtml(request, { responseType: 'text' }),
+        { id },
+        data => String(data),
+    );
+}
+
 function toSaveInvoiceDto(invoice: InvoiceSaveDto): InvoiceSaveDto {
     return {
         title: invoice.title,

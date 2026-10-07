@@ -13,14 +13,14 @@
  */
 
 
+// May contain unused imports in some cases
+// @ts-ignore
+import type { InvoicePaymentMethod } from './invoice-payment-method';
 
-export interface UserData {
-    'id'?: number;
-    'userId': string | null;
-    'login'?: string | null;
-    'email'?: string | null;
-    'phone'?: string | null;
-    'role'?: string | null;
-    'permissions'?: Array<string> | null;
+export interface GenerateInvoiceDocumentDto {
+    'paymentMethod'?: InvoicePaymentMethod;
+    'accountNumber'?: string | null;
 }
+
+
 

@@ -14,13 +14,14 @@
 
 
 
-export interface UserData {
-    'id'?: number;
-    'userId': string | null;
-    'login'?: string | null;
-    'email'?: string | null;
-    'phone'?: string | null;
-    'role'?: string | null;
-    'permissions'?: Array<string> | null;
-}
+
+export const InvoicePaymentMethod = {
+    NUMBER_0: 0,
+    NUMBER_1: 1,
+    NUMBER_2: 2,
+} as const;
+
+export type InvoicePaymentMethod = typeof InvoicePaymentMethod[keyof typeof InvoicePaymentMethod];
+
+
 

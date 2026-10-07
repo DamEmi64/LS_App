@@ -143,6 +143,19 @@ namespace Invoices.Application.Controllers
             return File(document.Pdf, "application/pdf", $"{fileName}.pdf");
         }
 
+        [HttpGet("{id:guid}/html")]
+        public async Task<IActionResult> DownloadHtml(Guid id)
+        {
+            if (CurrentUser is null) return Unauthorized();
+            var invoice = await _invoiceRepository.GetWithDetails(id);
+            if (invoice is null) return NotFound();
+            if (!IsParticipant(invoice)) return Forbid();
+            var document = await _invoiceRepository.GetDocument(id);
+            if (document is null || string.IsNullOrEmpty(document.Html)) return NotFound();
+            var fileName = string.Concat(invoice.Title.Select(character => Path.GetInvalidFileNameChars().Contains(character) ? '_' : character));
+            return Ok(document.Html);
+        }
+
         private bool IsParticipant(Invoice invoice) =>
             invoice.Collector.UserId == CurrentUser?.UserId || invoice.Recipient.UserId == CurrentUser?.UserId;
 

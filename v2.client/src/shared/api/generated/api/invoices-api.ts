@@ -22,6 +22,8 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
+import type { GenerateInvoiceDocumentDto } from '../models';
+// @ts-ignore
 import type { SaveInvoiceDto } from '../models';
 /**
  * InvoicesApi - axios parameter creator
@@ -57,6 +59,45 @@ export const InvoicesApiAxiosParamCreator = function (configuration?: Configurat
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             localVarRequestOptions.data = serializeDataIfNeeded(saveInvoiceDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {GenerateInvoiceDocumentDto} [generateInvoiceDocumentDto] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createByIdDocument: async (id: string, generateInvoiceDocumentDto?: GenerateInvoiceDocumentDto, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('createByIdDocument', 'id', id)
+            const localVarPath = `/api/Invoices/{id}/document`
+                .replace('{id}', encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(generateInvoiceDocumentDto, localVarRequestOptions, configuration)
 
             return {
                 url: toPathString(localVarUrlObj),
@@ -109,6 +150,78 @@ export const InvoicesApiAxiosParamCreator = function (configuration?: Configurat
             // verify required parameter 'id' is not null or undefined
             assertParamExists('getById', 'id', id)
             const localVarPath = `/api/Invoices/{id}`
+                .replace('{id}', encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getByIdDocument: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getByIdDocument', 'id', id)
+            const localVarPath = `/api/Invoices/{id}/document`
+                .replace('{id}', encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getByIdHtml: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getByIdHtml', 'id', id)
+            const localVarPath = `/api/Invoices/{id}/html`
                 .replace('{id}', encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -302,6 +415,19 @@ export const InvoicesApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {string} id 
+         * @param {GenerateInvoiceDocumentDto} [generateInvoiceDocumentDto] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createByIdDocument(id: string, generateInvoiceDocumentDto?: GenerateInvoiceDocumentDto, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createByIdDocument(id, generateInvoiceDocumentDto, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['InvoicesApi.createByIdDocument']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -321,6 +447,30 @@ export const InvoicesApiFp = function(configuration?: Configuration) {
             const localVarAxiosArgs = await localVarAxiosParamCreator.getById(id, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['InvoicesApi.getById']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getByIdDocument(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getByIdDocument(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['InvoicesApi.getByIdDocument']?.[localVarOperationServerIndex]?.url;
+            return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
+        },
+        /**
+         * 
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getByIdHtml(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getByIdHtml(id, options);
+            const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
+            const localVarOperationServerBasePath = operationServerMap['InvoicesApi.getByIdHtml']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
         },
         /**
@@ -391,6 +541,15 @@ export const InvoicesApiFactory = function (configuration?: Configuration, baseP
         },
         /**
          * 
+         * @param {InvoicesApiCreateByIdDocumentRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createByIdDocument(requestParameters: InvoicesApiCreateByIdDocumentRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.createByIdDocument(requestParameters.id, requestParameters.generateInvoiceDocumentDto, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {InvoicesApiDeleteByIdRequest} requestParameters Request parameters.
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -406,6 +565,24 @@ export const InvoicesApiFactory = function (configuration?: Configuration, baseP
          */
         getById(requestParameters: InvoicesApiGetByIdRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
             return localVarFp.getById(requestParameters.id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {InvoicesApiGetByIdDocumentRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getByIdDocument(requestParameters: InvoicesApiGetByIdDocumentRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.getByIdDocument(requestParameters.id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {InvoicesApiGetByIdHtmlRequest} requestParameters Request parameters.
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getByIdHtml(requestParameters: InvoicesApiGetByIdHtmlRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
+            return localVarFp.getByIdHtml(requestParameters.id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -452,6 +629,15 @@ export interface InvoicesApiCreateRequest {
 }
 
 /**
+ * Request parameters for createByIdDocument operation in InvoicesApi.
+ */
+export interface InvoicesApiCreateByIdDocumentRequest {
+    readonly id: string
+
+    readonly generateInvoiceDocumentDto?: GenerateInvoiceDocumentDto
+}
+
+/**
  * Request parameters for deleteById operation in InvoicesApi.
  */
 export interface InvoicesApiDeleteByIdRequest {
@@ -462,6 +648,20 @@ export interface InvoicesApiDeleteByIdRequest {
  * Request parameters for getById operation in InvoicesApi.
  */
 export interface InvoicesApiGetByIdRequest {
+    readonly id: string
+}
+
+/**
+ * Request parameters for getByIdDocument operation in InvoicesApi.
+ */
+export interface InvoicesApiGetByIdDocumentRequest {
+    readonly id: string
+}
+
+/**
+ * Request parameters for getByIdHtml operation in InvoicesApi.
+ */
+export interface InvoicesApiGetByIdHtmlRequest {
     readonly id: string
 }
 
@@ -499,6 +699,16 @@ export class InvoicesApi extends BaseAPI {
 
     /**
      * 
+     * @param {InvoicesApiCreateByIdDocumentRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public createByIdDocument(requestParameters: InvoicesApiCreateByIdDocumentRequest, options?: RawAxiosRequestConfig) {
+        return InvoicesApiFp(this.configuration).createByIdDocument(requestParameters.id, requestParameters.generateInvoiceDocumentDto, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
      * @param {InvoicesApiDeleteByIdRequest} requestParameters Request parameters.
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -515,6 +725,26 @@ export class InvoicesApi extends BaseAPI {
      */
     public getById(requestParameters: InvoicesApiGetByIdRequest, options?: RawAxiosRequestConfig) {
         return InvoicesApiFp(this.configuration).getById(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {InvoicesApiGetByIdDocumentRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public getByIdDocument(requestParameters: InvoicesApiGetByIdDocumentRequest, options?: RawAxiosRequestConfig) {
+        return InvoicesApiFp(this.configuration).getByIdDocument(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {InvoicesApiGetByIdHtmlRequest} requestParameters Request parameters.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    public getByIdHtml(requestParameters: InvoicesApiGetByIdHtmlRequest, options?: RawAxiosRequestConfig) {
+        return InvoicesApiFp(this.configuration).getByIdHtml(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

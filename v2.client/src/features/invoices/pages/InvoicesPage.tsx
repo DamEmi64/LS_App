@@ -26,7 +26,7 @@ import {
     useModal,
 } from '@/shared';
 import { notify } from '@/shared/components/NotificationListener';
-import { createInvoice, deleteInvoice, generateInvoiceDocument, getInvoicesToPay, getMyInvoices, markInvoicePositionPaid, updateInvoice } from '../services/invoiceService';
+import { createInvoice, deleteInvoice, downloadInvoiceDocument, generateInvoiceDocument, getInvoiceHtml, getInvoicesToPay, getMyInvoices, markInvoicePositionPaid, updateInvoice } from '../services/invoiceService';
 import { INVOICE_STATUS, Invoice, InvoicePosition, InvoiceSaveDto } from '../types';
 import InvoiceForm from '../components/InvoiceForm';
 import CreditScoreIcon from '@mui/icons-material/CreditScore';
@@ -43,7 +43,7 @@ const InvoicesPage = ({ mode }: InvoicesPageProps) => {
     const [filters, setFilters] = useState<FilterValue[]>([]);
     const [loading, setLoading] = useState(true);
     const [documentInvoice, setDocumentInvoice] = useState<InvoiceRow | null>(null);
-    const [paymentMethod, setPaymentMethod] = useState(1);
+    const [paymentMethod, setPaymentMethod] = useState(0);
     const [accountNumber, setAccountNumber] = useState('');
     const [generating, setGenerating] = useState(false);
 
@@ -169,8 +169,32 @@ const InvoicesPage = ({ mode }: InvoicesPageProps) => {
         }
     };
 
+    const showInvoice = async (invoice: InvoiceRow) => {
+        const preview = window.open('', '_blank');
+        if (!preview) return;
+        try {
+            const html = await getInvoiceHtml(invoice.id);
+            preview.document.open();
+            preview.document.write(html);
+            preview.document.close();
+        } catch {
+            preview.close();
+            notify('error', t('invoices.showFailed'));
+        }
+    };
+
+    const downloadPdf = async (invoice: InvoiceRow) => {
+        try {
+            await downloadInvoiceDocument(invoice.id, invoice.title);
+        } catch {
+            notify('error', t('invoices.downloadFailed'));
+        }
+    };
+
     const invoiceOperations: Operations<InvoiceRow>[] = mode === 'mine' ? [
         { name: 'invoices.generateInvoice', method: invoice => { setPaymentMethod(1); setAccountNumber(''); setDocumentInvoice(invoice); } },
+        { name: 'invoices.downloadInvoicePdf', method: downloadPdf },
+        { name: 'invoices.showInvoice', method: showInvoice },
         { name: 'opt.edit', method: openEditInvoice },
         { name: 'opt.delete', method: confirmDeleteInvoice },
     ] : [];

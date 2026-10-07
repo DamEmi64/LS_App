@@ -5,8 +5,11 @@ All URIs are relative to *http://localhost*
 |Method | HTTP request | Description|
 |------------- | ------------- | -------------|
 |[**create**](#create) | **POST** /api/Invoices | |
+|[**createByIdDocument**](#createbyiddocument) | **POST** /api/Invoices/{id}/document | |
 |[**deleteById**](#deletebyid) | **DELETE** /api/Invoices/{id} | |
 |[**getById**](#getbyid) | **GET** /api/Invoices/{id} | |
+|[**getByIdDocument**](#getbyiddocument) | **GET** /api/Invoices/{id}/document | |
+|[**getByIdHtml**](#getbyidhtml) | **GET** /api/Invoices/{id}/html | |
 |[**getCollector**](#getcollector) | **GET** /api/Invoices/collector | |
 |[**getRecipient**](#getrecipient) | **GET** /api/Invoices/recipient | |
 |[**updateById**](#updatebyid) | **PUT** /api/Invoices/{id} | |
@@ -40,6 +43,60 @@ const { status, data } = await apiInstance.create(
 |Name | Type | Description  | Notes|
 |------------- | ------------- | ------------- | -------------|
 | **saveInvoiceDto** | **SaveInvoiceDto**|  | |
+
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: application/json-patch+json, application/json, text/json, application/*+json
+ - **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **createByIdDocument**
+> createByIdDocument()
+
+
+### Example
+
+```typescript
+import {
+    InvoicesApi,
+    Configuration,
+    GenerateInvoiceDocumentDto
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new InvoicesApi(configuration);
+
+let id: string; // (default to undefined)
+let generateInvoiceDocumentDto: GenerateInvoiceDocumentDto; // (optional)
+
+const { status, data } = await apiInstance.createByIdDocument(
+    id,
+    generateInvoiceDocumentDto
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **generateInvoiceDocumentDto** | **GenerateInvoiceDocumentDto**|  | |
+| **id** | [**string**] |  | defaults to undefined|
 
 
 ### Return type
@@ -131,6 +188,106 @@ const apiInstance = new InvoicesApi(configuration);
 let id: string; // (default to undefined)
 
 const { status, data } = await apiInstance.getById(
+    id
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **id** | [**string**] |  | defaults to undefined|
+
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getByIdDocument**
+> getByIdDocument()
+
+
+### Example
+
+```typescript
+import {
+    InvoicesApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new InvoicesApi(configuration);
+
+let id: string; // (default to undefined)
+
+const { status, data } = await apiInstance.getByIdDocument(
+    id
+);
+```
+
+### Parameters
+
+|Name | Type | Description  | Notes|
+|------------- | ------------- | ------------- | -------------|
+| **id** | [**string**] |  | defaults to undefined|
+
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+[Bearer](../README.md#Bearer)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+|**200** | OK |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
+
+# **getByIdHtml**
+> getByIdHtml()
+
+
+### Example
+
+```typescript
+import {
+    InvoicesApi,
+    Configuration
+} from './api';
+
+const configuration = new Configuration();
+const apiInstance = new InvoicesApi(configuration);
+
+let id: string; // (default to undefined)
+
+const { status, data } = await apiInstance.getByIdHtml(
     id
 );
 ```

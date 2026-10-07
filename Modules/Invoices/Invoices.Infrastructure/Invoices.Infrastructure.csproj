@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Core\InvoiceBase\InvoiceBase.csproj" />
     <ProjectReference Include="..\..\..\Core\SharedEvents\SharedEvents.csproj" />
     <ProjectReference Include="..\Invoices.Domain\Invoices.Domain.csproj" />
     <ProjectReference Include="..\Invoices.Extras\Invoices.Extras.csproj" />

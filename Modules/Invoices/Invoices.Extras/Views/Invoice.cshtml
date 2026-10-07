@@ -23,7 +23,7 @@
         .party p { margin: 0; overflow-wrap: anywhere; }
         table { border-collapse: collapse; width: 100%; }
         thead { display: table-header-group; }
-        th { background: #f1f5f9; color: #334155; font-size: 11px; text-align: left; }
+        th { background: #f1f5f9; color: #334155; font-size: 11px; text-align: right; }
         th, td { border-bottom: 1px solid #dbe2ea; padding: 10px 8px; }
         tr { break-inside: avoid; }
         .amount { text-align: right; white-space: nowrap; }
@@ -43,7 +43,7 @@
     </section>
     <h2>Pozycje faktury</h2>    
     <table>
-        <thead><tr><th>Lp.</th><th>Pozycja</th><th class="amount">Kwota</th><th>Status</th></tr></thead>
+        <thead><tr><th>Lp.</th><th>Pozycja</th><th class="amount">Kwota</th></tr></thead>
         <tbody>
         @{ var index = 0; }
         @foreach (var position in Model.Items)
