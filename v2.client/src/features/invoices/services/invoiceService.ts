@@ -34,6 +34,10 @@ export function updateInvoice(id: string, invoice: InvoiceSaveDto) {
     });
 }
 
+export function addInvoicePosition(id: string, position: InvoiceSaveDto['positions'][number]) {
+    return axiosInstance.post(`/api/Invoices/${id}/positions`, position);
+}
+
 export function deleteInvoice(id: string) {
     return call<void, { id: string }>(api => api.invoiceApi.deleteById, { id });
 }
@@ -93,6 +97,7 @@ function toSaveInvoiceDto(invoice: InvoiceSaveDto): InvoiceSaveDto {
         positions: invoice.positions.map(position => ({
             title: position.title,
             value: position.value,
+            invoiceDate: position.invoiceDate,
         })),
     };
 }

@@ -353,7 +353,7 @@
     "addInvoice": "Rechnung hinzufügen",
     "editInvoice": "Rechnung bearbeiten",
     "invoiceTitle": "Rechnungstitel",
-    "positionTitle": "Positionstitel",
+    "positionTitle": "Positionstitel","invoiceDate":"Rechnungsdatum","fastAddPosition":"Position schnell hinzufügen",
     "addPosition": "Position hinzufügen",
     "removePosition": "Position entfernen",
     "loadingUsers": "Benutzer werden geladen…",

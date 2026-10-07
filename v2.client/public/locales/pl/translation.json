@@ -331,7 +331,7 @@
     "addInvoice": "Dodaj fakturę",
     "editInvoice": "Edytuj fakturę",
     "invoiceTitle": "Tytuł faktury",
-    "positionTitle": "Tytuł pozycji",
+    "positionTitle": "Tytuł pozycji","invoiceDate":"Data faktury","fastAddPosition":"Szybkie dodawanie pozycji",
     "addPosition": "Dodaj pozycję",
     "removePosition": "Usuń pozycję",
     "loadingUsers": "Wczytywanie użytkowników…",

@@ -331,7 +331,7 @@
     "addInvoice": "Add invoice",
     "editInvoice": "Edit invoice",
     "invoiceTitle": "Invoice title",
-    "positionTitle": "Position title",
+    "positionTitle": "Position title","invoiceDate":"Invoice date","fastAddPosition":"Quick add position",
     "addPosition": "Add position",
     "removePosition": "Remove position",
     "loadingUsers": "Loading users…",

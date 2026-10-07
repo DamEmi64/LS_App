@@ -43,7 +43,7 @@
     </section>
     <h2>Pozycje faktury</h2>    
     <table>
-        <thead><tr><th>Lp.</th><th>Pozycja</th><th class="amount">Kwota</th></tr></thead>
+        <thead><tr><th>Lp.</th><th>Pozycja</th><th>Data faktury</th><th class="amount">Kwota</th></tr></thead>
         <tbody>
         @{ var index = 0; }
         @foreach (var position in Model.Items)
@@ -52,11 +52,12 @@
             <tr>
                 <td>@index</td>
                 <td>@position.Title</td>
+                <td>@position.InvoiceDate.ToString("d", pl)</td>
                 <td class="amount">@position.Value.ToString("C", pl)</td>
             </tr>
         }
         </tbody>
-        <tfoot><tr><td colspan="2" class="total-label">Razem</td><td class="amount">@total.ToString("C", pl)</td><td></td></tr></tfoot>
+        <tfoot><tr><td colspan="3" class="total-label">Razem</td><td class="amount">@total.ToString("C", pl)</td></tr></tfoot>
     </table>
     <section class="payment">
         <h2>Sposób płatności</h2>

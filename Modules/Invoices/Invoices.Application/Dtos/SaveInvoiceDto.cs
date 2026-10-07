@@ -11,5 +11,6 @@ namespace Invoices.Application.Dtos
     {
         public string? Title { get; set; }
         public decimal Value { get; set; }
+        public DateTime InvoiceDate { get; set; } = DateTime.Today;
     }
 }
