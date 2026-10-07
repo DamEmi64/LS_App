@@ -26,7 +26,8 @@
       "href": "",
       "submenu": [
         { "label": "allEvents", "href": "/events", "submenu": [], "permissions": ["events"] },
-        { "label": "myEvents", "href": "/events/me", "submenu": [], "permissions": ["events"] }
+        { "label": "myEvents", "href": "/events/me", "submenu": [], "permissions": ["events"] },
+        { "label": "eventCosts", "href": "/events/costs", "submenu": [], "permissions": ["events"] }
       ],
       "permissions": ["events"]
     },

@@ -36,6 +36,7 @@ import DiscordImg from "@/assets/settings.png";
 
 import FilesV2Page from "@/features/filesV2/pages/files";
 import InvoicesPage from "@/features/invoices/pages/InvoicesPage";
+import EventCostsPage from "@/features/invoices/pages/EventCostsPage";
 
 import NotFound from "@/features/system/pages/NotFound";
 
@@ -79,6 +80,7 @@ const App = () => {
                                         <Route path="/communicationHistory" element={<Layout content={CommunicationRegistry} image={EmailImg} title={'menu.communicationRegistry'} permissions={['communication-registry']} menu={menu} />} />
                                         <Route path="/events" element={<Layout content={EventsPage} image={EventsImg} title={'menu.events'} permissions={['events']} menu={menu} />} />
                                         <Route path="/events/me" element={<Layout content={MyEventsPage} image={EventsImg} title={'menu.myEvents'} permissions={['events']}  menu={menu} />} />
+                                        <Route path="/events/costs" element={<Layout content={EventCostsPage} image={EventsImg} title={'menu.eventCosts'} permissions={['events']} menu={menu} />} />
                                         <Route path="/templates" element={<Layout content={Templates} image={TemplateImg} title={'menu.templates'} permissions={['communication']} menu={menu} />} />
                                         <Route path="/rpg/playerData" element={<Layout content={PlayerPage} image={RPGImg} title={'menu.rpg_sessions'} permissions={['rpg']} menu={menu} />} />
                                         <Route path="/rpg/playerView" element={<Layout content={PlayerViewPage} image={RPGImg} title={'menu.rpg_sessions'} menu={menu} allowAnonymous />} />

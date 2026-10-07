@@ -294,7 +294,8 @@
     "discord": "Discord",
     "invoices": "Faktury",
     "myInvoices": "Moje faktury",
-    "invoicesToPay": "Faktury do zapłaty"
+    "invoicesToPay": "Faktury do zapłaty",
+    "eventCosts": "Koszty wydarzenia"
   },
   "invoices": {
     "myInvoices": "Moje faktury",
@@ -338,7 +339,11 @@
     "completeRequiredFields": "Podaj tytuł faktury, odbiorcę i przynajmniej jedną kompletną pozycję.",
     "saveFailed": "Nie udało się zapisać faktury.",
     "deleteConfirm": "Czy na pewno chcesz usunąć tę fakturę?",
-    "filters": { "title": "Tytuł faktury lub pozycji", "recipient": "Odbiorca", "paymentStatus": "Status pozycji" }
+    "filters": {
+      "title": "Tytuł faktury lub pozycji",
+      "recipient": "Odbiorca",
+      "paymentStatus": "Status pozycji"
+    }
   },
   "discord": {
     "title": "Komendy Discord",
@@ -416,10 +421,10 @@
     "from": "Od",
     "to": "Do",
     "file": {
-      "select":"Wybierz plik",
+      "select": "Wybierz plik",
       "drop": "Przenieś i upuść plik",
       "drop_active": "Upuść plik",
-      "drop_replace":"Upuść plik, by zastąpić poprzedni"
+      "drop_replace": "Upuść plik, by zastąpić poprzedni"
     }
   },
   "auth": {
@@ -519,5 +524,27 @@
     "removeReminder": "Usuń przypomnienie",
     "present": "Obecność"
   },
-  "auth_forgot_password_sent_failed": "Wysłanie kodu do resetu hasła nie powiodło się"
+  "auth_forgot_password_sent_failed": "Wysłanie kodu do resetu hasła nie powiodło się",
+  "eventCosts": {
+    "title": "Koszty wydarzenia",
+    "description": "Faktury i koszty uczestnik?w wydarze?.",
+    "add": "Dodaj fakturę",
+    "event": "Wydarzenie",
+    "invoice": "Id faktury",
+    "user": "Uczestnik",
+    "value": "Kwota",
+    "empty": "Brak faktur dla wydarzeń.",
+    "loadFailed": "Nie udało się wczytać faktur wydarzeń.",
+    "eventsLoadFailed": "Nie udało się wczytać wydarzeń.",
+    "required": "Uzupełnij wymagane pola i dodaj co najmniej jednego uczestnika.",
+    "saveFailed": "Nie udało się utworzyć faktur wydarzeń.",
+    "invoiceTitle": "Tytuł faktury",
+    "position": "Pozycja faktury",
+    "positions": "Pozycje",
+    "splitEqually": "Podziel rowno",
+    "totalValue": "Łączna kwota",
+    "shares": "Udziały uczestników",
+    "noParticipants": "To wydarzenie nie ma uczestników.",
+    "loading": "Wczytywanie wydarzeń..."
+  }
 }

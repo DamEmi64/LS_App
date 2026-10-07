@@ -9,6 +9,7 @@ api/directories-api.ts
 api/discord-api.ts
 api/discord-interactions-api.ts
 api/emails-api.ts
+api/event-invoices-api.ts
 api/events-api.ts
 api/files-api.ts
 api/files-v2-api.ts
@@ -37,6 +38,7 @@ docs/CommunicationHistoryApi.md
 docs/CommunicationRegistry.md
 docs/CommunicationRegistryResponseList.md
 docs/CreateDirectoryDto.md
+docs/CreateEventInvoiceDto.md
 docs/DirectoriesApi.md
 docs/DirectoryDto.md
 docs/DiscordApi.md
@@ -47,6 +49,9 @@ docs/EmailGenerationDto.md
 docs/EmailsApi.md
 docs/EventDto.md
 docs/EventDtoResponseList.md
+docs/EventInvoiceAllocationDto.md
+docs/EventInvoicePositionDto.md
+docs/EventInvoicesApi.md
 docs/EventsApi.md
 docs/File.md
 docs/FileDto.md
@@ -129,12 +134,15 @@ models/chapter.ts
 models/communication-registry-response-list.ts
 models/communication-registry.ts
 models/create-directory-dto.ts
+models/create-event-invoice-dto.ts
 models/directory-dto.ts
 models/discord-cmd.ts
 models/email-generation-dto.ts
 models/email.ts
 models/event-dto-response-list.ts
 models/event-dto.ts
+models/event-invoice-allocation-dto.ts
+models/event-invoice-position-dto.ts
 models/file-dto.ts
 models/file-response-list.ts
 models/file-user-dto.ts

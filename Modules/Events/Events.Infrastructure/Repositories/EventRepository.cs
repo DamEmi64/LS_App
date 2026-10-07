@@ -48,5 +48,19 @@ namespace Events.Infrastructure.Repositories
         {
             return DbContext.Set<Event>().Include(x => x.Participates).Where(x => x.EventDate >= DateTime.Today).OrderBy(x => x.EventDate).FirstOrDefaultAsync();
         }
+
+        public IEnumerable<EventIInvoice> GetInvoices()
+        {
+            return DbContext.Set<EventIInvoice>().Include(x => x.Event);
+        }
+
+        public async Task AddInvoice(Guid eventId, Guid invoiceId, string userId, decimal value)
+        {
+            var ev = await Get(eventId);
+            if (ev is null) return;
+            var invoice = new EventIInvoice { Event = ev, InvoiceId = invoiceId, UserId = userId, Value = value};
+            await DbContext.Set<EventIInvoice>().AddAsync(invoice);
+            await DbContext.SaveChangesAsync();
+        }
     }
 }

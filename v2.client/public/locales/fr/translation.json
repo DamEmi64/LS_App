@@ -294,7 +294,30 @@
     "discord": "Discord",
     "invoices": "Factures",
     "myInvoices": "Mes factures",
-    "invoicesToPay": "Factures à payer"
+    "invoicesToPay": "Factures à payer",
+    "eventCosts": "Couts de l'evenement"
+  },
+  "eventCosts": {
+    "title": "Couts de l'evenement",
+    "description": "Factures et couts des participants aux evenements.",
+    "add": "Ajouter une facture",
+    "event": "Evenement",
+    "invoice": "ID de facture",
+    "user": "Participant",
+    "value": "Montant",
+    "empty": "Aucune facture pour cet evenement pour le moment.",
+    "loadFailed": "Impossible de charger les factures des evenements.",
+    "eventsLoadFailed": "Impossible de charger les evenements.",
+    "required": "Remplissez les champs obligatoires et ajoutez au moins un participant.",
+    "saveFailed": "Impossible de creer les factures de l'evenement.",
+    "invoiceTitle": "Titre de la facture",
+    "position": "Ligne de facture",
+    "positions": "Lignes",
+    "splitEqually": "Repartir egalement",
+    "totalValue": "Montant total",
+    "shares": "Parts des participants",
+    "noParticipants": "Cet evenement n'a aucun participant.",
+    "loading": "Chargement des evenements..."
   },
   "invoices": {
     "myInvoices": "Mes factures",

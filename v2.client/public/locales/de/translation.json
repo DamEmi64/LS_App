@@ -294,7 +294,30 @@
     "discord": "Discord",
     "invoices": "Rechnungen",
     "myInvoices": "Meine Rechnungen",
-    "invoicesToPay": "Zu zahlende Rechnungen"
+    "invoicesToPay": "Zu zahlende Rechnungen",
+    "eventCosts": "Eventkosten"
+  },
+  "eventCosts": {
+    "title": "Eventkosten",
+    "description": "Rechnungen und Teilnehmerkosten f?r Events.",
+    "add": "Rechnung hinzuf?gen",
+    "event": "Event",
+    "invoice": "Rechnungs-ID",
+    "user": "Teilnehmer",
+    "value": "Betrag",
+    "empty": "Noch keine Eventrechnungen vorhanden.",
+    "loadFailed": "Eventrechnungen konnten nicht geladen werden.",
+    "eventsLoadFailed": "Events konnten nicht geladen werden.",
+    "required": "Bitte alle Pflichtfelder ausf?llen und mindestens einen Teilnehmer hinzuf?gen.",
+    "saveFailed": "Eventrechnungen konnten nicht erstellt werden.",
+    "invoiceTitle": "Rechnungstitel",
+    "position": "Rechnungsposition",
+    "positions": "Positionen",
+    "splitEqually": "Gleich aufteilen",
+    "totalValue": "Gesamtbetrag",
+    "shares": "Anteile der Teilnehmer",
+    "noParticipants": "Dieses Event hat keine Teilnehmer.",
+    "loading": "Events werden geladen..."
   },
   "invoices": {
     "myInvoices": "Meine Rechnungen",

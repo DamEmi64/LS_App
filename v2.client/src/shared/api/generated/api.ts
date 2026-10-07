@@ -22,6 +22,7 @@ export * from './api/directories-api';
 export * from './api/discord-api';
 export * from './api/discord-interactions-api';
 export * from './api/emails-api';
+export * from './api/event-invoices-api';
 export * from './api/events-api';
 export * from './api/files-api';
 export * from './api/files-v2-api';

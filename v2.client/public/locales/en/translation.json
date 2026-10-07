@@ -294,7 +294,8 @@
     "discord": "Discord",
     "invoices": "Invoices",
     "myInvoices": "My invoices",
-    "invoicesToPay": "Invoices to pay"
+    "invoicesToPay": "Invoices to pay",
+    "eventCosts": "Event costs"
   },
   "invoices": {
     "myInvoices": "My invoices",
@@ -523,5 +524,27 @@
     "removeReminder": "Remove reminder",
     "present": "Attendance"
   },
-  "auth_forgot_password_sent_failed": "Failed to send the password reset code"
+  "auth_forgot_password_sent_failed": "Failed to send the password reset code",
+  "eventCosts": {
+    "title": "Event costs",
+    "description": "Invoices and participant costs for events.",
+    "add": "Add invoice",
+    "event": "Event",
+    "invoice": "Invoice ID",
+    "user": "Participant",
+    "value": "Amount",
+    "empty": "No event invoices yet.",
+    "loadFailed": "Could not load event invoices.",
+    "eventsLoadFailed": "Could not load events.",
+    "required": "Complete all fields and add at least one participant.",
+    "saveFailed": "Could not create event invoices.",
+    "invoiceTitle": "Invoice title",
+    "position": "Invoice position",
+    "positions": "Positions",
+    "splitEqually": "Split equally",
+    "totalValue": "Total amount",
+    "shares": "Participant shares",
+    "noParticipants": "This event has no participants.",
+    "loading": "Loading events..."
+  }
 }

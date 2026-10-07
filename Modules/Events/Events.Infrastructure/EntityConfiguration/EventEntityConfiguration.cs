@@ -9,6 +9,7 @@ namespace Events.Infrastructure.EntityConfiguration
         public void Configure(EntityTypeBuilder<Event> builder)
         {
             builder.HasMany(x => x.Participates).WithOne(x => x.Event).OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany<EventIInvoice>().WithOne(x => x.Event).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
