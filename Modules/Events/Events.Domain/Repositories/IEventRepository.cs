@@ -10,5 +10,7 @@ namespace Events.Domain.Repositories
         Task SignIn(EventUser user);
         Task<Event?> GetByName(string title);
         Task<Event?> GetClosestEvent();
+        IEnumerable<EventIInvoice> GetInvoices();
+        Task AddInvoice(Guid eventId, Guid invoiceId, string userId, decimal value);
     }
 }

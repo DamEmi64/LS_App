@@ -26,9 +26,19 @@
       "href": "",
       "submenu": [
         { "label": "allEvents", "href": "/events", "submenu": [], "permissions": ["events"] },
-        { "label": "myEvents", "href": "/events/me", "submenu": [], "permissions": ["events"] }
+        { "label": "myEvents", "href": "/events/me", "submenu": [], "permissions": ["events"] },
+        { "label": "eventCosts", "href": "/events/costs", "submenu": [], "permissions": ["events"] }
       ],
       "permissions": ["events"]
+    },
+    {
+      "label": "invoices",
+      "href": "",
+      "submenu": [
+        { "label": "myInvoices", "href": "/invoices/me", "submenu": [], "permissions": ["invoices"] },
+        { "label": "invoicesToPay", "href": "/invoices/toPay", "submenu": [], "permissions": ["invoices"] }
+      ],
+      "permissions": ["invoices"]
     },
     {
       "label": "rpg_sessions",

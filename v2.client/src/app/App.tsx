@@ -35,6 +35,8 @@ import DiscordPage from "@/features/discord/pages/DiscordPage";
 import DiscordImg from "@/assets/settings.png";
 
 import FilesV2Page from "@/features/filesV2/pages/files";
+import InvoicesPage from "@/features/invoices/pages/InvoicesPage";
+import EventCostsPage from "@/features/invoices/pages/EventCostsPage";
 
 import NotFound from "@/features/system/pages/NotFound";
 
@@ -78,6 +80,7 @@ const App = () => {
                                         <Route path="/communicationHistory" element={<Layout content={CommunicationRegistry} image={EmailImg} title={'menu.communicationRegistry'} permissions={['communication-registry']} menu={menu} />} />
                                         <Route path="/events" element={<Layout content={EventsPage} image={EventsImg} title={'menu.events'} permissions={['events']} menu={menu} />} />
                                         <Route path="/events/me" element={<Layout content={MyEventsPage} image={EventsImg} title={'menu.myEvents'} permissions={['events']}  menu={menu} />} />
+                                        <Route path="/events/costs" element={<Layout content={EventCostsPage} image={EventsImg} title={'menu.eventCosts'} permissions={['events']} menu={menu} />} />
                                         <Route path="/templates" element={<Layout content={Templates} image={TemplateImg} title={'menu.templates'} permissions={['communication']} menu={menu} />} />
                                         <Route path="/rpg/playerData" element={<Layout content={PlayerPage} image={RPGImg} title={'menu.rpg_sessions'} permissions={['rpg']} menu={menu} />} />
                                         <Route path="/rpg/playerView" element={<Layout content={PlayerViewPage} image={RPGImg} title={'menu.rpg_sessions'} menu={menu} allowAnonymous />} />
@@ -86,6 +89,8 @@ const App = () => {
                                         <Route path="/automations" element={<Layout content={Automations} image={AutomationsImg} title={'menu.automations'} permissions={['automation']} menu={menu} />} />
                                         <Route path="/discord" element={<Layout content={DiscordPage} image={DiscordImg} title={'menu.discord'} permissions={['communication']} menu={menu} />} />
                                         <Route path="/filesV2" element={<Layout content={FilesV2Page} image={FilesImg} title={'menu.files'} menu={menu}/>} />
+                                        <Route path="/invoices/me" element={<Layout content={() => <InvoicesPage mode="mine" />} image={EventsImg} title={'menu.myInvoices'} permissions={['invoices']} menu={menu} />} />
+                                        <Route path="/invoices/toPay" element={<Layout content={() => <InvoicesPage mode="toPay" />} image={EventsImg} title={'menu.invoicesToPay'} permissions={['invoices']} menu={menu} />} />
                                         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                                         <Route path="*" element={<Layout content={NotFound} image={IndexImg} title={'404'} menu={menu} />} />
                                     </SlideRoutes>

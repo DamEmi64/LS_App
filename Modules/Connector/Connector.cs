@@ -5,6 +5,7 @@ using Drive.API;
 using Events.Application;
 using Files.Application;
 using FilesV2.Application;
+using Invoices.Application;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,7 +29,8 @@ namespace Connector
             new CommunicationModule().Info(),
             new AutomationModule().Info(),
             new EventModule().Info(),
-            new FilesV2Module().Info()
+            new FilesV2Module().Info(),
+            new InvoiceModule().Info()
         };
 
         public override string Version => AppConfiguration.Version;

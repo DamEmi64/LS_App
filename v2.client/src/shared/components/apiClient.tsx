@@ -15,7 +15,9 @@ import {
     CommunicationHistoryApi,
     DiscordApi,
     FilesV2Api,
-    DirectoriesApi
+    DirectoriesApi,
+    InvoicesApi,
+    EventInvoicesApi
 } from '@/shared/api/generated';
 
 import { notify } from '../components/NotificationListener';
@@ -68,7 +70,7 @@ type ApiError = {
     title?: string;
 };
 
-const axiosInstance = axios.create();
+export const axiosInstance = axios.create();
 
 const loginWithRememberedCredentials = async (baseUrl: string) => {
     const login = appStorage.get(rememberedUsernameKey);
@@ -198,11 +200,13 @@ export const API = {
     filesApi: bindApi(new FilesApi(null, '', axiosInstance)),
     automationApi: bindApi(new AutomationsApi(null, '', axiosInstance)),
     homeApi: bindApi(new HomeApi(null, '', axiosInstance)),
-    eventClient: bindApi(new EventsApi(null, '', axiosInstance)),
+    eventApi: bindApi(new EventsApi(null, '', axiosInstance)),
     communicationHistoryClient: bindApi(new CommunicationHistoryApi(null, '', axiosInstance)),
     discordClient: bindApi(new DiscordApi(null, '', axiosInstance)),
     filesV2Api: bindApi(new FilesV2Api(null, '', axiosInstance)),
-    directoriesApi: bindApi(new DirectoriesApi(null, '', axiosInstance))
+    directoriesApi: bindApi(new DirectoriesApi(null, '', axiosInstance)),
+    invoiceApi: bindApi(new InvoicesApi(null,'',axiosInstance)),
+    eventInvoiceApi: bindApi(new EventInvoicesApi(null,'',axiosInstance))
 };
 
 export const call = async <TRes = unknown, TReq = unknown>(
@@ -215,6 +219,7 @@ export const call = async <TRes = unknown, TReq = unknown>(
 
     return mapResponse ? mapResponse(res.data) : res.data;
 };
+
 
 export const raw = async <TRes, TReq>(
     selector: (api: typeof API) => (req: TReq) => Promise<TRes>,

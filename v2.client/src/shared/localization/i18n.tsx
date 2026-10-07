@@ -22,11 +22,23 @@ const firestoreBackend: BackendModule = {
   }
 };
 
+const debugBackend: BackendModule = {
+  type: 'backend',
+  init() {},
+  read(language: string, namespace: string, callback: ReadCallback) {
+    const response = fetch(`/locales/${language}/${namespace}.json`).then(response =>
+      response.json().then(json => callback(null, json)) 
+    );      
+  }
+};
+
 i18n
   .use(LanguageDetector)
-  .use(firestoreBackend)
+  .use(debugBackend)
   .use(initReactI18next)
   ;
+
+
 
 export const i18nReady = i18n.init({
     ns: ["translation", "dictionaries"],

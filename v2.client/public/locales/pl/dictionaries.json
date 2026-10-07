@@ -1,601 +1,623 @@
 {
   "Automation_events": {
-    "110": {
+    "30101": {
       "title": "Częstotliwość (w minutach)",
       "description": ""
     },
-    "111": {
+    "30201": {
       "title": "Przy pobieraniu pliku",
       "description": ""
     },
-    "112": {
-      "title": "Przy utworzeniu wydarzenia",
+    "30202": {
+      "title": "Przy zapisaniu pliku",
       "description": ""
     },
-    "113": {
-      "title": "Przy zapisie na wydarzenie",
-      "description": ""
-    },
-    "114": {
+    "30401": {
       "title": "Przy edycji sesji RPG",
       "description": ""
     },
-    "115": {
-      "title": "Przy zapisaniu pliku",
+    "30501": {
+      "title": "Przy utworzeniu wydarzenia",
+      "description": ""
+    },
+    "30502": {
+      "title": "Przy zapisie na wydarzenie",
       "description": ""
     }
   },
   "Email_statuses": {
-    "351": {
+    "70301": {
       "title": "Utworzono",
       "description": ""
     },
-    "352": {
+    "70302": {
       "title": "Wysłano",
       "description": ""
     },
-    "353": {
+    "70303": {
       "title": "Dostarczono",
       "description": ""
     },
-    "354": {
+    "70304": {
       "title": "Odczytano",
       "description": ""
     },
-    "355": {
+    "70305": {
       "title": "Odrzucono",
       "description": ""
     }
   },
   "Event_categories": {
-    "421": {
+    "120501": {
       "title": "Film",
       "description": ""
     },
-    "422": {
+    "120502": {
       "title": "Koncert",
       "description": ""
     },
-    "423": {
+    "120503": {
       "title": "Wakacje/Urlop",
       "description": ""
     },
-    "424": {
+    "120504": {
       "title": "Spotkanie",
       "description": ""
     },
-    "425": {
+    "120505": {
       "title": "Gry",
       "description": ""
     }
   },
   "File_source_type": {
-    "300": {
+    "60201": {
       "title": "Lokalny",
       "description": ""
     },
-    "301": {
+    "60202": {
       "title": "z serwisu FuckingFast",
       "description": ""
     }
   },
   "File_types": {
-    "101": {
+    "20201": {
       "title": "Gry",
       "description": ""
     },
-    "102": {
+    "20202": {
       "title": "Dokumenty",
       "description": ""
     },
-    "103": {
+    "20203": {
       "title": "Pliki na studia",
       "description": ""
     }
   },
   "Fluid_functions": {
-    "601": {
+    "80301": {
       "title": "Losowanie liczby",
       "description": " {{ randomNumber(0,20)}}"
     },
-    "602": {
+    "80302": {
       "title": "Losowanie",
       "description": " {{ random('', 'a', 'b', 'c')}}"
     },
-    "603": {
+    "80303": {
       "title": "Uniikalne losowanie",
       "description": " {{ randomUnique( test@test.com='d;e;f', 'a', 'b', 'c')}}"
     },
-    "604": {
+    "80304": {
       "title": "Zwiększenie",
       "description": "increment"
     }
   },
   "Fluid_variables": {
-    "605": {
+    "90301": {
       "title": "Użytkownik",
       "description": "User"
     },
-    "606": {
+    "90302": {
       "title": "Nadawca",
       "description": "sender"
     },
-    "607": {
+    "90303": {
       "title": "Odbiorca",
       "description": "recipient"
     },
-    "608": {
+    "90304": {
       "title": "Odbiorcy",
       "description": "recipients"
     },
-    "609": {
+    "90305": {
       "title": "Licznik",
       "description": "counter"
     }
   },
   "Game_genres": {
-    "200": {
+    "50201": {
       "title": "Platformówka",
       "description": ""
     },
-    "201": {
+    "50202": {
       "title": "Strzelanka",
       "description": ""
     },
-    "202": {
+    "50203": {
       "title": "Strzelanka pierwszoosobowa",
       "description": ""
     },
-    "203": {
+    "50204": {
       "title": "Strzelanka trzecioosobowa",
       "description": ""
     },
-    "204": {
+    "50205": {
       "title": "Bijatyka",
       "description": ""
     },
-    "205": {
+    "50206": {
       "title": "Skradanka",
       "description": ""
     },
-    "206": {
+    "50207": {
       "title": "Survival",
       "description": ""
     },
-    "210": {
+    "50208": {
       "title": "Przygodowa akcja",
       "description": ""
     },
-    "211": {
+    "50209": {
       "title": "Przygodowa narracyjna",
       "description": ""
     },
-    "212": {
+    "50210": {
       "title": "Point and Click",
       "description": ""
     },
-    "220": {
+    "50211": {
       "title": "Akcyjne RPG",
       "description": ""
     },
-    "221": {
+    "50212": {
       "title": "Turowe RPG",
       "description": ""
     },
-    "222": {
+    "50213": {
       "title": "Taktyczne RPG",
       "description": ""
     },
-    "223": {
+    "50214": {
       "title": "MMORPG",
       "description": ""
     },
-    "224": {
+    "50215": {
       "title": "RPG z otwartym światem",
       "description": ""
     },
-    "230": {
+    "50216": {
       "title": "Symulator życia",
       "description": ""
     },
-    "231": {
+    "50217": {
       "title": "Symulator farmy",
       "description": ""
     },
-    "232": {
+    "50218": {
       "title": "Symulator pojazdów",
       "description": ""
     },
-    "233": {
+    "50219": {
       "title": "Budowanie miasta",
       "description": ""
     },
-    "240": {
+    "50220": {
       "title": "Strategia czasu rzeczywistego",
       "description": ""
     },
-    "241": {
+    "50221": {
       "title": "Strategia turowa",
       "description": ""
     },
-    "242": {
+    "50222": {
       "title": "Tower Defense",
       "description": ""
     },
-    "243": {
+    "50223": {
       "title": "Strategia 4X",
       "description": ""
     },
-    "250": {
+    "50224": {
       "title": "Klasyczna gra logiczna",
       "description": ""
     },
-    "251": {
+    "50225": {
       "title": "Gra logiczna oparta na fizyce",
       "description": ""
     },
-    "252": {
+    "50226": {
       "title": "Dopasuj 3",
       "description": ""
     },
-    "260": {
+    "50227": {
       "title": "Sport tradycyjny",
       "description": ""
     },
-    "261": {
+    "50228": {
       "title": "Sport ekstremalny",
       "description": ""
     },
-    "262": {
+    "50229": {
       "title": "Wyścigi",
       "description": ""
     },
-    "270": {
+    "50230": {
       "title": "Bijatyka tradycyjna",
       "description": ""
     },
-    "271": {
+    "50231": {
       "title": "Bijatyka platformowa",
       "description": ""
     },
-    "280": {
+    "50232": {
       "title": "Survival horror",
       "description": ""
     },
-    "281": {
+    "50233": {
       "title": "Horror psychologiczny",
       "description": ""
     },
-    "290": {
+    "50234": {
       "title": "Gra imprezowa",
       "description": ""
     },
-    "291": {
+    "50235": {
       "title": "Gra rytmiczna",
       "description": ""
     },
-    "299": {
+    "50236": {
       "title": "Inne",
       "description": ""
     }
   },
   "Notify_types": {
-    "1000": {
+    "40101": {
       "title": "Log",
       "description": ""
     },
-    "1001": {
+    "40102": {
       "title": "Wewnętrzny błąd systemu",
       "description": ""
     },
-    "1002": {
+    "40103": {
       "title": "Proces {0} rozpoczęty",
       "description": ""
     },
-    "1003": {
+    "40104": {
       "title": "Zakończono proces {0}",
       "description": ""
     },
-    "1004": {
+    "40105": {
       "title": "Zakończono proces {0} niepowodzeniem",
       "description": ""
     },
-    "1005": {
+    "40106": {
       "title": "Dodano proces {0} do kolejki",
       "description": ""
     },
-    "1006": {
+    "40201": {
       "title": "Zapisano plik {0}",
       "description": ""
     },
-    "1007": {
+    "40202": {
       "title": "Usunięto plik {0}",
       "description": ""
     },
-    "1008": {
+    "40203": {
       "title": "Zaktualizowano plik {0}",
       "description": ""
     },
-    "1009": {
+    "40204": {
       "title": "Nie znaleziono pliku",
       "description": ""
     },
-    "1010": {
+    "40205": {
       "title": "Plik {0} już istnieje",
       "description": ""
     },
-    "1011": {
+    "40206": {
       "title": "Zapis pliku {0} nie udał się",
       "description": ""
     },
-    "1012": {
-      "title": "Sesja {0} zapisana",
-      "description": ""
-    },
-    "1013": {
-      "title": "Sesja {0} usunięta",
-      "description": ""
-    },
-    "1014": {
-      "title": "Sesja {0} zaktualizowana",
-      "description": ""
-    },
-    "1015": {
-      "title": "Sesja {0} nie znaleziona",
-      "description": ""
-    },
-    "1016": {
-      "title": "Rozdział {0} zapisany",
-      "description": ""
-    },
-    "1017": {
-      "title": "Rozdział {0} usunięty",
-      "description": ""
-    },
-    "1018": {
-      "title": "Rozdział {0} zaktualizowany",
-      "description": ""
-    },
-    "1019": {
-      "title": "Rozdział {0} nie znaleziony",
-      "description": ""
-    },
-    "1020": {
-      "title": "Bohater {0} zapisany",
-      "description": ""
-    },
-    "1021": {
-      "title": "Bohater {0} usunięty",
-      "description": ""
-    },
-    "1022": {
-      "title": "Bohater {0} zaktualizowany",
-      "description": ""
-    },
-    "1023": {
-      "title": "Bohater {0} nie znaleziony",
-      "description": ""
-    },
-    "1024": {
-      "title": "Miejsce {0} zapisane",
-      "description": ""
-    },
-    "1025": {
-      "title": "Miejsce {0} usunięte",
-      "description": ""
-    },
-    "1026": {
-      "title": "Miejsce {0} zaktualizowane",
-      "description": ""
-    },
-    "1027": {
-      "title": "Miejsce {0} nie znalezione",
-      "description": ""
-    },
-    "1030": {
-      "title": "Logowanie zakończone sukcesem",
-      "description": ""
-    },
-    "1031": {
-      "title": "Logowanie zakończone niepowodzeniem",
-      "description": ""
-    },
-    "1032": {
-      "title": "Nieprawidłowe hasło",
-      "description": ""
-    },
-    "1033": {
-      "title": "Konto zablokowane",
-      "description": ""
-    },
-    "1034": {
-      "title": "Niepowodzenie uwierzytelniania dwuskładnikowego",
-      "description": ""
-    },
-    "1035": {
-      "title": "Rejestracja zakończona sukcesem",
-      "description": ""
-    },
-    "1036": {
-      "title": "Rejestracja zakończona niepowodzeniem",
-      "description": ""
-    },
-    "1037": {
+    "40301": {
       "title": "Email wysłany pomyślnie",
       "description": ""
     },
-    "1038": {
+    "40302": {
       "title": "Email wygenerowany pomyślnie",
       "description": ""
     },
-    "1039": {
-      "title": "Hasło zbyt krótkie",
+    "40401": {
+      "title": "Sesja {0} zapisana",
       "description": ""
     },
-    "1040": {
-      "title": "Hasło wymaga znaku niealfanumerycznego",
+    "40402": {
+      "title": "Sesja {0} usunięta",
       "description": ""
     },
-    "1041": {
-      "title": "Hasło wymaga cyfry",
+    "40403": {
+      "title": "Sesja {0} zaktualizowana",
       "description": ""
     },
-    "1042": {
-      "title": "Hasło wymaga małej litery",
+    "40404": {
+      "title": "Sesja {0} nie znaleziona",
       "description": ""
     },
-    "1043": {
-      "title": "Hasło wymaga dużej litery",
+    "40405": {
+      "title": "Rozdział {0} zapisany",
       "description": ""
     },
-    "1044": {
-      "title": "Utworzono automat",
-      "description": "Automat został utworzony"
+    "40406": {
+      "title": "Rozdział {0} usunięty",
+      "description": ""
     },
-    "1045": {
-      "title": "Zaktualizowano automat",
-      "description": "Automat został zaktualizowany"
+    "40407": {
+      "title": "Rozdział {0} zaktualizowany",
+      "description": ""
     },
-    "1046": {
-      "title": "Usunięto automat",
-      "description": "Automat został usunięty"
+    "40408": {
+      "title": "Rozdział {0} nie znaleziony",
+      "description": ""
     },
-    "1047": {
-      "title": "Wyłączono automat",
-      "description": "Automat został wyłączony"
+    "40409": {
+      "title": "Bohater {0} zapisany",
+      "description": ""
     },
-    "1048": {
-      "title": "Włączono automat",
-      "description": "Automat został włączony"
+    "40410": {
+      "title": "Bohater {0} usunięty",
+      "description": ""
     },
-    "1050": {
+    "40411": {
+      "title": "Bohater {0} zaktualizowany",
+      "description": ""
+    },
+    "40412": {
+      "title": "Bohater {0} nie znaleziony",
+      "description": ""
+    },
+    "40413": {
+      "title": "Miejsce {0} zapisane",
+      "description": ""
+    },
+    "40414": {
+      "title": "Miejsce {0} usunięte",
+      "description": ""
+    },
+    "40415": {
+      "title": "Miejsce {0} zaktualizowane",
+      "description": ""
+    },
+    "40416": {
+      "title": "Miejsce {0} nie znalezione",
+      "description": ""
+    },
+    "40501": {
       "title": "Utworzono wydarzenie",
       "description": "Wydarzenie zostało utworzone"
     },
-    "1051": {
+    "40502": {
       "title": "Zaktualizowano wydarzenie",
       "description": "Wydarzenie zostało zaktualizowane"
     },
-    "1052": {
+    "40503": {
       "title": "Usunięto wydarzenie",
       "description": "Wydarzenie zostało usunięte"
     },
-    "1053": {
+    "40504": {
       "title": "Użytkownik zapisał się na wydarzenie",
       "description": "Użytkownik został zapisany na wydarzenie"
     },
-    "1054": {
+    "40505": {
       "title": "Użytkownik wypisał się z wydarzenia",
       "description": "Użytkownik został wypisany z wydarzenia"
     },
-    "1055": {
+    "40506": {
       "title": "Wysłano zaproszenie",
       "description": "Zaproszenie na wydarzenie zostało wysłane"
     },
-    "1056": {
+    "40507": {
       "title": "Ustawiono przypomnienie",
       "description": "Przypomnienie o wydarzeniu zostało ustawione"
     },
-    "1057": {
+    "40508": {
       "title": "Usunięto przypomnienie",
       "description": "Przypomnienie o wydarzeniu zostało usunięte"
     },
-    "1058": {
+    "40601": {
+      "title": "Utworzono automat",
+      "description": "Automat został utworzony"
+    },
+    "40602": {
+      "title": "Zaktualizowano automat",
+      "description": "Automat został zaktualizowany"
+    },
+    "40603": {
+      "title": "Usunięto automat",
+      "description": "Automat został usunięty"
+    },
+    "40604": {
+      "title": "Wyłączono automat",
+      "description": "Automat został wyłączony"
+    },
+    "40605": {
+      "title": "Włączono automat",
+      "description": "Automat został włączony"
+    },
+    "40701": {
+      "title": "Logowanie zakończone sukcesem",
+      "description": ""
+    },
+    "40702": {
+      "title": "Logowanie zakończone niepowodzeniem",
+      "description": ""
+    },
+    "40703": {
+      "title": "Nieprawidłowe hasło",
+      "description": ""
+    },
+    "40704": {
+      "title": "Konto zablokowane",
+      "description": ""
+    },
+    "40705": {
+      "title": "Niepowodzenie uwierzytelniania dwuskładnikowego",
+      "description": ""
+    },
+    "40706": {
+      "title": "Rejestracja zakończona sukcesem",
+      "description": ""
+    },
+    "40707": {
+      "title": "Rejestracja zakończona niepowodzeniem",
+      "description": ""
+    },
+    "40708": {
+      "title": "Hasło zbyt krótkie",
+      "description": ""
+    },
+    "40709": {
+      "title": "Hasło wymaga znaku niealfanumerycznego",
+      "description": ""
+    },
+    "40710": {
+      "title": "Hasło wymaga cyfry",
+      "description": ""
+    },
+    "40711": {
+      "title": "Hasło wymaga małej litery",
+      "description": ""
+    },
+    "40712": {
+      "title": "Hasło wymaga dużej litery",
+      "description": ""
+    },
+    "40713": {
       "title": "Proces {0} został anulowany",
       "description": ""
     }
   },
   "Operations": {
-    "11": {
+    "10201": {
       "title": "Import pliku",
       "description": ""
     },
-    "12": {
+    "10202": {
       "title": "Przeniesienie pliku",
       "description": ""
     },
-    "13": {
+    "10203": {
       "title": "Kopiowanie pliku",
       "description": ""
     },
-    "14": {
+    "10204": {
       "title": "Usunięcie pliku",
       "description": ""
     },
-    "21": {
+    "10301": {
       "title": "Wyślij e-mail",
       "description": ""
     },
-    "22": {
+    "10302": {
       "title": "Generuj z szablonu",
       "description": ""
     },
-    "31": {
+    "10401": {
       "title": "Generuj podsumowanie sesji RPG",
       "description": "Zadanie generowania podsumowania sesji RPG"
     },
-    "32": {
+    "10402": {
       "title": "Wyślij dane RPG do aplikacji Firebase",
       "description": "Zadanie wysyłania danych RPG do aplikacji Firebase"
     },
-    "33": {
+    "10403": {
       "title": "Pobierz ostatnie dane RPG",
       "description": "Zadanie pobierania ostatnich danych RPG"
     },
-    "34": {
+    "10404": {
       "title": "Generuj historię ze streszczenia",
       "description": "Zadanie generowania historii ze streszczenia"
     },
-    "35": {
+    "10405": {
       "title": "Importuj RPG z pliku",
       "description": "Zadanie importowania RPG z pliku"
     },
-    "40": {
-      "title": "Uruchom automat",
-      "description": ""
-    },
-    "41": {
-      "title": "Archiwizuj dane",
-      "description": ""
-    },
-    "51": {
+    "10501": {
       "title": "Wyślij przypomnienie",
       "description": ""
     },
-    "52": {
+    "10502": {
       "title": "Wyślij zaproszenie",
       "description": ""
+    },
+    "10601": {
+      "title": "Uruchom automat",
+      "description": ""
+    },
+    "10602": {
+      "title": "Archiwizuj dane",
+      "description": ""
+    },
+    "10801": {
+      "title": "Generate Invoice",
+      "description": "Job for generating an invoice"
+    },
+    "10802": {
+      "title": "Send Invoice",
+      "description": "Job for sending an invoice"
     }
   },
   "RPG_file_types": {
-    "501": {
+    "100401": {
       "title": "JSON",
       "description": ""
     },
-    "502": {
+    "100402": {
       "title": "Stary JSON (NIEOBSŁUGIWANY)",
       "description": ""
     },
-    "503": {
+    "100403": {
       "title": "Dane Firebase",
       "description": ""
     }
   },
   "Skill_category": {
-    "401": {
+    "110401": {
       "title": "Siła",
       "description": ""
     },
-    "402": {
+    "110402": {
       "title": "Zręczność",
       "description": ""
     },
-    "403": {
+    "110403": {
       "title": "Inteligencja",
       "description": ""
     },
-    "404": {
+    "110404": {
       "title": "Komunikacja",
+      "description": ""
+    }
+  },
+  "Invoice_statuses": {
+    "130801": {
+      "title": "Unpaid invoice",
+      "description": ""
+    },
+    "130802": {
+      "title": "Sent invoice",
+      "description": ""
+    },
+    "130803": {
+      "title": "Paid invoice",
       "description": ""
     }
   }
