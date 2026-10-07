@@ -37,6 +37,7 @@ import DiscordImg from "@/assets/settings.png";
 import FilesV2Page from "@/features/filesV2/pages/files";
 import InvoicesPage from "@/features/invoices/pages/InvoicesPage";
 import EventCostsPage from "@/features/invoices/pages/EventCostsPage";
+import InvoicesImg from "@/assets/invoices.png";
 
 import NotFound from "@/features/system/pages/NotFound";
 
@@ -89,8 +90,8 @@ const App = () => {
                                         <Route path="/automations" element={<Layout content={Automations} image={AutomationsImg} title={'menu.automations'} permissions={['automation']} menu={menu} />} />
                                         <Route path="/discord" element={<Layout content={DiscordPage} image={DiscordImg} title={'menu.discord'} permissions={['communication']} menu={menu} />} />
                                         <Route path="/filesV2" element={<Layout content={FilesV2Page} image={FilesImg} title={'menu.files'} menu={menu}/>} />
-                                        <Route path="/invoices/me" element={<Layout content={() => <InvoicesPage mode="mine" />} image={EventsImg} title={'menu.myInvoices'} permissions={['invoices']} menu={menu} />} />
-                                        <Route path="/invoices/toPay" element={<Layout content={() => <InvoicesPage mode="toPay" />} image={EventsImg} title={'menu.invoicesToPay'} permissions={['invoices']} menu={menu} />} />
+                                        <Route path="/invoices/me" element={<Layout content={() => <InvoicesPage mode="mine" />} image={InvoicesImg} title={'menu.myInvoices'} permissions={['invoices']} menu={menu} />} />
+                                        <Route path="/invoices/toPay" element={<Layout content={() => <InvoicesPage mode="toPay" />} image={InvoicesImg} title={'menu.invoicesToPay'} permissions={['invoices']} menu={menu} />} />
                                         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                                         <Route path="*" element={<Layout content={NotFound} image={IndexImg} title={'404'} menu={menu} />} />
                                     </SlideRoutes>

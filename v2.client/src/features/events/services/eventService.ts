@@ -1,8 +1,9 @@
-import { call } from "@/shared";
+import { API, call } from "@/shared";
 import { ResponseList } from "@/shared/api/extension";
 import { EventDto } from "@/shared/api/generated";
 
 import { EventBody, EventParticipant } from "../types";
+import type { UserData } from "@/features/auth";
 
 export async function loadEvents(query: Record<string, string>) {
   const result = await call<ResponseList<EventDto>>(api => api.eventApi.get, query);
@@ -55,6 +56,15 @@ export function deleteEvent(id: string) {
 
 export function signInToEvent(id: string) {
   return call(api => api.eventApi.updateByIdSignIn, { id });
+}
+
+export async function loadEventUsers() {
+  const result = await call<{ data: UserData[] }>(api => api.homeApi.getUsers, {});
+  return result.data || [];
+}
+
+export function signInUserToEvent(eventId: string, userId: string) {
+  return API.eventApi.updateByIdSignIn({ id: eventId }, { params: { userId } });
 }
 
 export function signOutOfEvent(id: string) {

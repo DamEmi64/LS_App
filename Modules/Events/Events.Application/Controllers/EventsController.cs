@@ -127,21 +127,36 @@ namespace Events.Application.Controllers
         }
 
         [HttpPut("{id}/signIn")]
-        public async Task<IActionResult> SignIn(Guid id)
+        public async Task<IActionResult> SignIn(Guid id, [FromQuery] string? userId = null)
         {
             var entity = await _eventRepository.Get(id);
             ArgumentNullException.ThrowIfNull(entity);
-            ArgumentNullException.ThrowIfNull(CurrentUser);
 
-            if (entity.Participates.Any(x => x.UserId == CurrentUser.UserId))
+            UserData? participant;
+            if (!string.IsNullOrWhiteSpace(userId))
+            {
+                if (!User.IsInRole("admin"))
+                    return Forbid();
+
+                participant = Users.FirstOrDefault(x => x.UserId == userId);
+                if (participant is null)
+                    return NotFound();
+            }
+            else
+            {
+                participant = CurrentUser;
+                ArgumentNullException.ThrowIfNull(participant);
+            }
+
+            if (entity.Participates.Any(x => x.UserId == participant.UserId))
                 return Ok();
 
             var eventUser = new EventUser
             {
                 Event = entity,
-                UserId = CurrentUser.UserId,
-                Email = CurrentUser.Email,
-                Login = CurrentUser.Login
+                UserId = participant.UserId,
+                Email = participant.Email,
+                Login = participant.Login
             };
 
             await _eventRepository.SignIn(eventUser);
