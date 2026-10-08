@@ -61,7 +61,7 @@ namespace Invoices.Infrastructure.Jobs
                     page.Size(PageSizes.A4);
                     page.MarginHorizontal(52);
                     page.MarginVertical(42);
-                    page.DefaultTextStyle(style => style.FontFamily("Arial").FontSize(10).FontColor("#243247"));
+                    page.DefaultTextStyle(style => style.FontSize(10).FontColor("#243247"));
                     page.Header().Row(row =>
                     {
                         row.RelativeItem().Column(header =>
