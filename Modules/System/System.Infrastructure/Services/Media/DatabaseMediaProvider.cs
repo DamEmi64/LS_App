@@ -11,7 +11,7 @@ namespace System.Infrastructure.Services.Media
         private readonly DriveContext _context;
 
         private static readonly Regex Base64PrefixRegex =
-            new("^data:[a-z0-9/]*;base64,", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            new("^data:[^,]*;base64,", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         private static readonly Regex MimeRegex =
             new("^data:([a-z0-9/\\-.+]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
@@ -50,7 +50,7 @@ namespace System.Infrastructure.Services.Media
                     Id = metadata.Id,
                     Extension = metadata.Extension ?? string.Empty,
                     Content = metadata.Blob.Content?.Decrypt(),
-                    ContentStr = Base64PrefixRegex.Replace(metadata.Blob.ContentStr?.Decrypt() ?? string.Empty, "")
+                    ContentStr = GetContentStr(metadata.Blob.ContentStr, removeWebsiteExtras: true)
                 };
             }
 
@@ -59,8 +59,16 @@ namespace System.Infrastructure.Services.Media
                 Id = metadata.Id,
                 Extension = metadata.Extension ?? string.Empty,
                 Content = metadata.Blob.Content?.Decrypt(),
-                ContentStr = metadata.Blob.ContentStr?.Decrypt()
+                ContentStr = GetContentStr(metadata.Blob.ContentStr, removeWebsiteExtras: false)
             };
+        }
+
+        private static string? GetContentStr(string? encryptedContent, bool removeWebsiteExtras)
+        {
+            var content = encryptedContent?.Decrypt();
+            return removeWebsiteExtras && content is not null
+                ? Base64PrefixRegex.Replace(content, string.Empty)
+                : content;
         }
 
         public async IAsyncEnumerable<Base.Media?> LoadMany(IEnumerable<Guid> ids, bool removeWebsiteExtras)
