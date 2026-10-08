@@ -24,7 +24,8 @@ namespace Invoices.Infrastructure.Connect.CreateInvoice
                 Positions = request.Positions.Select(x => new InvoicePosition
                 {
                     Title = x.Title,
-                    Value = x.Value
+                    Value = x.Value,
+                    InvoiceDate = DateTime.Today
                 }).ToList()
             };
 

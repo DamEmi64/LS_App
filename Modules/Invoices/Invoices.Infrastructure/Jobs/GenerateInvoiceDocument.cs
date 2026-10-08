@@ -48,7 +48,7 @@ namespace Invoices.Infrastructure.Jobs
                     Title = invoice.Title,
                     Collector = invoice.Collector.Login ?? invoice.Collector.UserId,
                     Recipient = invoice.Recipient.Login ?? invoice.Recipient.UserId,
-                    Items = invoice.Positions.Where(x=>x.Status != InvoiceStatus.Paid).Select(x => new Invoices.Extras.Resources.InvoiceItem { Title = x.Title, Value = x.Value }).ToList(),
+                    Items = invoice.Positions.Where(x=>x.Status != InvoiceStatus.Paid).Select(x => new Invoices.Extras.Resources.InvoiceItem { Title = x.Title, Value = x.Value, InvoiceDate = x.InvoiceDate }).ToList(),
                     PaymentMethod = request.Model.PaymentMethod == InvoicePaymentMethod.BlikPhone ? "blik" : "account",
                     Phone = request.Model.CollectorPhoneNumber,
                     AccountNo = request.Model.AccountNumber
@@ -91,11 +91,13 @@ namespace Invoices.Infrastructure.Jobs
                                     columns.ConstantColumn(36);
                                     columns.RelativeColumn(4);
                                     columns.RelativeColumn(1.5f);
+                                    columns.RelativeColumn(1.5f);
                                 });
                                 table.Header(header =>
                                 {
                                     header.Cell().Element(TableHeader).Text("Lp.");
                                     header.Cell().Element(TableHeader).Text("Opis");
+                                    header.Cell().Element(TableHeader).Text("Data faktury");
                                     header.Cell().Element(TableHeader).AlignRight().Text("Kwota");
                                 });
                                 for (var index = 0; index < resource.Items.Count; index++)
@@ -104,6 +106,7 @@ namespace Invoices.Infrastructure.Jobs
                                     var background = index % 2 == 0 ? "#FFFFFF" : "#F8FAFC";
                                     table.Cell().Background(background).BorderBottom(1).BorderColor("#E2E8F0").Padding(9).Text((index + 1).ToString());
                                     table.Cell().Background(background).BorderBottom(1).BorderColor("#E2E8F0").Padding(9).Text(item.Title);
+                                    table.Cell().Background(background).BorderBottom(1).BorderColor("#E2E8F0").Padding(9).Text(item.InvoiceDate.ToString("d", polish));
                                     table.Cell().Background(background).BorderBottom(1).BorderColor("#E2E8F0").Padding(9).AlignRight().Text(item.Value.ToString("C", polish));
                                 }
                             });

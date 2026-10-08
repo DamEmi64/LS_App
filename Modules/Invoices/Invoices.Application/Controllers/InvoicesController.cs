@@ -81,6 +81,7 @@ namespace Invoices.Application.Controllers
                 var positionDto = dto.Positions.FirstOrDefault(x => x.Title == position.Title);
                 if (positionDto is null) await _invoiceRepository.RemovePosition(position);
                 position.Value = positionDto?.Value ?? 0;
+                if (positionDto is not null) position.InvoiceDate = positionDto.InvoiceDate;
             }
 
             var newPositions = dto.Positions.Where(x => !invoice.Positions.Any(p => p.Title == x.Title)).Select(ToEntity).ToList();
@@ -92,6 +93,20 @@ namespace Invoices.Application.Controllers
 
             await _invoiceRepository.Update(invoice);
 
+            return Ok(ToDto(invoice));
+        }
+
+        [HttpPost("{id:guid}/positions")]
+        public async Task<IActionResult> AddPosition(Guid id, [FromBody] SaveInvoicePositionDto dto)
+        {
+            if (CurrentUser is null) return Unauthorized();
+            var invoice = await _invoiceRepository.GetWithDetails(id);
+            if (invoice is null) return NotFound();
+            if (invoice.Collector.UserId != CurrentUser.UserId) return Forbid();
+            if (string.IsNullOrWhiteSpace(dto.Title) || dto.Value < 0) return BadRequest("Position title and a non-negative value are required.");
+
+            invoice.Positions.Add(ToEntity(dto));
+            await _invoiceRepository.Update(invoice);
             return Ok(ToDto(invoice));
         }
 
@@ -163,6 +178,7 @@ namespace Invoices.Application.Controllers
         {
             Title = dto.Title ?? string.Empty,
             Value = dto.Value,
+            InvoiceDate = dto.InvoiceDate,
             Status = InvoiceStatus.Unpaid.Key
         };
 
@@ -179,6 +195,7 @@ namespace Invoices.Application.Controllers
                 Id = x.Id,
                 Title = x.Title,
                 Value = x.Value,
+                InvoiceDate = x.InvoiceDate,
                 Status = x.Status
             }).ToList()
         };

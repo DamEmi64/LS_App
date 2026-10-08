@@ -9,6 +9,7 @@ namespace Invoices.Domain.Entities
     {
         public required string Title { get; set; }
         public required decimal Value { get; set; }
+        public DateTime InvoiceDate { get; set; } = DateTime.Today;
         public int Status { get; set; }
     }
 }

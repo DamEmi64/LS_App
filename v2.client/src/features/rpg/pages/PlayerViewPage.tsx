@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Box, FormControl, InputLabel, MenuItem, Select, Typography } from "@mui/material";
 import BattlePage from "./BattlePage";
-import * as signalR from "@microsoft/signalr";
 import { battleNpc } from "../types";
 import { useSignalR } from "@/shared/hooks/use-signalR";
 import ReactPlayer from "react-player";
@@ -12,12 +11,13 @@ const PlayerViewPage = () => {
     const [background, setBackground] = useState<string>('');
     const [url, setUrl] = useState<string>("");
 
-    const { on, connected } = useSignalR("rpg");
+    const chapterId = new URLSearchParams(window.location.search).get('chapterId') || '';
+    const { on } = useSignalR("rpg", undefined, chapterId ? { chapterId } : undefined);
 
     useEffect(() => {
-        on("VideoChanged", ({title,url}) => {
-            setVideoTitle(title);
-            setUrl(url);
+        on("VideoChanged", (link) => {
+            setVideoTitle(link?.title || '');
+            setUrl(link?.url || '');
         });
 
         on("BattleStateChanged", (data: battleNpc[]) => {

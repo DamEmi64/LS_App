@@ -2,6 +2,7 @@ export interface InvoicePosition {
     id: string;
     title: string;
     value: number;
+    invoiceDate: string;
     status: number;
 }
 
@@ -18,7 +19,7 @@ export interface Invoice {
 export interface InvoiceSaveDto {
     title: string;
     recipientId: string;
-    positions: { title: string; value: number }[];
+    positions: { title: string; value: number; invoiceDate: string }[];
 }
 
 export const INVOICE_STATUS = {

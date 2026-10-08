@@ -16,6 +16,7 @@ namespace Invoices.Application.Dtos
         public Guid Id { get; set; }
         public required string Title { get; set; }
         public decimal Value { get; set; }
+        public DateTime InvoiceDate { get; set; }
         public int Status { get; set; }
     }
 }
