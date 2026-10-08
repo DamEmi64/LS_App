@@ -14,7 +14,7 @@ async function bootstrap() {
   }
 
   try {
-    await Promise.allSettled([loadRemoteAppContent(), i18nReady]);
+  //  await Promise.allSettled([loadRemoteAppContent(), i18nReady]);
   } catch (error) {
     // Bundled JSON remains available when Firestore is unavailable.
     console.warn('Unable to load remote app content; using bundled JSON.', error);

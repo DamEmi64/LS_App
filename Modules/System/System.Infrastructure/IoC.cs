@@ -160,7 +160,7 @@ namespace System.Infrastructure
                   policy.AllowAnyHeader();
                   policy.AllowAnyMethod();
                   policy.AllowCredentials()
-                        .SetIsOriginAllowed(origin => frontendUrl.Length == 0 || frontendUrl.Contains(origin));
+                        .SetIsOriginAllowed(origin => true);
               }));
             services.AddScoped<IAuthService, AuthService>();
 

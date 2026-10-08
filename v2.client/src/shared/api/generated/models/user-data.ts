@@ -19,6 +19,7 @@ export interface UserData {
     'userId': string | null;
     'login'?: string | null;
     'email'?: string | null;
+    'phone'?: string | null;
     'role'?: string | null;
     'permissions'?: Array<string> | null;
 }

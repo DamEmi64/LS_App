@@ -15,7 +15,7 @@ const hubs = [
 
 type Handler = (...args: any[]) => void;
 
-export const useSignalR = (hubName: string, onConnected?: () => void) => {
+export const useSignalR = (hubName: string, onConnected?: () => void, query?: Record<string, string>) => {
   const connectionRef = useRef<HubConnection | null>(null);
   const handlersRef = useRef<Map<string, Handler>>(new Map());
   const {useVariable} = useConfiguration();
@@ -29,7 +29,9 @@ export const useSignalR = (hubName: string, onConnected?: () => void) => {
     notify('error', 'Hub ' + hubName + ' not found');
   }
 
-  const hubUrl = ednpoint + '/' + hub.url;
+  const baseHubUrl = `${ednpoint.replace(/\/+$/, '')}/${hub.url.replace(/^\/+/, '')}`;
+  const queryString = new URLSearchParams(query).toString();
+  const hubUrl = queryString ? `${baseHubUrl}?${queryString}` : baseHubUrl;
 
   // 🚀 Start connection
   useEffect(() => {
@@ -61,7 +63,7 @@ export const useSignalR = (hubName: string, onConnected?: () => void) => {
     return () => {
       connection.stop();
     };
-  }, [hubName]);
+  }, [hubName, hubUrl]);
 
   // 📡 Subscribe
   const on = useCallback((event: string, handler: Handler) => {
@@ -80,7 +82,7 @@ export const useSignalR = (hubName: string, onConnected?: () => void) => {
     handlersRef.current.delete(event);
   }, []);
 
-  const send = useCallback(async (method: string, payload?: any) => {
+  const send = useCallback(async (method: string, ...args: any[]) => {
     const connection = connectionRef.current;
 
     if (!connection) return;
@@ -96,7 +98,7 @@ export const useSignalR = (hubName: string, onConnected?: () => void) => {
     }
 
     try {
-      await connection.invoke(method, payload);
+      await connection.invoke(method, ...args);
     } catch (err) {
       console.error("SignalR invoke error:", err);
     }

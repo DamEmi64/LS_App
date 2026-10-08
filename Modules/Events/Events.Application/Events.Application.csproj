@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Core\InvoiceBase\InvoiceBase.csproj" />
     <ProjectReference Include="..\Events.Infrastructure\Events.Infrastructure.csproj" />
   </ItemGroup>
 
