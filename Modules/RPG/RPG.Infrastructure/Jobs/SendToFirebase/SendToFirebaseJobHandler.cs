@@ -1,10 +1,6 @@
 ﻿using Base;
 using RPG.Infrastructure.External.Firebase;
 using RPG.Infrastructure.Models;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats.Jpeg;
-using SixLabors.ImageSharp.Processing;
-using Image = SixLabors.ImageSharp.Image;
 
 namespace RPG.Infrastructure.Jobs
 {
@@ -120,11 +116,6 @@ namespace RPG.Infrastructure.Jobs
                 {
                     var content = image.ContentStr;
 
-                    if (content?.Length > 1048400)
-                    {
-                        content = CompressBase64Image(content);
-                    }
-
                     list.Add(new FirebaseImage
                     {
                         Id = id.ToString(),
@@ -153,11 +144,6 @@ namespace RPG.Infrastructure.Jobs
                 {
                     var content = image.ContentStr;
 
-                    if (content?.Length > 1048400)
-                    {
-                        content = CompressBase64Image(content);
-                    }
-
                     list.Add(new FirebaseImage
                     {
                         Id = id.ToString(),
@@ -167,40 +153,6 @@ namespace RPG.Infrastructure.Jobs
             }
 
             return list;
-        }
-
-        private string CompressBase64Image(string base64)
-        {
-            var jsStart = string.Empty;
-
-            var commaIndex = base64.IndexOf(',');
-
-            if (commaIndex >= 0)
-            {
-                jsStart = base64.Substring(0, commaIndex + 1);
-                base64 = base64[(commaIndex + 1)..];
-            }
-
-            var bytes = Convert.FromBase64String(base64);
-
-            using var image = Image.Load(bytes);
-
-            image.Mutate(x => x.Resize(new ResizeOptions
-            {
-                Mode = ResizeMode.Max,
-                Size = new Size(800, 800)
-            }));
-
-            var encoder = new JpegEncoder
-            {
-                Quality = 60
-            };
-
-            using var ms = new MemoryStream();
-
-            image.Save(ms, encoder);
-
-            return jsStart + Convert.ToBase64String(ms.ToArray());
         }
     }
 }
