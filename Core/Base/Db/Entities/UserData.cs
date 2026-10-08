@@ -26,6 +26,11 @@
         public string? Email { get; set; }
 
         /// <summary>
+        ///     User Phone number
+        /// </summary>
+        public string? Phone { get; set; }
+
+        /// <summary>
         ///     User role
         /// </summary>
         public string Role { get; set; } = string.Empty;
@@ -42,6 +47,7 @@
                 UserId = UserId,
                 Login = Login,
                 Email = Email,
+                Phone = Phone,
                 Role = Role,
                 Permissions = Permissions.ToArray()
             };

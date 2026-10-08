@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **userId** | **string** |  | [default to undefined]
 **login** | **string** |  | [optional] [default to undefined]
 **email** | **string** |  | [optional] [default to undefined]
+**phone** | **string** |  | [optional] [default to undefined]
 **role** | **string** |  | [optional] [default to undefined]
 **permissions** | **Array&lt;string&gt;** |  | [optional] [default to undefined]
 
@@ -22,6 +23,7 @@ const instance: UserData = {
     userId,
     login,
     email,
+    phone,
     role,
     permissions,
 };

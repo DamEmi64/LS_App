@@ -4,19 +4,30 @@ namespace RPG.Infrastructure.Hubs
 {
     public class RPGHub : Hub
     {
-        public async Task ChangeVideo(object title)
+        private static string ChapterGroup(Guid chapterId) => $"chapter:{chapterId}";
+
+        public override async Task OnConnectedAsync()
         {
-            await Clients.All.SendAsync("VideoChanged", title);
+            var chapterId = Context.GetHttpContext()?.Request.Query["chapterId"].ToString();
+            if (Guid.TryParse(chapterId, out var id))
+                await Groups.AddToGroupAsync(Context.ConnectionId, ChapterGroup(id));
+
+            await base.OnConnectedAsync();
         }
 
-        public async Task UpdateBattleState(List<object> npcs)
+        public async Task ChangeVideo(Guid chapterId, object title)
         {
-            await Clients.All.SendAsync("BattleStateChanged", npcs);
+            await Clients.Group(ChapterGroup(chapterId)).SendAsync("VideoChanged", title);
         }
 
-        public async Task ChangeBackground(string background)
+        public async Task UpdateBattleState(Guid chapterId, List<object> npcs)
         {
-            await Clients.All.SendAsync("BackgroundChanged", background);
+            await Clients.Group(ChapterGroup(chapterId)).SendAsync("BattleStateChanged", npcs);
+        }
+
+        public async Task ChangeBackground(Guid chapterId, string background)
+        {
+            await Clients.Group(ChapterGroup(chapterId)).SendAsync("BackgroundChanged", background);
         }
     }
 }

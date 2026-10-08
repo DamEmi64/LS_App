@@ -37,7 +37,7 @@ namespace Connector
         public EmailOptions? EmailOptions { get; set; }
 
         /// <summary>
-        /// Event configuration used to generate external event links.
+        /// Job configuration used to generate external event links.
         /// </summary>
         public EventOptions? EventOptions { get; set; }
 

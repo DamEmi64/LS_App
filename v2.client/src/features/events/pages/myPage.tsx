@@ -60,7 +60,7 @@ const MyEventsPage: React.FC = () => {
 
             try {
                 const result = await call<ResponseList<EventDto>>(
-                    api => api.eventClient.getMe,
+                    api => api.eventApi.getMe,
                     { page: 0, pageSize: 500 }
                 );
 

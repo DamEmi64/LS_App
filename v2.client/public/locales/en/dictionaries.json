@@ -1,601 +1,623 @@
 {
   "Automation_events": {
-    "110": {
+    "30101": {
       "title": "Run frequency (minutes)",
       "description": ""
     },
-    "111": {
+    "30201": {
       "title": "On file download",
       "description": ""
     },
-    "112": {
-      "title": "On event creation",
+    "30202": {
+      "title": "On file save",
       "description": ""
     },
-    "113": {
-      "title": "On event registration",
-      "description": ""
-    },
-    "114": {
+    "30401": {
       "title": "On RPG session edit",
       "description": ""
     },
-    "115": {
-      "title": "On file save",
+    "30501": {
+      "title": "On event creation",
+      "description": ""
+    },
+    "30502": {
+      "title": "On event registration",
       "description": ""
     }
   },
   "Email_statuses": {
-    "351": {
+    "70301": {
       "title": "Created",
       "description": ""
     },
-    "352": {
+    "70302": {
       "title": "Sent",
       "description": ""
     },
-    "353": {
+    "70303": {
       "title": "Delivered",
       "description": ""
     },
-    "354": {
+    "70304": {
       "title": "Read",
       "description": ""
     },
-    "355": {
+    "70305": {
       "title": "Rejected",
       "description": ""
     }
   },
   "Event_categories": {
-    "421": {
+    "120501": {
       "title": "Movie",
       "description": ""
     },
-    "422": {
+    "120502": {
       "title": "Concert",
       "description": ""
     },
-    "423": {
+    "120503": {
       "title": "Vacation/Holiday",
       "description": ""
     },
-    "424": {
+    "120504": {
       "title": "Meeting",
       "description": ""
     },
-    "425": {
+    "120505": {
       "title": "Games",
       "description": ""
     }
   },
   "File_source_type": {
-    "300": {
+    "60201": {
       "title": "Local",
       "description": ""
     },
-    "301": {
+    "60202": {
       "title": "from FuckingFast service",
       "description": ""
     }
   },
   "File_types": {
-    "101": {
+    "20201": {
       "title": "Games",
       "description": ""
     },
-    "102": {
+    "20202": {
       "title": "Documents",
       "description": ""
     },
-    "103": {
+    "20203": {
       "title": "Study files",
       "description": ""
     }
   },
   "Fluid_functions": {
-    "601": {
+    "80301": {
       "title": "Random Number",
       "description": " {{ randomNumber(0,20)}}"
     },
-    "602": {
+    "80302": {
       "title": "Random",
       "description": " {{ random('', 'a', 'b', 'c')}}"
     },
-    "603": {
+    "80303": {
       "title": "Random Unique",
       "description": " {{ randomUnique( test@test.com='d;e;f', 'a', 'b', 'c')}}"
     },
-    "604": {
+    "80304": {
       "title": "Increment",
       "description": "increment"
     }
   },
   "Fluid_variables": {
-    "605": {
+    "90301": {
       "title": "User",
       "description": ""
     },
-    "606": {
+    "90302": {
       "title": "Sender",
       "description": "sender"
     },
-    "607": {
+    "90303": {
       "title": "Receiver",
       "description": "recipient"
     },
-    "608": {
+    "90304": {
       "title": "Receivers",
       "description": "recipients"
     },
-    "609": {
+    "90305": {
       "title": "Date",
       "description": "counter"
     }
   },
   "Game_genres": {
-    "200": {
+    "50201": {
       "title": "Platformer",
       "description": ""
     },
-    "201": {
+    "50202": {
       "title": "Shooter",
       "description": ""
     },
-    "202": {
+    "50203": {
       "title": "First Person Shooter",
       "description": ""
     },
-    "203": {
+    "50204": {
       "title": "Third Person Shooter",
       "description": ""
     },
-    "204": {
+    "50205": {
       "title": "Beat 'Em Up",
       "description": ""
     },
-    "205": {
+    "50206": {
       "title": "Stealth",
       "description": ""
     },
-    "206": {
+    "50207": {
       "title": "Survival",
       "description": ""
     },
-    "210": {
+    "50208": {
       "title": "Action Adventure",
       "description": ""
     },
-    "211": {
+    "50209": {
       "title": "Narrative Adventure",
       "description": ""
     },
-    "212": {
+    "50210": {
       "title": "Point and Click",
       "description": ""
     },
-    "220": {
+    "50211": {
       "title": "Action RPG",
       "description": ""
     },
-    "221": {
+    "50212": {
       "title": "Turn-Based RPG",
       "description": ""
     },
-    "222": {
+    "50213": {
       "title": "Tactical RPG",
       "description": ""
     },
-    "223": {
+    "50214": {
       "title": "MMORPG",
       "description": ""
     },
-    "224": {
+    "50215": {
       "title": "Open World RPG",
       "description": ""
     },
-    "230": {
+    "50216": {
       "title": "Life Simulation",
       "description": ""
     },
-    "231": {
+    "50217": {
       "title": "Farming Simulation",
       "description": ""
     },
-    "232": {
+    "50218": {
       "title": "Vehicle Simulation",
       "description": ""
     },
-    "233": {
+    "50219": {
       "title": "City Building",
       "description": ""
     },
-    "240": {
+    "50220": {
       "title": "Real-Time Strategy",
       "description": ""
     },
-    "241": {
+    "50221": {
       "title": "Turn-Based Strategy",
       "description": ""
     },
-    "242": {
+    "50222": {
       "title": "Tower Defense",
       "description": ""
     },
-    "243": {
+    "50223": {
       "title": "4X Strategy",
       "description": ""
     },
-    "250": {
+    "50224": {
       "title": "Classic Puzzle",
       "description": ""
     },
-    "251": {
+    "50225": {
       "title": "Physics Puzzle",
       "description": ""
     },
-    "252": {
+    "50226": {
       "title": "Match 3",
       "description": ""
     },
-    "260": {
+    "50227": {
       "title": "Traditional Sports",
       "description": ""
     },
-    "261": {
+    "50228": {
       "title": "Extreme Sports",
       "description": ""
     },
-    "262": {
+    "50229": {
       "title": "Racing",
       "description": ""
     },
-    "270": {
+    "50230": {
       "title": "Traditional Fighting",
       "description": ""
     },
-    "271": {
+    "50231": {
       "title": "Platform Fighting",
       "description": ""
     },
-    "280": {
+    "50232": {
       "title": "Survival Horror",
       "description": ""
     },
-    "281": {
+    "50233": {
       "title": "Psychological Horror",
       "description": ""
     },
-    "290": {
+    "50234": {
       "title": "Party Game",
       "description": ""
     },
-    "291": {
+    "50235": {
       "title": "Rhythm Game",
       "description": ""
     },
-    "299": {
+    "50236": {
       "title": "Other",
       "description": ""
     }
   },
   "Notify_types": {
-    "1000": {
+    "40101": {
       "title": "Log",
       "description": ""
     },
-    "1001": {
+    "40102": {
       "title": "Internal system error",
       "description": ""
     },
-    "1002": {
+    "40103": {
       "title": "Process {0} started",
       "description": ""
     },
-    "1003": {
+    "40104": {
       "title": "Process {0} completed",
       "description": ""
     },
-    "1004": {
+    "40105": {
       "title": "Process {0} failed",
       "description": ""
     },
-    "1005": {
+    "40106": {
       "title": "Process {0} added to queue",
       "description": ""
     },
-    "1006": {
+    "40201": {
       "title": "File {0} saved",
       "description": ""
     },
-    "1007": {
+    "40202": {
       "title": "File {0} deleted",
       "description": ""
     },
-    "1008": {
+    "40203": {
       "title": "File {0} updated",
       "description": ""
     },
-    "1009": {
+    "40204": {
       "title": "File not found",
       "description": ""
     },
-    "1010": {
+    "40205": {
       "title": "File {0} already exists",
       "description": ""
     },
-    "1011": {
+    "40206": {
       "title": "Failed to save file {0}",
       "description": ""
     },
-    "1012": {
-      "title": "Session {0} saved",
-      "description": ""
-    },
-    "1013": {
-      "title": "Session {0} deleted",
-      "description": ""
-    },
-    "1014": {
-      "title": "Session {0} updated",
-      "description": ""
-    },
-    "1015": {
-      "title": "Session {0} not found",
-      "description": ""
-    },
-    "1016": {
-      "title": "Chapter {0} saved",
-      "description": ""
-    },
-    "1017": {
-      "title": "Chapter {0} deleted",
-      "description": ""
-    },
-    "1018": {
-      "title": "Chapter {0} updated",
-      "description": ""
-    },
-    "1019": {
-      "title": "Chapter {0} not found",
-      "description": ""
-    },
-    "1020": {
-      "title": "Hero {0} saved",
-      "description": ""
-    },
-    "1021": {
-      "title": "Hero {0} deleted",
-      "description": ""
-    },
-    "1022": {
-      "title": "Hero {0} updated",
-      "description": ""
-    },
-    "1023": {
-      "title": "Hero {0} not found",
-      "description": ""
-    },
-    "1024": {
-      "title": "Location {0} saved",
-      "description": ""
-    },
-    "1025": {
-      "title": "Location {0} deleted",
-      "description": ""
-    },
-    "1026": {
-      "title": "Location {0} updated",
-      "description": ""
-    },
-    "1027": {
-      "title": "Location {0} not found",
-      "description": ""
-    },
-    "1030": {
-      "title": "Login successful",
-      "description": ""
-    },
-    "1031": {
-      "title": "Login failed",
-      "description": ""
-    },
-    "1032": {
-      "title": "Invalid password",
-      "description": ""
-    },
-    "1033": {
-      "title": "Account locked",
-      "description": ""
-    },
-    "1034": {
-      "title": "Two-factor authentication failed",
-      "description": ""
-    },
-    "1035": {
-      "title": "Registration successful",
-      "description": ""
-    },
-    "1036": {
-      "title": "Registration failed",
-      "description": ""
-    },
-    "1037": {
+    "40301": {
       "title": "Email sent successfully",
       "description": ""
     },
-    "1038": {
+    "40302": {
       "title": "Email generated successfully",
       "description": ""
     },
-    "1039": {
-      "title": "Password too short",
+    "40401": {
+      "title": "Session {0} saved",
       "description": ""
     },
-    "1040": {
-      "title": "Password requires a special character",
+    "40402": {
+      "title": "Session {0} deleted",
       "description": ""
     },
-    "1041": {
-      "title": "Password requires a digit",
+    "40403": {
+      "title": "Session {0} updated",
       "description": ""
     },
-    "1042": {
-      "title": "Password requires a lowercase letter",
+    "40404": {
+      "title": "Session {0} not found",
       "description": ""
     },
-    "1043": {
-      "title": "Password requires an uppercase letter",
+    "40405": {
+      "title": "Chapter {0} saved",
       "description": ""
     },
-    "1044": {
-      "title": "Automat Created",
-      "description": "Automaton was created"
+    "40406": {
+      "title": "Chapter {0} deleted",
+      "description": ""
     },
-    "1045": {
-      "title": "Automat Updated",
-      "description": "Automaton was updated"
+    "40407": {
+      "title": "Chapter {0} updated",
+      "description": ""
     },
-    "1046": {
-      "title": "Automat Deleted",
-      "description": "Automaton was deleted"
+    "40408": {
+      "title": "Chapter {0} not found",
+      "description": ""
     },
-    "1047": {
-      "title": "Automat Turn off",
-      "description": "Automaton was turned off"
+    "40409": {
+      "title": "Hero {0} saved",
+      "description": ""
     },
-    "1048": {
-      "title": "Automat Turn on",
-      "description": "Automaton was turned on"
+    "40410": {
+      "title": "Hero {0} deleted",
+      "description": ""
     },
-    "1050": {
+    "40411": {
+      "title": "Hero {0} updated",
+      "description": ""
+    },
+    "40412": {
+      "title": "Hero {0} not found",
+      "description": ""
+    },
+    "40413": {
+      "title": "Location {0} saved",
+      "description": ""
+    },
+    "40414": {
+      "title": "Location {0} deleted",
+      "description": ""
+    },
+    "40415": {
+      "title": "Location {0} updated",
+      "description": ""
+    },
+    "40416": {
+      "title": "Location {0} not found",
+      "description": ""
+    },
+    "40501": {
       "title": "Event Created",
       "description": "Event was created"
     },
-    "1051": {
+    "40502": {
       "title": "Event Updated",
       "description": "Event was updated"
     },
-    "1052": {
+    "40503": {
       "title": "Event Deleted",
       "description": "Event was deleted"
     },
-    "1053": {
+    "40504": {
       "title": "Event user Sign In",
       "description": "Event user was signed in"
     },
-    "1054": {
+    "40505": {
       "title": "Event user Sign Out",
       "description": "Event user was signed out"
     },
-    "1055": {
+    "40506": {
       "title": "Send Invitation",
       "description": "Event invitation was sent"
     },
-    "1056": {
+    "40507": {
       "title": "Set reminder",
       "description": "Event reminder was set"
     },
-    "1057": {
+    "40508": {
       "title": "Remove reminder",
       "description": "Event reminder was removed"
     },
-    "1058": {
+    "40601": {
+      "title": "Automat Created",
+      "description": "Automaton was created"
+    },
+    "40602": {
+      "title": "Automat Updated",
+      "description": "Automaton was updated"
+    },
+    "40603": {
+      "title": "Automat Deleted",
+      "description": "Automaton was deleted"
+    },
+    "40604": {
+      "title": "Automat Turn off",
+      "description": "Automaton was turned off"
+    },
+    "40605": {
+      "title": "Automat Turn on",
+      "description": "Automaton was turned on"
+    },
+    "40701": {
+      "title": "Login successful",
+      "description": ""
+    },
+    "40702": {
+      "title": "Login failed",
+      "description": ""
+    },
+    "40703": {
+      "title": "Invalid password",
+      "description": ""
+    },
+    "40704": {
+      "title": "Account locked",
+      "description": ""
+    },
+    "40705": {
+      "title": "Two-factor authentication failed",
+      "description": ""
+    },
+    "40706": {
+      "title": "Registration successful",
+      "description": ""
+    },
+    "40707": {
+      "title": "Registration failed",
+      "description": ""
+    },
+    "40708": {
+      "title": "Password too short",
+      "description": ""
+    },
+    "40709": {
+      "title": "Password requires a special character",
+      "description": ""
+    },
+    "40710": {
+      "title": "Password requires a digit",
+      "description": ""
+    },
+    "40711": {
+      "title": "Password requires a lowercase letter",
+      "description": ""
+    },
+    "40712": {
+      "title": "Password requires an uppercase letter",
+      "description": ""
+    },
+    "40713": {
       "title": "Process {0} was cancelled",
       "description": ""
     }
   },
   "Operations": {
-    "11": {
+    "10201": {
       "title": "Import file",
       "description": ""
     },
-    "12": {
+    "10202": {
       "title": "Move file",
       "description": ""
     },
-    "13": {
+    "10203": {
       "title": "Copy file",
       "description": ""
     },
-    "14": {
+    "10204": {
       "title": "Delete file",
       "description": ""
     },
-    "21": {
+    "10301": {
       "title": "Send email",
       "description": ""
     },
-    "22": {
+    "10302": {
       "title": "Generate from template",
       "description": ""
     },
-    "31": {
+    "10401": {
       "title": "Generate RPG session summary",
       "description": ""
     },
-    "32": {
+    "10402": {
       "title": "Send RPG data to Firebase app",
       "description": ""
     },
-    "33": {
+    "10403": {
       "title": "Fetch latest RPG data",
       "description": ""
     },
-    "34": {
+    "10404": {
       "title": "Generate story from summary",
       "description": ""
     },
-    "35": {
+    "10405": {
       "title": "Import RPG from file",
       "description": ""
     },
-    "40": {
-      "title": "Run automation",
-      "description": ""
-    },
-    "41": {
-      "title": "Archive data",
-      "description": ""
-    },
-    "51": {
+    "10501": {
       "title": "Send a reminder",
       "description": ""
     },
-    "52": {
+    "10502": {
       "title": "Sending invitation",
       "description": ""
+    },
+    "10601": {
+      "title": "Run automation",
+      "description": ""
+    },
+    "10602": {
+      "title": "Archive data",
+      "description": ""
+    },
+    "10801": {
+      "title": "Generate Invoice",
+      "description": "Job for generating an invoice"
+    },
+    "10802": {
+      "title": "Send Invoice",
+      "description": "Job for sending an invoice"
     }
   },
   "RPG_file_types": {
-    "501": {
+    "100401": {
       "title": "JSON",
       "description": ""
     },
-    "502": {
+    "100402": {
       "title": "Old JSON (NOT SUPPORTED)",
       "description": ""
     },
-    "503": {
+    "100403": {
       "title": "Firebase data",
       "description": ""
     }
   },
   "Skill_category": {
-    "401": {
+    "110401": {
       "title": "Strength",
       "description": ""
     },
-    "402": {
+    "110402": {
       "title": "Dexterity",
       "description": ""
     },
-    "403": {
+    "110403": {
       "title": "Intelligence",
       "description": ""
     },
-    "404": {
+    "110404": {
       "title": "Communication",
+      "description": ""
+    }
+  },
+  "Invoice_statuses": {
+    "130801": {
+      "title": "Unpaid invoice",
+      "description": ""
+    },
+    "130802": {
+      "title": "Sent invoice",
+      "description": ""
+    },
+    "130803": {
+      "title": "Paid invoice",
       "description": ""
     }
   }
