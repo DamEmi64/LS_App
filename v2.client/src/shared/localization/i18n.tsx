@@ -34,7 +34,8 @@ const debugBackend: BackendModule = {
 
 i18n
   .use(LanguageDetector)
-  .use(debugBackend)
+  .use(firestoreBackend)
+  //.use(debugBackend)
   .use(initReactI18next)
   ;
 

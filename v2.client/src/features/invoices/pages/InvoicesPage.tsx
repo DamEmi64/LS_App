@@ -26,7 +26,7 @@ import {
     useModal,
 } from '@/shared';
 import { notify } from '@/shared/components/NotificationListener';
-import { createInvoice, deleteInvoice, downloadInvoiceDocument, generateInvoiceDocument, getInvoiceHtml, getInvoicesToPay, getMyInvoices, markInvoicePositionPaid, updateInvoice } from '../services/invoiceService';
+import { addInvoicePosition, createInvoice, deleteInvoice, downloadInvoiceDocument, generateInvoiceDocument, getInvoiceHtml, getInvoicesToPay, getMyInvoices, markInvoicePositionPaid, updateInvoice } from '../services/invoiceService';
 import { INVOICE_STATUS, Invoice, InvoicePosition, InvoiceSaveDto } from '../types';
 import InvoiceForm from '../components/InvoiceForm';
 import CreditScoreIcon from '@mui/icons-material/CreditScore';
@@ -35,6 +35,13 @@ import CreditCardOffIcon from '@mui/icons-material/CreditCardOff';
 type InvoicesPageProps = { mode: 'mine' | 'toPay' };
 type InvoiceRow = Invoice & { visiblePositions: InvoicePosition[] };
 type PositionOperationRow = InvoicePosition & { invoiceId: string };
+
+const getLocalDateInputValue = () => {
+    const date = new Date();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${date.getFullYear()}-${month}-${day}`;
+};
 
 const InvoicesPage = ({ mode }: InvoicesPageProps) => {
     const { t } = useTranslation();
@@ -46,6 +53,11 @@ const InvoicesPage = ({ mode }: InvoicesPageProps) => {
     const [paymentMethod, setPaymentMethod] = useState(0);
     const [accountNumber, setAccountNumber] = useState('');
     const [generating, setGenerating] = useState(false);
+    const [positionInvoice, setPositionInvoice] = useState<InvoiceRow | null>(null);
+    const [positionTitle, setPositionTitle] = useState('');
+    const [positionValue, setPositionValue] = useState('');
+    const [positionDate, setPositionDate] = useState(getLocalDateInputValue);
+    const [addingPosition, setAddingPosition] = useState(false);
 
     const loadInvoices = useCallback(async () => {
         setLoading(true);
@@ -169,6 +181,24 @@ const InvoicesPage = ({ mode }: InvoicesPageProps) => {
         }
     };
 
+    const saveQuickPosition = async () => {
+        if (!positionInvoice || !positionTitle.trim() || positionValue === '' || Number(positionValue) < 0 || !positionDate) return;
+        setAddingPosition(true);
+        try {
+            await addInvoicePosition(positionInvoice.id, {
+                title: positionTitle.trim(),
+                value: Number(positionValue),
+                invoiceDate: positionDate,
+            });
+            setPositionInvoice(null);
+            await loadInvoices();
+        } catch {
+            notify('error', t('invoices.saveFailed'));
+        } finally {
+            setAddingPosition(false);
+        }
+    };
+
     const showInvoice = async (invoice: InvoiceRow) => {
         const preview = window.open('', '_blank');
         if (!preview) return;
@@ -192,6 +222,7 @@ const InvoicesPage = ({ mode }: InvoicesPageProps) => {
     };
 
     const invoiceOperations: Operations<InvoiceRow>[] = mode === 'mine' ? [
+        { name: 'invoices.fastAddPosition', method: invoice => { setPositionTitle(''); setPositionValue(''); setPositionDate(getLocalDateInputValue()); setPositionInvoice(invoice); } },
         { name: 'invoices.generateInvoice', method: invoice => { setPaymentMethod(1); setAccountNumber(''); setDocumentInvoice(invoice); } },
         { name: 'invoices.downloadInvoicePdf', method: downloadPdf },
         { name: 'invoices.showInvoice', method: showInvoice },
@@ -270,6 +301,20 @@ const InvoicesPage = ({ mode }: InvoicesPageProps) => {
                 <DialogActions>
                     <Button disabled={generating} onClick={() => setDocumentInvoice(null)}>{t('opt.cancel')}</Button>
                     <Button disabled={generating || (paymentMethod === 2 && !accountNumber.trim())} onClick={() => void generateDocument()} variant="contained">{generating ? t('invoices.generating') : t('invoices.generateAndDownload')}</Button>
+                </DialogActions>
+            </Dialog>
+            <Dialog open={positionInvoice !== null} onClose={() => !addingPosition && setPositionInvoice(null)} fullWidth maxWidth="xs">
+                <DialogTitle>{t('invoices.fastAddPosition')}</DialogTitle>
+                <DialogContent sx={{ display: 'grid', gap: 2, pt: '12px !important' }}>
+                    <TextField label={t('invoices.positionTitle', 'Position')} value={positionTitle} onChange={event => setPositionTitle(event.target.value)} required fullWidth autoFocus />
+                    <TextField label={t('invoices.value', 'Amount')} value={positionValue} onChange={event => setPositionValue(event.target.value)} type="number" inputProps={{ min: 0, step: '0.01' }} required fullWidth />
+                    <TextField label={t('invoices.invoiceDate', 'Invoice date')} value={positionDate} onChange={event => setPositionDate(event.target.value)} type="date" InputLabelProps={{ shrink: true }} required fullWidth />
+                </DialogContent>
+                <DialogActions>
+                    <Button disabled={addingPosition} onClick={() => setPositionInvoice(null)}>{t('opt.cancel')}</Button>
+                    <Button disabled={addingPosition || !positionTitle.trim() || positionValue === '' || Number(positionValue) < 0 || !positionDate} onClick={() => void saveQuickPosition()} variant="contained">
+                        {addingPosition ? <CircularProgress size={18} /> : t('opt.save')}
+                    </Button>
                 </DialogActions>
             </Dialog>
         </Grid>

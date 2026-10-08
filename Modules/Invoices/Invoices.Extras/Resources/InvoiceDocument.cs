@@ -27,5 +27,6 @@ namespace Invoices.Extras.Resources
     {
         public required string Title { get; set; }
         public decimal Value { get; set; }
+        public DateTime InvoiceDate { get; set; }
     }
 }

@@ -20,7 +20,11 @@ import type { UserData } from '@/features/auth';
 import type { Invoice, InvoiceSaveDto } from '../types';
 import { loadInvoiceRecipients } from '../services/invoiceService';
 
-type PositionDraft = { title: string; value: string };
+type PositionDraft = { title: string; value: string; invoiceDate: string };
+const getLocalDateInputValue = () => {
+    const date = new Date();
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+};
 type InvoiceFormProps = {
     invoice?: Invoice;
     onSave: (data: InvoiceSaveDto) => Promise<void>;
@@ -33,7 +37,7 @@ const InvoiceForm = ({ invoice, onSave, onCancel }: InvoiceFormProps) => {
     const [title, setTitle] = useState(invoice?.title ?? '');
     const [recipientId, setRecipientId] = useState(invoice?.recipientId ?? '');
     const [positions, setPositions] = useState<PositionDraft[]>(() =>
-        invoice?.positions.map(position => ({ title: position.title, value: String(position.value) })) ?? [{ title: '', value: '' }]
+        invoice?.positions.map(position => ({ title: position.title, value: String(position.value), invoiceDate: position.invoiceDate.slice(0, 10) })) ?? [{ title: '', value: '', invoiceDate: getLocalDateInputValue() }]
     );
     const [loadingUsers, setLoadingUsers] = useState(true);
     const [saving, setSaving] = useState(false);
@@ -55,7 +59,7 @@ const InvoiceForm = ({ invoice, onSave, onCancel }: InvoiceFormProps) => {
     const submit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setError('');
-        if (!title.trim() || !recipientId || positions.length === 0 || positions.some(position => !position.title.trim() || position.value === '' || Number(position.value) < 0)) {
+        if (!title.trim() || !recipientId || positions.length === 0 || positions.some(position => !position.title.trim() || position.value === '' || !position.invoiceDate || Number(position.value) < 0)) {
             setError(t('invoices.completeRequiredFields'));
             return;
         }
@@ -64,7 +68,7 @@ const InvoiceForm = ({ invoice, onSave, onCancel }: InvoiceFormProps) => {
             await onSave({
                 title: title.trim(),
                 recipientId,
-                positions: positions.map(position => ({ title: position.title.trim(), value: Number(position.value) })),
+                positions: positions.map(position => ({ title: position.title.trim(), value: Number(position.value), invoiceDate: position.invoiceDate })),
             });
         } catch {
             setError(t('invoices.saveFailed'));
@@ -98,14 +102,14 @@ const InvoiceForm = ({ invoice, onSave, onCancel }: InvoiceFormProps) => {
 
             <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mt: 2, mb: 1 }}>
                 <Typography variant="subtitle1" fontWeight="bold">{t('invoices.positions')}</Typography>
-                <Button startIcon={<AddIcon />} onClick={() => setPositions(current => [...current, { title: '', value: '' }])}>
+                <Button startIcon={<AddIcon />} onClick={() => setPositions(current => [...current, { title: '', value: '', invoiceDate: getLocalDateInputValue() }])}>
                     {t('invoices.addPosition')}
                 </Button>
             </Stack>
             <Stack spacing={1}>
                 {positions.map((position, index) => (
                     <Grid container spacing={1} key={index} alignItems="center">
-                        <Grid size={{ xs: 7, sm: 8 }}>
+                        <Grid size={{ xs: 12, sm: 5 }}>
                             <TextField
                                 label={t('invoices.positionTitle')}
                                 value={position.title}
@@ -113,7 +117,7 @@ const InvoiceForm = ({ invoice, onSave, onCancel }: InvoiceFormProps) => {
                                 fullWidth required size="small"
                             />
                         </Grid>
-                        <Grid size={{ xs: 4, sm: 3 }}>
+                        <Grid size={{ xs: 5, sm: 3 }}>
                             <TextField
                                 label={t('invoices.value')}
                                 value={position.value}
@@ -122,7 +126,16 @@ const InvoiceForm = ({ invoice, onSave, onCancel }: InvoiceFormProps) => {
                                 fullWidth required size="small"
                             />
                         </Grid>
-                        <Grid size={{ xs: 1 }}>
+                        <Grid size={{ xs: 5, sm: 3 }}>
+                            <TextField
+                                label={t('invoices.invoiceDate')}
+                                value={position.invoiceDate}
+                                onChange={event => setPosition(index, 'invoiceDate', event.target.value)}
+                                type="date" fullWidth required size="small"
+                                InputLabelProps={{ shrink: true }}
+                            />
+                        </Grid>
+                        <Grid size={{ xs: 2, sm: 1 }}>
                             <IconButton
                                 aria-label={t('invoices.removePosition')}
                                 onClick={() => setPositions(current => current.filter((_, itemIndex) => itemIndex !== index))}

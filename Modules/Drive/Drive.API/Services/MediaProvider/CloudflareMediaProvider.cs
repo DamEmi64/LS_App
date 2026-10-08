@@ -1,6 +1,7 @@
 ﻿using Base;
 using Drive.API.External.Cloudflare;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Drive.API.Services;
 
@@ -121,7 +122,10 @@ public class CloudflareMediaProvider : IMediaProvider
     ///     Placeholder hook for stripping any website-specific wrapping from stored string content
     ///     (e.g. embed boilerplate) before returning it to the caller. Adjust to match your actual format.
     /// </summary>
-    private static string StripWebsiteExtras(string content) => content;
+    private static readonly Regex Base64PrefixRegex =
+        new("^data:[^,]*;base64,", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+    private static string StripWebsiteExtras(string content) => Base64PrefixRegex.Replace(content, string.Empty);
 
     private static string GetContentType(string extension) => extension.TrimStart('.').ToLowerInvariant() switch
     {

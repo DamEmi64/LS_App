@@ -19,7 +19,9 @@ import YesNoWindow from "@/shared/components/YesNoWindow";
 import { ColumnType, ExpandableTable, FilterItem, FilterType, FilterValue, onChangeParams, Operations, TableColumn } from "@/shared";
 import { EventDto } from "@/shared/api/generated";
 import PresentList from "../components/presentList";
-import { createEvent, createEventReminder, deleteEvent, deleteEventReminder, getEvent, loadEvents, sendEventInvitation, signInToEvent, signOutOfEvent, updateEvent, updateEventParticipants } from "../services/eventService";
+import AdminSignInDialog from "../components/adminSignInDialog";
+import { useAuth } from "@/features/auth/context/authProvider";
+import { createEvent, createEventReminder, deleteEvent, deleteEventReminder, getEvent, loadEvents, sendEventInvitation, signInToEvent, signInUserToEvent, signOutOfEvent, updateEvent, updateEventParticipants } from "../services/eventService";
 
 const toEventBody = (event: EventDto): EventBody => ({
     title: event.title || "",
@@ -40,6 +42,7 @@ const toEventBody = (event: EventDto): EventBody => ({
 const EventsPage: React.FC = () => {
     const { t } = useTranslation();
     const modal = useModal();
+    const { user } = useAuth();
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -173,6 +176,21 @@ const EventsPage: React.FC = () => {
         });
     };
 
+    const adminSignIn = (event: EventDto) => {
+        if (!event.id || user?.role !== "admin") return;
+        modal.showModal(
+            <AdminSignInDialog
+                open
+                onClose={modal.hideModal}
+                onSubmit={async selectedUser => {
+                    await signInUserToEvent(event.id!, selectedUser.userId);
+                    await reloadExpanded(event);
+                    await updateData({ page, pageSize, orderBy, order, filters: filterValues });
+                }}
+            />
+        );
+    };
+
     const sendInvitation = (event: EventDto) => {
         if (!event.id) return;
 
@@ -245,6 +263,7 @@ const EventsPage: React.FC = () => {
         { name: "opt.edit", method: edit },
         { name: "opt.delete", method: del },
         { name: "events.signIn", method: signIn },
+        { name: "events.adminSignIn", method: adminSignIn, hidden: () => user?.role !== "admin" },
         { name: "events.signOut", method: signOut },
         { name: "events.sendInvitation", method: sendInvitation },
         { name: "events.setReminder", method: setReminder },
