@@ -5,15 +5,13 @@ using System.ComponentModel;
 
 namespace RPG.Application.Filters
 {
-    public class ChapterFilter : IEntityFilter<Chapter>
+    public class ChapterFilter : BaseEntityFilter<Chapter>
     {
-        public int Page { get; set; }
-        public int PageSize { get; set; } = 10;
         public string? Title { get; set; }
         public DateRange? Start { get; set; }
         public DateRange? End { get; set; }
 
-        public IEnumerable<Chapter> Filter(IEnumerable<Chapter> data, out int? count)
+        public override IEnumerable<Chapter> Filter(IEnumerable<Chapter> data, out int? count)
         {
             if (!string.IsNullOrEmpty(Title))
             {
@@ -68,27 +66,6 @@ namespace RPG.Application.Filters
             count = data.Count();
 
             return data.Skip(Page * PageSize).Take(PageSize);
-        }
-
-        private IEnumerable<T> Sort<T>(IEnumerable<T> objects, string column, string order) where T : Entity
-        {
-            var prop = TypeDescriptor.GetProperties(typeof(T)).Find(column, true);
-
-            if (prop is null)
-            {
-                return objects;
-            }
-
-            if (order == "asc")
-            {
-                objects = objects.OrderBy(prop.GetValue);
-            }
-            else
-            {
-                objects = objects.OrderByDescending(prop.GetValue);
-            }
-
-            return objects;
         }
     }
 }
