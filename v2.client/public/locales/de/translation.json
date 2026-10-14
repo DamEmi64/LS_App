@@ -24,7 +24,24 @@
     "bottomRight": "Unten rechts",
     "topRight": "Oben rechts",
     "bottomLeft": "Unten links",
-    "topLeft": "Oben links"
+    "topLeft": "Oben links",
+    "center": {
+      "title": "Benachrichtigungszentrale",
+      "unreadCount": "{{count}} ungelesen",
+      "markAllRead": "Alle als gelesen markieren",
+      "clear": "Leeren",
+      "caughtUp": "Du bist auf dem neuesten Stand.",
+      "notification": "Benachrichtigung",
+      "unread": "Ungelesen",
+      "types": {
+        "success": "Erfolg",
+        "warning": "Warnung",
+        "error": "Fehler",
+        "info": "Information",
+        "process": "Prozess",
+        "process-error": "Prozessfehler"
+      }
+    }
   },
   "user": {
     "firstName": "Vorname",
@@ -336,6 +353,7 @@
     "action": "Aktion",
     "paid": "Bezahlt",
     "unpaid": "Offen",
+    "unpaidAfterLogin": "Du hast unbezahlte Rechnungen. Weitere Informationen findest du auf der Seite ?Zu zahlende Rechnungen?.",
     "markPaid": "Als bezahlt markieren",
     "paymentFailed": "Position konnte nicht als bezahlt markiert werden.",
     "generateInvoice": "Rechnung erstellen",

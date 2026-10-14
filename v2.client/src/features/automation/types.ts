@@ -20,3 +20,10 @@ export interface AutomatTask {
     order: number;
     data: any;
 }
+
+export interface SystemAutomat {
+        id: string;
+        key: number;
+        active: boolean;
+        configuration: string;
+}

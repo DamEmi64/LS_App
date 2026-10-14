@@ -24,7 +24,24 @@
     "bottomRight": "En bas à droite",
     "topRight": "En haut à droite",
     "bottomLeft": "En bas à gauche",
-    "topLeft": "En haut à gauche"
+    "topLeft": "En haut à gauche",
+    "center": {
+      "title": "Centre de notifications",
+      "unreadCount": "{{count}} non lue(s)",
+      "markAllRead": "Tout marquer comme lu",
+      "clear": "Effacer",
+      "caughtUp": "Vous ?tes ? jour.",
+      "notification": "Notification",
+      "unread": "Non lue",
+      "types": {
+        "success": "Succ?s",
+        "warning": "Avertissement",
+        "error": "Erreur",
+        "info": "Information",
+        "process": "Processus",
+        "process-error": "Erreur de processus"
+      }
+    }
   },
   "user": {
     "firstName": "Prénom",
@@ -336,6 +353,7 @@
     "action": "Action",
     "paid": "Payée",
     "unpaid": "Impayée",
+    "unpaidAfterLogin": "Vous avez des factures impay?es. Consultez la page des factures ? payer pour en savoir plus.",
     "markPaid": "Marquer comme payée",
     "paymentFailed": "Impossible de marquer cette ligne comme payée.",
     "generateInvoice": "Générer la facture",

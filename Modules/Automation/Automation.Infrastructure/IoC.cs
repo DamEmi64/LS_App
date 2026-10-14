@@ -40,7 +40,7 @@ namespace Automation.Infrastructure
                         {
                             Key = automate.Key,
                             Id = Guid.NewGuid(),
-                            IsActive = true
+                            Active = true
                         });
                     }
                 }

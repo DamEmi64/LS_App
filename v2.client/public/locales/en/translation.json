@@ -24,7 +24,24 @@
     "bottomRight": "Bottom right",
     "topRight": "Top right",
     "bottomLeft": "Bottom left",
-    "topLeft": "Top left"
+    "topLeft": "Top left",
+    "center": {
+      "title": "Notification center",
+      "unreadCount": "{{count}} unread",
+      "markAllRead": "Mark all read",
+      "clear": "Clear",
+      "caughtUp": "You're all caught up.",
+      "notification": "Notification",
+      "unread": "Unread",
+      "types": {
+        "success": "Success",
+        "warning": "Warning",
+        "error": "Error",
+        "info": "Information",
+        "process": "Process",
+        "process-error": "Process error"
+      }
+    }
   },
   "user": {
     "firstName": "First name",
@@ -314,6 +331,7 @@
     "action": "Action",
     "paid": "Paid",
     "unpaid": "Unpaid",
+    "unpaidAfterLogin": "You have unpaid invoices. Visit the invoices to pay page to learn more.",
     "markPaid": "Mark paid",
     "paymentFailed": "Could not mark this position as paid.",
     "generateInvoice": "Generate invoice",
@@ -459,6 +477,14 @@
     "reset_password_success": "Password has been reset"
   },
   "automations": {
+    "system": {
+      "title": "System automations",
+      "key": "Key",
+      "configuration": "Configuration (JSON)",
+      "editConfiguration": "Edit configuration for system automation {{key}}",
+      "jsonHint": "Enter a valid JSON value.",
+      "invalidJson": "The configuration must be valid JSON."
+    },
     "jobs": {
       "archive": {
         "title": "File archiving",

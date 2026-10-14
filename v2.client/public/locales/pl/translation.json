@@ -24,7 +24,24 @@
     "bottomRight": "Na dole po prawej",
     "topRight": "Na górze po prawej",
     "bottomLeft": "Na dole po lewej",
-    "topLeft": "Na górze po lewej"
+    "topLeft": "Na górze po lewej",
+    "center": {
+      "title": "Centrum powiadomień",
+      "unreadCount": "Nieprzeczytane: {{count}}",
+      "markAllRead": "Oznacz wszystkie jako przeczytane",
+      "clear": "Wyczyść",
+      "caughtUp": "To już wszystkie powiadomienia.",
+      "notification": "Powiadomienie",
+      "unread": "Nieprzeczytane",
+      "types": {
+        "success": "Sukces",
+        "warning": "Ostrzeżenie",
+        "error": "Błąd",
+        "info": "Informacja",
+        "process": "Proces",
+        "process-error": "Błąd procesu"
+      }
+    }
   },
   "user": {
     "firstName": "Imię",
@@ -314,6 +331,7 @@
     "action": "Akcja",
     "paid": "Opłacona",
     "unpaid": "Nieopłacona",
+    "unpaidAfterLogin": "Masz nieop?acone faktury, wejd? w na stron? faktury do op?acenia by dowiedzie? si? wi?cej",
     "markPaid": "Oznacz jako opłaconą",
     "paymentFailed": "Nie udało się oznaczyć pozycji jako opłaconej.",
     "generateInvoice": "Generuj fakturę",
@@ -459,6 +477,14 @@
     "reset_password_success": "Hasło zostało zresetowane"
   },
   "automations": {
+    "system": {
+      "title": "Automatyzacje systemowe",
+      "key": "Klucz",
+      "configuration": "Konfiguracja (JSON)",
+      "editConfiguration": "Edytuj konfigurację automatyzacji systemowej {{key}}",
+      "jsonHint": "Wprowadź poprawną wartość JSON.",
+      "invalidJson": "Konfiguracja musi być poprawnym JSON-em."
+    },
     "jobs": {
       "archive": {
         "title": "Archiwizacja plików",

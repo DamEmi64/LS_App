@@ -47,7 +47,7 @@ namespace Automation.Application.Controllers
             var automat = await _automatRepository.Get(id);
             ArgumentNullException.ThrowIfNull(automat);
 
-            automat.IsActive = true;
+            automat.Active = true;
 
             await _automatRepository.SaveChanges();
 
@@ -60,7 +60,7 @@ namespace Automation.Application.Controllers
             var automat = await _automatRepository.Get(id);
             ArgumentNullException.ThrowIfNull(automat);
 
-            automat.IsActive = false;
+            automat.Active = false;
 
             await _automatRepository.SaveChanges();
 

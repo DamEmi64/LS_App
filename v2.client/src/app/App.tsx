@@ -29,6 +29,7 @@ import RPGImg from "@/assets/rpg.png";
 import PlayerPage from "@/features/rpg/pages/PlayerPage";
 
 import Automations from "@/features/automation/pages/List";
+import SystemAutomations from "@/features/automation/pages/SystemList";
 import AutomationsImg from "@/assets/settings.png";
 
 import DiscordPage from "@/features/discord/pages/DiscordPage";
@@ -57,6 +58,7 @@ import { AppThemeProvider } from "@/shared/context/theme";
 import { AndroidBackButtonHandler } from '@/shared/components/AndroidBackButtonHandler';
 import AppUpdateSettings from '@/features/system/components/settings/MobileAppSettings';
 import { EventProvider } from '@/shared/context/EventContext'
+import UnpaidInvoiceLoginListener from '@/features/invoices/components/UnpaidInvoiceLoginListener';
 
 const queryClient = new QueryClient();
 
@@ -90,6 +92,7 @@ const App = () => {
                                                 <Route path="/rpg" element={<Layout content={o => <RPG draft={false} />} image={RPGImg} title={'menu.rpg_sessions'} permissions={['rpg']} menu={menu} />} />
                                                 <Route path="/rpg/drafts" element={<Layout content={o => <RPG draft={true} />} image={RPGImg} title={'menu.rpg_sessions'} permissions={['rpg']} menu={menu} />} />
                                                 <Route path="/automations" element={<Layout content={Automations} image={AutomationsImg} title={'menu.automations'} permissions={['automation']} menu={menu} />} />
+                                                <Route path="/systemAutomations" element={<Layout content={SystemAutomations} image={AutomationsImg} title={'menu.automations'} permissions={['automation']} menu={menu} />} />
                                                 <Route path="/discord" element={<Layout content={DiscordPage} image={DiscordImg} title={'menu.discord'} permissions={['communication']} menu={menu} />} />
                                                 <Route path="/filesV2" element={<Layout content={FilesV2Page} image={FilesImg} title={'menu.files'} menu={menu} />} />
                                                 <Route path="/invoices/me" element={<Layout content={() => <InvoicesPage mode="mine" />} image={InvoicesImg} title={'menu.myInvoices'} permissions={['invoices']} menu={menu} />} />
@@ -99,6 +102,7 @@ const App = () => {
                                             </SlideRoutes>
                                         </BrowserRouter>
                                         <NotificationListener />
+                                        <UnpaidInvoiceLoginListener />
                                     </QueryClientProvider>
                                 </ModalProvider>
                             </AuthProvider>

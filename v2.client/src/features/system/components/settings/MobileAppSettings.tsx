@@ -49,7 +49,7 @@ const MobileAppSettings: React.FC<{ autoCheck?: boolean; showControls?: boolean 
       {update && <Button variant="contained" onClick={() => void openApkDownload(update.apkUrl).catch(() => setError(true))}>
         {t('settings.downloadUpdate')}
       </Button>}
-      <AccountSettings/>
+      <AccountSettings />
     </Stack>
   );
 };

@@ -6,6 +6,7 @@ import { useNotificationCenter } from 'react-toastify/addons/use-notification-ce
 import { getNotify } from '@/lib/notifyProvider';
 import { useSignalR } from '../hooks/use-signalR';
 import { appStorage } from '@/shared/storage/appStorage';
+import { useTranslation } from 'react-i18next';
 
 type NotificationType = 'success' | 'warning' | 'error' | 'info' | 'process' | 'process-error' | string;
 type NotificationData = { title?: string; text?: string };
@@ -38,6 +39,7 @@ export const NotificationListener = () => {
 };
 
 export const NotificationCenterButton = () => {
+    const { t } = useTranslation();
     const { notifications, unreadCount, markAsRead, markAllAsRead, clear } = useNotificationCenter<NotificationData>();
     const [isOpen, setIsOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
@@ -45,7 +47,7 @@ export const NotificationCenterButton = () => {
     return (
         <>
                 <IconButton
-                    aria-label={`Notifications${unreadCount ? `, ${unreadCount} unread` : ''}`}
+                    aria-label={`${t('notify.center.title')}${unreadCount ? `, ${t('notify.center.unreadCount', { count: unreadCount })}` : ''}`}
                     size="small"
                     sx={{ ml: 2 }}
                     aria-controls={open ? 'account-menu' : undefined}
@@ -71,27 +73,27 @@ export const NotificationCenterButton = () => {
                     transformOrigin={{ vertical: 'top', horizontal: 'right' }}
                     slotProps={{ paper: { sx: { mt: 1, width: { xs: 'calc(100vw - 32px)', sm: 360 }, maxHeight: '75vh', overflow: 'hidden' } } }}
                 >
-                    <Paper aria-label="Notification center" elevation={0}>
+                    <Paper aria-label={t('notify.center.title')} elevation={0}>
                         <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ px: 2, py: 1.5 }}>
                             <Box>
-                                <Typography variant="subtitle1" fontWeight={600}>Notifications</Typography>
-                                <Typography variant="caption" color="text.secondary">{unreadCount} unread</Typography>
+                                <Typography variant="subtitle1" fontWeight={600}>{t('notify.center.title')}</Typography>
+                                <Typography variant="caption" color="text.secondary">{t('notify.center.unreadCount', { count: unreadCount })}</Typography>
                             </Box>
                             <Stack direction="row" spacing={0.5}>
-                                <Button size="small" onClick={() => markAllAsRead()}>Mark all read</Button>
-                                <Button size="small" color="inherit" onClick={clear}>Clear</Button>
+                                <Button size="small" onClick={() => markAllAsRead()}>{t('notify.center.markAllRead')}</Button>
+                                <Button size="small" color="inherit" onClick={clear}>{t('notify.center.clear')}</Button>
                             </Stack>
                         </Stack>
                         <Divider />
                         <Box sx={{ maxHeight: 'calc(75vh - 72px)', overflowY: 'auto', p: 1 }}>
                             {notifications.length === 0 ? (
-                                <Typography color="text.secondary" variant="body2" align="center" sx={{ py: 5 }}>You’re all caught up.</Typography>
+                                <Typography color="text.secondary" variant="body2" align="center" sx={{ py: 5 }}>{t('notify.center.caughtUp')}</Typography>
                             ) : (
                                 <List disablePadding>
                                     {notifications.map(item => {
                                         const type = item.data?.title || item.type || 'default';
                                         const color = notificationStyles[type] || notificationStyles.default;
-                                        const message = item.data?.text || (typeof item.content === 'string' ? item.content : 'Notification');
+                                        const message = item.data?.text || (typeof item.content === 'string' ? item.content : t('notify.center.notification'));
                                         return (
                                             <ListItemButton
                                                 key={item.id}
@@ -103,8 +105,8 @@ export const NotificationCenterButton = () => {
                                                 }}
                                             >
                                                 <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
-                                                    <Typography variant="overline" fontWeight={700} lineHeight={1.5}>{type}</Typography>
-                                                    {!item.read && <Box aria-label="Unread" sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: 'currentColor' }} />}
+                                                    <Typography variant="overline" fontWeight={700} lineHeight={1.5}>{t(`notify.center.types.${type}`, type)}</Typography>
+                                                    {!item.read && <Box aria-label={t('notify.center.unread')} sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: 'currentColor' }} />}
                                                 </Stack>
                                                 <Typography variant="body2" sx={{ overflowWrap: 'anywhere' }}>{message}</Typography>
                                                 <Typography component="time" dateTime={new Date(item.createdAt).toISOString()} variant="caption" sx={{ display: 'block', mt: 1, opacity: 0.72 }}>
