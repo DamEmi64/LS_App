@@ -4,10 +4,29 @@ namespace AutomationBase
 {
     public interface ISystemAutomate
     {
+        /// <summary>
+        ///     Automat key
+        /// </summary>
         int Key { get; }
+
+        /// <summary>
+        ///     Default configuration
+        /// </summary>
+        object? Configuration { get; }
+        /// <summary>
+        ///     Can Automat be executed
+        /// </summary>
+        /// <param name="event"></param>
+        /// <returns></returns>
         bool CanExecute(INotifyEvent @event);
 
-        Task Execute(INotifyEvent @event);
+        /// <summary>
+        ///     Automat execution method
+        /// </summary>
+        /// <param name="event"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
+        Task Execute(INotifyEvent @event, string configuration);
 
     }
 
@@ -21,9 +40,11 @@ namespace AutomationBase
         }
         public abstract int Key { get; }
 
+        public virtual object? Configuration => null;
+
         public abstract bool CanExecute(INotifyEvent @event);
 
-        public abstract Task Execute(INotifyEvent @event);
+        public abstract Task Execute(INotifyEvent @event, string configuration);
 
         public IProcessSchema CreateJobSchema(string title) => _jobEngine.Create($"[AUTOMAT] {title} - {DateTime.Now.ToString()}");
 

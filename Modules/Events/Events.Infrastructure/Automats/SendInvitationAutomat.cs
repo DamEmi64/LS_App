@@ -23,7 +23,7 @@ namespace Events.Infrastructure.Automats
         public override bool CanExecute(INotifyEvent @event)
             => @event is LogEvent logEvent && logEvent.LogId == AutomationEvents.EventCreated;
 
-        public override async Task Execute(INotifyEvent @event)
+        public override async Task Execute(INotifyEvent @event, string configuration)
         {
             var lastAddedEvent = _eventRepository.GetLastAdded();
             if (lastAddedEvent is null || lastAddedEvent.EventDate is null)

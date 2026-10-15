@@ -14,7 +14,9 @@ import {
   ColumnType,
   onChangeParams,
   Operations,
-  TableData
+  TableData,
+  FilterItem,
+  FilterType
 } from "@/shared";
 import { SystemAutomat } from "../types";
 
@@ -87,7 +89,7 @@ const List: React.FC = () => {
 
   // Columns, filters, operations
   const columns: TableColumn<SystemAutomat>[] = [
-    { field: "key", header: "automations.system.key", type: ColumnType.Number },
+    { field: "key", header: "automations.system.key", type: ColumnType.Dictionary, dictionary: "System_automat" },
     { field: "configuration", header: "automations.system.configuration", type: ColumnType.String },
     { field: "active", header: "automations.active", type: ColumnType.Boolean,
         render: (row) =>(
@@ -99,8 +101,7 @@ const List: React.FC = () => {
 ];
 
   const operations: Operations<SystemAutomat>[] = [
-    { name: "opt.edit", method: editConfiguration },
-    { name: "automations.turnOnOff", method: turnOnOff }
+    { name: "opt.edit", method: editConfiguration }
   ];
 
   return (

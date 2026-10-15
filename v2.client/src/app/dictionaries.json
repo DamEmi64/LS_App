@@ -173,5 +173,10 @@
     "130801": "Unpaid invoice",
     "130802": "Sent invoice",
     "130803": "Paid invoice"
+  },
+  "System_automat": {
+    "140401": "Generate summary for RPG",
+    "140501": "Send event invitations",
+    "140502": "Send event reminders"
   }
 }

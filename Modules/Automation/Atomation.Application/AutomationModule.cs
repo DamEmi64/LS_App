@@ -23,6 +23,7 @@ namespace Automation.Application
         {
             services.AddAutoMapper(opt => opt.AddMaps(typeof(AutomationModule).Assembly));
             services.AddNotiyListener<NotifyListener>();
+            services.AddNotiyListener<SystemAutomateListener>();
 
             services.AddDatabase<AutomationContext>(AppConfiguration.DefaultConnectionString)
                 .AddRepos()

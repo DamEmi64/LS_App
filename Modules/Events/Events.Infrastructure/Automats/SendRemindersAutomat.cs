@@ -2,6 +2,7 @@
 using Events.Domain.Dictionaries;
 using Events.Domain.Repositories;
 using Events.Infrastructure.Jobs;
+using Newtonsoft.Json;
 using SharedEvents;
 
 namespace Events.Infrastructure.Automats
@@ -17,11 +18,12 @@ namespace Events.Infrastructure.Automats
         }
 
         public override int Key => SystemAutomats.SentEventReminders;
+        public override object? Configuration => new SendReminderConfiguration();
 
         public override bool CanExecute(INotifyEvent @event)
             => @event is LogEvent logEvent && logEvent.LogId == AutomationEvents.EventCreated;
 
-        public override async Task Execute(INotifyEvent @event)
+        public override async Task Execute(INotifyEvent @event, string configuration)
         {
             var lastAddedEvent = _eventRepository.GetLastAdded();
             if (lastAddedEvent is null || lastAddedEvent.EventDate is null)
@@ -34,9 +36,14 @@ namespace Events.Infrastructure.Automats
                 Event = lastAddedEvent
             });
 
-            schema.RequestDate = lastAddedEvent.EventDate.GetValueOrDefault().AddHours(-1);
+            var config = new SendReminderConfiguration();
+            JsonConvert.PopulateObject(configuration, config);
+
+            schema.RequestDate = lastAddedEvent.EventDate.GetValueOrDefault().AddMinutes(config.ReminderTimerInMinutes);
 
             await ExecuteJobSchema(schema);
         }
     }
+
+    public record SendReminderConfiguration(int ReminderTimerInMinutes = 15);
 }

@@ -1,10 +1,12 @@
 ﻿using Automation.Domain.Repositories;
+using Automation.Infrastructure.Repositories;
 using Automation.Infrastructure.Services;
 using Automation.Infrastructure.Services.AutomationService;
 using AutomationBase;
 using Base.Automation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace Automation.Infrastructure
 {
@@ -13,6 +15,7 @@ namespace Automation.Infrastructure
         public static IServiceCollection AddRepos(this IServiceCollection serviceCollection)
         {
             return serviceCollection.AddScoped<Domain.Repositories.IAutomatRepository, Repositories.AutomatRepository>()
+                .AddScoped<ISystemAutomateRepository, SystemAutomateRepository>()
                 .AddScoped<Domain.Repositories.ITaskRepository, Repositories.TaskRepository>();
         }
 
@@ -24,15 +27,14 @@ namespace Automation.Infrastructure
 
         public static async Task RegisterSystemAutomates(this IApplicationBuilder app)
         {
-            var automates = app.ApplicationServices.GetServices<SystemAutomate>();
-
             using (var scope = app.ApplicationServices.CreateScope())
             {
+                var automates = scope.ServiceProvider.GetServices<ISystemAutomate>();
                 var repo = scope.ServiceProvider.GetRequiredService<ISystemAutomateRepository>();
 
                 foreach (var automate in automates)
                 {
-                    var dbAutomat = repo.Get(automate.Key);
+                    var dbAutomat = await repo.Get(automate.Key);
 
                     if (dbAutomat is null)
                     {
@@ -40,7 +42,8 @@ namespace Automation.Infrastructure
                         {
                             Key = automate.Key,
                             Id = Guid.NewGuid(),
-                            Active = true
+                            Active = true,
+                            Configuration = JsonConvert.SerializeObject(automate.Configuration)
                         });
                     }
                 }
