@@ -195,6 +195,20 @@
     }
   },
   "rpg": {
+    "meeting": {
+      "startTitle": "Rozpocznij spotkanie RPG",
+      "withoutRecording": "Rozpocznij bez nagrywania",
+      "withRecording": "Nagrywaj na tym urządzeniu",
+      "generatingSummary": "Generowanie podsumowania…",
+      "transcript": "Transkrypcja (zapisana tylko na tym urz\u0105dzeniu)",
+      "downloadingModel": "Pobieranie modelu mowy offline",
+      "transcribingRecording": "Transkrypcja na tym urz\u0105dzeniu",
+      "modelDownloadInfo": "Przy pierwszym u\u017cyciu pobierze si\u0119 oko\u0142o 104 MB plik\u00f3w modelu mowy. Nagranie pozostaje na tym urz\u0105dzeniu.",
+      "recordingNow": "Nagrywanie na tym urządzeniu",
+      "stopRecording": "Zatrzymaj nagrywanie",
+      "recordingSaved": "Nagranie zapisano na tym urządzeniu",
+      "playRecording": "Odtwórz zapisane nagranie"
+    },
     "import": {
       "converterType": "Typ konwertera",
       "externalUrl": "Nazwa sesji RPG z zewnętrznego źródła (tylko dla konwertera Firebase)",

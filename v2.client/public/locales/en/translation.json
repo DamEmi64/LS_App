@@ -195,6 +195,20 @@
     }
   },
   "rpg": {
+    "meeting": {
+      "startTitle": "Start RPG meeting",
+      "withoutRecording": "Start without recording",
+      "withRecording": "Record on this device",
+      "generatingSummary": "Generating summary…",
+      "transcript": "Transcript (stored on this device)",
+      "downloadingModel": "Downloading offline speech model",
+      "transcribingRecording": "Transcribing on this device",
+      "modelDownloadInfo": "First use downloads about 104 MB of speech model files. Your recording stays on this device.",
+      "recordingNow": "Recording on this device",
+      "stopRecording": "Stop recording",
+      "recordingSaved": "Recording saved on this device",
+      "playRecording": "Play saved recording"
+    },
     "import": {
       "converterType": "Converter type",
       "externalUrl": "External RPG session name (Firebase only)",

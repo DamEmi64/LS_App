@@ -8,14 +8,11 @@ namespace RPG.Infrastructure.Automates
 {
     public class GenerateSummaryAutomate : AutomationBase.SystemAutomate
     {
-        private readonly IAutomationResolver _automationResolver;
-
         private static DateTime LastEditTimeSpan = DateTime.MinValue;
 
-        public GenerateSummaryAutomate(IAutomationResolver automationResolver, IJobEngine jobEngine)
+        public GenerateSummaryAutomate(IJobEngine jobEngine)
             : base(jobEngine)
         {
-            _automationResolver = automationResolver;
         }
 
         public override int Key => SystemAutomats.GenerateSummary;
@@ -27,7 +24,7 @@ namespace RPG.Infrastructure.Automates
 
             if (@event is LogEvent logEvent)
             {
-                var eventId = _automationResolver.ConvertToEventId(logEvent);
+                var eventId = ConvertToEventId(logEvent.LogId);
 
                 return eventId == AutomationEvents.RPGEdited;
             }
@@ -47,5 +44,20 @@ namespace RPG.Infrastructure.Automates
 
             await ExecuteJobSchema(schema);
         }
+
+        private int? ConvertToEventId(int notifyTypeId)
+         => true switch
+         {
+             true when SessionNotifyTypes.SessionSaved is { Key: var k1 } && k1 == notifyTypeId => AutomationEvents.RPGEdited?.Key,
+             true when SessionNotifyTypes.SessionUpdated is { Key: var k2 } && k2 == notifyTypeId => AutomationEvents.RPGEdited?.Key,
+             true when SessionNotifyTypes.ChapterUpdated is { Key: var k3 } && k3 == notifyTypeId => AutomationEvents.RPGEdited?.Key,
+             true when SessionNotifyTypes.ChapterSaved is { Key: var k4 } && k4 == notifyTypeId => AutomationEvents.RPGEdited?.Key,
+             true when SessionNotifyTypes.PlaceSaved is { Key: var k5 } && k5 == notifyTypeId => AutomationEvents.RPGEdited?.Key,
+             true when SessionNotifyTypes.PlaceUpdated is { Key: var k6 } && k6 == notifyTypeId => AutomationEvents.RPGEdited?.Key,
+             true when SessionNotifyTypes.HeroSaved is { Key: var k7 } && k7 == notifyTypeId => AutomationEvents.RPGEdited?.Key,
+             true when SessionNotifyTypes.HeroUpdated is { Key: var k8 } && k8 == notifyTypeId => AutomationEvents.RPGEdited?.Key,
+             _ => null
+         };
+
     }
 }

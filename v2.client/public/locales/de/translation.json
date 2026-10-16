@@ -195,6 +195,20 @@
     }
   },
   "rpg": {
+    "meeting": {
+      "startTitle": "RPG-Sitzung starten",
+      "withoutRecording": "Ohne Aufnahme starten",
+      "withRecording": "Auf diesem Gerät aufnehmen",
+      "generatingSummary": "Zusammenfassung wird erstellt…",
+      "transcript": "Transkript (auf diesem Ger\u00e4t gespeichert)",
+      "downloadingModel": "Offline-Sprachmodell wird heruntergeladen",
+      "transcribingRecording": "Transkription auf diesem Ger\u00e4t",
+      "modelDownloadInfo": "Bei der ersten Verwendung werden etwa 104 MB Sprachmodelldateien heruntergeladen. Die Aufnahme bleibt auf diesem Ger\u00e4t.",
+      "recordingNow": "Aufnahme auf diesem Gerät läuft",
+      "stopRecording": "Aufnahme beenden",
+      "recordingSaved": "Aufnahme auf diesem Gerät gespeichert",
+      "playRecording": "Gespeicherte Aufnahme abspielen"
+    },
     "import": {
       "converterType": "Konvertertyp",
       "externalUrl": "Externer RPG-Sitzungsname (nur Firebase)",

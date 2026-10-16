@@ -27,7 +27,7 @@ const SettingsWrapper: React.FC = () => {
     ];
 
     if (isNativeApp) {
-        tabs.unshift({ label: 'settings.system', content: <MobileAppSettings /> });
+        tabs.unshift({ label: t('settings.system'), content: <MobileAppSettings /> });
     }
 
     const [value, setValue] = useState(0);

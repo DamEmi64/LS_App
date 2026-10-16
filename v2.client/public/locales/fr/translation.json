@@ -195,6 +195,20 @@
     }
   },
   "rpg": {
+    "meeting": {
+      "startTitle": "Démarrer la session RPG",
+      "withoutRecording": "Démarrer sans enregistrement",
+      "withRecording": "Enregistrer sur cet appareil",
+      "generatingSummary": "Génération du résumé…",
+      "transcript": "Transcription (stock\u00e9e sur cet appareil)",
+      "downloadingModel": "T\u00e9l\u00e9chargement du mod\u00e8le vocal hors ligne",
+      "transcribingRecording": "Transcription sur cet appareil",
+      "modelDownloadInfo": "La premi\u00e8re utilisation t\u00e9l\u00e9charge environ 104 Mo de fichiers de mod\u00e8le vocal. L\u2019enregistrement reste sur cet appareil.",
+      "recordingNow": "Enregistrement sur cet appareil en cours",
+      "stopRecording": "Arrêter l’enregistrement",
+      "recordingSaved": "Enregistrement sauvegardé sur cet appareil",
+      "playRecording": "Lire l?enregistrement sauvegard?"
+    },
     "import": {
       "converterType": "Type de convertisseur",
       "externalUrl": "Nom de session RPG externe (Firebase uniquement)",
