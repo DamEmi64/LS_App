@@ -299,6 +299,7 @@
     "emails": "Emails",
     "templates": "Templates",
     "automations": "Automations",
+    "system_automations": "System automations",
     "rpg_sessions": "RPG Sessions",
     "register": "Sign up",
     "login": "Sign in",

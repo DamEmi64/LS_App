@@ -18,7 +18,6 @@ namespace Invoices.Infrastructure.Connect.CreateInvoice
             public CreateInvoicePositionValidator()
             {
                 RuleFor(x => x.Title).NotEmpty();
-                RuleFor(x => x.Value).GreaterThanOrEqualTo(0);
             }
         }
     }

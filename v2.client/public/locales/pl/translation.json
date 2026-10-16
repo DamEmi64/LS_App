@@ -299,6 +299,7 @@
     "emails": "Emaile",
     "templates": "Szablony",
     "automations": "Automatyzacje",
+    "system_automations":"Automaty systemowe",
     "rpg_sessions": "Sesje RPG",
     "register": "Zarejestruj się",
     "login": "Zaloguj się",

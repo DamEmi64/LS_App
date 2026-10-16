@@ -299,6 +299,7 @@
     "emails": "E-mails",
     "templates": "Modèles",
     "automations": "Automatisations",
+    "system_automations": "Automatisations système",
     "rpg_sessions": "Sessions RPG",
     "register": "S’inscrire",
     "login": "Se connecter",
@@ -371,7 +372,9 @@
     "addInvoice": "Ajouter une facture",
     "editInvoice": "Modifier la facture",
     "invoiceTitle": "Titre de la facture",
-    "positionTitle": "Titre de la ligne","invoiceDate":"Date de facture","fastAddPosition":"Ajout rapide d’une ligne",
+    "positionTitle": "Titre de la ligne",
+    "invoiceDate": "Date de facture",
+    "fastAddPosition": "Ajout rapide d’une ligne",
     "addPosition": "Ajouter une ligne",
     "removePosition": "Supprimer la ligne",
     "loadingUsers": "Chargement des utilisateurs…",
@@ -495,6 +498,14 @@
     "reset_password_success": "Le mot de passe a été réinitialisé"
   },
   "automations": {
+    "system": {
+      "title": "Automatisations système",
+      "key": "Clé",
+      "configuration": "Configuration (JSON)",
+      "editConfiguration": "Modifier la configuration de l’automatisation syst?me {{key}}",
+      "jsonHint": "Saisissez une valeur JSON valide.",
+      "invalidJson": "La configuration doit être un JSON valide."
+    },
     "jobs": {
       "archive": {
         "title": "Archivage de fichiers",

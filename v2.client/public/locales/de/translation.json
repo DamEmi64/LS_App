@@ -299,6 +299,7 @@
     "emails": "E-Mails",
     "templates": "Vorlagen",
     "automations": "Automationen",
+    "system_automations": "Systemautomationen",
     "rpg_sessions": "RPG-Sitzungen",
     "register": "Registrieren",
     "login": "Anmelden",
@@ -371,7 +372,9 @@
     "addInvoice": "Rechnung hinzufügen",
     "editInvoice": "Rechnung bearbeiten",
     "invoiceTitle": "Rechnungstitel",
-    "positionTitle": "Positionstitel","invoiceDate":"Rechnungsdatum","fastAddPosition":"Position schnell hinzufügen",
+    "positionTitle": "Positionstitel",
+    "invoiceDate": "Rechnungsdatum",
+    "fastAddPosition": "Position schnell hinzufügen",
     "addPosition": "Position hinzufügen",
     "removePosition": "Position entfernen",
     "loadingUsers": "Benutzer werden geladen…",
@@ -379,7 +382,11 @@
     "completeRequiredFields": "Gib einen Rechnungstitel, Empfänger und mindestens eine vollständige Position ein.",
     "saveFailed": "Rechnung konnte nicht gespeichert werden.",
     "deleteConfirm": "Möchtest du diese Rechnung wirklich löschen?",
-    "filters": { "title": "Rechnungs- oder Positionstitel", "recipient": "Empfänger", "paymentStatus": "Positionsstatus" }
+    "filters": {
+      "title": "Rechnungs- oder Positionstitel",
+      "recipient": "Empfänger",
+      "paymentStatus": "Positionsstatus"
+    }
   },
   "discord": {
     "title": "Discord-Befehle",
@@ -495,6 +502,14 @@
     "reset_password_success": "Das Passwort wurde zurückgesetzt"
   },
   "automations": {
+    "system": {
+      "title": "Systemautomatisierungen",
+      "key": "Schlüssel",
+      "configuration": "Konfiguration (JSON)",
+      "editConfiguration": "Konfiguration der Systemautomatisierung {{key}} bearbeiten",
+      "jsonHint": "Geben Sie einen gültigen JSON-Wert ein.",
+      "invalidJson": "Die Konfiguration muss gültiges JSON sein."
+    },
     "jobs": {
       "archive": {
         "title": "Dateiarchivierung",
