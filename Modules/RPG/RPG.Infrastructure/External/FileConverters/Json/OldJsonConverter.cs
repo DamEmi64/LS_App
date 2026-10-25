@@ -3,9 +3,6 @@ using Newtonsoft.Json;
 using RPG.Domain.Dictionaries;
 using RPG.Domain.Entities;
 using RPG.Infrastructure.External.FileConverters.Json;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Formats.Jpeg;
-using SixLabors.ImageSharp.Processing;
 
 namespace RPG.Infrastructure.External.FileConverters
 {
@@ -88,7 +85,7 @@ namespace RPG.Infrastructure.External.FileConverters
 
             if (oldHero.Image is not null)
             {
-                var imageData = CompressBase64Image(oldHero.Image);
+                var imageData = oldHero.Image;
                 var image = $"data:image/jpeg,base64,{imageData}";
                 var media = await _mediaProvider.Save(image, null);
                 imageId = media;
@@ -129,7 +126,7 @@ namespace RPG.Infrastructure.External.FileConverters
 
             if (oldHero.Image is not null)
             {
-                var imageData = CompressBase64Image(oldHero.Image);
+                var imageData = oldHero.Image;
                 var image = $"data:image/jpeg,base64,{imageData}";
                 var media = await _mediaProvider.Save(image, null);
                 imageId = media;
@@ -152,7 +149,7 @@ namespace RPG.Infrastructure.External.FileConverters
 
             if (oldPlace.Image is not null)
             {
-                var imageData = CompressBase64Image(oldPlace.Image);
+                var imageData = oldPlace.Image;
                 var image = $"data:image/jpeg,base64,{imageData}";
                 var media = await _mediaProvider.Save(image, null);
                 imageId = media;
@@ -165,26 +162,6 @@ namespace RPG.Infrastructure.External.FileConverters
                 Chapter = chapter,
                 Image = imageId
             };
-        }
-
-        private string CompressBase64Image(string base64)
-        {
-            var bytes = System.Convert.FromBase64String(base64);
-
-            using var image = Image.Load(bytes);
-
-            image.Mutate(x => x.Resize(new ResizeOptions
-            {
-                Mode = ResizeMode.Max,
-                Size = new Size(800, 800)
-            }));
-
-            var encoder = new JpegEncoder { Quality = 50 };
-
-            using var ms = new MemoryStream();
-            image.Save(ms, encoder);
-
-            return System.Convert.ToBase64String(ms.ToArray());
         }
     }
 }

@@ -59,6 +59,26 @@ namespace Automation.Infrastructure.Migrations
                     b.ToTable("Automats");
                 });
 
+            modelBuilder.Entity("Automation.Domain.Entities.SystemAutomat", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Active")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Configuration")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Key")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SystemAutomats");
+                });
+
             modelBuilder.Entity("Automation.Domain.Entities.Task", b =>
                 {
                     b.Property<Guid>("Id")

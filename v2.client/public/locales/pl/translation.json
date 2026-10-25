@@ -24,7 +24,24 @@
     "bottomRight": "Na dole po prawej",
     "topRight": "Na górze po prawej",
     "bottomLeft": "Na dole po lewej",
-    "topLeft": "Na górze po lewej"
+    "topLeft": "Na górze po lewej",
+    "center": {
+      "title": "Centrum powiadomień",
+      "unreadCount": "Nieprzeczytane: {{count}}",
+      "markAllRead": "Oznacz wszystkie jako przeczytane",
+      "clear": "Wyczyść",
+      "caughtUp": "To już wszystkie powiadomienia.",
+      "notification": "Powiadomienie",
+      "unread": "Nieprzeczytane",
+      "types": {
+        "success": "Sukces",
+        "warning": "Ostrzeżenie",
+        "error": "Błąd",
+        "info": "Informacja",
+        "process": "Proces",
+        "process-error": "Błąd procesu"
+      }
+    }
   },
   "user": {
     "firstName": "Imię",
@@ -178,6 +195,20 @@
     }
   },
   "rpg": {
+    "meeting": {
+      "startTitle": "Rozpocznij spotkanie RPG",
+      "withoutRecording": "Rozpocznij bez nagrywania",
+      "withRecording": "Nagrywaj na tym urządzeniu",
+      "generatingSummary": "Generowanie podsumowania…",
+      "transcript": "Transkrypcja (zapisana tylko na tym urz\u0105dzeniu)",
+      "downloadingModel": "Pobieranie modelu mowy offline",
+      "transcribingRecording": "Transkrypcja na tym urz\u0105dzeniu",
+      "modelDownloadInfo": "Przy pierwszym u\u017cyciu pobierze si\u0119 oko\u0142o 104 MB plik\u00f3w modelu mowy. Nagranie pozostaje na tym urz\u0105dzeniu.",
+      "recordingNow": "Nagrywanie na tym urządzeniu",
+      "stopRecording": "Zatrzymaj nagrywanie",
+      "recordingSaved": "Nagranie zapisano na tym urządzeniu",
+      "playRecording": "Odtwórz zapisane nagranie"
+    },
     "import": {
       "converterType": "Typ konwertera",
       "externalUrl": "Nazwa sesji RPG z zewnętrznego źródła (tylko dla konwertera Firebase)",
@@ -282,6 +313,7 @@
     "emails": "Emaile",
     "templates": "Szablony",
     "automations": "Automatyzacje",
+    "system_automations":"Automaty systemowe",
     "rpg_sessions": "Sesje RPG",
     "register": "Zarejestruj się",
     "login": "Zaloguj się",
@@ -314,6 +346,7 @@
     "action": "Akcja",
     "paid": "Opłacona",
     "unpaid": "Nieopłacona",
+    "unpaidAfterLogin": "Masz nieop?acone faktury, wejd? w na stron? faktury do op?acenia by dowiedzie? si? wi?cej",
     "markPaid": "Oznacz jako opłaconą",
     "paymentFailed": "Nie udało się oznaczyć pozycji jako opłaconej.",
     "generateInvoice": "Generuj fakturę",
@@ -459,6 +492,14 @@
     "reset_password_success": "Hasło zostało zresetowane"
   },
   "automations": {
+    "system": {
+      "title": "Automatyzacje systemowe",
+      "key": "Klucz",
+      "configuration": "Konfiguracja (JSON)",
+      "editConfiguration": "Edytuj konfigurację automatyzacji systemowej {{key}}",
+      "jsonHint": "Wprowadź poprawną wartość JSON.",
+      "invalidJson": "Konfiguracja musi być poprawnym JSON-em."
+    },
     "jobs": {
       "archive": {
         "title": "Archiwizacja plików",

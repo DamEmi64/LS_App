@@ -30,7 +30,7 @@ namespace FilesV2.Application.Controllers
 
         [HttpGet]
         public async Task<ActionResult<List<FileV2Dto>>> ListFiles(
-            [FromQuery] Guid? directoryId) //TODO Convert to filter
+            [FromQuery] Guid? directoryId)
         {
             var data = await _fileRepository.GetFilesByUser(CurrentUser?.UserId ?? string.Empty);
             data = data.Where(x => x.Folder?.Id == directoryId).ToList();

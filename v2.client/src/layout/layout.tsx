@@ -10,6 +10,7 @@ import Authbar from "@/features/system/components/navMenu";
 import { GridCloseIcon, GridMenuIcon } from "@mui/x-data-grid";
 import { Avatar, Button, Grid, IconButton, useMediaQuery, useTheme } from "@mui/material";
 import GitHubIcon from '@mui/icons-material/GitHub';
+import { NotificationCenterButton } from "@/shared";
 
 const Layout = ({
     image,
@@ -82,7 +83,7 @@ const Layout = ({
                     >
                         <Avatar sx={{ width: 32, height: 32 }}><GitHubIcon /></Avatar>
                     </IconButton>
-
+                    <NotificationCenterButton/>
                     <Authbar />
                 </div>
 
@@ -122,7 +123,7 @@ const Layout = ({
                                 <GitHubIcon />
                             </Avatar>
                         </IconButton>
-
+                        <NotificationCenterButton/>
                         <Authbar />
                     </Grid>
 
