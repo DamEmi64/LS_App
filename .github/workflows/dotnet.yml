@@ -70,13 +70,31 @@ jobs:
           git tag "v$VERSION"
           git push origin "v$VERSION"
 
-      - name: Publish API
-        run: dotnet publish api/api.csproj -c Release -o ./publish
+      - name: Publish Backend
+        run: dotnet publish api/api.csproj -c Release -o ./package/backend
 
-      - name: Create ZIP package
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Frontend Dependencies
+        working-directory: ./v2.client
+        run: npm ci
+
+      - name: Build Frontend
+        working-directory: ./v2.client
+        run: npm run build
+
+      - name: Copy Frontend into Package
+        run: |
+          mkdir -p ./package/frontend
+          cp -r ./v2.client/dist/. ./package/frontend/
+
+      - name: Create Versioned ZIP
         run: |
           VERSION="1.0.${GITHUB_RUN_NUMBER}"
-          cd publish
+          cd package
           zip -r "../application-${VERSION}.zip" .
 
   build_Frontend:
