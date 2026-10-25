@@ -1,19 +1,15 @@
 ﻿using Automation.Domain.Entities;
 using Base;
-using Base.Helpers;
-using System.ComponentModel;
 
 namespace Automation.Application.Filters
 {
-    public class AutomatonFilter : IEntityFilter<Automat>
+    public class AutomatonFilter : BaseEntityFilter<Automat>
     {
-        public int Page { get; set; }
-        public int PageSize { get; set; } = 10;
         public required string Order { get; set; }
         public string? OrderBy { get; set; }
         public string? Title { get; set; }
 
-        public IEnumerable<Automat> Filter(IEnumerable<Automat> data, out int? count)
+        public override IEnumerable<Automat> Filter(IEnumerable<Automat> data, out int? count)
         {
             if (!string.IsNullOrEmpty(Title))
             {
@@ -28,27 +24,6 @@ namespace Automation.Application.Filters
             count = data.Count();
 
             return data.Skip(Page * PageSize).Take(PageSize);
-        }
-
-        private IEnumerable<T> Sort<T>(IEnumerable<T> objects, string column, string order) where T : Entity
-        {
-            var prop = TypeDescriptor.GetProperties(typeof(T)).Find(column, true);
-
-            if (prop is null)
-            {
-                return objects;
-            }
-
-            if (order == "asc")
-            {
-                objects = objects.OrderBy(prop.GetValue);
-            }
-            else
-            {
-                objects = objects.OrderByDescending(prop.GetValue);
-            }
-
-            return objects;
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Automation.Application
 
         public string Name => "Automation";
 
-        public string Version => "v1.0";
+        public string Version => "v1.1";
 
         public IEnumerable<PermissionInfo> Permissions => [PermissionInfo.Create("automation", "Manage automation tasks", false)];
 
@@ -23,6 +23,7 @@ namespace Automation.Application
         {
             services.AddAutoMapper(opt => opt.AddMaps(typeof(AutomationModule).Assembly));
             services.AddNotiyListener<NotifyListener>();
+            services.AddNotiyListener<SystemAutomateListener>();
 
             services.AddDatabase<AutomationContext>(AppConfiguration.DefaultConnectionString)
                 .AddRepos()
@@ -33,6 +34,7 @@ namespace Automation.Application
 
         public IApplicationBuilder OnStartup(IApplicationBuilder app)
         {
+            app.RegisterSystemAutomates().Wait();
             return app;
         }
     }

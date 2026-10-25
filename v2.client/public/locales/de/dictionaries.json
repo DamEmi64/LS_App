@@ -620,5 +620,19 @@
       "title": "Paid invoice",
       "description": ""
     }
+  },
+  "System_automat": {
+    "140401": {
+      "title": "RPG-Zusammenfassung erstellen",
+      "description": ""
+    },
+    "140501": {
+      "title": "Ereigniseinladungen senden",
+      "description": ""
+    },
+    "140502": {
+      "title": "Ereigniserinnerungen senden",
+      "description": ""
+    }
   }
 }

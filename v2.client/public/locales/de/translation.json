@@ -24,7 +24,24 @@
     "bottomRight": "Unten rechts",
     "topRight": "Oben rechts",
     "bottomLeft": "Unten links",
-    "topLeft": "Oben links"
+    "topLeft": "Oben links",
+    "center": {
+      "title": "Benachrichtigungszentrale",
+      "unreadCount": "{{count}} ungelesen",
+      "markAllRead": "Alle als gelesen markieren",
+      "clear": "Leeren",
+      "caughtUp": "Du bist auf dem neuesten Stand.",
+      "notification": "Benachrichtigung",
+      "unread": "Ungelesen",
+      "types": {
+        "success": "Erfolg",
+        "warning": "Warnung",
+        "error": "Fehler",
+        "info": "Information",
+        "process": "Prozess",
+        "process-error": "Prozessfehler"
+      }
+    }
   },
   "user": {
     "firstName": "Vorname",
@@ -178,6 +195,20 @@
     }
   },
   "rpg": {
+    "meeting": {
+      "startTitle": "RPG-Sitzung starten",
+      "withoutRecording": "Ohne Aufnahme starten",
+      "withRecording": "Auf diesem Gerät aufnehmen",
+      "generatingSummary": "Zusammenfassung wird erstellt…",
+      "transcript": "Transkript (auf diesem Ger\u00e4t gespeichert)",
+      "downloadingModel": "Offline-Sprachmodell wird heruntergeladen",
+      "transcribingRecording": "Transkription auf diesem Ger\u00e4t",
+      "modelDownloadInfo": "Bei der ersten Verwendung werden etwa 104 MB Sprachmodelldateien heruntergeladen. Die Aufnahme bleibt auf diesem Ger\u00e4t.",
+      "recordingNow": "Aufnahme auf diesem Gerät läuft",
+      "stopRecording": "Aufnahme beenden",
+      "recordingSaved": "Aufnahme auf diesem Gerät gespeichert",
+      "playRecording": "Gespeicherte Aufnahme abspielen"
+    },
     "import": {
       "converterType": "Konvertertyp",
       "externalUrl": "Externer RPG-Sitzungsname (nur Firebase)",
@@ -282,6 +313,7 @@
     "emails": "E-Mails",
     "templates": "Vorlagen",
     "automations": "Automationen",
+    "system_automations": "Systemautomationen",
     "rpg_sessions": "RPG-Sitzungen",
     "register": "Registrieren",
     "login": "Anmelden",
@@ -336,6 +368,7 @@
     "action": "Aktion",
     "paid": "Bezahlt",
     "unpaid": "Offen",
+    "unpaidAfterLogin": "Du hast unbezahlte Rechnungen. Weitere Informationen findest du auf der Seite ?Zu zahlende Rechnungen?.",
     "markPaid": "Als bezahlt markieren",
     "paymentFailed": "Position konnte nicht als bezahlt markiert werden.",
     "generateInvoice": "Rechnung erstellen",
@@ -353,7 +386,9 @@
     "addInvoice": "Rechnung hinzufügen",
     "editInvoice": "Rechnung bearbeiten",
     "invoiceTitle": "Rechnungstitel",
-    "positionTitle": "Positionstitel","invoiceDate":"Rechnungsdatum","fastAddPosition":"Position schnell hinzufügen",
+    "positionTitle": "Positionstitel",
+    "invoiceDate": "Rechnungsdatum",
+    "fastAddPosition": "Position schnell hinzufügen",
     "addPosition": "Position hinzufügen",
     "removePosition": "Position entfernen",
     "loadingUsers": "Benutzer werden geladen…",
@@ -361,7 +396,11 @@
     "completeRequiredFields": "Gib einen Rechnungstitel, Empfänger und mindestens eine vollständige Position ein.",
     "saveFailed": "Rechnung konnte nicht gespeichert werden.",
     "deleteConfirm": "Möchtest du diese Rechnung wirklich löschen?",
-    "filters": { "title": "Rechnungs- oder Positionstitel", "recipient": "Empfänger", "paymentStatus": "Positionsstatus" }
+    "filters": {
+      "title": "Rechnungs- oder Positionstitel",
+      "recipient": "Empfänger",
+      "paymentStatus": "Positionsstatus"
+    }
   },
   "discord": {
     "title": "Discord-Befehle",
@@ -477,6 +516,14 @@
     "reset_password_success": "Das Passwort wurde zurückgesetzt"
   },
   "automations": {
+    "system": {
+      "title": "Systemautomatisierungen",
+      "key": "Schlüssel",
+      "configuration": "Konfiguration (JSON)",
+      "editConfiguration": "Konfiguration der Systemautomatisierung {{key}} bearbeiten",
+      "jsonHint": "Geben Sie einen gültigen JSON-Wert ein.",
+      "invalidJson": "Die Konfiguration muss gültiges JSON sein."
+    },
     "jobs": {
       "archive": {
         "title": "Dateiarchivierung",

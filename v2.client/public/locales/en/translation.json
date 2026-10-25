@@ -24,7 +24,24 @@
     "bottomRight": "Bottom right",
     "topRight": "Top right",
     "bottomLeft": "Bottom left",
-    "topLeft": "Top left"
+    "topLeft": "Top left",
+    "center": {
+      "title": "Notification center",
+      "unreadCount": "{{count}} unread",
+      "markAllRead": "Mark all read",
+      "clear": "Clear",
+      "caughtUp": "You're all caught up.",
+      "notification": "Notification",
+      "unread": "Unread",
+      "types": {
+        "success": "Success",
+        "warning": "Warning",
+        "error": "Error",
+        "info": "Information",
+        "process": "Process",
+        "process-error": "Process error"
+      }
+    }
   },
   "user": {
     "firstName": "First name",
@@ -178,6 +195,20 @@
     }
   },
   "rpg": {
+    "meeting": {
+      "startTitle": "Start RPG meeting",
+      "withoutRecording": "Start without recording",
+      "withRecording": "Record on this device",
+      "generatingSummary": "Generating summary…",
+      "transcript": "Transcript (stored on this device)",
+      "downloadingModel": "Downloading offline speech model",
+      "transcribingRecording": "Transcribing on this device",
+      "modelDownloadInfo": "First use downloads about 104 MB of speech model files. Your recording stays on this device.",
+      "recordingNow": "Recording on this device",
+      "stopRecording": "Stop recording",
+      "recordingSaved": "Recording saved on this device",
+      "playRecording": "Play saved recording"
+    },
     "import": {
       "converterType": "Converter type",
       "externalUrl": "External RPG session name (Firebase only)",
@@ -282,6 +313,7 @@
     "emails": "Emails",
     "templates": "Templates",
     "automations": "Automations",
+    "system_automations": "System automations",
     "rpg_sessions": "RPG Sessions",
     "register": "Sign up",
     "login": "Sign in",
@@ -314,6 +346,7 @@
     "action": "Action",
     "paid": "Paid",
     "unpaid": "Unpaid",
+    "unpaidAfterLogin": "You have unpaid invoices. Visit the invoices to pay page to learn more.",
     "markPaid": "Mark paid",
     "paymentFailed": "Could not mark this position as paid.",
     "generateInvoice": "Generate invoice",
@@ -459,6 +492,14 @@
     "reset_password_success": "Password has been reset"
   },
   "automations": {
+    "system": {
+      "title": "System automations",
+      "key": "Key",
+      "configuration": "Configuration (JSON)",
+      "editConfiguration": "Edit configuration for system automation {{key}}",
+      "jsonHint": "Enter a valid JSON value.",
+      "invalidJson": "The configuration must be valid JSON."
+    },
     "jobs": {
       "archive": {
         "title": "File archiving",

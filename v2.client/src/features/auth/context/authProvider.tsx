@@ -13,6 +13,7 @@ import {
   updateUser,
 } from "../services/authService";
 import { setAuthToken } from "@/shared";
+import { useEventBus, EVENT_MESSAGES} from "@/shared/context/EventContext";
 
 export interface AuthContextType {
   user: UserData | null;
@@ -32,6 +33,8 @@ export interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+
+  const {publish} = useEventBus();
 
   const [user, setUser] = useState<UserData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -63,6 +66,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       await loginUser(data);
       await refreshUser();
+      publish(EVENT_MESSAGES.UserLogIn, user);
       return true;
     } catch (error) {
       return false;

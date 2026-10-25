@@ -620,5 +620,19 @@
       "title": "Paid invoice",
       "description": ""
     }
+  },
+  "System_automat": {
+    "140401": {
+      "title": "Generuj podsumowanie sesji RPG",
+      "description": ""
+    },
+    "140501": {
+      "title": "Wysyłanie zaproszeń na wydarzenie",
+      "description": ""
+    },
+    "140502": {
+      "title": "Wysyłanie przypomnień o wydarzeniu",
+      "description": ""
+    }
   }
 }

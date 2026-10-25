@@ -9,6 +9,7 @@ import {
     Box,
     CircularProgress,
     Collapse,
+    Button,
     IconButton,
     Table,
     TableBody,
@@ -20,6 +21,7 @@ import {
 } from "@mui/material";
 
 import { useState } from "react";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 import { HeroTable } from "./HeroTable";
@@ -38,10 +40,18 @@ import PlaceForm from "@/features/rpg/components/PlaceForm";
 import { useAuth } from '@/features/auth/context/authProvider';
 import { ProgressFlow } from '../components/flow/ProgressFlow';
 import EndMeetingDialog from '../components/EndMeetingDialog';
+import StartMeetingDialog from '../components/StartMeetingDialog';
+import { getMeetingRecordingState, isMeetingRecordingAvailable, openMeetingRecording, startMeetingRecording, stopMeetingRecording, transcribeMeetingRecording } from '../services/meetingRecorder';
+import { generateMeetingSummary } from '../services/meetingSummary';
+import { appStorage } from '@/shared/storage/appStorage';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
 export type ChapterTableProps = {
     chapters: Chapter[]
 };
+
+const meetingTranscriptStorageKey = (chapterId: string, recordingPath: string) =>
+    `rpgMeetingTranscript:${chapterId}:${recordingPath}`;
 
 export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
     const { t } = useTranslation();
@@ -55,8 +65,31 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
     const [openRows, setOpenRows] = useState<Record<string, boolean>>({});
     const [loadingRow, setLoadingRow] = useState<string | null>(null);
     const [isEndMeetingDialogOpen, setIsEndMeetingDialogOpen] = useState(false);
+    const [startTarget, setStartTarget] = useState<Chapter | null>(null);
+    const [endTarget, setEndTarget] = useState<Chapter | null>(null);
+    const [recordingChapterId, setRecordingChapterId] = useState<string | null>(null);
+    const [savedRecordingChapterId, setSavedRecordingChapterId] = useState<string | null>(null);
+    const [savedRecordingPath, setSavedRecordingPath] = useState<string | null>(null);
+    const [generatingSummary, setGeneratingSummary] = useState(false);
+    const [meetingTranscript, setMeetingTranscript] = useState('');
+    const [transcriptionError, setTranscriptionError] = useState('');
+    const [generatedSummary, setGeneratedSummary] = useState('');
+    const [transcriptionPhase, setTranscriptionPhase] = useState<'download' | 'transcribing'>('download');
+    const [transcriptionProgress, setTranscriptionProgress] = useState(0);
 
     const [data, setData] = useState<Chapter[]>(chapters);
+
+    useEffect(() => {
+        getMeetingRecordingState().then(state => {
+            if (state.recording && state.meetingId) setRecordingChapterId(state.meetingId);
+        }).catch(() => undefined);
+
+        const saved = data.find(chapter => appStorage.get(`rpgMeetingRecording:${chapter.id}`));
+        if (saved) {
+            setSavedRecordingChapterId(saved.id);
+            setSavedRecordingPath(appStorage.get(`rpgMeetingRecording:${saved.id}`));
+        }
+    }, []);
 
     const toggleRow = (chapter: Chapter) => {
         const isOpen = !!openRows[chapter.id];
@@ -96,8 +129,8 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
         { name: 'opt.details', method: (o) => details(o) },
         { name: 'opt.edit', method: (o) => edit(o), hidden: (o) => !checkPermission(['rpg-write']) },
         { name: 'opt.publish', method: (o) => publishChapter(o), hidden: (o) => !checkPermission(['rpg-write']) || !o.draft },
-        { name: 'rpg.chapter.start', method: (o) => startChapter(o) },
-        { name: 'rpg.chapter.end', method: (o) => setIsEndMeetingDialogOpen(true) },
+        { name: 'rpg.chapter.start', method: (o) => setStartTarget(o) },
+        { name: 'rpg.chapter.end', method: (o) => openEndMeeting(o) },
         { name: "rpg.chapter.dmPage", method: (o) => dmPage(o) },
         { name: 'rpg.flow.flow_title', method: (o) => flow(o) },
         { name: 'rpg.hero.add', method: (o) => addHero(o), hidden: (o) => !checkPermission(['rpg-write']) },
@@ -221,11 +254,116 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
         });
     };
 
-    const startChapter = (c: Chapter) => call<Chapter>(api => api.chaptersApi.updateByIdStart, { id: c.id }).then(() => refresh(c));
-    const endChapter = (c: Chapter, summary: string) => call<Chapter>(api => api.chaptersApi.updateByIdEnd, { id: c.id, summary }).then(() => refresh(c));
+    const startChapter = async (c: Chapter, record: boolean) => {
+        if (record && !isMeetingRecordingAvailable()) {
+            throw new Error('Device recording is available in the Android app only.');
+        }
+        await call<Chapter>(api => api.chaptersApi.updateByIdStart, { id: c.id });
+        if (record) {
+            await startMeetingRecording(c.id);
+            const previousRecordingPath = appStorage.get(`rpgMeetingRecording:${c.id}`);
+            if (previousRecordingPath) appStorage.remove(meetingTranscriptStorageKey(c.id, previousRecordingPath));
+            appStorage.remove(`rpgMeetingTranscript:${c.id}`);
+            appStorage.remove(`rpgMeetingRecording:${c.id}`);
+            await appStorage.flush();
+            setRecordingChapterId(c.id);
+            setSavedRecordingChapterId(null);
+            setSavedRecordingPath(null);
+        }
+        refresh(c);
+    };
+
+    const saveStoppedRecording = async (chapter: Chapter) => {
+        const state = await getMeetingRecordingState();
+        if (!state.recording || state.meetingId !== chapter.id) return;
+        const recording = await stopMeetingRecording();
+        appStorage.set(`rpgMeetingRecording:${chapter.id}`, recording.path);
+        setRecordingChapterId(null);
+        setSavedRecordingChapterId(chapter.id);
+        setSavedRecordingPath(recording.path);
+    };
+
+    const stopRecording = async () => {
+        if (!recordingChapterId) return;
+        const chapter = data.find(item => item.id === recordingChapterId);
+        if (!chapter) return;
+        await saveStoppedRecording(chapter);
+    };
+
+    const openEndMeeting = async (chapter: Chapter) => {
+        try {
+            setGeneratingSummary(true);
+            setTranscriptionError('');
+            setMeetingTranscript('');
+            setGeneratedSummary('');
+            setTranscriptionPhase('download');
+            setTranscriptionProgress(0);
+            setEndTarget(chapter);
+            setIsEndMeetingDialogOpen(true);
+            await saveStoppedRecording(chapter);
+            const savedPath = appStorage.get(`rpgMeetingRecording:${chapter.id}`);
+            if (savedPath) {
+                setSavedRecordingChapterId(chapter.id);
+                setSavedRecordingPath(savedPath);
+                const transcriptKey = meetingTranscriptStorageKey(chapter.id, savedPath);
+                const cachedTranscript = appStorage.get(transcriptKey) ?? '';
+                if (cachedTranscript) {
+                    setMeetingTranscript(cachedTranscript);
+                    setGeneratedSummary(generateMeetingSummary(cachedTranscript));
+                } else {
+                    const result = await transcribeMeetingRecording(savedPath, progress => {
+                        setTranscriptionPhase(progress.phase);
+                        setTranscriptionProgress(progress.progress);
+                    });
+                    setMeetingTranscript(result.transcript);
+                    appStorage.set(transcriptKey, result.transcript);
+                    await appStorage.flush();
+                    setGeneratedSummary(generateMeetingSummary(result.transcript));
+                }
+            } else {
+                setEndTarget(chapter);
+            }
+        } catch (error) {
+            console.error('Unable to stop the local meeting recording.', error);
+            setEndTarget(chapter);
+            setIsEndMeetingDialogOpen(true);
+            setTranscriptionError(error instanceof Error ? error.message : String(error));
+        } finally {
+            setGeneratingSummary(false);
+        }
+    };
+
+    const endChapter = async (c: Chapter, summary: string) => {
+        await call<Chapter>(api => api.chaptersApi.updateByIdEnd, { id: c.id, body: summary });
+        setIsEndMeetingDialogOpen(false);
+        setEndTarget(null);
+        refresh(c);
+    };
 
     return (
         <Box sx={{ width: "100%", overflowX: "auto" }}>
+            {recordingChapterId && (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, p: 1.5, mb: 1, borderRadius: 1, bgcolor: 'error.light', color: 'error.contrastText' }}>
+                    <FiberManualRecordIcon fontSize="small" />
+                    <Typography sx={{ flex: 1 }}>
+                        {t('rpg.meeting.recordingNow', 'Recording on this device')}
+                        {' — '}{data.find(item => item.id === recordingChapterId)?.title ?? ''}
+                    </Typography>
+                    <Button color="inherit" variant="outlined" onClick={stopRecording}>
+                        {t('rpg.meeting.stopRecording', 'Stop recording')}
+                    </Button>
+                </Box>
+            )}
+            {savedRecordingChapterId && !recordingChapterId && (
+                <Typography variant="body2" sx={{ mb: 1, color: 'success.main' }}>
+                    {t('rpg.meeting.recordingSaved', 'Recording saved on this device')}
+                </Typography>
+            )}
+            {savedRecordingPath && (
+                <Button size="small" onClick={() => openMeetingRecording(savedRecordingPath)} sx={{ mb: 1 }}>
+                    {t('rpg.meeting.playRecording', 'Play saved recording')}
+                </Button>
+            )}
             <Table size={isMobile ? "small" : "medium"}>
                 <TableBody>
                     {data
@@ -301,16 +439,29 @@ export const ChapterTable: React.FC<ChapterTableProps> = ({ chapters }) => {
                                             </Collapse>
                                         </TableCell>
                                     </TableRow>
-                                    <EndMeetingDialog
-                                        open={isEndMeetingDialogOpen}
-                                        onClose={() => setIsEndMeetingDialogOpen(false)}
-                                        onConfirm={(summary) => endChapter(chapter, summary)}
-                                    />
                                 </>
                             );
                         })}
                 </TableBody>
             </Table>
+            <StartMeetingDialog
+                open={!!startTarget}
+                onClose={() => setStartTarget(null)}
+                onConfirm={(record) => startTarget ? startChapter(startTarget, record) : Promise.resolve()}
+            />
+            <EndMeetingDialog
+                open={isEndMeetingDialogOpen && !!endTarget}
+                onClose={() => { setIsEndMeetingDialogOpen(false); setEndTarget(null); }}
+                onConfirm={(summary) => endTarget ? endChapter(endTarget, summary) : Promise.resolve()}
+                initialSummary={generatedSummary || (endTarget?.sessions?.[Math.max(0, (endTarget.sessions?.length ?? 0) - 1)]?.summary ?? '')}
+                transcript={meetingTranscript}
+                transcriptionError={transcriptionError}
+                generatingSummary={generatingSummary}
+                generationStatus={transcriptionPhase === 'download'
+                    ? `${t('rpg.meeting.downloadingModel', 'Downloading offline speech model')} (${transcriptionProgress}%)`
+                    : `${t('rpg.meeting.transcribingRecording', 'Transcribing on this device')} (${transcriptionProgress}%)`}
+                downloadingModel={generatingSummary && transcriptionPhase === 'download'}
+            />
         </Box>
     );
 };

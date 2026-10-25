@@ -114,7 +114,7 @@ namespace RPG.Infrastructure.Jobs
 
                 if (image is not null)
                 {
-                    var content = image.ContentStr;
+                    var content = FirebaseImageCompressor.Compress(image.ContentStr ?? string.Empty);
 
                     list.Add(new FirebaseImage
                     {
@@ -142,7 +142,7 @@ namespace RPG.Infrastructure.Jobs
 
                 if (image is not null)
                 {
-                    var content = image.ContentStr;
+                    var content = FirebaseImageCompressor.Compress(image.ContentStr ?? string.Empty);
 
                     list.Add(new FirebaseImage
                     {

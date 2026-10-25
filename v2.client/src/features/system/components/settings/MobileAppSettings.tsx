@@ -4,8 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { isAndroidApp } from '@/shared/platform';
 import { checkForAppUpdate, type AppUpdate } from '../../services/appUpdate';
 import { openApkDownload } from '../../services/apkInstaller';
+import AccountSettings from './AccountSettings';
 
-const AppUpdateSettings: React.FC<{ autoCheck?: boolean; showControls?: boolean }> = ({ autoCheck = false, showControls = true }) => {
+const MobileAppSettings: React.FC<{ autoCheck?: boolean; showControls?: boolean }> = ({ autoCheck = false, showControls = true }) => {
   const { t } = useTranslation();
   const [update, setUpdate] = useState<AppUpdate | null>(null);
   const [checking, setChecking] = useState(false);
@@ -48,8 +49,9 @@ const AppUpdateSettings: React.FC<{ autoCheck?: boolean; showControls?: boolean 
       {update && <Button variant="contained" onClick={() => void openApkDownload(update.apkUrl).catch(() => setError(true))}>
         {t('settings.downloadUpdate')}
       </Button>}
+      <AccountSettings />
     </Stack>
   );
 };
 
-export default AppUpdateSettings;
+export default MobileAppSettings;
