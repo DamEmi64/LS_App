@@ -49,6 +49,14 @@
       ],
       "permissions": ["rpg"]
     },
-    { "label": "automations", "href": "/automations", "submenu": [], "permissions": ["automation"] }
+    {
+      "label": "automations",
+      "href": "",
+      "submenu": [
+        { "label": "automations", "href": "/automations", "submenu": [], "permissions": ["automation"] },
+        { "label": "system_automations", "href": "/systemAutomations", "submenu": [], "permissions": ["automation"] }
+      ],
+      "permissions": [ "automations" ]
+    }
   ]
 }

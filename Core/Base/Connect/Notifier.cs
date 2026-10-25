@@ -23,4 +23,6 @@ public class Notifier
 /// <summary>
 ///     Basic event for notification
 /// </summary>
-public record NotifyEvent;
+public record NotifyEvent : INotifyEvent;
+
+public interface INotifyEvent;

@@ -122,7 +122,7 @@ const InvoiceForm = ({ invoice, onSave, onCancel }: InvoiceFormProps) => {
                                 label={t('invoices.value')}
                                 value={position.value}
                                 onChange={event => setPosition(index, 'value', event.target.value)}
-                                type="number" inputProps={{ min: 0, step: '0.01' }}
+                                type="number" inputProps={{ step: '0.01' }}
                                 fullWidth required size="small"
                             />
                         </Grid>

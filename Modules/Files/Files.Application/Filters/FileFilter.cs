@@ -4,10 +4,8 @@ using System.ComponentModel;
 
 namespace Files.Application.Filters
 {
-    public class FileFilter : IEntityFilter<Domain.Entities.File>
+    public class FileFilter : BaseEntityFilter<Domain.Entities.File>
     {
-        public int Page { get; set; }
-        public int PageSize { get; set; } = 10;
         public required string Order { get; set; }
         public string? OrderBy { get; set; }
         public string? Title { get; set; }
@@ -18,7 +16,7 @@ namespace Files.Application.Filters
         public int? Semester { get; set; }
         public bool IncludeImages { get; set; } = false;
 
-        public IEnumerable<Domain.Entities.File> Filter(IEnumerable<Domain.Entities.File> data, out int? count)
+        public override IEnumerable<Domain.Entities.File> Filter(IEnumerable<Domain.Entities.File> data, out int? count)
         {
             if (!string.IsNullOrEmpty(Title))
             {
@@ -54,26 +52,6 @@ namespace Files.Application.Filters
 
             return data.Skip(Page * PageSize).Take(PageSize);
         }
-
-        private IEnumerable<T> Sort<T>(IEnumerable<T> objects, string column, string order) where T : Entity
-        {
-            var prop = TypeDescriptor.GetProperties(typeof(T)).Find(column, true);
-
-            if (prop is null)
-            {
-                return objects;
-            }
-
-            if (order == "asc")
-            {
-                objects = objects.OrderBy(prop.GetValue);
-            }
-            else
-            {
-                objects = objects.OrderByDescending(prop.GetValue);
-            }
-
-            return objects;
-        }
+      
     }
 }

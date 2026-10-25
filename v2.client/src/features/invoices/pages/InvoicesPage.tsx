@@ -182,7 +182,7 @@ const InvoicesPage = ({ mode }: InvoicesPageProps) => {
     };
 
     const saveQuickPosition = async () => {
-        if (!positionInvoice || !positionTitle.trim() || positionValue === '' || Number(positionValue) < 0 || !positionDate) return;
+        if (!positionInvoice || !positionTitle.trim() || positionValue === '' || !positionDate) return;
         setAddingPosition(true);
         try {
             await addInvoicePosition(positionInvoice.id, {
@@ -312,7 +312,7 @@ const InvoicesPage = ({ mode }: InvoicesPageProps) => {
                 </DialogContent>
                 <DialogActions>
                     <Button disabled={addingPosition} onClick={() => setPositionInvoice(null)}>{t('opt.cancel')}</Button>
-                    <Button disabled={addingPosition || !positionTitle.trim() || positionValue === '' || Number(positionValue) < 0 || !positionDate} onClick={() => void saveQuickPosition()} variant="contained">
+                    <Button disabled={addingPosition || !positionTitle.trim() || positionValue === '' || !positionDate} onClick={() => void saveQuickPosition()} variant="contained">
                         {addingPosition ? <CircularProgress size={18} /> : t('opt.save')}
                     </Button>
                 </DialogActions>

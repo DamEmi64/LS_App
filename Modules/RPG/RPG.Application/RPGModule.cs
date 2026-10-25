@@ -1,11 +1,14 @@
-﻿using Base;
+﻿using AutomationBase;
+using Base;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using RPG.Infrastructure;
+using RPG.Infrastructure.Automates;
 using RPG.Infrastructure.External.FileConverters;
 using RPG.Infrastructure.External.Firebase;
 using RPG.Infrastructure.Hubs;
 using System.Infrastructure.Db;
+using Extensions = Base.Extensions;
 
 namespace RPG.Application
 {
@@ -40,6 +43,7 @@ namespace RPG.Application
             return services
                 .AddDatabase<RPGContext>(AppConfiguration.DefaultConnectionString)
                 .AddRepos()
+                .AddSystemAutomat<GenerateSummaryAutomate>()
                 .AddServices();
         }
 

@@ -4,9 +4,8 @@ import { useTranslation } from "react-i18next";
 import ServerSettings from "./serverSettings";
 import GeneralSettings from "./generalSettings";
 import NotificationSettings from "./NotificationSettings";
-import AccountSettings from './AccountSettings';
 import { isNativeApp } from '@/shared/platform';
-import AppUpdateSettings from './AppUpdateSettings';
+import MobileAppSettings from './MobileAppSettings';
 
 const SettingsWrapper: React.FC = () => {
     const { t } = useTranslation();
@@ -16,10 +15,6 @@ const SettingsWrapper: React.FC = () => {
         {
             label: t('settings.general'),
             content: (<GeneralSettings />)
-        },
-        {
-            label: t('settings.system'),
-            content: (<AppUpdateSettings />)
         },
         {
             label: t('settings.server'),
@@ -32,7 +27,7 @@ const SettingsWrapper: React.FC = () => {
     ];
 
     if (isNativeApp) {
-        tabs.unshift({ label: 'Account', content: <AccountSettings /> });
+        tabs.unshift({ label: t('settings.system'), content: <MobileAppSettings /> });
     }
 
     const [value, setValue] = useState(0);

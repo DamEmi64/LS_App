@@ -43,7 +43,7 @@ namespace RPG.Infrastructure.External.FileConverters.Firebase
                     var heroModel = chapterModel.Heroes?.FirstOrDefault(h => h.FirstName == hero.FirstName && h.LastName == hero.LastName);
                     if (heroModel?.ImageData != null)
                     {
-                        var imageId = await _mediaProvider.Save(heroModel.ImageData, null, "jpeg");
+                        var imageId = await _mediaProvider.Save(heroModel.ImageData, null, GetImageExtension(heroModel.ImageData));
                         hero.Image = imageId;
                     }
                 }
@@ -52,7 +52,7 @@ namespace RPG.Infrastructure.External.FileConverters.Firebase
                     var placeModel = chapterModel.Places?.FirstOrDefault(p => p.Title == place.Title);
                     if (placeModel?.ImageData != null)
                     {
-                        var imageId = await _mediaProvider.Save(placeModel.ImageData, null, "jpeg");
+                        var imageId = await _mediaProvider.Save(placeModel.ImageData, null, GetImageExtension(placeModel.ImageData));
                         place.Image = imageId;
                     }
                 }
@@ -64,6 +64,28 @@ namespace RPG.Infrastructure.External.FileConverters.Firebase
         public Task<string> Convert(Story story)
         {
             throw new NotImplementedException();
+        }
+
+        private static string GetImageExtension(string imageData)
+        {
+            const string dataUriPrefix = "data:image/";
+            if (!imageData.StartsWith(dataUriPrefix, StringComparison.OrdinalIgnoreCase))
+                return "jpeg";
+
+            var formatEnd = imageData.IndexOfAny(new[] { ';', ',' }, dataUriPrefix.Length);
+            if (formatEnd < 0)
+                return "jpeg";
+
+            var format = imageData[dataUriPrefix.Length..formatEnd].ToLowerInvariant();
+            return format switch
+            {
+                "jpg" or "jpeg" => "jpeg",
+                "png" => "png",
+                "webp" => "webp",
+                "gif" => "gif",
+                "bmp" => "bmp",
+                _ => "jpeg"
+            };
         }
 
         private async Task<StoryModel?> LoadFromFirebaseByTitle(string title)

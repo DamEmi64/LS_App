@@ -106,7 +106,7 @@
     "react-storage-complete": "^1.1.13",
     "react-string-format": "^1.2.0",
     "react-switch-selector": "^2.3.0",
-    "react-toastify": "^11.0.5",
+    "react-toastify": "^11.1.0",
     "react-use-localstorage": "^3.5.3",
     "reactflow": "^11.11.4",
     "recharts": "^2.12.7",
