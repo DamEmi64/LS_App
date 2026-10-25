@@ -70,32 +70,14 @@ jobs:
           git tag "v$VERSION"
           git push origin "v$VERSION"
 
-      - name: Pack NuGet package
-        if: github.event_name == 'push'
-        env:
-          VERSION: ${{ steps.version.outputs.version }}
-        run: |
-          dotnet pack --configuration Release \
-            --no-restore \
-            -p:PackageVersion="$VERSION" \
-            -o ./artifacts
+      - name: Publish API
+        run: dotnet publish api/api.csproj -c Release -o ./publish
 
-      - name: Publish to GitHub Packages
-        if: github.event_name == 'push'
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: 8.0.x
-          source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
-        env:
-          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Push NuGet package
-        if: github.event_name == 'push'
+      - name: Create ZIP package
         run: |
-          dotnet nuget push "./artifacts/*.nupkg" \
-            --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" \
-            --api-key "${{ secrets.GITHUB_TOKEN }}" \
-            --skip-duplicate
+          VERSION="1.0.${GITHUB_RUN_NUMBER}"
+          cd publish
+          zip -r "../application-${VERSION}.zip" .
 
   build_Frontend:
     runs-on: ubuntu-latest
