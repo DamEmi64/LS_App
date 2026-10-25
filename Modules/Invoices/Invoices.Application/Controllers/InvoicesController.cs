@@ -103,7 +103,7 @@ namespace Invoices.Application.Controllers
             var invoice = await _invoiceRepository.GetWithDetails(id);
             if (invoice is null) return NotFound();
             if (invoice.Collector.UserId != CurrentUser.UserId) return Forbid();
-            if (string.IsNullOrWhiteSpace(dto.Title)) return BadRequest("Position title is required.");
+            if (string.IsNullOrWhiteSpace(dto.Title) || dto.Value < 0) return BadRequest("Position title and a non-negative value are required.");
 
             invoice.Positions.Add(ToEntity(dto));
             await _invoiceRepository.Update(invoice);
