@@ -1,5 +1,5 @@
 
-name: .NET CI and Package Release
+name: Build and Release
 
 on:
   push:
@@ -9,17 +9,14 @@ on:
 
 permissions:
   contents: write
-  packages: write
 
 jobs:
-  build_Api:
+  build:
     runs-on: ubuntu-latest
 
-    outputs:
-      version: ${{ steps.version.outputs.version }}
-
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -28,19 +25,60 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
+      - name: Find API project
+        id: project
+        shell: bash
+        run: |
+          PROJECT=$(find . -type f -name "*.csproj" \
+            -not -path "*/obj/*" \
+            -not -path "*/bin/*" | head -n 1)
+
+          if [ -z "$PROJECT" ]; then
+            echo "ERROR: No .csproj file found."
+            exit 1
+          fi
+
+          echo "Found project: $PROJECT"
+          echo "path=$PROJECT" >> "$GITHUB_OUTPUT"
+
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore "${{ steps.project.outputs.path }}"
 
-      - name: Build
-        run: dotnet build --no-restore
+      - name: Build backend
+        run: dotnet build "${{ steps.project.outputs.path }}" -c Release --no-restore
 
-      - name: Test
-        run: dotnet test --no-build --verbosity normal
+      - name: Test backend
+        run: dotnet test -c Release --verbosity normal
 
-      # Only create a release version on pushes to master.
+      - name: Publish backend
+        run: dotnet publish "${{ steps.project.outputs.path }}" -c Release --no-restore -o ./package/backend
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install frontend dependencies
+        working-directory: ./v2.client
+        run: npm ci
+
+      - name: Build frontend
+        working-directory: ./v2.client
+        run: npm run build
+
+      - name: Copy frontend into package
+        run: |
+          if [ ! -d "./v2.client/dist" ]; then
+            echo "ERROR: Frontend output directory v2.client/dist was not found."
+            exit 1
+          fi
+
+          mkdir -p ./package/frontend
+          cp -r ./v2.client/dist/. ./package/frontend/
+
       - name: Calculate next version
-        id: version
         if: github.event_name == 'push'
+        id: version
         shell: bash
         run: |
           git fetch --tags --force
@@ -51,12 +89,27 @@ jobs:
             VERSION="1.0.0"
           else
             VERSION="${LAST_TAG#v}"
+
             IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+
             VERSION="$MAJOR.$MINOR.$((PATCH + 1))"
           fi
 
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-          echo "Next package version: $VERSION"
+          echo "Next version: $VERSION"
+
+      - name: Create ZIP package
+        if: github.event_name == 'push'
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          mkdir -p ./release
+
+          cd package
+          zip -r "../release/application-${VERSION}.zip" .
+          cd ..
+
+          ls -lh "./release/application-${VERSION}.zip"
 
       - name: Create Git tag
         if: github.event_name == 'push'
@@ -64,56 +117,18 @@ jobs:
           VERSION: ${{ steps.version.outputs.version }}
         run: |
           git config user.name "github-actions[bot]"
-          git config user.email \
-            "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git tag "v$VERSION"
-          git push origin "v$VERSION"
+          git tag "v${VERSION}"
+          git push origin "v${VERSION}"
 
-      - name: Publish Backend
-        run: dotnet publish api/api.csproj -c Release -o ./package/backend
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install Frontend Dependencies
-        working-directory: ./v2.client
-        run: npm ci
-
-      - name: Build Frontend
-        working-directory: ./v2.client
-        run: npm run build
-
-      - name: Copy Frontend into Package
+      - name: Create GitHub Release
+        if: github.event_name == 'push'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.version.outputs.version }}
         run: |
-          mkdir -p ./package/frontend
-          cp -r ./v2.client/dist/. ./package/frontend/
-
-      - name: Create Versioned ZIP
-        run: |
-          VERSION="1.0.${GITHUB_RUN_NUMBER}"
-          cd package
-          zip -r "../application-${VERSION}.zip" .
-
-  build_Frontend:
-    runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: ./v2.client
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
+          gh release create "v${VERSION}" \
+            "./release/application-${VERSION}.zip" \
+            --title "Release v${VERSION}" \
+            --generate-notes
