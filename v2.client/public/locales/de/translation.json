@@ -593,5 +593,9 @@
     "removeReminder": "Erinnerung entfernen",
     "present": "Teilnahme"
   },
-  "auth_forgot_password_sent_failed": "Der Code zum Zurücksetzen des Passworts konnte nicht gesendet werden"
+  "auth_forgot_password_sent_failed": "Der Code zum Zurücksetzen des Passworts konnte nicht gesendet werden",
+  "invoice": {
+    "paid": "Bezahlt",
+    "unpaid": "Nicht bezahlt"
+  }
 }

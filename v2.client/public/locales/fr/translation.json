@@ -589,5 +589,9 @@
     "removeReminder": "Supprimer le rappel",
     "present": "Présence"
   },
-  "auth_forgot_password_sent_failed": "L’envoi du code de réinitialisation du mot de passe a échoué"
+  "auth_forgot_password_sent_failed": "L’envoi du code de réinitialisation du mot de passe a échoué",
+  "invoice": {
+    "paid": "Pay\u00e9e",
+    "unpaid": "Impay\u00e9e"
+  }
 }
