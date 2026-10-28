@@ -505,95 +505,95 @@
       "description": ""
     },
     "40107": {
-      "title": "Invalid request.",
+      "title": "Requête invalide.",
       "description": ""
     },
     "40108": {
-      "title": "Operation failed: {0}",
+      "title": "Échec de l'opération : {0}",
       "description": ""
     },
     "40717": {
-      "title": "Passwords entered do not match.",
+      "title": "Les mots de passe saisis ne correspondent pas.",
       "description": ""
     },
     "40718": {
-      "title": "Password change failed: {0}",
+      "title": "Échec du changement de mot de passe : {0}",
       "description": ""
     },
     "40719": {
-      "title": "Password reset failed: {0}",
+      "title": "Échec de la réinitialisation du mot de passe : {0}",
       "description": ""
     },
     "40721": {
-      "title": "Operation failed: {0}",
+      "title": "Échec de l'opération : {0}",
       "description": ""
     },
     "40801": {
-      "title": "Validation failed: {0}",
+      "title": "Données invalides : {0}",
       "description": ""
     },
     "40802": {
-      "title": "Invoice title, position, and at least one allocation are required.",
+      "title": "Le titre de la facture, un poste et au moins une répartition sont requis.",
       "description": ""
     },
     "40803": {
-      "title": "Allocations must have a user and a non-negative value.",
+      "title": "Chaque répartition doit indiquer un utilisateur et un montant positif ou nul.",
       "description": ""
     },
     "40804": {
-      "title": "A user can have only one allocation per position.",
+      "title": "Un utilisateur ne peut avoir qu'une seule répartition par poste.",
       "description": ""
     },
     "40805": {
-      "title": "Every allocation must belong to an event participant.",
+      "title": "Chaque répartition doit concerner un participant à l'événement.",
       "description": ""
     },
     "40806": {
-      "title": "User '{0}' was not found.",
+      "title": "Utilisateur '{0}' introuvable.",
       "description": ""
     },
     "40807": {
-      "title": "File has no content to export.",
+      "title": "Le fichier ne contient aucun contenu à exporter.",
       "description": ""
     },
     "40901": {
-      "title": "Recipient was not found.",
+      "title": "Destinataire introuvable.",
       "description": ""
     },
     "40902": {
-      "title": "Position title and a non-negative value are required.",
+      "title": "Le titre du poste et un montant positif ou nul sont requis.",
       "description": ""
     },
     "40903": {
-      "title": "Account number is required.",
+      "title": "Le numéro de compte est requis.",
       "description": ""
     },
     "41001": {
-      "title": "A non-empty ZIP file is required.",
+      "title": "Un fichier ZIP non vide est requis.",
       "description": ""
     },
     "41002": {
-      "title": "ZIP contains an invalid path.",
+      "title": "Le fichier ZIP contient un chemin invalide.",
       "description": ""
     },
     "41003": {
-      "title": "The uploaded file is not a valid ZIP archive.",
+      "title": "Le fichier envoyé n'est pas une archive ZIP valide.",
       "description": ""
     },
     "41004": {
-      "title": "A directory cannot be its own parent.",
+      "title": "Un dossier ne peut pas être son propre dossier parent.",
       "description": ""
     },
     "41005": {
-      "title": "Parent directory not found.",
+      "title": "Dossier parent introuvable.",
       "description": ""
     },
     "41006": {
-      "title": "Directory is not empty.",
+      "title": "Le dossier n'est pas vide.",
       "description": ""
     },
     "41007": {
-      "title": "Directory not found.",
+      "title": "Dossier introuvable.",
       "description": ""
     }
   },

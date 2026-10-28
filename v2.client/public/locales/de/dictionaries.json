@@ -505,95 +505,95 @@
       "description": ""
     },
     "40107": {
-      "title": "Invalid request.",
+      "title": "Ungültige Anfrage.",
       "description": ""
     },
     "40108": {
-      "title": "Operation failed: {0}",
+      "title": "Vorgang fehlgeschlagen: {0}",
       "description": ""
     },
     "40717": {
-      "title": "Passwords entered do not match.",
+      "title": "Die eingegebenen Passwörter stimmen nicht überein.",
       "description": ""
     },
     "40718": {
-      "title": "Password change failed: {0}",
+      "title": "Passwortänderung fehlgeschlagen: {0}",
       "description": ""
     },
     "40719": {
-      "title": "Password reset failed: {0}",
+      "title": "Passwort zurücksetzen fehlgeschlagen: {0}",
       "description": ""
     },
     "40721": {
-      "title": "Operation failed: {0}",
+      "title": "Vorgang fehlgeschlagen: {0}",
       "description": ""
     },
     "40801": {
-      "title": "Validation failed: {0}",
+      "title": "Ungültige Daten: {0}",
       "description": ""
     },
     "40802": {
-      "title": "Invoice title, position, and at least one allocation are required.",
+      "title": "Rechnungstitel, Position und mindestens eine Zuordnung sind erforderlich.",
       "description": ""
     },
     "40803": {
-      "title": "Allocations must have a user and a non-negative value.",
+      "title": "Eine Zuordnung muss einen Benutzer und einen nicht negativen Betrag enthalten.",
       "description": ""
     },
     "40804": {
-      "title": "A user can have only one allocation per position.",
+      "title": "Ein Benutzer darf pro Position nur eine Zuordnung haben.",
       "description": ""
     },
     "40805": {
-      "title": "Every allocation must belong to an event participant.",
+      "title": "Jede Zuordnung muss zu einem Veranstaltungsteilnehmer gehören.",
       "description": ""
     },
     "40806": {
-      "title": "User '{0}' was not found.",
+      "title": "Benutzer '{0}' wurde nicht gefunden.",
       "description": ""
     },
     "40807": {
-      "title": "File has no content to export.",
+      "title": "Die Datei enthält keine exportierbaren Inhalte.",
       "description": ""
     },
     "40901": {
-      "title": "Recipient was not found.",
+      "title": "Empfänger wurde nicht gefunden.",
       "description": ""
     },
     "40902": {
-      "title": "Position title and a non-negative value are required.",
+      "title": "Positionstitel und ein nicht negativer Betrag sind erforderlich.",
       "description": ""
     },
     "40903": {
-      "title": "Account number is required.",
+      "title": "Die Kontonummer ist erforderlich.",
       "description": ""
     },
     "41001": {
-      "title": "A non-empty ZIP file is required.",
+      "title": "Eine nicht leere ZIP-Datei ist erforderlich.",
       "description": ""
     },
     "41002": {
-      "title": "ZIP contains an invalid path.",
+      "title": "Die ZIP-Datei enthält einen ungültigen Pfad.",
       "description": ""
     },
     "41003": {
-      "title": "The uploaded file is not a valid ZIP archive.",
+      "title": "Die hochgeladene Datei ist kein gültiges ZIP-Archiv.",
       "description": ""
     },
     "41004": {
-      "title": "A directory cannot be its own parent.",
+      "title": "Ein Verzeichnis kann nicht sein eigenes übergeordnetes Verzeichnis sein.",
       "description": ""
     },
     "41005": {
-      "title": "Parent directory not found.",
+      "title": "Übergeordnetes Verzeichnis wurde nicht gefunden.",
       "description": ""
     },
     "41006": {
-      "title": "Directory is not empty.",
+      "title": "Das Verzeichnis ist nicht leer.",
       "description": ""
     },
     "41007": {
-      "title": "Directory not found.",
+      "title": "Verzeichnis wurde nicht gefunden.",
       "description": ""
     }
   },

@@ -505,95 +505,95 @@
       "description": ""
     },
     "40107": {
-      "title": "Invalid request.",
+      "title": "Nieprawidłowe żądanie.",
       "description": ""
     },
     "40108": {
-      "title": "Operation failed: {0}",
+      "title": "Operacja nie powiodła się: {0}",
       "description": ""
     },
     "40717": {
-      "title": "Passwords entered do not match.",
+      "title": "Wprowadzone hasła nie są zgodne.",
       "description": ""
     },
     "40718": {
-      "title": "Password change failed: {0}",
+      "title": "Zmiana hasła nie powiodła się: {0}",
       "description": ""
     },
     "40719": {
-      "title": "Password reset failed: {0}",
+      "title": "Resetowanie hasła nie powiodło się: {0}",
       "description": ""
     },
     "40721": {
-      "title": "Operation failed: {0}",
+      "title": "Operacja nie powiodła się: {0}",
       "description": ""
     },
     "40801": {
-      "title": "Validation failed: {0}",
+      "title": "Nieprawidłowe dane: {0}",
       "description": ""
     },
     "40802": {
-      "title": "Invoice title, position, and at least one allocation are required.",
+      "title": "Wymagany jest tytuł faktury, pozycja i co najmniej jedno przypisanie.",
       "description": ""
     },
     "40803": {
-      "title": "Allocations must have a user and a non-negative value.",
+      "title": "Przypisanie musi zawierać użytkownika i nieujemną kwotę.",
       "description": ""
     },
     "40804": {
-      "title": "A user can have only one allocation per position.",
+      "title": "Jeden użytkownik może mieć tylko jedno przypisanie do danej pozycji.",
       "description": ""
     },
     "40805": {
-      "title": "Every allocation must belong to an event participant.",
+      "title": "Każde przypisanie musi dotyczyć uczestnika wydarzenia.",
       "description": ""
     },
     "40806": {
-      "title": "User '{0}' was not found.",
+      "title": "Nie znaleziono użytkownika '{0}'.",
       "description": ""
     },
     "40807": {
-      "title": "File has no content to export.",
+      "title": "Plik nie zawiera treści do wyeksportowania.",
       "description": ""
     },
     "40901": {
-      "title": "Recipient was not found.",
+      "title": "Nie znaleziono odbiorcy.",
       "description": ""
     },
     "40902": {
-      "title": "Position title and a non-negative value are required.",
+      "title": "Wymagany jest tytuł pozycji i nieujemna kwota.",
       "description": ""
     },
     "40903": {
-      "title": "Account number is required.",
+      "title": "Numer konta jest wymagany.",
       "description": ""
     },
     "41001": {
-      "title": "A non-empty ZIP file is required.",
+      "title": "Wymagany jest niepusty plik ZIP.",
       "description": ""
     },
     "41002": {
-      "title": "ZIP contains an invalid path.",
+      "title": "Plik ZIP zawiera nieprawidłową ścieżkę.",
       "description": ""
     },
     "41003": {
-      "title": "The uploaded file is not a valid ZIP archive.",
+      "title": "Przesłany plik nie jest prawidłowym archiwum ZIP.",
       "description": ""
     },
     "41004": {
-      "title": "A directory cannot be its own parent.",
+      "title": "Katalog nie może być własnym katalogiem nadrzędnym.",
       "description": ""
     },
     "41005": {
-      "title": "Parent directory not found.",
+      "title": "Nie znaleziono katalogu nadrzędnego.",
       "description": ""
     },
     "41006": {
-      "title": "Directory is not empty.",
+      "title": "Katalog nie jest pusty.",
       "description": ""
     },
     "41007": {
-      "title": "Directory not found.",
+      "title": "Nie znaleziono katalogu.",
       "description": ""
     }
   },

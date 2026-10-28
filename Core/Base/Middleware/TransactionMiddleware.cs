@@ -26,7 +26,7 @@ public sealed class TransactionMiddleware
             new TransactionOptions
             {
                 IsolationLevel = IsolationLevel.ReadCommitted,
-                Timeout = TransactionManager.DefaultTimeout
+                Timeout = TransactionManager.DefaultTimeout,
             },
             TransactionScopeAsyncFlowOption.Enabled);
 
