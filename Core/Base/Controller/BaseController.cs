@@ -40,5 +40,4 @@ namespace Base
             });
     }
 
-    public sealed record LogMessage(int MessageId, object[] Args);
 }

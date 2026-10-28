@@ -2,6 +2,7 @@ using Base;
 using Invoices.Application.Dtos;
 using Invoices.Domain.Dictionaries;
 using Invoices.Domain.Entities;
+using Invoices.Domain.Events;
 using Invoices.Domain.Repositories;
 using Invoices.Infrastructure.Models;
 using Invoices.Infrastructure.Services.InvoiceDocumentService;
@@ -14,11 +15,13 @@ namespace Invoices.Application.Controllers
     {
         private readonly IInvoiceRepository _invoiceRepository;
         private readonly IInvoiceDocumentService _invoiceDocumentService;
+        private readonly Notifier _notifier;
 
-        public InvoicesController(IControllerService controllerService, IInvoiceRepository invoiceRepository, IInvoiceDocumentService invoiceDocumentService) : base(controllerService)
+        public InvoicesController(IControllerService controllerService, IInvoiceRepository invoiceRepository, IInvoiceDocumentService invoiceDocumentService, Notifier notifier) : base(controllerService)
         {
             _invoiceRepository = invoiceRepository;
             _invoiceDocumentService = invoiceDocumentService;
+            _notifier = notifier;
         }
 
         [HttpGet("collector")]
@@ -52,6 +55,7 @@ namespace Invoices.Application.Controllers
                 Positions = dto.Positions.Select(ToEntity).ToList()
             };
             await _invoiceRepository.Add(invoice);
+            await _notifier.Notify(new InvoiceCreateOrUpdateEvent(invoice.Id));
             return CreatedAtAction(nameof(Get), new { id = invoice.Id }, ToDto(invoice));
         }
 
@@ -92,7 +96,7 @@ namespace Invoices.Application.Controllers
             invoice.Recipient = recipient.Clone();
 
             await _invoiceRepository.Update(invoice);
-
+            await _notifier.Notify(new InvoiceCreateOrUpdateEvent(invoice.Id));
             return Ok(ToDto(invoice));
         }
 

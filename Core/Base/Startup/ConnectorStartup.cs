@@ -88,6 +88,8 @@ namespace Base
                 .AddEndpointsApiExplorer()
                 .AddSwaggerGen(opt =>
                 {
+                    opt.OperationFilter<BadRequestResponseOperationFilter>();
+
                     opt.SwaggerDoc("v1", new OpenApiInfo
                     {
                         Title = "LS API",
