@@ -192,6 +192,8 @@ namespace Base
 
             OnConnectorStartup(app);
 
+            app.UseMiddleware<TransactionMiddleware>();
+
             app.MapControllerRoute(
             name: "default",
             pattern: "api/{controller=Home}/{action=Index}/{id?}");
