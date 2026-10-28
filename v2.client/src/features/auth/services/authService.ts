@@ -53,7 +53,10 @@ export async function resetPasswordUser(data: ResetPasswordData) {
 }
 
 export function notifyRegisterErrors(error: any) {
-  if (error?.response?.data) {
-    error.response.data.forEach((err: string) => notify("error", getNotify(err)));
+  if (Array.isArray(error?.response?.data)) {
+    error.response.data.forEach((message: any) => notify("error", getNotify(message.messageId, message.args ?? [])));
+  } else if (error?.response?.data?.messageId !== undefined) {
+    const message = error.response.data;
+    notify("error", getNotify(message.messageId, message.args ?? []));
   }
 }

@@ -7,6 +7,7 @@ import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import FileCard from "./fileCard";
 import TopBar from "./topBar";
 import NewFolderDialog from "./newFolderDialog";
+import UploadDirectoryDialog from "./uploadDirectoryDialog";
 
 import {
   Directory,
@@ -35,6 +36,7 @@ import {
   getDirectoryPath,
   getDirPrivilage,
   loadDirectories,
+  uploadDirectoryArchive,
   type BreadcrumbItem,
 } from "../services/directoryService";
 import ShareFolderWrapper from "./ShareFolderWrapper";
@@ -53,6 +55,7 @@ export default function FileBrowser() {
   const [search, setSearch] = useState("");
   const [viewMode, setViewMode] = useState<"list" | "grid">("grid");
   const [newFolderOpen, setNewFolderOpen] = useState(false);
+  const [uploadDirectoryOpen, setUploadDirectoryOpen] = useState(false);
 
   const refresh = useCallback(async () => {
     const [dirs, fileList] = await Promise.all([
@@ -100,6 +103,16 @@ export default function FileBrowser() {
     await createDirectoryEntry(title, directoryId);
     setNewFolderOpen(false);
     await refresh();
+  };
+
+  const handleUploadDirectory = async (title: string, zip: File) => {
+    try {
+      await uploadDirectoryArchive(title, zip, directoryId);
+      setUploadDirectoryOpen(false);
+      await refresh();
+    } catch (error) {
+      console.error("ZIP import failed:", error);
+    }
   };
 
   const handleDownload = async (file: FileV2) => {
@@ -231,6 +244,7 @@ export default function FileBrowser() {
               viewMode={viewMode}
               onViewModeChange={setViewMode}
               onUploadClick={handleUploadClick}
+              onUploadZipClick={() => setUploadDirectoryOpen(true)}
               onNewFolderClick={() => setNewFolderOpen(true)}
             />
 
@@ -268,6 +282,11 @@ export default function FileBrowser() {
         open={newFolderOpen}
         onClose={() => setNewFolderOpen(false)}
         onCreate={handleCreateFolder}
+      />
+      <UploadDirectoryDialog
+        open={uploadDirectoryOpen}
+        onClose={() => setUploadDirectoryOpen(false)}
+        onUpload={handleUploadDirectory}
       />
     </>
   );

@@ -104,7 +104,7 @@ namespace Communication.Application.Controllers
             }
 
             var process = await _sendService.SendMail(email.ToSingleItemList(), CurrentUser ?? new UserData() { Id = 0, UserId = Guid.Empty.ToString() });
-            await Notifier.Success(Base.NotifyTypes.ProcessQueued, process);
+            await Notifier.Success(Base.Logs.ProcessQueued, process);
 
             return Ok();
         }
@@ -125,7 +125,7 @@ namespace Communication.Application.Controllers
             await _emailRepository.Add(email);
 
             var process = await _sendService.SendMail(email.ToSingleItemList(), CurrentUser ?? new UserData() { Id = 0, UserId = Guid.Empty.ToString() });
-            await Notifier.Success(Base.NotifyTypes.ProcessQueued, process);
+            await Notifier.Success(Base.Logs.ProcessQueued, process);
 
             return Ok();
         }

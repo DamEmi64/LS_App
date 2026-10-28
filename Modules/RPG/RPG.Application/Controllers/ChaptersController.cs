@@ -60,8 +60,8 @@ namespace RPG.Application.Controllers
 
             if (story is null)
             {
-                await Notifier.Error(SessionNotifyTypes.SessionNotFound, dto.Story?.ToString() ?? string.Empty);
-                return BadRequest();
+                await Notifier.Error(SessionLogs.SessionNotFound, dto.Story?.ToString() ?? string.Empty);
+                return BadRequest(Logs.InvalidRequest);
             }
 
             var chapter = new Chapter
@@ -75,7 +75,7 @@ namespace RPG.Application.Controllers
             };
 
             await _chapterRepository.Add(chapter);
-            await Notifier.Success(SessionNotifyTypes.ChapterSaved, dto.Title);
+            await Notifier.Success(SessionLogs.ChapterSaved, dto.Title);
             return Ok();
         }
 
@@ -90,11 +90,11 @@ namespace RPG.Application.Controllers
             {
                 entity.Draft = false;
                 await _chapterRepository.Update(entity);
-                await Notifier.Success(SessionNotifyTypes.ChapterUpdated, entity.Title);
+                await Notifier.Success(SessionLogs.ChapterUpdated, entity.Title);
             }
             else
             {
-                await Notifier.Error(SessionNotifyTypes.ChapterNotFound, id);
+                await Notifier.Error(SessionLogs.ChapterNotFound, id);
             }
 
             return Ok();
@@ -110,11 +110,11 @@ namespace RPG.Application.Controllers
             {
                 entity.FlowJson = JsonConvert.SerializeObject(flow);
                 await _chapterRepository.Update(entity);
-                await Notifier.Success(SessionNotifyTypes.ChapterUpdated, entity.Title);
+                await Notifier.Success(SessionLogs.ChapterUpdated, entity.Title);
             }
             else
             {
-                await Notifier.Error(SessionNotifyTypes.ChapterNotFound, id);
+                await Notifier.Error(SessionLogs.ChapterNotFound, id);
             }
 
             return Ok();
@@ -157,11 +157,11 @@ namespace RPG.Application.Controllers
                 }
 
                 await _chapterRepository.Update(entity);
-                await Notifier.Success(SessionNotifyTypes.ChapterUpdated, chapter.Title);
+                await Notifier.Success(SessionLogs.ChapterUpdated, chapter.Title);
             }
             else
             {
-                await Notifier.Error(SessionNotifyTypes.ChapterNotFound, chapter.Title);
+                await Notifier.Error(SessionLogs.ChapterNotFound, chapter.Title);
             }
 
             return Ok();
@@ -171,7 +171,7 @@ namespace RPG.Application.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             await _chapterRepository.Remove(id);
-            await Notifier.Success(SessionNotifyTypes.ChapterDeleted, id);
+            await Notifier.Success(SessionLogs.ChapterDeleted, id);
 
             return Ok();
         }

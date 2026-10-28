@@ -56,7 +56,7 @@ namespace System.Application.Controllers
             var usersResult = await Connect.GetUsers();
 
             if (usersResult.IsFailed)
-                return BadRequest();
+                return BadRequest(Logs.InvalidRequest);
 
             return Json(usersResult.Value);
         }

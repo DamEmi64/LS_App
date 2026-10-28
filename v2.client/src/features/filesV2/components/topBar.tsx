@@ -5,8 +5,11 @@ import {
   IconButton,
   InputAdornment,
   Link,
+  Menu,
+  MenuItem,
   TextField,
 } from "@mui/material";
+import { useState } from "react";
 import SearchRounded from "@mui/icons-material/SearchRounded";
 import UploadRounded from "@mui/icons-material/UploadRounded";
 import CreateNewFolderRounded from "@mui/icons-material/CreateNewFolderRounded";
@@ -25,6 +28,7 @@ interface TopBarProps {
   viewMode: "list" | "grid";
   onViewModeChange: (mode: "list" | "grid") => void;
   onUploadClick: () => void;
+  onUploadZipClick: () => void;
   onNewFolderClick: () => void;
 }
 
@@ -34,8 +38,11 @@ export default function TopBar({
   search,
   onSearchChange,
   onUploadClick,
+  onUploadZipClick,
   onNewFolderClick,
 }: TopBarProps) {
+  const [uploadMenuAnchor, setUploadMenuAnchor] = useState<HTMLElement | null>(null);
+
   return (
     <Box
       sx={{
@@ -125,11 +132,19 @@ export default function TopBar({
         <Button
           variant="contained"
           startIcon={<UploadRounded />}
-          onClick={onUploadClick}
+          onClick={(event) => setUploadMenuAnchor(event.currentTarget)}
           fullWidth={false}
         >
           {t("opt.import")}
         </Button>
+        <Menu
+          anchorEl={uploadMenuAnchor}
+          open={Boolean(uploadMenuAnchor)}
+          onClose={() => setUploadMenuAnchor(null)}
+        >
+          <MenuItem onClick={() => { setUploadMenuAnchor(null); onUploadClick(); }}>Upload file</MenuItem>
+          <MenuItem onClick={() => { setUploadMenuAnchor(null); onUploadZipClick(); }}>Import ZIP folder</MenuItem>
+        </Menu>
       </Box>
     </Box>
   );

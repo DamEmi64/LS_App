@@ -42,7 +42,7 @@ namespace Invoices.Application.Controllers
         {
             if (CurrentUser is null) return Unauthorized();
             var recipient = Users.FirstOrDefault(x => x.UserId == dto.RecipientId);
-            if (recipient is null) return BadRequest("Recipient was not found.");
+            if (recipient is null) return BadRequest(InvoiceLogs.RecipientNotFound);
 
             var invoice = new Invoice
             {
@@ -73,7 +73,7 @@ namespace Invoices.Application.Controllers
             if (invoice is null) return NotFound();
             if (invoice.Collector.UserId != CurrentUser.UserId) return Forbid();
             var recipient = Users.FirstOrDefault(x => x.UserId == dto.RecipientId);
-            if (recipient is null) return BadRequest("Recipient was not found.");
+            if (recipient is null) return BadRequest(InvoiceLogs.RecipientNotFound);
 
             var dtoPositions = invoice.Positions.ToList();
             foreach (var position in dtoPositions)
@@ -103,7 +103,7 @@ namespace Invoices.Application.Controllers
             var invoice = await _invoiceRepository.GetWithDetails(id);
             if (invoice is null) return NotFound();
             if (invoice.Collector.UserId != CurrentUser.UserId) return Forbid();
-            if (string.IsNullOrWhiteSpace(dto.Title) || dto.Value < 0) return BadRequest("Position title and a non-negative value are required.");
+            if (string.IsNullOrWhiteSpace(dto.Title) || dto.Value < 0) return BadRequest(InvoiceLogs.PositionInvalid);
 
             invoice.Positions.Add(ToEntity(dto));
             await _invoiceRepository.Update(invoice);
@@ -140,7 +140,7 @@ namespace Invoices.Application.Controllers
             if (invoice is null) return NotFound();
             if (invoice.Collector.UserId != CurrentUser.UserId) return Forbid();
             if (dto.PaymentMethod == InvoicePaymentMethod.AccountNumber && string.IsNullOrWhiteSpace(dto.AccountNumber))
-                return BadRequest("Account number is required.");
+                return BadRequest(InvoiceLogs.AccountNumberRequired);
             await _invoiceDocumentService.GenerateInvoice(id, dto.PaymentMethod, CurrentUser, dto.AccountNumber);
             return Accepted(new { id });
         }
@@ -201,3 +201,4 @@ namespace Invoices.Application.Controllers
         };
     }
 }
+

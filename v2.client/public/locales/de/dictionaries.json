@@ -279,7 +279,7 @@
       "description": ""
     }
   },
-  "Notify_types": {
+  "Logs": {
     "40101": {
       "title": "Protokoll",
       "description": ""
@@ -502,6 +502,98 @@
     },
     "40713": {
       "title": "Vorgang {0} wurde abgebrochen",
+      "description": ""
+    },
+    "40107": {
+      "title": "Invalid request.",
+      "description": ""
+    },
+    "40108": {
+      "title": "Operation failed: {0}",
+      "description": ""
+    },
+    "40717": {
+      "title": "Passwords entered do not match.",
+      "description": ""
+    },
+    "40718": {
+      "title": "Password change failed: {0}",
+      "description": ""
+    },
+    "40719": {
+      "title": "Password reset failed: {0}",
+      "description": ""
+    },
+    "40721": {
+      "title": "Operation failed: {0}",
+      "description": ""
+    },
+    "40801": {
+      "title": "Validation failed: {0}",
+      "description": ""
+    },
+    "40802": {
+      "title": "Invoice title, position, and at least one allocation are required.",
+      "description": ""
+    },
+    "40803": {
+      "title": "Allocations must have a user and a non-negative value.",
+      "description": ""
+    },
+    "40804": {
+      "title": "A user can have only one allocation per position.",
+      "description": ""
+    },
+    "40805": {
+      "title": "Every allocation must belong to an event participant.",
+      "description": ""
+    },
+    "40806": {
+      "title": "User '{0}' was not found.",
+      "description": ""
+    },
+    "40807": {
+      "title": "File has no content to export.",
+      "description": ""
+    },
+    "40901": {
+      "title": "Recipient was not found.",
+      "description": ""
+    },
+    "40902": {
+      "title": "Position title and a non-negative value are required.",
+      "description": ""
+    },
+    "40903": {
+      "title": "Account number is required.",
+      "description": ""
+    },
+    "41001": {
+      "title": "A non-empty ZIP file is required.",
+      "description": ""
+    },
+    "41002": {
+      "title": "ZIP contains an invalid path.",
+      "description": ""
+    },
+    "41003": {
+      "title": "The uploaded file is not a valid ZIP archive.",
+      "description": ""
+    },
+    "41004": {
+      "title": "A directory cannot be its own parent.",
+      "description": ""
+    },
+    "41005": {
+      "title": "Parent directory not found.",
+      "description": ""
+    },
+    "41006": {
+      "title": "Directory is not empty.",
+      "description": ""
+    },
+    "41007": {
+      "title": "Directory not found.",
       "description": ""
     }
   },
