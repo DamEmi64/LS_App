@@ -53,7 +53,7 @@ public class ApkInstallerPlugin extends Plugin {
                 }
                 output.flush();
             }
-            if (received == 0 || (total > 0 && received != total)) throw new IllegalStateException("APK download was incomplete");
+            if (received == 0) throw new IllegalStateException("The APK download was empty");
 
             Uri uri = FileProvider.getUriForFile(getContext(), getContext().getPackageName() + ".fileprovider", apk);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && !getContext().getPackageManager().canRequestPackageInstalls()) {
@@ -71,7 +71,8 @@ public class ApkInstallerPlugin extends Plugin {
             call.resolve();
         } catch (Exception error) {
             apk.delete();
-            call.reject("Could not download or open the APK installer", error);
+            String message = error.getMessage();
+            call.reject(message == null ? "Could not download or open the APK installer" : message, error);
         } finally {
             if (connection != null) connection.disconnect();
         }
