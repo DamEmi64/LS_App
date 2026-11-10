@@ -199,7 +199,8 @@
       "startTitle": "Start RPG meeting",
       "withoutRecording": "Start without recording",
       "withRecording": "Record on this device",
-      "generatingSummary": "Generating summary…",
+      "generatingSummary": "Generating summary…"
+,
       "transcript": "Transcript (stored on this device)",
       "downloadingModel": "Downloading offline speech model",
       "transcribingRecording": "Transcribing on this device",
@@ -591,9 +592,5 @@
     "shares": "Participant shares",
     "noParticipants": "This event has no participants.",
     "loading": "Loading events..."
-  },
-  "invoice": {
-    "paid": "Paid",
-    "unpaid": "Unpaid"
   }
 }

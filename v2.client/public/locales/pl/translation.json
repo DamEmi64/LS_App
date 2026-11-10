@@ -346,7 +346,7 @@
     "action": "Akcja",
     "paid": "Opłacona",
     "unpaid": "Nieopłacona",
-    "unpaidAfterLogin": "Masz nieopłacone faktury, wejdź w na stronę faktury do opłacenia by dowiedzieć się więcej",
+    "unpaidAfterLogin": "Masz nieop?acone faktury, wejd? w na stron? faktury do op?acenia by dowiedzie? si? wi?cej",
     "markPaid": "Oznacz jako opłaconą",
     "paymentFailed": "Nie udało się oznaczyć pozycji jako opłaconej.",
     "generateInvoice": "Generuj fakturę",

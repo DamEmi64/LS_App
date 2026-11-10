@@ -199,7 +199,8 @@
       "startTitle": "Démarrer la session RPG",
       "withoutRecording": "Démarrer sans enregistrement",
       "withRecording": "Enregistrer sur cet appareil",
-      "generatingSummary": "Génération du résumé…",
+      "generatingSummary": "Génération du résumé…"
+,
       "transcript": "Transcription (stock\u00e9e sur cet appareil)",
       "downloadingModel": "T\u00e9l\u00e9chargement du mod\u00e8le vocal hors ligne",
       "transcribingRecording": "Transcription sur cet appareil",
@@ -589,9 +590,5 @@
     "removeReminder": "Supprimer le rappel",
     "present": "Présence"
   },
-  "auth_forgot_password_sent_failed": "L’envoi du code de réinitialisation du mot de passe a échoué",
-  "invoice": {
-    "paid": "Pay\u00e9e",
-    "unpaid": "Impay\u00e9e"
-  }
+  "auth_forgot_password_sent_failed": "L’envoi du code de réinitialisation du mot de passe a échoué"
 }

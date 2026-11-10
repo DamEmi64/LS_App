@@ -199,7 +199,8 @@
       "startTitle": "RPG-Sitzung starten",
       "withoutRecording": "Ohne Aufnahme starten",
       "withRecording": "Auf diesem Gerät aufnehmen",
-      "generatingSummary": "Zusammenfassung wird erstellt…",
+      "generatingSummary": "Zusammenfassung wird erstellt…"
+,
       "transcript": "Transkript (auf diesem Ger\u00e4t gespeichert)",
       "downloadingModel": "Offline-Sprachmodell wird heruntergeladen",
       "transcribingRecording": "Transkription auf diesem Ger\u00e4t",
@@ -593,9 +594,5 @@
     "removeReminder": "Erinnerung entfernen",
     "present": "Teilnahme"
   },
-  "auth_forgot_password_sent_failed": "Der Code zum Zurücksetzen des Passworts konnte nicht gesendet werden",
-  "invoice": {
-    "paid": "Bezahlt",
-    "unpaid": "Nicht bezahlt"
-  }
+  "auth_forgot_password_sent_failed": "Der Code zum Zurücksetzen des Passworts konnte nicht gesendet werden"
 }
