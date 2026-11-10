@@ -12,7 +12,8 @@
     "email": "Saisissez une adresse e-mail valide",
     "url": "Saisissez une URL valide",
     "number": "Saisissez un nombre valide",
-    "invalidEmail": "adresse e-mail invalide"
+    "invalidEmail": "adresse e-mail invalide",
+    "min": "Saisissez au moins {0} caract?res"
   },
   "notify": {
     "processActive": "Toutes les notifications de tâches",
@@ -199,12 +200,11 @@
       "startTitle": "Démarrer la session RPG",
       "withoutRecording": "Démarrer sans enregistrement",
       "withRecording": "Enregistrer sur cet appareil",
-      "generatingSummary": "Génération du résumé…"
-,
-      "transcript": "Transcription (stock\u00e9e sur cet appareil)",
-      "downloadingModel": "T\u00e9l\u00e9chargement du mod\u00e8le vocal hors ligne",
+      "generatingSummary": "Génération du résumé…",
+      "transcript": "Transcription (stockée sur cet appareil)",
+      "downloadingModel": "Téléchargement du modèle vocal hors ligne",
       "transcribingRecording": "Transcription sur cet appareil",
-      "modelDownloadInfo": "La premi\u00e8re utilisation t\u00e9l\u00e9charge environ 104 Mo de fichiers de mod\u00e8le vocal. L\u2019enregistrement reste sur cet appareil.",
+      "modelDownloadInfo": "La première utilisation télécharge environ 104 Mo de fichiers de modèle vocal. L’enregistrement reste sur cet appareil.",
       "recordingNow": "Enregistrement sur cet appareil en cours",
       "stopRecording": "Arrêter l’enregistrement",
       "recordingSaved": "Enregistrement sauvegardé sur cet appareil",
@@ -268,7 +268,8 @@
       "dmPage": "Vue MJ",
       "playerPage": "Vue joueur",
       "sessions": "Sessions",
-      "links": "Ressources"
+      "links": "Ressources",
+      "select": "S?lectionner un chapitre"
     },
     "hero": {
       "firstName": "Prénom",
@@ -397,7 +398,12 @@
     "completeRequiredFields": "Saisissez un titre, un destinataire et au moins une ligne complète.",
     "saveFailed": "Impossible d'enregistrer la facture.",
     "deleteConfirm": "Voulez-vous vraiment supprimer cette facture ?",
-    "filters": { "title": "Titre de facture ou de ligne", "recipient": "Destinataire", "paymentStatus": "Statut de la ligne" }
+    "filters": {
+      "title": "Titre de facture ou de ligne",
+      "recipient": "Destinataire",
+      "paymentStatus": "Statut de la ligne"
+    },
+    "loading": "Chargement de la facture…"
   },
   "discord": {
     "title": "Commandes Discord",
@@ -510,7 +516,11 @@
     "forgot_info_initial": "Pour réinitialiser votre mot de passe, vous devez disposer d’un code de réinitialisation",
     "forgot_password_send_code": "Envoyer le code de réinitialisation du mot de passe",
     "forgot_password_wait": "Attendez {seconds} avant de renvoyer le code",
-    "reset_password_success": "Le mot de passe a été réinitialisé"
+    "reset_password_success": "Le mot de passe a été réinitialisé",
+    "change_password": "Changer le mot de passe",
+    "old_password": "Mot de passe actuel",
+    "forgot_password_send_failed": "Impossible d?envoyer le code de r?initialisation du mot de passe",
+    "reset_password_failed": "?chec de la r?initialisation du mot de passe"
   },
   "automations": {
     "system": {
@@ -590,5 +600,15 @@
     "removeReminder": "Supprimer le rappel",
     "present": "Présence"
   },
-  "auth_forgot_password_sent_failed": "L’envoi du code de réinitialisation du mot de passe a échoué"
+  "auth_forgot_password_sent_failed": "L’envoi du code de réinitialisation du mot de passe a échoué",
+  "common": {
+    "cancel": "Annuler",
+    "loading": "Chargement…"
+  },
+  "fluid": {
+    "functions": "Fonctions",
+    "variables": "Variables",
+    "empty": "Aucune suggestion"
+  },
+  "search": "Rechercher"
 }
