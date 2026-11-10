@@ -33,8 +33,8 @@ namespace Events.Infrastructure.Services.AutomationResolver
         private int? ConvertToEventId(int notifyTypeId)
          => true switch
          {
-             true when EventNotifyTypes.EventCreated is { Key: var k1 } && k1 == notifyTypeId => AutomationEvents.EventCreated?.Key,
-             true when EventNotifyTypes.EventSignIn is { Key: var k1 } && k1 == notifyTypeId => AutomationEvents.UserSignIn?.Key,
+             true when EventLogs.EventCreated is { Key: var k1 } && k1 == notifyTypeId => AutomationEvents.EventCreated?.Key,
+             true when EventLogs.EventSignIn is { Key: var k1 } && k1 == notifyTypeId => AutomationEvents.UserSignIn?.Key,
              _ => null
          };
 

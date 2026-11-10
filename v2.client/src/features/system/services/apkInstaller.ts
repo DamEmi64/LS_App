@@ -1,11 +1,16 @@
-import { registerPlugin } from '@capacitor/core';
+import { registerPlugin, type PluginListenerHandle } from '@capacitor/core';
 
 interface ApkInstallerPlugin {
-  openDownload(options: { url: string }): Promise<void>;
+  downloadAndInstall(options: { url: string }): Promise<void>;
+  addListener(eventName: 'downloadProgress', listener: (event: { progress: number }) => void): Promise<PluginListenerHandle>;
 }
 
 const ApkInstaller = registerPlugin<ApkInstallerPlugin>('ApkInstaller');
 
-export function openApkDownload(url: string): Promise<void> {
-  return ApkInstaller.openDownload({ url });
+export function downloadAndInstallApk(url: string): Promise<void> {
+  return ApkInstaller.downloadAndInstall({ url });
+}
+
+export function onApkDownloadProgress(listener: (progress: number) => void): Promise<PluginListenerHandle> {
+  return ApkInstaller.addListener('downloadProgress', event => listener(event.progress));
 }

@@ -1,4 +1,4 @@
-﻿using Base;
+using Base;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using System.Application.Dtos;
 using System.Application.Filters;
 using System.Data;
+using System.Domain.Dictionaries;
 using System.Infrastructure.Filters;
 using System.Infrastructure.Services.Admin;
 using System.Infrastructure.Services.Auth;
@@ -149,7 +150,7 @@ namespace System.Application.Controllers
 
             var successed = await _adminService.DeleteUser(user);
 
-            return successed.Succeeded ? Ok() : BadRequest($"{successed}");
+            return successed.Succeeded ? Ok() : BadRequest(SystemLogs.OperationFailed, successed.ToString());
         }
 
         [TypeFilter(typeof(AdminPanelFilter))]
@@ -159,7 +160,7 @@ namespace System.Application.Controllers
             try
             {
                 if (password != verify)
-                    return BadRequest("Passwords entered do not match.");
+                    return BadRequest(SystemLogs.PasswordMismatch);
 
                 var user = await _adminService.GetUser(id);
 
@@ -346,6 +347,7 @@ namespace System.Application.Controllers
             });
         }
 
-        private IActionResult ToActionResult(IdentityResult result) => result.Succeeded ? Ok() : BadRequest(result.Errors.Select(x => x.Description));
+        private IActionResult ToActionResult(IdentityResult result) => result.Succeeded ? Ok() : BadRequest(SystemLogs.OperationFailed, string.Join("; ", result.Errors.Select(x => x.Description)));
     }
 }
+

@@ -21,16 +21,23 @@
         .party { flex: 1; min-width: 0; }
         .party h2 { color: #64748b; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
         .party p { margin: 0; overflow-wrap: anywhere; }
-        table { border-collapse: collapse; width: 100%; }
+        table { border-collapse: collapse; table-layout: fixed; width: 100%; }
         thead { display: table-header-group; }
-        th { background: #f1f5f9; color: #334155; font-size: 11px; text-align: right; }
+        th { background: #f1f5f9; color: #334155; font-size: 11px; text-align: left; }
         th, td { border-bottom: 1px solid #dbe2ea; padding: 10px 8px; }
         tr { break-inside: avoid; }
+        .index { width: 8%; text-align: center; }
+        .description { width: 42%; text-align: left; }
+        .date { width: 25%; text-align: center; white-space: nowrap; }
         .amount { text-align: right; white-space: nowrap; }
         .status { color: #475569; white-space: nowrap; }
         tfoot td { border: 0; font-weight: bold; padding-top: 16px; }
         .total-label { text-align: right; }
         .payment { margin-top: 28px; }
+        @@media print {
+            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            tr, .parties, .payment { break-inside: avoid; }
+        }
     </style>
 </head>
 <body>
@@ -43,16 +50,17 @@
     </section>
     <h2>Pozycje faktury</h2>    
     <table>
-        <thead><tr><th>Lp.</th><th>Pozycja</th><th>Data faktury</th><th class="amount">Kwota</th></tr></thead>
+        <colgroup><col class="index" /><col class="description" /><col class="date" /><col /></colgroup>
+        <thead><tr><th class="index">Lp.</th><th class="description">Pozycja</th><th class="date">Data faktury</th><th class="amount">Kwota</th></tr></thead>
         <tbody>
         @{ var index = 0; }
         @foreach (var position in Model.Items)
         {
             index++;
             <tr>
-                <td>@index</td>
-                <td>@position.Title</td>
-                <td>@position.InvoiceDate.ToString("d", pl)</td>
+                <td class="index">@index</td>
+                <td class="description">@position.Title</td>
+                <td class="date">@position.InvoiceDate.ToString("d", pl)</td>
                 <td class="amount">@position.Value.ToString("C", pl)</td>
             </tr>
         }

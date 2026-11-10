@@ -1,6 +1,7 @@
-﻿using Base;
+using Base;
 using FilesV2.Application.Dtos;
 using FilesV2.Domain.Entities;
+using FilesV2.Domain.Dictionaries;
 using FilesV2.Domain.Enums;
 using FilesV2.Domain.Repositories;
 using FilesV2.Infrastructure.Repositories;
@@ -60,13 +61,13 @@ namespace FilesV2.Application.Controllers
         public async Task<ActionResult<FileV2Dto>> CreateFile([FromForm] CreateFileDto request)
         {
             if (CurrentUser == null)
-                return BadRequest();
+                return BadRequest(Logs.InvalidRequest);
 
             Domain.Entities.Directory? directory = null;
             if (request.DirectoryId is not null)
             {
                 directory = await _directoryRepository.Get(request.DirectoryId.Value);
-                if (directory is null) return BadRequest("Directory not found.");
+                if (directory is null) return BadRequest(FileV2Logs.DirectoryNotFound);
             }
 
             Guid contentId;
@@ -139,7 +140,7 @@ namespace FilesV2.Application.Controllers
             if (request.DirectoryId is not null)
             {
                 var directory = await _directoryRepository.Get(request.DirectoryId.Value);
-                if (directory is null) return BadRequest("Directory not found.");
+                if (directory is null) return BadRequest(FileV2Logs.DirectoryNotFound);
                 file.Folder = directory;
             }
 
@@ -239,3 +240,4 @@ namespace FilesV2.Application.Controllers
         };
     }
 }
+

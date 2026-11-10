@@ -30,11 +30,11 @@ namespace System.Infrastructure.JobEngine
 
         public Guid ProcessId { get; private set; }
 
-        public Task AddLog(string log) => _notifier.Process(NotifyTypes.Log, log);
+        public Task AddLog(string log) => _notifier.Process(Logs.Log, log);
 
         public async Task AddError(string error)
         {
-            await _notifier.ProcessError(NotifyTypes.ProcessError, error);
+            await _notifier.ProcessError(Logs.ProcessError, error);
             await _processRepository.AddError(ProcessId, JobId, error);
         }
 

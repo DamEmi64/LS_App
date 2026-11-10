@@ -116,7 +116,7 @@ namespace Communication.Application.Controllers
             };
 
             var processTitle = await _sendService.GenerateFromTemplate(model, CurrentUser ?? new UserData() { Id = 0, UserId = Guid.Empty.ToString() });
-            await Notifier.Success(NotifyTypes.ProcessQueued, processTitle);
+            await Notifier.Success(Logs.ProcessQueued, processTitle);
             return Ok();
         }
 

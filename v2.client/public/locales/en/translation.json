@@ -12,7 +12,8 @@
     "email": "Enter a valid email address",
     "url": "Enter a valid URL",
     "number": "Enter a valid number",
-    "invalidEmail": "invalid email"
+    "invalidEmail": "invalid email",
+    "min": "Enter at least {0} characters"
   },
   "notify": {
     "processActive": "All task notifications",
@@ -199,7 +200,7 @@
       "startTitle": "Start RPG meeting",
       "withoutRecording": "Start without recording",
       "withRecording": "Record on this device",
-      "generatingSummary": "Generating summary…",
+      "generatingSummary": "Generating summary…",
       "transcript": "Transcript (stored on this device)",
       "downloadingModel": "Downloading offline speech model",
       "transcribingRecording": "Transcribing on this device",
@@ -267,7 +268,8 @@
       "dmPage": "DM view",
       "playerPage": "Player view",
       "sessions": "Sessions",
-      "links": "Resources"
+      "links": "Resources",
+      "select": "Select a chapter"
     },
     "hero": {
       "firstName": "First name",
@@ -364,7 +366,9 @@
     "addInvoice": "Add invoice",
     "editInvoice": "Edit invoice",
     "invoiceTitle": "Invoice title",
-    "positionTitle": "Position title","invoiceDate":"Invoice date","fastAddPosition":"Quick add position",
+    "positionTitle": "Position title",
+    "invoiceDate": "Invoice date",
+    "fastAddPosition": "Quick add position",
     "addPosition": "Add position",
     "removePosition": "Remove position",
     "loadingUsers": "Loading users…",
@@ -376,7 +380,8 @@
       "title": "Invoice or position title",
       "recipient": "Recipient",
       "paymentStatus": "Position status"
-    }
+    },
+    "loading": "Loading invoice…"
   },
   "discord": {
     "title": "Discord commands",
@@ -489,7 +494,11 @@
     "forgot_info_initial": "To reset your password, you need a password reset code",
     "forgot_password_send_code": "Send password reset code",
     "forgot_password_wait": "Wait {seconds} before resending the code",
-    "reset_password_success": "Password has been reset"
+    "reset_password_success": "Password has been reset",
+    "change_password": "Change password",
+    "old_password": "Current password",
+    "forgot_password_send_failed": "Could not send the password reset code",
+    "reset_password_failed": "Password reset failed"
   },
   "automations": {
     "system": {
@@ -591,5 +600,15 @@
     "shares": "Participant shares",
     "noParticipants": "This event has no participants.",
     "loading": "Loading events..."
-  }
+  },
+  "common": {
+    "cancel": "Cancel",
+    "loading": "Loading…"
+  },
+  "fluid": {
+    "functions": "Functions",
+    "variables": "Variables",
+    "empty": "No suggestions"
+  },
+  "search": "Search"
 }

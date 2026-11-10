@@ -50,7 +50,7 @@ namespace DiscordBot.Controllers
             if (result.IsFailed)
             {
                 _logger.Error(string.Join(", ", result.Errors.Select(x => x.Message)));
-                return BadRequest();
+                return BadRequest(Logs.OperationFailed, string.Join(", ", result.Errors.Select(x => x.Message)));
             }
 
             var response = result.Value;
@@ -129,7 +129,7 @@ namespace DiscordBot.Controllers
 
                 default:
                     _logger.Warning("Invalid discord type");
-                    return BadRequest();
+                    return BadRequest(Logs.InvalidRequest);
             }
         }
 
@@ -154,7 +154,7 @@ namespace DiscordBot.Controllers
             if (result.IsFailed)
             {
                 _logger.Error(string.Join(", ", result.Errors.Select(x => x.Message)));
-                return BadRequest();
+                return BadRequest(Logs.OperationFailed, string.Join(", ", result.Errors.Select(x => x.Message)));
             }
 
             var response = result.Value;

@@ -31,9 +31,10 @@ import { INVOICE_STATUS, Invoice, InvoicePosition, InvoiceSaveDto } from '../typ
 import InvoiceForm from '../components/InvoiceForm';
 import CreditScoreIcon from '@mui/icons-material/CreditScore';
 import CreditCardOffIcon from '@mui/icons-material/CreditCardOff';
+import { sum } from '@/lib/utils';
 
 type InvoicesPageProps = { mode: 'mine' | 'toPay' };
-type InvoiceRow = Invoice & { visiblePositions: InvoicePosition[] };
+type InvoiceRow = Invoice & { visiblePositions: InvoicePosition[] , paid: number, unpaid: number };
 type PositionOperationRow = InvoicePosition & { invoiceId: string };
 
 const getLocalDateInputValue = () => {
@@ -80,15 +81,22 @@ const InvoicesPage = ({ mode }: InvoicesPageProps) => {
         if (recipient && !invoice.recipientLogin.toLocaleLowerCase().includes(recipient)) return [];
 
         let positions = invoice.positions;
-        if (paidFilter === 'paid') positions = positions.filter(position => position.status === INVOICE_STATUS.paid);
-        if (paidFilter === 'unpaid') positions = positions.filter(position => position.status !== INVOICE_STATUS.paid);
+        const unpaidPositions = positions.filter(position => position.status !== INVOICE_STATUS.paid);
+        const paidPositions = positions.filter(position => position.status === INVOICE_STATUS.paid);
+
+        const paid = sum(paidPositions,'value').toFixed(2);
+        const unpaid = sum(unpaidPositions,'value').toFixed(2);
+
+        if (paidFilter === 'paid') positions = paidPositions;
+        if (paidFilter === 'unpaid') positions = unpaidPositions;
+
         if (title) {
             const invoiceTitleMatches = invoice.title.toLocaleLowerCase().includes(title);
             if (!invoiceTitleMatches) positions = positions.filter(position => position.title.toLocaleLowerCase().includes(title));
             if (!invoiceTitleMatches && positions.length === 0) return [];
         }
         if (paidFilter && positions.length === 0) return [];
-        return [{ ...invoice, visiblePositions: positions }];
+        return [{ ...invoice, visiblePositions: positions , paid, unpaid }];
     }), [invoices, filterValues.title, filterValues.recipient, filterValues.paid]);
 
     const filterItems: FilterItem[] = [
@@ -110,6 +118,8 @@ const InvoicesPage = ({ mode }: InvoicesPageProps) => {
             header: mode === 'mine' ? 'invoices.recipient' : 'invoices.collector',
             type: ColumnType.String,
         },
+        {field: 'unpaid', header: 'invoices.unpaid', type: ColumnType.Number},
+        {field: 'paid', header: 'invoices.paid', type: ColumnType.Number},
         {
             field: 'total', header: 'invoices.total', type: ColumnType.Number,
             render: row => row.visiblePositions.reduce((sum, position) => sum + position.value, 0).toFixed(2),

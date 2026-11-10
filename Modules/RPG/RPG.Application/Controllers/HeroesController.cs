@@ -76,7 +76,7 @@ namespace RPG.Application.Controllers
             }
 
             await _heroRepository.Add(hero);
-            await Notifier.Success(SessionNotifyTypes.HeroSaved, $"{dto.FirstName} {dto.LastName}");
+            await Notifier.Success(SessionLogs.HeroSaved, $"{dto.FirstName} {dto.LastName}");
             return Ok();
         }
 
@@ -135,7 +135,7 @@ namespace RPG.Application.Controllers
                 }
             }
             await _heroRepository.Update(hero);
-            await Notifier.Success(SessionNotifyTypes.HeroUpdated, id);
+            await Notifier.Success(SessionLogs.HeroUpdated, id);
             return Ok();
         }
 
@@ -149,13 +149,13 @@ namespace RPG.Application.Controllers
 
             if (hero is null)
             {
-                await Notifier.Error(SessionNotifyTypes.HeroNotFound, id);
+                await Notifier.Error(SessionLogs.HeroNotFound, id);
                 return NotFound();
             }
 
             if (chapter is null)
             {
-                await Notifier.Error(SessionNotifyTypes.ChapterNotFound, dto.Chapter ?? Guid.Empty);
+                await Notifier.Error(SessionLogs.ChapterNotFound, dto.Chapter ?? Guid.Empty);
                 return NotFound();
             }
 
@@ -204,7 +204,7 @@ namespace RPG.Application.Controllers
             }
 
             await _heroRepository.Update(hero);
-            await Notifier.Success(SessionNotifyTypes.HeroUpdated, $"{dto.FirstName} {dto.LastName}");
+            await Notifier.Success(SessionLogs.HeroUpdated, $"{dto.FirstName} {dto.LastName}");
             return Ok();
         }
 
@@ -212,7 +212,7 @@ namespace RPG.Application.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             await _heroRepository.Remove(id);
-            await Notifier.Success(SessionNotifyTypes.HeroDeleted, id);
+            await Notifier.Success(SessionLogs.HeroDeleted, id);
             return Ok();
         }
     }

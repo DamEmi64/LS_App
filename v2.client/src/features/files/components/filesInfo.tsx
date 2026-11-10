@@ -45,7 +45,7 @@ export const FilesInfo: React.FC<FilesInfoProps> = ({ file, edit, del }) => {
                     variant="outlined"
                 />
                 <TextField
-                    label={t('files.locaction')}
+                    label={t('files.location')}
                     value={file.locaction}
                     fullWidth
                     InputProps={{ readOnly: true, style: { color: textColor } }}
@@ -192,3 +192,4 @@ export const FilesInfo: React.FC<FilesInfoProps> = ({ file, edit, del }) => {
 };
 
 export default FilesInfo;
+

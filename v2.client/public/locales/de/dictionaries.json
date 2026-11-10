@@ -279,7 +279,7 @@
       "description": ""
     }
   },
-  "Notify_types": {
+  "Logs": {
     "40101": {
       "title": "Protokoll",
       "description": ""
@@ -502,6 +502,98 @@
     },
     "40713": {
       "title": "Vorgang {0} wurde abgebrochen",
+      "description": ""
+    },
+    "40107": {
+      "title": "Ungültige Anfrage.",
+      "description": ""
+    },
+    "40108": {
+      "title": "Vorgang fehlgeschlagen: {0}",
+      "description": ""
+    },
+    "40717": {
+      "title": "Die eingegebenen Passwörter stimmen nicht überein.",
+      "description": ""
+    },
+    "40718": {
+      "title": "Passwortänderung fehlgeschlagen: {0}",
+      "description": ""
+    },
+    "40719": {
+      "title": "Passwort zurücksetzen fehlgeschlagen: {0}",
+      "description": ""
+    },
+    "40721": {
+      "title": "Vorgang fehlgeschlagen: {0}",
+      "description": ""
+    },
+    "40801": {
+      "title": "Ungültige Daten: {0}",
+      "description": ""
+    },
+    "40802": {
+      "title": "Rechnungstitel, Position und mindestens eine Zuordnung sind erforderlich.",
+      "description": ""
+    },
+    "40803": {
+      "title": "Eine Zuordnung muss einen Benutzer und einen nicht negativen Betrag enthalten.",
+      "description": ""
+    },
+    "40804": {
+      "title": "Ein Benutzer darf pro Position nur eine Zuordnung haben.",
+      "description": ""
+    },
+    "40805": {
+      "title": "Jede Zuordnung muss zu einem Veranstaltungsteilnehmer gehören.",
+      "description": ""
+    },
+    "40806": {
+      "title": "Benutzer '{0}' wurde nicht gefunden.",
+      "description": ""
+    },
+    "40807": {
+      "title": "Die Datei enthält keine exportierbaren Inhalte.",
+      "description": ""
+    },
+    "40901": {
+      "title": "Empfänger wurde nicht gefunden.",
+      "description": ""
+    },
+    "40902": {
+      "title": "Positionstitel und ein nicht negativer Betrag sind erforderlich.",
+      "description": ""
+    },
+    "40903": {
+      "title": "Die Kontonummer ist erforderlich.",
+      "description": ""
+    },
+    "41001": {
+      "title": "Eine nicht leere ZIP-Datei ist erforderlich.",
+      "description": ""
+    },
+    "41002": {
+      "title": "Die ZIP-Datei enthält einen ungültigen Pfad.",
+      "description": ""
+    },
+    "41003": {
+      "title": "Die hochgeladene Datei ist kein gültiges ZIP-Archiv.",
+      "description": ""
+    },
+    "41004": {
+      "title": "Ein Verzeichnis kann nicht sein eigenes übergeordnetes Verzeichnis sein.",
+      "description": ""
+    },
+    "41005": {
+      "title": "Übergeordnetes Verzeichnis wurde nicht gefunden.",
+      "description": ""
+    },
+    "41006": {
+      "title": "Das Verzeichnis ist nicht leer.",
+      "description": ""
+    },
+    "41007": {
+      "title": "Verzeichnis wurde nicht gefunden.",
       "description": ""
     }
   },

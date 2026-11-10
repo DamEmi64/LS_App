@@ -88,6 +88,8 @@ namespace Base
                 .AddEndpointsApiExplorer()
                 .AddSwaggerGen(opt =>
                 {
+                    opt.OperationFilter<BadRequestResponseOperationFilter>();
+
                     opt.SwaggerDoc("v1", new OpenApiInfo
                     {
                         Title = "LS API",
@@ -191,6 +193,8 @@ namespace Base
             app.MapRazorPages();
 
             OnConnectorStartup(app);
+
+            app.UseMiddleware<TransactionMiddleware>();
 
             app.MapControllerRoute(
             name: "default",

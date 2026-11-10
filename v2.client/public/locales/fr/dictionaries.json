@@ -279,7 +279,7 @@
       "description": ""
     }
   },
-  "Notify_types": {
+  "Logs": {
     "40101": {
       "title": "Journal",
       "description": ""
@@ -502,6 +502,98 @@
     },
     "40713": {
       "title": "Le processus {0} a été annulé",
+      "description": ""
+    },
+    "40107": {
+      "title": "Requête invalide.",
+      "description": ""
+    },
+    "40108": {
+      "title": "Échec de l'opération : {0}",
+      "description": ""
+    },
+    "40717": {
+      "title": "Les mots de passe saisis ne correspondent pas.",
+      "description": ""
+    },
+    "40718": {
+      "title": "Échec du changement de mot de passe : {0}",
+      "description": ""
+    },
+    "40719": {
+      "title": "Échec de la réinitialisation du mot de passe : {0}",
+      "description": ""
+    },
+    "40721": {
+      "title": "Échec de l'opération : {0}",
+      "description": ""
+    },
+    "40801": {
+      "title": "Données invalides : {0}",
+      "description": ""
+    },
+    "40802": {
+      "title": "Le titre de la facture, un poste et au moins une répartition sont requis.",
+      "description": ""
+    },
+    "40803": {
+      "title": "Chaque répartition doit indiquer un utilisateur et un montant positif ou nul.",
+      "description": ""
+    },
+    "40804": {
+      "title": "Un utilisateur ne peut avoir qu'une seule répartition par poste.",
+      "description": ""
+    },
+    "40805": {
+      "title": "Chaque répartition doit concerner un participant à l'événement.",
+      "description": ""
+    },
+    "40806": {
+      "title": "Utilisateur '{0}' introuvable.",
+      "description": ""
+    },
+    "40807": {
+      "title": "Le fichier ne contient aucun contenu à exporter.",
+      "description": ""
+    },
+    "40901": {
+      "title": "Destinataire introuvable.",
+      "description": ""
+    },
+    "40902": {
+      "title": "Le titre du poste et un montant positif ou nul sont requis.",
+      "description": ""
+    },
+    "40903": {
+      "title": "Le numéro de compte est requis.",
+      "description": ""
+    },
+    "41001": {
+      "title": "Un fichier ZIP non vide est requis.",
+      "description": ""
+    },
+    "41002": {
+      "title": "Le fichier ZIP contient un chemin invalide.",
+      "description": ""
+    },
+    "41003": {
+      "title": "Le fichier envoyé n'est pas une archive ZIP valide.",
+      "description": ""
+    },
+    "41004": {
+      "title": "Un dossier ne peut pas être son propre dossier parent.",
+      "description": ""
+    },
+    "41005": {
+      "title": "Dossier parent introuvable.",
+      "description": ""
+    },
+    "41006": {
+      "title": "Le dossier n'est pas vide.",
+      "description": ""
+    },
+    "41007": {
+      "title": "Dossier introuvable.",
       "description": ""
     }
   },

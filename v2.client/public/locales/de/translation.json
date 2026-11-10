@@ -12,7 +12,8 @@
     "email": "Geben Sie eine gültige E-Mail-Adresse ein",
     "url": "Geben Sie eine gültige URL ein",
     "number": "Geben Sie eine gültige Zahl ein",
-    "invalidEmail": "ungültige E-Mail-Adresse"
+    "invalidEmail": "ungültige E-Mail-Adresse",
+    "min": "Geben Sie mindestens {0} Zeichen ein"
   },
   "notify": {
     "processActive": "Alle Aufgabenbenachrichtigungen",
@@ -199,11 +200,11 @@
       "startTitle": "RPG-Sitzung starten",
       "withoutRecording": "Ohne Aufnahme starten",
       "withRecording": "Auf diesem Gerät aufnehmen",
-      "generatingSummary": "Zusammenfassung wird erstellt…",
-      "transcript": "Transkript (auf diesem Ger\u00e4t gespeichert)",
+      "generatingSummary": "Zusammenfassung wird erstellt…",
+      "transcript": "Transkript (auf diesem Gerät gespeichert)",
       "downloadingModel": "Offline-Sprachmodell wird heruntergeladen",
-      "transcribingRecording": "Transkription auf diesem Ger\u00e4t",
-      "modelDownloadInfo": "Bei der ersten Verwendung werden etwa 104 MB Sprachmodelldateien heruntergeladen. Die Aufnahme bleibt auf diesem Ger\u00e4t.",
+      "transcribingRecording": "Transkription auf diesem Gerät",
+      "modelDownloadInfo": "Bei der ersten Verwendung werden etwa 104 MB Sprachmodelldateien heruntergeladen. Die Aufnahme bleibt auf diesem Gerät.",
       "recordingNow": "Aufnahme auf diesem Gerät läuft",
       "stopRecording": "Aufnahme beenden",
       "recordingSaved": "Aufnahme auf diesem Gerät gespeichert",
@@ -267,7 +268,8 @@
       "dmPage": "Spielleiteransicht",
       "playerPage": "Spieleransicht",
       "sessions": "Sitzungen",
-      "links": "Ressourcen"
+      "links": "Ressourcen",
+      "select": "Kapitel ausw?hlen"
     },
     "hero": {
       "firstName": "Vorname",
@@ -400,7 +402,8 @@
       "title": "Rechnungs- oder Positionstitel",
       "recipient": "Empfänger",
       "paymentStatus": "Positionsstatus"
-    }
+    },
+    "loading": "Rechnung wird geladen…"
   },
   "discord": {
     "title": "Discord-Befehle",
@@ -513,7 +516,11 @@
     "forgot_info_initial": "Um Ihr Passwort zurückzusetzen, benötigen Sie einen Code zum Zurücksetzen des Passworts",
     "forgot_password_send_code": "Code zum Zurücksetzen des Passworts senden",
     "forgot_password_wait": "Warten Sie {seconds}, bevor Sie den Code erneut senden",
-    "reset_password_success": "Das Passwort wurde zurückgesetzt"
+    "reset_password_success": "Das Passwort wurde zurückgesetzt",
+    "change_password": "Passwort ?ndern",
+    "old_password": "Aktuelles Passwort",
+    "forgot_password_send_failed": "Der Code zum Zur?cksetzen des Passworts konnte nicht gesendet werden",
+    "reset_password_failed": "Das Passwort konnte nicht zur?ckgesetzt werden"
   },
   "automations": {
     "system": {
@@ -593,5 +600,15 @@
     "removeReminder": "Erinnerung entfernen",
     "present": "Teilnahme"
   },
-  "auth_forgot_password_sent_failed": "Der Code zum Zurücksetzen des Passworts konnte nicht gesendet werden"
+  "auth_forgot_password_sent_failed": "Der Code zum Zurücksetzen des Passworts konnte nicht gesendet werden",
+  "common": {
+    "cancel": "Abbrechen",
+    "loading": "Wird geladen…"
+  },
+  "fluid": {
+    "functions": "Funktionen",
+    "variables": "Variablen",
+    "empty": "Keine Vorschl?ge"
+  },
+  "search": "Suchen"
 }
