@@ -6,7 +6,7 @@
   "toastActive": "true",
   "toastProcess": "false",
   "toastProcessError": "false",
-  "version":"1.2.1",
+  "version":"1.3.2",
   "menu": [
     { "label": "home", "href": "/", "submenu": [] },
     { "label": "files", "href": "/filesV2", "submenu": [], "permissions": ["filesV2"] },

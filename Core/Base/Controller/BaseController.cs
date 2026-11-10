@@ -23,6 +23,15 @@ namespace Base
 
         protected IConnect Connect => _controllerService.Connect;
 
+        protected BadRequestObjectResult BadRequest(int messageId, params object[] args)
+            => base.BadRequest(new LogMessage(messageId, args));
+
+        protected BadRequestObjectResult BadRequest(DictionaryItem message, params object[] args)
+            => BadRequest(message.Key, args);
+
+        protected BadRequestObjectResult BadRequest(IEnumerable<int> messageIds)
+            => base.BadRequest(messageIds.Select(id => new LogMessage(id, Array.Empty<object>())).ToArray());
+
         protected IActionResult Json<T>(IEnumerable<T> data, int? count = null)
             => Json(new ResponseList<T>
             {
@@ -30,4 +39,5 @@ namespace Base
                 Total = count ?? data.Count()
             });
     }
+
 }

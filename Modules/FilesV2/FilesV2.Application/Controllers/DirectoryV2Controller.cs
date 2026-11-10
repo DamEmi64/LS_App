@@ -1,9 +1,10 @@
-﻿using Base;
+using Base;
 using FilesV2.Application.Dtos;
 using FilesV2.Domain.Entities;
+using FilesV2.Domain.Dictionaries;
 using FilesV2.Domain.Enums;
 using FilesV2.Domain.Repositories;
-using FilesV2.Infrastructure.Repositories;
+using System.IO.Compression;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FilesV2.Application.Controllers
@@ -12,12 +13,17 @@ namespace FilesV2.Application.Controllers
     [AuthPermission("directoriesV2")]
     public class DirectoriesController : BaseController
     {
-        private IFolderRepository _directoryRepository;
+        private readonly IFolderRepository _directoryRepository;
+        private readonly IFileRepository _fileRepository;
+        private readonly IMediaProvider _mediaProvider;
 
-        public DirectoriesController(IControllerService controllerService, IFolderRepository directoryRepository)
+        public DirectoriesController(IControllerService controllerService, IFolderRepository directoryRepository,
+            IFileRepository fileRepository, IMediaProviderFactory mediaProviderFactory)
             : base(controllerService)
         {
             _directoryRepository = directoryRepository;
+            _fileRepository = fileRepository;
+            _mediaProvider = mediaProviderFactory.Create();
         }
 
         // GET /api/v2/directories?parentId=
@@ -66,6 +72,96 @@ namespace FilesV2.Application.Controllers
             };
 
             await _directoryRepository.Add(directory);
+            var uploadedDirectory = await _directoryRepository.Get(directory.Id) ?? directory;
+            return CreatedAtAction(nameof(GetDirectory), new { id = directory.Id }, ToDto(uploadedDirectory));
+        }
+
+        [HttpPost("upload")]
+        public async Task<ActionResult<DirectoryDto>> Upload([FromForm] UploadDirectoryDto request)
+        {
+            if (CurrentUser is null) return Unauthorized();
+            if (request.Zip is null || request.Zip.Length == 0) return BadRequest(FileV2Logs.ZipRequired);
+
+            Domain.Entities.Directory? parent = null;
+            if (request.ParentId is not null)
+            {
+                parent = await _directoryRepository.Get(request.ParentId.Value);
+                if (parent is null) return NotFound("Parent directory not found.");
+                if (parent.Owner.UserId != CurrentUser.UserId &&
+                    !parent.Users.Any(user => user.UserId == CurrentUser.UserId && user.Privilage == Privilage.Write))
+                    return Forbid();
+            }
+
+            var owner = new CatalogUser
+            {
+                UserId = CurrentUser.UserId,
+                Login = CurrentUser.Login ?? string.Empty,
+                Privilage = Privilage.Owner
+            };
+            var directory = new Domain.Entities.Directory
+            {
+                Title = request.Title,
+                Parent = parent,
+                Public = false,
+                Owner = owner
+            };
+            try
+            {
+                using var zipStream = request.Zip.OpenReadStream();
+                using var archive = new ZipArchive(zipStream, ZipArchiveMode.Read);
+                await _directoryRepository.Add(directory);
+                var directories = new Dictionary<string, Domain.Entities.Directory>(StringComparer.Ordinal)
+                {
+                    [string.Empty] = directory
+                };
+
+                foreach (var entry in archive.Entries)
+                {
+                    var normalizedPath = entry.FullName.Replace('\\', '/').Trim('/');
+                    if (string.IsNullOrWhiteSpace(normalizedPath)) continue;
+                    var segments = normalizedPath.Split('/');
+                    if (segments.Any(segment => segment is ".." or "." || segment.Contains(':')))
+                        return BadRequest(FileV2Logs.ZipInvalidPath);
+
+                    var isDirectory = entry.FullName.EndsWith('/') || entry.FullName.EndsWith('\\') || string.IsNullOrEmpty(entry.Name);
+                    var directorySegmentCount = isDirectory ? segments.Length : segments.Length - 1;
+                    var currentPath = string.Empty;
+                    for (var i = 0; i < directorySegmentCount; i++)
+                    {
+                        var segment = segments[i];
+                        currentPath = currentPath.Length == 0 ? segment : $"{currentPath}/{segment}";
+                        if (directories.ContainsKey(currentPath)) continue;
+
+                        var child = new Domain.Entities.Directory
+                        {
+                            Title = segment,
+                            Parent = directories[currentPath[..Math.Max(0, currentPath.LastIndexOf('/'))]],
+                            Owner = new CatalogUser { UserId = owner.UserId, Login = owner.Login, Privilage = Privilage.Owner }
+                        };
+                        await _directoryRepository.Add(child);
+                        directories[currentPath] = child;
+                    }
+
+                    if (isDirectory) continue;
+                    var fileName = segments[^1];
+                    await using var contentStream = entry.Open();
+                    using var memory = new MemoryStream();
+                    await contentStream.CopyToAsync(memory);
+                    var contentId = await _mediaProvider.Save(memory.ToArray(), null, Path.GetExtension(fileName), owner: owner.UserId);
+                    await _fileRepository.Add(new Domain.Entities.File
+                    {
+                        Title = fileName,
+                        Content = contentId,
+                        Folder = directories[currentPath],
+                        Owner = new CatalogUser { UserId = owner.UserId, Login = owner.Login, Privilage = Privilage.Owner }
+                    });
+                }
+            }
+            catch (InvalidDataException)
+            {
+                return BadRequest(FileV2Logs.ZipInvalid);
+            }
+
             return CreatedAtAction(nameof(GetDirectory), new { id = directory.Id }, ToDto(directory));
         }
 
@@ -83,9 +179,9 @@ namespace FilesV2.Application.Controllers
 
             if (request.ParentId is not null)
             {
-                if (request.ParentId == id) return BadRequest("A directory cannot be its own parent.");
+                if (request.ParentId == id) return BadRequest(FileV2Logs.DirectorySelfParent);
                 var parent = await _directoryRepository.Get(request.ParentId.Value);
-                if (parent is null) return BadRequest("Parent directory not found.");
+                if (parent is null) return BadRequest(FileV2Logs.ParentNotFound);
                 directory.Parent = parent;
             }
 
@@ -105,7 +201,7 @@ namespace FilesV2.Application.Controllers
                 return Forbid();
 
             if (!_directoryRepository.IsEmpty(id))
-                return BadRequest("Directory is not empty.");
+                return BadRequest(FileV2Logs.DirectoryNotEmpty);
 
             await _directoryRepository.Remove(id);
             return NoContent();
@@ -117,7 +213,7 @@ namespace FilesV2.Application.Controllers
         {
             var dir = await _directoryRepository.Get(id);
             if (dir is null) return NotFound();
-            if (CurrentUser is null || !FolderRepository.HasReadAccess(dir, CurrentUser.UserId)) return Forbid();
+            if (CurrentUser is null || !(dir.Owner.UserId == CurrentUser.UserId)) return Forbid();
 
             var users = dir.Users
                 .Select(u => new FileUserDto { UserId = u.UserId, Login = u.Login, Privilage = u.Privilage })
@@ -189,3 +285,4 @@ namespace FilesV2.Application.Controllers
         };
     }
 }
+

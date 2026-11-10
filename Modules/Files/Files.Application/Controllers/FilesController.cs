@@ -1,4 +1,4 @@
-﻿using Base;
+using Base;
 using Files.Application.Dtos;
 using Files.Application.Filters;
 using Files.Domain.Dictionaries;
@@ -96,7 +96,7 @@ namespace Files.Application.Controllers
 
             file.UpdDate = DateTimeOffset.Now;
             await _fileRepository.Add(file);
-            await Notifier.Success(FileNotifyTypes.FileSave, dto.Title);
+            await Notifier.Success(FileLogs.FileSave, dto.Title);
             return Ok();
         }
 
@@ -108,7 +108,7 @@ namespace Files.Application.Controllers
 
             var title = await _importService.ImportFile(file, CurrentUser ?? new UserData() { Id = 0, UserId = Guid.Empty.ToString() });
 
-            await Notifier.Info(NotifyTypes.ProcessQueued, title);
+            await Notifier.Info(Logs.ProcessQueued, title);
 
             return Ok();
         }
@@ -122,7 +122,7 @@ namespace Files.Application.Controllers
 
             if (file.Content is null)
             {
-                return BadRequest("File has no content to export.");
+                return BadRequest(FileLogs.FileEmpty);
             }
 
             var media = await _mediaProvider.Load(file.Content ?? Guid.Empty, true);
@@ -147,7 +147,7 @@ namespace Files.Application.Controllers
 
             var title = await _managmentService.CopyFile(file, newLocaction, CurrentUser ?? new UserData() { Id = 0, UserId = Guid.Empty.ToString() });
 
-            await Notifier.Info(NotifyTypes.ProcessQueued, title);
+            await Notifier.Info(Logs.ProcessQueued, title);
 
             return Ok();
         }
@@ -164,7 +164,7 @@ namespace Files.Application.Controllers
 
             var title = await _managmentService.MoveFile(file, newLocaction, CurrentUser ?? new UserData() { Id = 0, UserId = Guid.Empty.ToString() });
 
-            await Notifier.Info(NotifyTypes.ProcessQueued, title);
+            await Notifier.Info(Logs.ProcessQueued, title);
             return Ok();
         }
 
@@ -202,7 +202,7 @@ namespace Files.Application.Controllers
             }
 
             await _fileRepository.Update(entity);
-            await Notifier.Success(FileNotifyTypes.FileUpdated, dto.Title);
+            await Notifier.Success(FileLogs.FileUpdated, dto.Title);
 
             return Ok();
         }
@@ -222,8 +222,9 @@ namespace Files.Application.Controllers
 
             await _fileRepository.Remove(id);
 
-            await Notifier.Success(FileNotifyTypes.FileDeleted, id.ToString());
+            await Notifier.Success(FileLogs.FileDeleted, id.ToString());
             return Ok();
         }
     }
 }
+

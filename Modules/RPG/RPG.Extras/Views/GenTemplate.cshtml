@@ -11,6 +11,17 @@
     <title>@Model.Title</title>
 
     <style>
+        @@page { size: A4; margin: 20mm; }
+        @@media print {
+            body { background: #fff; }
+            .rpg-container { align-items: stretch; padding: 0; gap: 1rem; }
+            .rpg-container-item { box-shadow: none; max-width: none; break-inside: avoid; }
+            .collapsible { display: none; }
+            .content, .tabcontent { display: block !important; max-height: none !important; height: auto !important; overflow: visible !important; padding: 1rem !important; }
+            .tab { display: block; }
+            .background { height: auto; overflow: visible; background-image: none !important; }
+            img { max-width: 100%; }
+        }
         :root {
             --primary: #007bff;
             --secondary: #f8f9fa;

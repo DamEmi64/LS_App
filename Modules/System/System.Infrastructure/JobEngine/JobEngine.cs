@@ -52,7 +52,10 @@ namespace System.Infrastructure.JobEngine
                 VerifyJobIds = x.jobs.Select(j => j.Id).ToList(),
             }));
 
-            _backgroundJobClient.Reschedule(root, schemaObject.RequestDate);
+            using (AmbientTransaction.Suppress())
+            {
+                _backgroundJobClient.Reschedule(root, schemaObject.RequestDate);
+            }
 
             return schemaObject.Process.Id;
         }
@@ -67,6 +70,7 @@ namespace System.Infrastructure.JobEngine
 
         private string ScheduleJobs(Process process, List<IJob> jobs)
         {
+            using var transactionScope = AmbientTransaction.Suppress();
             var stack = new Stack<(List<IJob>, string)>();
 
             var root = _backgroundJobClient.Schedule(() => ProcessStart(process.Title), DateTimeOffset.MaxValue);
@@ -136,11 +140,14 @@ namespace System.Infrastructure.JobEngine
         {
             var process = await _processRepository.Get(processId);
             ArgumentNullException.ThrowIfNull(process);
-            foreach (var job in process.Jobs)
+            using (AmbientTransaction.Suppress())
             {
-                if (_backgroundJobClient.Delete(job.JobId))
+                foreach (var job in process.Jobs)
                 {
-                    job.Status = ProgressStatus.Cancelled;
+                    if (_backgroundJobClient.Delete(job.JobId))
+                    {
+                        job.Status = ProgressStatus.Cancelled;
+                    }
                 }
             }
             process.Status = ProgressStatus.Cancelled;

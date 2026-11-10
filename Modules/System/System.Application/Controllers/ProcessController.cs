@@ -50,7 +50,7 @@ namespace System.Application.Controllers
         public async Task<IActionResult> Cancel(Guid id)
         {
             await _jobEngine.Cancel(id);
-            await Notifier.Info(SystemNotifyTypes.ProcessCancelled, id);
+            await Notifier.Info(SystemLogs.ProcessCancelled, id);
             return Ok();
         }
     }

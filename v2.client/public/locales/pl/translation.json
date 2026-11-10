@@ -591,5 +591,9 @@
     "shares": "Udziały uczestników",
     "noParticipants": "To wydarzenie nie ma uczestników.",
     "loading": "Wczytywanie wydarzeń..."
+  },
+  "invoice": {
+    "paid": "op\u0142acono",
+    "unpaid": "nieop\u0142acono"
   }
 }

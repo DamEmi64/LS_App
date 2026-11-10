@@ -1,5 +1,6 @@
 ﻿using Hangfire;
 using System.ComponentModel;
+using System.Infrastructure.JobEngine;
 using System.Domain.Repositories;
 
 namespace System.Infrastructure.JobEngine.Milestones
@@ -34,7 +35,10 @@ namespace System.Infrastructure.JobEngine.Milestones
                         continue;
                     }
 
-                    _backgroundJobClient.Reschedule(jobId, DateTimeOffset.Now);
+                    using (AmbientTransaction.Suppress())
+                    {
+                        _backgroundJobClient.Reschedule(jobId, DateTimeOffset.Now);
+                    }
                 }
             }
         }

@@ -92,7 +92,7 @@ namespace RPG.Application.Controllers
 
             var files = new List<RPGFile>();
             await _storyRepository.Add(entity);
-            await Notifier.Success(SessionNotifyTypes.SessionSaved, dto.Title);
+            await Notifier.Success(SessionLogs.SessionSaved, dto.Title);
 
             return Ok();
         }
@@ -110,7 +110,7 @@ namespace RPG.Application.Controllers
 
             var job = await _importService.ImportFromFile(dto.File ?? null, dto.ConverterType, dto.ExternalUrl, CurrentUser ?? new UserData { UserId = Guid.Empty.ToString() });
 
-            await Notifier.Success(NotifyTypes.ProcessQueued, job);
+            await Notifier.Success(Logs.ProcessQueued, job);
 
             return Ok();
         }
@@ -140,7 +140,7 @@ namespace RPG.Application.Controllers
             place.EndDate = dto.EndDate;
 
             await _storyRepository.Update(place);
-            await Notifier.Success(SessionNotifyTypes.SessionUpdated, dto.Title);
+            await Notifier.Success(SessionLogs.SessionUpdated, dto.Title);
 
             return Ok();
         }
@@ -150,7 +150,7 @@ namespace RPG.Application.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             await _storyRepository.Remove(id);
-            await Notifier.Success(SessionNotifyTypes.SessionDeleted, id);
+            await Notifier.Success(SessionLogs.SessionDeleted, id);
 
             return Ok();
         }
@@ -185,7 +185,7 @@ namespace RPG.Application.Controllers
         public async Task<IActionResult> GenerateSummary(Guid id, [FromBody] SummaryModel dto)
         {
             var title = await _summaryService.QueueGenerateSummaryJob(id, dto, CurrentUser ?? new UserData() { Id = 0, UserId = Guid.Empty.ToString() }, dto.IsPdf);
-            await Notifier.Success(NotifyTypes.ProcessQueued, title);
+            await Notifier.Success(Logs.ProcessQueued, title);
             return Ok();
         }
 
@@ -193,7 +193,7 @@ namespace RPG.Application.Controllers
         public async Task<IActionResult> SendToFirebase(Guid id, [FromBody] SummaryModel dto)
         {
             var title = await _summaryService.QueueSendToFirebaseJob(id, dto, CurrentUser ?? new UserData() { Id = 0, UserId = Guid.Empty.ToString() });
-            await Notifier.Success(NotifyTypes.ProcessQueued, title);
+            await Notifier.Success(Logs.ProcessQueued, title);
             return Ok();
         }
 
@@ -202,7 +202,7 @@ namespace RPG.Application.Controllers
         public async Task<IActionResult> AddRPGFile(Guid id, [FromForm] CreateRPGFileDto dto)
         {
             if (dto.File is null)
-                return BadRequest();
+                return BadRequest(Logs.InvalidRequest);
 
             var story = await _storyRepository.Get(id);
 
