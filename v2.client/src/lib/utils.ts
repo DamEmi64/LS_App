@@ -141,6 +141,12 @@ export function getDictionary(dictionaryName: string): DictionaryItem[] {
     }));
 }
 
+export function sum(items, prop){
+    return items.reduce( function(a, b){
+        return a + b[prop];
+    }, 0);
+};
+
 export function uint8ArrayToBase64(bytes: Uint8Array): string {
   let binary = "";
   const chunkSize = 0x8000;

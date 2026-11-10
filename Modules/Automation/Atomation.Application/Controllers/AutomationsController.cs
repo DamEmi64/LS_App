@@ -73,7 +73,7 @@ namespace Automation.Application.Controllers
             var entity = _mapper.Map<Automat>(dto);
 
             await _automationService.AddOrUpdateAutomat(entity);
-            await Notifier.Success(AutomatNotifyTypes.AutomatCreated, dto.Title);
+            await Notifier.Success(AutomatLogs.AutomatCreated, dto.Title);
 
             return Ok();
         }
@@ -89,7 +89,7 @@ namespace Automation.Application.Controllers
             UpdateTasks(dto.Tasks, automat);
 
             await _automationService.AddOrUpdateAutomat(automat);
-            await Notifier.Success(AutomatNotifyTypes.AutomatUpdated, dto.Title);
+            await Notifier.Success(AutomatLogs.AutomatUpdated, dto.Title);
 
             return Ok();
         }
@@ -100,7 +100,7 @@ namespace Automation.Application.Controllers
             var automat = await _automatRepository.Get(id);
             ArgumentNullException.ThrowIfNull(automat);
             await _automationService.RemoveAutomat(automat);
-            await Notifier.Success(AutomatNotifyTypes.AutomatDeleted, id);
+            await Notifier.Success(AutomatLogs.AutomatDeleted, id);
 
             return Ok();
         }
@@ -111,7 +111,7 @@ namespace Automation.Application.Controllers
             var automat = await _automatRepository.Get(id);
             ArgumentNullException.ThrowIfNull(automat);
             await _automationService.TurnOffAutomat(automat);
-            await Notifier.Success(AutomatNotifyTypes.AutomatTurnedOff, automat.Title);
+            await Notifier.Success(AutomatLogs.AutomatTurnedOff, automat.Title);
             return Ok();
         }
 
@@ -121,7 +121,7 @@ namespace Automation.Application.Controllers
             var automat = await _automatRepository.Get(id);
             ArgumentNullException.ThrowIfNull(automat);
             await _automationService.TurnOnAutomat(automat);
-            await Notifier.Success(AutomatNotifyTypes.AutomatTurnedOn, automat.Title);
+            await Notifier.Success(AutomatLogs.AutomatTurnedOn, automat.Title);
             return Ok();
         }
 

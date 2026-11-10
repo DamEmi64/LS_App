@@ -1,0 +1,169 @@
+@using RPG.Infrastructure.Models
+@model StoryPdfTemplateModel
+@{
+    Layout = null;
+}
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8" />
+    <title>@Model.Story.Title</title>
+    <style>
+        @@page { size: A4; margin: 20mm; }
+        * { box-sizing: border-box; }
+        html, body { margin: 0; }
+        body {
+            color: #30271e;
+            font: 11pt/1.55 Georgia, "Times New Roman", serif;
+            background: #f6ecd6 url('@Model.BackgroundImage') center / cover fixed no-repeat;
+        }
+        .running-header {
+            color: #57432d;
+            font: bold 9pt/1.2 Georgia, "Times New Roman", serif;
+            text-align: center;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+        .cover {
+            min-height: 235mm;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            break-after: page;
+        }
+        .cover h1 {
+            max-width: 100%;
+            margin: 0;
+            padding: 18mm 12mm;
+            color: #382818;
+            font-size: 38pt;
+            font-weight: 400;
+            overflow-wrap: anywhere;
+            background: rgba(255, 250, 238, .76);
+            border: 1px solid rgba(100, 74, 42, .45);
+        }
+        .story-description {
+            min-height: 220mm;
+            padding: 14mm;
+            background: rgba(255, 250, 238, .88);
+            border: 1px solid rgba(100, 74, 42, .35);
+            break-after: page;
+        }
+        h2, h3 { color: #57402a; line-height: 1.2; }
+        .story-description h2 { margin: 0 0 10mm; font-size: 24pt; }
+        .chapter { break-before: page; }
+        .chapter-heading {
+            margin-bottom: 8mm;
+            padding: 8mm 10mm;
+            text-align: center;
+            background: rgba(255, 250, 238, .9);
+            border: 1px solid rgba(100, 74, 42, .4);
+        }
+        .chapter-number {
+            margin: 0 0 2mm;
+            color: #806744;
+            font: bold 9pt/1.3 Arial, sans-serif;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+        }
+        .chapter-heading h2 { margin: 0; font-size: 25pt; font-weight: 400; }
+        .chapter-description {
+            margin: 0 0 9mm;
+            padding: 8mm 10mm;
+            background: rgba(255, 250, 238, .88);
+        }
+        h3 {
+            margin: 8mm 0 4mm;
+            padding-bottom: 2mm;
+            border-bottom: 1px solid rgba(100, 74, 42, .45);
+            font-size: 15pt;
+        }
+        .entity-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 6mm;
+            margin: 0 0 4mm;
+            padding: 5mm;
+            background: rgba(255, 250, 238, .9);
+            border: 1px solid rgba(100, 74, 42, .32);
+            border-radius: 2mm;
+            break-inside: avoid;
+        }
+        .entity-card img {
+            flex: 0 0 38mm;
+            width: 38mm;
+            height: 38mm;
+            object-fit: cover;
+            border: 1px solid rgba(100, 74, 42, .45);
+        }
+        .entity-copy { min-width: 0; flex: 1; }
+        .entity-copy h4 { margin: 0 0 2mm; color: #49341f; font-size: 13pt; }
+        .entity-copy p { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+        .empty-note { color: #776751; font-style: italic; }
+    </style>
+</head>
+<body>
+    <header class="running-header" data-sticky-pdf-header height="12mm">@Model.Story.Title</header>
+    <main>
+        <section class="cover">
+            <h1>@Model.Story.Title</h1>
+        </section>
+
+        <section class="story-description">
+            <h2>Historia</h2>
+            <div>@Model.Story.Description</div>
+        </section>
+
+        @foreach (var chapter in Model.Story.Chapters)
+        {
+            <section class="chapter">
+                <header class="chapter-heading">
+                    <p class="chapter-number">Rozdział @chapter.Order</p>
+                    <h2>@chapter.Title</h2>
+                </header>
+                <div class="chapter-description">@chapter.Description</div>
+
+                <h3>Miejsca</h3>
+                @if (chapter.Places.Count == 0)
+                {
+                    <p class="empty-note">Brak miejsc</p>
+                }
+                @foreach (var place in chapter.Places)
+                {
+                    <article class="entity-card">
+                        @if (!string.IsNullOrWhiteSpace(place.Image))
+                        {
+                            <img src="@place.Image" alt="@place.Title" />
+                        }
+                        <div class="entity-copy">
+                            <h4>@place.Title</h4>
+                            <p>@place.Description</p>
+                        </div>
+                    </article>
+                }
+
+                <h3>Bohaterowie</h3>
+                @if (chapter.Heroes.Count == 0)
+                {
+                    <p class="empty-note">Brak bohaterów</p>
+                }
+                @foreach (var hero in chapter.Heroes)
+                {
+                    <article class="entity-card">
+                        @if (!string.IsNullOrWhiteSpace(hero.Image))
+                        {
+                            <img src="@hero.Image" alt="@(hero.FirstName) @(hero.LastName)" />
+                        }
+                        <div class="entity-copy">
+                            <h4>@hero.FirstName @hero.LastName</h4>
+                            <p>@hero.Description</p>
+                        </div>
+                    </article>
+                }
+            </section>
+        }
+    </main>
+</body>
+</html>

@@ -2,8 +2,8 @@ using Base;
 
 namespace System.Domain.Dictionaries
 {
-    [Dictionary("Notify types")]
-    public class SystemNotifyTypes
+    [Dictionary("Logs")]
+    public class SystemLogs
     {
         public static DictionaryItem LoginSucceeded => EntityDictionary.Item(40701, "Login succeeded");
         public static DictionaryItem LoginFailed => EntityDictionary.Item(40702, "Login failed");
@@ -18,5 +18,12 @@ namespace System.Domain.Dictionaries
         public static DictionaryItem PasswordRequiresLower => EntityDictionary.Item(40711, "Password requires lowercase");
         public static DictionaryItem PasswordRequiresUpper => EntityDictionary.Item(40712, "Password requires upercase");
         public static DictionaryItem ProcessCancelled => EntityDictionary.Item(40713, "Process was cancelled");
+        public static DictionaryItem PasswordMismatch => EntityDictionary.Item(40717, "Passwords entered do not match.");
+        public static DictionaryItem PasswordChangeFailed => EntityDictionary.Item(40718, "Password change failed: {0}");
+        public static DictionaryItem PasswordResetFailed => EntityDictionary.Item(40719, "Password reset failed: {0}");
+        public static DictionaryItem OperationFailed => EntityDictionary.Item(40721, "Operation failed: {0}");
     }
 }
+
+
+

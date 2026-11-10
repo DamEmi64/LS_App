@@ -79,7 +79,7 @@ namespace Events.Application.Controllers
             var entity = _mapper.Map<Event>(dto);
             await _eventRepository.Add(entity);
 
-            await Notifier.Success(EventNotifyTypes.EventCreated, entity.Title);
+            await Notifier.Success(EventLogs.EventCreated, entity.Title);
 
             return Ok();
         }
@@ -112,7 +112,7 @@ namespace Events.Application.Controllers
             }
 
             await _eventRepository.Update(entity);
-            await Notifier.Success(EventNotifyTypes.EventUpdated, dto.Title);
+            await Notifier.Success(EventLogs.EventUpdated, dto.Title);
 
             return Ok();
         }
@@ -121,7 +121,7 @@ namespace Events.Application.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             await _eventRepository.Remove(id);
-            await Notifier.Success(EventNotifyTypes.EventDeleted, id);
+            await Notifier.Success(EventLogs.EventDeleted, id);
 
             return Ok();
         }
@@ -161,7 +161,7 @@ namespace Events.Application.Controllers
 
             await _eventRepository.SignIn(eventUser);
 
-            await Notifier.Success(EventNotifyTypes.EventSignIn, entity.Title);
+            await Notifier.Success(EventLogs.EventSignIn, entity.Title);
             return Ok();
         }
 
@@ -175,7 +175,7 @@ namespace Events.Application.Controllers
             entity.Participates.RemoveAll(x => x.UserId == CurrentUser?.UserId);
             await _eventRepository.Update(entity);
 
-            await Notifier.Success(EventNotifyTypes.EventSignOut, entity.Title);
+            await Notifier.Success(EventLogs.EventSignOut, entity.Title);
             return Ok();
         }
 
@@ -186,7 +186,7 @@ namespace Events.Application.Controllers
             ArgumentNullException.ThrowIfNull(entity);
             ArgumentNullException.ThrowIfNull(CurrentUser);
             await _invitationService.SendInvitation(entity, Users, CurrentUser);
-            await Notifier.Success(EventNotifyTypes.SendInvitation, entity.Title);
+            await Notifier.Success(EventLogs.SendInvitation, entity.Title);
             return Ok();
         }
 
@@ -197,7 +197,7 @@ namespace Events.Application.Controllers
             ArgumentNullException.ThrowIfNull(CurrentUser);
             ArgumentNullException.ThrowIfNull(entity);
             await _reminderService.AddReminder(dto.ReminderDate, entity, CurrentUser);
-            await Notifier.Success(EventNotifyTypes.SetReminder, entity.Title);
+            await Notifier.Success(EventLogs.SetReminder, entity.Title);
             return Ok();
         }
 
@@ -208,7 +208,7 @@ namespace Events.Application.Controllers
             ArgumentNullException.ThrowIfNull(entity);
             await _reminderService.RemoveReminder(entity);
 
-            await Notifier.Success(EventNotifyTypes.RemoveReminder, entity.Title);
+            await Notifier.Success(EventLogs.RemoveReminder, entity.Title);
             return Ok();
         }
     }

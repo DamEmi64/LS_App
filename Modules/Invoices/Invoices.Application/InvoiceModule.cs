@@ -5,6 +5,9 @@ using Invoices.Infrastructure.Repositories;
 using Invoices.Infrastructure.Services.InvoiceDocumentService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using AutomationBase;
+using Invoices.Infrastructure.Automate;
+using Extensions = Base.Extensions;
 
 namespace Invoices.Application
 {
@@ -26,6 +29,7 @@ namespace Invoices.Application
             services.AddDatabase<InvoiceContext>(AppConfiguration.DefaultConnectionString);
             services.AddScoped<IInvoiceRepository, InvoiceRepository>();
             services.AddScoped<IInvoiceDocumentService, InvoiceDocumentService>();
+            services.AddSystemAutomat<InvoiceUpdaterAutomate>();
             return services;
         }
 

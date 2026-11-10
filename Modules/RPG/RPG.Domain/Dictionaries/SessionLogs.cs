@@ -2,8 +2,8 @@ using Base;
 
 namespace RPG.Domain.Dictionaries
 {
-    [Dictionary("Notify types")]
-    public class SessionNotifyTypes
+    [Dictionary("Logs")]
+    public class SessionLogs
     {
         public static DictionaryItem SessionSaved => EntityDictionary.Item(40401, "Session saved");
         public static DictionaryItem SessionDeleted => EntityDictionary.Item(40402, "Session deleted");

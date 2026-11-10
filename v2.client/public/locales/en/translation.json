@@ -591,5 +591,9 @@
     "shares": "Participant shares",
     "noParticipants": "This event has no participants.",
     "loading": "Loading events..."
+  },
+  "invoice": {
+    "paid": "Paid",
+    "unpaid": "Unpaid"
   }
 }

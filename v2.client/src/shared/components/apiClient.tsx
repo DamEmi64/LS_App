@@ -22,6 +22,7 @@ import {
 
 import { notify } from '../components/NotificationListener';
 import { get } from '@/lib/utils';
+import { getNotify } from '@/lib/notifyProvider';
 import { MapRule } from '../types';
 import { map } from '../api/extension';
 import { appStorage } from '@/shared/storage/appStorage';
@@ -161,11 +162,12 @@ axiosInstance.interceptors.response.use(
             !error.message.startsWith('Request failed with status')
         ) {
             notify('error', error.message);
-        } else if (typeof error.response?.data === 'string') {
-            notify('error', error.response.data);
-        }
-        else if (error.response?.data?.message) {
-            notify('error', error.response.data.message);
+        } else if (Array.isArray(error.response?.data)) {
+            error.response.data.forEach((message: any) => {
+                if (message?.messageId !== undefined) notify('error', getNotify(message.messageId, message.args ?? []));
+            });
+        } else if (error.response?.data?.messageId !== undefined) {
+            notify('error', getNotify(error.response.data.messageId, error.response.data.args ?? []));
         }
 
         return Promise.reject(error);

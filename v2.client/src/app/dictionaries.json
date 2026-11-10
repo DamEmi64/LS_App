@@ -37,7 +37,7 @@
     "50235": "Rhythm Game",
     "50236": "Other"
   },
-  "Notify_types": {
+  "Logs": {
     "40101": "Log",
     "40102": "Internal Process Error",
     "40103": "Process started",
@@ -93,7 +93,30 @@
     "40710": "Password requires digit",
     "40711": "Password requires lowercase",
     "40712": "Password requires upercase",
-    "40713": "Process was cancelled"
+    "40713": "Process was cancelled",
+    "40717": "Passwords entered do not match.",
+    "40718": "Password change failed: {0}",
+    "40719": "Password reset failed: {0}",
+    "40721": "Operation failed: {0}",
+    "40801": "Validation failed: {0}",
+    "40802": "Invoice title, position, and at least one allocation are required.",
+    "40803": "Allocations must have a user and a non-negative value.",
+    "40804": "A user can have only one allocation per position.",
+    "40805": "Every allocation must belong to an event participant.",
+    "40806": "User '{0}' was not found.",
+    "40807": "File has no content to export.",
+    "40901": "Recipient was not found.",
+    "40902": "Position title and a non-negative value are required.",
+    "40903": "Account number is required.",
+    "41001": "A non-empty ZIP file is required.",
+    "41002": "ZIP contains an invalid path.",
+    "41003": "The uploaded file is not a valid ZIP archive.",
+    "41004": "A directory cannot be its own parent.",
+    "41005": "Parent directory not found.",
+    "41006": "Directory is not empty.",
+    "41007": "Directory not found.",
+    "40107": "Invalid request.",
+    "40108": "Operation failed: {0}"
   },
   "Skill_category": {
     "110401": "Strength",

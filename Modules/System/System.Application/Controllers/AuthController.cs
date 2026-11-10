@@ -1,4 +1,4 @@
-﻿using Base;
+using Base;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -41,10 +41,10 @@ namespace System.Application.Controllers
             {
                 var login = await _authService.Login(new LoginModel { Login = dto.Login, Password = dto.Password });
 
-                return login.IsSuccess ? Ok(login.Value) : BadRequest(SystemNotifyTypes.LoginFailed);
+                return login.IsSuccess ? Ok(login.Value) : BadRequest(SystemLogs.LoginFailed);
             }
 
-            return BadRequest(GetNotifications(result.Errors).Select(x => x.ToString()).ToList());
+            return BadRequest(GetNotifications(result.Errors));
         }
 
         [HttpPost("login")]
@@ -59,9 +59,9 @@ namespace System.Application.Controllers
 
             return result.Errors.FirstOrDefault()?.Message switch
             {
-                "LockedOut" => BadRequest(SystemNotifyTypes.LockedOut),
-                "TwoFactorFailed" => BadRequest(SystemNotifyTypes.TwoFactorFailed),
-                _ => BadRequest(SystemNotifyTypes.LoginFailed)
+                "LockedOut" => BadRequest(SystemLogs.LockedOut),
+                "TwoFactorFailed" => BadRequest(SystemLogs.TwoFactorFailed),
+                _ => BadRequest(SystemLogs.LoginFailed)
             };
         }
 
@@ -90,7 +90,7 @@ namespace System.Application.Controllers
             return result switch
             {
                 _ when result.Succeeded => Ok(),
-                _ => BadRequest(string.Join("\n", result.Errors.Select(e => e.Description)))
+                _ => BadRequest(SystemLogs.PasswordChangeFailed, string.Join("\n", result.Errors.Select(e => e.Description)))
             };
         }
 
@@ -102,7 +102,7 @@ namespace System.Application.Controllers
             return result switch
             {
                 _ when result.Succeeded => Ok(),
-                _ => BadRequest(string.Join("\n", result.Errors.Select(e => e.Description)))
+                _ => BadRequest(SystemLogs.PasswordResetFailed, string.Join("\n", result.Errors.Select(e => e.Description)))
             };
         }
 
@@ -134,14 +134,15 @@ namespace System.Application.Controllers
             {
                 yield return error.Code switch
                 {
-                    "PasswordTooShort" => SystemNotifyTypes.PasswordTooShort,
-                    "PasswordRequiresNonAlphanumeric" => SystemNotifyTypes.PasswordRequiresNonAlphanumeric,
-                    "PasswordRequiresDigit" => SystemNotifyTypes.PasswordRequiresDigit,
-                    "PasswordRequiresLower" => SystemNotifyTypes.PasswordRequiresLower,
-                    "PasswordRequiresUpper" => SystemNotifyTypes.PasswordRequiresUpper,
-                    _ => NotifyTypes.Log
+                    "PasswordTooShort" => SystemLogs.PasswordTooShort,
+                    "PasswordRequiresNonAlphanumeric" => SystemLogs.PasswordRequiresNonAlphanumeric,
+                    "PasswordRequiresDigit" => SystemLogs.PasswordRequiresDigit,
+                    "PasswordRequiresLower" => SystemLogs.PasswordRequiresLower,
+                    "PasswordRequiresUpper" => SystemLogs.PasswordRequiresUpper,
+                    _ => Logs.Log
                 };
             }
         }
     }
 }
+

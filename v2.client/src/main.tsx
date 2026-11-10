@@ -2,7 +2,6 @@ import { createRoot } from "react-dom/client";
 import App from "./app/App.tsx";
 import "./index.css";
 import { appStorage } from './shared/storage/appStorage.ts';
-import { loadRemoteAppContent } from './shared/firebase/firestoreContent';
 import { i18nReady } from './shared/localization/i18n';
 
 async function bootstrap() {
@@ -14,10 +13,9 @@ async function bootstrap() {
   }
 
   try {
-  //  await Promise.allSettled([loadRemoteAppContent(), i18nReady]);
+    await i18nReady;
   } catch (error) {
-    // Bundled JSON remains available when Firestore is unavailable.
-    console.warn('Unable to load remote app content; using bundled JSON.', error);
+    console.warn('Unable to initialize translations.', error);
   }
 
   createRoot(document.getElementById("root")!).render(<App />);

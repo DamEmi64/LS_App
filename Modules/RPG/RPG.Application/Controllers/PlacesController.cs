@@ -72,7 +72,7 @@ namespace RPG.Application.Controllers
             }
 
             await _placeRepository.Add(place);
-            await Notifier.Success(SessionNotifyTypes.PlaceSaved, dto.Title);
+            await Notifier.Success(SessionLogs.PlaceSaved, dto.Title);
 
             return Ok();
         }
@@ -85,13 +85,13 @@ namespace RPG.Application.Controllers
             var chapter = await _chapterRepository.GetOnlyChapter(dto.Chapter ?? Guid.Empty);
             if (place is null)
             {
-                await Notifier.Error(SessionNotifyTypes.PlaceNotFound, id);
+                await Notifier.Error(SessionLogs.PlaceNotFound, id);
                 return NotFound();
             }
 
             if (chapter is null)
             {
-                await Notifier.Error(SessionNotifyTypes.ChapterNotFound, dto.Chapter ?? Guid.Empty);
+                await Notifier.Error(SessionLogs.ChapterNotFound, dto.Chapter ?? Guid.Empty);
                 return NotFound();
             }
 
@@ -111,7 +111,7 @@ namespace RPG.Application.Controllers
             place.UpdDate = DateTimeOffset.Now;
 
             await _placeRepository.Update(place);
-            await Notifier.Success(SessionNotifyTypes.PlaceUpdated, dto.Title);
+            await Notifier.Success(SessionLogs.PlaceUpdated, dto.Title);
             return Ok();
         }
 
@@ -119,7 +119,7 @@ namespace RPG.Application.Controllers
         public async Task<IActionResult> Delete(Guid id)
         {
             await _placeRepository.Remove(id);
-            await Notifier.Success(SessionNotifyTypes.PlaceDeleted, id);
+            await Notifier.Success(SessionLogs.PlaceDeleted, id);
             return Ok();
         }
     }
