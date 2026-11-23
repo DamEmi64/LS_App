@@ -1,4 +1,4 @@
-﻿using Base;
+using Base;
 using Hangfire;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,7 +22,6 @@ namespace System.Application
 
         public IServiceCollection Configure(IServiceCollection services)
         {
-            services.AddAutoMapper(opt => opt.AddMaps(typeof(SystemModule).Assembly));
 
             services.AddLogging();
 

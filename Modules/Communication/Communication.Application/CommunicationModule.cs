@@ -1,4 +1,4 @@
-﻿using Base;
+using Base;
 using Communication.Domain;
 using Communication.Infrastructure;
 using Communication.Infrastructure.Db;
@@ -25,7 +25,6 @@ namespace Communication.Application
 
         public IServiceCollection Configure(IServiceCollection services)
         {
-            services.AddAutoMapper(opt => opt.AddMaps(typeof(CommunicationModule).Assembly));
 
             services.Configure<DiscordOptions>(AppConfiguration.Get<DiscordOptions>());
 

@@ -1,6 +1,6 @@
-﻿namespace RPG.Application.Dtos
+namespace RPG.Application.Dtos
 {
-    public class ChapterDto
+    public class ChapterDto : Base.IDto<RPG.Domain.Entities.Chapter, ChapterDto>
     {
         public Guid? Id { get; set; }
         public required string Title { get; set; }
@@ -16,5 +16,9 @@
 
         public FlowDto? Flow { get; set; }
         public bool Draft { get; set; }
+        public RPG.Domain.Entities.Chapter ToEntity() => DtoMapping.ToEntity(this);
+        public static ChapterDto ToDto(RPG.Domain.Entities.Chapter entity) => DtoMapping.ToDto(entity);
+        public static explicit operator RPG.Domain.Entities.Chapter(ChapterDto dto) => dto.ToEntity();
+        public static explicit operator ChapterDto(RPG.Domain.Entities.Chapter entity) => ToDto(entity);
     }
 }

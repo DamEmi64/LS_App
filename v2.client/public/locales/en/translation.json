@@ -142,6 +142,22 @@
         "title": "Template functions",
         "description": "Dynamic functions you can use in messages",
         "example": "Example",
+        "guide": {
+          "open": "Template guide",
+          "title": "Template guide",
+          "intro": "Templates combine regular message text with dynamic values. During generation, the available variables and functions are evaluated for each message recipient.",
+          "syntaxTitle": "Template syntax",
+          "syntax": "Write dynamic expressions inside double curly braces. Keep the braces and spelling exactly as shown in the examples.",
+          "variableSyntax": "A variable inserts a value: {{ variable }}.",
+          "functionSyntax": "A function is called with parentheses: {{ function() }}. Add arguments inside the parentheses when the example requires them.",
+          "variablesHelp": "Variables provide information about the message, sender, recipient, or generation context. Insert them where their value should appear in the message.",
+          "functionsHelp": "Functions calculate or choose a value when the message is generated. Use the invocation shown below; arguments and their order matter.",
+          "workflowTitle": "How to build a template",
+          "workflow1": "Write the subject and message text you want recipients to receive.",
+          "workflow2": "Insert variables or functions in the message body using the syntax shown above.",
+          "workflow3": "Generate a message to check the evaluated result before using the template.",
+          "noRules": "No template rules are currently available."
+        },
         "increment": {
           "title": "Auto-increment number",
           "description": "Automatically increases a counter",

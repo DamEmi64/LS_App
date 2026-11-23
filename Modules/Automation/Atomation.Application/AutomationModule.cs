@@ -1,4 +1,4 @@
-﻿using Automation.Infrastructure;
+using Automation.Infrastructure;
 using Automation.Infrastructure.Context;
 using Automation.Infrastructure.Services.NotifyListener;
 using Base;
@@ -21,7 +21,6 @@ namespace Automation.Application
 
         public IServiceCollection Configure(IServiceCollection services)
         {
-            services.AddAutoMapper(opt => opt.AddMaps(typeof(AutomationModule).Assembly));
             services.AddNotiyListener<NotifyListener>();
             services.AddNotiyListener<SystemAutomateListener>();
 

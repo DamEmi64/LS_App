@@ -44,8 +44,9 @@ const Editor = ({ initData, onChange, readonly }) => {
             key={i18n.language} // 👈 reset cache on language change
             initData={initData}
             readOnly={readonly}
-            style={{width:'80vw',height:'90vh'}}
+            style={{ width: "100%", height: 420 }}
             config={{
+                height: 340,
                 extraPlugins: 'fluidSuggestion',
                 fluidSuggestion: {
                     loadSuggestions, // 👈 only once

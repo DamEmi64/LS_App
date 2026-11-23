@@ -26,10 +26,15 @@ export function deleteFile(id: string) {
   return call(api => api.filesApi.deleteById, { id });
 }
 
-export async function exportFile(file: File) {
+export async function exportFile(file: File, viewHtml?: (html: string) => void) {
   const response = await raw(api => api.filesApi.getByIdExport, { id: file.id });
   const contentType = response.headers["content-type"] || "application/octet-stream";
   const blob = new Blob([response.data], { type: contentType.toLocaleString() });
+
+  if ((/\.html?$/i.test(file.title) || contentType.toLowerCase().includes("text/html")) && viewHtml) {
+    viewHtml(await blob.text());
+    return;
+  }
 
   saveAs(blob, file.title);
 }

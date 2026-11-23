@@ -161,6 +161,22 @@
           "title": "Eindeutiger Zufallswert",
           "description": "Erzeugt nach Möglichkeit eindeutige Werte pro Empfänger",
           "example": "{{ randomUnique(test@test.com='d;e;f', 'a', 'b', 'c') }}"
+        },
+        "guide": {
+          "open": "Vorlagenleitfaden",
+          "title": "Vorlagenleitfaden",
+          "intro": "Vorlagen verbinden normalen Nachrichtentext mit dynamischen Werten. Bei der Erstellung werden verfügbare Variablen und Funktionen für jeden Empfänger ausgewertet.",
+          "syntaxTitle": "Vorlagensyntax",
+          "syntax": "Schreiben Sie dynamische Ausdrücke in doppelte geschweifte Klammern. Übernehmen Sie Klammern und Schreibweise genau wie in den Beispielen.",
+          "variableSyntax": "Eine Variable fügt einen Wert ein: {{ variable }}.",
+          "functionSyntax": "Eine Funktion wird mit Klammern aufgerufen: {{ function() }}. Fügen Sie erforderliche Argumente in die Klammern ein.",
+          "variablesHelp": "Variablen enthalten Informationen zur Nachricht, zum Absender, Empfänger oder Erstellungskontext. Fügen Sie sie dort ein, wo ihr Wert erscheinen soll.",
+          "functionsHelp": "Funktionen berechnen oder wählen einen Wert beim Erstellen der Nachricht. Verwenden Sie den angegebenen Aufruf; Argumente und Reihenfolge sind wichtig.",
+          "workflowTitle": "Eine Vorlage erstellen",
+          "workflow1": "Schreiben Sie Betreff und Nachrichtentext, die Empfänger erhalten sollen.",
+          "workflow2": "Fügen Sie Variablen oder Funktionen mit der gezeigten Syntax in den Nachrichtentext ein.",
+          "workflow3": "Erstellen Sie eine Testnachricht, um das Ergebnis vor der Verwendung der Vorlage zu prüfen.",
+          "noRules": "Derzeit sind keine Vorlagenregeln verfügbar."
         }
       }
     },

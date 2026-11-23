@@ -1,6 +1,6 @@
-﻿namespace Files.Application.Dtos
+namespace Files.Application.Dtos
 {
-    public class FileDto
+    public class FileDto : Base.IDto<Domain.Entities.File, FileDto>
     {
         public Guid Id { get; set; }
         public required string Title { get; set; }
@@ -65,5 +65,8 @@
            Links = string.Join("\n", file.Sources?.Select(x => x.Link) ?? Array.Empty<string>()),
            IsInstall = file.Sources?.Count > 0,
        };
+
+        public static explicit operator Domain.Entities.File(FileDto dto) => dto.ToEntity();
+        public static explicit operator FileDto(Domain.Entities.File file) => ToDto(file);
     }
 }

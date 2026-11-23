@@ -161,6 +161,22 @@
           "title": "Valeur aléatoire unique",
           "description": "Garantit des valeurs uniques par destinataire si possible",
           "example": "{{ randomUnique(test@test.com='d;e;f', 'a', 'b', 'c') }}"
+        },
+        "guide": {
+          "open": "Guide des modèles",
+          "title": "Guide des modèles",
+          "intro": "Les modèles associent le texte du message à des valeurs dynamiques. Lors de la génération, les variables et fonctions disponibles sont évaluées pour chaque destinataire.",
+          "syntaxTitle": "Syntaxe du modèle",
+          "syntax": "Écrivez les expressions dynamiques entre doubles accolades. Respectez les accolades et l’orthographe des exemples.",
+          "variableSyntax": "Une variable insère une valeur : {{ variable }}.",
+          "functionSyntax": "Une fonction s’appelle avec des parenthèses : {{ function() }}. Ajoutez les arguments entre parenthèses si l’exemple le demande.",
+          "variablesHelp": "Les variables fournissent des informations sur le message, son expéditeur, son destinataire ou le contexte de génération. Insérez-les à l’endroit où leur valeur doit apparaître.",
+          "functionsHelp": "Les fonctions calculent ou choisissent une valeur lors de la génération du message. Utilisez l’appel indiqué ; les arguments et leur ordre sont importants.",
+          "workflowTitle": "Créer un modèle",
+          "workflow1": "Rédigez l’objet et le texte que les destinataires doivent recevoir.",
+          "workflow2": "Insérez des variables ou fonctions dans le corps avec la syntaxe indiquée.",
+          "workflow3": "Générez un message de test pour vérifier le résultat avant d’utiliser le modèle.",
+          "noRules": "Aucune règle de modèle n’est disponible."
         }
       }
     },

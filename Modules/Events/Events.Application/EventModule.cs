@@ -1,4 +1,4 @@
-﻿using AutomationBase;
+using AutomationBase;
 using Base;
 using Events.Infrastructure;
 using Events.Infrastructure.Automats;
@@ -25,7 +25,6 @@ namespace Events.Application
 
         public IServiceCollection Configure(IServiceCollection services)
         {
-            services.AddAutoMapper(opt => opt.AddMaps(typeof(EventModule).Assembly));
             return services.AddDatabase<EventContext>(AppConfiguration.DefaultConnectionString)
                 .AddServices()
                 .AddSystemAutomat<SendInvitationAutomat>()

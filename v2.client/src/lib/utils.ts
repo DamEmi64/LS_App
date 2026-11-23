@@ -22,10 +22,17 @@ export function convertToDateStr(date: string): string {
     return typeof date === 'string' ? new Date(date).toLocaleString() : date;
 };
 
-export const download = async (id: string, title: string) => {
+export const download = async (id: string, title: string, viewHtml?: (html: string) => void) => {
     try {
         const response = await raw(api => api.homeApi.getMedia, { id });
         const filename = `${title}${response.data.extension}`.replace(/[\\/:*?"<>|]/g, '_');
+        const extension = (response.data.extension ?? '').replace(/^\./, '').toLowerCase();
+
+        if (!isNativeApp && (extension === 'html' || extension === 'htm') && viewHtml) {
+            const bytes = Uint8Array.from(atob(response.data.content ?? ''), character => character.charCodeAt(0));
+            viewHtml(new TextDecoder().decode(bytes));
+            return;
+        }
 
         if (isNativeApp) {
             await saveNativeFile(filename, response.data.content);
@@ -106,6 +113,10 @@ export const getMimeFromExtension = (extension) => {
 };
 
 export const get = (key: ConfigKey): string | undefined => {
+    if (key === "apiEndpoint" && import.meta.env.DEV) {
+        return "/backend";
+    }
+
     return (
         appStorage.get(key) ??
         getConfiguration()[key] ??

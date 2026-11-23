@@ -160,6 +160,22 @@
           "title": "Automatyczne unikalne wylosowanie wartości z podanych argumentów",
           "description": "Automatycznie wylosowuje unikalną wartość z podanych argumentów w szablonie.",
           "example": " {{ randomUnique( test@test.com='d;e;f', 'a', 'b', 'c')}}"
+        },
+        "guide": {
+          "open": "Przewodnik po szablonach",
+          "title": "Przewodnik po szablonach",
+          "intro": "Szablony łączą zwykły tekst wiadomości z wartościami dynamicznymi. Podczas generowania dostępne zmienne i funkcje są obliczane dla każdego odbiorcy.",
+          "syntaxTitle": "Składnia szablonu",
+          "syntax": "Umieszczaj wyrażenia dynamiczne w podwójnych nawiasach klamrowych. Zachowaj nawiasy i pisownię z przykładów.",
+          "variableSyntax": "Zmienna wstawia wartość: {{ variable }}.",
+          "functionSyntax": "Funkcja jest wywoływana z nawiasami: {{ function() }}. Dodaj argumenty w nawiasach, jeśli wymaga ich przykład.",
+          "variablesHelp": "Zmienne udostępniają informacje o wiadomości, nadawcy, odbiorcy lub kontekście generowania. Wstaw je w miejscu, w którym ma pojawić się ich wartość.",
+          "functionsHelp": "Funkcje obliczają lub wybierają wartość podczas generowania wiadomości. Używaj podanego wywołania; argumenty i ich kolejność mają znaczenie.",
+          "workflowTitle": "Jak przygotować szablon",
+          "workflow1": "Wpisz temat i treść wiadomości, którą mają otrzymać odbiorcy.",
+          "workflow2": "Wstaw zmienne lub funkcje do treści, używając pokazanej składni.",
+          "workflow3": "Wygeneruj wiadomość testową, aby sprawdzić wynik przed użyciem szablonu.",
+          "noRules": "Brak dostępnych reguł szablonu."
         }
       }
     },
