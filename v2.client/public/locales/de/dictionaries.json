@@ -112,6 +112,11 @@
     }
   },
   "Fluid_variables": {
+    "605": { "title": "Benutzerdaten", "description": "" },
+    "606": { "title": "Absender", "description": "" },
+    "607": { "title": "Empfänger", "description": "" },
+    "608": { "title": "Empfänger", "description": "" },
+    "609": { "title": "Sequenz", "description": "" },
     "90301": {
       "title": "Benutzer",
       "description": ""

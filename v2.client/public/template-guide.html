@@ -12,6 +12,9 @@
     code { background: #f3f4f6; border-radius: 4px; display: inline-block; font-family: monospace; padding: 3px 7px; }
     p { color: #555; margin: 7px 0 0; }
     li { margin: 5px 0; }
+    pre { background: #f3f4f6; border-radius: 6px; overflow-x: auto; padding: 10px 12px; }
+    pre code { background: transparent; display: block; padding: 0; }
+    .note { border-left: 3px solid #9ca3af; padding-left: 10px; }
   </style>
 </head>
 <body>
@@ -23,12 +26,62 @@
     <li>__VARIABLESYNTAX__</li>
     <li>__FUNCTIONSYNTAX__</li>
   </ul>
+  <p>__PARSERHELP__</p>
+  <pre><code>{{ Receiver.Login }}
+{% if Receiver.Email %}{{ Receiver.Email }}{% endif %}
+{% for person in Receivers %}{{ person.Login }}{% endfor %}</code></pre>
+  <p class="note">__SEQNOTE__</p>
+  <h2>__DATATITLE__</h2>
+  <p>__DATAINTRO__</p>
+  <ul>
+    <li>__DATASENDER__</li>
+    <li>__DATARECEIVER__</li>
+    <li>__DATARECEIVERS__</li>
+    <li>__DATAUSERDATA__</li>
+    <li>__DATASEQ__</li>
+  </ul>
+  <p>__DATAFIELDS__</p>
+  <h3>__PROPERTIESTITLE__</h3>
+  <p>__PROPERTIESINTRO__</p>
+  <ul>
+    <li>__PROPERTYID__</li>
+    <li>__PROPERTYUSERID__</li>
+    <li>__PROPERTYLOGIN__</li>
+    <li>__PROPERTYEMAILPHONE__</li>
+    <li>__PROPERTYROLE__</li>
+    <li>__PROPERTYPERMISSIONS__</li>
+  </ul>
+  <pre><code>{{ Sender.Login }} &lt;{{ Sender.Email }}&gt;
+{% for permission in Receiver.Permissions %}{{ permission }} {% endfor %}</code></pre>
   <h2>__VARIABLESTITLE__</h2>
   <p>__VARIABLESHELP__</p>
   __VARIABLES__
   <h2>__FUNCTIONSTITLE__</h2>
   <p>__FUNCTIONSHELP__</p>
   __FUNCTIONS__
+  <h3>__FUNCTIONDETAILSTITLE__</h3>
+  <article>
+    <h3><code>randomNumber(min, max)</code></h3>
+    <p>__RANDOMNUMBERDETAIL__</p>
+    <pre><code>{{ randomNumber(1, 10) }}</code></pre>
+  </article>
+  <article>
+    <h3><code>random(value1, value2, ...)</code></h3>
+    <p>__RANDOMDETAIL__</p>
+    <pre><code>{{ random('Hello', 'Hi', 'Welcome') }}</code></pre>
+    <p>__RANDOMNAMED__</p>
+  </article>
+  <article>
+    <h3><code>randomUnique(value1, value2, ...)</code></h3>
+    <p>__RANDOMUNIQUEDETAIL__</p>
+    <pre><code>{{ randomUnique('A', 'B', 'C') }}</code></pre>
+  </article>
+  <article>
+    <h3><code>increment()</code></h3>
+    <p>__INCREMENTDETAIL__</p>
+    <pre><code>{{ increment() }}</code></pre>
+  </article>
+  <p class="note">__CALLNOTE__</p>
   <h2>__WORKFLOWTITLE__</h2>
   <ol>
     <li>__WORKFLOW1__</li>
