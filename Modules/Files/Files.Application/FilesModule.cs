@@ -32,7 +32,7 @@ namespace Files.Application
                 .AddServices();
         }
 
-        public IApplicationBuilder OnStartup(IApplicationBuilder app)
+        public IApplicationBuilder OnStartup(WebApplication app)
         {
             return app;
         }

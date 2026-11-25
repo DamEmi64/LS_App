@@ -37,7 +37,7 @@ namespace Communication.Application
                 .AddDiscord();
         }
 
-        public IApplicationBuilder OnStartup(IApplicationBuilder app)
+        public IApplicationBuilder OnStartup(WebApplication app)
         {
             app.RegisterDiscordCommands().Wait();
             return app;

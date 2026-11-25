@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Infrastructure;
 using System.Infrastructure.Filters;
 using System.Infrastructure.Hubs;
-using System.Infrastructure.JobEngine.Milestones;
 using System.Infrastructure.Workers;
 
 namespace System.Application
@@ -36,7 +35,7 @@ namespace System.Application
                 .AddAuth(AppConfiguration.Root);
         }
 
-        public IApplicationBuilder OnStartup(IApplicationBuilder app)
+        public IApplicationBuilder OnStartup(WebApplication app)
         {
             app.UseDefaultFiles();
             app.UseStaticFiles();
@@ -50,14 +49,9 @@ namespace System.Application
             });
 
             app.UseMiddleware<EntityContextMiddleware>();
+            WorkerInitializer.InitializeWorkers(app);
 
-            RecurringJob.AddOrUpdate<MilestoneWorker>("milestone-manager", job => job.Execute(), "*/15 * * * *");
-            RecurringJob.AddOrUpdate<ArchiveLogsWorker>("archive-logs-cleaner", job => job.Execute(DateTime.Now.Date), Cron.Weekly());
-
-            if (app is WebApplication webApplication)
-            {
-                webApplication.MapHub<NotifyHub>("/notify");
-            }
+            app.MapHub<NotifyHub>("/notify");
 
             return app;
         }

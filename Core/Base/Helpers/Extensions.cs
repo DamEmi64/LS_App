@@ -86,6 +86,16 @@ namespace Base
             => services.AddKeyedScoped<IMediaProvider, T>(providerName);
 
         /// <summary>
+        ///     Registers a worker implementation in the dependency injection container.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddWorker<T>(this IServiceCollection services)
+            where T : class, IWorker
+            => services.AddScoped<IWorker, T>();
+
+        /// <summary>
         /// Converts a file extension into its corresponding MIME content type.
         /// </summary>
         /// <param name="extension">The file extension (with or without leading dot).</param>
