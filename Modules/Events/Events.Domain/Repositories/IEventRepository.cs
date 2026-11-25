@@ -10,7 +10,9 @@ namespace Events.Domain.Repositories
         Task SignIn(EventUser user);
         Task<Event?> GetByName(string title);
         Task<Event?> GetClosestEvent();
-        IEnumerable<EventIInvoice> GetInvoices();
+        IEnumerable<EventInvoice> GetInvoices();
         Task AddInvoice(Guid eventId, Guid invoiceId, string userId, decimal value);
+        IEnumerable<Event> GetCircuralEvents();
+        void UpdateEventDate(Guid eventId, DateTime date);
     }
 }

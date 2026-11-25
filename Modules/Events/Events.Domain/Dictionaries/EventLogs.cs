@@ -18,6 +18,6 @@ namespace Events.Domain.Dictionaries
         public static DictionaryItem DuplicateAllocation => EntityDictionary.Item(40804, "A user can have only one allocation per position.");
         public static DictionaryItem AllocationNotParticipant => EntityDictionary.Item(40805, "Every allocation must belong to an event participant.");
         public static DictionaryItem UserNotFound => EntityDictionary.Item(40806, "User '{0}' was not found.");
-
+        public static DictionaryItem CircularEventStarted => EntityDictionary.Item(40807, "Circular event started");
     }
 }

@@ -13,5 +13,8 @@ namespace SharedEvents
 
         public static Task<Result<UserData?>> GetUserIdByLogin(this IConnect connectClient, string Login)
                 => connectClient.Send<GetUserByLogin, UserData?>(new GetUserByLogin(Login));
+
+        public static Task<Result> SendEventLater<T>(this IConnect connectClient, T data, DateTime date) where T: NotifyEvent
+                 => connectClient.Send(new LaterEvent(data, date));
     }
 }

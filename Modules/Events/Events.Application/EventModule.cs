@@ -3,6 +3,7 @@ using Base;
 using Events.Infrastructure;
 using Events.Infrastructure.Automats;
 using Events.Infrastructure.Db;
+using Events.Infrastructure.Workers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Extensions = Base.Extensions;
@@ -29,6 +30,7 @@ namespace Events.Application
                 .AddServices()
                 .AddSystemAutomat<SendInvitationAutomat>()
                 .AddSystemAutomat<SendRemindersAutomat>()
+                .AddWorker<CircularEventsWorker>()
                 .AddRepositories();
         }
 
