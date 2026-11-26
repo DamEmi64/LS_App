@@ -30,7 +30,7 @@ namespace Events.Application
                 .AddServices()
                 .AddSystemAutomat<SendInvitationAutomat>()
                 .AddSystemAutomat<SendRemindersAutomat>()
-                .AddWorker<CircularEventsWorker>()
+                .AddWorker<EventScheduleWorker>()
                 .AddRepositories();
         }
 

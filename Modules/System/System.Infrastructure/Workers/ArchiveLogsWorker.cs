@@ -14,7 +14,7 @@ namespace System.Infrastructure.Workers
 
         public string Cron => Hangfire.Cron.Weekly();
 
-        [DisplayName("[LOG CLEANER]")]
+        [DisplayName("[WORKER] Log Cleaner")]
         public void Execute()
         {
             var date = DateTime.Now.AddDays(-7);

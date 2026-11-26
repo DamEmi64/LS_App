@@ -95,6 +95,7 @@ namespace Events.Application.Controllers
             entity.Description = dto.Description;
             entity.EventDate = dto.EventDate;
             entity.CategoryId = dto.Category;
+            entity.CircularPeriod = dto.CircularPeriod;
 
             foreach (var participate in dto.Participates)
             {

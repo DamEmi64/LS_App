@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Grid, MenuItem, TextField, Typography, useTheme } from "@mui/material";
+import { Box, Button, Grid, MenuItem, Select, TextField, Typography, useTheme } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { ColumnType, TableColumn } from "@/shared";
 import { GridTable } from "@/shared/components/datatables/gridTable";
 import { ImageProvider } from "@/shared/components/imageProvider";
-import { EventBody, EventComponentProps, EventParticipant } from "../types";
+import { CircularEnum, EventBody, EventComponentProps, EventParticipant } from "../types";
 import { getDictionary, useDictionaryTranslation } from "@/lib/utils";
-import { DateTimePicker  } from "@mui/x-date-pickers";
+import { DateTimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 
 const emptyEvent: EventBody = {
@@ -16,6 +16,7 @@ const emptyEvent: EventBody = {
   image: "",
   imageContent: "",
   participants: [],
+  circularPeriod: CircularEnum.None,
   eventDate: new Date().toISOString(),
   category: 0
 };
@@ -50,7 +51,7 @@ export const EventComponent: React.FC<EventComponentProps> = ({
   });
 
   const participantColumns: TableColumn<EventParticipant>[] = [
-   {
+    {
       field: "login",
       header: "events.participants.login",
       type: ColumnType.String,
@@ -199,6 +200,27 @@ export const EventComponent: React.FC<EventComponentProps> = ({
               )}
             />
 
+            <Controller
+              name="circularPeriod"
+              control={control}
+              rules={{ required: t("validation.required") as string }}
+              render={({ field }) => (
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={field.value}
+                  label={t("events.circular.label")}
+                  onChange={field.onChange}
+                >
+                  <MenuItem value={CircularEnum.None}>{t("events.circular.none")}</MenuItem>
+                  <MenuItem value={CircularEnum.Daily}>{t("events.circular.daily")}</MenuItem>
+                  <MenuItem value={CircularEnum.Weekly}>{t("events.circular.weekly")}</MenuItem>
+                  <MenuItem value={CircularEnum.Monthly}>{t("events.circular.monthly")}</MenuItem>
+                  <MenuItem value={CircularEnum.Yearly}>{t("events.circular.yearly")}</MenuItem>
+                </Select>
+              )}
+            />
+
             <Box sx={{ display: "flex", gap: 2, mt: 3 }}>
               <Button type="submit" variant="contained" color="success">
                 {t("opt.save")}
@@ -255,20 +277,20 @@ export const EventComponent: React.FC<EventComponentProps> = ({
         )}
       </Grid>
       {!isEditing && (
-      <Grid size={{ xs: 12 }}>
-        <Typography variant="h6" sx={{ color: textColor, mb: 2 }}>
-          {t("events.participants.title")}
-        </Typography>
-        <GridTable
-          columns={participantColumns}
-          data={{
-            data: initialData.participants || [],
-            total: initialData.participants?.length || 0,
-          }}
-          canDelete={false}
-          readonly
-        />
-      </Grid>)}
+        <Grid size={{ xs: 12 }}>
+          <Typography variant="h6" sx={{ color: textColor, mb: 2 }}>
+            {t("events.participants.title")}
+          </Typography>
+          <GridTable
+            columns={participantColumns}
+            data={{
+              data: initialData.participants || [],
+              total: initialData.participants?.length || 0,
+            }}
+            canDelete={false}
+            readonly
+          />
+        </Grid>)}
     </Grid>
   );
 };

@@ -22,6 +22,8 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
+import type { GetMe400Response } from '../models';
+// @ts-ignore
 import type { Hero } from '../models';
 // @ts-ignore
 import type { HeroDto } from '../models';
@@ -29,6 +31,8 @@ import type { HeroDto } from '../models';
 import type { HeroResponseList } from '../models';
 // @ts-ignore
 import type { PlayerDataDto } from '../models';
+// @ts-ignore
+import type { ValidationProblemDetails } from '../models';
 /**
  * HeroesApi - axios parameter creator
  */
@@ -58,6 +62,7 @@ export const HeroesApiAxiosParamCreator = function (configuration?: Configuratio
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -95,6 +100,7 @@ export const HeroesApiAxiosParamCreator = function (configuration?: Configuratio
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -108,15 +114,15 @@ export const HeroesApiAxiosParamCreator = function (configuration?: Configuratio
         /**
          * 
          * @param {string} order 
-         * @param {number} [page] 
-         * @param {number} [pageSize] 
          * @param {string} [orderBy] 
          * @param {string} [firstName] 
          * @param {string} [lastName] 
+         * @param {number} [pageSize] 
+         * @param {number} [page] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        get: async (order: string, page?: number, pageSize?: number, orderBy?: string, firstName?: string, lastName?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        get: async (order: string, orderBy?: string, firstName?: string, lastName?: string, pageSize?: number, page?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'order' is not null or undefined
             assertParamExists('get', 'order', order)
             const localVarPath = `/api/Heroes`;
@@ -135,14 +141,6 @@ export const HeroesApiAxiosParamCreator = function (configuration?: Configuratio
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-            if (page !== undefined) {
-                localVarQueryParameter['Page'] = page;
-            }
-
-            if (pageSize !== undefined) {
-                localVarQueryParameter['PageSize'] = pageSize;
-            }
-
             if (order !== undefined) {
                 localVarQueryParameter['Order'] = order;
             }
@@ -159,7 +157,15 @@ export const HeroesApiAxiosParamCreator = function (configuration?: Configuratio
                 localVarQueryParameter['LastName'] = lastName;
             }
 
-            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+            if (pageSize !== undefined) {
+                localVarQueryParameter['PageSize'] = pageSize;
+            }
+
+            if (page !== undefined) {
+                localVarQueryParameter['Page'] = page;
+            }
+
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -196,7 +202,7 @@ export const HeroesApiAxiosParamCreator = function (configuration?: Configuratio
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -235,6 +241,7 @@ export const HeroesApiAxiosParamCreator = function (configuration?: Configuratio
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -274,6 +281,7 @@ export const HeroesApiAxiosParamCreator = function (configuration?: Configuratio
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -321,16 +329,16 @@ export const HeroesApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {string} order 
-         * @param {number} [page] 
-         * @param {number} [pageSize] 
          * @param {string} [orderBy] 
          * @param {string} [firstName] 
          * @param {string} [lastName] 
+         * @param {number} [pageSize] 
+         * @param {number} [page] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async get(order: string, page?: number, pageSize?: number, orderBy?: string, firstName?: string, lastName?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<HeroResponseList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.get(order, page, pageSize, orderBy, firstName, lastName, options);
+        async get(order: string, orderBy?: string, firstName?: string, lastName?: string, pageSize?: number, page?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<HeroResponseList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.get(order, orderBy, firstName, lastName, pageSize, page, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['HeroesApi.get']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -407,7 +415,7 @@ export const HeroesApiFactory = function (configuration?: Configuration, basePat
          * @throws {RequiredError}
          */
         get(requestParameters: HeroesApiGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<HeroResponseList> {
-            return localVarFp.get(requestParameters.order, requestParameters.page, requestParameters.pageSize, requestParameters.orderBy, requestParameters.firstName, requestParameters.lastName, options).then((request) => request(axios, basePath));
+            return localVarFp.get(requestParameters.order, requestParameters.orderBy, requestParameters.firstName, requestParameters.lastName, requestParameters.pageSize, requestParameters.page, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -459,15 +467,15 @@ export interface HeroesApiDeleteByIdRequest {
 export interface HeroesApiGetRequest {
     readonly order: string
 
-    readonly page?: number
-
-    readonly pageSize?: number
-
     readonly orderBy?: string
 
     readonly firstName?: string
 
     readonly lastName?: string
+
+    readonly pageSize?: number
+
+    readonly page?: number
 }
 
 /**
@@ -526,7 +534,7 @@ export class HeroesApi extends BaseAPI {
      * @throws {RequiredError}
      */
     public get(requestParameters: HeroesApiGetRequest, options?: RawAxiosRequestConfig) {
-        return HeroesApiFp(this.configuration).get(requestParameters.order, requestParameters.page, requestParameters.pageSize, requestParameters.orderBy, requestParameters.firstName, requestParameters.lastName, options).then((request) => request(this.axios, this.basePath));
+        return HeroesApiFp(this.configuration).get(requestParameters.order, requestParameters.orderBy, requestParameters.firstName, requestParameters.lastName, requestParameters.pageSize, requestParameters.page, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

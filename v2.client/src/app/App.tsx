@@ -59,6 +59,7 @@ import { AndroidBackButtonHandler } from '@/shared/components/AndroidBackButtonH
 import AppUpdateSettings from '@/features/system/components/settings/MobileAppSettings';
 import { EventProvider } from '@/shared/context/EventContext'
 import UnpaidInvoiceLoginListener from '@/features/invoices/components/UnpaidInvoiceLoginListener';
+import EventReminderScheduler from '@/features/events/components/EventReminderScheduler';
 
 const queryClient = new QueryClient();
 
@@ -103,6 +104,7 @@ const App = () => {
                                         </BrowserRouter>
                                         <NotificationListener />
                                         <UnpaidInvoiceLoginListener />
+                                        <EventReminderScheduler />
                                     </QueryClientProvider>
                                 </ModalProvider>
                             </AuthProvider>

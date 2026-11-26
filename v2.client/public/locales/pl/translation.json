@@ -587,6 +587,8 @@
     "mySiteTitle": "Moje wydarzenia",
     "noEventsForDay": "Brak wydarzeń na dziś",
     "noSignedEvents": "Nie zapisałeś się na żadne wydarzenia",
+    "reminderTitle": "Przypomnienie o wydarzeniu",
+    "reminderBody": "{{title}} rozpocznie się za 15 minut.",
     "eventDate": "Data wydarzeńia",
     "category": "Kategoria wydarzenia",
     "signIn": "Zapisz się",

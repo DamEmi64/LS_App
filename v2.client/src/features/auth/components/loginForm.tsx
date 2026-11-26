@@ -50,7 +50,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ auth, onClose }) => {
         if (rememberMe) {
           appStorage.set('rememberedUsername', username);
           appStorage.set('rememberedPassword', password);
+        } else {
+          appStorage.remove('rememberedUsername');
+          appStorage.remove('rememberedPassword');
         }
+        await appStorage.flush();
 
         onClose();
       } else {

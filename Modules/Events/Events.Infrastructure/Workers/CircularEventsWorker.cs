@@ -1,35 +1,30 @@
+using System.ComponentModel;
 using Base;
-using Events.Domain.Dictionaries;
 using Events.Domain.Entities;
 using Events.Domain.Enums;
 using Events.Domain.Repositories;
-using SharedEvents;
 
 namespace Events.Infrastructure.Workers
 {
-    public class CircularEventsWorker : IWorker
+    public class EventScheduleWorker : IWorker
     {
         private readonly IEventRepository _eventRepository;
-        private readonly IConnect _connect;
-
-        public CircularEventsWorker(IEventRepository eventRepository, IConnect connect)
+        public EventScheduleWorker(IEventRepository eventRepository)
         {
             _eventRepository = eventRepository;
-            _connect = connect;
         }
 
-        public string Cron => "0 0 * * *";
+        public string Cron => "55 23 * * *";
 
+        [DisplayName("[WORKER] Event Scheduler")]
         public void Execute()
         {
             var today = DateTime.Today;
-            var tasks = _eventRepository.GetCircuralEvents()
-                .Select(ev => ProcessEvent(ev, today));
-
-            Task.WhenAll(tasks).GetAwaiter().GetResult();
+            foreach (var ev in _eventRepository.GetCircuralEvents())
+                ProcessEvent(ev, today);
         }
 
-        private async Task ProcessEvent(Event ev, DateTime today)
+        private void ProcessEvent(Event ev, DateTime today)
         {
             if (ev.EventDate is not DateTime eventDate)
                 return;
@@ -40,9 +35,6 @@ namespace Events.Infrastructure.Workers
                 return;
 
             _eventRepository.UpdateEventDate(ev.Id, occurrence.Value);
-            await _connect.SendEventLater(
-                new LogEvent(EventLogs.CircularEventStarted, LogLevel.Info),
-                occurrence.Value);
         }
 
         private static DateTime? GetLatestOccurrence(DateTime anchor, DateTime today, CircularPeriodEnum period)

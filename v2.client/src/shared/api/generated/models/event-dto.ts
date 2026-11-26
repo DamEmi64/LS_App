@@ -15,6 +15,9 @@
 
 // May contain unused imports in some cases
 // @ts-ignore
+import type { CircularPeriodEnum } from './circular-period-enum';
+// May contain unused imports in some cases
+// @ts-ignore
 import type { UserDto } from './user-dto';
 
 export interface EventDto {
@@ -26,5 +29,8 @@ export interface EventDto {
     'participates'?: Array<UserDto> | null;
     'image'?: string | null;
     'imageContent'?: string | null;
+    'circularPeriod'?: CircularPeriodEnum;
 }
+
+
 

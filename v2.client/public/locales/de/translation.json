@@ -618,6 +618,8 @@
     "mySiteTitle": "Meine Events",
     "noEventsForDay": "Keine angemeldeten Events an diesem Tag",
     "noSignedEvents": "Du bist noch fur keine Events angemeldet",
+    "reminderTitle": "Event-Erinnerung",
+    "reminderBody": "{{title}} beginnt in 15 Minuten.",
     "eventDate": "Eventdatum",
     "category": "Kategorie",
     "signIn": "Anmelden",

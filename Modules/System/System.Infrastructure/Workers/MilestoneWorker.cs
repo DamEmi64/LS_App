@@ -19,7 +19,7 @@ namespace System.Infrastructure.Workers
 
         public string Cron => Hangfire.Cron.MinuteInterval(15);
 
-        [DisplayName("[MILESTONE CHECKER]")]
+        [DisplayName("[WORKER] Milestones")]
         public void Execute()
         {
             foreach (var milestone in _processRepository.GetActiveMilestones())
