@@ -200,6 +200,7 @@
   "System_automat": {
     "140401": "Generate summary for RPG",
     "140501": "Send event invitations",
-    "140502": "Send event reminders"
+    "140502": "Send event reminders",
+    "140901": "Create or update invoice document"
   }
 }

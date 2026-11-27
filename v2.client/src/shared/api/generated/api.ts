@@ -32,5 +32,6 @@ export * from './api/invoices-api';
 export * from './api/places-api';
 export * from './api/process-api';
 export * from './api/stories-api';
+export * from './api/system-automate-api';
 export * from './api/templates-api';
 

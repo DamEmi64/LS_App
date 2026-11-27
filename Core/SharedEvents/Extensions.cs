@@ -13,5 +13,6 @@ namespace SharedEvents
 
         public static Task<Result<UserData?>> GetUserIdByLogin(this IConnect connectClient, string Login)
                 => connectClient.Send<GetUserByLogin, UserData?>(new GetUserByLogin(Login));
+
     }
 }

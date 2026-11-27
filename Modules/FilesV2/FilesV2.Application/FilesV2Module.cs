@@ -26,7 +26,7 @@ namespace FilesV2.Application
             return services;
         }
 
-        public IApplicationBuilder OnStartup(IApplicationBuilder app)
+        public IApplicationBuilder OnStartup(WebApplication app)
         {
             return app;
         }

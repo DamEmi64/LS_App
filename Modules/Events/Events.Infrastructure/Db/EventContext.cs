@@ -14,6 +14,6 @@ namespace Events.Infrastructure.Db
         public override string ContextName => "Events";
 
         public DbSet<Event> Events { get; set; } = default!;
-        public DbSet<EventIInvoice> EventInvoices { get; set; } = default!;
+        public DbSet<EventInvoice> EventInvoices { get; set; } = default!;
     }
 }

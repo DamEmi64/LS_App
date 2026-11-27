@@ -1,4 +1,4 @@
-﻿using AutomationBase;
+using AutomationBase;
 using Base;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,9 +37,6 @@ namespace RPG.Application
         {
             services.Configure<FirebaseOptions>(AppConfiguration.Get<FirebaseOptions>());
 
-            services.AddAutoMapper(opt => opt.AddMaps(typeof(RPGModule).Assembly));
-            services.AddAutoMapper(opt => opt.AddMaps(typeof(FileDataMapper).Assembly));
-
             return services
                 .AddDatabase<RPGContext>(AppConfiguration.DefaultConnectionString)
                 .AddRepos()
@@ -47,7 +44,7 @@ namespace RPG.Application
                 .AddServices();
         }
 
-        public IApplicationBuilder OnStartup(IApplicationBuilder app)
+        public IApplicationBuilder OnStartup(WebApplication app)
         {
             if (app is WebApplication webApplication)
             {

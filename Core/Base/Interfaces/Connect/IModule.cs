@@ -22,7 +22,7 @@ namespace Base
         /// </summary>
         /// <param name="app"></param>
         /// <returns></returns>
-        IApplicationBuilder OnStartup(IApplicationBuilder app);
+        IApplicationBuilder OnStartup(WebApplication app);
 
 
         /// <summary>

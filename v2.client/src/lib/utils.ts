@@ -10,6 +10,8 @@ import { Directory, Filesystem } from '@capacitor/filesystem';
 import { FileViewer } from '@capacitor/file-viewer';
 import { isNativeApp } from '@/shared/platform';
 
+export { ExecuteWithLoading } from '@/shared/components/taskExecuter';
+
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
@@ -22,10 +24,18 @@ export function convertToDateStr(date: string): string {
     return typeof date === 'string' ? new Date(date).toLocaleString() : date;
 };
 
-export const download = async (id: string, title: string) => {
+export const download = async (id: string, title: string, viewHtml?: (html: string) => void) => {
+    return ExecuteWithLoading(async () => {
     try {
         const response = await raw(api => api.homeApi.getMedia, { id });
         const filename = `${title}${response.data.extension}`.replace(/[\\/:*?"<>|]/g, '_');
+        const extension = (response.data.extension ?? '').replace(/^\./, '').toLowerCase();
+
+        if (!isNativeApp && (extension === 'html' || extension === 'htm') && viewHtml) {
+            const bytes = Uint8Array.from(atob(response.data.content ?? ''), character => character.charCodeAt(0));
+            viewHtml(new TextDecoder().decode(bytes));
+            return;
+        }
 
         if (isNativeApp) {
             await saveNativeFile(filename, response.data.content);
@@ -44,6 +54,7 @@ export const download = async (id: string, title: string) => {
     } catch (error) {
         console.error('Download failed:', error);
     }
+    });
 }
 
 

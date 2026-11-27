@@ -1,4 +1,5 @@
 ﻿using Base;
+using Communication.Domain.Dictionaries;
 using Communication.Infrastructure.EmailGenerator.Strategies;
 using CommunicationBase;
 using CommunicationBase.Attributes;
@@ -51,10 +52,10 @@ namespace Communication.Infrastructure.EmailGenerator
         public override int GetTranslationKey(string invoker)
          => invoker switch
          {
-             nameof(UserData) => 605,
-             nameof(Sender) => 606,
-             nameof(Receiver) => 607,
-             nameof(Receivers) => 608,
+             nameof(UserData) => FluidVariables.UserData,
+             nameof(Sender) => FluidVariables.Sender,
+             nameof(Receiver) => FluidVariables.Recipient,
+             nameof(Receivers) => FluidVariables.Recipients,
              nameof(SEQ) => 609,
              _ => throw new NotImplementedException()
          };

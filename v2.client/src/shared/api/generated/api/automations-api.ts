@@ -28,7 +28,11 @@ import type { AutomatResponseList } from '../models';
 // @ts-ignore
 import type { AutomationDto } from '../models';
 // @ts-ignore
+import type { GetMe400Response } from '../models';
+// @ts-ignore
 import type { TaskResponseList } from '../models';
+// @ts-ignore
+import type { ValidationProblemDetails } from '../models';
 /**
  * AutomationsApi - axios parameter creator
  */
@@ -58,6 +62,7 @@ export const AutomationsApiAxiosParamCreator = function (configuration?: Configu
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -95,6 +100,7 @@ export const AutomationsApiAxiosParamCreator = function (configuration?: Configu
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -108,14 +114,14 @@ export const AutomationsApiAxiosParamCreator = function (configuration?: Configu
         /**
          * 
          * @param {string} order 
-         * @param {number} [page] 
-         * @param {number} [pageSize] 
          * @param {string} [orderBy] 
          * @param {string} [title] 
+         * @param {number} [pageSize] 
+         * @param {number} [page] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        get: async (order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        get: async (order: string, orderBy?: string, title?: string, pageSize?: number, page?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'order' is not null or undefined
             assertParamExists('get', 'order', order)
             const localVarPath = `/api/Automations`;
@@ -134,14 +140,6 @@ export const AutomationsApiAxiosParamCreator = function (configuration?: Configu
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-            if (page !== undefined) {
-                localVarQueryParameter['Page'] = page;
-            }
-
-            if (pageSize !== undefined) {
-                localVarQueryParameter['PageSize'] = pageSize;
-            }
-
             if (order !== undefined) {
                 localVarQueryParameter['Order'] = order;
             }
@@ -154,7 +152,15 @@ export const AutomationsApiAxiosParamCreator = function (configuration?: Configu
                 localVarQueryParameter['Title'] = title;
             }
 
-            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+            if (pageSize !== undefined) {
+                localVarQueryParameter['PageSize'] = pageSize;
+            }
+
+            if (page !== undefined) {
+                localVarQueryParameter['Page'] = page;
+            }
+
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -191,7 +197,7 @@ export const AutomationsApiAxiosParamCreator = function (configuration?: Configu
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -228,7 +234,7 @@ export const AutomationsApiAxiosParamCreator = function (configuration?: Configu
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -267,6 +273,7 @@ export const AutomationsApiAxiosParamCreator = function (configuration?: Configu
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -304,6 +311,7 @@ export const AutomationsApiAxiosParamCreator = function (configuration?: Configu
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -340,6 +348,7 @@ export const AutomationsApiAxiosParamCreator = function (configuration?: Configu
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -386,15 +395,15 @@ export const AutomationsApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {string} order 
-         * @param {number} [page] 
-         * @param {number} [pageSize] 
          * @param {string} [orderBy] 
          * @param {string} [title] 
+         * @param {number} [pageSize] 
+         * @param {number} [page] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async get(order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AutomatResponseList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.get(order, page, pageSize, orderBy, title, options);
+        async get(order: string, orderBy?: string, title?: string, pageSize?: number, page?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AutomatResponseList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.get(order, orderBy, title, pageSize, page, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['AutomationsApi.get']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -494,7 +503,7 @@ export const AutomationsApiFactory = function (configuration?: Configuration, ba
          * @throws {RequiredError}
          */
         get(requestParameters: AutomationsApiGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<AutomatResponseList> {
-            return localVarFp.get(requestParameters.order, requestParameters.page, requestParameters.pageSize, requestParameters.orderBy, requestParameters.title, options).then((request) => request(axios, basePath));
+            return localVarFp.get(requestParameters.order, requestParameters.orderBy, requestParameters.title, requestParameters.pageSize, requestParameters.page, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -564,13 +573,13 @@ export interface AutomationsApiDeleteByIdRequest {
 export interface AutomationsApiGetRequest {
     readonly order: string
 
-    readonly page?: number
-
-    readonly pageSize?: number
-
     readonly orderBy?: string
 
     readonly title?: string
+
+    readonly pageSize?: number
+
+    readonly page?: number
 }
 
 /**
@@ -641,7 +650,7 @@ export class AutomationsApi extends BaseAPI {
      * @throws {RequiredError}
      */
     public get(requestParameters: AutomationsApiGetRequest, options?: RawAxiosRequestConfig) {
-        return AutomationsApiFp(this.configuration).get(requestParameters.order, requestParameters.page, requestParameters.pageSize, requestParameters.orderBy, requestParameters.title, options).then((request) => request(this.axios, this.basePath));
+        return AutomationsApiFp(this.configuration).get(requestParameters.order, requestParameters.orderBy, requestParameters.title, requestParameters.pageSize, requestParameters.page, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

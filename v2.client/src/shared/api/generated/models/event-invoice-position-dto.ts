@@ -18,7 +18,7 @@
 import type { EventInvoiceAllocationDto } from './event-invoice-allocation-dto';
 
 export interface EventInvoicePositionDto {
-    'title': string | null;
+    'positionTitle': string | null;
     'allocations'?: Array<EventInvoiceAllocationDto> | null;
 }
 

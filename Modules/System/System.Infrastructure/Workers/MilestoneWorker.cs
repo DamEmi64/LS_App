@@ -2,15 +2,11 @@
 using System.ComponentModel;
 using System.Infrastructure.JobEngine;
 using System.Domain.Repositories;
+using Base;
 
-namespace System.Infrastructure.JobEngine.Milestones
+namespace System.Infrastructure.Workers
 {
-    public interface IMilestoneWorker
-    {
-        void Execute();
-    }
-
-    public class MilestoneWorker : IMilestoneWorker
+    public class MilestoneWorker : IWorker
     {
         private readonly IProcessRepository _processRepository;
         private readonly IBackgroundJobClient _backgroundJobClient;
@@ -21,7 +17,9 @@ namespace System.Infrastructure.JobEngine.Milestones
             _processRepository = processRepository;
         }
 
-        [DisplayName("[MILESTONE CHECKER]")]
+        public string Cron => Hangfire.Cron.MinuteInterval(15);
+
+        [DisplayName("[WORKER] Milestones")]
         public void Execute()
         {
             foreach (var milestone in _processRepository.GetActiveMilestones())

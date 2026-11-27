@@ -112,6 +112,11 @@
     }
   },
   "Fluid_variables": {
+    "605": { "title": "User data", "description": "" },
+    "606": { "title": "Sender", "description": "" },
+    "607": { "title": "Receiver", "description": "" },
+    "608": { "title": "Receivers", "description": "" },
+    "609": { "title": "Sequence", "description": "" },
     "90301": {
       "title": "User",
       "description": ""
@@ -724,6 +729,10 @@
     },
     "140502": {
       "title": "Send event reminders",
+      "description": ""
+    },
+    "140901": {
+      "title": "Create or update invoice document",
       "description": ""
     }
   }

@@ -5,7 +5,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**title** | **string** |  | [default to undefined]
+**positionTitle** | **string** |  | [default to undefined]
 **allocations** | [**Array&lt;EventInvoiceAllocationDto&gt;**](EventInvoiceAllocationDto.md) |  | [optional] [default to undefined]
 
 ## Example
@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 import { EventInvoicePositionDto } from './api';
 
 const instance: EventInvoicePositionDto = {
-    title,
+    positionTitle,
     allocations,
 };
 ```

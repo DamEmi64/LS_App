@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import {
     Table,
@@ -14,7 +14,8 @@ import {
     useTheme,
     useMediaQuery,
     Typography,
-    Box
+    Box,
+    CircularProgress
 } from "@mui/material";
 
 import { Filter } from "@/shared/components/filter";
@@ -66,14 +67,27 @@ export const DataTable = <T,>({
     const [filterValues, setFilterValues] =
         useState<FilterValue[]>([]);
 
+    const [loading, setLoading] = useState(true);
+    const previousData = useRef(data);
+
+    useEffect(() => {
+        if (previousData.current !== data) {
+            previousData.current = data;
+            setLoading(false);
+        }
+    }, [data]);
+
     const updateData = async (
         paramsObj: onChangeParams
     ) => {
 
-        const result =
-            await onChange(paramsObj);
-
-        setData(result);
+        setLoading(true);
+        try {
+            const result = await onChange(paramsObj);
+            setData(result);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleSort = (
@@ -348,16 +362,16 @@ export const DataTable = <T,>({
                                         }}
                                     >
 
-                                        <Box>
-
+                                        {loading ? (
+                                            <CircularProgress size={24} />
+                                        ) : (
                                             <Typography
                                                 variant="body1"
                                                 color="text.secondary"
                                             >
                                                 {t("no_data")}
                                             </Typography>
-
-                                        </Box>
+                                        )}
 
                                     </TableCell>
 

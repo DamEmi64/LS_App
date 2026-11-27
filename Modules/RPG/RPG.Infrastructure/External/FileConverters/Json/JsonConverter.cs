@@ -1,4 +1,3 @@
-﻿using AutoMapper;
 using Base;
 using Newtonsoft.Json;
 using RPG.Domain.Dictionaries;
@@ -12,12 +11,10 @@ namespace RPG.Infrastructure.External.FileConverters.Json
 
     public class JsonConverter : IJsonConverter
     {
-        private readonly IMapper _mapper;
         private readonly IMediaProvider _mediaProvider;
 
-        public JsonConverter(IMapper mapper, IMediaProviderFactory mediaProviderFactory)
+        public JsonConverter(IMediaProviderFactory mediaProviderFactory)
         {
-            _mapper = mapper;
             _mediaProvider = mediaProviderFactory.Create(AppConfiguration.GetValue<string>("DefaultStorage"));
         }
 
@@ -27,7 +24,7 @@ namespace RPG.Infrastructure.External.FileConverters.Json
         {
             var dto = JsonConvert.DeserializeObject<StoryDto>(data);
 
-            var story = _mapper.Map<Story>(dto);
+            var story = dto is null ? throw new InvalidOperationException("Failed to deserialize story") : JsonDtoMapping.ToEntity(dto);
 
             foreach (var chapter in story.Chapters)
             {
@@ -66,7 +63,7 @@ namespace RPG.Infrastructure.External.FileConverters.Json
 
         public async Task<string> Convert(Story story)
         {
-            var dto = _mapper.Map<StoryDto>(story);
+            var dto = JsonDtoMapping.ToDto(story);
 
             foreach (var chapterDto in dto.Chapters)
             {

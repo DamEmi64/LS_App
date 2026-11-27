@@ -1,4 +1,3 @@
-﻿using AutoMapper;
 using Base;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +18,6 @@ namespace RPG.Application.Controllers
         private readonly IStoryRepository _storyRepository;
         private readonly ISummaryService _summaryService;
         private readonly IMediaProvider _mediaProvider;
-        private readonly IMapper _mapper;
         private readonly IImportService _importService;
 
         public StoriesController(
@@ -27,14 +25,12 @@ namespace RPG.Application.Controllers
             IStoryRepository storyRepository,
             ISummaryService summaryService,
             IMediaProviderFactory mediaProviderFactory,
-            IMapper mapper,
             IImportService importService)
             : base(controllerService)
         {
             _storyRepository = storyRepository;
             _summaryService = summaryService;
             _mediaProvider = mediaProviderFactory.Create(AppConfiguration.GetValue<string>("DefaultStorage"));
-            _mapper = mapper;
             _importService = importService;
         }
 
@@ -49,7 +45,7 @@ namespace RPG.Application.Controllers
                 return NotFound();
             }
 
-            return Json(_mapper.Map<StoryDto>(result));
+            return Json(result.ToDto());
         }
 
         [HttpGet("{id}/draft")]
@@ -64,7 +60,7 @@ namespace RPG.Application.Controllers
                 return NotFound();
             }
 
-            return Json(_mapper.Map<StoryDto>(result));
+            return Json(result.ToDto());
         }
 
         [HttpGet("")]
@@ -72,7 +68,7 @@ namespace RPG.Application.Controllers
         public async Task<IActionResult> ListData([FromQuery] StoryFilter filter)
         {
             var stories = _storyRepository.GetAll();
-            return Json(filter.Filter(stories, out var count).Select(_mapper.Map<StoryDto>), count);
+            return Json(filter.Filter(stories, out var count).Select(x => x.ToDto()), count);
         }
 
         [HttpGet("draft")]
@@ -81,14 +77,14 @@ namespace RPG.Application.Controllers
         public async Task<IActionResult> ListDrafts([FromQuery] StoryFilter filter)
         {
             var stories = _storyRepository.GetAllDraft();
-            return Json(filter.Filter(stories, out var count).Select(_mapper.Map<StoryDto>), count);
+            return Json(filter.Filter(stories, out var count).Select(x => x.ToDto()), count);
         }
 
         [HttpPost("")]
         [AuthPermission("rpg-write")]
         public async Task<IActionResult> Create([FromBody] StoryDto dto)
         {
-            var entity = _mapper.Map<Story>(dto);
+            var entity = dto.ToEntity();
 
             var files = new List<RPGFile>();
             await _storyRepository.Add(entity);

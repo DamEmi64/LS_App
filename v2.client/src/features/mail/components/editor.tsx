@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { CommunicationRules } from '../types';
 import {call} from "@/shared";
 import { useDictionaryTranslation } from '@/lib/utils';
+import { getFluidFunctionDictionaryId } from '../fluidFunctionDictionary';
 
 const Editor = ({ initData, onChange, readonly }) => {
     const { t, i18n } = useTranslation();
@@ -19,7 +20,7 @@ const Editor = ({ initData, onChange, readonly }) => {
         // 👇 capture values NOW (not during async execution later)
         return {
             functions: data.functions.map(f => {
-                const tr = getDictionaryTranslation('Fluid functions', f.id);
+                const tr = getDictionaryTranslation('Fluid functions', getFluidFunctionDictionaryId(f));
                 return {
                     title: tr.title,
                     description: tr.description,
@@ -44,8 +45,9 @@ const Editor = ({ initData, onChange, readonly }) => {
             key={i18n.language} // 👈 reset cache on language change
             initData={initData}
             readOnly={readonly}
-            style={{width:'80vw',height:'90vh'}}
+            style={{ width: "100%", height: 420 }}
             config={{
+                height: 340,
                 extraPlugins: 'fluidSuggestion',
                 fluidSuggestion: {
                     loadSuggestions, // 👈 only once

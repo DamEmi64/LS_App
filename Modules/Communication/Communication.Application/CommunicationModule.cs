@@ -1,7 +1,8 @@
-﻿using Base;
+using Base;
 using Communication.Domain;
 using Communication.Infrastructure;
 using Communication.Infrastructure.Db;
+using Communication.Infrastructure.Workers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -25,7 +26,6 @@ namespace Communication.Application
 
         public IServiceCollection Configure(IServiceCollection services)
         {
-            services.AddAutoMapper(opt => opt.AddMaps(typeof(CommunicationModule).Assembly));
 
             services.Configure<DiscordOptions>(AppConfiguration.Get<DiscordOptions>());
 
@@ -34,11 +34,12 @@ namespace Communication.Application
                 .AddRepos()
                 .Configure<EmailOptions>(AppConfiguration.Get<EmailOptions>())
                 .Configure<DiscordOptions>(AppConfiguration.Get<DiscordOptions>())
+                .AddWorker<CommunicationHistoryCleanWorker>()
                 .AddServices()
                 .AddDiscord();
         }
 
-        public IApplicationBuilder OnStartup(IApplicationBuilder app)
+        public IApplicationBuilder OnStartup(WebApplication app)
         {
             app.RegisterDiscordCommands().Wait();
             return app;

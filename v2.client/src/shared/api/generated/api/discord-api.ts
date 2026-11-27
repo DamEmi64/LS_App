@@ -25,6 +25,10 @@ import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError
 import type { DiscordCmd } from '../models';
 // @ts-ignore
 import type { Email } from '../models';
+// @ts-ignore
+import type { GetMe400Response } from '../models';
+// @ts-ignore
+import type { ValidationProblemDetails } from '../models';
 /**
  * DiscordApi - axios parameter creator
  */
@@ -52,7 +56,7 @@ export const DiscordApiAxiosParamCreator = function (configuration?: Configurati
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -89,7 +93,7 @@ export const DiscordApiAxiosParamCreator = function (configuration?: Configurati
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -128,6 +132,7 @@ export const DiscordApiAxiosParamCreator = function (configuration?: Configurati
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};

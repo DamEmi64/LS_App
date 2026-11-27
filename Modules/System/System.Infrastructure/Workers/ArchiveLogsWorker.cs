@@ -4,7 +4,7 @@ using System.Domain.Repositories;
 
 namespace System.Infrastructure.Workers
 {
-    public class ArchiveLogsWorker
+    public class ArchiveLogsWorker : IWorker
     {
         private readonly ILogRepository _logRepository;
         public ArchiveLogsWorker(ILogRepository logRepository)
@@ -12,9 +12,12 @@ namespace System.Infrastructure.Workers
             _logRepository = logRepository;
         }
 
-        [DisplayName("[LOG CLEANER]  {0}")]
-        public void Execute(DateTime date)
+        public string Cron => Hangfire.Cron.Weekly();
+
+        [DisplayName("[WORKER] Log Cleaner")]
+        public void Execute()
         {
+            var date = DateTime.Now.AddDays(-7);
             var logsToDelete = _logRepository.GetAll().Where(x => x.TimeStamp < date);
 
             var archiveFolder = AppConfiguration.Get("LogArchiveFolder");

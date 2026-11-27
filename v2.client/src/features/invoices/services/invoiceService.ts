@@ -1,6 +1,7 @@
-import { axiosInstance, call } from '@/shared/components/apiClient';
+import { call } from '@/shared/components/apiClient';
 import type { UserData } from '@/features/auth';
 import type { Invoice, InvoiceSaveDto } from '../types';
+import { ExecuteWithLoading } from '@/lib/utils';
 
 export function getMyInvoices() {
     return call<Invoice[]>(api => api.invoiceApi.getCollector, {}, data => (data ?? []) as Invoice[]);
@@ -35,7 +36,7 @@ export function updateInvoice(id: string, invoice: InvoiceSaveDto) {
 }
 
 export function addInvoicePosition(id: string, position: InvoiceSaveDto['positions'][number]) {
-    return axiosInstance.post(`/api/Invoices/${id}/positions`, position);
+    return call(api => api.invoiceApi.createByIdPositions, { id, saveInvoicePositionDto: position });
 }
 
 export function deleteInvoice(id: string) {
@@ -43,17 +44,22 @@ export function deleteInvoice(id: string) {
 }
 
 export async function generateInvoiceDocument(id: string, paymentMethod: number, accountNumber?: string) {
-    await axiosInstance.post(`/api/Invoices/${id}/document`, {
-        paymentMethod,
-        accountNumber,
+    return ExecuteWithLoading(async () => {
+    await call(api => api.invoiceApi.createByIdDocument, {
+        id,
+        generateInvoiceDocumentDto: { paymentMethod, accountNumber },
     });
 
     const deadline = Date.now() + 5 * 60 * 1000;
     while (Date.now() < deadline) {
         await new Promise(resolve => window.setTimeout(resolve, 3000));
         try {
-            const response = await axiosInstance.get<Blob>(`/api/Invoices/${id}/document`, { responseType: 'blob' });
-            const url = URL.createObjectURL(response.data);
+            const pdf = await call<Blob, { id: string }>(
+                api => request => api.invoiceApi.getByIdDocument(request, { responseType: 'blob' }),
+                { id },
+                data => data as Blob,
+            );
+            const url = URL.createObjectURL(pdf);
             const link = document.createElement('a');
             link.href = url;
             link.download = 'invoice.pdf';
@@ -66,9 +72,11 @@ export async function generateInvoiceDocument(id: string, paymentMethod: number,
         }
     }
     throw new Error('Invoice generation timed out.');
+    });
 }
 
 export async function downloadInvoiceDocument(id: string, title: string) {
+    return ExecuteWithLoading(async () => {
     const pdf = await call<Blob, { id: string }>(
         api => request => api.invoiceApi.getByIdDocument(request, { responseType: 'blob' }),
         { id },
@@ -80,6 +88,7 @@ export async function downloadInvoiceDocument(id: string, title: string) {
     link.download = `${title.replace(/[<>:"/\\|?*]/g, '_') || 'invoice'}.pdf`;
     link.click();
     window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+    });
 }
 
 export function getInvoiceHtml(id: string) {
