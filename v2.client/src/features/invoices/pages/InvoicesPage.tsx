@@ -29,6 +29,7 @@ import { notify } from '@/shared/components/NotificationListener';
 import { addInvoicePosition, createInvoice, deleteInvoice, downloadInvoiceDocument, generateInvoiceDocument, getInvoiceHtml, getInvoicesToPay, getMyInvoices, markInvoicePositionPaid, updateInvoice } from '../services/invoiceService';
 import { INVOICE_STATUS, Invoice, InvoicePosition, InvoiceSaveDto } from '../types';
 import InvoiceForm from '../components/InvoiceForm';
+import HtmlViewer from '@/shared/components/HtmlViewer';
 import CreditScoreIcon from '@mui/icons-material/CreditScore';
 import CreditCardOffIcon from '@mui/icons-material/CreditCardOff';
 import { sum } from '@/lib/utils';
@@ -210,15 +211,10 @@ const InvoicesPage = ({ mode }: InvoicesPageProps) => {
     };
 
     const showInvoice = async (invoice: InvoiceRow) => {
-        const preview = window.open('', '_blank');
-        if (!preview) return;
         try {
             const html = await getInvoiceHtml(invoice.id);
-            preview.document.open();
-            preview.document.write(html);
-            preview.document.close();
+            modal.showModal(<HtmlViewer title={invoice.title} html={html} />);
         } catch {
-            preview.close();
             notify('error', t('invoices.showFailed'));
         }
     };

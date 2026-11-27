@@ -1,4 +1,3 @@
-﻿using AutoMapper;
 using Base;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,19 +15,16 @@ namespace RPG.Application.Controllers
         private readonly IHeroRepository _heroRepository;
         private readonly IChapterRepository _chapterRepository;
         private readonly IMediaProvider _mediaProvider;
-        private readonly IMapper _mapper;
 
         public HeroesController(IControllerService controllerService,
             IHeroRepository heroRepository,
             IChapterRepository chapterRepository,
-            IMediaProviderFactory mediaProviderFactory,
-            IMapper mapper)
+            IMediaProviderFactory mediaProviderFactory)
             : base(controllerService)
         {
             _heroRepository = heroRepository;
             _chapterRepository = chapterRepository;
             _mediaProvider = mediaProviderFactory.Create(AppConfiguration.GetValue<string>("DefaultStorage"));
-            _mapper = mapper;
         }
 
         [HttpGet("{id}")]
@@ -42,7 +38,7 @@ namespace RPG.Application.Controllers
                 return NotFound();
             }
 
-            return Json(_mapper.Map<HeroDto>(result));
+            return Json(result.ToDto());
         }
 
         [HttpGet("")]

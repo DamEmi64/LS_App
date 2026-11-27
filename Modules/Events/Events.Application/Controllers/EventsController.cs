@@ -1,4 +1,3 @@
-﻿using AutoMapper;
 using Base;
 using Events.Application.Dtos;
 using Events.Application.Filters;
@@ -16,7 +15,6 @@ namespace Events.Application.Controllers
     public class EventsController : BaseController
     {
         private readonly IEventRepository _eventRepository;
-        private readonly IMapper _mapper;
         private readonly IInvitationService _invitationService;
         private readonly IReminderService _reminderService;
         private readonly IMediaProvider _mediaProvider;
@@ -24,14 +22,12 @@ namespace Events.Application.Controllers
         public EventsController(
             IControllerService controllerService,
             IEventRepository eventRepository,
-            IMapper mapper,
             IInvitationService invitationService,
             IReminderService reminderService,
             IMediaProviderFactory mediaProviderFactory)
             : base(controllerService)
         {
             _eventRepository = eventRepository;
-            _mapper = mapper;
             _invitationService = invitationService;
             _reminderService = reminderService;
             _mediaProvider = mediaProviderFactory.Create(AppConfiguration.GetValue<string>("DefaultStorage"));
@@ -48,7 +44,7 @@ namespace Events.Application.Controllers
                 return NotFound();
             }
 
-            var dto = _mapper.Map<EventDto>(result);
+            var dto = EventDto.ToDto(result);
             return Json(dto);
         }
 
@@ -76,7 +72,7 @@ namespace Events.Application.Controllers
                 dto.Image = await _mediaProvider.Save(dto.ImageContent, dto.Image);
             }
 
-            var entity = _mapper.Map<Event>(dto);
+            var entity = dto.ToEntity();
             await _eventRepository.Add(entity);
 
             await Notifier.Success(EventLogs.EventCreated, entity.Title);
@@ -99,6 +95,7 @@ namespace Events.Application.Controllers
             entity.Description = dto.Description;
             entity.EventDate = dto.EventDate;
             entity.CategoryId = dto.Category;
+            entity.CircularPeriod = dto.CircularPeriod;
 
             foreach (var participate in dto.Participates)
             {

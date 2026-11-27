@@ -17,5 +17,6 @@
 export interface SaveInvoicePositionDto {
     'title'?: string | null;
     'value'?: number;
+    'invoiceDate'?: string;
 }
 

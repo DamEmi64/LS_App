@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 
 import EventComponent from "@/features/events/components/eventComponent";
 import ReminderSetup from "@/features/events/components/reminderSetup";
-import { EventBody, EventParticipant } from "@/features/events/types";
+import { CircularEnum, EventBody, EventParticipant } from "@/features/events/types";
 import { useModal } from "@/shared/context/modal";
 import YesNoWindow from "@/shared/components/YesNoWindow";
 import { ColumnType, ExpandableTable, FilterItem, FilterType, FilterValue, onChangeParams, Operations, TableColumn } from "@/shared";
@@ -23,21 +23,36 @@ import AdminSignInDialog from "../components/adminSignInDialog";
 import { useAuth } from "@/features/auth/context/authProvider";
 import { createEvent, createEventReminder, deleteEvent, deleteEventReminder, getEvent, loadEvents, sendEventInvitation, signInToEvent, signInUserToEvent, signOutOfEvent, updateEvent, updateEventParticipants } from "../services/eventService";
 
-const toEventBody = (event: EventDto): EventBody => ({
-    title: event.title || "",
-    eventDate: event.eventDate || "",
-    description: event.description || "",
-    image: event.image || "",
-    imageContent: event.imageContent || "",
-    category: event.category,
-    participants: (event.participates || []).map<EventParticipant>((participant) => ({
-        id: participant.id || participant.userId || "",
-        login: participant.login || participant.email || "",
-        email: participant.email || "",
-        userId: participant.userId || "",
-        present: participant.present || false
-    }))
-});
+const toEventBody = (event: EventDto): EventBody => {
+    const period = event.circularPeriod as unknown as string | number | undefined;
+    const circularPeriodNames: Record<string, CircularEnum> = {
+        None: CircularEnum.None,
+        Daily: CircularEnum.Daily,
+        Weekly: CircularEnum.Weekly,
+        Monthly: CircularEnum.Monthly,
+        Yearly: CircularEnum.Yearly
+    };
+    const circularPeriod = typeof period === "string"
+        ? circularPeriodNames[period] ?? CircularEnum.None
+        : period ?? CircularEnum.None;
+
+    return {
+        title: event.title || "",
+        eventDate: event.eventDate || "",
+        description: event.description || "",
+        image: event.image || "",
+        imageContent: event.imageContent || "",
+        category: event.category,
+        circularPeriod,
+        participants: (event.participates || []).map<EventParticipant>((participant) => ({
+            id: participant.id || participant.userId || "",
+            login: participant.login || participant.email || "",
+            email: participant.email || "",
+            userId: participant.userId || "",
+            present: participant.present || false
+        }))
+    };
+};
 
 const EventsPage: React.FC = () => {
     const { t } = useTranslation();

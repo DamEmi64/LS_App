@@ -22,6 +22,8 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
+import type { GetMe400Response } from '../models';
+// @ts-ignore
 import type { Story } from '../models';
 // @ts-ignore
 import type { StoryDto } from '../models';
@@ -29,6 +31,8 @@ import type { StoryDto } from '../models';
 import type { StoryResponseList } from '../models';
 // @ts-ignore
 import type { SummaryModel } from '../models';
+// @ts-ignore
+import type { ValidationProblemDetails } from '../models';
 /**
  * StoriesApi - axios parameter creator
  */
@@ -58,6 +62,7 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -109,6 +114,7 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
                 localVarFormParams.append('File', file as any);
             }
             localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -159,6 +165,7 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
                 localVarFormParams.append('ExternalUrl', externalUrl as any);
             }
             localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -196,6 +203,7 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -236,6 +244,7 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -249,18 +258,18 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * 
          * @param {string} order 
-         * @param {number} [page] 
-         * @param {number} [pageSize] 
          * @param {string} [orderBy] 
          * @param {string} [title] 
          * @param {string} [startFrom] 
          * @param {string} [startTo] 
          * @param {string} [endFrom] 
          * @param {string} [endTo] 
+         * @param {number} [pageSize] 
+         * @param {number} [page] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        get: async (order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, startFrom?: string, startTo?: string, endFrom?: string, endTo?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        get: async (order: string, orderBy?: string, title?: string, startFrom?: string, startTo?: string, endFrom?: string, endTo?: string, pageSize?: number, page?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'order' is not null or undefined
             assertParamExists('get', 'order', order)
             const localVarPath = `/api/Stories`;
@@ -278,14 +287,6 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
             // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (page !== undefined) {
-                localVarQueryParameter['Page'] = page;
-            }
-
-            if (pageSize !== undefined) {
-                localVarQueryParameter['PageSize'] = pageSize;
-            }
 
             if (order !== undefined) {
                 localVarQueryParameter['Order'] = order;
@@ -323,7 +324,15 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
                     endTo;
             }
 
-            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+            if (pageSize !== undefined) {
+                localVarQueryParameter['PageSize'] = pageSize;
+            }
+
+            if (page !== undefined) {
+                localVarQueryParameter['Page'] = page;
+            }
+
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -360,7 +369,7 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -397,7 +406,7 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -434,7 +443,7 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -448,18 +457,18 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * 
          * @param {string} order 
-         * @param {number} [page] 
-         * @param {number} [pageSize] 
          * @param {string} [orderBy] 
          * @param {string} [title] 
          * @param {string} [startFrom] 
          * @param {string} [startTo] 
          * @param {string} [endFrom] 
          * @param {string} [endTo] 
+         * @param {number} [pageSize] 
+         * @param {number} [page] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getDraft: async (order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, startFrom?: string, startTo?: string, endFrom?: string, endTo?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        getDraft: async (order: string, orderBy?: string, title?: string, startFrom?: string, startTo?: string, endFrom?: string, endTo?: string, pageSize?: number, page?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'order' is not null or undefined
             assertParamExists('getDraft', 'order', order)
             const localVarPath = `/api/Stories/draft`;
@@ -477,14 +486,6 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
             // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (page !== undefined) {
-                localVarQueryParameter['Page'] = page;
-            }
-
-            if (pageSize !== undefined) {
-                localVarQueryParameter['PageSize'] = pageSize;
-            }
 
             if (order !== undefined) {
                 localVarQueryParameter['Order'] = order;
@@ -522,7 +523,15 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
                     endTo;
             }
 
-            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+            if (pageSize !== undefined) {
+                localVarQueryParameter['PageSize'] = pageSize;
+            }
+
+            if (page !== undefined) {
+                localVarQueryParameter['Page'] = page;
+            }
+
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -561,6 +570,7 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -598,6 +608,7 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -636,6 +647,7 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -673,6 +685,7 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -711,6 +724,7 @@ export const StoriesApiAxiosParamCreator = function (configuration?: Configurati
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -799,19 +813,19 @@ export const StoriesApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {string} order 
-         * @param {number} [page] 
-         * @param {number} [pageSize] 
          * @param {string} [orderBy] 
          * @param {string} [title] 
          * @param {string} [startFrom] 
          * @param {string} [startTo] 
          * @param {string} [endFrom] 
          * @param {string} [endTo] 
+         * @param {number} [pageSize] 
+         * @param {number} [page] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async get(order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, startFrom?: string, startTo?: string, endFrom?: string, endTo?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StoryResponseList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.get(order, page, pageSize, orderBy, title, startFrom, startTo, endFrom, endTo, options);
+        async get(order: string, orderBy?: string, title?: string, startFrom?: string, startTo?: string, endFrom?: string, endTo?: string, pageSize?: number, page?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StoryResponseList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.get(order, orderBy, title, startFrom, startTo, endFrom, endTo, pageSize, page, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['StoriesApi.get']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -855,19 +869,19 @@ export const StoriesApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {string} order 
-         * @param {number} [page] 
-         * @param {number} [pageSize] 
          * @param {string} [orderBy] 
          * @param {string} [title] 
          * @param {string} [startFrom] 
          * @param {string} [startTo] 
          * @param {string} [endFrom] 
          * @param {string} [endTo] 
+         * @param {number} [pageSize] 
+         * @param {number} [page] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getDraft(order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, startFrom?: string, startTo?: string, endFrom?: string, endTo?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StoryResponseList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.getDraft(order, page, pageSize, orderBy, title, startFrom, startTo, endFrom, endTo, options);
+        async getDraft(order: string, orderBy?: string, title?: string, startFrom?: string, startTo?: string, endFrom?: string, endTo?: string, pageSize?: number, page?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StoryResponseList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getDraft(order, orderBy, title, startFrom, startTo, endFrom, endTo, pageSize, page, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['StoriesApi.getDraft']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -996,7 +1010,7 @@ export const StoriesApiFactory = function (configuration?: Configuration, basePa
          * @throws {RequiredError}
          */
         get(requestParameters: StoriesApiGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<StoryResponseList> {
-            return localVarFp.get(requestParameters.order, requestParameters.page, requestParameters.pageSize, requestParameters.orderBy, requestParameters.title, requestParameters.startFrom, requestParameters.startTo, requestParameters.endFrom, requestParameters.endTo, options).then((request) => request(axios, basePath));
+            return localVarFp.get(requestParameters.order, requestParameters.orderBy, requestParameters.title, requestParameters.startFrom, requestParameters.startTo, requestParameters.endFrom, requestParameters.endTo, requestParameters.pageSize, requestParameters.page, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1032,7 +1046,7 @@ export const StoriesApiFactory = function (configuration?: Configuration, basePa
          * @throws {RequiredError}
          */
         getDraft(requestParameters: StoriesApiGetDraftRequest, options?: RawAxiosRequestConfig): AxiosPromise<StoryResponseList> {
-            return localVarFp.getDraft(requestParameters.order, requestParameters.page, requestParameters.pageSize, requestParameters.orderBy, requestParameters.title, requestParameters.startFrom, requestParameters.startTo, requestParameters.endFrom, requestParameters.endTo, options).then((request) => request(axios, basePath));
+            return localVarFp.getDraft(requestParameters.order, requestParameters.orderBy, requestParameters.title, requestParameters.startFrom, requestParameters.startTo, requestParameters.endFrom, requestParameters.endTo, requestParameters.pageSize, requestParameters.page, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1133,10 +1147,6 @@ export interface StoriesApiDeleteByIdFilesByFileIdRequest {
 export interface StoriesApiGetRequest {
     readonly order: string
 
-    readonly page?: number
-
-    readonly pageSize?: number
-
     readonly orderBy?: string
 
     readonly title?: string
@@ -1148,6 +1158,10 @@ export interface StoriesApiGetRequest {
     readonly endFrom?: string
 
     readonly endTo?: string
+
+    readonly pageSize?: number
+
+    readonly page?: number
 }
 
 /**
@@ -1177,10 +1191,6 @@ export interface StoriesApiGetByIdExportRequest {
 export interface StoriesApiGetDraftRequest {
     readonly order: string
 
-    readonly page?: number
-
-    readonly pageSize?: number
-
     readonly orderBy?: string
 
     readonly title?: string
@@ -1192,6 +1202,10 @@ export interface StoriesApiGetDraftRequest {
     readonly endFrom?: string
 
     readonly endTo?: string
+
+    readonly pageSize?: number
+
+    readonly page?: number
 }
 
 /**
@@ -1296,7 +1310,7 @@ export class StoriesApi extends BaseAPI {
      * @throws {RequiredError}
      */
     public get(requestParameters: StoriesApiGetRequest, options?: RawAxiosRequestConfig) {
-        return StoriesApiFp(this.configuration).get(requestParameters.order, requestParameters.page, requestParameters.pageSize, requestParameters.orderBy, requestParameters.title, requestParameters.startFrom, requestParameters.startTo, requestParameters.endFrom, requestParameters.endTo, options).then((request) => request(this.axios, this.basePath));
+        return StoriesApiFp(this.configuration).get(requestParameters.order, requestParameters.orderBy, requestParameters.title, requestParameters.startFrom, requestParameters.startTo, requestParameters.endFrom, requestParameters.endTo, requestParameters.pageSize, requestParameters.page, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**
@@ -1336,7 +1350,7 @@ export class StoriesApi extends BaseAPI {
      * @throws {RequiredError}
      */
     public getDraft(requestParameters: StoriesApiGetDraftRequest, options?: RawAxiosRequestConfig) {
-        return StoriesApiFp(this.configuration).getDraft(requestParameters.order, requestParameters.page, requestParameters.pageSize, requestParameters.orderBy, requestParameters.title, requestParameters.startFrom, requestParameters.startTo, requestParameters.endFrom, requestParameters.endTo, options).then((request) => request(this.axios, this.basePath));
+        return StoriesApiFp(this.configuration).getDraft(requestParameters.order, requestParameters.orderBy, requestParameters.title, requestParameters.startFrom, requestParameters.startTo, requestParameters.endFrom, requestParameters.endTo, requestParameters.pageSize, requestParameters.page, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

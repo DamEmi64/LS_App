@@ -33,7 +33,7 @@ namespace Invoices.Application
             return services;
         }
 
-        public IApplicationBuilder OnStartup(IApplicationBuilder app)
+        public IApplicationBuilder OnStartup(WebApplication app)
         {
             return app;
         }

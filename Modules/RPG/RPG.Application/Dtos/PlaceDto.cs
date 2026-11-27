@@ -1,8 +1,8 @@
-﻿using RPG.Domain.Entities;
+using RPG.Domain.Entities;
 
 namespace RPG.Application.Dtos
 {
-    public class PlaceDto
+    public class PlaceDto : Base.IDto<RPG.Domain.Entities.Place, PlaceDto>
     {
         public Guid? Id { get; set; }
         public required string Title { get; set; }
@@ -11,6 +11,9 @@ namespace RPG.Application.Dtos
         public string? Image { get; set; }
         public Guid? ImageId { get; set; }
 
+        public static PlaceDto ToDto(RPG.Domain.Entities.Place entity) => DtoMapping.ToDto(entity);
+        public static explicit operator RPG.Domain.Entities.Place(PlaceDto dto) => dto.ToEntity();
+        public static explicit operator PlaceDto(RPG.Domain.Entities.Place entity) => ToDto(entity);
         public Place ToEntity()
         {
             return new Place

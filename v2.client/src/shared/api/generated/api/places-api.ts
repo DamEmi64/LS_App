@@ -22,11 +22,15 @@ import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObj
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError, operationServerMap } from '../base';
 // @ts-ignore
+import type { GetMe400Response } from '../models';
+// @ts-ignore
 import type { Place } from '../models';
 // @ts-ignore
 import type { PlaceDto } from '../models';
 // @ts-ignore
 import type { PlaceResponseList } from '../models';
+// @ts-ignore
+import type { ValidationProblemDetails } from '../models';
 /**
  * PlacesApi - axios parameter creator
  */
@@ -56,6 +60,7 @@ export const PlacesApiAxiosParamCreator = function (configuration?: Configuratio
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -93,6 +98,7 @@ export const PlacesApiAxiosParamCreator = function (configuration?: Configuratio
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -106,14 +112,14 @@ export const PlacesApiAxiosParamCreator = function (configuration?: Configuratio
         /**
          * 
          * @param {string} order 
-         * @param {number} [page] 
-         * @param {number} [pageSize] 
          * @param {string} [orderBy] 
          * @param {string} [title] 
+         * @param {number} [pageSize] 
+         * @param {number} [page] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        get: async (order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        get: async (order: string, orderBy?: string, title?: string, pageSize?: number, page?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'order' is not null or undefined
             assertParamExists('get', 'order', order)
             const localVarPath = `/api/Places`;
@@ -132,14 +138,6 @@ export const PlacesApiAxiosParamCreator = function (configuration?: Configuratio
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-            if (page !== undefined) {
-                localVarQueryParameter['Page'] = page;
-            }
-
-            if (pageSize !== undefined) {
-                localVarQueryParameter['PageSize'] = pageSize;
-            }
-
             if (order !== undefined) {
                 localVarQueryParameter['Order'] = order;
             }
@@ -152,7 +150,15 @@ export const PlacesApiAxiosParamCreator = function (configuration?: Configuratio
                 localVarQueryParameter['Title'] = title;
             }
 
-            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+            if (pageSize !== undefined) {
+                localVarQueryParameter['PageSize'] = pageSize;
+            }
+
+            if (page !== undefined) {
+                localVarQueryParameter['Page'] = page;
+            }
+
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -189,7 +195,7 @@ export const PlacesApiAxiosParamCreator = function (configuration?: Configuratio
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -228,6 +234,7 @@ export const PlacesApiAxiosParamCreator = function (configuration?: Configuratio
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -275,15 +282,15 @@ export const PlacesApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {string} order 
-         * @param {number} [page] 
-         * @param {number} [pageSize] 
          * @param {string} [orderBy] 
          * @param {string} [title] 
+         * @param {number} [pageSize] 
+         * @param {number} [page] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async get(order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PlaceResponseList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.get(order, page, pageSize, orderBy, title, options);
+        async get(order: string, orderBy?: string, title?: string, pageSize?: number, page?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<PlaceResponseList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.get(order, orderBy, title, pageSize, page, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['PlacesApi.get']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -347,7 +354,7 @@ export const PlacesApiFactory = function (configuration?: Configuration, basePat
          * @throws {RequiredError}
          */
         get(requestParameters: PlacesApiGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<PlaceResponseList> {
-            return localVarFp.get(requestParameters.order, requestParameters.page, requestParameters.pageSize, requestParameters.orderBy, requestParameters.title, options).then((request) => request(axios, basePath));
+            return localVarFp.get(requestParameters.order, requestParameters.orderBy, requestParameters.title, requestParameters.pageSize, requestParameters.page, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -390,13 +397,13 @@ export interface PlacesApiDeleteByIdRequest {
 export interface PlacesApiGetRequest {
     readonly order: string
 
-    readonly page?: number
-
-    readonly pageSize?: number
-
     readonly orderBy?: string
 
     readonly title?: string
+
+    readonly pageSize?: number
+
+    readonly page?: number
 }
 
 /**
@@ -446,7 +453,7 @@ export class PlacesApi extends BaseAPI {
      * @throws {RequiredError}
      */
     public get(requestParameters: PlacesApiGetRequest, options?: RawAxiosRequestConfig) {
-        return PlacesApiFp(this.configuration).get(requestParameters.order, requestParameters.page, requestParameters.pageSize, requestParameters.orderBy, requestParameters.title, options).then((request) => request(this.axios, this.basePath));
+        return PlacesApiFp(this.configuration).get(requestParameters.order, requestParameters.orderBy, requestParameters.title, requestParameters.pageSize, requestParameters.page, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

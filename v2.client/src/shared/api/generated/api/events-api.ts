@@ -26,7 +26,11 @@ import type { EventDto } from '../models';
 // @ts-ignore
 import type { EventDtoResponseList } from '../models';
 // @ts-ignore
+import type { GetMe400Response } from '../models';
+// @ts-ignore
 import type { ReminderDto } from '../models';
+// @ts-ignore
+import type { ValidationProblemDetails } from '../models';
 /**
  * EventsApi - axios parameter creator
  */
@@ -56,6 +60,7 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -93,6 +98,7 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -131,6 +137,7 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -168,6 +175,7 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -204,6 +212,7 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -270,7 +279,7 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
                 localVarQueryParameter['Category'] = category;
             }
 
-            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -307,7 +316,7 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -374,7 +383,7 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
                 localVarQueryParameter['Category'] = category;
             }
 
-            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -413,6 +422,7 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -427,10 +437,11 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
         /**
          * 
          * @param {string} id 
+         * @param {string} [userId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        updateByIdSignIn: async (id: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        updateByIdSignIn: async (id: string, userId?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             assertParamExists('updateByIdSignIn', 'id', id)
             const localVarPath = `/api/Events/{id}/signIn`
@@ -450,6 +461,11 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
+            if (userId !== undefined) {
+                localVarQueryParameter['userId'] = userId;
+            }
+
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -486,6 +502,7 @@ export const EventsApiAxiosParamCreator = function (configuration?: Configuratio
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -628,11 +645,12 @@ export const EventsApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {string} id 
+         * @param {string} [userId] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async updateByIdSignIn(id: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.updateByIdSignIn(id, options);
+        async updateByIdSignIn(id: string, userId?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.updateByIdSignIn(id, userId, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['EventsApi.updateByIdSignIn']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -746,7 +764,7 @@ export const EventsApiFactory = function (configuration?: Configuration, basePat
          * @throws {RequiredError}
          */
         updateByIdSignIn(requestParameters: EventsApiUpdateByIdSignInRequest, options?: RawAxiosRequestConfig): AxiosPromise<void> {
-            return localVarFp.updateByIdSignIn(requestParameters.id, options).then((request) => request(axios, basePath));
+            return localVarFp.updateByIdSignIn(requestParameters.id, requestParameters.userId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -852,6 +870,8 @@ export interface EventsApiUpdateByIdRequest {
  */
 export interface EventsApiUpdateByIdSignInRequest {
     readonly id: string
+
+    readonly userId?: string
 }
 
 /**
@@ -962,7 +982,7 @@ export class EventsApi extends BaseAPI {
      * @throws {RequiredError}
      */
     public updateByIdSignIn(requestParameters: EventsApiUpdateByIdSignInRequest, options?: RawAxiosRequestConfig) {
-        return EventsApiFp(this.configuration).updateByIdSignIn(requestParameters.id, options).then((request) => request(this.axios, this.basePath));
+        return EventsApiFp(this.configuration).updateByIdSignIn(requestParameters.id, requestParameters.userId, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

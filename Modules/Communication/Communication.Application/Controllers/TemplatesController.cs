@@ -1,4 +1,3 @@
-﻿using AutoMapper;
 using Base;
 using Communication.Application.Dtos;
 using Communication.Application.Filters;
@@ -18,20 +17,17 @@ namespace Communication.Application.Controllers
         private readonly ITemplateRepository _templateRepository;
         private readonly ISendService _sendService;
         private readonly IFluidService _fluidService;
-        private readonly IMapper _mapper;
 
         public TemplatesController(
             IControllerService controllerService,
             ITemplateRepository templateRepository,
             ISendService sendService,
-            IFluidService fluidService,
-            IMapper mapper)
+            IFluidService fluidService)
             : base(controllerService)
         {
             _templateRepository = templateRepository;
             _sendService = sendService;
             _fluidService = fluidService;
-            _mapper = mapper;
         }
 
         [HttpGet("{id}")]
@@ -57,7 +53,7 @@ namespace Communication.Application.Controllers
 
             return Json(new RulesDto
             {
-                Functions = functions.Select(x => _mapper.Map<FluidDto>(x)).ToList(),
+                Functions = functions.Select(x => FluidDto.ToDto(x)).ToList(),
                 Variables = variables.Select(x => new FluidDto
                 {
                     Id = int.TryParse(x.Translation.ToString(), out var id) ? id : Random.Shared.Next(),

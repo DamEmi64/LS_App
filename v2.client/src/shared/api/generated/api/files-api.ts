@@ -25,6 +25,10 @@ import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError
 import type { FileDto } from '../models';
 // @ts-ignore
 import type { FileResponseList } from '../models';
+// @ts-ignore
+import type { GetMe400Response } from '../models';
+// @ts-ignore
+import type { ValidationProblemDetails } from '../models';
 /**
  * FilesApi - axios parameter creator
  */
@@ -54,6 +58,7 @@ export const FilesApiAxiosParamCreator = function (configuration?: Configuration
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -96,6 +101,7 @@ export const FilesApiAxiosParamCreator = function (configuration?: Configuration
                 localVarQueryParameter['pernament'] = pernament;
             }
 
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -109,8 +115,6 @@ export const FilesApiAxiosParamCreator = function (configuration?: Configuration
         /**
          * 
          * @param {string} order 
-         * @param {number} [page] 
-         * @param {number} [pageSize] 
          * @param {string} [orderBy] 
          * @param {string} [title] 
          * @param {string} [locaction] 
@@ -119,10 +123,12 @@ export const FilesApiAxiosParamCreator = function (configuration?: Configuration
          * @param {number} [year] 
          * @param {number} [semester] 
          * @param {boolean} [includeImages] 
+         * @param {number} [pageSize] 
+         * @param {number} [page] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        get: async (order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, locaction?: string, fileType?: number, subject?: string, year?: number, semester?: number, includeImages?: boolean, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        get: async (order: string, orderBy?: string, title?: string, locaction?: string, fileType?: number, subject?: string, year?: number, semester?: number, includeImages?: boolean, pageSize?: number, page?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'order' is not null or undefined
             assertParamExists('get', 'order', order)
             const localVarPath = `/api/Files`;
@@ -140,14 +146,6 @@ export const FilesApiAxiosParamCreator = function (configuration?: Configuration
             // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (page !== undefined) {
-                localVarQueryParameter['Page'] = page;
-            }
-
-            if (pageSize !== undefined) {
-                localVarQueryParameter['PageSize'] = pageSize;
-            }
 
             if (order !== undefined) {
                 localVarQueryParameter['Order'] = order;
@@ -185,7 +183,15 @@ export const FilesApiAxiosParamCreator = function (configuration?: Configuration
                 localVarQueryParameter['IncludeImages'] = includeImages;
             }
 
-            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+            if (pageSize !== undefined) {
+                localVarQueryParameter['PageSize'] = pageSize;
+            }
+
+            if (page !== undefined) {
+                localVarQueryParameter['Page'] = page;
+            }
+
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -222,7 +228,7 @@ export const FilesApiAxiosParamCreator = function (configuration?: Configuration
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -264,7 +270,7 @@ export const FilesApiAxiosParamCreator = function (configuration?: Configuration
                 localVarQueryParameter['newLocaction'] = newLocaction;
             }
 
-            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -303,6 +309,7 @@ export const FilesApiAxiosParamCreator = function (configuration?: Configuration
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -345,6 +352,7 @@ export const FilesApiAxiosParamCreator = function (configuration?: Configuration
                 localVarQueryParameter['newLocaction'] = newLocaction;
             }
 
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -386,6 +394,7 @@ export const FilesApiAxiosParamCreator = function (configuration?: Configuration
                 localVarQueryParameter['newLocaction'] = newLocaction;
             }
 
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -427,6 +436,7 @@ export const FilesApiAxiosParamCreator = function (configuration?: Configuration
                 localVarQueryParameter['newLocaction'] = newLocaction;
             }
 
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -474,8 +484,6 @@ export const FilesApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @param {string} order 
-         * @param {number} [page] 
-         * @param {number} [pageSize] 
          * @param {string} [orderBy] 
          * @param {string} [title] 
          * @param {string} [locaction] 
@@ -484,11 +492,13 @@ export const FilesApiFp = function(configuration?: Configuration) {
          * @param {number} [year] 
          * @param {number} [semester] 
          * @param {boolean} [includeImages] 
+         * @param {number} [pageSize] 
+         * @param {number} [page] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async get(order: string, page?: number, pageSize?: number, orderBy?: string, title?: string, locaction?: string, fileType?: number, subject?: string, year?: number, semester?: number, includeImages?: boolean, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FileResponseList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.get(order, page, pageSize, orderBy, title, locaction, fileType, subject, year, semester, includeImages, options);
+        async get(order: string, orderBy?: string, title?: string, locaction?: string, fileType?: number, subject?: string, year?: number, semester?: number, includeImages?: boolean, pageSize?: number, page?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<FileResponseList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.get(order, orderBy, title, locaction, fileType, subject, year, semester, includeImages, pageSize, page, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['FilesApi.get']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -604,7 +614,7 @@ export const FilesApiFactory = function (configuration?: Configuration, basePath
          * @throws {RequiredError}
          */
         get(requestParameters: FilesApiGetRequest, options?: RawAxiosRequestConfig): AxiosPromise<FileResponseList> {
-            return localVarFp.get(requestParameters.order, requestParameters.page, requestParameters.pageSize, requestParameters.orderBy, requestParameters.title, requestParameters.locaction, requestParameters.fileType, requestParameters.subject, requestParameters.year, requestParameters.semester, requestParameters.includeImages, options).then((request) => request(axios, basePath));
+            return localVarFp.get(requestParameters.order, requestParameters.orderBy, requestParameters.title, requestParameters.locaction, requestParameters.fileType, requestParameters.subject, requestParameters.year, requestParameters.semester, requestParameters.includeImages, requestParameters.pageSize, requestParameters.page, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -685,10 +695,6 @@ export interface FilesApiDeleteByIdRequest {
 export interface FilesApiGetRequest {
     readonly order: string
 
-    readonly page?: number
-
-    readonly pageSize?: number
-
     readonly orderBy?: string
 
     readonly title?: string
@@ -704,6 +710,10 @@ export interface FilesApiGetRequest {
     readonly semester?: number
 
     readonly includeImages?: boolean
+
+    readonly pageSize?: number
+
+    readonly page?: number
 }
 
 /**
@@ -789,7 +799,7 @@ export class FilesApi extends BaseAPI {
      * @throws {RequiredError}
      */
     public get(requestParameters: FilesApiGetRequest, options?: RawAxiosRequestConfig) {
-        return FilesApiFp(this.configuration).get(requestParameters.order, requestParameters.page, requestParameters.pageSize, requestParameters.orderBy, requestParameters.title, requestParameters.locaction, requestParameters.fileType, requestParameters.subject, requestParameters.year, requestParameters.semester, requestParameters.includeImages, options).then((request) => request(this.axios, this.basePath));
+        return FilesApiFp(this.configuration).get(requestParameters.order, requestParameters.orderBy, requestParameters.title, requestParameters.locaction, requestParameters.fileType, requestParameters.subject, requestParameters.year, requestParameters.semester, requestParameters.includeImages, requestParameters.pageSize, requestParameters.page, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

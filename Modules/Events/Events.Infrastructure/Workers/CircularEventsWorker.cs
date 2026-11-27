@@ -1,0 +1,85 @@
+using System.ComponentModel;
+using Base;
+using Events.Domain.Entities;
+using Events.Domain.Enums;
+using Events.Domain.Repositories;
+
+namespace Events.Infrastructure.Workers
+{
+    public class EventScheduleWorker : IWorker
+    {
+        private readonly IEventRepository _eventRepository;
+        public EventScheduleWorker(IEventRepository eventRepository)
+        {
+            _eventRepository = eventRepository;
+        }
+
+        public string Cron => "55 23 * * *";
+
+        [DisplayName("[WORKER] Event Scheduler")]
+        public void Execute()
+        {
+            var today = DateTime.Today;
+            foreach (var ev in _eventRepository.GetCircuralEvents())
+                ProcessEvent(ev, today);
+        }
+
+        private void ProcessEvent(Event ev, DateTime today)
+        {
+            if (ev.EventDate is not DateTime eventDate)
+                return;
+
+            var anchor = ev.CircularStartDate ?? eventDate;
+            var occurrence = GetLatestOccurrence(anchor, today, ev.CircularPeriod);
+            if (occurrence is null || occurrence.Value.Date <= eventDate.Date)
+                return;
+
+            _eventRepository.UpdateEventDate(ev.Id, occurrence.Value);
+        }
+
+        private static DateTime? GetLatestOccurrence(DateTime anchor, DateTime today, CircularPeriodEnum period)
+        {
+            if (anchor.Date > today.Date)
+                return null;
+
+            var occurrences = period switch
+            {
+                CircularPeriodEnum.Daily => (today.Date - anchor.Date).Days,
+                CircularPeriodEnum.Weekly => (today.Date - anchor.Date).Days / 7,
+                CircularPeriodEnum.Monthly => MonthsBetween(anchor.Date, today.Date),
+                CircularPeriodEnum.Yearly => today.Year - anchor.Year,
+                _ => 0
+            };
+
+            var candidate = period switch
+            {
+                CircularPeriodEnum.Daily => anchor.AddDays(occurrences),
+                CircularPeriodEnum.Weekly => anchor.AddDays(occurrences * 7),
+                CircularPeriodEnum.Monthly => anchor.AddMonths(occurrences),
+                CircularPeriodEnum.Yearly => anchor.AddYears(occurrences),
+                _ => anchor
+            };
+
+            while (candidate.Date > today.Date)
+            {
+                occurrences--;
+                candidate = period switch
+                {
+                    CircularPeriodEnum.Daily => anchor.AddDays(occurrences),
+                    CircularPeriodEnum.Weekly => anchor.AddDays(occurrences * 7),
+                    CircularPeriodEnum.Monthly => anchor.AddMonths(occurrences),
+                    CircularPeriodEnum.Yearly => anchor.AddYears(occurrences),
+                    _ => anchor
+                };
+            }
+
+            return candidate;
+        }
+
+        private static int MonthsBetween(DateTime start, DateTime end)
+        {
+            var months = (end.Year - start.Year) * 12 + end.Month - start.Month;
+            return start.AddMonths(months).Date > end.Date ? months - 1 : months;
+        }
+    }
+}

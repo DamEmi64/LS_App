@@ -1,8 +1,9 @@
-﻿using AutomationBase;
+using AutomationBase;
 using Base;
 using Events.Infrastructure;
 using Events.Infrastructure.Automats;
 using Events.Infrastructure.Db;
+using Events.Infrastructure.Workers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Extensions = Base.Extensions;
@@ -25,15 +26,15 @@ namespace Events.Application
 
         public IServiceCollection Configure(IServiceCollection services)
         {
-            services.AddAutoMapper(opt => opt.AddMaps(typeof(EventModule).Assembly));
             return services.AddDatabase<EventContext>(AppConfiguration.DefaultConnectionString)
                 .AddServices()
                 .AddSystemAutomat<SendInvitationAutomat>()
                 .AddSystemAutomat<SendRemindersAutomat>()
+                .AddWorker<EventScheduleWorker>()
                 .AddRepositories();
         }
 
-        public IApplicationBuilder OnStartup(IApplicationBuilder app)
+        public IApplicationBuilder OnStartup(WebApplication app)
         {
             return app;
         }

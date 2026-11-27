@@ -112,6 +112,11 @@
     }
   },
   "Fluid_variables": {
+    "605": { "title": "Dane użytkownika", "description": "" },
+    "606": { "title": "Nadawca", "description": "" },
+    "607": { "title": "Odbiorca", "description": "" },
+    "608": { "title": "Odbiorcy", "description": "" },
+    "609": { "title": "Sekwencja", "description": "" },
     "90301": {
       "title": "Użytkownik",
       "description": "User"
@@ -724,6 +729,10 @@
     },
     "140502": {
       "title": "Wysyłanie przypomnień o wydarzeniu",
+      "description": ""
+    },
+    "140901": {
+      "title": "Utw\u00f3rz lub zaktualizuj dokument faktury",
       "description": ""
     }
   }

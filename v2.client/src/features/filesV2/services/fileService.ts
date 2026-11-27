@@ -1,6 +1,6 @@
 import { saveAs } from "file-saver";
 
-import { getMimeFromExtension, saveNativeFile } from "@/lib/utils";
+import { ExecuteWithLoading, getMimeFromExtension, saveNativeFile } from "@/lib/utils";
 import { call, raw } from "@/shared/components/apiClient";
 import { UserData } from "@/features/auth";
 import { isNativeApp } from '@/shared/platform';
@@ -76,18 +76,21 @@ export function getFilePrivilage(file: FileV2, user?: UserData | null): Privilag
   return (fileUser?.privilage as Privilage) ?? Privilage.NONE;
 }
 
-export async function downloadFile(file: FileV2) {
-  const response = await raw(api => api.filesV2Api.getByIdDownload, { id: file.id });
+export async function downloadFile(file: FileV2, content?: { extension?: string | null; content?: string | null }) {
+  return ExecuteWithLoading(async () => {
+  const data = content ?? await getFileContent(file);
+  const extension = data.extension ?? "";
+  const encodedContent = data.content ?? "";
 
-  const filename = `${file.title}${response.data.extension}`;
+  const filename = `${file.title}${extension}`;
 
   if (isNativeApp) {
-    await saveNativeFile(filename, response.data.content);
+    await saveNativeFile(filename, encodedContent);
     return;
   }
 
-  const mime = getMimeFromExtension(response.data.extension);
-  const byteCharacters = atob(response.data.content);
+  const mime = getMimeFromExtension(extension);
+  const byteCharacters = atob(encodedContent);
   const byteNumbers = new Array(byteCharacters.length);
 
   for (let i = 0; i < byteCharacters.length; i += 1) {
@@ -98,4 +101,10 @@ export async function downloadFile(file: FileV2) {
   const blob = new Blob([byteArray], { type: mime });
 
   saveAs(blob, filename);
+  });
+}
+
+export async function getFileContent(file: FileV2) {
+  const response = await raw(api => api.filesV2Api.getByIdDownload, { id: file.id });
+  return response.data;
 }

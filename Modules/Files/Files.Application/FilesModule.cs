@@ -1,4 +1,4 @@
-﻿using Base;
+using Base;
 using Files.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,7 +24,6 @@ namespace Files.Application
 
         public IServiceCollection Configure(IServiceCollection services)
         {
-            services.AddAutoMapper(opt => opt.AddMaps(typeof(FilesModule).Assembly));
 
             return services
                 .AddDatabase<FilesContext>(AppConfiguration.DefaultConnectionString)
@@ -33,7 +32,7 @@ namespace Files.Application
                 .AddServices();
         }
 
-        public IApplicationBuilder OnStartup(IApplicationBuilder app)
+        public IApplicationBuilder OnStartup(WebApplication app)
         {
             return app;
         }

@@ -10,5 +10,16 @@ namespace Communication.Infrastructure.Repositories
         public CommunicationHistoryRepository(CommunicationContext dbContext) : base(dbContext)
         {
         }
+
+        public void DeleteLogs(IEnumerable<CommunicationRegistry> logs)
+        {
+            DbContext.CommunicationRegistry.RemoveRange(logs);
+            DbContext.SaveChanges();
+        }
+
+        public IEnumerable<CommunicationRegistry> GetCommunicationHistoryByDateRange(DateTime startDate, DateTime endDate)
+        {
+           return DbContext.CommunicationRegistry.Where(c => c.InsDate >= startDate && c.InsDate <= endDate).ToList();
+        }
     }
 }

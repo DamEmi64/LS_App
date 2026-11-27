@@ -16,6 +16,8 @@ import DownloadIcon from "@mui/icons-material/Download";
 import { FileItem } from "../types";
 import { download } from "@/lib/utils";
 import { useTranslation } from "react-i18next";
+import { useModal } from "@/shared/context/modal";
+import HtmlViewer from "@/shared/components/HtmlViewer";
 
 type Props = {
   files: FileItem[];
@@ -28,6 +30,7 @@ type Props = {
 export default function FileManager({ files, editMode, add, remove, numberOfFiles }: Props) {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const { t } = useTranslation();
+  const modal = useModal();
 
   const handleAddClick = () => {
     inputRef.current?.click();
@@ -55,7 +58,7 @@ export default function FileManager({ files, editMode, add, remove, numberOfFile
   const textColor = theme.palette.text.primary;
 
   const downloadFile = async (file: FileItem) => {
-    download(file.content, file.title);
+    download(file.content, file.title, html => modal.showModal(<HtmlViewer title={file.title} html={html} />));
   };
 
   return (

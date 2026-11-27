@@ -1,16 +1,14 @@
-﻿using Base;
+using Base;
 using Events.Domain.Entities;
 using Events.Domain.Repositories;
 using Events.Infrastructure.Db;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace Events.Infrastructure.Repositories
 {
     public class EventRepository : EntityRepository<EventContext, Event>, IEventRepository
     {
-        public EventRepository(EventContext dbContext)
-            : base(dbContext)
+        public EventRepository(EventContext dbContext) : base(dbContext)
         {
         }
 
@@ -34,6 +32,7 @@ namespace Events.Infrastructure.Repositories
             await DbContext.AddAsync(user);
             await DbContext.SaveChangesAsync();
         }
+
         public Event? GetLastAdded()
         {
             return GetAll().OrderByDescending(x => x.InsDate).FirstOrDefault();
@@ -49,18 +48,34 @@ namespace Events.Infrastructure.Repositories
             return DbContext.Set<Event>().Include(x => x.Participates).Where(x => x.EventDate >= DateTime.Today).OrderBy(x => x.EventDate).FirstOrDefaultAsync();
         }
 
-        public IEnumerable<EventIInvoice> GetInvoices()
+        public IEnumerable<EventInvoice> GetInvoices()
         {
-            return DbContext.Set<EventIInvoice>().Include(x => x.Event);
+            return DbContext.Set<EventInvoice>().Include(x => x.Event);
         }
 
         public async Task AddInvoice(Guid eventId, Guid invoiceId, string userId, decimal value)
         {
             var ev = await Get(eventId);
             if (ev is null) return;
-            var invoice = new EventIInvoice { Event = ev, InvoiceId = invoiceId, UserId = userId, Value = value};
-            await DbContext.Set<EventIInvoice>().AddAsync(invoice);
+            var invoice = new EventInvoice { Event = ev, InvoiceId = invoiceId, UserId = userId, Value = value };
+            await DbContext.Set<EventInvoice>().AddAsync(invoice);
             await DbContext.SaveChangesAsync();
+        }
+
+        public IEnumerable<Event> GetCircuralEvents()
+        {
+            return DbContext.Set<Event>().AsNoTracking().Where(x => x.CircularPeriod != Domain.Enums.CircularPeriodEnum.None);
+        }
+
+        public void UpdateEventDate(Guid eventId, DateTime date)
+        {
+            var ev = DbContext.Set<Event>().FirstOrDefault(x => x.Id == eventId);
+            if (ev is null)
+                return;
+
+            ev.CircularStartDate ??= ev.EventDate;
+            ev.EventDate = date;
+            DbContext.SaveChanges();
         }
     }
 }
