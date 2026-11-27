@@ -1,4 +1,4 @@
-import { API, call } from "@/shared";
+import { call, raw } from "@/shared";
 import { ResponseList } from "@/shared/api/extension";
 import { EventDto } from "@/shared/api/generated";
 
@@ -97,6 +97,7 @@ export function updateEvent(event: EventDto, updatedEvent: EventBody) {
       image: updatedEvent.image,
       imageContent: updatedEvent.imageContent,
       category: updatedEvent.category,
+      circularPeriod: updatedEvent.circularPeriod
     },
   });
 }
@@ -131,7 +132,7 @@ export async function loadEventUsers() {
 }
 
 export function signInUserToEvent(eventId: string, userId: string) {
-  return API.eventApi.updateByIdSignIn({ id: eventId }, { params: { userId } });
+  return raw(api => () => api.eventApi.updateByIdSignIn({ id: eventId }, { params: { userId } }), undefined);
 }
 
 export function signOutOfEvent(id: string) {

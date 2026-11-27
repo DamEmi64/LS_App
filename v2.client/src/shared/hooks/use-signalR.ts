@@ -29,7 +29,7 @@ export const useSignalR = (hubName: string, onConnected?: () => void, query?: Re
     notify('error', 'Hub ' + hubName + ' not found');
   }
 
-  const apiEndpoint = import.meta.env.DEV ? "/backend" : ednpoint;
+  const apiEndpoint = ednpoint;
   const baseHubUrl = `${apiEndpoint.replace(/\/+$/, '')}/${hub.url.replace(/^\/+/, '')}`;
   const queryString = new URLSearchParams(query).toString();
   const hubUrl = queryString ? `${baseHubUrl}?${queryString}` : baseHubUrl;

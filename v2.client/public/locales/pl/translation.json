@@ -583,6 +583,14 @@
     }
   },
   "events": {
+    "circular": {
+      "label": "Powtarzanie",
+      "none": "Nie powtarza się",
+      "daily": "Codziennie",
+      "weekly": "Co tydzień",
+      "monthly": "Co miesiąc",
+      "yearly": "Co rok"
+    },
     "siteTitle": "Wydarzenia",
     "mySiteTitle": "Moje wydarzenia",
     "noEventsForDay": "Brak wydarzeń na dziś",

@@ -1,6 +1,6 @@
 import { saveAs } from "file-saver";
 
-import { getMimeFromExtension, saveNativeFile } from "@/lib/utils";
+import { ExecuteWithLoading, getMimeFromExtension, saveNativeFile } from "@/lib/utils";
 import { call, raw } from "@/shared/components/apiClient";
 import { UserData } from "@/features/auth";
 import { isNativeApp } from '@/shared/platform';
@@ -77,6 +77,7 @@ export function getFilePrivilage(file: FileV2, user?: UserData | null): Privilag
 }
 
 export async function downloadFile(file: FileV2, content?: { extension?: string | null; content?: string | null }) {
+  return ExecuteWithLoading(async () => {
   const data = content ?? await getFileContent(file);
   const extension = data.extension ?? "";
   const encodedContent = data.content ?? "";
@@ -100,6 +101,7 @@ export async function downloadFile(file: FileV2, content?: { extension?: string 
   const blob = new Blob([byteArray], { type: mime });
 
   saveAs(blob, filename);
+  });
 }
 
 export async function getFileContent(file: FileV2) {

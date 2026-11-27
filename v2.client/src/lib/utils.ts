@@ -10,6 +10,8 @@ import { Directory, Filesystem } from '@capacitor/filesystem';
 import { FileViewer } from '@capacitor/file-viewer';
 import { isNativeApp } from '@/shared/platform';
 
+export { ExecuteWithLoading } from '@/shared/components/taskExecuter';
+
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
@@ -23,6 +25,7 @@ export function convertToDateStr(date: string): string {
 };
 
 export const download = async (id: string, title: string, viewHtml?: (html: string) => void) => {
+    return ExecuteWithLoading(async () => {
     try {
         const response = await raw(api => api.homeApi.getMedia, { id });
         const filename = `${title}${response.data.extension}`.replace(/[\\/:*?"<>|]/g, '_');
@@ -51,6 +54,7 @@ export const download = async (id: string, title: string, viewHtml?: (html: stri
     } catch (error) {
         console.error('Download failed:', error);
     }
+    });
 }
 
 
@@ -113,10 +117,6 @@ export const getMimeFromExtension = (extension) => {
 };
 
 export const get = (key: ConfigKey): string | undefined => {
-    if (key === "apiEndpoint" && import.meta.env.DEV) {
-        return "/backend";
-    }
-
     return (
         appStorage.get(key) ??
         getConfiguration()[key] ??

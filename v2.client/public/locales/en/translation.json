@@ -600,6 +600,14 @@
     "reminderBody": "{{title}} starts in 15 minutes.",
     "eventDate": "Event date",
     "category": "Category",
+    "circular": {
+      "label": "Repeat",
+      "none": "Does not repeat",
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "monthly": "Monthly",
+      "yearly": "Yearly"
+    },
     "signIn": "Sign in",
     "adminSignIn": "Sign in participant",
     "selectUser": "Select user",

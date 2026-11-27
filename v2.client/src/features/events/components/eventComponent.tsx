@@ -205,19 +205,25 @@ export const EventComponent: React.FC<EventComponentProps> = ({
               control={control}
               rules={{ required: t("validation.required") as string }}
               render={({ field }) => (
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  value={field.value}
+                <TextField
+                  {...field}
+                  select
                   label={t("events.circular.label")}
-                  onChange={field.onChange}
+                  fullWidth
+                  margin="dense"
+                  variant="outlined"
+                  error={!!errors.circularPeriod}
+                  helperText={errors.circularPeriod?.message}
+                  SelectProps={{
+                    native: false,
+                  }}
                 >
-                  <MenuItem value={CircularEnum.None}>{t("events.circular.none")}</MenuItem>
-                  <MenuItem value={CircularEnum.Daily}>{t("events.circular.daily")}</MenuItem>
-                  <MenuItem value={CircularEnum.Weekly}>{t("events.circular.weekly")}</MenuItem>
-                  <MenuItem value={CircularEnum.Monthly}>{t("events.circular.monthly")}</MenuItem>
-                  <MenuItem value={CircularEnum.Yearly}>{t("events.circular.yearly")}</MenuItem>
-                </Select>
+                    <MenuItem value={CircularEnum.None}>{t("events.circular.none")}</MenuItem>
+                    <MenuItem value={CircularEnum.Daily}>{t("events.circular.daily")}</MenuItem>
+                    <MenuItem value={CircularEnum.Weekly}>{t("events.circular.weekly")}</MenuItem>
+                    <MenuItem value={CircularEnum.Monthly}>{t("events.circular.monthly")}</MenuItem>
+                    <MenuItem value={CircularEnum.Yearly}>{t("events.circular.yearly")}</MenuItem>
+                </TextField>
               )}
             />
 

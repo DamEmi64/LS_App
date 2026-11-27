@@ -1,11 +1,10 @@
 import { ResponseList } from "@/shared/api/extension";
-import { axiosInstance } from "@/shared/components/apiClient";
+import { call } from "@/shared/components/apiClient";
 import { SystemAutomat } from "../types";
 
 
 export async function loadAutomations(query: Record<string, string>) {
-  const response = await axiosInstance.get<ResponseList<SystemAutomat>>("/api/SystemAutomate", { params: query });
-  const result = response.data;
+  const result = await call<ResponseList<SystemAutomat>>(api => api.systemAutomationApi.get, query);
 
   return {
     data: result.data,
@@ -14,15 +13,13 @@ export async function loadAutomations(query: Record<string, string>) {
 }
 
 export async function activateAutomat(id: string) {
-  return axiosInstance.put(`/api/SystemAutomate/${id}/activate`);
+  return call(api => api.systemAutomationApi.updateByIdActivate, { id });
 }
 
 export async function deactivateAutomat(id: string) {
-  return axiosInstance.put(`/api/SystemAutomate/${id}/Deactivate`);
+  return call(api => api.systemAutomationApi.updateByIdDeactivate, { id });
 }
 
 export async function updateConfiguration(id: string, configuration: string) {
-  return axiosInstance.put(`/api/SystemAutomate/${id}/configuration`, JSON.stringify(configuration), {
-    headers: { "Content-Type": "application/json" },
-  });
+  return call(api => api.systemAutomationApi.updateByIdConfiguration, { id, body: configuration });
 }

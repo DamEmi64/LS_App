@@ -4,6 +4,7 @@ import { call, raw } from "@/shared";
 import { ResponseList } from "@/shared/api/extension";
 
 import { EditFile, File } from "../types";
+import { ExecuteWithLoading } from "@/lib/utils";
 
 export async function loadFiles(query: Record<string, string>) {
   const result = await call<ResponseList<File>>(api => api.filesApi.get, query);
@@ -27,6 +28,7 @@ export function deleteFile(id: string) {
 }
 
 export async function exportFile(file: File, viewHtml?: (html: string) => void) {
+  return ExecuteWithLoading(async () => {
   const response = await raw(api => api.filesApi.getByIdExport, { id: file.id });
   const contentType = response.headers["content-type"] || "application/octet-stream";
   const blob = new Blob([response.data], { type: contentType.toLocaleString() });
@@ -37,4 +39,5 @@ export async function exportFile(file: File, viewHtml?: (html: string) => void) 
   }
 
   saveAs(blob, file.title);
+  });
 }

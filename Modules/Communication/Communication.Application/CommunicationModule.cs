@@ -2,6 +2,7 @@ using Base;
 using Communication.Domain;
 using Communication.Infrastructure;
 using Communication.Infrastructure.Db;
+using Communication.Infrastructure.Workers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -33,6 +34,7 @@ namespace Communication.Application
                 .AddRepos()
                 .Configure<EmailOptions>(AppConfiguration.Get<EmailOptions>())
                 .Configure<DiscordOptions>(AppConfiguration.Get<DiscordOptions>())
+                .AddWorker<CommunicationHistoryCleanWorker>()
                 .AddServices()
                 .AddDiscord();
         }

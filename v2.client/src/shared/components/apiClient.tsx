@@ -17,7 +17,8 @@ import {
     FilesV2Api,
     DirectoriesApi,
     InvoicesApi,
-    EventInvoicesApi
+    EventInvoicesApi,
+    SystemAutomateApi
 } from '@/shared/api/generated';
 
 import { notify } from '../components/NotificationListener';
@@ -26,6 +27,7 @@ import { getNotify } from '@/lib/notifyProvider';
 import { MapRule } from '../types';
 import { map } from '../api/extension';
 import { appStorage } from '@/shared/storage/appStorage';
+import { beginTaskLoading, endTaskLoading } from '@/shared/components/taskExecuter';
 
 const authTokenKey = 'authToken';
 const refreshTokenKey = 'refreshToken';
@@ -73,23 +75,20 @@ type ApiError = {
 
 export const axiosInstance = axios.create();
 
-const loginWithRememberedCredentials = async (baseUrl: string) => {
+const loginWithRememberedCredentials = async () => {
     const login = appStorage.get(rememberedUsernameKey);
     const password = appStorage.get(rememberedPasswordKey);
     if (!login || !password) return null;
 
-    const response = await axios.post<AuthToken>(`${baseUrl}/api/Auth/login`, {
-        login,
-        password,
-        rememberMe: true,
-    }, {
-        headers: { 'Content-Type': 'application/json-patch+json' },
+    const response = await raw(api => api.authApi.createLogin, {
+        loginModel: { login, password, rememberMe: true },
     });
-    if (!response.data?.accessToken || !response.data.refreshToken || !response.data.userId) return null;
+    const token = response.data as unknown as AuthToken;
+    if (!token?.accessToken || !token.refreshToken || !token.userId) return null;
 
-    setAuthTokens(response.data);
+    setAuthTokens(token);
     await appStorage.flush();
-    return response.data.accessToken;
+    return token.accessToken;
 };
 
 axiosInstance.interceptors.request.use((config) => {
@@ -108,11 +107,27 @@ axiosInstance.interceptors.request.use((config) => {
         config.headers.Authorization = `Bearer ${token}`;
     }
 
+    // Mutating API requests come from user actions such as create, edit, delete,
+    // publish, and sign-in. Track them centrally so forms do not each need to
+    // remember to add a loading wrapper.
+    const taskConfig = config as typeof config & { _taskLoading?: boolean };
+    if (config.method && config.method.toLowerCase() !== 'get' && !taskConfig._taskLoading) {
+        taskConfig._taskLoading = true;
+        beginTaskLoading();
+    }
+
     return config;
 });
 
 axiosInstance.interceptors.response.use(
-    res => res,
+    res => {
+        const taskConfig = res.config as typeof res.config & { _taskLoading?: boolean };
+        if (taskConfig._taskLoading) {
+            taskConfig._taskLoading = false;
+            endTaskLoading();
+        }
+        return res;
+    },
     async (error: AxiosError<ApiError>) => {
         const originalRequest = error.config as any;
         const refreshToken = getRefreshToken();
@@ -125,18 +140,16 @@ axiosInstance.interceptors.response.use(
             !originalRequest.url?.includes('/api/Auth/refresh') &&
             !originalRequest.url?.includes('/api/Auth/login')
         ) {
-            const normalizedBaseUrl = get('apiEndpoint').replace(/\/$/, '');
-
             if (!originalRequest._retry && refreshToken && userId) {
                 originalRequest._retry = true;
                 try {
-                    const refreshResponse = await axios.post<AuthToken>(`${normalizedBaseUrl}/api/Auth/refresh`, {
-                        userId,
-                        refreshToken
+                    const refreshResponse = await raw(api => api.authApi.createRefresh, {
+                        refreshTokenModel: { userId, refreshToken }
                     });
-                    setAuthTokens(refreshResponse.data);
+                    const tokens = refreshResponse.data as unknown as AuthToken;
+                    setAuthTokens(tokens);
                     await appStorage.flush();
-                    originalRequest.headers.Authorization = `Bearer ${refreshResponse.data.accessToken}`;
+                    originalRequest.headers.Authorization = `Bearer ${tokens.accessToken}`;
                     return axiosInstance(originalRequest);
                 } catch {
                     // Try the saved sign-in below when refresh credentials are rejected.
@@ -145,7 +158,7 @@ axiosInstance.interceptors.response.use(
 
             originalRequest._autoLoginAttempted = true;
             try {
-                const accessToken = await loginWithRememberedCredentials(normalizedBaseUrl);
+                const accessToken = await loginWithRememberedCredentials();
                 if (accessToken) {
                     originalRequest.headers.Authorization = `Bearer ${accessToken}`;
                     return axiosInstance(originalRequest);
@@ -157,6 +170,8 @@ axiosInstance.interceptors.response.use(
             setAuthToken(null);
         }
 
+        const responseData = error.response?.data as any;
+
         if (
             error.message &&
             !error.message.startsWith('Request failed with status')
@@ -166,10 +181,15 @@ axiosInstance.interceptors.response.use(
             error.response.data.forEach((message: any) => {
                 if (message?.messageId !== undefined) notify('error', getNotify(message.messageId, message.args ?? []));
             });
-        } else if (error.response?.data?.messageId !== undefined) {
-            notify('error', getNotify(error.response.data.messageId, error.response.data.args ?? []));
+        } else if (responseData.messageId !== undefined) {
+            notify('error', getNotify(responseData.messageId, responseData.args ?? []));
         }
 
+        const taskConfig = originalRequest as { _taskLoading?: boolean } | undefined;
+        if (taskConfig?._taskLoading) {
+            taskConfig._taskLoading = false;
+            endTaskLoading();
+        }
         return Promise.reject(error);
     }
 );
@@ -208,7 +228,8 @@ export const API = {
     filesV2Api: bindApi(new FilesV2Api(null, '', axiosInstance)),
     directoriesApi: bindApi(new DirectoriesApi(null, '', axiosInstance)),
     invoiceApi: bindApi(new InvoicesApi(null,'',axiosInstance)),
-    eventInvoiceApi: bindApi(new EventInvoicesApi(null,'',axiosInstance))
+    eventInvoiceApi: bindApi(new EventInvoicesApi(null, '', axiosInstance)),
+    systemAutomationApi: bindApi(new SystemAutomateApi(null, '', axiosInstance))
 };
 
 export const call = async <TRes = unknown, TReq = unknown>(

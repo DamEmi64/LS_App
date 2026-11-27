@@ -622,6 +622,14 @@
     "reminderBody": "{{title}} beginnt in 15 Minuten.",
     "eventDate": "Eventdatum",
     "category": "Kategorie",
+    "circular": {
+      "label": "Wiederholung",
+      "none": "Keine Wiederholung",
+      "daily": "Täglich",
+      "weekly": "Wöchentlich",
+      "monthly": "Monatlich",
+      "yearly": "Jährlich"
+    },
     "signIn": "Anmelden",
     "adminSignIn": "Teilnehmer anmelden",
     "selectUser": "Benutzer auswählen",

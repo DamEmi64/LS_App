@@ -60,6 +60,7 @@ import AppUpdateSettings from '@/features/system/components/settings/MobileAppSe
 import { EventProvider } from '@/shared/context/EventContext'
 import UnpaidInvoiceLoginListener from '@/features/invoices/components/UnpaidInvoiceLoginListener';
 import EventReminderScheduler from '@/features/events/components/EventReminderScheduler';
+import TaskExecuter from '@/shared/components/taskExecuter';
 
 const queryClient = new QueryClient();
 
@@ -103,6 +104,7 @@ const App = () => {
                                             </SlideRoutes>
                                         </BrowserRouter>
                                         <NotificationListener />
+                                        <TaskExecuter />
                                         <UnpaidInvoiceLoginListener />
                                         <EventReminderScheduler />
                                     </QueryClientProvider>
