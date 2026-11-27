@@ -26,9 +26,13 @@ import type { FileUserDto } from '../models';
 // @ts-ignore
 import type { FileV2Dto } from '../models';
 // @ts-ignore
+import type { GetMe400Response } from '../models';
+// @ts-ignore
 import type { GrantAccessDto } from '../models';
 // @ts-ignore
 import type { Media } from '../models';
+// @ts-ignore
+import type { ValidationProblemDetails } from '../models';
 /**
  * FilesV2Api - axios parameter creator
  */
@@ -87,7 +91,7 @@ export const FilesV2ApiAxiosParamCreator = function (configuration?: Configurati
                 localVarFormParams.append('Public', String(_public) as any);
             }
             localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
-            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -127,7 +131,7 @@ export const FilesV2ApiAxiosParamCreator = function (configuration?: Configurati
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
-            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -165,6 +169,7 @@ export const FilesV2ApiAxiosParamCreator = function (configuration?: Configurati
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -205,6 +210,7 @@ export const FilesV2ApiAxiosParamCreator = function (configuration?: Configurati
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -242,7 +248,7 @@ export const FilesV2ApiAxiosParamCreator = function (configuration?: Configurati
                 localVarQueryParameter['directoryId'] = directoryId;
             }
 
-            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -279,7 +285,7 @@ export const FilesV2ApiAxiosParamCreator = function (configuration?: Configurati
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -316,7 +322,7 @@ export const FilesV2ApiAxiosParamCreator = function (configuration?: Configurati
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -353,7 +359,7 @@ export const FilesV2ApiAxiosParamCreator = function (configuration?: Configurati
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -417,7 +423,7 @@ export const FilesV2ApiAxiosParamCreator = function (configuration?: Configurati
                 localVarFormParams.append('Public', String(_public) as any);
             }
             localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
-            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};

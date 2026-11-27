@@ -1,4 +1,4 @@
-import { axiosInstance, call } from "@/shared/components/apiClient";
+import { call } from "@/shared/components/apiClient";
 
 import { Directory, FileUser, Privilage, PrivilageToSend } from "../types";
 import { UserData } from "@/features/system";
@@ -68,13 +68,11 @@ export async function createDirectoryEntry(title: string, directoryId: string | 
 }
 
 export async function uploadDirectoryArchive(title: string, zip: File, parentId: string | null) {
-  const form = new FormData();
-  form.append("Title", title);
-  form.append("Zip", zip);
-  if (parentId) form.append("ParentId", parentId);
-
-  const response = await axiosInstance.post<Directory>("/api/Directories/upload", form);
-  return response.data;
+  return call<Directory>(api => api.directoriesApi.createUpload, {
+    title,
+    zip,
+    parentId: parentId ?? undefined,
+  });
 }
 
 export async function deleteDirectoryEntry(id: string) {

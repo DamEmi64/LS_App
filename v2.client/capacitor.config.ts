@@ -5,7 +5,7 @@ const config: CapacitorConfig = {
   appName: 'LS App',
   webDir: 'dist',
   server: {
-    androidScheme: 'https'
+    androidScheme: 'http'
   },
   plugins: {
     CapacitorSQLite: {

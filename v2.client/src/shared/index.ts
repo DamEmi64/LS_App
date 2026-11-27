@@ -10,3 +10,4 @@ export * from './components/datatables/gridTable';
 export * from './components/datatables/expandableTable';
 export * from './components/filter';
 export * from './components/apiClient';
+export * from './components/HtmlViewer';

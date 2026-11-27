@@ -28,6 +28,12 @@ namespace Events.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("CircularPeriod")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("CircularStartDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
@@ -65,7 +71,7 @@ namespace Events.Infrastructure.Migrations
                     b.ToTable("Events");
                 });
 
-            modelBuilder.Entity("Events.Domain.Entities.EventIInvoice", b =>
+            modelBuilder.Entity("Events.Domain.Entities.EventInvoice", b =>
                 {
                     b.Property<Guid>("Id").ValueGeneratedOnAdd().HasColumnType("uniqueidentifier");
                     b.Property<Guid>("EventId").HasColumnType("uniqueidentifier");
@@ -113,7 +119,7 @@ namespace Events.Infrastructure.Migrations
                     b.ToTable("EventUser");
                 });
 
-            modelBuilder.Entity("Events.Domain.Entities.EventIInvoice", b =>
+            modelBuilder.Entity("Events.Domain.Entities.EventInvoice", b =>
                 {
                     b.HasOne("Events.Domain.Entities.Event", "Event")
                         .WithMany()

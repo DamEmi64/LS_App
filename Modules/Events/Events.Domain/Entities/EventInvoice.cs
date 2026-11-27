@@ -2,7 +2,7 @@
 
 namespace Events.Domain.Entities
 {
-    public class EventIInvoice : Entity
+    public class EventInvoice : Entity
     {
         public required Event Event { get; set; }
         public Guid InvoiceId { get; set; }

@@ -66,6 +66,7 @@ export async function sendStoryToFirebase(data: Story) {
 }
 
 export async function exportStory(data: Story) {
+  return ExecuteWithLoading(async () => {
   const response = await raw(api => api.storiesApi.getByIdExport, { id: data.id });
   const contentType = response.headers['content-type'] || 'application/octet-stream';
   const disposition = response.headers['content-disposition'];
@@ -78,6 +79,7 @@ export async function exportStory(data: Story) {
 
   const blob = new Blob([response.data], { type: contentType.toLocaleString() });
   saveAs(blob, filename);
+  });
 }
 
 export function downloadStorySummary(data: Story) {

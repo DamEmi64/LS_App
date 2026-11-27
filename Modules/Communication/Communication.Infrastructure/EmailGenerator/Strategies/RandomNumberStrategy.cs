@@ -7,9 +7,9 @@ namespace Communication.Infrastructure.EmailGenerator.Strategies
 {
     public class RandomNumberStrategy : IFluidFunction
     {
-        public string TitleKey => "communication.templates.strategies.randomNumber.title";
+        public string TitleKey => "Fluid_functions.80301.title";
 
-        public string? DescriptionKey => "communication.templates.strategies.randomNumber.description";
+        public string? DescriptionKey => "Fluid_functions.80301.description";
 
         public string Invoker => "randomNumber";
 

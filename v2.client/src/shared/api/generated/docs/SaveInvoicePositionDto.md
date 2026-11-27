@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **title** | **string** |  | [optional] [default to undefined]
 **value** | **number** |  | [optional] [default to undefined]
+**invoiceDate** | **string** |  | [optional] [default to undefined]
 
 ## Example
 
@@ -16,6 +17,7 @@ import { SaveInvoicePositionDto } from './api';
 const instance: SaveInvoicePositionDto = {
     title,
     value,
+    invoiceDate,
 };
 ```
 

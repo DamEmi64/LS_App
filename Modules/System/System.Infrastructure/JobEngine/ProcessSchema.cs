@@ -1,7 +1,6 @@
 ﻿using Base;
 using Newtonsoft.Json;
 using System.Domain.Entities;
-using System.Infrastructure.JobEngine.Milestones;
 
 namespace System.Infrastructure.JobEngine
 {

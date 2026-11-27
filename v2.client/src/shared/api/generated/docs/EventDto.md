@@ -13,6 +13,7 @@ Name | Type | Description | Notes
 **participates** | [**Array&lt;UserDto&gt;**](UserDto.md) |  | [optional] [default to undefined]
 **image** | **string** |  | [optional] [default to undefined]
 **imageContent** | **string** |  | [optional] [default to undefined]
+**circularPeriod** | [**CircularPeriodEnum**](CircularPeriodEnum.md) |  | [optional] [default to undefined]
 
 ## Example
 
@@ -28,6 +29,7 @@ const instance: EventDto = {
     participates,
     image,
     imageContent,
+    circularPeriod,
 };
 ```
 

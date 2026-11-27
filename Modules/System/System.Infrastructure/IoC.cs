@@ -14,7 +14,6 @@ using System.Infrastructure.Db;
 using System.Infrastructure.Filters;
 using System.Infrastructure.Hubs;
 using System.Infrastructure.JobEngine;
-using System.Infrastructure.JobEngine.Milestones;
 using System.Infrastructure.Repositories;
 using System.Infrastructure.Services.Admin;
 using System.Infrastructure.Services.Auth;
@@ -206,9 +205,9 @@ namespace System.Infrastructure
             GlobalJobFilters.Filters.Add(new AutomaticRetryAttribute { Attempts = 3 });
 
             return services.AddScoped<IJobEngine, JobEngine.JobEngine>()
-                .AddScoped<IMilestoneWorker, MilestoneWorker>()
-                .AddScoped<ArchiveLogsWorker>()
                 .AddScoped<IJobContext, JobContext>()
+                .AddWorker<MilestoneWorker>()
+                .AddWorker<ArchiveLogsWorker>()
                 .AddHangfire(options =>
                 {
                     options.UseSqlServerStorage(connectionString);

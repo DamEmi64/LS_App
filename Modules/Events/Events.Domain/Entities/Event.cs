@@ -1,4 +1,5 @@
-﻿using Base;
+using Base;
+using Events.Domain.Enums;
 
 namespace Events.Domain.Entities
 {
@@ -17,6 +18,7 @@ namespace Events.Domain.Entities
         public List<EventUser> Participates { get; set; } = new List<EventUser>();
 
         public Guid? ReminderProcess { get; set; }
-
+        public CircularPeriodEnum CircularPeriod { get; set; } = CircularPeriodEnum.None;
+        public DateTime? CircularStartDate { get; set; }
     }
 }

@@ -22,6 +22,7 @@ import { EditFile, File } from "@/features/files";
 import { getDictionary, useDictionaryTranslation } from "@/lib/utils";
 import TileContainer from "@/shared/components/datatables/tileContainer";
 import { createFile, deleteFile, exportFile, getFile, loadFiles, updateFile } from "../services/fileService";
+import HtmlViewer from "@/shared/components/HtmlViewer";
 
 const Files: React.FC = () => {
     const modal = useModal();
@@ -137,7 +138,7 @@ const Files: React.FC = () => {
         { name: "opt.details", method: details },
         { name: "opt.edit", method: edit },
         { name: "opt.delete", method: del },
-        { name: "files.export", method: (file) => exportFile(file).catch(console.error) }
+        { name: "files.export", method: (file) => exportFile(file, (html) => modal.showModal(<HtmlViewer title={file.title} html={html} />)).catch(console.error) }
     ];
 
     const filters: FilterItem[] = [

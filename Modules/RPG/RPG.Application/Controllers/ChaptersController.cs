@@ -1,4 +1,3 @@
-﻿using AutoMapper;
 using Base;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,17 +15,14 @@ namespace RPG.Application.Controllers
     {
         private readonly IChapterRepository _chapterRepository;
         private readonly IStoryRepository _storyRepository;
-        private readonly IMapper _mapper;
 
         public ChaptersController(IControllerService controllerService,
             IChapterRepository chapterRepository,
-            IStoryRepository storyRepository,
-            IMapper mapper)
+            IStoryRepository storyRepository)
             : base(controllerService)
         {
             _chapterRepository = chapterRepository;
             _storyRepository = storyRepository;
-            _mapper = mapper;
         }
 
         [HttpGet("{id}")]
@@ -40,9 +36,7 @@ namespace RPG.Application.Controllers
                 return NotFound();
             }
 
-            var a = _mapper.Map<ChapterDto>(result);
-
-            return Json(_mapper.Map<ChapterDto>(result));
+            return Json(result.ToDto());
         }
 
         [HttpGet("")]
@@ -150,7 +144,7 @@ namespace RPG.Application.Controllers
                     }
                     else
                     {
-                        entityLink = _mapper.Map<Link>(link);
+                        entityLink = link.ToEntity();
                         await _chapterRepository.AddLink(entityLink);
                         entity.Links.Add(entityLink);
                     }

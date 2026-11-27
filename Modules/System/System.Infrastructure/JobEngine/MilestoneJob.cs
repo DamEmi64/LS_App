@@ -1,6 +1,6 @@
 ﻿using Base;
 
-namespace System.Infrastructure.JobEngine.Milestones
+namespace System.Infrastructure.JobEngine
 {
     public class MilestoneJob : IJob
     {

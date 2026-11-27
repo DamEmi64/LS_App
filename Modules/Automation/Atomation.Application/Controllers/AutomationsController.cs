@@ -1,4 +1,3 @@
-﻿using AutoMapper;
 using Automation.Application.Dtos;
 using Automation.Application.Filters;
 using Automation.Domain.Dictionaries;
@@ -17,18 +16,15 @@ namespace Automation.Application.Controllers
     {
         private readonly IAutomatRepository _automatRepository;
         private readonly IAutomationService _automationService;
-        private readonly IMapper _mapper;
 
         public AutomationsController(
             IControllerService controllerService,
             IAutomatRepository automatRepository,
-            IAutomationService automationService,
-            IMapper mapper)
+            IAutomationService automationService)
             : base(controllerService)
         {
             _automatRepository = automatRepository;
             _automationService = automationService;
-            _mapper = mapper;
         }
 
         [HttpGet("{id}")]
@@ -70,7 +66,7 @@ namespace Automation.Application.Controllers
         [HttpPost("")]
         public async Task<IActionResult> Create([FromBody] AutomationDto dto)
         {
-            var entity = _mapper.Map<Automat>(dto);
+            var entity = dto.ToEntity();
 
             await _automationService.AddOrUpdateAutomat(entity);
             await Notifier.Success(AutomatLogs.AutomatCreated, dto.Title);

@@ -8,9 +8,9 @@ namespace Communication.Infrastructure.EmailGenerator.Strategies
 {
     public class IncrementStrategy : IFluidFunction
     {
-        public string TitleKey => "communication.templates.strategies.increment.title";
+        public string TitleKey => "Fluid_functions.80304.title";
 
-        public string? DescriptionKey => "communication.templates.strategies.increment.description";
+        public string? DescriptionKey => "Fluid_functions.80304.description";
 
         public string Invoker => "increment";
         public Func<FunctionArguments, FluidContext, FluidValue> Method => Handle;

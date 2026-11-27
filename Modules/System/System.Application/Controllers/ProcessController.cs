@@ -1,4 +1,3 @@
-﻿using AutoMapper;
 using Base;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,16 +12,13 @@ namespace System.Application.Controllers
     {
         private readonly IProcessRepository _processRepository;
         private readonly IJobEngine _jobEngine;
-        private readonly IMapper _mapper;
 
         public ProcessController(IControllerService controllerService,
             IProcessRepository processRepository,
-            IJobEngine jobEngine,
-            IMapper mapper) : base(controllerService)
+            IJobEngine jobEngine) : base(controllerService)
         {
             _processRepository = processRepository;
             _jobEngine = jobEngine;
-            _mapper = mapper;
         }
 
         [HttpGet("{id}")]
@@ -36,14 +32,14 @@ namespace System.Application.Controllers
                 return NotFound();
             }
 
-            return Json(_mapper.Map<ProcessDto>(result));
+            return Json(ProcessDto.ToDto(result));
         }
 
         [HttpGet("")]
         [ProducesResponseType(typeof(ResponseList<ProcessDto>), StatusCodes.Status200OK)]
         public IActionResult ListData([FromQuery] ProcessFilter filter)
         {
-            return Json(filter.Filter(_processRepository.GetAllReadData(), out var count).Select(_mapper.Map<ProcessDto>), count);
+            return Json(filter.Filter(_processRepository.GetAllReadData(), out var count).Select(ProcessDto.ToDto), count);
         }
 
         [HttpPut("{id}/cancel")]

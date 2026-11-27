@@ -25,6 +25,10 @@ import { BASE_PATH, COLLECTION_FORMATS, type RequestArgs, BaseAPI, RequiredError
 import type { CommunicationRegistry } from '../models';
 // @ts-ignore
 import type { CommunicationRegistryResponseList } from '../models';
+// @ts-ignore
+import type { GetMe400Response } from '../models';
+// @ts-ignore
+import type { ValidationProblemDetails } from '../models';
 /**
  * CommunicationHistoryApi - axios parameter creator
  */
@@ -91,7 +95,7 @@ export const CommunicationHistoryApiAxiosParamCreator = function (configuration?
                     sentDateTo;
             }
 
-            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -128,7 +132,7 @@ export const CommunicationHistoryApiAxiosParamCreator = function (configuration?
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};

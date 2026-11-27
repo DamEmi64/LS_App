@@ -26,6 +26,7 @@ import {
   createFileEntry,
   deleteFileEntry,
   downloadFile,
+  getFileContent,
   getFilePrivilage,
   loadFiles,
   updateFileEntry,
@@ -40,6 +41,7 @@ import {
   type BreadcrumbItem,
 } from "../services/directoryService";
 import ShareFolderWrapper from "./ShareFolderWrapper";
+import HtmlViewer from "@/shared/components/HtmlViewer";
 
 export default function FileBrowser() {
   const [directoryId, setDirectoryId] = useState<string | null>(null);
@@ -117,7 +119,15 @@ export default function FileBrowser() {
 
   const handleDownload = async (file: FileV2) => {
     try {
-      await downloadFile(file);
+      const data = await getFileContent(file);
+      const extension = (data.extension ?? "").replace(/^\./, "").toLowerCase();
+      if (["html", "htm"].includes(extension) || /\.html?$/i.test(file.title)) {
+        const bytes = Uint8Array.from(atob(data.content ?? ""), character => character.charCodeAt(0));
+        const html = new TextDecoder().decode(bytes);
+        modal.showModal(<HtmlViewer title={file.title} html={html} />);
+        return;
+      }
+      await downloadFile(file, data);
     } catch (error) {
       console.error("Download failed:", error);
     }

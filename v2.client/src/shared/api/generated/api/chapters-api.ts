@@ -29,6 +29,10 @@ import type { ChapterDto } from '../models';
 import type { ChapterResponseList } from '../models';
 // @ts-ignore
 import type { FlowDto } from '../models';
+// @ts-ignore
+import type { GetMe400Response } from '../models';
+// @ts-ignore
+import type { ValidationProblemDetails } from '../models';
 /**
  * ChaptersApi - axios parameter creator
  */
@@ -58,6 +62,7 @@ export const ChaptersApiAxiosParamCreator = function (configuration?: Configurat
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -95,6 +100,7 @@ export const ChaptersApiAxiosParamCreator = function (configuration?: Configurat
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -107,17 +113,17 @@ export const ChaptersApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
-         * @param {number} [page] 
-         * @param {number} [pageSize] 
          * @param {string} [title] 
          * @param {string} [startFrom] 
          * @param {string} [startTo] 
          * @param {string} [endFrom] 
          * @param {string} [endTo] 
+         * @param {number} [pageSize] 
+         * @param {number} [page] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        get: async (page?: number, pageSize?: number, title?: string, startFrom?: string, startTo?: string, endFrom?: string, endTo?: string, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
+        get: async (title?: string, startFrom?: string, startTo?: string, endFrom?: string, endTo?: string, pageSize?: number, page?: number, options: RawAxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/Chapters`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
@@ -133,14 +139,6 @@ export const ChaptersApiAxiosParamCreator = function (configuration?: Configurat
             // authentication Bearer required
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-            if (page !== undefined) {
-                localVarQueryParameter['Page'] = page;
-            }
-
-            if (pageSize !== undefined) {
-                localVarQueryParameter['PageSize'] = pageSize;
-            }
 
             if (title !== undefined) {
                 localVarQueryParameter['Title'] = title;
@@ -170,7 +168,15 @@ export const ChaptersApiAxiosParamCreator = function (configuration?: Configurat
                     endTo;
             }
 
-            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+            if (pageSize !== undefined) {
+                localVarQueryParameter['PageSize'] = pageSize;
+            }
+
+            if (page !== undefined) {
+                localVarQueryParameter['Page'] = page;
+            }
+
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -207,7 +213,7 @@ export const ChaptersApiAxiosParamCreator = function (configuration?: Configurat
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json';
+            localVarHeaderParameter['Accept'] = 'text/plain,application/json,text/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -246,6 +252,7 @@ export const ChaptersApiAxiosParamCreator = function (configuration?: Configurat
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -285,6 +292,7 @@ export const ChaptersApiAxiosParamCreator = function (configuration?: Configurat
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -324,6 +332,7 @@ export const ChaptersApiAxiosParamCreator = function (configuration?: Configurat
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -361,6 +370,7 @@ export const ChaptersApiAxiosParamCreator = function (configuration?: Configurat
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -397,6 +407,7 @@ export const ChaptersApiAxiosParamCreator = function (configuration?: Configurat
             // http bearer authentication required
             await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
+            localVarHeaderParameter['Accept'] = 'application/json,application/problem+json';
 
             setSearchParams(localVarUrlObj, localVarQueryParameter);
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
@@ -442,18 +453,18 @@ export const ChaptersApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @param {number} [page] 
-         * @param {number} [pageSize] 
          * @param {string} [title] 
          * @param {string} [startFrom] 
          * @param {string} [startTo] 
          * @param {string} [endFrom] 
          * @param {string} [endTo] 
+         * @param {number} [pageSize] 
+         * @param {number} [page] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async get(page?: number, pageSize?: number, title?: string, startFrom?: string, startTo?: string, endFrom?: string, endTo?: string, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ChapterResponseList>> {
-            const localVarAxiosArgs = await localVarAxiosParamCreator.get(page, pageSize, title, startFrom, startTo, endFrom, endTo, options);
+        async get(title?: string, startFrom?: string, startTo?: string, endFrom?: string, endTo?: string, pageSize?: number, page?: number, options?: RawAxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ChapterResponseList>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.get(title, startFrom, startTo, endFrom, endTo, pageSize, page, options);
             const localVarOperationServerIndex = configuration?.serverIndex ?? 0;
             const localVarOperationServerBasePath = operationServerMap['ChaptersApi.get']?.[localVarOperationServerIndex]?.url;
             return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, localVarOperationServerBasePath || basePath);
@@ -567,7 +578,7 @@ export const ChaptersApiFactory = function (configuration?: Configuration, baseP
          * @throws {RequiredError}
          */
         get(requestParameters: ChaptersApiGetRequest = {}, options?: RawAxiosRequestConfig): AxiosPromise<ChapterResponseList> {
-            return localVarFp.get(requestParameters.page, requestParameters.pageSize, requestParameters.title, requestParameters.startFrom, requestParameters.startTo, requestParameters.endFrom, requestParameters.endTo, options).then((request) => request(axios, basePath));
+            return localVarFp.get(requestParameters.title, requestParameters.startFrom, requestParameters.startTo, requestParameters.endFrom, requestParameters.endTo, requestParameters.pageSize, requestParameters.page, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -644,10 +655,6 @@ export interface ChaptersApiDeleteByIdRequest {
  * Request parameters for get operation in ChaptersApi.
  */
 export interface ChaptersApiGetRequest {
-    readonly page?: number
-
-    readonly pageSize?: number
-
     readonly title?: string
 
     readonly startFrom?: string
@@ -657,6 +664,10 @@ export interface ChaptersApiGetRequest {
     readonly endFrom?: string
 
     readonly endTo?: string
+
+    readonly pageSize?: number
+
+    readonly page?: number
 }
 
 /**
@@ -738,7 +749,7 @@ export class ChaptersApi extends BaseAPI {
      * @throws {RequiredError}
      */
     public get(requestParameters: ChaptersApiGetRequest = {}, options?: RawAxiosRequestConfig) {
-        return ChaptersApiFp(this.configuration).get(requestParameters.page, requestParameters.pageSize, requestParameters.title, requestParameters.startFrom, requestParameters.startTo, requestParameters.endFrom, requestParameters.endTo, options).then((request) => request(this.axios, this.basePath));
+        return ChaptersApiFp(this.configuration).get(requestParameters.title, requestParameters.startFrom, requestParameters.startTo, requestParameters.endFrom, requestParameters.endTo, requestParameters.pageSize, requestParameters.page, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

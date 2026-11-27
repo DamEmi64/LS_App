@@ -11,9 +11,9 @@ namespace Communication.Infrastructure.EmailGenerator.Strategies
     {
         private readonly List<string> _used = [];
 
-        public string TitleKey => "communication.templates.strategies.randomUnique.title";
+        public string TitleKey => "Fluid_functions.80303.title";
 
-        public string? DescriptionKey => "communication.templates.strategies.randomUnique.description";
+        public string? DescriptionKey => "Fluid_functions.80303.description";
 
         public string Invoker => "randomUnique";
 
